@@ -1,0 +1,626 @@
+openapi: 3.1.0
+info:
+  title: MathVision Kids API
+  description: Canonical API for MathVision Kids Student and Teacher applications.
+  version: 1.0.0
+servers:
+  - url: /api/v1
+tags:
+  - name: Student
+  - name: Teacher
+  - name: Auth
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login for Teachers (and potentially students later)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /me:
+    get:
+      tags:
+        - Auth
+      summary: Get current authenticated user
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /student/submissions:
+    post:
+      tags:
+        - Student
+      summary: Upload a new math submission image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                source:
+                  type: string
+                  enum: [CAMERA, GALLERY]
+      responses:
+        '202':
+          description: Accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionStatusResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /student/submissions/{submissionId}:
+    get:
+      tags:
+        - Student
+      summary: Poll for submission status
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current submission state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+
+  /student/submissions/{submissionId}/confirm-token:
+    post:
+      tags:
+        - Student
+      summary: Confirm an ambiguous token
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmTokenRequest'
+      responses:
+        '200':
+          description: Token confirmed, status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /student/submissions/{submissionId}/retry:
+    post:
+      tags:
+        - Student
+      summary: Retry a failed or out-of-scope submission (e.g., NEEDS_RETAKE or CROP_REQUIRED)
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted for reprocessing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionStatusResponse'
+        '400':
+          description: Bad request, invalid state transition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /teacher/dashboard:
+    get:
+      tags:
+        - Teacher
+      summary: Get teacher dashboard metrics
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metrics:
+                    type: object
+                  recentBatches:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Batch'
+
+  /teacher/classes:
+    get:
+      tags:
+        - Teacher
+      summary: Get all classes for the teacher
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassRoom'
+
+  /teacher/classes/{classId}:
+    get:
+      tags:
+        - Teacher
+      summary: Get a specific class
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassRoom'
+
+  /teacher/assignments:
+    get:
+      tags:
+        - Teacher
+      summary: Get assignments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assignment'
+    post:
+      tags:
+        - Teacher
+      summary: Create an assignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+
+  /teacher/assignments/{assignmentId}:
+    get:
+      tags:
+        - Teacher
+      summary: Get a specific assignment
+      parameters:
+        - name: assignmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+
+  /teacher/batches:
+    post:
+      tags:
+        - Teacher
+      summary: Create a new batch for an assignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assignmentId:
+                  type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+
+    get:
+      tags:
+        - Teacher
+      summary: Get all batches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Batch'
+
+  /teacher/batches/{batchId}:
+    get:
+      tags:
+        - Teacher
+      summary: Get batch status
+      parameters:
+        - name: batchId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+
+  /teacher/batches/{batchId}/submissions:
+    post:
+      tags:
+        - Teacher
+      summary: Upload multiple images to a batch
+      parameters:
+        - name: batchId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                association_metadata:
+                  type: string
+                  description: Optional JSON string for metadata
+      responses:
+        '202':
+          description: Accepted for processing
+
+  /teacher/batches/{batchId}/review:
+    get:
+      tags:
+        - Teacher
+      summary: Get items needing review in a batch
+      parameters:
+        - name: batchId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Submission'
+
+  /teacher/submissions/{submissionId}:
+    get:
+      tags:
+        - Teacher
+      summary: Get submission details
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+
+  /teacher/submissions/{submissionId}/approve:
+    post:
+      tags:
+        - Teacher
+      summary: Approve the AI suggested score
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                acceptProposal:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+
+  /teacher/submissions/{submissionId}/override:
+    post:
+      tags:
+        - Teacher
+      summary: Override the AI suggested score
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                score:
+                  type: number
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+
+components:
+  schemas:
+    ApiErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
+            details:
+              type: object
+
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [STUDENT, TEACHER, ADMIN]
+
+    Student:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            gradeLevel:
+              type: string
+
+    Teacher:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            title:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            schoolId:
+              type: string
+
+    ClassRoom:
+      type: object
+      properties:
+        classId:
+          type: string
+        teacherId:
+          type: string
+        name:
+          type: string
+        gradeLevel:
+          type: string
+        studentCount:
+          type: number
+
+    Assignment:
+      type: object
+      properties:
+        assignmentId:
+          type: string
+        classId:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+
+    AuditEvent:
+      type: object
+      properties:
+        auditEventId:
+          type: string
+        entityType:
+          type: string
+        entityId:
+          type: string
+        action:
+          type: string
+        actorType:
+          type: string
+        actorId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          type: string
+        expiresIn:
+          type: number
+        user:
+          $ref: '#/components/schemas/User'
+
+    SubmissionStatusResponse:
+      type: object
+      properties:
+        submissionId:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+
+    ConfirmTokenRequest:
+      type: object
+      properties:
+        tokenId:
+          type: string
+        confirmedValue:
+          type: string
+
+    Batch:
+      type: object
+      properties:
+        batchId:
+          type: string
+        assignmentId:
+          type: string
+        status:
+          type: string
+          enum: [CREATED, UPLOADING, QUEUED, PROCESSING, COMPLETED, PARTIAL, FAILED]
+        totalCount:
+          type: number
+        processedCount:
+          type: number
+        reviewRequiredCount:
+          type: number
+
+    Submission:
+      type: object
+      properties:
+        submissionId:
+          type: string
+        status:
+          type: string
+          enum: [CREATED, IMAGE_UPLOADED, PROCESSING, NEEDS_CONFIRMATION, NEEDS_RETAKE, CROP_REQUIRED, FEEDBACK_READY, REVIEW_REQUIRED, OUT_OF_SCOPE, TEACHER_APPROVED, TEACHER_OVERRIDDEN, FAILED]
+        imageUrl:
+          type: string
+        studentId:
+          type: string
+        recognizedExercise:
+          type: object
+        validation:
+          type: object
+        confidence:
+          type: object
+        evidence:
+          type: array
+          items:
+            type: object
+        studentFeedback:
+          type: object
+        gradeProposal:
+          type: object
+        teacherDecision:
+          type: object

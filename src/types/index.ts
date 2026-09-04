@@ -80,3 +80,10 @@ export interface SubmissionResult {
   imageQualityIssue?: ImageQualityIssue;
   ambiguousToken?: RecognizedToken;
 }
+
+export interface SubmissionService {
+  uploadImage(uri: string): Promise<SubmissionResult>;
+  getSubmission(id: string, scenarioHint?: string): Promise<SubmissionResult>;
+  confirmToken(id: string, token: string): Promise<SubmissionResult>;
+  retrySubmission(id: string): Promise<SubmissionResult>;
+}

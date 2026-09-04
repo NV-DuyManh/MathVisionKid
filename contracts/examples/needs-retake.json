@@ -1,0 +1,12 @@
+{
+  "submissionId": "sub_4",
+  "status": "NEEDS_RETAKE",
+  "createdAt": "2026-09-04T10:00:00Z",
+  "imageQuality": {
+    "issues": [
+      "BLUR",
+      "GLARE"
+    ]
+  },
+  "message": "Image is too blurry."
+}

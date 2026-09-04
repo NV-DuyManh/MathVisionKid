@@ -1,0 +1,8 @@
+{
+  "submissionId": "sub_5",
+  "status": "REVIEW_REQUIRED",
+  "createdAt": "2026-09-04T10:00:00Z",
+  "reviewReasons": [
+    "LOW_RECOGNITION_CONFIDENCE"
+  ]
+}

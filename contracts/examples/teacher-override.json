@@ -1,0 +1,12 @@
+{
+  "submissionId": "sub_8",
+  "status": "TEACHER_OVERRIDDEN",
+  "createdAt": "2026-09-04T10:00:00Z",
+  "teacherDecision": {
+    "type": "OVERRIDE",
+    "finalScore": 5,
+    "reason": "Student actually meant +",
+    "decidedAt": "2026-09-04T10:05:00Z",
+    "teacherId": "tch_1"
+  }
+}

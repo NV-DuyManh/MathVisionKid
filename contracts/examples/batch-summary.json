@@ -1,0 +1,8 @@
+{
+  "batchId": "batch_1",
+  "assignmentId": "assign_1",
+  "status": "COMPLETED",
+  "totalCount": 20,
+  "processedCount": 20,
+  "reviewRequiredCount": 3
+}

@@ -1,0 +1,11 @@
+{
+  "submissionId": "sub_2",
+  "status": "FEEDBACK_READY",
+  "createdAt": "2026-09-04T10:00:00Z",
+  "gradeProposal": {
+    "suggestedScore": 8,
+    "maxScore": 10,
+    "confidence": 0.95,
+    "isOfficial": false
+  }
+}

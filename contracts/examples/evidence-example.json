@@ -1,0 +1,12 @@
+{
+  "evidenceId": "ev_1",
+  "type": "CARRY",
+  "confidence": 0.9,
+  "boundingBox": {
+    "x": 0.2,
+    "y": 0.2,
+    "width": 0.1,
+    "height": 0.1
+  },
+  "text": "1"
+}

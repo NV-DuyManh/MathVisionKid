@@ -1,0 +1,13 @@
+{
+  "name": "@mathvisionkid/shared-contracts",
+  "version": "1.0.0",
+  "description": "Shared TypeScript contracts for MathVision Kids",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

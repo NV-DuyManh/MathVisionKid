@@ -1,0 +1,18 @@
+{
+  "submissionId": "sub_3",
+  "status": "NEEDS_CONFIRMATION",
+  "createdAt": "2026-09-04T10:00:00Z",
+  "confirmation": {
+    "tokenId": "tok_1",
+    "candidate": "7",
+    "alternatives": [
+      "1"
+    ],
+    "boundingBox": {
+      "x": 0.1,
+      "y": 0.1,
+      "width": 0.05,
+      "height": 0.05
+    }
+  }
+}
