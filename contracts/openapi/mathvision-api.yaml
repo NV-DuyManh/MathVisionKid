@@ -141,6 +141,22 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The sanitized new image for retry.
+                source:
+                  type: string
+                  description: Source of the image (e.g., CAMERA, GALLERY).
       responses:
         '202':
           description: Accepted for reprocessing

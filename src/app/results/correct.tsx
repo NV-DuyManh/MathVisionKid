@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -27,7 +27,9 @@ export default function CorrectScreen() {
 
   try {
     if (data) result = JSON.parse(data);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 
   return (
     <View style={styles.container}>

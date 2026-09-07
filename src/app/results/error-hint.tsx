@@ -31,7 +31,9 @@ export default function ErrorHintScreen() {
 
   try {
     if (data) result = JSON.parse(data);
-  } catch (e) {}
+  } catch {
+    // handled
+  }
 
   return (
     <View style={styles.container}>

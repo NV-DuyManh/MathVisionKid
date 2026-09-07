@@ -10,7 +10,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 export default function PreviewScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ uri: string }>();
+  const params = useLocalSearchParams<{ uri: string, originalUri?: string, retrySubmissionId?: string }>();
   
   const [imageUri, setImageUri] = useState<string>(params.uri || '');
   const [isChecking, setIsChecking] = useState(true);
@@ -23,7 +23,14 @@ export default function PreviewScreen() {
   }, []);
 
   const handleContinue = () => {
-    router.replace({ pathname: '/processing', params: { uri: imageUri } });
+    router.replace({ 
+      pathname: '/processing' as any, 
+      params: { 
+        uri: imageUri,
+        originalUri: params.originalUri,
+        retrySubmissionId: params.retrySubmissionId
+      } 
+    });
   };
 
   const handleRotate = async () => {
@@ -34,7 +41,7 @@ export default function PreviewScreen() {
         { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
       );
       setImageUri(manipResult.uri);
-    } catch (error) {
+    } catch (e) {
       Alert.alert('Lỗi', 'Không thể xoay ảnh. Vui lòng thử lại.');
     }
   };

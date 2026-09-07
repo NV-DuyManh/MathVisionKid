@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -9,7 +9,7 @@ import { ImageQualityIssue } from '../../types';
 
 export default function QualityFailureScreen() {
   const router = useRouter();
-  const { issue } = useLocalSearchParams<{ issue: string }>();
+  const { issue, originalUri, submissionId } = useLocalSearchParams<{ issue: string, originalUri?: string, submissionId?: string }>();
   
   let title = 'Ảnh chưa được rõ';
   let subtitle = 'Hãy chụp lại ảnh thật rõ nét nhé.';
@@ -44,7 +44,19 @@ export default function QualityFailureScreen() {
 
         <AppButton 
           title={buttonTitle} 
-          onPress={() => router.replace('/(tabs)/camera')} 
+          onPress={() => {
+            if (issue === ImageQualityIssue.INCOMPLETE_CROP) {
+              router.replace({ 
+                pathname: '/crop' as any,
+                params: { uri: originalUri, retrySubmissionId: submissionId }
+              });
+            } else {
+              router.replace({
+                pathname: '/camera' as any,
+                params: { retrySubmissionId: submissionId }
+              });
+            }
+          }} 
         />
       </View>
     </View>

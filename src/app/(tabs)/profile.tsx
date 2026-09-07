@@ -1,17 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppCard } from '../../components/ui/AppCard';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function ProfileScreen() {
+  const auth = useContext(AuthContext);
+  const user = auth?.user;
+
   return (
     <View style={styles.container}>
       <AppHeader title="Hồ sơ của em" />
       <View style={styles.content}>
         <AppCard style={styles.card}>
-          <Text style={styles.name}>Minh</Text>
-          <Text style={styles.info}>Học sinh · Lớp 3</Text>
+          <Text style={styles.name}>{user?.name || user?.email || 'Học sinh'}</Text>
+          <Text style={styles.info}>Học sinh {user?.grade ? `· Lớp ${user.grade}` : ''}</Text>
         </AppCard>
 
         <AppCard style={styles.menuCard} variant="outlined">
@@ -23,7 +27,9 @@ export default function ProfileScreen() {
           <View style={styles.divider} />
           <Text style={styles.menuItem}>Thông tin ứng dụng</Text>
           <View style={styles.divider} />
-          <Text style={styles.logout}>Đăng xuất</Text>
+          <TouchableOpacity onPress={() => auth?.logout()}>
+            <Text style={styles.logout}>Đăng xuất</Text>
+          </TouchableOpacity>
         </AppCard>
       </View>
     </View>

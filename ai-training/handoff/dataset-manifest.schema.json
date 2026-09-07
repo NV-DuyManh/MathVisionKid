@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "datasetVersion": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "imageCount": { "type": "integer" },
+    "goldCount": { "type": "integer" },
+    "doubleAnnotatedCount": { "type": "integer" },
+    "splitVersion": { "type": "string" },
+    "annotationSchemaVersion": { "type": "string" },
+    "deidentified": { "type": "boolean" },
+    "sourceDescription": { "type": "string" },
+    "trainCount": { "type": "integer" },
+    "validationCount": { "type": "integer" },
+    "testCount": { "type": "integer" },
+    "writerDisjoint": { "type": "boolean" },
+    "checksumManifest": { "type": "string" }
+  },
+  "required": ["datasetVersion", "createdAt", "imageCount", "deidentified"]
+}

@@ -33,9 +33,9 @@ export default function CameraScreen() {
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const uri = result.assets[0].uri;
-        router.push({ pathname: '/preview', params: { uri } });
+        router.push({ pathname: '/privacy' as any, params: { uri } });
       }
-    } catch (error) {
+    } catch (e) {
       Alert.alert("Lỗi", "MathVision không mở được thư viện ảnh.");
     }
   };
@@ -60,9 +60,9 @@ export default function CameraScreen() {
       try {
         const photo = await cameraRef.current.takePictureAsync({ quality: 1, base64: false });
         if (photo) {
-          router.push({ pathname: '/preview', params: { uri: photo.uri } });
+          router.push({ pathname: '/privacy' as any, params: { uri: photo.uri } });
         }
-      } catch (error) {
+      } catch (e) {
         Alert.alert("Lỗi", "Không thể chụp ảnh, vui lòng thử lại.");
       }
     }

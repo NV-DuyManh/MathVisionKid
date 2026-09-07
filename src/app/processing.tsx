@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../constants/theme';
-import { MockSubmissionService } from '../services/api/MockSubmissionService';
+import { getSubmissionService } from '../services/api/SubmissionServiceFactory';
 import { SubmissionStatus } from '../types';
 
 export default function ProcessingScreen() {
   const router = useRouter();
-  const { uri } = useLocalSearchParams<{ uri: string }>();
+  const { uri, originalUri, retrySubmissionId } = useLocalSearchParams<{ uri: string, originalUri?: string, retrySubmissionId?: string }>();
   const [step, setStep] = useState(0); // 0: Đọc bài, 1: Kiểm tra, 2: Gợi ý
 
   useEffect(() => {
@@ -17,12 +17,25 @@ export default function ProcessingScreen() {
     const runProcess = async () => {
       try {
         setStep(0);
-        const result = await MockSubmissionService.uploadImage(uri as string);
+        const submissionService = getSubmissionService();
+        let result;
+        if (retrySubmissionId) {
+          result = await submissionService.retrySubmission(retrySubmissionId, uri as string);
+        } else {
+          result = await submissionService.uploadImage(uri as string);
+        }
         if (!active) return;
         submissionId = result.id;
 
         if (result.status === SubmissionStatus.NEEDS_RETAKE || result.status === SubmissionStatus.CROP_REQUIRED) {
-          router.replace({ pathname: '/results/quality-failure', params: { issue: result.imageQualityIssue } });
+          router.replace({ 
+            pathname: '/results/quality-failure' as any, 
+            params: { 
+              issue: result.imageQualityIssue, 
+              originalUri, 
+              submissionId 
+            } 
+          });
           return;
         }
         if (result.status === SubmissionStatus.OUT_OF_SCOPE) {
@@ -33,6 +46,11 @@ export default function ProcessingScreen() {
           router.replace('/results/review-required');
           return;
         }
+        if (result.status === SubmissionStatus.FEEDBACK_READY) {
+           // Fast track
+           router.replace({ pathname: '/results/correct', params: { data: JSON.stringify(result) }});
+           return;
+        }
 
         setStep(1);
         
@@ -40,7 +58,19 @@ export default function ProcessingScreen() {
         if (uri?.includes('mock-earliest-error')) scenarioHint = 'mock-earliest-error';
         if (uri?.includes('mock-confirm')) scenarioHint = 'mock-confirm';
 
-        const polled = await MockSubmissionService.getSubmission(submissionId, scenarioHint);
+        // Polling loop
+        let polled = result;
+        while (active && polled.status === SubmissionStatus.PROCESSING) {
+          await new Promise(r => setTimeout(r, 2000)); // Poll every 2 seconds
+          if (!active) return;
+          try {
+            polled = await submissionService.getSubmission(submissionId, scenarioHint);
+          } catch (e) {
+            console.error('Polling error', e);
+            // Ignore temporary network errors, continue polling
+          }
+        }
+
         if (!active) return;
 
         if (polled.status === SubmissionStatus.NEEDS_CONFIRMATION) {
@@ -51,6 +81,28 @@ export default function ProcessingScreen() {
               token: polled.ambiguousToken?.value || '' 
             } 
           });
+          return;
+        }
+        
+        if (polled.status === SubmissionStatus.NEEDS_RETAKE || polled.status === SubmissionStatus.CROP_REQUIRED) {
+          router.replace({ 
+            pathname: '/results/quality-failure' as any, 
+            params: { 
+              issue: polled.imageQualityIssue, 
+              originalUri, 
+              submissionId 
+            } 
+          });
+          return;
+        }
+        
+        if (polled.status === SubmissionStatus.OUT_OF_SCOPE) {
+          router.replace('/results/out-of-scope');
+          return;
+        }
+        
+        if (polled.status === SubmissionStatus.REVIEW_REQUIRED) {
+          router.replace('/results/review-required');
           return;
         }
 
@@ -79,7 +131,7 @@ export default function ProcessingScreen() {
     runProcess();
 
     return () => { active = false; };
-  }, [uri, router]);
+  }, [uri, router, originalUri, retrySubmissionId]);
 
   const stages = ['Đọc bài', 'Kiểm tra', 'Gợi ý'];
 

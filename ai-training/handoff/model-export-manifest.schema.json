@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "modelName": { "type": "string" },
+    "modelVersion": { "type": "string" },
+    "task": { "type": "string" },
+    "framework": { "type": "string" },
+    "artifactFilename": { "type": "string" },
+    "artifactFormat": { "type": "string" },
+    "sha256": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "datasetVersion": { "type": "string" },
+    "annotationSchemaVersion": { "type": "string" },
+    "inputWidth": { "type": "integer" },
+    "inputHeight": { "type": "integer" },
+    "inputChannels": { "type": "integer" },
+    "preprocessing": { "type": "string" },
+    "labelMapVersion": { "type": "string" },
+    "metrics": { "type": "object" },
+    "runtimeRequirements": { "type": "string" }
+  },
+  "required": ["modelName", "modelVersion", "artifactFilename", "sha256"]
+}

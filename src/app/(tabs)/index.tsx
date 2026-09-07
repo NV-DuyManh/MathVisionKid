@@ -23,7 +23,7 @@ export default function HomeScreen() {
   };
 
   const navigateToCamera = () => {
-    router.navigate('/(tabs)/camera');
+    router.navigate('/camera' as any);
   };
 
   return (

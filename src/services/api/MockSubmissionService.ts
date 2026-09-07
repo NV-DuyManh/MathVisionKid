@@ -150,7 +150,7 @@ export class MockSubmissionServiceClass implements SubmissionService {
   /**
    * Retry a submission (e.g. after error)
    */
-  async retrySubmission(id: string): Promise<SubmissionResult> {
+  async retrySubmission(id: string, uri: string): Promise<SubmissionResult> {
     // In a real system this might create a new linked submission or update state
     await delay(500);
     return {

@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
 import { COLORS, SIZES } from '../constants/theme';
 import { AppButton } from '../components/ui/AppButton';
+import { AuthContext } from '../context/AuthContext';
 
 export default function LoginScreen() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const auth = useContext(AuthContext);
 
-  const handleDemoLogin = () => {
-    // S01 -> Demo bypass
-    router.replace('/(tabs)');
+  const handleDemoLogin = async () => {
+    if (!auth) return;
+    try {
+      await auth.login({ email, password });
+    } catch (e: any) {
+      console.log('Login error', e.response?.data || e.message);
+      // MathVision uses friendly Vietnamese copy
+      const message = e.response?.data?.message || "Lỗi kết nối máy chủ. Vui lòng thử lại.";
+      Alert.alert("Không thể đăng nhập", message);
+    }
   };
 
   return (
@@ -55,14 +62,6 @@ export default function LoginScreen() {
           
           <AppButton 
             title="Đăng nhập" 
-            onPress={handleDemoLogin} 
-          />
-          
-          <View style={styles.spacerSmall} />
-          
-          <AppButton 
-            title="Tiếp tục bản demo" 
-            variant="secondary"
             onPress={handleDemoLogin} 
           />
         </View>

@@ -1,0 +1,22 @@
+# Ignore raw and de-identified local data
+data/raw-local/**
+!data/raw-local/.gitkeep
+!data/raw-local/README.md
+
+data/deidentified-local/**
+!data/deidentified-local/.gitkeep
+!data/deidentified-local/README.md
+
+# Ignore large model artifacts
+artifacts/checkpoints/**
+!artifacts/checkpoints/.gitkeep
+!artifacts/checkpoints/README.md
+
+artifacts/exports/**
+!artifacts/exports/.gitkeep
+!artifacts/exports/README.md
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

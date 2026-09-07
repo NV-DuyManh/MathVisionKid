@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -26,7 +26,7 @@ export default function ReviewRequiredScreen() {
 
         <AppButton 
           title="Chụp lại" 
-          onPress={() => router.replace('/(tabs)/camera')} 
+          onPress={() => router.replace('/camera' as any)} 
         />
         <View style={{ height: SIZES.medium }} />
         <AppButton 
