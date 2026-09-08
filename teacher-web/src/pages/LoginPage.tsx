@@ -1,8 +1,27 @@
-import { Box, Button, Card, CardContent, Typography, TextField } from '@mui/material';
+import { Box, Button, Card, CardContent, Typography, TextField, Alert } from '@mui/material';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AppTeacherService } from '../services/api/ServiceLocator';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('lan.teacher@mathvision.local');
+  const [password, setPassword] = useState('MathVision123!');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      await AppTeacherService.login(email, password);
+      navigate('/dashboard');
+    } catch (err: any) {
+      setError(err.response?.data?.error?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.default' }}>
@@ -15,26 +34,20 @@ export default function LoginPage() {
             Cổng quản lý dành cho Giáo viên
           </Typography>
 
-          <TextField fullWidth label="Email" variant="outlined" margin="normal" defaultValue="teacher@mathvision.vn" />
-          <TextField fullWidth label="Mật khẩu" type="password" variant="outlined" margin="normal" defaultValue="password" />
+          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+
+          <TextField fullWidth label="Email" variant="outlined" margin="normal" value={email} onChange={e => setEmail(e.target.value)} />
+          <TextField fullWidth label="Mật khẩu" type="password" variant="outlined" margin="normal" value={password} onChange={e => setPassword(e.target.value)} />
 
           <Button 
             fullWidth 
             variant="contained" 
             size="large" 
             sx={{ mt: 3, mb: 2 }}
-            onClick={() => navigate('/dashboard')}
+            onClick={handleLogin}
+            disabled={loading}
           >
-            Đăng nhập
-          </Button>
-
-          <Button 
-            fullWidth 
-            variant="outlined" 
-            color="secondary"
-            onClick={() => navigate('/dashboard')}
-          >
-            Demo giáo viên
+            {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </Button>
         </CardContent>
       </Card>

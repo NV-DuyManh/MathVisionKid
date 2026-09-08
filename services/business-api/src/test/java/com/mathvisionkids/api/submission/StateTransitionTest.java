@@ -21,7 +21,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.mockito.Mockito;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import com.mathvisionkids.api.storage.ObjectStorageService;
+import java.io.IOException;
 
 import java.util.HashMap;
 
@@ -38,6 +40,9 @@ public class StateTransitionTest {
 
     @Autowired
     private SubmissionRepository submissionRepository;
+
+    @Autowired
+    private SubmissionImageRepository submissionImageRepository;
 
     @Autowired
     private TeacherRepository teacherRepository;
@@ -227,6 +232,60 @@ public class StateTransitionTest {
         // so status advances past PROCESSING to PROPOSED_GRADE.
         // Key assertion: status is no longer NEEDS_RETAKE.
         assert !"NEEDS_RETAKE".equals(updated.getStatus()) : "Status should have advanced past NEEDS_RETAKE";
+        assertEquals(testSubmission.getSubmissionId(), updated.getSubmissionId()); // Same submission retained
+
+        // Verify new SubmissionImage is created
+        long imageCount = submissionImageRepository.findAll().stream()
+                .filter(img -> img.getSubmission().getSubmissionId().equals(updated.getSubmissionId()))
+                .count();
+        assertEquals(1, imageCount);
+    }
+
+    @Test
+    public void testRetryFromCropRequired() {
+        testSubmission.setStatus("CROP_REQUIRED");
+        submissionRepository.save(testSubmission);
+
+        submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
+
+        Submission updated = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
+        assert !"CROP_REQUIRED".equals(updated.getStatus());
+        assertEquals(testSubmission.getSubmissionId(), updated.getSubmissionId());
+    }
+
+    @Test
+    public void testRetryWrongOwner() {
+        testSubmission.setStatus("NEEDS_RETAKE");
+        submissionRepository.save(testSubmission);
+
+        Student otherStudent = new Student();
+        otherStudent.setEmail("other@test.com");
+        otherStudent.setPasswordHash("pass");
+        otherStudent.setRole("STUDENT");
+        otherStudent.setDisplayName("Other");
+        otherStudent.setGradeLevel(3);
+        studentRepository.save(otherStudent);
+
+        ApiException ex = assertThrows(ApiException.class, () -> {
+            submissionService.retrySubmission(otherStudent.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
+        });
+        assertEquals("FORBIDDEN", ex.getCode());
+    }
+
+    @Test
+    public void testRetryStorageFailure() throws Exception {
+        testSubmission.setStatus("NEEDS_RETAKE");
+        submissionRepository.save(testSubmission);
+
+        Mockito.when(objectStorageService.store(any(), any())).thenThrow(new IOException("Storage full"));
+
+        ApiException ex = assertThrows(ApiException.class, () -> {
+            submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
+        });
+        assertEquals("INTERNAL_ERROR", ex.getCode());
+        
+        Submission unchanged = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
+        assertEquals("NEEDS_RETAKE", unchanged.getStatus());
     }
 
     @Test

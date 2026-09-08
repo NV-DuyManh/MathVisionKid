@@ -6,6 +6,7 @@ export interface Teacher {
 
 export interface Class {
   id: string;
+  classId?: string;
   name: string;
   studentCount: number;
 }
@@ -17,14 +18,16 @@ export const MathType = {
 } as const;
 
 export interface Assignment {
-  id: string;
+  id?: string;
+  assignmentId?: string;
   classId: string;
   title: string;
   mathType: MathType;
-  createdAt: string;
+  createdAt?: string;
+  status?: string;
 }
 
-export type SubmissionStatus = 'CREATED' | 'IMAGE_UPLOADED' | 'PROCESSING' | 'NEEDS_CONFIRMATION' | 'NEEDS_RETAKE' | 'CROP_REQUIRED' | 'FEEDBACK_READY' | 'REVIEW_REQUIRED' | 'OUT_OF_SCOPE' | 'TEACHER_APPROVED' | 'TEACHER_OVERRIDDEN' | 'FAILED' | 'AI_CONFIDENT' | 'QUALITY_ISSUE' | 'OVERRIDDEN';
+export type SubmissionStatus = 'CREATED' | 'IMAGE_UPLOADED' | 'PROCESSING' | 'NEEDS_CONFIRMATION' | 'NEEDS_RETAKE' | 'CROP_REQUIRED' | 'FEEDBACK_READY' | 'REVIEW_REQUIRED' | 'OUT_OF_SCOPE' | 'TEACHER_APPROVED' | 'TEACHER_OVERRIDDEN' | 'FAILED' | 'AI_CONFIDENT' | 'QUALITY_ISSUE' | 'OVERRIDDEN' | 'PROPOSED_GRADE';
 
 export const SubmissionStatus = {
   CREATED: 'CREATED',
@@ -41,7 +44,8 @@ export const SubmissionStatus = {
   FAILED: 'FAILED',
   AI_CONFIDENT: 'AI_CONFIDENT',
   QUALITY_ISSUE: 'QUALITY_ISSUE',
-  OVERRIDDEN: 'OVERRIDDEN'
+  OVERRIDDEN: 'OVERRIDDEN',
+  PROPOSED_GRADE: 'PROPOSED_GRADE'
 } as const;
 
 export type AssignmentStatus = 'DRAFT' | 'ACTIVE' | 'ARCHIVED';
@@ -51,25 +55,29 @@ export const AssignmentStatus = {
   ARCHIVED: 'ARCHIVED'
 } as const;
 
-export type BatchStatus = 'UPLOADING' | 'PROCESSING' | 'COMPLETED' | 'REVIEW_REQUIRED' | 'FAILED';
+export type BatchStatus = 'CREATED' | 'UPLOADING' | 'QUEUED' | 'PROCESSING' | 'COMPLETED' | 'PARTIAL' | 'FAILED';
 export const BatchStatus = {
+  CREATED: 'CREATED',
   UPLOADING: 'UPLOADING',
+  QUEUED: 'QUEUED',
   PROCESSING: 'PROCESSING',
   COMPLETED: 'COMPLETED',
-  REVIEW_REQUIRED: 'REVIEW_REQUIRED',
+  PARTIAL: 'PARTIAL',
   FAILED: 'FAILED'
 } as const;
 
 export interface Batch {
-  id: string;
+  id?: string;
+  batchId?: string;
   assignmentId: string;
-  className: string;
-  assignmentTitle: string;
-  totalImages: number;
+  className?: string;
+  assignmentTitle?: string;
+  totalImages?: number;
+  totalCount?: number;
   processedCount: number;
   reviewRequiredCount: number;
   status: BatchStatus;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export interface Evidence {
@@ -80,17 +88,20 @@ export interface Evidence {
 }
 
 export interface Submission {
-  id: string;
+  id?: string;
+  submissionId?: string;
   batchId: string;
-  studentName: string;
+  studentName?: string;
+  studentId?: string;
   imageUrl: string;
   status: SubmissionStatus;
-  recognitionConfidence: number;
-  diagnosisConfidence: number;
-  suggestedScore: number;
+  recognitionConfidence?: number;
+  diagnosisConfidence?: number;
+  suggestedScore?: number;
+  gradeProposal?: { score: number; confidence: number; metadata: any };
   teacherScore?: number;
   decision?: string; // VALID, INVALID
-  evidence?: Evidence;
+  evidence?: Evidence | any;
   recognizedText?: string;
 }
 

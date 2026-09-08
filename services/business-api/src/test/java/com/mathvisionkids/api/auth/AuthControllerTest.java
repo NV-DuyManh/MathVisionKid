@@ -3,6 +3,7 @@ package com.mathvisionkids.api.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mathvisionkids.api.user.User;
 import com.mathvisionkids.api.user.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@org.springframework.transaction.annotation.Transactional
 public class AuthControllerTest {
 
     @Autowired
@@ -44,26 +45,43 @@ public class AuthControllerTest {
     @Autowired
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     private User testUser;
-    
+
     @BeforeEach
     public void setup() {
-        refreshTokenRepository.deleteAll();
-        userRepository.deleteAll();
-        
-        testUser = new User();
-        testUser.setEmail("test" + UUID.randomUUID() + "@student.com");
-        testUser.setPasswordHash(passwordEncoder.encode("password"));
-        testUser.setRole("STUDENT");
-        testUser.setDisplayName("Test Student");
-        userRepository.save(testUser);
+        // Use TransactionTemplate to ensure the user is committed before MockMvc runs its own transactions.
+        // @Transactional on @BeforeEach does NOT commit before the test method runs.
+        TransactionTemplate tt = new TransactionTemplate(transactionManager);
+        testUser = tt.execute(status -> {
+            User u = new User();
+            u.setEmail("test" + UUID.randomUUID() + "@student.com");
+            u.setPasswordHash(passwordEncoder.encode("password"));
+            u.setRole("STUDENT");
+            u.setDisplayName("Test Student");
+            return userRepository.save(u);
+        });
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (testUser != null && testUser.getId() != null) {
+            TransactionTemplate tt = new TransactionTemplate(transactionManager);
+            tt.execute(status -> {
+                refreshTokenRepository.deleteByUser(testUser);
+                userRepository.deleteById(testUser.getId());
+                return null;
+            });
+        }
     }
 
     @Test
     public void testLoginReturnsRefreshToken() throws Exception {
         Map<String, String> loginRequest = new HashMap<>();
         loginRequest.put("email", testUser.getEmail());
-        loginRequest.put("password", "password"); // Stub password
+        loginRequest.put("password", "password");
 
         mockMvc.perform(post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -83,8 +101,9 @@ public class AuthControllerTest {
         MvcResult loginResult = mockMvc.perform(post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
                 .andReturn();
-                
+
         String loginResponse = loginResult.getResponse().getContentAsString();
         Map<String, String> authData = objectMapper.readValue(loginResponse, Map.class);
         String oldRefreshToken = authData.get("refreshToken");
@@ -100,12 +119,11 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.token").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andReturn();
-                
+
         String refreshResp = refreshResult.getResponse().getContentAsString();
         Map<String, String> refreshData = objectMapper.readValue(refreshResp, Map.class);
         String newRefreshToken = refreshData.get("refreshToken");
-        
-        // Ensure rotation happened
+
         assertNotEquals(oldRefreshToken, newRefreshToken);
     }
 
@@ -119,8 +137,9 @@ public class AuthControllerTest {
         MvcResult loginResult = mockMvc.perform(post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
                 .andReturn();
-                
+
         String loginResponse = loginResult.getResponse().getContentAsString();
         Map<String, String> authData = objectMapper.readValue(loginResponse, Map.class);
         String oldRefreshToken = authData.get("refreshToken");
@@ -132,12 +151,12 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshReq)))
                 .andExpect(status().isOk());
-                
-        // 3. Attempt to use old token again (replay attack)
+
+        // 3. Attempt to use old token again (replay attack) — should trigger compromise revocation
         mockMvc.perform(post("/api/v1/auth/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshReq)))
-                .andExpect(status().isUnauthorized()); // Should trigger compromise revocation
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -150,8 +169,9 @@ public class AuthControllerTest {
         MvcResult loginResult = mockMvc.perform(post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
                 .andReturn();
-                
+
         String loginResponse = loginResult.getResponse().getContentAsString();
         Map<String, String> authData = objectMapper.readValue(loginResponse, Map.class);
         String jwtToken = authData.get("token");
@@ -161,7 +181,7 @@ public class AuthControllerTest {
         mockMvc.perform(post("/api/v1/auth/logout")
                 .header("Authorization", "Bearer " + jwtToken))
                 .andExpect(status().isOk());
-                
+
         // 3. Attempt to refresh with revoked token
         Map<String, String> refreshReq = new HashMap<>();
         refreshReq.put("refreshToken", refreshToken);

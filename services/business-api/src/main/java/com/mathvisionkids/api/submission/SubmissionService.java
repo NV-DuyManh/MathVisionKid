@@ -98,9 +98,26 @@ public class SubmissionService {
             auditEvent2.setSubmission(submission);
             auditEvent2.setUser(student);
             auditEvent2.setEventType("AI_PROCESSING_STARTED");
-            auditEventRepository.save(auditEvent2);
-
-            aiAnalysisGateway.analyze(submission.getSubmissionId());
+            final UUID studentSubmissionId = submission.getSubmissionId();
+            if (org.springframework.transaction.support.TransactionSynchronizationManager.isSynchronizationActive()) {
+                org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
+                    new org.springframework.transaction.support.TransactionSynchronization() {
+                        @Override
+                        public void afterCommit() {
+                            java.util.concurrent.CompletableFuture.runAsync(() -> {
+                                try {
+                                    aiAnalysisGateway.analyze(studentSubmissionId);
+                                } catch (Exception e) {
+                                    org.slf4j.LoggerFactory.getLogger(SubmissionService.class)
+                                            .error("Error analyzing student submissionId: {} in async trigger", studentSubmissionId, e);
+                                }
+                            });
+                        }
+                    }
+                );
+            } else {
+                aiAnalysisGateway.analyze(studentSubmissionId);
+            }
 
             SubmissionResponse response = new SubmissionResponse();
             response.setSubmissionId(submission.getSubmissionId());

@@ -1,50 +1,60 @@
-import { useState, useEffect } from 'react';
-import { Box, Typography, Card, CardContent, LinearProgress, Grid, Button } from '@mui/material';
+import { Typography, Box, Card, CardContent, LinearProgress, Grid, Button } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MockTeacherService } from '../services/api/MockTeacherService';
-import type { Batch } from '../types';
+import { useQuery } from '@tanstack/react-query';
+import { AppTeacherService } from '../services/api/ServiceLocator';
 import { BatchStatus } from '../types';
 
 export default function BatchDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [batch, setBatch] = useState<Batch | null>(null);
 
-  useEffect(() => {
-    if (!id) return;
-    
-    // Poll for status
-    const interval = setInterval(async () => {
-      try {
-        const b = await MockTeacherService.getBatchStatus(id);
-        setBatch(b);
-        if (b.status === BatchStatus.REVIEW_REQUIRED || b.status === BatchStatus.COMPLETED) {
-          clearInterval(interval);
-        }
-      } catch (e) {
-        clearInterval(interval);
+  const { data: batch, isLoading, isError } = useQuery({
+    queryKey: ['batch', id],
+    queryFn: () => AppTeacherService.getBatchStatus(id!),
+    enabled: !!id,
+    refetchInterval: (query) => {
+      const b = query.state.data;
+      if (!b) return 3000;
+      // Stop polling on terminal states
+      if (
+        b.status === BatchStatus.COMPLETED ||
+        b.status === BatchStatus.PARTIAL ||
+        b.status === BatchStatus.FAILED ||
+        (b.status as any) === 'COMPLETED' ||
+        (b.status as any) === 'PARTIAL' ||
+        (b.status as any) === 'FAILED'
+      ) {
+        return false;
       }
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, [id]);
+      return 3000;
+    },
+  });
 
-  if (!batch) return <Typography>Đang tải...</Typography>;
+  if (isLoading) return <Typography>Đang tải...</Typography>;
+  if (isError || !batch) return <Typography color="error">Lỗi khi tải thông tin đợt chấm.</Typography>;
 
-  const progressPercent = Math.round((batch.processedCount / batch.totalImages) * 100);
-  const isDone = batch.status === BatchStatus.REVIEW_REQUIRED || batch.status === BatchStatus.COMPLETED;
+  const totalImgs = batch.totalImages || batch.totalCount || 0;
+  const progressPercent = totalImgs > 0 ? Math.round((batch.processedCount / totalImgs) * 100) : 0;
+  
+  const isDone = 
+    batch.status === BatchStatus.COMPLETED || 
+    batch.status === BatchStatus.PARTIAL || 
+    batch.status === BatchStatus.FAILED ||
+    (batch.status as any) === 'COMPLETED' ||
+    (batch.status as any) === 'PARTIAL' ||
+    (batch.status as any) === 'FAILED';
 
   return (
     <Box sx={{ maxWidth: 900, mx: 'auto', mt: 4 }}>
       <Typography variant="h5" sx={{ mb: 1 }}>Toán {batch.className}</Typography>
-      <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 4 }}>{batch.assignmentTitle} • {batch.totalImages} bài</Typography>
+      <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 4 }}>{batch.assignmentTitle} • {totalImgs} bài</Typography>
 
       {!isDone ? (
         <Card sx={{ mb: 4, p: 2 }}>
           <CardContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
               <Typography variant="h6" color="primary">Đang kiểm tra bằng AI...</Typography>
-              <Typography variant="h6">{batch.processedCount} / {batch.totalImages}</Typography>
+              <Typography variant="h6">{batch.processedCount} / {totalImgs}</Typography>
             </Box>
             <LinearProgress variant="determinate" value={progressPercent} sx={{ height: 12, borderRadius: 6 }} />
           </CardContent>
@@ -91,7 +101,7 @@ export default function BatchDetailPage() {
                 size="large" 
                 color="error" 
                 sx={{ px: 6, py: 1.5, fontSize: 18 }}
-                onClick={() => navigate(`/batches/${batch.id}/review`)}
+                onClick={() => navigate(`/batches/${batch.id || batch.batchId}/review`)}
               >
                 Xem bài cần chú ý
               </Button>

@@ -1,40 +1,74 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button, TextField } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, Button, TextField, CircularProgress } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MockTeacherService } from '../services/api/MockTeacherService';
-import type { Submission } from '../types';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { AppTeacherService } from '../services/api/ServiceLocator';
 import { CheckCircle, Edit, Warning, SmartToy, Policy, Shield } from '@mui/icons-material';
 
 export default function SubmissionReviewPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [sub, setSub] = useState<Submission | null>(null);
+  const queryClient = useQueryClient();
+  
   const [isEditing, setIsEditing] = useState(false);
   const [editScore, setEditScore] = useState<number | string>('');
   const [editReason, setEditReason] = useState('');
 
+  const { data: sub, isLoading, isError } = useQuery({
+    queryKey: ['submission', id],
+    queryFn: () => AppTeacherService.getSubmissionDetail(id!),
+    enabled: !!id,
+  });
+
   useEffect(() => {
-    if (id) {
-      MockTeacherService.getSubmissionDetail(id).then(s => {
-        setSub(s);
-        setEditScore(s.suggestedScore);
-      });
+    if (sub && editScore === '') {
+      setEditScore(sub.suggestedScore || sub.gradeProposal?.score || 0);
     }
-  }, [id]);
+  }, [sub, editScore]);
 
-  if (!sub) return <Typography>Đang tải...</Typography>;
-
-  const handleApprove = async () => {
-    if (id) {
-      await MockTeacherService.approveSubmission(id);
+  const approveMutation = useMutation({
+    mutationFn: (subId: string) => AppTeacherService.approveSubmission(subId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['submission', id] });
+      queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
+      queryClient.invalidateQueries({ queryKey: ['batch'] });
       navigate(-1);
     }
+  });
+
+  const overrideMutation = useMutation({
+    mutationFn: ({ subId, score }: { subId: string, score: number }) => AppTeacherService.overrideSubmission(subId, score),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['submission', id] });
+      queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
+      queryClient.invalidateQueries({ queryKey: ['batch'] });
+      navigate(-1);
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (isError || !sub) {
+    return (
+      <Box sx={{ textAlign: 'center', mt: 8, p: 4 }}>
+        <Typography color="error">Đã xảy ra lỗi khi tải chi tiết bài làm.</Typography>
+      </Box>
+    );
+  }
+
+  const handleApprove = () => {
+    if (id) approveMutation.mutate(id);
   };
 
-  const handleOverride = async () => {
+  const handleOverride = () => {
     if (id && editScore !== '') {
-      await MockTeacherService.overrideSubmission(id, Number(editScore));
-      navigate(-1);
+      overrideMutation.mutate({ subId: id, score: Number(editScore) });
     }
   };
 
@@ -105,7 +139,7 @@ export default function SubmissionReviewPage() {
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Policy color="action" fontSize="small" />
-                  <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: '700', letterSpacing: '0.05em' }}>ĐỀ XUẤT ĐIỂM (KHÔNG CHÍNH THỨC)</Typography>
+                  <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: '700', letterSpacing: '0.05em' }}>ĐỀ XUẤT ĐIỂM (CHƯA PHẢI ĐIỂM CHÍNH THỨC)</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
                   <Typography variant="h3" color="text.primary" sx={{ fontWeight: '800' }}>{sub.suggestedScore}</Typography>
@@ -132,6 +166,7 @@ export default function SubmissionReviewPage() {
                       size="large" 
                       startIcon={<CheckCircle />}
                       onClick={handleApprove}
+                      disabled={approveMutation.isPending || overrideMutation.isPending}
                       sx={{ flex: 2, py: 1.5 }}
                     >
                       Duyệt điểm {sub.suggestedScore}
@@ -142,6 +177,7 @@ export default function SubmissionReviewPage() {
                       size="large" 
                       startIcon={<Edit />}
                       onClick={() => setIsEditing(true)}
+                      disabled={approveMutation.isPending || overrideMutation.isPending}
                       sx={{ flex: 1, py: 1.5 }}
                     >
                       Điều chỉnh
@@ -163,7 +199,7 @@ export default function SubmissionReviewPage() {
                       <Grid size={{ xs: 12, sm: 8 }}>
                         <TextField 
                           fullWidth
-                          label="Lý do điều chỉnh (Tùy chọn)" 
+                          label="Lý do điều chỉnh (Bắt buộc)" 
                           value={editReason}
                           onChange={e => setEditReason(e.target.value)}
                         />
@@ -180,7 +216,7 @@ export default function SubmissionReviewPage() {
                         variant="contained" 
                         color="primary" 
                         onClick={handleOverride}
-                        disabled={editScore === ''}
+                        disabled={editScore === '' || editReason.trim() === '' || approveMutation.isPending || overrideMutation.isPending}
                         sx={{ flex: 1 }}
                       >
                         Xác nhận ghi đè

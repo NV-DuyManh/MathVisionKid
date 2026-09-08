@@ -11,7 +11,7 @@ const MOCK_CLASSES: Class[] = [
 ];
 
 const MOCK_BATCHES: Batch[] = [
-  { id: 'b1', assignmentId: 'a1', className: '4A', assignmentTitle: 'Phép cộng có nhớ', totalImages: 25, processedCount: 25, reviewRequiredCount: 4, status: BatchStatus.REVIEW_REQUIRED, createdAt: new Date().toISOString() },
+  { id: 'b1', assignmentId: 'a1', className: '4A', assignmentTitle: 'Phép cộng có nhớ', totalImages: 25, processedCount: 25, reviewRequiredCount: 4, status: BatchStatus.COMPLETED, createdAt: new Date().toISOString() },
   { id: 'b2', assignmentId: 'a2', className: '4B', assignmentTitle: 'Phép trừ có mượn', totalImages: 28, processedCount: 28, reviewRequiredCount: 0, status: BatchStatus.COMPLETED, createdAt: new Date().toISOString() },
 ];
 
@@ -74,15 +74,16 @@ class MockTeacherServiceImpl implements TeacherService {
     return newBatch;
   }
 
-  async uploadImages(batchId: string, _files: File[]): Promise<void> {
+  async uploadImages(batchId: string, _files: File[], _mappings?: { fileIndex: number, studentId: string }[]): Promise<void> {
     await delay(1500); // simulate upload
     // In background, we simulate processing
     setTimeout(() => {
       const b = MOCK_BATCHES.find(x => x.id === batchId);
       if (b) {
-        b.status = BatchStatus.REVIEW_REQUIRED;
-        b.processedCount = b.totalImages;
-        b.reviewRequiredCount = Math.min(2, b.totalImages); // Mock some reviews
+        const total = b.totalImages || 0;
+        b.status = BatchStatus.COMPLETED;
+        b.processedCount = total;
+        b.reviewRequiredCount = Math.min(2, total); // Mock some reviews
         MOCK_SUBMISSIONS[batchId] = [
           { id: `s_${Date.now()}_1`, batchId, studentName: 'Học sinh Mới 1', imageUrl: 'https://placehold.co/400x600', status: SubmissionStatus.REVIEW_REQUIRED, recognitionConfidence: 75, diagnosisConfidence: 60, suggestedScore: 7, decision: 'INVALID', evidence: { position: 'Tổng quát', rule: 'Nghi ngờ lỗi nhận dạng' } }
         ];
@@ -94,13 +95,14 @@ class MockTeacherServiceImpl implements TeacherService {
     await delay(300);
     const b = MOCK_BATCHES.find(x => x.id === batchId);
     if (!b) throw new Error("Not found");
+    const total = b.totalImages || 0;
     // Simulate progression if processing
     if (b.status === BatchStatus.PROCESSING) {
-      if (b.processedCount < b.totalImages) {
-        b.processedCount += Math.ceil(b.totalImages / 4);
-        if (b.processedCount >= b.totalImages) {
-          b.processedCount = b.totalImages;
-          b.status = BatchStatus.REVIEW_REQUIRED;
+      if (b.processedCount < total) {
+        b.processedCount += Math.ceil(total / 4);
+        if (b.processedCount >= total) {
+          b.processedCount = total;
+          b.status = BatchStatus.COMPLETED;
         }
       }
     }

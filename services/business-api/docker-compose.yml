@@ -27,6 +27,51 @@ services:
       - miniodata:/data
     restart: unless-stopped
 
+  redis:
+    image: redis:7-alpine
+    container_name: mathvision-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+
+  ai-service:
+    build:
+      context: ../ai-service
+    container_name: mathvision-ai-service
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - RUNTIME_MODE=FIXTURE
+      - REDIS_URL=redis://redis:6379/0
+      - SPRING_CALLBACK_BASE_URL=http://host.docker.internal:8080/internal/v1/ai/jobs
+      - INTERNAL_API_KEY=secret-key-default
+    depends_on:
+      - redis
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  celery-worker:
+    build:
+      context: ../ai-service
+    container_name: mathvision-celery-worker
+    command: ["celery", "-A", "app.jobs.celery_app", "worker", "--loglevel=info"]
+    environment:
+      - APP_ENV=development
+      - RUNTIME_MODE=FIXTURE
+      - REDIS_URL=redis://redis:6379/0
+      - SPRING_CALLBACK_BASE_URL=http://host.docker.internal:8080/internal/v1/ai/jobs
+      - INTERNAL_API_KEY=secret-key-default
+    depends_on:
+      - redis
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 volumes:
   pgdata:
   miniodata:
+  redisdata:

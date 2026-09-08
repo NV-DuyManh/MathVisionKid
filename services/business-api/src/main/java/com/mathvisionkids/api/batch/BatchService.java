@@ -19,11 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class BatchService {
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(BatchService.class);
     private final BatchRepository batchRepository;
     private final AssignmentRepository assignmentRepository;
     private final TeacherRepository teacherRepository;
@@ -90,6 +92,7 @@ public class BatchService {
         batchRepository.save(batch);
 
         int count = 0;
+        List<UUID> createdSubmissionIds = new ArrayList<>();
         for (int i = 0; i < images.size(); i++) {
             MultipartFile file = images.get(i);
             BatchImageMapping mapping = mappings.get(i);
@@ -144,7 +147,7 @@ public class BatchService {
                     auditEvent.setEventType("AI_PROCESSING_STARTED");
                     auditEventRepository.save(auditEvent);
                     
-                    aiAnalysisGateway.analyze(submission.getSubmissionId());
+                    createdSubmissionIds.add(submission.getSubmissionId());
                 } catch (Exception dbException) {
                     try {
                         objectStorageService.delete(filePath);
@@ -160,6 +163,32 @@ public class BatchService {
         batch.setTotalCount(batch.getTotalCount() + count);
         batch.setStatus("PROCESSING");
         batchRepository.save(batch);
+
+        final List<UUID> toAnalyze = createdSubmissionIds;
+        logger.info("uploadImages completed, registering afterCommit for {} submissions", toAnalyze.size());
+        if (org.springframework.transaction.support.TransactionSynchronizationManager.isSynchronizationActive()) {
+            org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
+                new org.springframework.transaction.support.TransactionSynchronization() {
+                    @Override
+                    public void afterCommit() {
+                        java.util.concurrent.CompletableFuture.runAsync(() -> {
+                            logger.info("BatchService afterCommit async trigger firing for {} submissions", toAnalyze.size());
+                            for (UUID subId : toAnalyze) {
+                                try {
+                                    aiAnalysisGateway.analyze(subId);
+                                } catch (Exception e) {
+                                    logger.error("Error analyzing submissionId: {} in afterCommit", subId, e);
+                                }
+                            }
+                        });
+                    }
+                }
+            );
+        } else {
+            for (UUID subId : toAnalyze) {
+                aiAnalysisGateway.analyze(subId);
+            }
+        }
     }
     
     @Transactional(readOnly = true)

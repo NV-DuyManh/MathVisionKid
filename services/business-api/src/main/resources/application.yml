@@ -56,3 +56,10 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+ai:
+  gateway:
+    mode: ${AI_GATEWAY_MODE:FASTAPI}
+    url: ${AI_SERVICE_URL:http://localhost:8000/internal/v1/jobs}
+  callback:
+    api-key: ${INTERNAL_API_KEY:secret-key-default}

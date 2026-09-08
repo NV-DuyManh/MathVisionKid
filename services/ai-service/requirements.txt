@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+celery
+redis
+httpx
+pydantic-settings
+pytest
+pytest-asyncio
+pytest-mock
+minio

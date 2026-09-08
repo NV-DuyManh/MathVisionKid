@@ -11,27 +11,30 @@ import BatchDetailPage from './pages/BatchDetailPage';
 import ReviewQueuePage from './pages/ReviewQueuePage';
 import SubmissionReviewPage from './pages/SubmissionReviewPage';
 import SettingsPage from './pages/SettingsPage';
+import { AuthProvider } from './components/layout/AuthContext';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="classes" element={<ClassesPage />} />
-          <Route path="assignments" element={<AssignmentsPage />} />
-          <Route path="assignments/create" element={<AssignmentCreatePage />} />
-          <Route path="batches" element={<BatchesPage />} />
-          <Route path="batches/create" element={<BatchCreatePage />} />
-          <Route path="batches/:id" element={<BatchDetailPage />} />
-          <Route path="batches/:id/review" element={<ReviewQueuePage />} />
-          <Route path="submissions/:id" element={<SubmissionReviewPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="classes" element={<ClassesPage />} />
+            <Route path="assignments" element={<AssignmentsPage />} />
+            <Route path="assignments/create" element={<AssignmentCreatePage />} />
+            <Route path="batches" element={<BatchesPage />} />
+            <Route path="batches/create" element={<BatchCreatePage />} />
+            <Route path="batches/:id" element={<BatchDetailPage />} />
+            <Route path="batches/:id/review" element={<ReviewQueuePage />} />
+            <Route path="submissions/:id" element={<SubmissionReviewPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

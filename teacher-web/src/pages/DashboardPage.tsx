@@ -2,22 +2,26 @@ import { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Card, CardContent, Chip, Button, List, ListItem, ListItemText, Paper } from '@mui/material';
 import { AssignmentTurnedIn, PendingActions, FactCheck, ChevronRight } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { MockTeacherService } from '../services/api/MockTeacherService';
+import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { DashboardStats } from '../types';
+import { useAuth } from '../components/layout/AuthContext';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
-    MockTeacherService.getDashboard().then(setStats);
+    AppTeacherService.getDashboard().then(setStats);
   }, []);
 
   if (!stats) return <Typography>Đang tải...</Typography>;
 
+  const displayName = user?.firstName ? `${user.lastName || ''} ${user.firstName}`.trim() : (user?.displayName || 'cô Lan');
+
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-      <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>Xin chào, cô Lan</Typography>
+      <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>Xin chào, {displayName}</Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>Tổng quan công việc hôm nay của bạn.</Typography>
 
       <Grid container spacing={3} sx={{ mb: 6 }}>

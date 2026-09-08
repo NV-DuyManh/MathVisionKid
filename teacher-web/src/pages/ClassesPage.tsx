@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
-import { MockTeacherService } from '../services/api/MockTeacherService';
+import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { Class } from '../types';
 
 export default function ClassesPage() {
   const [classes, setClasses] = useState<Class[]>([]);
 
   useEffect(() => {
-    MockTeacherService.getClasses().then(setClasses);
+    AppTeacherService.getClasses().then(setClasses);
   }, []);
 
   return (

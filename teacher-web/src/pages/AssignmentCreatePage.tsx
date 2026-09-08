@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Typography, Button, TextField, MenuItem, Card, CardContent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { MockTeacherService } from '../services/api/MockTeacherService';
+import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { Class } from '../types';
 import { MathType } from '../types';
 
@@ -13,13 +13,13 @@ export default function AssignmentCreatePage() {
   const [mathType, setMathType] = useState<MathType>(MathType.VERTICAL_ADDITION);
 
   useEffect(() => {
-    MockTeacherService.getClasses().then(setClasses);
+    AppTeacherService.getClasses().then(setClasses);
   }, []);
 
   const handleCreate = async () => {
     if (!selectedClass || !title) return;
-    const assignment = await MockTeacherService.createAssignment(selectedClass, title, mathType);
-    navigate('/batches/create', { state: { assignmentId: assignment.id } });
+    const assignment = await AppTeacherService.createAssignment(selectedClass, title, mathType);
+    navigate('/batches/create', { state: { assignmentId: assignment.assignmentId || assignment.id } });
   };
 
   return (

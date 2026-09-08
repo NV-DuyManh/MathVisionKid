@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.UUID;
 
-@Service
+
 public class StubAiAnalysisGateway implements AiAnalysisGateway {
 
     private final SubmissionRepository submissionRepository;
