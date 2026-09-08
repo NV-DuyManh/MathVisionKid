@@ -19,7 +19,6 @@ async def health_check():
 
 @app.get("/ready")
 async def readiness_check():
-    # In a real scenario, check Redis connectivity and model loaded state
     from app.jobs.celery_app import celery_app
     redis_ok = False
     try:
@@ -28,9 +27,21 @@ async def readiness_check():
         redis_ok = True
     except Exception as e:
         logger.warning(f"Redis connection failed: {e}")
-        
+
+    model_ok = True
+    if settings.runtime_mode == "MODEL":
+        from app.recognition.model_engine import ModelRecognitionEngine
+        try:
+            engine = ModelRecognitionEngine()
+            model_ok = engine.is_ready
+        except Exception as e:
+            logger.warning(f"Model readiness check failed: {e}")
+            model_ok = False
+
+    is_ready = redis_ok and model_ok
     return {
-        "status": "ready" if redis_ok else "degraded",
+        "status": "ready" if is_ready else "NOT_READY",
         "redis_connected": redis_ok,
+        "model_loaded": model_ok,
         "mode": settings.runtime_mode
     }

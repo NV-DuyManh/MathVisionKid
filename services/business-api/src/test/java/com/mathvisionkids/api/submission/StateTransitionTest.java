@@ -21,7 +21,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.mockito.Mockito;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import com.mathvisionkids.api.storage.ObjectStorageService;
 import java.io.IOException;
 

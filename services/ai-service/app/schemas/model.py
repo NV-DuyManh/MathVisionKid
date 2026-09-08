@@ -19,5 +19,9 @@ class ModelManifest(BaseModel):
     labelMapVersion: Optional[str] = None
     metrics: Optional[dict] = None
     runtimeRequirements: Optional[str] = None
+    frameworkVersion: Optional[str] = None
+    architecture: Optional[str] = None
+    labelMapFile: Optional[str] = None
+    provenance: Optional[dict] = None
 
     model_config = ConfigDict(extra="ignore")

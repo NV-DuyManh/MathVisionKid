@@ -1,0 +1,77 @@
+{
+  "evaluation_phase": "4.3.0.1",
+  "timestamp": "2026-09-08T13:32:41Z",
+  "status": "BLOCKED_DATASET",
+  "gate_validation": "MANIFEST_NOT_SPECIFIED",
+  "leakage_guard_status": "BLOCKED",
+  "dataset_independence": "NOT_VERIFIED",
+  "dataset_manifest": "NONE",
+  "dataset_present": false,
+  "gold_image_count": 0,
+  "model_identity": "MathVision-Kids-Detection v1.0.0 (YOLOv8n)",
+  "provenance_checksums": {
+    "modelArtifactSha256": "E78F8FA5A2FC8BE581B8624FA510CD2C429C40CDBD0930DBB2F1C2D870338985",
+    "artifactChecksumDeclaredByManifest": "e78f8fa5a2fc8be581b8624fa510cd2c429c40cdbd0930dbb2f1c2d870338985",
+    "normalizedManifestSha256": "3C1BDE47E72EE01C9DCBD8AD3E8589C6ACC78E7E1B361C3FE78C559027BBC743",
+    "labelMapSha256": "1A820BC5E35E2E2A0B5752CCA152C6EFA82DD3DBEC195ACCAF1839270451B972",
+    "evaluationConfigSha256": "C805B02E2BFACB5FA0DE5302BC517FD92AE4F8F73FFFD83C6EEA58AEB1D0C7DC"
+  },
+  "provenance_freeze": {
+    "model_version": "1.0.0",
+    "python_version": "3.12.13",
+    "ultralytics_version": "8.4.143",
+    "confidence_threshold": 0.25,
+    "nms_threshold": 0.5,
+    "ambiguity_threshold": 0.5,
+    "high_confidence_threshold": 0.85
+  },
+  "model_sha256": "E78F8FA5A2FC8BE581B8624FA510CD2C429C40CDBD0930DBB2F1C2D870338985",
+  "model_sha_expected": "E78F8FA5A2FC8BE581B8624FA510CD2C429C40CDBD0930DBB2F1C2D870338985",
+  "model_sha_verified": true,
+  "proposal_targets": {
+    "critical_token_recognition": {
+      "target": ">= 90%",
+      "status": "NOT_EVALUATED"
+    },
+    "first_error_precision": {
+      "target": ">= 85%",
+      "status": "NOT_EVALUATED"
+    },
+    "first_error_recall": {
+      "target": "report_separately",
+      "status": "NOT_EVALUATED"
+    },
+    "first_error_coverage": {
+      "target": "report_separately",
+      "status": "NOT_EVALUATED"
+    },
+    "over_correction_rate": {
+      "target": "<= 5%",
+      "status": "NOT_EVALUATED"
+    },
+    "p95_ai_latency": {
+      "target": "<= 12.0s",
+      "status": "NOT_EVALUATED",
+      "local_smoke_timing": "0.0854s warm on local CPU (N=10 on synthetic sample, non-benchmark)"
+    },
+    "hint_quality": {
+      "target": ">= 4.0/5",
+      "status": "REQUIRES_HUMAN_EVALUATION"
+    },
+    "student_usability": {
+      "target": ">= 80%",
+      "status": "NOT_EVALUATED"
+    },
+    "teacher_usability": {
+      "target": "100% reviewable",
+      "status": "NOT_EVALUATED"
+    }
+  },
+  "blocker_summary": [
+    "Evaluation Gate Status: MANIFEST_NOT_SPECIFIED.",
+    "No independent gold test dataset found in repository (ai-training/data/splits/test/ is empty).",
+    "ai-training/annotations/ contains no adjudicated gold annotations.",
+    "AI team DATASET_CARD.md confirms: 'Test set: No separate held-out test set in this version'.",
+    "Formal benchmark requires >= 500 de-identified gold images (target 700, >= 20% double-annotated)."
+  ]
+}

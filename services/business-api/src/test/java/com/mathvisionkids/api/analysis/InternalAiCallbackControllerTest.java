@@ -12,10 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -112,5 +108,41 @@ public class InternalAiCallbackControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(payload)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testNeedsConfirmationCallbackTransitionsSubmissionToNeedsConfirmation() throws Exception {
+        AiCallbackRequest payload = new AiCallbackRequest();
+        payload.setStatus("NEEDS_CONFIRMATION");
+
+        mockMvc.perform(post("/internal/v1/ai/jobs/" + testJob.getJobId() + "/callback")
+                .header("X-Internal-API-Key", "test-secret-key")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().isOk());
+
+        AiJob updatedJob = aiJobRepository.findById(testJob.getJobId()).orElseThrow();
+        assert "COMPLETED".equals(updatedJob.getStatus());
+
+        Submission updatedSubmission = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
+        assert "NEEDS_CONFIRMATION".equals(updatedSubmission.getStatus());
+    }
+
+    @Test
+    public void testReviewRequiredCallbackTransitionsSubmissionToReviewRequired() throws Exception {
+        AiCallbackRequest payload = new AiCallbackRequest();
+        payload.setStatus("REVIEW_REQUIRED");
+
+        mockMvc.perform(post("/internal/v1/ai/jobs/" + testJob.getJobId() + "/callback")
+                .header("X-Internal-API-Key", "test-secret-key")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().isOk());
+
+        AiJob updatedJob = aiJobRepository.findById(testJob.getJobId()).orElseThrow();
+        assert "COMPLETED".equals(updatedJob.getStatus());
+
+        Submission updatedSubmission = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
+        assert "REVIEW_REQUIRED".equals(updatedSubmission.getStatus());
     }
 }

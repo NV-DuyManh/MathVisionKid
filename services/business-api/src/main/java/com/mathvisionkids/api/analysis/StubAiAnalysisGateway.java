@@ -5,7 +5,6 @@ import com.mathvisionkids.api.audit.AuditEventRepository;
 import com.mathvisionkids.api.submission.Submission;
 import com.mathvisionkids.api.submission.SubmissionRepository;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;

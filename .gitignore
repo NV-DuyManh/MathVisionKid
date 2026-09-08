@@ -41,3 +41,42 @@ example
 # generated native folders
 /ios
 /android
+
+# MathVision Kids local runtime
+runtime/logs/
+runtime/pids/
+runtime/
+
+# Environment files (preserve .env.example)
+.env
+*.env.local
+
+# Python caches & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+
+# Scratch & temporary artifacts
+scratch/
+*.log
+
+# Large model binary artifacts and handoff archives (not tracked in Git)
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.bin
+*.pth.tar
+model_handoff.zip
+ai-training/incoming/
+!ai-training/incoming/.gitkeep
+services/ai-service/models/*.pt
+services/ai-service/models/*.pth
+audit_handoff_fresh/
+build/
+.gradle/
+
+

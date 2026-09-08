@@ -1,6 +1,5 @@
 package com.mathvisionkids.api.auth;
 
-import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
 import com.mathvisionkids.api.user.User;
 import com.mathvisionkids.api.user.UserRepository;
@@ -9,7 +8,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -34,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 

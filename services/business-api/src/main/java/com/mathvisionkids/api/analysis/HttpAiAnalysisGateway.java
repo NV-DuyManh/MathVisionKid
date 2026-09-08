@@ -148,7 +148,7 @@ public class HttpAiAnalysisGateway implements AiAnalysisGateway {
         try {
             logger.info("Calling AI service at {} for jobId: {} submissionId: {} policyMode: {}",
                     aiServiceUrl, result.jobId, result.submissionId, result.policyMode);
-            ResponseEntity<Map> response = restTemplate.postForEntity(aiServiceUrl, entity, Map.class);
+            ResponseEntity<?> response = restTemplate.postForEntity(aiServiceUrl, entity, Map.class);
             final boolean success = response.getStatusCode().is2xxSuccessful();
 
             if (transactionTemplate != null) {

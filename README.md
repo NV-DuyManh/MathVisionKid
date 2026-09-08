@@ -1,10 +1,33 @@
-# MathVision Kids - Student Android MVP
+# MathVision Kids
 
 MathVision Kids is an AI-assisted handwritten arithmetic grading and tutoring platform for Vietnamese primary-school students (Grades 1–5).
 
-This repository contains the UI-first vertical slice of the Android mobile app, built with Expo and React Native.
+## Run Locally (Unified Local Stack)
 
-## How to run the demo
+To run the complete MathVision Kids local development environment (PostgreSQL, MinIO, Redis, Spring Boot Business API, FastAPI AI Runtime, Celery Worker, and Teacher Web Portal):
+
+```cmd
+# 1. Start complete stack
+scripts\start-all.bat
+
+# 2. Check system health
+scripts\health-check.bat
+
+# 3. Stop stack
+scripts\stop-all.bat
+```
+
+For comprehensive guides, see:
+- [Developer Local Setup Guide](docs/LOCAL_SETUP.md) -- Prerequisites, installation, and environment configuration.
+- [Local Demonstration Guide](docs/DEMO_GUIDE.md) -- Step-by-step teacher batch and student demo flows.
+- [Local Troubleshooting Guide](docs/TROUBLESHOOTING.md) -- Actionable solutions for common issues.
+- [Local Runtime Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) -- Architecture diagrams and async correlation.
+- [Local Maintenance Guide](docs/MAINTENANCE_GUIDE.md) -- Configuration, log inspection, and model handoff.
+
+---
+
+## Student Mobile App (Expo / React Native)
+
 
 1. Install dependencies:
    ```bash

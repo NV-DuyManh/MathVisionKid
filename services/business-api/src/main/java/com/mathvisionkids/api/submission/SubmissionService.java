@@ -7,7 +7,6 @@ import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.storage.ObjectStorageService;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
-import com.mathvisionkids.api.user.UserRepository;
 import com.mathvisionkids.api.analysis.TeacherDecision;
 import com.mathvisionkids.api.analysis.TeacherDecisionRepository;
 import com.mathvisionkids.api.user.Teacher;
@@ -29,7 +28,6 @@ public class SubmissionService {
     private final AiAnalysisGateway aiAnalysisGateway;
     private final AuditEventRepository auditEventRepository;
     private final StudentRepository studentRepository;
-    private final UserRepository userRepository;
     private final TeacherRepository teacherRepository;
     private final TeacherDecisionRepository teacherDecisionRepository;
 
@@ -39,7 +37,6 @@ public class SubmissionService {
                              AiAnalysisGateway aiAnalysisGateway,
                              AuditEventRepository auditEventRepository,
                              StudentRepository studentRepository,
-                             UserRepository userRepository,
                              TeacherRepository teacherRepository,
                              TeacherDecisionRepository teacherDecisionRepository) {
         this.submissionRepository = submissionRepository;
@@ -48,7 +45,6 @@ public class SubmissionService {
         this.aiAnalysisGateway = aiAnalysisGateway;
         this.auditEventRepository = auditEventRepository;
         this.studentRepository = studentRepository;
-        this.userRepository = userRepository;
         this.teacherRepository = teacherRepository;
         this.teacherDecisionRepository = teacherDecisionRepository;
     }

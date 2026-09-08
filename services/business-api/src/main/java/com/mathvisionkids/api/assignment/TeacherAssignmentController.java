@@ -8,7 +8,6 @@ import com.mathvisionkids.api.classroom.ClassroomRepository;
 import com.mathvisionkids.api.common.ApiException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;

@@ -79,6 +79,7 @@ public class HttpAiAnalysisGatewayTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testCorrectJobIdAndSubmissionIdSent() {
         UUID submissionId = UUID.randomUUID();
         Submission submission = new Submission();
@@ -106,6 +107,7 @@ public class HttpAiAnalysisGatewayTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testStudentPolicyModeSentForStudentSubmission() {
         UUID submissionId = UUID.randomUUID();
         Submission submission = new Submission();
@@ -130,6 +132,7 @@ public class HttpAiAnalysisGatewayTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testTeacherPolicyModeSentForTeacherBatchSubmission() {
         UUID submissionId = UUID.randomUUID();
         Submission submission = new Submission();

@@ -1,5 +1,6 @@
 package com.mathvisionkids.api.auth;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mathvisionkids.api.user.User;
 import com.mathvisionkids.api.user.UserRepository;
@@ -105,7 +106,7 @@ public class AuthControllerTest {
                 .andReturn();
 
         String loginResponse = loginResult.getResponse().getContentAsString();
-        Map<String, String> authData = objectMapper.readValue(loginResponse, Map.class);
+        Map<String, String> authData = objectMapper.readValue(loginResponse, new TypeReference<Map<String, String>>() {});
         String oldRefreshToken = authData.get("refreshToken");
 
         // 2. Refresh
@@ -121,7 +122,7 @@ public class AuthControllerTest {
                 .andReturn();
 
         String refreshResp = refreshResult.getResponse().getContentAsString();
-        Map<String, String> refreshData = objectMapper.readValue(refreshResp, Map.class);
+        Map<String, String> refreshData = objectMapper.readValue(refreshResp, new TypeReference<Map<String, String>>() {});
         String newRefreshToken = refreshData.get("refreshToken");
 
         assertNotEquals(oldRefreshToken, newRefreshToken);
@@ -141,7 +142,7 @@ public class AuthControllerTest {
                 .andReturn();
 
         String loginResponse = loginResult.getResponse().getContentAsString();
-        Map<String, String> authData = objectMapper.readValue(loginResponse, Map.class);
+        Map<String, String> authData = objectMapper.readValue(loginResponse, new TypeReference<Map<String, String>>() {});
         String oldRefreshToken = authData.get("refreshToken");
 
         // 2. Refresh to rotate it
@@ -173,7 +174,7 @@ public class AuthControllerTest {
                 .andReturn();
 
         String loginResponse = loginResult.getResponse().getContentAsString();
-        Map<String, String> authData = objectMapper.readValue(loginResponse, Map.class);
+        Map<String, String> authData = objectMapper.readValue(loginResponse, new TypeReference<Map<String, String>>() {});
         String jwtToken = authData.get("token");
         String refreshToken = authData.get("refreshToken");
 

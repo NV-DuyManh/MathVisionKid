@@ -7,7 +7,7 @@ from app.schemas.model import ModelManifest
 logger = logging.getLogger(__name__)
 
 SUPPORTED_ARTIFACT_FORMATS = {"PYTORCH", "TORCHSCRIPT", "ONNX", "PADDLE"}
-SUPPORTED_LABEL_MAP_VERSIONS = {"v1", "v1.0", "v1.1", "v1.2"}
+SUPPORTED_LABEL_MAP_VERSIONS = {"v1", "v1.0", "v1.1", "v1.2", "mathvision_det_v1.0"}
 
 
 class ManifestValidationError(ValueError):
@@ -69,7 +69,7 @@ class ModelManifestLoader:
 
         logger.info(f"Verifying artifact checksum for '{artifact_path}'...")
         computed = self._sha256_file(artifact_path)
-        if computed != manifest.sha256:
+        if computed.lower() != manifest.sha256.lower():
             raise ChecksumMismatchError(
                 f"Artifact checksum mismatch for '{artifact_path}'. "
                 f"Manifest expected: {manifest.sha256[:12]}... "

@@ -38,18 +38,30 @@ def process_submission(self, job_id: str, request_data: dict):
         if settings.runtime_mode == "FIXTURE":
             engine = FixtureRecognitionEngine()
         else:
-            # MODEL mode: raise explicit error — model artifact not yet provided
+            from app.recognition.model_engine import ModelRecognitionEngine
+            engine = ModelRecognitionEngine()
+            if not engine.is_ready:
+                logger.error("MODEL mode active but ModelRecognitionEngine is not ready.")
+                callback = AiCallbackRequest(status="MODEL_NOT_AVAILABLE")
+                send_callback(job_id, callback)
+                return "MODEL_NOT_AVAILABLE"
+
+        try:
+            recognition_result = engine.recognize(image_ref)
+        except Exception as e:
+            logger.error(f"Recognition failed in mode {settings.runtime_mode}: {e}")
             callback = AiCallbackRequest(status="MODEL_NOT_AVAILABLE")
             send_callback(job_id, callback)
             return "MODEL_NOT_AVAILABLE"
-
-        recognition_result = engine.recognize(image_ref)
 
         # Canonical confidence bundle — deterministic in fixture mode
         if recognition_result.status == "UNCERTAIN_RECOGNITION":
             conf = ConfidenceBundle(recognition=0.4, structure=0.3, diagnosis=0.0)
         elif recognition_result.status == "SUCCESS":
-            conf = ConfidenceBundle(recognition=0.99, structure=0.95, diagnosis=0.0)
+            rec_conf = 0.99
+            if settings.runtime_mode == "MODEL" and recognition_result.tokens:
+                rec_conf = round(sum(t.confidence for t in recognition_result.tokens) / len(recognition_result.tokens), 2)
+            conf = ConfidenceBundle(recognition=rec_conf, structure=0.95, diagnosis=0.0)
         else:
             conf = ConfidenceBundle(recognition=0.0, structure=0.0, diagnosis=0.0)
 

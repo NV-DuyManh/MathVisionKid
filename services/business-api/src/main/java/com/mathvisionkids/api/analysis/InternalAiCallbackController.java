@@ -109,7 +109,7 @@ public class InternalAiCallbackController {
      * PROPOSED_GRADE   → PROPOSED_GRADE  (teacher grading complete, awaiting decision)
      * FEEDBACK_READY   → FEEDBACK_READY  (student feedback generated)
      * REVIEW_REQUIRED  → REVIEW_REQUIRED (insufficient evidence, needs manual review)
-     * NEEDS_CONFIRMATION → PROCESSING     (uncertainty, remain in processing state)
+     * NEEDS_CONFIRMATION → NEEDS_CONFIRMATION (uncertainty, prompts confirmation/retake)
      * NEEDS_RETAKE     → NEEDS_RETAKE    (image quality insufficient)
      * CROP_REQUIRED    → NEEDS_RETAKE    (image crop insufficient)
      * OUT_OF_SCOPE     → REVIEW_REQUIRED (unsupported exercise, teacher reviews)
@@ -125,7 +125,7 @@ public class InternalAiCallbackController {
             case "REVIEW_REQUIRED"   -> "REVIEW_REQUIRED";
             case "NEEDS_RETAKE",
                  "CROP_REQUIRED"     -> "NEEDS_RETAKE";
-            case "NEEDS_CONFIRMATION" -> "PROCESSING";
+            case "NEEDS_CONFIRMATION" -> "NEEDS_CONFIRMATION";
             default                  -> "REVIEW_REQUIRED";
         };
     }
