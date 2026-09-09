@@ -3,6 +3,7 @@ package com.mathvisionkids.api.classroom;
 import com.mathvisionkids.api.user.Teacher;
 import com.mathvisionkids.api.user.TeacherRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import com.mathvisionkids.api.user.UserResponse;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/teacher/classes")
+@Transactional(readOnly = true)
 public class TeacherClassController {
     
     private final ClassroomRepository classroomRepository;

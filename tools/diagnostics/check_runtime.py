@@ -285,6 +285,34 @@ def check_teacher_web():
         )
 
 
+def check_admin_web():
+    port = 5174
+    url = f"http://localhost:{port}"
+    try:
+        req = urllib.request.Request(url, method="GET")
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
+            if resp.status == 200:
+                record_result("Admin Web", "PASS")
+            else:
+                record_result(
+                    "Admin Web", "WARN",
+                    detail=f"Admin Web returned HTTP {resp.status}",
+                    fix="Check admin-web terminal or runtime/logs/admin-web.log"
+                )
+    except urllib.error.URLError as e:
+        record_result(
+            "Admin Web", "FAIL",
+            detail=f"Admin Web not reachable at {url}: {e}",
+            fix="Start Admin Web: cd admin-web && npm run dev"
+        )
+    except Exception as e:
+        record_result(
+            "Admin Web", "FAIL",
+            detail=f"Admin Web check error: {e}",
+            fix="Check admin-web dev server"
+        )
+
+
 def check_student_mobile():
     app_json = REPO_ROOT / "app.json"
     if not app_json.exists():
@@ -313,6 +341,7 @@ def main():
     check_fastapi()
     check_celery()
     check_teacher_web()
+    check_admin_web()
     check_student_mobile()
 
     # Format output items
@@ -325,6 +354,7 @@ def main():
         ("FastAPI", RESULTS.get("FastAPI", "NOT_RUNNING")),
         ("Celery Worker", RESULTS.get("Celery Worker", "NOT_RUNNING")),
         ("Teacher Web", RESULTS.get("Teacher Web", "NOT_RUNNING")),
+        ("Admin Web", RESULTS.get("Admin Web", "NOT_RUNNING")),
         ("Student Mobile", RESULTS.get("Student Mobile", "NOT_CONFIGURED")),
     ]
 
@@ -355,7 +385,7 @@ def main():
     # Determine overall status
     required_services = [
         "Docker", "PostgreSQL", "MinIO", "Redis",
-        "Spring Boot", "FastAPI", "Celery Worker", "Teacher Web"
+        "Spring Boot", "FastAPI", "Celery Worker", "Teacher Web", "Admin Web"
     ]
     all_pass = all(RESULTS.get(s) == "PASS" for s in required_services)
 

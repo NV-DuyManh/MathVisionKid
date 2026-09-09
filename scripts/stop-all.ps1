@@ -28,7 +28,7 @@ if (Test-Path $PidDir) {
 }
 
 # 2. Check MathVision specific ports and terminate lingering processes only if verified MathVision
-$PortsToCheck = @(8080, 8000, 5173)
+$PortsToCheck = @(8080, 8000, 5173, 5174)
 foreach ($port in $PortsToCheck) {
     try {
         $conns = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
@@ -40,7 +40,7 @@ foreach ($port in $PortsToCheck) {
                     # Verify MathVision ownership before termination
                     $cimProc = Get-CimInstance Win32_Process -Filter "ProcessId = $procId" -ErrorAction SilentlyContinue
                     $cmdLine = if ($cimProc) { $cimProc.CommandLine } else { "" }
-                    $isMathVision = ($cmdLine -match "MathVision|mathvisionkids|mathvision|services[\\/]business-api|services[\\/]ai-service|teacher-web|gradlew\.bat bootRun")
+                    $isMathVision = ($cmdLine -match "MathVision|mathvisionkids|mathvision|services[\\/]business-api|services[\\/]ai-service|teacher-web|admin-web|gradlew\.bat bootRun")
                     
                     if ($isMathVision) {
                         Write-Host "Releasing port $port (Process: $($p.ProcessName), PID: $($p.Id))..."

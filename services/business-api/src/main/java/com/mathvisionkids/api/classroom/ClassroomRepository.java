@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface ClassroomRepository extends JpaRepository<Classroom, UUID> {
     List<Classroom> findByTeacher_Id(UUID teacherId);
+    List<Classroom> findByStudents_Id(UUID studentId);
 }

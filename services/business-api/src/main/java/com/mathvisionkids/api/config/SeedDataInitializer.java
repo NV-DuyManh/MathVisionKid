@@ -8,6 +8,7 @@ import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
 import com.mathvisionkids.api.user.Teacher;
 import com.mathvisionkids.api.user.TeacherRepository;
+import com.mathvisionkids.api.user.User;
 import com.mathvisionkids.api.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -122,7 +123,18 @@ public class SeedDataInitializer {
                 assignmentRepository.save(subAssignment);
             }
 
-            System.out.println("Dev seed data initialized successfully: 1 Teacher, " + seededStudents.size() + " Students, 1 Classroom, 2 Assignments.");
+            // 5. Seed Dev Admin
+            userRepository.findByEmail("admin.demo@mathvision.local").orElseGet(() -> {
+                User admin = new User();
+                admin.setEmail("admin.demo@mathvision.local");
+                admin.setPasswordHash(devPassword);
+                admin.setRole("ADMIN");
+                admin.setDisplayName("Demo Administrator");
+                admin.setActive(true);
+                return userRepository.save(admin);
+            });
+
+            System.out.println("Dev seed data initialized successfully: 1 Admin, 1 Teacher, " + seededStudents.size() + " Students, 1 Classroom, 2 Assignments.");
             return null;
         });
     }

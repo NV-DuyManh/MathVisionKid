@@ -30,3 +30,8 @@
 
 ## Next Steps for Frontend Teams
 Do NOT immediately rewrite the UI components. The next phase will implement the Spring Boot Backend. Once the backend is running, we will perform a dedicated "Integration Phase" to update both frontends to consume these exact canonical types.
+
+## Track A1.1 Additive Role Extension: ADMIN
+- Role enum extended from `[STUDENT, TEACHER]` to `[STUDENT, TEACHER, ADMIN]`.
+- Classification: **NON_BREAKING (ADDITIVE)**. Existing Student and Teacher authentication, authorizations, and client contracts remain 100% backward-compatible. Admin endpoints are strictly isolated under `/api/v1/admin/**` with dedicated `hasRole('ADMIN')` authorization.
+

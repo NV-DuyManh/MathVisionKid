@@ -9,6 +9,7 @@ tags:
   - name: Student
   - name: Teacher
   - name: Auth
+  - name: Admin
 paths:
   /auth/login:
     post:
@@ -491,6 +492,340 @@ paths:
               schema:
                 $ref: '#/components/schemas/Submission'
 
+  /admin/users:
+    get:
+      tags:
+        - Admin
+      summary: List users with filtering and pagination
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [STUDENT, TEACHER]
+        - name: active
+          in: query
+          schema:
+            type: boolean
+        - name: query
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paginated list of users
+    post:
+      tags:
+        - Admin
+      summary: Provision a new Student or Teacher user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserResponse'
+
+  /admin/users/{userId}:
+    get:
+      tags:
+        - Admin
+      summary: Get user details and class memberships
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserResponse'
+    patch:
+      tags:
+        - Admin
+      summary: Update safe profile fields of user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: Updated user details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserResponse'
+
+  /admin/users/{userId}/disable:
+    post:
+      tags:
+        - Admin
+      summary: Disable a user account and revoke refresh tokens
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User disabled successfully
+
+  /admin/users/{userId}/enable:
+    post:
+      tags:
+        - Admin
+      summary: Enable a user account
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User enabled successfully
+
+  /admin/users/{userId}/reset-password:
+    post:
+      tags:
+        - Admin
+      summary: Administrative password reset
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Temporary password generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetPasswordResponse'
+
+  /admin/classes:
+    get:
+      tags:
+        - Admin
+      summary: List classrooms with pagination
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paginated classrooms
+    post:
+      tags:
+        - Admin
+      summary: Create a new classroom
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClassRequest'
+      responses:
+        '201':
+          description: Class created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+
+  /admin/classes/{classId}:
+    get:
+      tags:
+        - Admin
+      summary: Get classroom details and roster
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Classroom details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+    patch:
+      tags:
+        - Admin
+      summary: Update classroom metadata
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClassRequest'
+      responses:
+        '200':
+          description: Updated classroom
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+
+  /admin/classes/{classId}/teacher:
+    put:
+      tags:
+        - Admin
+      summary: Assign active Teacher to classroom
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignTeacherRequest'
+      responses:
+        '200':
+          description: Teacher assigned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+
+  /admin/classes/{classId}/students/{studentId}:
+    post:
+      tags:
+        - Admin
+      summary: Add active student to classroom roster
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student added to roster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+    delete:
+      tags:
+        - Admin
+      summary: Remove student from classroom roster
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student removed from roster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+
+  /admin/dashboard:
+    get:
+      tags:
+        - Admin
+      summary: Get administrative operational dashboard metrics
+      responses:
+        '200':
+          description: Operational dashboard metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminDashboardResponse'
+
+  /admin/audit:
+    get:
+      tags:
+        - Admin
+      summary: Get paginated administrative audit logs
+      parameters:
+        - name: eventType
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paginated audit event log
+
 components:
   schemas:
     ApiErrorResponse:
@@ -682,3 +1017,209 @@ components:
           type: object
         teacherDecision:
           type: object
+
+    CreateUserRequest:
+      type: object
+      required:
+        - email
+        - displayName
+        - role
+        - initialPassword
+      properties:
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [STUDENT, TEACHER]
+        initialPassword:
+          type: string
+          minLength: 6
+        gradeLevel:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Required for STUDENT (1..5), prohibited for TEACHER
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+        gradeLevel:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Applicable only for STUDENT
+
+    AdminUserSummary:
+      type: object
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+        displayName:
+          type: string
+        role:
+          type: string
+        gradeLevel:
+          type: integer
+        active:
+          type: boolean
+
+    AdminClassSummary:
+      type: object
+      properties:
+        classId:
+          type: string
+        name:
+          type: string
+        gradeLevel:
+          type: integer
+        academicYear:
+          type: string
+
+    AdminUserResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+        displayName:
+          type: string
+        role:
+          type: string
+        gradeLevel:
+          type: integer
+        active:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        classes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminClassSummary'
+
+    ResetPasswordRequest:
+      type: object
+      properties:
+        temporaryPassword:
+          type: string
+          minLength: 6
+
+    ResetPasswordResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+        temporaryPassword:
+          type: string
+        message:
+          type: string
+
+    CreateClassRequest:
+      type: object
+      required:
+        - name
+        - gradeLevel
+        - teacherId
+      properties:
+        name:
+          type: string
+        gradeLevel:
+          type: integer
+          minimum: 1
+          maximum: 5
+        academicYear:
+          type: string
+        teacherId:
+          type: string
+
+    UpdateClassRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        gradeLevel:
+          type: integer
+          minimum: 1
+          maximum: 5
+        academicYear:
+          type: string
+
+    AssignTeacherRequest:
+      type: object
+      required:
+        - teacherId
+      properties:
+        teacherId:
+          type: string
+
+    AdminClassResponse:
+      type: object
+      properties:
+        classId:
+          type: string
+        name:
+          type: string
+        gradeLevel:
+          type: integer
+        academicYear:
+          type: string
+        teacher:
+          $ref: '#/components/schemas/AdminUserSummary'
+        studentCount:
+          type: integer
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminUserSummary'
+        createdAt:
+          type: string
+          format: date-time
+
+    AdminDashboardResponse:
+      type: object
+      properties:
+        totalStudents:
+          type: integer
+        activeStudents:
+          type: integer
+        disabledStudents:
+          type: integer
+        totalTeachers:
+          type: integer
+        activeTeachers:
+          type: integer
+        disabledTeachers:
+          type: integer
+        totalClasses:
+          type: integer
+
+    AdminAuditEventResponse:
+      type: object
+      properties:
+        auditEventId:
+          type: string
+        eventType:
+          type: string
+        actorUserId:
+          type: string
+        actorEmail:
+          type: string
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+

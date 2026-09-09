@@ -39,3 +39,7 @@
 ## ADR-010: Batch lifecycle and review state are separate concepts
 **Decision:** Batch status (`COMPLETED`, etc.) does not dictate if items need review. Review state is tracked via `reviewRequiredCount`.
 **Reason:** A batch can finish processing (COMPLETED) but still have submissions requiring teacher intervention.
+
+## ADR-011: Operational ADMIN Role and RBAC Separation (Admin Lite)
+**Decision:** Introduce the `ADMIN` role solely for user provisioning (Student/Teacher only), classroom administration, teacher assignment, roster membership, and operational audit log visibility under `/api/v1/admin/**`.
+**Reason:** Separates operational maintenance from educational grading. ADMIN does not inherit TEACHER permissions and is strictly forbidden from approving grades, overriding scores, or accessing child submission images. Roster changes map directly into the canonical `classroom_students` table to preserve single source of truth for teacher batch workflows.

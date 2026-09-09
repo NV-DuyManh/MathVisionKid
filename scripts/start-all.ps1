@@ -245,6 +245,18 @@ Start-TrackedService -Name "Teacher Web Portal" `
     -PidFile $TeacherPid `
     -PortCheck 5173
 
+# E. Admin Web
+$AdminDir = Join-Path $RepoRoot "admin-web"
+$AdminPid = Join-Path $PidDir "admin-web.pid"
+$AdminLog = Join-Path $LogDir "admin-web.log"
+Start-TrackedService -Name "Admin Web Portal" `
+    -FilePath "cmd.exe" `
+    -ArgumentList "/c npm run dev" `
+    -WorkingDirectory $AdminDir `
+    -LogFile $AdminLog `
+    -PidFile $AdminPid `
+    -PortCheck 5174
+
 # 5. Wait for readiness with early-exit detection
 Write-Host "`n[5/6] Waiting for application services readiness..." -ForegroundColor Yellow
 $timeoutSeconds = 45
@@ -274,6 +286,7 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
     $springUp = $false
     $fastapiUp = $false
     $teacherUp = $false
+    $adminUp = $false
     try {
         $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8080/actuator/health" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.status -eq "UP") { $springUp = $true }
@@ -286,8 +299,12 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
         $resp = Invoke-WebRequest -Uri "http://localhost:5173" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.StatusCode -eq 200) { $teacherUp = $true }
     } catch {}
+    try {
+        $resp = Invoke-WebRequest -Uri "http://localhost:5174" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        if ($resp.StatusCode -eq 200) { $adminUp = $true }
+    } catch {}
 
-    if ($springUp -and $fastapiUp -and $teacherUp) {
+    if ($springUp -and $fastapiUp -and $teacherUp -and $adminUp) {
         $allReady = $true
         break
     }
@@ -306,6 +323,7 @@ $diagCode = $LASTEXITCODE
 Write-Host "`n============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- READY_FOR_DEMO" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
+Write-Host "Admin Web Portal:    http://localhost:5174"
 Write-Host "Teacher Web Portal:  http://localhost:5173"
 Write-Host "Student Web:         http://localhost:8081/login (run 'npm start' to launch Expo)"
 Write-Host "Spring Business API: http://127.0.0.1:8080"
