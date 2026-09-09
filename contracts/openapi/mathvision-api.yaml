@@ -35,6 +35,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
 
+  /auth/refresh:
+    post:
+      tags:
+        - Auth
+      summary: Refresh access token using refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout current user and invalidate refresh token
+      responses:
+        '200':
+          description: Successfully logged out
+
   /me:
     get:
       tags:
@@ -565,17 +599,25 @@ components:
           type: string
         password:
           type: string
+    TokenRefreshRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
     LoginResponse:
       type: object
+      required:
+        - accessToken
+        - refreshToken
       properties:
         accessToken:
           type: string
-        tokenType:
+          description: JWT Bearer access token
+        refreshToken:
           type: string
-        expiresIn:
-          type: number
-        user:
-          $ref: '#/components/schemas/User'
+          description: Refresh token used to rotate expired access tokens
 
     SubmissionStatusResponse:
       type: object

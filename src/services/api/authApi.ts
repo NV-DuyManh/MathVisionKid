@@ -3,7 +3,7 @@ import apiClient from './apiClient';
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
-  user: any; // User type
+  user?: any;
 }
 
 export const authApi = {

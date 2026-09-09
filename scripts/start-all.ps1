@@ -40,12 +40,28 @@ if ($MissingDeps.Count -gt 0) {
 }
 Write-Host "  All required developer tools detected." -ForegroundColor Green
 
-# 2. Runtime directories
+# 2. Runtime directories and stale PID cleanup
 Write-Host "`n[2/6] Preparing runtime directories..." -ForegroundColor Yellow
 $LogDir = Join-Path $RepoRoot "runtime\logs"
 $PidDir = Join-Path $RepoRoot "runtime\pids"
 if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir -Force | Out-Null }
 if (-not (Test-Path $PidDir)) { New-Item -ItemType Directory -Path $PidDir -Force | Out-Null }
+
+# Clean up stale PID files
+if (Test-Path $PidDir) {
+    Get-ChildItem -Path $PidDir -Filter *.pid | ForEach-Object {
+        $pidFile = $_.FullName
+        $procId = (Get-Content $pidFile -ErrorAction SilentlyContinue).Trim()
+        if ($procId -match '^\d+$') {
+            $p = Get-Process -Id $procId -ErrorAction SilentlyContinue
+            if (-not $p) {
+                Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+            }
+        } else {
+            Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+        }
+    }
+}
 
 # 3. Infrastructure (Docker Compose)
 Write-Host "`n[3/6] Starting infrastructure (PostgreSQL, MinIO, Redis)..." -ForegroundColor Yellow
@@ -66,19 +82,19 @@ for ($i = 0; $i -lt 30; $i++) {
     $redisOk = $false
     try {
         $tcp = New-Object System.Net.Sockets.TcpClient
-        $tcp.Connect("localhost", 5432)
+        $tcp.Connect("127.0.0.1", 5432)
         $pgOk = $tcp.Connected
         $tcp.Close()
     } catch {}
     try {
         $tcp = New-Object System.Net.Sockets.TcpClient
-        $tcp.Connect("localhost", 9000)
+        $tcp.Connect("127.0.0.1", 9000)
         $minioOk = $tcp.Connected
         $tcp.Close()
     } catch {}
     try {
         $tcp = New-Object System.Net.Sockets.TcpClient
-        $tcp.Connect("localhost", 6379)
+        $tcp.Connect("127.0.0.1", 6379)
         $redisOk = $tcp.Connected
         $tcp.Close()
     } catch {}
@@ -97,9 +113,12 @@ if (-not $infraReady) {
 
 # Ensure MinIO bucket exists
 try {
-    & docker exec mathvision-minio mc alias set local http://localhost:9000 minioadmin minioadmin123 2>&1 | Out-Null
+    & docker exec mathvision-minio mc alias set local http://127.0.0.1:9000 minioadmin minioadmin123 2>&1 | Out-Null
     & docker exec mathvision-minio mc mb --ignore-existing local/mathvision 2>&1 | Out-Null
 } catch {}
+
+# Global list of tracked launched services
+$TrackedProcesses = [System.Collections.Generic.List[PSCustomObject]]::new()
 
 # Helper function to start background process safely with tracking
 function Start-TrackedService {
@@ -116,7 +135,7 @@ function Start-TrackedService {
         $portOpen = $false
         try {
             $tcp = New-Object System.Net.Sockets.TcpClient
-            $tcp.Connect("localhost", $PortCheck)
+            $tcp.Connect("127.0.0.1", $PortCheck)
             $portOpen = $tcp.Connected
             $tcp.Close()
         } catch {}
@@ -133,10 +152,34 @@ function Start-TrackedService {
         -WorkingDirectory $WorkingDirectory `
         -RedirectStandardOutput $LogFile `
         -RedirectStandardError $errLog `
+        -WindowStyle Hidden `
         -PassThru
 
     Set-Content -Path $PidFile -Value $proc.Id -Force
     Write-Host "  $Name launched (PID: $($proc.Id), log: $LogFile)" -ForegroundColor Green
+
+    # Immediate early-exit check
+    Start-Sleep -Milliseconds 600
+    if ($proc.HasExited) {
+        Write-Host "  ERROR: $Name exited immediately with exit code $($proc.ExitCode)!" -ForegroundColor Red
+        Write-Host "    Stdout: $LogFile" -ForegroundColor Yellow
+        Write-Host "    Stderr: $errLog" -ForegroundColor Yellow
+        if (Test-Path $errLog) {
+            $errTail = Get-Content $errLog -Tail 15 -ErrorAction SilentlyContinue
+            if ($errTail) {
+                Write-Host "    Stderr detail:" -ForegroundColor DarkRed
+                $errTail | ForEach-Object { Write-Host "      $_" -ForegroundColor DarkRed }
+            }
+        }
+        exit 1
+    }
+
+    $TrackedProcesses.Add([PSCustomObject]@{
+        Name = $Name
+        Process = $proc
+        LogFile = $LogFile
+        ErrLog = $errLog
+    })
 }
 
 # 4. Start Application Services
@@ -202,23 +245,41 @@ Start-TrackedService -Name "Teacher Web Portal" `
     -PidFile $TeacherPid `
     -PortCheck 5173
 
-# 5. Wait for readiness
+# 5. Wait for readiness with early-exit detection
 Write-Host "`n[5/6] Waiting for application services readiness..." -ForegroundColor Yellow
 $timeoutSeconds = 45
 $startTime = Get-Date
 $allReady = $false
 
 while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
+    # Check if any child process died during startup
+    foreach ($svc in $TrackedProcesses) {
+        if ($svc.Process.HasExited) {
+            Write-Host "`nERROR: $($svc.Name) (PID: $($svc.Process.Id)) terminated unexpectedly during startup (Exit code: $($svc.Process.ExitCode))!" -ForegroundColor Red
+            Write-Host "  Stdout: $($svc.LogFile)" -ForegroundColor Yellow
+            Write-Host "  Stderr: $($svc.ErrLog)" -ForegroundColor Yellow
+            if (Test-Path $svc.ErrLog) {
+                $errTail = Get-Content $svc.ErrLog -Tail 15 -ErrorAction SilentlyContinue
+                if ($errTail) {
+                    Write-Host "  Recent stderr output:" -ForegroundColor DarkRed
+                    $errTail | ForEach-Object { Write-Host "    $_" -ForegroundColor DarkRed }
+                }
+            }
+            Write-Host "Recommended fix: Inspect logs in runtime/logs/ or run the service manually to see errors." -ForegroundColor Yellow
+            exit 1
+        }
+    }
+
     Start-Sleep -Seconds 2
     $springUp = $false
     $fastapiUp = $false
     $teacherUp = $false
     try {
-        $resp = Invoke-RestMethod -Uri "http://localhost:8080/actuator/health" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8080/actuator/health" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.status -eq "UP") { $springUp = $true }
     } catch {}
     try {
-        $resp = Invoke-RestMethod -Uri "http://localhost:8000/ready" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8000/ready" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.status -eq "ready") { $fastapiUp = $true }
     } catch {}
     try {
@@ -243,18 +304,15 @@ $DiagScript = Join-Path $RepoRoot "tools\diagnostics\check_runtime.py"
 $diagCode = $LASTEXITCODE
 
 Write-Host "`n============================================" -ForegroundColor Cyan
-Write-Host " MathVision Kids -- Service URLs" -ForegroundColor Cyan
+Write-Host " MathVision Kids -- READY_FOR_DEMO" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host "Teacher Web Portal:  http://localhost:5173"
-Write-Host "Spring Business API: http://localhost:8080"
-Write-Host "Spring Swagger UI:   http://localhost:8080/swagger-ui.html"
-Write-Host "FastAPI AI Runtime:  http://localhost:8000"
-Write-Host "MinIO Web Console:   http://localhost:9001 (minioadmin / minioadmin123)"
-Write-Host ""
-Write-Host "Student Mobile App:"
-Write-Host "  To launch the Expo development server, run from repository root:"
-Write-Host "    npm start"
-Write-Host "  (or 'npx expo start --android')"
+Write-Host "Student Web:         http://localhost:8081/login (run 'npm start' to launch Expo)"
+Write-Host "Spring Business API: http://127.0.0.1:8080"
+Write-Host "FastAPI AI Runtime:  http://127.0.0.1:8000"
+Write-Host "MinIO Web Console:   http://127.0.0.1:9001 (minioadmin / minioadmin123)"
+Write-Host "Logs:                runtime\logs\"
+Write-Host "Stop:                scripts\stop-all.bat"
 Write-Host "============================================" -ForegroundColor Cyan
 
 exit $diagCode

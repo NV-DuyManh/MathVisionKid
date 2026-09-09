@@ -1,26 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS } from '../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
+import { AuthContext } from '../context/AuthContext';
 
 export default function SplashScreen() {
   const router = useRouter();
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
-    // S00 — SPLASH logic
+    // S00 - SPLASH logic
     const timer = setTimeout(() => {
-      router.replace('/login');
+      if (auth?.isAuthenticated) {
+        router.replace('/(tabs)' as any);
+      } else {
+        router.replace('/login');
+      }
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, auth?.isAuthenticated]);
 
   return (
     <View style={styles.container}>
       <Ionicons name="scan-circle" size={80} color={COLORS.primary} style={styles.icon} />
       <Text style={styles.title}>MathVision Kids</Text>
-      <Text style={styles.tagline}>Chụp bài · Hiểu lỗi · Tự sửa</Text>
+      <Text style={styles.tagline}>Chụp bài • Hiểu lỗi • Tự sửa</Text>
     </View>
   );
 }

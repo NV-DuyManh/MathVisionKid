@@ -15,23 +15,40 @@ if (Test-Path $PidDir) {
         $procName = $_.BaseName
         $procId = (Get-Content $pidFile -ErrorAction SilentlyContinue).Trim()
         if ($procId -and ($procId -match '^\d+$')) {
-            Write-Host "Stopping $procName (PID: $procId)..."
-            & taskkill /PID $procId /T /F 2>$null | Out-Null
+            $proc = Get-Process -Id $procId -ErrorAction SilentlyContinue
+            if ($proc) {
+                Write-Host "Stopping $procName (PID: $procId)..."
+                & taskkill /PID $procId /T /F 2>$null | Out-Null
+            } else {
+                Write-Host "Cleaning up stale PID for $procName (PID: $procId)..."
+            }
         }
         Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
     }
 }
 
-# 2. Check MathVision specific ports and terminate lingering processes
+# 2. Check MathVision specific ports and terminate lingering processes only if verified MathVision
 $PortsToCheck = @(8080, 8000, 5173)
 foreach ($port in $PortsToCheck) {
     try {
         $conns = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
         foreach ($conn in $conns) {
-            $p = Get-Process -Id $conn.OwningProcess -ErrorAction SilentlyContinue
-            if ($p -and ($p.ProcessName -match "java|python|node|cmd")) {
-                Write-Host "Releasing port $port (Process: $($p.ProcessName), PID: $($p.Id))..."
-                & taskkill /PID $p.Id /T /F 2>$null | Out-Null
+            $procId = $conn.OwningProcess
+            if ($procId -and $procId -gt 0) {
+                $p = Get-Process -Id $procId -ErrorAction SilentlyContinue
+                if ($p) {
+                    # Verify MathVision ownership before termination
+                    $cimProc = Get-CimInstance Win32_Process -Filter "ProcessId = $procId" -ErrorAction SilentlyContinue
+                    $cmdLine = if ($cimProc) { $cimProc.CommandLine } else { "" }
+                    $isMathVision = ($cmdLine -match "MathVision|mathvisionkids|mathvision|services[\\/]business-api|services[\\/]ai-service|teacher-web|gradlew\.bat bootRun")
+                    
+                    if ($isMathVision) {
+                        Write-Host "Releasing port $port (Process: $($p.ProcessName), PID: $($p.Id))..."
+                        & taskkill /PID $p.Id /T /F 2>$null | Out-Null
+                    } else {
+                        Write-Host "Port $port is in use by non-MathVision process (Process: $($p.ProcessName), PID: $($p.Id)). Skipping termination." -ForegroundColor DarkYellow
+                    }
+                }
             }
         }
     } catch {}

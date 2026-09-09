@@ -88,7 +88,7 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").exists())
+                .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists());
     }
 
@@ -117,7 +117,7 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshReq)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").exists())
+                .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andReturn();
 
@@ -175,7 +175,7 @@ public class AuthControllerTest {
 
         String loginResponse = loginResult.getResponse().getContentAsString();
         Map<String, String> authData = objectMapper.readValue(loginResponse, new TypeReference<Map<String, String>>() {});
-        String jwtToken = authData.get("token");
+        String jwtToken = authData.get("accessToken");
         String refreshToken = authData.get("refreshToken");
 
         // 2. Logout

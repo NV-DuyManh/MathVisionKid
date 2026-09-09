@@ -113,7 +113,7 @@ def check_minio():
         return
 
     try:
-        req = urllib.request.Request("http://localhost:9000/minio/health/live", method="GET")
+        req = urllib.request.Request("http://127.0.0.1:9000/minio/health/live", method="GET")
         with urllib.request.urlopen(req, timeout=2.0) as resp:
             if resp.status == 200:
                 record_result("MinIO", "PASS")
@@ -155,7 +155,7 @@ def check_redis():
 
 def check_spring():
     try:
-        req = urllib.request.Request("http://localhost:8080/actuator/health", method="GET")
+        req = urllib.request.Request("http://127.0.0.1:8080/actuator/health", method="GET")
         with urllib.request.urlopen(req, timeout=3.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             if data.get("status") == "UP":
@@ -169,7 +169,7 @@ def check_spring():
     except urllib.error.URLError as e:
         record_result(
             "Spring Boot", "FAIL",
-            detail=f"Spring Boot not reachable at http://localhost:8080: {e}",
+            detail=f"Spring Boot not reachable at http://127.0.0.1:8080: {e}",
             fix="Start Spring Boot: scripts/start-all.bat or cd services/business-api && .\\gradlew.bat bootRun"
         )
     except Exception as e:
@@ -182,7 +182,7 @@ def check_spring():
 
 def check_fastapi():
     try:
-        req_health = urllib.request.Request("http://localhost:8000/health", method="GET")
+        req_health = urllib.request.Request("http://127.0.0.1:8000/health", method="GET")
         with urllib.request.urlopen(req_health, timeout=2.0) as resp:
             if resp.status != 200:
                 record_result(
@@ -192,7 +192,7 @@ def check_fastapi():
                 )
                 return
 
-        req_ready = urllib.request.Request("http://localhost:8000/ready", method="GET")
+        req_ready = urllib.request.Request("http://127.0.0.1:8000/ready", method="GET")
         with urllib.request.urlopen(req_ready, timeout=2.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             FASTAPI_INFO.update(data)
@@ -207,7 +207,7 @@ def check_fastapi():
     except urllib.error.URLError as e:
         record_result(
             "FastAPI", "FAIL",
-            detail=f"FastAPI not reachable at http://localhost:8000: {e}",
+            detail=f"FastAPI not reachable at http://127.0.0.1:8000: {e}",
             fix="Start FastAPI: scripts/start-all.bat or cd services/ai-service && .\\.venv\\Scripts\\uvicorn app.main:app --port 8000"
         )
     except Exception as e:

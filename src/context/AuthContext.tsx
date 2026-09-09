@@ -53,12 +53,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (credentials: any) => {
     const data = await authApi.login(credentials);
-    await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
-    apiClient.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
+    const token = data.accessToken;
+    await tokenStorage.saveTokens(token, data.refreshToken);
+    apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     const userData = await authApi.getMe();
     setUser(userData);
     setIsAuthenticated(true);
-    router.replace('/');
+    router.replace('/(tabs)' as any);
   };
 
   const logout = async () => {

@@ -76,7 +76,7 @@ apiClient.interceptors.response.use(
         axios
           .post(`${apiClient.defaults.baseURL}/auth/refresh`, { refreshToken })
           .then(({ data }) => {
-            const newAccessToken = data.accessToken || data.token;
+            const newAccessToken = data.accessToken;
             const newRefreshToken = data.refreshToken;
             AuthTokenStore.setTokens(newAccessToken, newRefreshToken);
             if (originalRequest.headers) {

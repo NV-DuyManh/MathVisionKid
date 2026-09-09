@@ -6,12 +6,11 @@ import type { Assignment, Batch, Class, DashboardStats, MathType, Submission } f
 class SpringTeacherServiceImpl implements TeacherService {
   async login(email: string, password?: string): Promise<{ token: string }> {
     const res = await apiClient.post('/auth/login', { email, password });
-    const { token, accessToken, refreshToken } = res.data;
-    const finalToken = accessToken || token;
-    if (finalToken && refreshToken) {
-      AuthTokenStore.setTokens(finalToken, refreshToken);
+    const { accessToken, refreshToken } = res.data;
+    if (accessToken && refreshToken) {
+      AuthTokenStore.setTokens(accessToken, refreshToken);
     }
-    return { token: finalToken };
+    return { token: accessToken };
   }
 
   async getDashboard(): Promise<DashboardStats> {
