@@ -29,8 +29,23 @@ class SpringTeacherServiceImpl implements TeacherService {
     return res.data;
   }
 
+  async getAssignments(): Promise<Assignment[]> {
+    const res = await apiClient.get('/teacher/assignments');
+    return res.data;
+  }
+
   async createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment> {
-    const res = await apiClient.post('/teacher/assignments', { classId, title, mathType, status: 'ACTIVE' });
+    const res = await apiClient.post('/teacher/assignments', {
+      classId,
+      title,
+      operationType: mathType,
+      maxScore: 10,
+    });
+    return res.data;
+  }
+
+  async getBatches(): Promise<Batch[]> {
+    const res = await apiClient.get('/teacher/batches');
     return res.data;
   }
 
@@ -45,7 +60,7 @@ class SpringTeacherServiceImpl implements TeacherService {
       formData.append('images', file);
     });
     if (mappings) {
-      formData.append('association_metadata', JSON.stringify(mappings));
+      formData.append('manifest', JSON.stringify(mappings));
     }
     await apiClient.post(`/teacher/batches/${batchId}/submissions`, formData, {
       headers: {
@@ -74,8 +89,11 @@ class SpringTeacherServiceImpl implements TeacherService {
     return res.data;
   }
 
-  async overrideSubmission(submissionId: string, newScore: number): Promise<Submission> {
-    const res = await apiClient.post(`/teacher/submissions/${submissionId}/override`, { score: newScore, reason: "Teacher override" });
+  async overrideSubmission(submissionId: string, newScore: number, reason: string): Promise<Submission> {
+    const res = await apiClient.post(`/teacher/submissions/${submissionId}/override`, {
+      score: newScore,
+      reason,
+    });
     return res.data;
   }
 

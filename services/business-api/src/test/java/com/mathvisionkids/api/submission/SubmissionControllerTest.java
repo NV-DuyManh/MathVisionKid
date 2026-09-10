@@ -156,6 +156,19 @@ public class SubmissionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "teachera@test.com", roles = "TEACHER")
+    public void testOverrideSubmissionDecimalScore() throws Exception {
+        Map<String, Object> overrideData = new HashMap<>();
+        overrideData.put("score", 8.5);
+        overrideData.put("reason", "Partial credit for column addition steps");
+
+        mockMvc.perform(post("/api/v1/teacher/submissions/" + submissionA.getSubmissionId() + "/override")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(overrideData)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     @WithMockUser(username = "studentb@test.com", roles = "STUDENT")
     public void testStudentAccessingOtherStudentSubmission() throws Exception {
         mockMvc.perform(get("/api/v1/student/submissions/" + submissionA.getSubmissionId())

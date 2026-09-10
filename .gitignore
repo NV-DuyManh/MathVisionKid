@@ -71,6 +71,7 @@ scratch/
 *.bin
 *.pth.tar
 model_handoff.zip
+*.zip
 ai-training/incoming/
 !ai-training/incoming/.gitkeep
 services/ai-service/models/*.pt

@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           throw new Error('Unauthorized role');
         }
         setUser(data);
-      } catch (err) {
+      } catch {
         AuthTokenStore.clearTokens();
         setUser(null);
         if (location.pathname !== '/login') {

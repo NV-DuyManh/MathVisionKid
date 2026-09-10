@@ -19,11 +19,16 @@ const MOCK_SUBMISSIONS: Record<string, Submission[]> = {
   'b1': [
     { id: 's1', batchId: 'b1', studentName: 'Học sinh A', imageUrl: 'https://placehold.co/400x600?text=Student+Image', status: SubmissionStatus.REVIEW_REQUIRED, recognitionConfidence: 96, diagnosisConfidence: 65, suggestedScore: 8, decision: 'INVALID', evidence: { position: 'Hàng chục', rule: 'Có nhớ khi cộng' }, recognizedText: '458\n+276\n----\n724' },
     { id: 's2', batchId: 'b1', studentName: 'Học sinh B', imageUrl: 'https://placehold.co/400x600?text=Ambiguous', status: SubmissionStatus.REVIEW_REQUIRED, recognitionConfidence: 45, diagnosisConfidence: 0, suggestedScore: 0, decision: 'UNCERTAIN', evidence: { position: 'Hàng trăm', rule: 'Không nhận diện được số' } },
-    { id: 's3', batchId: 'b1', studentName: 'Học sinh C', imageUrl: 'https://placehold.co/400x600?text=Blurry', status: SubmissionStatus.QUALITY_ISSUE, recognitionConfidence: 10, diagnosisConfidence: 0, suggestedScore: 0, decision: 'INVALID', evidence: { position: 'Toàn bộ', rule: 'Ảnh quá mờ' } },
+    { id: 's3', batchId: 'b1', studentName: 'Học sinh C', imageUrl: 'https://placehold.co/400x600?text=Blurry', status: SubmissionStatus.NEEDS_RETAKE, recognitionConfidence: 10, diagnosisConfidence: 0, suggestedScore: 0, decision: 'INVALID', evidence: { position: 'Toàn bộ', rule: 'Ảnh quá mờ' } },
     { id: 's4', batchId: 'b1', studentName: 'Học sinh D', imageUrl: 'https://placehold.co/400x600?text=Student+Image', status: SubmissionStatus.REVIEW_REQUIRED, recognitionConfidence: 98, diagnosisConfidence: 85, suggestedScore: 9, decision: 'VALID', evidence: { position: 'Hàng đơn vị', rule: 'Kiểm tra lại nét chữ' }, recognizedText: '123\n+456\n----\n579' },
   ],
   'b2': []
 };
+
+const MOCK_ASSIGNMENTS: Assignment[] = [
+  { id: 'a1', assignmentId: 'a1', classId: 'c1', title: 'Phép cộng có nhớ trong phạm vi 1000', mathType: MathType.VERTICAL_ADDITION, createdAt: new Date().toISOString(), status: 'ACTIVE' },
+  { id: 'a2', assignmentId: 'a2', classId: 'c2', title: 'Phép trừ có mượn chữ số hàng chục', mathType: MathType.VERTICAL_SUBTRACTION, createdAt: new Date().toISOString(), status: 'ACTIVE' },
+];
 
 class MockTeacherServiceImpl implements TeacherService {
   async login(_email: string, _password?: string): Promise<{ token: string }> {
@@ -46,15 +51,29 @@ class MockTeacherServiceImpl implements TeacherService {
     return MOCK_CLASSES;
   }
 
+  async getAssignments(): Promise<Assignment[]> {
+    await delay(300);
+    return MOCK_ASSIGNMENTS;
+  }
+
   async createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment> {
     await delay(500);
-    return {
+    const newAssignment: Assignment = {
       id: `a_${Date.now()}`,
+      assignmentId: `a_${Date.now()}`,
       classId,
       title,
       mathType,
       createdAt: new Date().toISOString(),
+      status: 'ACTIVE',
     };
+    MOCK_ASSIGNMENTS.unshift(newAssignment);
+    return newAssignment;
+  }
+
+  async getBatches(): Promise<Batch[]> {
+    await delay(300);
+    return MOCK_BATCHES;
   }
 
   async createBatch(assignmentId: string, imagesCount: number): Promise<Batch> {
@@ -112,7 +131,7 @@ class MockTeacherServiceImpl implements TeacherService {
   async getReviewQueue(batchId: string): Promise<Submission[]> {
     await delay(600);
     const subs = MOCK_SUBMISSIONS[batchId] || [];
-    return subs.filter(s => s.status === SubmissionStatus.REVIEW_REQUIRED || s.status === SubmissionStatus.QUALITY_ISSUE);
+    return subs.filter(s => s.status === SubmissionStatus.REVIEW_REQUIRED || s.status === SubmissionStatus.NEEDS_RETAKE || s.status === SubmissionStatus.NEEDS_CONFIRMATION);
   }
 
   async getSubmissionDetail(submissionId: string): Promise<Submission> {
@@ -126,12 +145,12 @@ class MockTeacherServiceImpl implements TeacherService {
 
   async approveSubmission(submissionId: string): Promise<Submission> {
     await delay(500);
-    return this.updateSubmissionStatus(submissionId, SubmissionStatus.AI_CONFIDENT);
+    return this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_APPROVED);
   }
 
-  async overrideSubmission(submissionId: string, newScore: number): Promise<Submission> {
+  async overrideSubmission(submissionId: string, newScore: number, _reason: string): Promise<Submission> {
     await delay(500);
-    const sub = await this.updateSubmissionStatus(submissionId, SubmissionStatus.OVERRIDDEN);
+    const sub = await this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_OVERRIDDEN);
     sub.teacherScore = newScore;
     return sub;
   }

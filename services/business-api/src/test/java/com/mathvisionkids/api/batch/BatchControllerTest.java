@@ -169,7 +169,38 @@ public class BatchControllerTest {
 
     @Test
     @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
-    public void testUpload9FilesRejected() throws Exception {
+    public void testUpload0FilesRejected() throws Exception {
+        List<BatchImageMapping> mappings = new ArrayList<>();
+        var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
+        builder.param("manifest", objectMapper.writeValueAsString(mappings));
+
+        mockMvc.perform(builder)
+               .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
+    public void testUpload1ValidFile() throws Exception {
+        List<BatchImageMapping> mappings = new ArrayList<>();
+        var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
+        
+        MockMultipartFile file = new MockMultipartFile("images", "file0.jpg", "image/jpeg", "content".getBytes());
+        builder.file(file);
+        
+        BatchImageMapping mapping = new BatchImageMapping();
+        mapping.setFileIndex(0);
+        mapping.setStudentId(studentInClass.getId());
+        mappings.add(mapping);
+
+        builder.param("manifest", objectMapper.writeValueAsString(mappings));
+
+        mockMvc.perform(builder)
+               .andExpect(status().isAccepted());
+    }
+
+    @Test
+    @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
+    public void testUpload9ValidFiles() throws Exception {
         List<BatchImageMapping> mappings = new ArrayList<>();
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
@@ -186,7 +217,7 @@ public class BatchControllerTest {
         builder.param("manifest", objectMapper.writeValueAsString(mappings));
 
         mockMvc.perform(builder)
-               .andExpect(status().isBadRequest());
+               .andExpect(status().isAccepted());
     }
 
     @Test

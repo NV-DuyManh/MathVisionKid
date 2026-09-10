@@ -4,12 +4,14 @@ export interface TeacherService {
   login(email: string, password?: string): Promise<{ token: string }>;
   getDashboard(): Promise<DashboardStats>;
   getClasses(): Promise<Class[]>;
+  getAssignments(): Promise<Assignment[]>;
   createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment>;
+  getBatches(): Promise<Batch[]>;
   createBatch(assignmentId: string, imagesCount: number): Promise<Batch>;
   uploadImages(batchId: string, files: File[], mappings?: { fileIndex: number, studentId: string }[]): Promise<void>;
   getBatchStatus(batchId: string): Promise<Batch>;
   getReviewQueue(batchId: string): Promise<Submission[]>;
   getSubmissionDetail(submissionId: string): Promise<Submission>;
   approveSubmission(submissionId: string): Promise<Submission>;
-  overrideSubmission(submissionId: string, newScore: number): Promise<Submission>;
+  overrideSubmission(submissionId: string, newScore: number, reason: string): Promise<Submission>;
 }

@@ -1,0 +1,12 @@
+# Exact versions from the verified test environment
+# OS: Windows 11 (AMD64) [Windows-11-10.0.26200-SP0]
+# Python: 3.13.9
+# Hardware: NVIDIA GeForce RTX 4050 Laptop GPU (CUDA 12.4) + Intel CPU (CPU inference verified)
+#
+# NOTE: Do not blindly upgrade an existing MathVision AI environment.
+# Integration must check version compatibility with the existing services/ai-service environment before installing dependencies.
+
+torch==2.6.0+cu124
+torchvision==0.21.0+cu124
+Pillow==12.2.0
+numpy==2.4.4

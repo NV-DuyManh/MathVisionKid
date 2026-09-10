@@ -80,8 +80,8 @@ public class BatchService {
             throw new ApiException("FORBIDDEN", "Not authorized for this batch", HttpStatus.FORBIDDEN);
         }
 
-        if (images.size() < 10 || images.size() > 30) {
-            throw new ApiException("VALIDATION_ERROR", "Image count must be between 10 and 30", HttpStatus.BAD_REQUEST);
+        if (images.size() < 1 || images.size() > 30) {
+            throw new ApiException("VALIDATION_ERROR", "Image count must be between 1 and 30", HttpStatus.BAD_REQUEST);
         }
         
         if (mappings.size() != images.size()) {

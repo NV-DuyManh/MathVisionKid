@@ -1,0 +1,55 @@
+{
+  "manifest_description": "Authoritative provenance and metadata for packaged OCR smoke test samples.",
+  "sample_role": "PACKAGE_SMOKE_TEST_SAMPLES",
+  "provenance_note": "These 5 samples originate from the 500-sample validation set (runs/audit/subset_full/val_manifest.json) created for the ocr_handwriting_full training run. They are completely excluded from the 59,462 training samples. The original_rel_path values contain 'images/train/' because the upstream HuggingFace Viet-Handwriting-OCR-v2 archive stored its raw extracted parquet files in that directory structure prior to the project's train/validation partitioning.",
+  "authoritative_split": "VALIDATION (5-sample subset of frozen 500-sample validation set)",
+  "smoke_test_mean_cer": 0.0699,
+  "metric_classification": "Mean CER on the 5 packaged smoke-test samples (NOT official validation CER and NOT production accuracy)",
+  "samples": [
+    {
+      "image": "sample_01.jpg",
+      "text": "- quạt thép: có thể tạo ra những phi tiêu có tấm độc.",
+      "original_rel_path": "images/train/train_0010933.jpg",
+      "dataset_split": "VALIDATION",
+      "upstream_id": "train_0010933",
+      "upstream_source": "train-00001-of-00007.parquet",
+      "upstream_raw_path": "image-26127_part-3_task-30672_region-d3ac3f9e-e.jpg"
+    },
+    {
+      "image": "sample_03.jpg",
+      "text": "trên và phân tích tác dụng của các từ lấy",
+      "original_rel_path": "images/train/train_0054912.jpg",
+      "dataset_split": "VALIDATION",
+      "upstream_id": "train_0054912",
+      "upstream_source": "train-00006-of-00007.parquet",
+      "upstream_raw_path": "image-rotated_14455_part-11_task-56009_region-0a600625-0.jpg"
+    },
+    {
+      "image": "sample_04.jpg",
+      "text": "nghĩa tư bản pt và ảnh hưởng đến các",
+      "original_rel_path": "images/train/train_0030168.jpg",
+      "dataset_split": "VALIDATION",
+      "upstream_id": "train_0030168",
+      "upstream_source": "train-00003-of-00007.parquet",
+      "upstream_raw_path": "image-58705_part-15_task-65879_region-db965930-1.jpg"
+    },
+    {
+      "image": "sample_08.jpg",
+      "text": "BT3: Cho a và b là hai số tự nhiên. Hãy viết",
+      "original_rel_path": "images/train/train_0000288.jpg",
+      "dataset_split": "VALIDATION",
+      "upstream_id": "train_0000288",
+      "upstream_source": "train-00000-of-00007.parquet",
+      "upstream_raw_path": "image-100472_part-14_task-63704_region-1fa9641c-a.jpg"
+    },
+    {
+      "image": "sample_09.jpg",
+      "text": "Rào rào nghe chuyển cơn mưa giữa trời",
+      "original_rel_path": "images/train/train_0000582.jpg",
+      "dataset_split": "VALIDATION",
+      "upstream_id": "train_0000582",
+      "upstream_source": "train-00000-of-00007.parquet",
+      "upstream_raw_path": "image-100952_part-2_task-26428_region-924e5e76-8.jpg"
+    }
+  ]
+}

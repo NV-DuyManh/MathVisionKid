@@ -33,9 +33,12 @@ public class TeacherBatchController {
 
     @PostMapping("/{batchId}/submissions")
     public ResponseEntity<Void> uploadImages(@PathVariable UUID batchId, 
-                                             @RequestParam("images") List<MultipartFile> images, 
+                                             @RequestParam(value = "images", required = false) List<MultipartFile> images, 
                                              @RequestParam("manifest") String manifestJson,
                                              Principal principal) {
+        if (images == null || images.isEmpty()) {
+            throw new com.mathvisionkids.api.common.ApiException("VALIDATION_ERROR", "Image count must be between 1 and 30", HttpStatus.BAD_REQUEST);
+        }
         try {
             List<BatchImageMapping> mappings = objectMapper.readValue(manifestJson, new TypeReference<List<BatchImageMapping>>(){});
             batchService.uploadImages(principal.getName(), batchId, images, mappings);

@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     minio_secure: bool = False
     minio_bucket: str = "mathvision"
 
+    # OCR configuration
+    ocr_provider: str = "crnn_vi_handwriting_v1"
+    ocr_model_dir: Optional[str] = None
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 settings = Settings()

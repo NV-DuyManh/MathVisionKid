@@ -249,7 +249,7 @@ public class SubmissionService {
         decision.setSubmission(submission);
         decision.setTeacher(teacherRepository.findByEmail(email).orElseThrow());
         decision.setType("APPROVED");
-        decision.setFinalScore(submission.getAssignment().getMaxScore()); // Dummy value
+        decision.setFinalScore(submission.getAssignment().getMaxScore() != null ? submission.getAssignment().getMaxScore() : 10);
         teacherDecisionRepository.save(decision);
         
         AuditEvent auditEvent = new AuditEvent();
@@ -279,8 +279,21 @@ public class SubmissionService {
         decision.setSubmission(submission);
         decision.setTeacher(teacherRepository.findByEmail(email).orElseThrow());
         decision.setType("OVERRIDDEN");
-        decision.setFinalScore((Integer) overrideData.getOrDefault("finalScore", 0));
-        decision.setReason((String) overrideData.get("reason"));
+        Number scoreNum = null;
+        if (overrideData.containsKey("score")) {
+            Object s = overrideData.get("score");
+            if (s instanceof Number) {
+                scoreNum = (Number) s;
+            }
+        }
+        if (scoreNum == null && overrideData.containsKey("finalScore")) {
+            Object fs = overrideData.get("finalScore");
+            if (fs instanceof Number) {
+                scoreNum = (Number) fs;
+            }
+        }
+        decision.setFinalScore(scoreNum != null ? (int) Math.round(scoreNum.doubleValue()) : 0);
+        decision.setReason(reason);
         teacherDecisionRepository.save(decision);
         
         AuditEvent auditEvent = new AuditEvent();

@@ -20,14 +20,17 @@ public class Submission {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID submissionId;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignment_id")
     private Assignment assignment;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id")
     private Batch batch;
@@ -37,4 +40,19 @@ public class Submission {
 
     @Column(updatable = false)
     private Instant createdAt = Instant.now();
+
+    @com.fasterxml.jackson.annotation.JsonProperty("studentId")
+    public UUID getStudentId() {
+        return student != null ? student.getId() : null;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("assignmentId")
+    public UUID getAssignmentId() {
+        return assignment != null ? assignment.getAssignmentId() : null;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("batchId")
+    public UUID getBatchId() {
+        return batch != null ? batch.getBatchId() : null;
+    }
 }
