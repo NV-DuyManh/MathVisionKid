@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES } from '../../constants/theme';
+import { SIZES } from '../../constants/theme';
 
 interface QualityBadgeProps {
   label: string;
@@ -10,13 +10,17 @@ interface QualityBadgeProps {
 
 export const QualityBadge: React.FC<QualityBadgeProps> = ({ label, isGood }) => {
   return (
-    <View style={[styles.container, isGood ? styles.goodContainer : styles.badContainer]}>
-      <Ionicons 
-        name={isGood ? 'checkmark-circle' : 'alert-circle'} 
-        size={16} 
-        color={isGood ? COLORS.success : COLORS.warning} 
+    <View
+      style={[styles.container, isGood ? styles.goodContainer : styles.badContainer]}
+      accessible
+      accessibilityLabel={`${label}: ${isGood ? 'Đạt' : 'Cần chú ý'}`}
+    >
+      <Ionicons
+        name={isGood ? 'checkmark-circle' : 'alert-circle'}
+        size={16}
+        color={isGood ? '#15803D' : '#B45309'}
       />
-      <Text style={[styles.text, { color: isGood ? COLORS.success : COLORS.warning }]}>
+      <Text style={[styles.text, { color: isGood ? '#15803D' : '#B45309' }]}>
         {label}
       </Text>
     </View>
@@ -28,23 +32,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: SIZES.small,
-    paddingVertical: 4,
-    borderRadius: 16,
+    paddingVertical: 6,
+    borderRadius: SIZES.pillRadius,
     borderWidth: 1,
-    marginRight: SIZES.small,
-    marginBottom: SIZES.small,
+    marginRight: SIZES.xs,
+    marginBottom: SIZES.xs,
   },
   goodContainer: {
     backgroundColor: '#DCFCE7',
-    borderColor: '#bbf7d0',
+    borderColor: '#86EFAC',
   },
   badContainer: {
     backgroundColor: '#FEF3C7',
-    borderColor: '#fde68a',
+    borderColor: '#FDE68A',
   },
   text: {
-    fontSize: 12,
-    fontWeight: '600',
-    marginLeft: 4,
-  }
+    fontSize: 13,
+    fontWeight: '700',
+    marginLeft: 6,
+  },
 });

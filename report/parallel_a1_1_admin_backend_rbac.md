@@ -138,7 +138,7 @@ Updated `contracts/openapi/mathvision-api.yaml`:
 ## 13. Dev Admin Seed
 In `SeedDataInitializer.java` (`@Profile("dev")`):
 - Account: `admin.demo@mathvision.local`
-- Password: `MathVision123!`
+- Password: `[REDACTED]`
 - Role: `ADMIN`
 - Display Name: `Demo Administrator`
 - Seeded idempotently via `userRepository.findByEmail`. Does not run in production-like profiles.
@@ -154,7 +154,7 @@ All existing Student Mobile and Teacher Web endpoints and behavior remain untouc
 ---
 
 ## 15. Admin Login Test
-- **Test:** `POST /api/v1/auth/login` with `admin.demo@mathvision.local` / `MathVision123!`.
+- **Test:** `POST /api/v1/auth/login` with `admin.demo@mathvision.local` / `[REDACTED]`.
 - **Result:** PASS. Returns valid `accessToken` and `refreshToken`.
 - **`/me` Verification:** Returns `{ "role": "ADMIN", "email": "admin.demo@mathvision.local", "displayName": "Demo Administrator" }`.
 

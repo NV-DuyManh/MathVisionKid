@@ -88,9 +88,9 @@ The Admin Web application implements strict client-side role validation on top o
 ### 4.2. Multi-Role Browser Test Results
 | Test Role | Test Credentials | Result | Verification Details |
 | :--- | :--- | :--- | :--- |
-| **Student** | `student.demo@mathvision.local` / `MathVision123!` | **REJECTED (PASS)** | Login denied; error alert displayed; access blocked |
-| **Teacher** | `lan.teacher@mathvision.local` / `MathVision123!` | **REJECTED (PASS)** | Login denied; error alert displayed; access blocked |
-| **Admin** | `admin.demo@mathvision.local` / `MathVision123!` | **ACCEPTED (PASS)** | Tokens stored; redirected to `/dashboard` |
+| **Student** | `student.demo@mathvision.local` / `[REDACTED]` | **REJECTED (PASS)** | Login denied; error alert displayed; access blocked |
+| **Teacher** | `lan.teacher@mathvision.local` / `[REDACTED]` | **REJECTED (PASS)** | Login denied; error alert displayed; access blocked |
+| **Admin** | `admin.demo@mathvision.local` / `[REDACTED]` | **ACCEPTED (PASS)** | Tokens stored; redirected to `/dashboard` |
 
 ### 4.3. Non-Grading Invariant
 The Admin Web frontend contains **no UI routes, buttons, forms, or API clients** for:

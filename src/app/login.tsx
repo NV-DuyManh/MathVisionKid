@@ -1,69 +1,164 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
-import { COLORS, SIZES } from '../constants/theme';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppButton } from '../components/ui/AppButton';
 import { AuthContext } from '../context/AuthContext';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const auth = useContext(AuthContext);
 
-  const handleDemoLogin = async () => {
+  const handleLogin = async () => {
     if (!auth) return;
+    if (!email.trim() || !password) {
+      setErrorMessage('Vui lòng nhập đầy đủ tài khoản và mật khẩu.');
+      return;
+    }
+
+    setErrorMessage('');
+    setLoading(true);
     try {
-      await auth.login({ email, password });
+      await auth.login({ email: email.trim(), password });
     } catch (e: any) {
-      console.log('Login error', e.response?.data || e.message);
-      // MathVision uses friendly Vietnamese copy
-      const message = e.response?.data?.message || "Lỗi kết nối máy chủ. Vui lòng thử lại.";
-      Alert.alert("Không thể đăng nhập", message);
+      const message =
+        e.response?.data?.message || 'Lỗi kết nối máy chủ. Vui lòng kiểm tra và thử lại.';
+      setErrorMessage(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.container} 
+    <KeyboardAvoidingView
+      style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Đăng nhập</Text>
-          <Text style={styles.subtitle}>Cùng làm bài tập với MathVision nhé!</Text>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.brandSection}>
+          <View style={[styles.logoBadge, SHADOWS.medium]}>
+            <Ionicons name="calculator" size={40} color={COLORS.primary} />
+          </View>
+          <Text style={styles.appName}>MathVision Kids</Text>
+          <Text style={styles.appTagline}>Trợ lý toán học cho học sinh tiểu học</Text>
         </View>
 
-        <View style={styles.form}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Email / Tài khoản</Text>
-            <TextInput
-              style={styles.input}
-              value={email}
-              onChangeText={setEmail}
-              placeholder="Nhập email của em"
-              autoCapitalize="none"
-              keyboardType="email-address"
+        <View style={[styles.card, SHADOWS.small]}>
+          <Text style={styles.title}>Đăng nhập</Text>
+          <Text style={styles.subtitle}>Cùng giải và kiểm tra bài toán hôm nay nhé!</Text>
+
+          {errorMessage ? (
+            <View
+              style={styles.errorBanner}
+              accessible
+              accessibilityRole="alert"
+              accessibilityLiveRegion="assertive"
+            >
+              <Ionicons name="alert-circle" size={20} color={COLORS.error} />
+              <Text style={styles.errorText}>{errorMessage}</Text>
+            </View>
+          ) : null}
+
+          <View style={styles.form}>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Email hoặc Mã học sinh</Text>
+              <View style={styles.inputWrapper}>
+                <Ionicons
+                  name="person-outline"
+                  size={20}
+                  color={COLORS.textSecondary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={email}
+                  onChangeText={(text) => {
+                    setEmail(text);
+                    if (errorMessage) setErrorMessage('');
+                  }}
+                  placeholder="Ví dụ: student1@school.edu.vn"
+                  placeholderTextColor={COLORS.textMuted}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  autoComplete="username"
+                  textContentType="username"
+                  accessibilityLabel="Tài khoản email hoặc mã học sinh"
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Mật khẩu</Text>
+              <View style={styles.inputWrapper}>
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={20}
+                  color={COLORS.textSecondary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={[styles.input, styles.passwordInput]}
+                  value={password}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    if (errorMessage) setErrorMessage('');
+                  }}
+                  placeholder="Nhập mật khẩu của em"
+                  placeholderTextColor={COLORS.textMuted}
+                  secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                  autoComplete="password"
+                  textContentType="password"
+                  accessibilityLabel="Mật khẩu"
+                />
+                <TouchableOpacity
+                  style={styles.eyeButton}
+                  onPress={() => setShowPassword(!showPassword)}
+                  accessibilityRole="button"
+                  accessibilityLabel={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                  <Ionicons
+                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                    size={22}
+                    color={COLORS.textSecondary}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.spacerSmall} />
+
+            <AppButton
+              title="Đăng nhập"
+              onPress={handleLogin}
+              loading={loading}
+              disabled={loading}
+              variant="primary"
             />
           </View>
+        </View>
 
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Mật khẩu</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              placeholder="Nhập mật khẩu"
-              secureTextEntry
-            />
-          </View>
-
-          <Text style={styles.forgotPassword}>Quên mật khẩu?</Text>
-          
-          <View style={styles.spacer} />
-          
-          <AppButton 
-            title="Đăng nhập" 
-            onPress={handleDemoLogin} 
-          />
+        <View style={styles.footerNote}>
+          <Text style={styles.footerText}>
+            Tài khoản được nhà trường hoặc phụ huynh cấp.
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -79,19 +174,70 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: SIZES.large,
     justifyContent: 'center',
+    maxWidth: 480,
+    width: '100%',
+    alignSelf: 'center',
   },
-  header: {
-    marginBottom: SIZES.xxlarge,
+  brandSection: {
+    alignItems: 'center',
+    marginBottom: SIZES.xlarge,
   },
-  title: {
-    fontSize: 32,
+  logoBadge: {
+    width: 80,
+    height: 80,
+    borderRadius: 24,
+    backgroundColor: COLORS.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SIZES.medium,
+    borderWidth: 1.5,
+    borderColor: '#E0E7FF',
+  },
+  appName: {
+    fontSize: 26,
     fontWeight: '800',
     color: COLORS.primaryDark,
-    marginBottom: SIZES.small,
+    letterSpacing: 0.2,
+  },
+  appTagline: {
+    fontSize: 14,
+    color: COLORS.textSecondary,
+    marginTop: 4,
+  },
+  card: {
+    backgroundColor: COLORS.surface,
+    borderRadius: SIZES.cardRadius,
+    padding: SIZES.xlarge,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '800',
+    color: COLORS.textPrimary,
+    marginBottom: 4,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: COLORS.textSecondary,
+    marginBottom: SIZES.large,
+  },
+  errorBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEF2F2',
+    borderColor: '#FECACA',
+    borderWidth: 1,
+    borderRadius: SIZES.inputRadius,
+    padding: SIZES.medium,
+    marginBottom: SIZES.large,
+  },
+  errorText: {
+    marginLeft: SIZES.small,
+    color: COLORS.errorText,
+    fontSize: 14,
+    fontWeight: '600',
+    flex: 1,
   },
   form: {
     width: '100%',
@@ -101,30 +247,48 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
-  input: {
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1.5,
     borderColor: COLORS.border,
-    borderRadius: 12,
-    padding: SIZES.medium,
+    borderRadius: SIZES.inputRadius,
+    paddingHorizontal: SIZES.medium,
+    height: 52,
+  },
+  inputIcon: {
+    marginRight: SIZES.small,
+  },
+  input: {
+    flex: 1,
     fontSize: 16,
     color: COLORS.textPrimary,
+    height: '100%',
   },
-  forgotPassword: {
-    color: COLORS.primary,
-    fontSize: 14,
-    fontWeight: '600',
-    alignSelf: 'flex-end',
-    marginTop: -8,
+  passwordInput: {
+    paddingRight: SIZES.small,
   },
-  spacer: {
-    height: SIZES.xlarge,
+  eyeButton: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   spacerSmall: {
     height: SIZES.medium,
-  }
+  },
+  footerNote: {
+    marginTop: SIZES.xlarge,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+  },
 });

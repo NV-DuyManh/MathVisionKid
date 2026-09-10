@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -11,30 +11,33 @@ export default function ReviewRequiredScreen() {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Kết quả" showBack />
-      
-      <View style={styles.content}>
-        <View style={styles.spacer} />
-        
-        <StatusCard 
-          status="warning" 
-          title="MathVision cần xem kỹ hơn" 
-          subtitle="Chữ viết trong bài này chưa đủ rõ để kết luận chắc chắn."
+      <AppHeader title="Chờ thầy cô xem lại" showBack />
+
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.spacerTop} />
+
+        <StatusCard
+          status="warning"
+          title="MathVision cần thầy cô xem giúp"
+          subtitle="Chữ viết trong bài này có nét hơi mờ hoặc đặc biệt, bài của em đã được chuyển cho thầy cô xem thêm."
         />
 
         <View style={styles.spacer} />
 
-        <AppButton 
-          title="Chụp lại" 
-          onPress={() => router.replace('/camera' as any)} 
-        />
-        <View style={{ height: SIZES.medium }} />
-        <AppButton 
-          title="Để giáo viên xem" 
-          variant="secondary"
-          onPress={() => router.replace('/(tabs)')} 
-        />
-      </View>
+        <View style={styles.actions}>
+          <AppButton
+            title="Chụp lại thật rõ nét"
+            variant="primary"
+            onPress={() => router.replace('/camera' as any)}
+          />
+          <View style={{ height: SIZES.small }} />
+          <AppButton
+            title="Về trang chủ"
+            variant="secondary"
+            onPress={() => router.replace('/(tabs)')}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -45,10 +48,20 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   content: {
-    flex: 1,
-    padding: SIZES.medium,
+    padding: SIZES.large,
+    flexGrow: 1,
+    maxWidth: 500,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  spacerTop: {
+    height: SIZES.large,
   },
   spacer: {
     flex: 1,
-  }
+    minHeight: SIZES.xlarge,
+  },
+  actions: {
+    paddingBottom: SIZES.medium,
+  },
 });

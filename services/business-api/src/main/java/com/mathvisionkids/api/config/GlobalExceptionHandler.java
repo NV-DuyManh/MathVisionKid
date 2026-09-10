@@ -70,9 +70,13 @@ public class GlobalExceptionHandler {
                 .body(buildError("IMAGE_TOO_LARGE", "File size exceeds limit", getRequestId(request), null));
     }
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGeneralException(Exception ex, HttpServletRequest request) {
+        String requestId = getRequestId(request);
+        logger.error("Unhandled exception requestId={}", requestId, ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(buildError("INTERNAL_ERROR", "An unexpected error occurred", getRequestId(request), null));
+                .body(buildError("INTERNAL_ERROR", "An unexpected error occurred", requestId, null));
     }
 }

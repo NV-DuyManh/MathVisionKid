@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppCard } from '../../components/ui/AppCard';
+import { AuthContext } from '../../context/AuthContext';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const auth = useContext(AuthContext);
+  const userName = auth?.user?.name || 'em';
 
   const handlePickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsEditing: false,
-      quality: 1,
-    });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: false,
+        quality: 1,
+      });
 
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const uri = result.assets[0].uri;
-      router.push({ pathname: '/preview', params: { uri } });
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const uri = result.assets[0].uri;
+        router.push({ pathname: '/preview', params: { uri } });
+      }
+    } catch {
+      // User cancelled or permissions issue
     }
   };
 
@@ -28,50 +35,78 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      {/* Header with greeting and avatar */}
       <View style={styles.header}>
-        <TouchableOpacity 
-          onLongPress={() => router.push('/dev-demo')} 
-          delayLongPress={1000}
-        >
-          <Text style={styles.greeting}>Xin chào Minh 👋</Text>
-          <Text style={styles.subtitle}>Hôm nay mình kiểm tra một bài toán nhé!</Text>
-        </TouchableOpacity>
-        <View style={styles.avatar}>
-          <Ionicons name="person" size={24} color={COLORS.primary} />
+        <View style={styles.greetingContainer}>
+          <Text style={styles.greeting}>Xin chào {userName}! 👋</Text>
+          <Text style={styles.subtitle}>Hôm nay mình cùng kiểm tra bài toán nhé!</Text>
         </View>
+        <TouchableOpacity
+          style={styles.avatar}
+          onPress={() => router.push('/(tabs)/profile')}
+          accessibilityRole="button"
+          accessibilityLabel="Trang cá nhân của em"
+        >
+          <Ionicons name="person" size={24} color={COLORS.primary} />
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity activeOpacity={0.9} onPress={navigateToCamera}>
-        <AppCard style={styles.heroCard}>
-          <View style={styles.heroIconContainer}>
-            <Ionicons name="camera" size={48} color={COLORS.surface} />
+      {/* Primary Hero Action: CHỤP BÀI CỦA EM */}
+      <TouchableOpacity
+        activeOpacity={0.92}
+        onPress={navigateToCamera}
+        accessibilityRole="button"
+        accessibilityLabel="Chụp bài của em, AI sẽ kiểm tra từng bước phép tính"
+      >
+        <View style={[styles.heroCard, SHADOWS.medium]}>
+          <View style={styles.heroIconBadge}>
+            <Ionicons name="camera" size={44} color="#FFFFFF" />
           </View>
           <Text style={styles.heroTitle}>CHỤP BÀI CỦA EM</Text>
-          <Text style={styles.heroSubtitle}>AI sẽ kiểm tra từng bước và giúp em tìm chỗ cần sửa</Text>
-        </AppCard>
+          <Text style={styles.heroSubtitle}>
+            Chụp phép tính đặt dọc, MathVision sẽ giúp em kiểm tra từng hàng và gợi ý cách sửa.
+          </Text>
+          <View style={styles.heroCtaPill}>
+            <Text style={styles.heroCtaText}>Mở máy ảnh</Text>
+            <Ionicons name="arrow-forward" size={18} color={COLORS.primaryDark} />
+          </View>
+        </View>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.secondaryAction} onPress={handlePickImage}>
-        <Ionicons name="images" size={24} color={COLORS.primary} />
-        <Text style={styles.secondaryActionText}>Chọn ảnh từ thư viện</Text>
+      {/* Secondary Action: Thư viện ảnh */}
+      <TouchableOpacity
+        style={styles.secondaryAction}
+        onPress={handlePickImage}
+        accessibilityRole="button"
+        accessibilityLabel="Chọn ảnh bài tập từ thư viện máy"
+      >
+        <Ionicons name="images-outline" size={22} color={COLORS.primary} />
+        <Text style={styles.secondaryActionText}>Chọn ảnh có sẵn từ thư viện</Text>
       </TouchableOpacity>
 
+      {/* Guidance Section: Mẹo nhỏ chụp ảnh */}
       <View style={styles.guidanceSection}>
-        <Text style={styles.guidanceTitle}>Mẹo nhỏ chụp ảnh</Text>
+        <Text style={styles.guidanceTitle}>Mẹo nhỏ để kiểm tra chính xác</Text>
         <View style={styles.guidanceRow}>
           <AppCard style={styles.guidanceCard} variant="outlined">
-            <Ionicons name="sunny" size={32} color={COLORS.warning} style={styles.guidanceIcon} />
-            <Text style={styles.guidanceText}>Ảnh đủ sáng</Text>
+            <View style={[styles.tipIconBadge, { backgroundColor: '#FEF3C7' }]}>
+              <Ionicons name="sunny" size={24} color={COLORS.warning} />
+            </View>
+            <Text style={styles.guidanceHead}>Đủ ánh sáng</Text>
+            <Text style={styles.guidanceSub}>Tránh để bóng tay che chữ số</Text>
           </AppCard>
+
           <View style={{ width: SIZES.medium }} />
+
           <AppCard style={styles.guidanceCard} variant="outlined">
-            <Ionicons name="scan" size={32} color={COLORS.success} style={styles.guidanceIcon} />
-            <Text style={styles.guidanceText}>Một bài trong ảnh</Text>
+            <View style={[styles.tipIconBadge, { backgroundColor: '#DCFCE7' }]}>
+              <Ionicons name="scan" size={24} color={COLORS.success} />
+            </View>
+            <Text style={styles.guidanceHead}>Một phép tính</Text>
+            <Text style={styles.guidanceSub}>Đưa trọn vẹn bài vào khung</Text>
           </AppCard>
         </View>
       </View>
-
-
     </ScrollView>
   );
 }
@@ -83,13 +118,21 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: SIZES.medium,
-    paddingTop: 60,
+    paddingTop: 56,
+    paddingBottom: SIZES.xxlarge,
+    maxWidth: 600,
+    width: '100%',
+    alignSelf: 'center',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: SIZES.xlarge,
+  },
+  greetingContainer: {
+    flex: 1,
+    paddingRight: SIZES.small,
   },
   greeting: {
     fontSize: 24,
@@ -100,64 +143,88 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: COLORS.textSecondary,
+    lineHeight: 20,
   },
   avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#EEF2FF',
+    width: SIZES.minTouchTarget,
+    height: SIZES.minTouchTarget,
+    borderRadius: SIZES.minTouchTarget / 2,
+    backgroundColor: COLORS.surfaceSubdued,
+    borderWidth: 1.5,
+    borderColor: '#BFDBFE',
     justifyContent: 'center',
     alignItems: 'center',
   },
   heroCard: {
     backgroundColor: COLORS.primary,
+    borderRadius: SIZES.cardRadius,
     alignItems: 'center',
     paddingVertical: SIZES.xxlarge,
+    paddingHorizontal: SIZES.large,
     marginBottom: SIZES.medium,
-    ...SHADOWS.medium,
   },
-  heroIconContainer: {
+  heroIconBadge: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.22)',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: SIZES.medium,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.35)',
   },
   heroTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '800',
-    color: COLORS.surface,
+    color: '#FFFFFF',
     marginBottom: 8,
-    letterSpacing: 1,
+    letterSpacing: 0.8,
   },
   heroSubtitle: {
     fontSize: 14,
-    color: 'rgba(255,255,255,0.8)',
+    color: 'rgba(255, 255, 255, 0.92)',
     textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: SIZES.large,
+    paddingHorizontal: SIZES.small,
+  },
+  heroCtaPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: SIZES.large,
+    paddingVertical: 10,
+    borderRadius: SIZES.pillRadius,
+  },
+  heroCtaText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: COLORS.primaryDark,
+    marginRight: 6,
   },
   secondaryAction: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: SIZES.medium,
-    backgroundColor: '#EEF2FF',
+    minHeight: SIZES.minTouchTarget,
+    backgroundColor: COLORS.surfaceSubdued,
+    borderWidth: 1.5,
+    borderColor: '#BFDBFE',
     borderRadius: SIZES.cardRadius,
     marginBottom: SIZES.xlarge,
   },
   secondaryActionText: {
-    marginLeft: 8,
-    fontSize: 16,
-    fontWeight: '600',
+    marginLeft: SIZES.small,
+    fontSize: 15,
+    fontWeight: '700',
     color: COLORS.primary,
   },
   guidanceSection: {
-    marginBottom: SIZES.xlarge,
+    marginBottom: SIZES.large,
   },
   guidanceTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
     color: COLORS.textPrimary,
     marginBottom: SIZES.medium,
@@ -168,39 +235,28 @@ const styles = StyleSheet.create({
   guidanceCard: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     paddingVertical: SIZES.large,
-    backgroundColor: COLORS.surface,
+    paddingHorizontal: SIZES.small,
   },
-  guidanceIcon: {
-    marginBottom: 8,
-  },
-  guidanceText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: COLORS.textPrimary,
-  },
-  demoSection: {
-    marginTop: SIZES.xlarge,
-    paddingTop: SIZES.large,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-  },
-  demoTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: COLORS.textSecondary,
+  tipIconBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: SIZES.small,
   },
-  demoPill: {
-    backgroundColor: COLORS.border,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    marginRight: 8,
-  },
-  demoPillText: {
-    fontSize: 12,
+  guidanceHead: {
+    fontSize: 14,
+    fontWeight: '700',
     color: COLORS.textPrimary,
-  }
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  guidanceSub: {
+    fontSize: 12,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    lineHeight: 16,
+  },
 });

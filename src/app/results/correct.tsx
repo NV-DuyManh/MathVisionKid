@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -11,7 +11,7 @@ import { SubmissionResult } from '../../types';
 export default function CorrectScreen() {
   const router = useRouter();
   const { data } = useLocalSearchParams<{ data: string }>();
-  
+
   let result: Partial<SubmissionResult> = {
     studentFeedback: {
       title: 'Làm tốt lắm! 🎉',
@@ -22,7 +22,7 @@ export default function CorrectScreen() {
       operator: '+',
       operands: [{ value: '458' }, { value: '276' }],
       observedResult: [{ value: '734' }],
-    }
+    },
   };
 
   try {
@@ -33,13 +33,16 @@ export default function CorrectScreen() {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Kết quả" showBack />
-      
-      <View style={styles.content}>
-        <StatusCard 
-          status="success" 
-          title={result.studentFeedback?.title || 'Làm tốt lắm! 🎉'} 
-          subtitle={result.studentFeedback?.hint || 'MathVision chưa tìm thấy lỗi trong bài em vừa kiểm tra.'}
+      <AppHeader title="Kết quả bài làm" showBack />
+
+      <ScrollView contentContainerStyle={styles.content}>
+        <StatusCard
+          status="success"
+          title={result.studentFeedback?.title || 'Làm tốt lắm! 🎉'}
+          subtitle={
+            result.studentFeedback?.hint ||
+            'MathVision chưa tìm thấy lỗi trong bài em vừa kiểm tra.'
+          }
         />
 
         <View style={styles.expressionContainer}>
@@ -50,17 +53,20 @@ export default function CorrectScreen() {
 
         <View style={styles.spacer} />
 
-        <AppButton 
-          title="Kiểm tra bài khác" 
-          onPress={() => router.replace('/camera')} 
-        />
-        <View style={{ height: SIZES.medium }} />
-        <AppButton 
-          title="Về trang chủ" 
-          variant="secondary"
-          onPress={() => router.replace('/(tabs)')} 
-        />
-      </View>
+        <View style={styles.actions}>
+          <AppButton
+            title="Kiểm tra bài toán khác"
+            onPress={() => router.replace('/camera')}
+            variant="primary"
+          />
+          <View style={{ height: SIZES.small }} />
+          <AppButton
+            title="Về trang chủ"
+            variant="secondary"
+            onPress={() => router.replace('/(tabs)')}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -71,14 +77,22 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   content: {
-    flex: 1,
-    padding: SIZES.medium,
+    padding: SIZES.large,
+    flexGrow: 1,
+    maxWidth: 500,
+    width: '100%',
+    alignSelf: 'center',
   },
   expressionContainer: {
-    marginTop: SIZES.large,
+    marginTop: SIZES.medium,
+    marginBottom: SIZES.large,
     alignItems: 'center',
   },
   spacer: {
     flex: 1,
-  }
+    minHeight: SIZES.large,
+  },
+  actions: {
+    paddingBottom: SIZES.medium,
+  },
 });

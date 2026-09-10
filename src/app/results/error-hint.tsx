@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -11,7 +11,7 @@ import { SubmissionResult } from '../../types';
 export default function ErrorHintScreen() {
   const router = useRouter();
   const { data } = useLocalSearchParams<{ data: string }>();
-  
+
   let result: Partial<SubmissionResult> = {
     studentFeedback: {
       title: 'Hãy xem lại hàng chục',
@@ -26,7 +26,7 @@ export default function ErrorHintScreen() {
     validation: {
       decision: 'INVALID' as any,
       firstInvalidIndex: 1,
-    }
+    },
   };
 
   try {
@@ -37,35 +37,43 @@ export default function ErrorHintScreen() {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Kết quả" showBack />
-      
-      <View style={styles.content}>
-        <Text style={styles.title}>{result.studentFeedback?.title}</Text>
+      <AppHeader title="Gợi ý bài làm" showBack />
+
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.feedbackTitle}>{result.studentFeedback?.title}</Text>
+        <Text style={styles.feedbackSubtitle}>
+          MathVision đã phát hiện một bước tính cần em xem lại:
+        </Text>
 
         <View style={styles.expressionContainer}>
           {result.recognizedExercise && (
-            <MathExpression 
-              exercise={result.recognizedExercise} 
-              highlightIndex={result.validation?.firstInvalidIndex} 
+            <MathExpression
+              exercise={result.recognizedExercise}
+              highlightIndex={result.validation?.firstInvalidIndex}
             />
           )}
         </View>
 
-        <HintCard hint={result.studentFeedback?.hint || ''} />
+        {result.studentFeedback?.hint ? (
+          <HintCard hint={result.studentFeedback.hint} />
+        ) : null}
 
         <View style={styles.spacer} />
 
-        <AppButton 
-          title="Em sửa lại" 
-          onPress={() => router.replace('/(tabs)')} 
-        />
-        <View style={{ height: SIZES.medium }} />
-        <AppButton 
-          title="Chụp lại bài" 
-          variant="secondary"
-          onPress={() => router.replace('/camera')} 
-        />
-      </View>
+        <View style={styles.actions}>
+          <AppButton
+            title="Em sẽ sửa lại"
+            onPress={() => router.replace('/(tabs)')}
+            variant="primary"
+          />
+          <View style={{ height: SIZES.small }} />
+          <AppButton
+            title="Chụp lại bài đã sửa"
+            variant="secondary"
+            onPress={() => router.replace('/camera')}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -76,21 +84,34 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   content: {
-    flex: 1,
-    padding: SIZES.medium,
+    padding: SIZES.large,
+    flexGrow: 1,
+    maxWidth: 500,
+    width: '100%',
+    alignSelf: 'center',
   },
-  title: {
-    fontSize: 24,
+  feedbackTitle: {
+    fontSize: 22,
     fontWeight: '800',
     color: COLORS.primaryDark,
-    marginBottom: SIZES.large,
+    marginBottom: 4,
     textAlign: 'center',
+  },
+  feedbackSubtitle: {
+    fontSize: 14,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    marginBottom: SIZES.large,
   },
   expressionContainer: {
     alignItems: 'center',
-    marginBottom: SIZES.xlarge,
+    marginBottom: SIZES.large,
   },
   spacer: {
     flex: 1,
-  }
+    minHeight: SIZES.large,
+  },
+  actions: {
+    paddingBottom: SIZES.medium,
+  },
 });

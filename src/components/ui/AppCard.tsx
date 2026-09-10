@@ -4,18 +4,32 @@ import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 
 interface AppCardProps {
   children: React.ReactNode;
-  style?: ViewStyle;
-  variant?: 'elevated' | 'flat' | 'outlined';
+  style?: ViewStyle | ViewStyle[];
+  variant?: 'elevated' | 'flat' | 'outlined' | 'subdued';
+  accessible?: boolean;
+  accessibilityLabel?: string;
 }
 
-export const AppCard: React.FC<AppCardProps> = ({ children, style, variant = 'elevated' }) => {
+export const AppCard: React.FC<AppCardProps> = ({
+  children,
+  style,
+  variant = 'elevated',
+  accessible = false,
+  accessibilityLabel,
+}) => {
   return (
-    <View style={[
-      styles.card,
-      variant === 'elevated' && SHADOWS.small,
-      variant === 'outlined' && styles.outlined,
-      style
-    ]}>
+    <View
+      style={[
+        styles.card,
+        variant === 'elevated' && [styles.elevated, SHADOWS.small],
+        variant === 'flat' && styles.flat,
+        variant === 'outlined' && styles.outlined,
+        variant === 'subdued' && styles.subdued,
+        style,
+      ]}
+      accessible={accessible}
+      accessibilityLabel={accessibilityLabel}
+    >
       {children}
     </View>
   );
@@ -27,8 +41,20 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.cardRadius,
     padding: SIZES.medium,
   },
-  outlined: {
+  elevated: {
     borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  flat: {
+    backgroundColor: COLORS.surface,
+  },
+  outlined: {
+    borderWidth: 1.5,
     borderColor: COLORS.border,
-  }
+  },
+  subdued: {
+    backgroundColor: COLORS.surfaceSubdued,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
 });

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, PanResponder, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import ViewShot from 'react-native-view-shot';
-import { COLORS, SIZES } from '../constants/theme';
+import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -29,32 +29,40 @@ export default function PrivacyGateScreen() {
       startY: 0,
       currentMaskId: null as number | null,
       action: null as 'DRAW' | 'MOVE' | 'RESIZE' | null,
-      initialMask: null as Mask | null
+      initialMask: null as Mask | null,
     };
 
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (evt, gestureState) => {
+      onPanResponderGrant: (evt) => {
         state.startX = evt.nativeEvent.locationX;
         state.startY = evt.nativeEvent.locationY;
-        
-        let touchedMask: Mask | null = null;
+
         setMasks(prev => {
+          let touchedMask: Mask | null = null;
           for (let i = prev.length - 1; i >= 0; i--) {
             const m = prev[i];
-            if (state.startX >= m.x && state.startX <= m.x + m.width && state.startY >= m.y && state.startY <= m.y + m.height) {
+            if (
+              state.startX >= m.x &&
+              state.startX <= m.x + m.width &&
+              state.startY >= m.y &&
+              state.startY <= m.y + m.height
+            ) {
               touchedMask = m;
               break;
             }
           }
-          
+
           if (touchedMask) {
             state.currentMaskId = touchedMask.id;
             setSelectedMaskId(state.currentMaskId);
             state.initialMask = { ...touchedMask };
-            
-            if (state.startX >= touchedMask.x + touchedMask.width - 30 && state.startY >= touchedMask.y + touchedMask.height - 30) {
+
+            if (
+              state.startX >= touchedMask.x + touchedMask.width - 30 &&
+              state.startY >= touchedMask.y + touchedMask.height - 30
+            ) {
               state.action = 'RESIZE';
             } else {
               state.action = 'MOVE';
@@ -64,17 +72,20 @@ export default function PrivacyGateScreen() {
             state.currentMaskId = Date.now();
             setSelectedMaskId(state.currentMaskId);
             state.action = 'DRAW';
-            return [...prev, {
-              id: state.currentMaskId,
-              x: state.startX,
-              y: state.startY,
-              width: 0,
-              height: 0
-            }];
+            return [
+              ...prev,
+              {
+                id: state.currentMaskId,
+                x: state.startX,
+                y: state.startY,
+                width: 0,
+                height: 0,
+              },
+            ];
           }
         });
       },
-      onPanResponderMove: (evt, gestureState) => {
+      onPanResponderMove: (evt) => {
         if (!state.currentMaskId) return;
 
         const currentX = evt.nativeEvent.locationX;
@@ -82,32 +93,34 @@ export default function PrivacyGateScreen() {
         const dx = currentX - state.startX;
         const dy = currentY - state.startY;
 
-        setMasks(prev => prev.map(mask => {
-          if (mask.id === state.currentMaskId) {
-            if (state.action === 'DRAW') {
-              return {
-                ...mask,
-                x: Math.min(state.startX, currentX),
-                y: Math.min(state.startY, currentY),
-                width: Math.abs(currentX - state.startX),
-                height: Math.abs(currentY - state.startY)
-              };
-            } else if (state.action === 'MOVE' && state.initialMask) {
-              return {
-                ...mask,
-                x: state.initialMask.x + dx,
-                y: state.initialMask.y + dy
-              };
-            } else if (state.action === 'RESIZE' && state.initialMask) {
-              return {
-                ...mask,
-                width: Math.max(20, state.initialMask.width + dx),
-                height: Math.max(20, state.initialMask.height + dy)
-              };
+        setMasks(prev =>
+          prev.map(mask => {
+            if (mask.id === state.currentMaskId) {
+              if (state.action === 'DRAW') {
+                return {
+                  ...mask,
+                  x: Math.min(state.startX, currentX),
+                  y: Math.min(state.startY, currentY),
+                  width: Math.abs(currentX - state.startX),
+                  height: Math.abs(currentY - state.startY),
+                };
+              } else if (state.action === 'MOVE' && state.initialMask) {
+                return {
+                  ...mask,
+                  x: state.initialMask.x + dx,
+                  y: state.initialMask.y + dy,
+                };
+              } else if (state.action === 'RESIZE' && state.initialMask) {
+                return {
+                  ...mask,
+                  width: Math.max(24, state.initialMask.width + dx),
+                  height: Math.max(24, state.initialMask.height + dy),
+                };
+              }
             }
-          }
-          return mask;
-        }));
+            return mask;
+          })
+        );
       },
       onPanResponderRelease: () => {
         if (state.action === 'DRAW') {
@@ -123,64 +136,72 @@ export default function PrivacyGateScreen() {
         state.currentMaskId = null;
         state.action = null;
         state.initialMask = null;
-      }
+      },
     });
   }, []);
 
   const undoLastMask = () => {
     setMasks(prev => prev.slice(0, -1));
+    setSelectedMaskId(null);
   };
 
   const handleDone = async () => {
     if (!confirmed) return;
-    
+
     setSelectedMaskId(null);
-    await new Promise(r => setTimeout(r, 100)); // wait for selection border to hide
+    await new Promise(r => setTimeout(r, 100));
 
     try {
       if (viewShotRef.current && viewShotRef.current.capture) {
         const sanitizedUri = await viewShotRef.current.capture();
-        router.push({ 
-          pathname: '/preview' as any, 
-          params: { 
-            uri: sanitizedUri, 
+        router.push({
+          pathname: '/preview' as any,
+          params: {
+            uri: sanitizedUri,
             originalUri: uri,
-            retrySubmissionId
-          } 
+            retrySubmissionId,
+          },
         });
       }
-    } catch (e) {
-      console.error('Failed to capture sanitized image', e);
-      Alert.alert("Lỗi", "Không thể lưu ảnh đã che.");
+    } catch {
+      Alert.alert('Lỗi', 'Không thể lưu ảnh đã che.');
     }
   };
 
   if (!uri) {
-    return <View style={styles.container}><Text>No Image Provided</Text></View>;
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>Chưa có ảnh bài tập</Text>
+        <AppButton title="Quay lại" onPress={() => router.back()} />
+      </View>
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader title="Kiểm tra thông tin riêng tư" />
-      
-      <View style={styles.instructionBox}>
+      <AppHeader title="Bảo vệ thông tin riêng tư" showBack />
+
+      {/* Child-friendly explanation */}
+      <View style={styles.instructionCard}>
+        <View style={styles.instructionHeader}>
+          <Ionicons name="shield-checkmark" size={20} color={COLORS.primary} />
+          <Text style={styles.instructionTitle}>Giữ an toàn cho em</Text>
+        </View>
         <Text style={styles.instructionText}>
-          Trước khi gửi bài, hãy vuốt trên ảnh để che các thông tin cá nhân xuất hiện trong ảnh (Tên học sinh, tên trường, khuôn mặt...).
+          Dùng ngón tay vẽ hộp đen che tên của em, tên trường hoặc khuôn mặt nếu có trong ảnh trước khi gửi bài nhé.
         </Text>
       </View>
 
+      {/* Interactive Mask Canvas */}
       <View style={styles.imageContainer}>
-        <ViewShot 
-          ref={viewShotRef} 
-          options={{ format: "jpg", quality: 0.9 }} 
+        <ViewShot
+          ref={viewShotRef}
+          options={{ format: 'jpg', quality: 0.9 }}
           style={styles.viewShot}
         >
-          <View 
-            style={styles.imageWrapper}
-            {...panResponder.panHandlers}
-          >
+          <View style={styles.imageWrapper} {...panResponder.panHandlers}>
             <Image source={{ uri }} style={styles.image} resizeMode="contain" />
-            
+
             {masks.map(mask => {
               const isSelected = mask.id === selectedMaskId;
               return (
@@ -194,8 +215,8 @@ export default function PrivacyGateScreen() {
                       width: mask.width,
                       height: mask.height,
                       borderWidth: isSelected ? 2 : 0,
-                      borderColor: COLORS.primary,
-                    }
+                      borderColor: COLORS.warning,
+                    },
                   ]}
                 />
               );
@@ -203,52 +224,68 @@ export default function PrivacyGateScreen() {
           </View>
         </ViewShot>
 
-        {selectedMaskId && (
-          <TouchableOpacity 
-            style={styles.deleteButton} 
-            onPress={() => {
-              setMasks(prev => prev.filter(m => m.id !== selectedMaskId));
-              setSelectedMaskId(null);
-            }}
-          >
-            <Ionicons name="trash" size={24} color={COLORS.surface} />
-            <Text style={styles.undoText}>Xóa vùng</Text>
-          </TouchableOpacity>
-        )}
+        {/* Floating Mask Control Buttons with >= 48dp touch targets */}
+        <View style={styles.floatingControls}>
+          {selectedMaskId && (
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => {
+                setMasks(prev => prev.filter(m => m.id !== selectedMaskId));
+                setSelectedMaskId(null);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Xóa vùng che đang chọn"
+            >
+              <Ionicons name="trash-outline" size={20} color="#FFFFFF" />
+              <Text style={styles.floatingButtonText}>Xóa vùng</Text>
+            </TouchableOpacity>
+          )}
 
-        {masks.length > 0 && (
-          <TouchableOpacity style={styles.undoButton} onPress={undoLastMask}>
-            <Ionicons name="arrow-undo" size={24} color={COLORS.surface} />
-            <Text style={styles.undoText}>Hoàn tác</Text>
-          </TouchableOpacity>
-        )}
+          {masks.length > 0 && (
+            <TouchableOpacity
+              style={styles.undoButton}
+              onPress={undoLastMask}
+              accessibilityRole="button"
+              accessibilityLabel="Hoàn tác vùng che vừa vẽ"
+            >
+              <Ionicons name="arrow-undo-outline" size={20} color="#FFFFFF" />
+              <Text style={styles.floatingButtonText}>Hoàn tác</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
-      <View style={styles.footer}>
-        <TouchableOpacity 
-          style={styles.checkboxContainer} 
+      {/* Footer Confirmation & Actions */}
+      <View style={[styles.footer, SHADOWS.medium]}>
+        <TouchableOpacity
+          style={styles.checkboxContainer}
           onPress={() => setConfirmed(!confirmed)}
+          activeOpacity={0.8}
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: confirmed }}
+          accessibilityLabel="Tôi đã kiểm tra và che thông tin riêng tư trong ảnh"
         >
-          <Ionicons 
-            name={confirmed ? "checkbox" : "square-outline"} 
-            size={24} 
-            color={confirmed ? COLORS.primary : COLORS.textSecondary} 
+          <Ionicons
+            name={confirmed ? 'checkbox' : 'square-outline'}
+            size={26}
+            color={confirmed ? COLORS.primary : COLORS.textSecondary}
           />
           <Text style={styles.checkboxText}>
-            Tôi đã kiểm tra và che thông tin cá nhân trong ảnh.
+            Em đã kiểm tra và che hết thông tin riêng tư trong ảnh.
           </Text>
         </TouchableOpacity>
 
-        <AppButton 
-          title="Hoàn tất" 
-          onPress={handleDone} 
+        <AppButton
+          title="Tiếp tục xem lại"
+          onPress={handleDone}
           disabled={!confirmed}
+          variant="primary"
         />
         <View style={{ height: SIZES.small }} />
-        <AppButton 
-          title="Chụp lại" 
+        <AppButton
+          title="Chụp lại ảnh khác"
           variant="secondary"
-          onPress={() => router.back()} 
+          onPress={() => router.back()}
         />
       </View>
     </SafeAreaView>
@@ -260,23 +297,44 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
-  instructionBox: {
-    padding: SIZES.medium,
-    backgroundColor: COLORS.surface,
-    borderBottomWidth: 1,
-    borderColor: COLORS.border,
-  },
-  instructionText: {
-    fontSize: 14,
-    color: COLORS.textPrimary,
-    lineHeight: 20,
-  },
-  imageContainer: {
+  emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000',
-    overflow: 'hidden',
+    padding: SIZES.large,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: COLORS.textSecondary,
+    marginBottom: SIZES.large,
+  },
+  instructionCard: {
+    paddingHorizontal: SIZES.medium,
+    paddingVertical: SIZES.small,
+    backgroundColor: COLORS.surfaceSubdued,
+    borderBottomWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  instructionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
+  instructionTitle: {
+    marginLeft: 6,
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.primaryDark,
+  },
+  instructionText: {
+    fontSize: 13,
+    color: COLORS.textPrimary,
+    lineHeight: 18,
+  },
+  imageContainer: {
+    flex: 1,
+    backgroundColor: '#0F172A',
+    position: 'relative',
   },
   viewShot: {
     width: '100%',
@@ -292,32 +350,40 @@ const styles = StyleSheet.create({
   },
   maskBlock: {
     position: 'absolute',
-    backgroundColor: '#000000', // Solid opaque block for irreversible mask
+    backgroundColor: '#000000',
+    borderRadius: 4,
   },
-  undoButton: {
+  floatingControls: {
     position: 'absolute',
-    bottom: SIZES.large,
-    right: SIZES.large,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    bottom: SIZES.medium,
+    left: SIZES.medium,
+    right: SIZES.medium,
     flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    borderRadius: 24,
+    justifyContent: 'space-between',
+    zIndex: 10,
   },
   deleteButton: {
-    position: 'absolute',
-    bottom: SIZES.large,
-    left: SIZES.large,
-    backgroundColor: 'rgba(255,59,48,0.8)',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
-    borderRadius: 24,
+    backgroundColor: 'rgba(220, 38, 38, 0.9)',
+    minHeight: SIZES.minTouchTarget,
+    paddingHorizontal: SIZES.medium,
+    borderRadius: SIZES.pillRadius,
   },
-  undoText: {
-    color: COLORS.surface,
-    marginLeft: 8,
-    fontWeight: '600',
+  undoButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    minHeight: SIZES.minTouchTarget,
+    paddingHorizontal: SIZES.medium,
+    borderRadius: SIZES.pillRadius,
+    marginLeft: 'auto',
+  },
+  floatingButtonText: {
+    color: '#FFFFFF',
+    marginLeft: 6,
+    fontSize: 14,
+    fontWeight: '700',
   },
   footer: {
     padding: SIZES.large,
@@ -328,13 +394,16 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SIZES.large,
-    paddingRight: SIZES.large,
+    minHeight: SIZES.minTouchTarget,
+    marginBottom: SIZES.medium,
+    paddingRight: SIZES.small,
   },
   checkboxText: {
     marginLeft: SIZES.small,
     fontSize: 14,
+    fontWeight: '600',
     color: COLORS.textPrimary,
     flexShrink: 1,
-  }
+    lineHeight: 20,
+  },
 });

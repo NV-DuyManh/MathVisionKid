@@ -10,9 +10,16 @@ interface HintCardProps {
 
 export const HintCard: React.FC<HintCardProps> = ({ hint }) => {
   return (
-    <AppCard style={styles.container} variant="elevated">
+    <AppCard
+      style={styles.container}
+      variant="outlined"
+      accessible
+      accessibilityLabel={`Gợi ý từ MathVision: ${hint}`}
+    >
       <View style={styles.header}>
-        <Ionicons name="bulb" size={24} color={COLORS.warning} />
+        <View style={styles.iconBadge}>
+          <Ionicons name="bulb" size={20} color={COLORS.warning} />
+        </View>
         <Text style={styles.title}>Gợi ý từ MathVision</Text>
       </View>
       <Text style={styles.hintText}>{hint}</Text>
@@ -23,24 +30,35 @@ export const HintCard: React.FC<HintCardProps> = ({ hint }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFBEB',
-    borderColor: '#FEF3C7',
-    borderWidth: 1,
-    marginBottom: SIZES.medium,
+    borderColor: '#FDE68A',
+    borderWidth: 1.5,
+    borderRadius: SIZES.cardRadius,
+    padding: SIZES.large,
+    marginBottom: SIZES.large,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: SIZES.small,
   },
+  iconBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#FEF3C7',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SIZES.small,
+  },
   title: {
-    marginLeft: SIZES.small,
     fontSize: 16,
     fontWeight: '700',
-    color: COLORS.warning,
+    color: '#92400E',
   },
   hintText: {
     fontSize: 15,
     color: COLORS.textPrimary,
-    lineHeight: 22,
-  }
+    lineHeight: 24,
+    fontWeight: '500',
+  },
 });

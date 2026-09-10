@@ -1,4 +1,5 @@
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -10,24 +11,33 @@ export default function OutOfScopeScreen() {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Kết quả" showBack />
-      
-      <View style={styles.content}>
-        <View style={styles.spacer} />
-        
-        <StatusCard 
-          status="info" 
-          title="Bài này MathVision chưa hỗ trợ" 
-          subtitle="Phiên bản hiện tại đang hỗ trợ phép cộng và phép trừ số tự nhiên đặt tính dọc."
+      <AppHeader title="Chưa hỗ trợ dạng bài" showBack />
+
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.spacerTop} />
+
+        <StatusCard
+          status="info"
+          title="Dạng bài này MathVision đang học thêm"
+          subtitle="Hiện tại MathVision hỗ trợ tốt nhất các phép tính cộng, trừ số tự nhiên đặt tính dọc (lớp 1 - lớp 5)."
         />
 
         <View style={styles.spacer} />
 
-        <AppButton 
-          title="Chụp bài khác" 
-          onPress={() => router.replace('/camera' as any)} 
-        />
-      </View>
+        <View style={styles.actions}>
+          <AppButton
+            title="Chụp phép tính đặt dọc khác"
+            variant="primary"
+            onPress={() => router.replace('/camera' as any)}
+          />
+          <View style={{ height: SIZES.small }} />
+          <AppButton
+            title="Về trang chủ"
+            variant="secondary"
+            onPress={() => router.replace('/(tabs)')}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -38,10 +48,20 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   content: {
-    flex: 1,
-    padding: SIZES.medium,
+    padding: SIZES.large,
+    flexGrow: 1,
+    maxWidth: 500,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  spacerTop: {
+    height: SIZES.large,
   },
   spacer: {
     flex: 1,
-  }
+    minHeight: SIZES.xlarge,
+  },
+  actions: {
+    paddingBottom: SIZES.medium,
+  },
 });

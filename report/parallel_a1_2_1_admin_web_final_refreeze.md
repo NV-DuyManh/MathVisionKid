@@ -52,19 +52,19 @@ The password reset workflow was successfully executed via the Admin API for the 
 
 ## 7. Old Password Rejection
 **Status: PASS**
-Attempting to authenticate with the pre-reset password (`SynthTest123!`) was correctly rejected with `401 Unauthorized`.
+Attempting to authenticate with the pre-reset password (`[REDACTED]`) was correctly rejected with `401 Unauthorized`.
 
 ---
 
 ## 8. Temporary Password Login
 **Status: PASS**
-Authenticating with the system-generated temporary password (`Tse8d4hsnk`) succeeded, returning valid access and refresh tokens.
+Authenticating with the system-generated temporary password (`[REDACTED]`) succeeded, returning valid access and refresh tokens.
 
 ---
 
 ## 9. Old Refresh Token Rejection
 **Status: PASS**
-Attempting to use the pre-reset refresh token (`1803d140-370f-4ce6-a3b5-435528d131f6`) was correctly rejected with `401 Unauthorized`.
+Attempting to use the pre-reset refresh token (`1803d140-****-****-****-[REDACTED]`) was correctly rejected with `401 Unauthorized`.
 
 ---
 

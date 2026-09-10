@@ -14,8 +14,7 @@ export default function CameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
-  
-  // Always default to rear (back) camera
+
   const facing = 'back';
   const [flash, setFlash] = useState<'off' | 'on'>('off');
 
@@ -25,7 +24,7 @@ export default function CameraScreen() {
 
   const handlePickImage = async () => {
     try {
-      let result = await ImagePicker.launchImageLibraryAsync({
+      const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         allowsEditing: false,
         quality: 1,
@@ -35,22 +34,38 @@ export default function CameraScreen() {
         const uri = result.assets[0].uri;
         router.push({ pathname: '/privacy' as any, params: { uri } });
       }
-    } catch (e) {
-      Alert.alert("Lỗi", "MathVision không mở được thư viện ảnh.");
+    } catch {
+      Alert.alert('Lỗi', 'MathVision không mở được thư viện ảnh.');
     }
   };
 
   if (!permission.granted) {
     return (
       <SafeAreaView style={styles.permissionContainer}>
-        <Text style={styles.permissionTitle}>MathVision chưa mở được camera</Text>
-        <Text style={styles.permissionText}>Em hãy cho phép truy cập Camera để chụp bài nhé.</Text>
-        <AppButton title="Cho phép Camera" onPress={requestPermission} />
-        <View style={{ height: SIZES.medium }} />
-        <AppButton title="Chọn ảnh từ thư viện" variant="secondary" onPress={handlePickImage} />
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Text style={styles.backButtonText}>Quay lại</Text>
-        </TouchableOpacity>
+        <View style={styles.permissionIconBadge}>
+          <Ionicons name="camera-outline" size={48} color={COLORS.primary} />
+        </View>
+        <Text style={styles.permissionTitle}>MathVision cần mở máy ảnh</Text>
+        <Text style={styles.permissionText}>
+          Em hãy cho phép ứng dụng truy cập máy ảnh để chụp và kiểm tra bài toán nhé.
+        </Text>
+        <View style={styles.permissionActions}>
+          <AppButton title="Cho phép mở máy ảnh" onPress={requestPermission} />
+          <View style={{ height: SIZES.medium }} />
+          <AppButton
+            title="Chọn ảnh từ thư viện"
+            variant="secondary"
+            onPress={handlePickImage}
+          />
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel="Quay lại trang chủ"
+          >
+            <Text style={styles.backButtonText}>Quay lại</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
   }
@@ -62,59 +77,105 @@ export default function CameraScreen() {
         if (photo) {
           router.push({ pathname: '/privacy' as any, params: { uri: photo.uri } });
         }
-      } catch (e) {
-        Alert.alert("Lỗi", "Không thể chụp ảnh, vui lòng thử lại.");
+      } catch {
+        Alert.alert('Lỗi', 'Không thể chụp ảnh, vui lòng thử lại.');
       }
     }
   };
 
   const toggleFlash = () => {
-    setFlash(f => (f === 'off' ? 'on' : 'off'));
+    setFlash((f) => (f === 'off' ? 'on' : 'off'));
   };
 
   return (
     <View style={styles.container}>
-      <CameraView 
-        style={styles.camera} 
-        facing={facing} 
+      <CameraView
+        style={styles.camera}
+        facing={facing}
         enableTorch={flash === 'on'}
         ref={cameraRef}
       >
         <SafeAreaView style={styles.safeArea}>
           {/* Header Controls */}
           <View style={[styles.header, { marginTop: Math.max(insets.top, SIZES.small) }]}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.iconButton} accessibilityLabel="Quay lại">
-              <Ionicons name="close" size={32} color={COLORS.surface} />
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={styles.iconButton}
+              accessibilityRole="button"
+              accessibilityLabel="Đóng máy ảnh, quay lại"
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Ionicons name="close" size={26} color="#FFFFFF" />
             </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.iconButton} accessibilityLabel="Trợ giúp">
-              <Ionicons name="help-circle-outline" size={32} color={COLORS.surface} />
+
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() =>
+                Alert.alert(
+                  'Hướng dẫn chụp bài',
+                  '1. Đặt trọn vẹn phép tính vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh không bị mờ.'
+                )
+              }
+              accessibilityRole="button"
+              accessibilityLabel="Xem hướng dẫn chụp ảnh"
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Ionicons name="help-circle-outline" size={26} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
 
-          {/* Instructions */}
-          <View style={styles.instructionContainer}>
-            <View style={styles.instructionPill}>
-              <Text style={styles.instructionText}>Chỉ chụp MỘT phép tính trong khung</Text>
-            </View>
-          </View>
-
+          {/* Central Scan Frame */}
           <ScanFrame />
 
           {/* Bottom Controls */}
-          <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, SIZES.medium) }]}>
-            <TouchableOpacity style={styles.footerAction} onPress={handlePickImage} accessibilityLabel="Thư viện ảnh">
-              <Ionicons name="images" size={28} color={COLORS.surface} />
+          <View
+            style={[
+              styles.footer,
+              { paddingBottom: Math.max(insets.bottom + 8, SIZES.large) },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.footerAction}
+              onPress={handlePickImage}
+              accessibilityRole="button"
+              accessibilityLabel="Chọn ảnh từ thư viện"
+            >
+              <View style={styles.footerIconCircle}>
+                <Ionicons name="images-outline" size={24} color="#FFFFFF" />
+              </View>
               <Text style={styles.footerActionText}>Thư viện</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.captureButton} onPress={handleCapture} accessibilityLabel="Chụp ảnh">
+
+            <TouchableOpacity
+              style={styles.captureButton}
+              onPress={handleCapture}
+              accessibilityRole="button"
+              accessibilityLabel="Chụp ảnh bài toán"
+            >
               <View style={styles.captureInner} />
             </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.footerAction} onPress={toggleFlash} accessibilityLabel="Đèn flash">
-              <Ionicons name={flash === 'on' ? "flash" : "flash-off"} size={28} color={COLORS.surface} />
-              <Text style={styles.footerActionText}>Đèn</Text>
+
+            <TouchableOpacity
+              style={styles.footerAction}
+              onPress={toggleFlash}
+              accessibilityRole="button"
+              accessibilityLabel={flash === 'on' ? 'Tắt đèn pin' : 'Bật đèn pin'}
+            >
+              <View
+                style={[
+                  styles.footerIconCircle,
+                  flash === 'on' && styles.footerIconCircleActive,
+                ]}
+              >
+                <Ionicons
+                  name={flash === 'on' ? 'flash' : 'flash-off-outline'}
+                  size={24}
+                  color={flash === 'on' ? COLORS.warning : '#FFFFFF'}
+                />
+              </View>
+              <Text style={styles.footerActionText}>
+                {flash === 'on' ? 'Tắt đèn' : 'Bật đèn'}
+              </Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -126,7 +187,7 @@ export default function CameraScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#000000',
   },
   camera: {
     flex: 1,
@@ -139,27 +200,47 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: SIZES.large,
+    padding: SIZES.xlarge,
     backgroundColor: COLORS.background,
   },
+  permissionIconBadge: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: COLORS.surfaceSubdued,
+    borderWidth: 2,
+    borderColor: '#BFDBFE',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SIZES.large,
+  },
   permissionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '800',
     color: COLORS.primaryDark,
     marginBottom: SIZES.small,
+    textAlign: 'center',
   },
   permissionText: {
-    fontSize: 16,
+    fontSize: 15,
     textAlign: 'center',
     marginBottom: SIZES.xxlarge,
-    color: COLORS.textPrimary,
+    color: COLORS.textSecondary,
+    lineHeight: 22,
+    maxWidth: 320,
+  },
+  permissionActions: {
+    width: '100%',
+    maxWidth: 320,
   },
   backButton: {
-    marginTop: SIZES.xlarge,
+    marginTop: SIZES.medium,
+    alignItems: 'center',
     padding: SIZES.medium,
+    minHeight: SIZES.minTouchTarget,
   },
   backButtonText: {
-    fontSize: 16,
+    fontSize: 15,
     color: COLORS.textSecondary,
     fontWeight: '600',
   },
@@ -170,29 +251,16 @@ const styles = StyleSheet.create({
     zIndex: 20,
   },
   iconButton: {
-    padding: 8,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    borderRadius: 24,
-  },
-  instructionContainer: {
+    width: SIZES.minTouchTarget,
+    height: SIZES.minTouchTarget,
+    backgroundColor: 'rgba(15, 23, 42, 0.5)',
+    borderRadius: SIZES.minTouchTarget / 2,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: SIZES.large,
-    zIndex: 20,
-  },
-  instructionPill: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    paddingHorizontal: SIZES.large,
-    paddingVertical: 12,
-    borderRadius: 24,
-  },
-  instructionText: {
-    color: COLORS.surface,
-    fontSize: 14,
-    fontWeight: '600',
   },
   footer: {
     width: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(15, 23, 42, 0.65)',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -202,25 +270,41 @@ const styles = StyleSheet.create({
   footerAction: {
     alignItems: 'center',
     width: 80,
+    minHeight: SIZES.minTouchTarget,
   },
-  footerActionText: {
-    color: COLORS.surface,
-    fontSize: 12,
-    marginTop: 4,
-    fontWeight: '500',
-  },
-  captureButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+  footerIconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  footerIconCircleActive: {
+    backgroundColor: 'rgba(245, 158, 11, 0.25)',
+    borderWidth: 1.5,
+    borderColor: COLORS.warning,
+  },
+  footerActionText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    marginTop: 6,
+    fontWeight: '600',
+  },
+  captureButton: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    backgroundColor: 'rgba(255, 255, 255, 0.35)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
+  },
   captureInner: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: COLORS.surface,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#FFFFFF',
   },
 });

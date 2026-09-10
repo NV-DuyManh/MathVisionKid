@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { COLORS, SIZES } from '../constants/theme';
+import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { QualityBadge } from '../components/domain/QualityBadge';
@@ -10,26 +10,30 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 export default function PreviewScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ uri: string, originalUri?: string, retrySubmissionId?: string }>();
-  
+  const params = useLocalSearchParams<{
+    uri: string;
+    originalUri?: string;
+    retrySubmissionId?: string;
+  }>();
+
   const [imageUri, setImageUri] = useState<string>(params.uri || '');
   const [isChecking, setIsChecking] = useState(true);
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsChecking(false);
-    }, 1000);
+    }, 800);
     return () => clearTimeout(timer);
   }, []);
 
   const handleContinue = () => {
-    router.replace({ 
-      pathname: '/processing' as any, 
-      params: { 
+    router.replace({
+      pathname: '/processing' as any,
+      params: {
         uri: imageUri,
         originalUri: params.originalUri,
-        retrySubmissionId: params.retrySubmissionId
-      } 
+        retrySubmissionId: params.retrySubmissionId,
+      },
     });
   };
 
@@ -41,60 +45,82 @@ export default function PreviewScreen() {
         { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
       );
       setImageUri(manipResult.uri);
-    } catch (e) {
+    } catch {
       Alert.alert('Lỗi', 'Không thể xoay ảnh. Vui lòng thử lại.');
     }
   };
 
-  const handleCropMock = () => {
-    // Phase 1.5 Limitation: Real interactive crop is complex to implement correctly cross-platform in a simple UI.
-    // So we use a region-adjustment mock UI state to preserve architecture for later.
-    Alert.alert('Chỉnh vùng bài', 'Tính năng cắt ảnh tương tác đang được phát triển.');
+  const handleCrop = () => {
+    router.push({
+      pathname: '/crop' as any,
+      params: {
+        uri: imageUri,
+        retrySubmissionId: params.retrySubmissionId,
+      },
+    });
   };
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Xem lại bài" showBack />
-      
+      <AppHeader title="Xem lại bài đã chụp" showBack />
+
       <View style={styles.content}>
-        <View style={styles.imageContainer}>
+        {/* Preview image box with quality badge overlay */}
+        <View style={[styles.imageContainer, SHADOWS.small]}>
           <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" />
-          
+
           <View style={styles.qualityOverlay}>
             {isChecking ? (
-              <Text style={styles.checkingText}>Đang kiểm tra chất lượng ảnh...</Text>
+              <View style={styles.checkingRow}>
+                <ActivityIndicator size="small" color={COLORS.primary} />
+                <Text style={styles.checkingText}>Đang kiểm tra chất lượng ảnh...</Text>
+              </View>
             ) : (
               <View style={styles.badgeRow}>
                 <QualityBadge label="Ảnh đủ sáng" isGood={true} />
-                <QualityBadge label="Bài nằm trong khung" isGood={true} />
-                <QualityBadge label="Một bài trong ảnh" isGood={true} />
+                <QualityBadge label="Nằm trong khung" isGood={true} />
+                <QualityBadge label="Một bài toán" isGood={true} />
               </View>
             )}
           </View>
         </View>
 
+        {/* Tools row: Xoay & Chỉnh vùng bài */}
         <View style={styles.toolsRow}>
-          <TouchableOpacity style={styles.toolButton} onPress={handleRotate}>
-            <Ionicons name="refresh" size={24} color={COLORS.primary} />
-            <Text style={styles.toolText}>Xoay</Text>
+          <TouchableOpacity
+            style={styles.toolButton}
+            onPress={handleRotate}
+            accessibilityRole="button"
+            accessibilityLabel="Xoay ảnh 90 độ"
+          >
+            <Ionicons name="refresh" size={20} color={COLORS.primary} />
+            <Text style={styles.toolText}>Xoay ảnh</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.toolButton} onPress={handleCropMock}>
-            <Ionicons name="crop" size={24} color={COLORS.primary} />
+
+          <TouchableOpacity
+            style={styles.toolButton}
+            onPress={handleCrop}
+            accessibilityRole="button"
+            accessibilityLabel="Chỉnh lại vùng bài toán"
+          >
+            <Ionicons name="crop-outline" size={20} color={COLORS.primary} />
             <Text style={styles.toolText}>Chỉnh vùng bài</Text>
           </TouchableOpacity>
         </View>
 
+        {/* Action Buttons */}
         <View style={styles.actionSection}>
-          <AppButton 
-            title="KIỂM TRA BÀI" 
-            onPress={handleContinue} 
+          <AppButton
+            title="KIỂM TRA BÀI TOÁN"
+            onPress={handleContinue}
             disabled={isChecking}
+            variant="primary"
           />
-          <View style={{ height: SIZES.medium }} />
-          <AppButton 
-            title="Chụp lại" 
+          <View style={{ height: SIZES.small }} />
+          <AppButton
+            title="Chụp lại ảnh khác"
             variant="secondary"
-            onPress={() => router.back()} 
+            onPress={() => router.back()}
           />
         </View>
       </View>
@@ -110,13 +136,17 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: SIZES.medium,
+    maxWidth: 600,
+    width: '100%',
+    alignSelf: 'center',
   },
   imageContainer: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#0F172A',
     borderRadius: SIZES.cardRadius,
     overflow: 'hidden',
     marginBottom: SIZES.medium,
+    position: 'relative',
   },
   image: {
     flex: 1,
@@ -126,46 +156,54 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     padding: SIZES.medium,
-    backgroundColor: 'rgba(255,255,255,0.95)',
+    backgroundColor: 'rgba(255, 255, 255, 0.96)',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    borderTopWidth: 1,
+    borderColor: COLORS.border,
+  },
+  checkingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 4,
   },
   checkingText: {
-    textAlign: 'center',
+    marginLeft: 8,
     color: COLORS.textSecondary,
-    fontStyle: 'italic',
+    fontSize: 14,
+    fontWeight: '600',
   },
   badgeRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 8,
   },
   toolsRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: SIZES.xlarge,
-    gap: SIZES.large,
+    marginBottom: SIZES.large,
+    gap: SIZES.medium,
   },
   toolButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: COLORS.surface,
-    paddingHorizontal: SIZES.medium,
-    paddingVertical: 10,
+    paddingHorizontal: SIZES.large,
+    minHeight: SIZES.minTouchTarget,
     borderRadius: SIZES.buttonRadius,
-    elevation: 2,
-    shadowColor: COLORS.primaryDark,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    borderWidth: 1.5,
+    borderColor: '#BFDBFE',
+    flex: 1,
   },
   toolText: {
     marginLeft: 8,
-    color: COLORS.textPrimary,
-    fontWeight: '600',
+    color: COLORS.primaryDark,
+    fontSize: 14,
+    fontWeight: '700',
   },
   actionSection: {
-    paddingBottom: SIZES.large,
-  }
+    paddingBottom: SIZES.medium,
+  },
 });
