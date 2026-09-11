@@ -1,0 +1,37 @@
+{
+  "duplicate_detection_method": "SHA-256 byte-hash of natural PNG crop",
+  "total_duplicate_groups": 3,
+  "total_excluded_duplicates": 3,
+  "groups": [
+    {
+      "group_id": "dup_grp_01_label_45",
+      "raw_label": "45",
+      "primary_sample_id": "synthetic_addition_row_00_45_1c104bab",
+      "primary_source_image": "synthetic_addition.jpg",
+      "duplicate_sample_id": "synthetic_addition_carry_row_01_45_1c104bab",
+      "duplicate_source_image": "synthetic_addition_carry.jpg",
+      "crop_sha256": "1c104bab83a8c14170dc433b9a419cf070d2a0c7e947a538a1b0226b5b19c21a",
+      "status": "EXCLUDED_FROM_EXPORT"
+    },
+    {
+      "group_id": "dup_grp_02_label_plus27",
+      "raw_label": "+27",
+      "primary_sample_id": "synthetic_addition_row_01_plus27_92fe5a05",
+      "primary_source_image": "synthetic_addition.jpg",
+      "duplicate_sample_id": "synthetic_addition_carry_row_02_plus27_92fe5a05",
+      "duplicate_source_image": "synthetic_addition_carry.jpg",
+      "crop_sha256": "92fe5a056f9cdbbaebe58c50e37d79c6a81b7f66363f2b567ee4ec477a487b3d",
+      "status": "EXCLUDED_FROM_EXPORT"
+    },
+    {
+      "group_id": "dup_grp_03_label_72",
+      "raw_label": "72",
+      "primary_sample_id": "synthetic_addition_row_03_72_2f241f26",
+      "primary_source_image": "synthetic_addition.jpg",
+      "duplicate_sample_id": "synthetic_addition_carry_row_04_72_2f241f26",
+      "duplicate_source_image": "synthetic_addition_carry.jpg",
+      "crop_sha256": "2f241f269a849ce391ce4f52981ce818c3ee5499252c41d13f9fc3a3bdf013bf",
+      "status": "EXCLUDED_FROM_EXPORT"
+    }
+  ]
+}

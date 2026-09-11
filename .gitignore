@@ -74,6 +74,7 @@ model_handoff.zip
 *.zip
 ai-training/incoming/
 !ai-training/incoming/.gitkeep
+ai-training/datasets/
 services/ai-service/models/*.pt
 services/ai-service/models/*.pth
 audit_handoff_fresh/

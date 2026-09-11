@@ -1,0 +1,67 @@
+# MathVision Kids — Authoritative CRNN Fine-Tuning Configuration
+# Task: OCR.DATA.EXPORT.1 — Portable Arithmetic Line Fine-Tuning
+# Baseline Preprocessing: RGB -> Resize(64,1024) -> ToTensor -> ImageNet normalize, NO padding
+# STATUS: PREPARE ONLY — NO MODEL TRAINING EXECUTED
+
+model:
+  architecture: "CRNN"
+  backbone: "CNN (VGG-style / ResNet feature extractor)"
+  recurrent: "Bidirectional LSTM (2 layers, hidden_size=256)"
+  head: "CTC Loss Linear Projection"
+  initialization: "best_cer.pth"
+  expected_checkpoint_sha256: "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941"
+  vocab_file: "vocab.json"
+  vocab_size: 320
+
+preprocessing:
+  channels: 3  # RGB
+  target_height: 64
+  target_width: 1024
+  interpolation: "BILINEAR"
+  normalization:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  padding: "NONE"              # CRITICAL: Baseline has NO pad-to-width preprocessing
+  pad_to_width: false          # Strictly false in baseline contract
+  direct_resize: true
+
+dataset:
+  manifest_path: "dataset_manifest.jsonl"
+  crops_dir: "crops/"
+  train_split: "splits/train.txt"
+  val_split: "splits/val.txt"
+  test_split: "splits/test.txt"
+
+training_hyperparameters:
+  optimizer: "AdamW"
+  learning_rate: 0.00005        # Conservative transfer rate
+  weight_decay: 0.0001
+  batch_size: 8
+  epochs: 50
+  early_stopping:
+    patience: 10
+    metric: "val_cer"           # Primary model selection metric
+    mode: "min"
+  secondary_metric: "val_exact_match"
+  lr_scheduler:
+    type: "CosineAnnealingLR"
+    T_max: 50
+    eta_min: 0.000001
+
+domain_experiments:
+  experiment_a:
+    name: "Full CRNN Fine-Tuning"
+    description: "Train all layers on arithmetic line dataset with low learning rate."
+  experiment_b:
+    name: "Frozen Backbone Transfer"
+    description: "Freeze CNN feature extractor for first 15 epochs; tune BiLSTM and linear CTC head only."
+  experiment_c:
+    name: "Rehearsal Mixed Fine-Tuning"
+    description: "Mix 80% arithmetic lines + 20% general Vietnamese handwriting lines to prevent catastrophic forgetting."
+
+evaluation_metrics_required:
+  - "Character Error Rate (CER)"
+  - "Exact Match Rate (Sequence Accuracy)"
+  - "Digit Accuracy (0-9)"
+  - "Operator Accuracy (+, -)"
+  - "Sequence Length Stratified Accuracy (1-digit to 6-digit)"

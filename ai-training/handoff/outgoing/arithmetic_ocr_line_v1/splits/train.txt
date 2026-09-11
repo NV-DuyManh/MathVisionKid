@@ -1,0 +1,6 @@
+ai-training/datasets/arithmetic_ocr_line_v1/crops/sample_input_synthetic_row_00_38_c5b62178.png	38
+ai-training/datasets/arithmetic_ocr_line_v1/crops/sample_input_synthetic_row_01_plus47_803b0402.png	+47
+ai-training/datasets/arithmetic_ocr_line_v1/crops/sample_input_synthetic_row_03_85_302aaaf1.png	85
+ai-training/datasets/arithmetic_ocr_line_v1/crops/synthetic_addition_row_00_45_1c104bab.png	45
+ai-training/datasets/arithmetic_ocr_line_v1/crops/synthetic_addition_row_01_plus27_92fe5a05.png	+27
+ai-training/datasets/arithmetic_ocr_line_v1/crops/synthetic_addition_row_03_72_2f241f26.png	72

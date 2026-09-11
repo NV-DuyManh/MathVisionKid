@@ -1,0 +1,57 @@
+{
+  "dataset_name": "arithmetic_ocr_line_v1",
+  "total_valid_samples": 9,
+  "splits": {
+    "train": 6,
+    "val": 3,
+    "test": 0
+  },
+  "classification": "PARTIAL_DATASET",
+  "dataset_size_assessment": "DATASET_TOO_SMALL",
+  "writer_disjoint": "UNKNOWN",
+  "seen_by_yolo_evaluation_contamination": "ALL_SAMPLES_SEEN_BY_YOLO",
+  "digits_distribution": {
+    "0": 0,
+    "1": 1,
+    "2": 3,
+    "3": 2,
+    "4": 3,
+    "5": 3,
+    "6": 0,
+    "7": 3,
+    "8": 3,
+    "9": 0
+  },
+  "operators_distribution": {
+    "+": 2,
+    "-": 1,
+    "=": 0
+  },
+  "operand_lengths_distribution": {
+    "1_digits": 0,
+    "2_digits": 9,
+    "3_digits": 0,
+    "4_digits": 0,
+    "5_digits": 0,
+    "6_digits": 0
+  },
+  "operations_distribution": {
+    "VERTICAL_ADDITION": 6,
+    "VERTICAL_SUBTRACTION": 3
+  },
+  "row_types_distribution": {
+    "OPERAND": 3,
+    "OPERATOR_OPERAND": 3,
+    "RESULT": 3
+  },
+  "carry_context_samples": 6,
+  "borrow_context_samples": 3,
+  "resolution_info": {
+    "source_resolutions": [
+      "1200x896",
+      "640x640"
+    ],
+    "crop_min_dim": 68,
+    "crop_max_dim": 468
+  }
+}

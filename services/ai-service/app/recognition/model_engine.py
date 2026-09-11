@@ -219,4 +219,22 @@ class ModelRecognitionEngine(RecognitionEngine):
 
         # 4. Convert YOLO detections to canonical tokens
         recognition_result = self.adapter.process_detections(raw_boxes, img_w, img_h)
+
+        # 5. Execute Spatial Row Grouping & OCR Bridge (shadow diagnostics)
+        if recognition_result.tokens:
+            try:
+                from app.layout.row_grouper import RowGrouper
+                from app.ocr.bridge import OcrBridge
+
+                grouper = RowGrouper()
+                row_groups = grouper.group(recognition_result.tokens, img_w=img_w, img_h=img_h)
+                bridge = OcrBridge()
+                bridge_result = bridge.recognize_rows(pil_image, row_groups)
+
+                recognition_result.line_recognitions = bridge_result.line_recognitions
+                recognition_result.all_rows_agree = bridge_result.all_rows_agree
+                recognition_result.ocr_provider_used = bridge_result.provider_used
+            except Exception as e:
+                logger.warning(f"Row grouping or OCR bridge execution failed: {e}")
+
         return recognition_result

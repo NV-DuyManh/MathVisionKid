@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     # Set OCR_PROVIDER="crnn_vi_handwriting_v1" for explicit staging/dev testing.
     ocr_provider: str = "noop"
     ocr_model_dir: Optional[str] = None
+    ocr_bridge_mode: str = "off"  # "off" | "shadow"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 

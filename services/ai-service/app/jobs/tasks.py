@@ -54,6 +54,19 @@ def process_submission(self, job_id: str, request_data: dict):
             send_callback(job_id, callback)
             return "MODEL_NOT_AVAILABLE"
 
+        # Log OCR Bridge diagnostics if available
+        if getattr(recognition_result, "line_recognitions", None):
+            recs = recognition_result.line_recognitions
+            logger.info(
+                f"OCR Bridge processed {len(recs)} rows | "
+                f"provider={getattr(recognition_result, 'ocr_provider_used', 'none')} | "
+                f"all_agree={getattr(recognition_result, 'all_rows_agree', None)}"
+            )
+            for r in recs:
+                logger.info(
+                    f"  Row {r.row_index}: YOLO='{r.yolo_text}' | CRNN='{r.crnn_text}' | Agreement={r.agreement}"
+                )
+
         # Canonical confidence bundle — deterministic in fixture mode
         if recognition_result.status == "UNCERTAIN_RECOGNITION":
             conf = ConfidenceBundle(recognition=0.4, structure=0.3, diagnosis=0.0)

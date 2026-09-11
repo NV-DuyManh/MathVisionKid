@@ -1,0 +1,3 @@
+crops/synthetic_subtraction_row_00_52_503481c7.png	52
+crops/synthetic_subtraction_row_01_minus18_b92a5657.png	-18
+crops/synthetic_subtraction_row_03_34_aa54bab9.png	34

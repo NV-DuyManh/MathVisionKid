@@ -1,0 +1,49 @@
+{
+  "source_machine_environment": "Engineering Local Host (Windows)",
+  "external_training_workspace_audited": {
+    "target_path": "D:\\nhom6\\train th\u1eed\\combined_dataset_fixed_v1.0",
+    "exists_on_current_machine": false,
+    "drives_searched": [
+      "C:\\",
+      "D:\\",
+      "E:\\",
+      "F:\\"
+    ],
+    "status": "BLOCKED_SOURCE_DATA"
+  },
+  "local_sources_processed": [
+    {
+      "source_image_id": "sample_input_synthetic",
+      "path": "services/ai-service/tests/fixtures/sample_input_synthetic.jpg",
+      "dimensions": "1200x896",
+      "operation": "VERTICAL_ADDITION",
+      "sha256": "ab7c8df0610a4f637e3c0de6992fc9abf93057788dcf75254a1d5ee43e713a90",
+      "valid_crops_extracted": 3
+    },
+    {
+      "source_image_id": "synthetic_addition",
+      "path": "services/ai-service/tests/fixtures/synthetic_addition.jpg",
+      "dimensions": "640x640",
+      "operation": "VERTICAL_ADDITION",
+      "sha256": "c0f900750c161c3f9c225c7baf09daa877053d11ad2c4ea9dbd4a25db5228cc3",
+      "valid_crops_extracted": 3
+    },
+    {
+      "source_image_id": "synthetic_addition_carry",
+      "path": "services/ai-service/tests/fixtures/synthetic_addition_carry.jpg",
+      "dimensions": "640x640",
+      "operation": "VERTICAL_ADDITION",
+      "sha256": "b45bf8443e267626003aebd70fd38476732e56f44515ba6149accccc563c56f8",
+      "valid_crops_extracted": 0,
+      "note": "3 duplicate rows excluded, 1 carry-only row excluded, 1 separator excluded"
+    },
+    {
+      "source_image_id": "synthetic_subtraction",
+      "path": "services/ai-service/tests/fixtures/synthetic_subtraction.jpg",
+      "dimensions": "640x640",
+      "operation": "VERTICAL_SUBTRACTION",
+      "sha256": "7a50c34d1fa1ed88d7d335593939d32ccfdc3af18adae99ada0dc1028c8adf99",
+      "valid_crops_extracted": 3
+    }
+  ]
+}

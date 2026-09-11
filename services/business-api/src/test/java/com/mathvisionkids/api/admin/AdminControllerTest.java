@@ -7,7 +7,6 @@ import com.mathvisionkids.api.audit.AuditEvent;
 import com.mathvisionkids.api.audit.AuditEventRepository;
 import com.mathvisionkids.api.auth.JwtUtil;
 import com.mathvisionkids.api.auth.RefreshTokenRepository;
-import com.mathvisionkids.api.auth.RefreshTokenService;
 import com.mathvisionkids.api.classroom.Classroom;
 import com.mathvisionkids.api.classroom.ClassroomRepository;
 import com.mathvisionkids.api.user.*;
@@ -59,9 +58,6 @@ public class AdminControllerTest {
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
-
-    @Autowired
-    private RefreshTokenService refreshTokenService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

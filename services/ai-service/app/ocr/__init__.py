@@ -7,6 +7,7 @@ from app.ocr.crnn_provider import CrnnOcrProvider
 from app.ocr.noop_provider import NoopOcrProvider
 from app.ocr.factory import get_ocr_provider, clear_provider_cache
 from app.ocr.model import CRNN
+from app.ocr.bridge import OcrBridge
 
 __all__ = [
     "OcrProvider",
@@ -15,4 +16,5 @@ __all__ = [
     "get_ocr_provider",
     "clear_provider_cache",
     "CRNN",
+    "OcrBridge",
 ]

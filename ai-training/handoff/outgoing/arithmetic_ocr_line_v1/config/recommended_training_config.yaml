@@ -1,0 +1,65 @@
+# MathVision Kids — Recommended CRNN Fine-Tuning Configuration
+# Task: Arithmetic OCR Line Fine-Tuning v1
+# Status: PREPARATION ONLY — NO TRAINING PERFORMED IN DATA ENGINEERING TASK
+
+model:
+  architecture: "CRNN"
+  backbone: "CNN (VGG-style / ResNet feature extractor)"
+  recurrent: "Bidirectional LSTM (2 layers, hidden_size=256)"
+  head: "CTC Loss Linear Projection"
+  initialization: "services/ai-service/models/ocr/crnn_vi_handwriting_v1/best_cer.pth"
+  checkpoint_sha256: "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941"
+  vocab_path: "services/ai-service/models/ocr/crnn_vi_handwriting_v1/vocab.json"
+  vocab_size: 320
+
+preprocessing:
+  channels: 3  # RGB
+  target_height: 64
+  target_width: 1024
+  interpolation: "BILINEAR"
+  normalization:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  pad_to_width: true
+  preserve_aspect_ratio: true
+
+dataset:
+  manifest_path: "ai-training/handoff/outgoing/arithmetic_ocr_line_v1/dataset_manifest.jsonl"
+  crops_dir: "ai-training/datasets/arithmetic_ocr_line_v1/crops/"
+  splits_dir: "ai-training/handoff/outgoing/arithmetic_ocr_line_v1/splits/"
+  train_split: "train.txt"
+  val_split: "val.txt"
+  test_split: "test.txt"
+
+training_hyperparameters:
+  optimizer: "AdamW"
+  learning_rate: 0.00005  # Conservative fine-tuning rate
+  weight_decay: 0.0001
+  batch_size: 8
+  epochs: 50
+  early_stopping:
+    patience: 10
+    metric: "val_exact_match"
+    mode: "max"
+  lr_scheduler:
+    type: "CosineAnnealingLR"
+    T_max: 50
+    eta_min: 0.000001
+
+domain_experiments:
+  experiment_a:
+    name: "Full CRNN Fine-Tuning"
+    description: "Train all layers on arithmetic line dataset."
+  experiment_b:
+    name: "Frozen Backbone Transfer"
+    description: "Freeze CNN feature extractor for first 15 epochs; tune BiLSTM and linear CTC head only."
+  experiment_c:
+    name: "Rehearsal Mixed Fine-Tuning"
+    description: "Mix 80% arithmetic lines + 20% general Vietnamese handwriting lines to prevent catastrophic forgetting."
+
+evaluation_metrics_required:
+  - "Character Error Rate (CER)"
+  - "Exact Match Rate (Sequence Accuracy)"
+  - "Digit Accuracy (0-9)"
+  - "Operator Accuracy (+, -)"
+  - "Sequence Length Stratified Accuracy (1-digit to 6-digit)"

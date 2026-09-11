@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Any
 
 class Token(BaseModel):
     tokenId: str
@@ -16,6 +16,9 @@ class Token(BaseModel):
 class ImageRecognitionResult(BaseModel):
     tokens: List[Token]
     status: str # SUCCESS, OUT_OF_SCOPE, UNCERTAIN_RECOGNITION
+    line_recognitions: Optional[List[Any]] = None
+    all_rows_agree: Optional[bool] = None
+    ocr_provider_used: Optional[str] = None
 
 class ParsedExercise(BaseModel):
     operationType: str

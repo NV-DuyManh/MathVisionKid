@@ -1,0 +1,12 @@
+{
+  "privacy_review_date": "2026-09-11",
+  "auditor": "Antigravity (Pair Programmer) \u2014 OCR.DATA.EXPORT.1",
+  "pii_detected": false,
+  "student_names_detected": false,
+  "school_identifiers_detected": false,
+  "faces_detected": false,
+  "source_classification": "DEIDENTIFIED_PROGRAMMATIC_SYNTHETIC",
+  "raw_worksheet_pages_in_export": false,
+  "portable_crop_safety": "PASS",
+  "notes": "All 9 exported line crops originate exclusively from programmatic synthetic math problem fixtures. Zero child personal data, names, school names, or facial data exist."
+}
