@@ -123,8 +123,14 @@ def test_noop_ocr_provider():
 
 
 def test_factory_caching_and_selection():
-    """Verify factory returns appropriate provider and manages singleton cache."""
+    """Verify factory returns safe default (noop), opt-in (crnn), rejects unknown without fallback, and manages singleton cache."""
     clear_provider_cache()
+
+    # Safe default is noop
+    p_default = get_ocr_provider()
+    assert isinstance(p_default, NoopOcrProvider)
+
+    # Explicit opt-in returns CrnnOcrProvider
     p1 = get_ocr_provider("crnn_vi_handwriting_v1")
     assert isinstance(p1, CrnnOcrProvider)
 
@@ -134,8 +140,9 @@ def test_factory_caching_and_selection():
     p_noop = get_ocr_provider("noop")
     assert isinstance(p_noop, NoopOcrProvider)
 
-    p_unknown = get_ocr_provider("unknown_provider_xyz")
-    assert isinstance(p_unknown, NoopOcrProvider)
+    # NO silent fallback: unknown provider raises ValueError
+    with pytest.raises(ValueError, match="Unsupported OCR provider"):
+        get_ocr_provider("unknown_provider_xyz")
 
     clear_provider_cache()
     p3 = get_ocr_provider("crnn_vi_handwriting_v1")

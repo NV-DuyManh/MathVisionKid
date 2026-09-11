@@ -26,7 +26,9 @@ class Settings(BaseSettings):
     minio_bucket: str = "mathvision"
 
     # OCR configuration
-    ocr_provider: str = "crnn_vi_handwriting_v1"
+    # Default is "noop" (disabled/test provider) to protect established grading runtime.
+    # Set OCR_PROVIDER="crnn_vi_handwriting_v1" for explicit staging/dev testing.
+    ocr_provider: str = "noop"
     ocr_model_dir: Optional[str] = None
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")

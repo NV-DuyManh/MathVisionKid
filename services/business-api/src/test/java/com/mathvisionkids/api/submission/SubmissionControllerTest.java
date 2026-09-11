@@ -183,4 +183,27 @@ public class SubmissionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @WithMockUser(username = "teachera@test.com", roles = "TEACHER")
+    public void testTeacherGetSubmission() throws Exception {
+        mockMvc.perform(get("/api/v1/teacher/submissions/" + submissionA.getSubmissionId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.submissionId").value(submissionA.getSubmissionId().toString()))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.status").value("PROPOSED_GRADE"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.studentId").value(studentA.getId().toString()))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.assignmentId").value(submissionA.getAssignment().getAssignmentId().toString()))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.batchId").value(submissionA.getBatch().getBatchId().toString()))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.student").doesNotExist())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.passwordHash").doesNotExist());
+    }
+
+    @Test
+    @WithMockUser(username = "teacherb@test.com", roles = "TEACHER")
+    public void testTeacherGetSubmissionUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/v1/teacher/submissions/" + submissionA.getSubmissionId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
 }

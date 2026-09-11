@@ -27,7 +27,7 @@ def get_ocr_provider(
     """
     from app.config import settings
 
-    selected = provider_type or getattr(settings, "ocr_provider", "crnn_vi_handwriting_v1")
+    selected = provider_type or getattr(settings, "ocr_provider", "noop")
     selected_dir = model_dir or getattr(settings, "ocr_model_dir", None)
     cache_key = f"{selected}:{selected_dir}"
 
@@ -35,13 +35,15 @@ def get_ocr_provider(
         return _PROVIDER_CACHE[cache_key]
 
     provider: OcrProvider
-    if selected in ("crnn_vi_handwriting_v1", "crnn", "default"):
+    if selected in ("crnn_vi_handwriting_v1", "crnn"):
         provider = CrnnOcrProvider(model_dir=selected_dir)
     elif selected in ("noop", "disabled", "none"):
         provider = NoopOcrProvider()
     else:
-        logger.warning(f"Unknown OCR provider '{selected}', falling back to NoopOcrProvider")
-        provider = NoopOcrProvider()
+        raise ValueError(
+            f"Unsupported OCR provider: '{selected}'. "
+            f"Supported providers: ['noop', 'crnn_vi_handwriting_v1']. No silent fallback allowed."
+        )
 
     if not force_new:
         _PROVIDER_CACHE[cache_key] = provider

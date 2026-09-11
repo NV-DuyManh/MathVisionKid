@@ -9,7 +9,7 @@ from app.ocr.provider import OcrProvider
 
 
 class NoopOcrProvider(OcrProvider):
-    """Fallback OCR provider that performs no operations."""
+    """Explicit disabled/test OCR provider (not an automatic fallback). Used when OCR is disabled or in unit tests."""
 
     def recognize_line(self, image: Union[str, Path, Image.Image]) -> str:
         return ""
