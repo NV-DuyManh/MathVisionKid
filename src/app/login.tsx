@@ -13,8 +13,10 @@ import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppButton } from '../components/ui/AppButton';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -159,6 +161,18 @@ export default function LoginScreen() {
           <Text style={styles.footerText}>
             Tài khoản được nhà trường hoặc phụ huynh cấp.
           </Text>
+          {__DEV__ && (
+            <TouchableOpacity
+              style={{ marginTop: 14, padding: 8, alignItems: 'center' }}
+              onPress={() => router.push('/dev-demo')}
+              accessibilityRole="button"
+              accessibilityLabel="Chẩn đoán kết nối thiết bị"
+            >
+              <Text style={{ fontSize: 13, color: COLORS.primary, fontWeight: '700' }}>
+                🛠️ Chẩn đoán kết nối API (Dev)
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

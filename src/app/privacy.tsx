@@ -1,11 +1,14 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, PanResponder, Alert } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, PanResponder, Alert, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import ViewShot from 'react-native-view-shot';
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
+import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 interface Mask {
   id: number;
@@ -17,11 +20,31 @@ interface Mask {
 
 export default function PrivacyGateScreen() {
   const router = useRouter();
-  const { uri, retrySubmissionId } = useLocalSearchParams<{ uri: string, retrySubmissionId?: string }>();
+  const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
+  const draft = submissionDraftStore.getDraft();
+
+  const rawUri = draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
+  const activeUri = rawUri ? ensureFileUri(rawUri) : '';
+  const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
+
   const [masks, setMasks] = useState<Mask[]>([]);
   const [selectedMaskId, setSelectedMaskId] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoadError, setImageLoadError] = useState(false);
   const viewShotRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (activeUri) {
+      logStageDiagnostic('PRIVACY_INPUT', {
+        uri: activeUri,
+        width: draft?.width,
+        height: draft?.height,
+        mimeType: draft?.mimeType,
+        source: draft?.source,
+      });
+    }
+  }, [activeUri, draft?.width, draft?.height, draft?.mimeType, draft?.source]);
 
   const panResponder = React.useMemo(() => {
     const state = {
@@ -149,26 +172,86 @@ export default function PrivacyGateScreen() {
     if (!confirmed) return;
 
     setSelectedMaskId(null);
-    await new Promise(r => setTimeout(r, 100));
 
     try {
-      if (viewShotRef.current && viewShotRef.current.capture) {
-        const sanitizedUri = await viewShotRef.current.capture();
+      // If no masks were drawn, do NOT rasterize via ViewShot!
+      // Forward the normalized image without an additional privacy rasterization pass.
+      if (masks.length === 0) {
+        submissionDraftStore.updateDraft({ isMasked: false });
+        logStageDiagnostic('PRIVACY_OUTPUT', {
+          uri: activeUri,
+          width: draft?.width,
+          height: draft?.height,
+          mimeType: draft?.mimeType || 'image/jpeg',
+          source: draft?.source,
+          extra: 'zero-mask bypass',
+        });
+        const targetPath = draft?.mode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/preview';
         router.push({
-          pathname: '/preview' as any,
+          pathname: targetPath as any,
           params: {
-            uri: sanitizedUri,
-            originalUri: uri,
+            uri: activeUri,
+            originalUri: draft?.rawUri || activeUri,
+            retrySubmissionId,
+          },
+        });
+        return;
+      }
+
+      await new Promise(r => setTimeout(r, 120));
+
+      if (viewShotRef.current && viewShotRef.current.capture) {
+        const captured = await viewShotRef.current.capture();
+        const finalMaskedUri = ensureFileUri(captured);
+
+        // ViewShot output dimension audit: measure actual captured image file
+        let outputWidth = draft?.width || 0;
+        let outputHeight = draft?.height || 0;
+        try {
+          const manip = await ImageManipulator.manipulateAsync(finalMaskedUri, [], {});
+          if (manip.width > 0 && manip.height > 0) {
+            outputWidth = manip.width;
+            outputHeight = manip.height;
+          }
+        } catch (inspectErr) {
+          console.warn('[PRIVACY] Could not inspect ViewShot dimensions:', inspectErr);
+        }
+
+        // CRITICAL INVARIANT: Stored width/height MUST describe THAT NEW FILE
+        submissionDraftStore.updateDraft({
+          uri: finalMaskedUri,
+          width: outputWidth,
+          height: outputHeight,
+          masks,
+          isMasked: true,
+        });
+
+        logStageDiagnostic('PRIVACY_OUTPUT', {
+          uri: finalMaskedUri,
+          width: outputWidth,
+          height: outputHeight,
+          mimeType: 'image/jpeg',
+          source: draft?.source,
+          extra: `masked count=${masks.length}`,
+        });
+
+        const targetPath = draft?.mode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/preview';
+        router.push({
+          pathname: targetPath as any,
+          params: {
+            uri: finalMaskedUri,
+            originalUri: activeUri,
             retrySubmissionId,
           },
         });
       }
-    } catch {
+    } catch (e) {
+      console.error('[PRIVACY] Rasterization error:', e);
       Alert.alert('Lỗi', 'Không thể lưu ảnh đã che.');
     }
   };
 
-  if (!uri) {
+  if (!activeUri) {
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>Chưa có ảnh bài tập</Text>
@@ -196,11 +279,49 @@ export default function PrivacyGateScreen() {
       <View style={styles.imageContainer}>
         <ViewShot
           ref={viewShotRef}
-          options={{ format: 'jpg', quality: 0.9 }}
+          options={{ format: 'jpg', quality: 0.95 }}
           style={styles.viewShot}
         >
-          <View style={styles.imageWrapper} {...panResponder.panHandlers}>
-            <Image source={{ uri }} style={styles.image} resizeMode="contain" />
+          <View
+            style={styles.imageWrapper}
+            collapsable={false}
+            {...panResponder.panHandlers}
+          >
+            <Image
+              source={{ uri: activeUri }}
+              style={styles.image}
+              resizeMode="contain"
+              onLoadStart={() => {
+                setImageLoaded(false);
+                setImageLoadError(false);
+              }}
+              onLoad={() => {
+                setImageLoaded(true);
+                setImageLoadError(false);
+              }}
+              onError={(e) => {
+                console.error('[PRIVACY] Image render failed:', e.nativeEvent.error);
+                setImageLoadError(true);
+              }}
+            />
+
+            {!imageLoaded && !imageLoadError && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color={COLORS.primary} />
+                <Text style={styles.loadingText}>Đang tải ảnh bài tập...</Text>
+              </View>
+            )}
+
+            {imageLoadError && (
+              <View style={styles.errorOverlay}>
+                <Ionicons name="alert-circle" size={40} color={COLORS.error} />
+                <Text style={styles.errorTitle}>Không thể hiển thị ảnh</Text>
+                <Text style={styles.errorSub}>Vui lòng chụp lại hoặc chọn ảnh khác từ thư viện.</Text>
+                <TouchableOpacity style={styles.retryButton} onPress={() => router.back()}>
+                  <Text style={styles.retryButtonText}>Quay lại chụp ảnh</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
             {masks.map(mask => {
               const isSelected = mask.id === selectedMaskId;
@@ -224,7 +345,7 @@ export default function PrivacyGateScreen() {
           </View>
         </ViewShot>
 
-        {/* Floating Mask Control Buttons with >= 48dp touch targets */}
+        {/* Floating Mask Control Buttons */}
         <View style={styles.floatingControls}>
           {selectedMaskId && (
             <TouchableOpacity
@@ -278,7 +399,7 @@ export default function PrivacyGateScreen() {
         <AppButton
           title="Tiếp tục xem lại"
           onPress={handleDone}
-          disabled={!confirmed}
+          disabled={!confirmed || imageLoadError}
           variant="primary"
         />
         <View style={{ height: SIZES.small }} />
@@ -337,16 +458,63 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   viewShot: {
+    flex: 1,
     width: '100%',
     height: '100%',
   },
   imageWrapper: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+  },
+  image: {
+    flex: 1,
     width: '100%',
     height: '100%',
   },
-  image: {
-    width: '100%',
-    height: '100%',
+  loadingOverlay: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'rgba(15, 23, 42, 0.75)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    color: '#FFFFFF',
+    marginTop: 10,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  errorOverlay: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: SIZES.large,
+  },
+  errorTitle: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '700',
+    marginTop: 12,
+  },
+  errorSub: {
+    color: COLORS.textMuted,
+    fontSize: 13,
+    textAlign: 'center',
+    marginTop: 6,
+    marginBottom: SIZES.large,
+  },
+  retryButton: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: SIZES.large,
+    paddingVertical: 10,
+    borderRadius: SIZES.buttonRadius,
+  },
+  retryButtonText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 14,
   },
   maskBlock: {
     position: 'absolute',

@@ -1,59 +1,98 @@
 import { Platform } from 'react-native';
 import apiClient from './apiClient';
 import { SubmissionService, SubmissionResult } from '../../types';
+import { ensureFileUri, logStageDiagnostic } from '../image/imagePipeline';
+import { submissionDraftStore } from '../draft/submissionDraftStore';
 
 export class SpringSubmissionServiceClass implements SubmissionService {
   async uploadImage(uri: string): Promise<SubmissionResult> {
+    const cleanUri = ensureFileUri(Array.isArray(uri) ? uri[0] : uri);
     const formData = new FormData();
     
-    // Convert URI into a File/Blob equivalent for FormData
-    const filename = uri.split('/').pop() || 'submission.jpg';
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `image/${match[1]}` : 'image/jpeg';
+    // Extract a safe filename and mime type
+    const rawFilename = cleanUri.split('/').pop() || 'submission.jpg';
+    const safeFilename = rawFilename.includes('.') ? rawFilename.split('?')[0] : 'submission.jpg';
+    const match = /\.(\w+)$/.exec(safeFilename);
+    const type = match && match[1].toLowerCase() === 'png' ? 'image/png' : 'image/jpeg';
     
-    // React Native uses any for FormData append with file objects
+    // React Native FormData file object contract
     formData.append('image', {
-      uri: Platform.OS === 'ios' ? uri.replace('file://', '') : uri,
-      name: filename,
+      uri: Platform.OS === 'ios' ? cleanUri.replace('file://', '') : cleanUri,
+      name: safeFilename,
       type,
     } as any);
     
-    // Optionally include source, assuming CAMERA as default for this integration
-    formData.append('source', 'CAMERA');
-    
-    // Set explicit multipart header, though Axios usually handles it
-    const response = await apiClient.post('/student/submissions', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const draft = submissionDraftStore.getDraft();
+    const source = draft?.source || 'CAMERA';
+    formData.append('source', source);
+
+    logStageDiagnostic('MULTIPART_READY', {
+      uri: cleanUri,
+      width: draft?.width,
+      height: draft?.height,
+      mimeType: type,
+      source,
+      extra: `filename=${safeFilename}`,
     });
     
-    return response.data as SubmissionResult;
+    // Do NOT specify explicit 'Content-Type': 'multipart/form-data'!
+    // In React Native / Axios, setting Content-Type manually removes the boundary parameter,
+    // causing OkHttp to fail with AxiosError: Network Error.
+    const response = await apiClient.post('/student/submissions', formData, {
+      headers: {
+        Accept: 'application/json',
+      },
+      transformRequest: [(data) => data],
+    });
+    
+    const data = response.data;
+    const submissionId = data.submissionId || data.id;
+
+    logStageDiagnostic('UPLOAD_RESPONSE', {
+      uri: cleanUri,
+      source,
+      extra: `HTTP ${response.status} id=${submissionId} status=${data.status}`,
+    });
+
+    return {
+      ...data,
+      id: submissionId,
+    } as SubmissionResult;
   }
 
   async getSubmission(id: string, scenarioHint?: string): Promise<SubmissionResult> {
     const response = await apiClient.get(`/student/submissions/${id}`);
-    return response.data as SubmissionResult;
+    const data = response.data;
+    return {
+      ...data,
+      id: data.submissionId || data.id,
+    } as SubmissionResult;
   }
 
   async confirmToken(id: string, token: string): Promise<SubmissionResult> {
     const response = await apiClient.post(`/student/submissions/${id}/confirm-token`, {
-      tokenId: 'manual-confirm', // Specific ID if needed by backend contract, or just value
+      tokenId: 'manual-confirm',
       confirmedValue: token
     });
-    return response.data as SubmissionResult;
+    const data = response.data;
+    return {
+      ...data,
+      id: data?.submissionId || data?.id || id,
+    } as SubmissionResult;
   }
 
   async retrySubmission(id: string, uri: string): Promise<SubmissionResult> {
+    const cleanUri = ensureFileUri(Array.isArray(uri) ? uri[0] : uri);
     const formData = new FormData();
     
-    const filename = uri.split('/').pop() || 'retry.jpg';
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `image/${match[1]}` : 'image/jpeg';
+    const rawFilename = cleanUri.split('/').pop() || 'retry.jpg';
+    const safeFilename = rawFilename.includes('.') ? rawFilename.split('?')[0] : 'retry.jpg';
+    const match = /\.(\w+)$/.exec(safeFilename);
+    const type = match && match[1].toLowerCase() === 'png' ? 'image/png' : 'image/jpeg';
     
     formData.append('image', {
-      uri: Platform.OS === 'ios' ? uri.replace('file://', '') : uri,
-      name: filename,
+      uri: Platform.OS === 'ios' ? cleanUri.replace('file://', '') : cleanUri,
+      name: safeFilename,
       type,
     } as any);
     
@@ -61,10 +100,16 @@ export class SpringSubmissionServiceClass implements SubmissionService {
 
     const response = await apiClient.post(`/student/submissions/${id}/retry`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
       },
+      transformRequest: [(data) => data],
     });
-    return response.data as SubmissionResult;
+
+    const data = response.data;
+    return {
+      ...data,
+      id: data?.submissionId || data?.id || id,
+    } as SubmissionResult;
   }
 }
 

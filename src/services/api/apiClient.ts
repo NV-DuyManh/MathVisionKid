@@ -3,6 +3,7 @@ import { ENV } from '../../config/env';
 import { tokenStorage } from '../auth/tokenStorage';
 
 
+// eslint-disable-next-line import/no-named-as-default-member
 const apiClient = axios.create({
   baseURL: ENV.API_BASE_URL,
   headers: {
@@ -29,6 +30,11 @@ apiClient.interceptors.request.use(
     const token = await tokenStorage.getAccessToken();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    // For FormData requests (e.g. image upload), delete default Content-Type header
+    // so React Native / OkHttp automatically generates multipart/form-data with boundary!
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
     }
     return config;
   },

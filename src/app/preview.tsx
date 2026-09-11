@@ -7,55 +7,81 @@ import { AppButton } from '../components/ui/AppButton';
 import { QualityBadge } from '../components/domain/QualityBadge';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function PreviewScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{
-    uri: string;
+    uri?: string;
     originalUri?: string;
     retrySubmissionId?: string;
   }>();
 
-  const [imageUri, setImageUri] = useState<string>(params.uri || '');
+  const draft = submissionDraftStore.getDraft();
+  const rawUri = draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
+  const initialUri = rawUri ? ensureFileUri(rawUri) : '';
+
+  const [imageUri, setImageUri] = useState<string>(initialUri);
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
+    if (initialUri) {
+      logStageDiagnostic('PREVIEW_INPUT', {
+        uri: initialUri,
+        width: draft?.width,
+        height: draft?.height,
+        mimeType: draft?.mimeType,
+        source: draft?.source,
+      });
+    }
     const timer = setTimeout(() => {
       setIsChecking(false);
     }, 800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [initialUri, draft?.width, draft?.height, draft?.mimeType, draft?.source]);
 
   const handleContinue = () => {
+    const activeUri = ensureFileUri(imageUri);
+    submissionDraftStore.updateDraft({ uri: activeUri });
+
     router.replace({
       pathname: '/processing' as any,
       params: {
-        uri: imageUri,
-        originalUri: params.originalUri,
-        retrySubmissionId: params.retrySubmissionId,
+        uri: activeUri,
+        originalUri: draft?.rawUri || (Array.isArray(params.originalUri) ? params.originalUri[0] : params.originalUri),
+        retrySubmissionId: draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId),
       },
     });
   };
 
   const handleRotate = async () => {
     try {
+      const activeUri = ensureFileUri(imageUri);
       const manipResult = await ImageManipulator.manipulateAsync(
-        imageUri,
+        activeUri,
         [{ rotate: 90 }],
-        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+        { compress: 0.95, format: ImageManipulator.SaveFormat.JPEG }
       );
-      setImageUri(manipResult.uri);
+      const rotatedUri = ensureFileUri(manipResult.uri);
+      setImageUri(rotatedUri);
+      submissionDraftStore.updateDraft({
+        uri: rotatedUri,
+        width: manipResult.width,
+        height: manipResult.height,
+      });
     } catch {
       Alert.alert('Lỗi', 'Không thể xoay ảnh. Vui lòng thử lại.');
     }
   };
 
   const handleCrop = () => {
+    const activeUri = ensureFileUri(imageUri);
     router.push({
       pathname: '/crop' as any,
       params: {
-        uri: imageUri,
-        retrySubmissionId: params.retrySubmissionId,
+        uri: activeUri,
+        retrySubmissionId: draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId),
       },
     });
   };

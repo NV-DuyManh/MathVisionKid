@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional
 from app.config import settings
-from app.api import jobs
+from app.api import jobs, ocr
 from app.observability.logging import setup_logging
 
 setup_logging()
@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="MathVision Kids AI Service")
 
 app.include_router(jobs.router, prefix="/internal/v1/jobs", tags=["Jobs"])
+app.include_router(ocr.router, prefix="/internal/v1/ocr", tags=["OCR Pilot"])
 
 @app.get("/health")
 async def health_check():

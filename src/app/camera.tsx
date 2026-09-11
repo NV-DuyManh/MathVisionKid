@@ -2,18 +2,26 @@ import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../components/ui/AppButton';
 import { ScanFrame } from '../components/domain/ScanFrame';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { normalizeImageDraft, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function CameraScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ mode?: string }>();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
+
+  const currentMode: 'ARITHMETIC' | 'OCR_PILOT' =
+    params.mode === 'OCR_PILOT' || submissionDraftStore.getDraft()?.mode === 'OCR_PILOT'
+      ? 'OCR_PILOT'
+      : 'ARITHMETIC';
 
   const facing = 'back';
   const [flash, setFlash] = useState<'off' | 'on'>('off');
@@ -31,8 +39,18 @@ export default function CameraScreen() {
       });
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
-        const uri = result.assets[0].uri;
-        router.push({ pathname: '/privacy' as any, params: { uri } });
+        const asset = result.assets[0];
+        logStageDiagnostic('ACQUIRE_GALLERY', {
+          uri: asset.uri,
+          width: asset.width,
+          height: asset.height,
+          mimeType: asset.mimeType,
+          source: 'GALLERY',
+        });
+        const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
+        draft.mode = currentMode;
+        submissionDraftStore.setDraft(draft);
+        router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
       }
     } catch {
       Alert.alert('Lỗi', 'MathVision không mở được thư viện ảnh.');
@@ -75,7 +93,17 @@ export default function CameraScreen() {
       try {
         const photo = await cameraRef.current.takePictureAsync({ quality: 1, base64: false });
         if (photo) {
-          router.push({ pathname: '/privacy' as any, params: { uri: photo.uri } });
+          logStageDiagnostic('ACQUIRE_CAMERA', {
+            uri: photo.uri,
+            width: photo.width,
+            height: photo.height,
+            mimeType: 'image/jpeg',
+            source: 'CAMERA',
+          });
+          const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
+          draft.mode = currentMode;
+          submissionDraftStore.setDraft(draft);
+          router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
         }
       } catch {
         Alert.alert('Lỗi', 'Không thể chụp ảnh, vui lòng thử lại.');

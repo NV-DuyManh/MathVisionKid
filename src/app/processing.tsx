@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { getSubmissionService } from '../services/api/SubmissionServiceFactory';
 import { SubmissionStatus } from '../types';
 import { Ionicons } from '@expo/vector-icons';
+import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function ProcessingScreen() {
   const router = useRouter();
-  const { uri, originalUri, retrySubmissionId } = useLocalSearchParams<{
-    uri: string;
+  const params = useLocalSearchParams<{
+    uri?: string;
     originalUri?: string;
     retrySubmissionId?: string;
   }>();
@@ -22,12 +24,32 @@ export default function ProcessingScreen() {
     const runProcess = async () => {
       try {
         setStep(0);
+        const draft = submissionDraftStore.getDraft();
+        const rawParamUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
+        const activeUri = draft?.uri || (rawParamUri ? ensureFileUri(rawParamUri) : '');
+        const activeRetryId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
+        const activeOriginalUri = draft?.rawUri || (Array.isArray(params.originalUri) ? params.originalUri[0] : params.originalUri);
+
+        if (!activeUri) {
+          console.error('[PROCESSING][IMAGE_URI_INVALID] No valid image URI found in draft store or params.');
+          Alert.alert('Lỗi', 'Không tìm thấy ảnh bài tập hợp lệ. Vui lòng chụp lại.', [{ text: 'Đồng ý', onPress: () => router.back() }]);
+          return;
+        }
+
+        logStageDiagnostic('PROCESSING_INPUT', {
+          uri: activeUri,
+          width: draft?.width,
+          height: draft?.height,
+          mimeType: draft?.mimeType,
+          source: draft?.source,
+        });
+
         const submissionService = getSubmissionService();
         let result;
-        if (retrySubmissionId) {
-          result = await submissionService.retrySubmission(retrySubmissionId, uri as string);
+        if (activeRetryId) {
+          result = await submissionService.retrySubmission(activeRetryId, activeUri);
         } else {
-          result = await submissionService.uploadImage(uri as string);
+          result = await submissionService.uploadImage(activeUri);
         }
         if (!active) return;
         submissionId = result.id;
@@ -36,25 +58,45 @@ export default function ProcessingScreen() {
           result.status === SubmissionStatus.NEEDS_RETAKE ||
           result.status === SubmissionStatus.CROP_REQUIRED
         ) {
+          logStageDiagnostic('TERMINAL_STATUS', {
+            uri: activeUri,
+            source: draft?.source,
+            extra: `status=${result.status} issue=${result.imageQualityIssue}`,
+          });
           router.replace({
             pathname: '/results/quality-failure' as any,
             params: {
               issue: result.imageQualityIssue,
-              originalUri,
+              originalUri: activeOriginalUri,
               submissionId,
             },
           });
           return;
         }
         if (result.status === SubmissionStatus.OUT_OF_SCOPE) {
+          logStageDiagnostic('TERMINAL_STATUS', {
+            uri: activeUri,
+            source: draft?.source,
+            extra: `status=${result.status}`,
+          });
           router.replace('/results/out-of-scope');
           return;
         }
         if (result.status === SubmissionStatus.REVIEW_REQUIRED) {
+          logStageDiagnostic('TERMINAL_STATUS', {
+            uri: activeUri,
+            source: draft?.source,
+            extra: `status=${result.status}`,
+          });
           router.replace('/results/review-required');
           return;
         }
         if (result.status === SubmissionStatus.FEEDBACK_READY) {
+          logStageDiagnostic('TERMINAL_STATUS', {
+            uri: activeUri,
+            source: draft?.source,
+            extra: `status=${result.status} id=${submissionId}`,
+          });
           router.replace({ pathname: '/results/correct', params: { data: JSON.stringify(result) } });
           return;
         }
@@ -62,8 +104,8 @@ export default function ProcessingScreen() {
         setStep(1);
 
         let scenarioHint = 'mock-correct';
-        if (uri?.includes('mock-earliest-error')) scenarioHint = 'mock-earliest-error';
-        if (uri?.includes('mock-confirm')) scenarioHint = 'mock-confirm';
+        if (activeUri?.includes('mock-earliest-error')) scenarioHint = 'mock-earliest-error';
+        if (activeUri?.includes('mock-confirm')) scenarioHint = 'mock-confirm';
 
         // Polling loop
         let polled = result;
@@ -78,6 +120,12 @@ export default function ProcessingScreen() {
         }
 
         if (!active) return;
+
+        logStageDiagnostic('TERMINAL_STATUS', {
+          uri: activeUri,
+          source: draft?.source,
+          extra: `status=${polled.status} decision=${polled.validation?.decision} id=${submissionId}`,
+        });
 
         if (polled.status === SubmissionStatus.NEEDS_CONFIRMATION) {
           router.replace({
@@ -98,7 +146,7 @@ export default function ProcessingScreen() {
             pathname: '/results/quality-failure' as any,
             params: {
               issue: polled.imageQualityIssue,
-              originalUri,
+              originalUri: activeOriginalUri,
               submissionId,
             },
           });
@@ -130,9 +178,25 @@ export default function ProcessingScreen() {
             params: { data: JSON.stringify(polled) },
           });
         }
-      } catch (error) {
-        console.error('Processing error', error);
-        if (active) router.back();
+      } catch (error: any) {
+        const httpStatus = error?.response?.status;
+        let stageCode = 'UPLOAD_PRE_HTTP_FAILURE';
+        if (httpStatus && httpStatus >= 400 && httpStatus < 500) {
+          stageCode = `UPLOAD_HTTP_${httpStatus}`;
+        } else if (httpStatus && httpStatus >= 500) {
+          stageCode = `UPLOAD_HTTP_${httpStatus}`;
+        } else if (error?.code === 'ERR_NETWORK') {
+          stageCode = 'UPLOAD_NETWORK_ERROR';
+        }
+        console.error(`[PROCESSING][${stageCode}] Submission error:`, error?.message || error);
+
+        if (active) {
+          Alert.alert(
+            'Chưa thể gửi bài tập',
+            'MathVision chưa thể gửi ảnh bài tập lên máy chủ. Em hãy thử lại hoặc chụp lại ảnh nhé.',
+            [{ text: 'Đồng ý', onPress: () => router.back() }]
+          );
+        }
       }
     };
 
@@ -141,7 +205,7 @@ export default function ProcessingScreen() {
     return () => {
       active = false;
     };
-  }, [uri, router, originalUri, retrySubmissionId]);
+  }, [params.uri, router, params.originalUri, params.retrySubmissionId]);
 
   const stages = [
     { label: 'Đọc bài', desc: 'Nhận diện chữ số' },
@@ -156,7 +220,14 @@ export default function ProcessingScreen() {
         <Text style={styles.subtitle}>Em chờ một lát để trợ lý kiểm tra từng chữ số nhé.</Text>
 
         <View style={[styles.imagePreview, SHADOWS.small]}>
-          <Image source={{ uri: uri as string }} style={styles.image} resizeMode="contain" />
+          {(() => {
+            const draftUri = submissionDraftStore.getDraft()?.uri;
+            const fallbackUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
+            const displayUri = draftUri || (fallbackUri ? ensureFileUri(fallbackUri) : '');
+            return displayUri ? (
+              <Image source={{ uri: displayUri }} style={styles.image} resizeMode="contain" />
+            ) : null;
+          })()}
           <View style={styles.overlay}>
             <ActivityIndicator size="large" color={COLORS.primary} />
           </View>

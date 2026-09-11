@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppCard } from '../../components/ui/AppCard';
 import { AuthContext } from '../../context/AuthContext';
 import * as ImagePicker from 'expo-image-picker';
+import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
+import { normalizeImageDraft, logStageDiagnostic } from '../../services/image/imagePipeline';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -21,8 +23,18 @@ export default function HomeScreen() {
       });
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
-        const uri = result.assets[0].uri;
-        router.push({ pathname: '/preview', params: { uri } });
+        const asset = result.assets[0];
+        logStageDiagnostic('ACQUIRE_GALLERY', {
+          uri: asset.uri,
+          width: asset.width,
+          height: asset.height,
+          mimeType: asset.mimeType,
+          source: 'GALLERY',
+        });
+        const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
+        draft.mode = 'ARITHMETIC';
+        submissionDraftStore.setDraft(draft);
+        router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
       }
     } catch {
       // User cancelled or permissions issue
@@ -31,6 +43,53 @@ export default function HomeScreen() {
 
   const navigateToCamera = () => {
     router.navigate('/camera' as any);
+  };
+
+  const handleStartOcrPilot = () => {
+    Alert.alert(
+      'Thử nhận diện chữ viết tay',
+      'Em muốn chụp ảnh mới hay chọn ảnh có sẵn từ thư viện?',
+      [
+        {
+          text: 'Chụp ảnh mới',
+          onPress: () => {
+            submissionDraftStore.clearDraft();
+            router.push({ pathname: '/camera' as any, params: { mode: 'OCR_PILOT' } });
+          },
+        },
+        {
+          text: 'Chọn từ thư viện',
+          onPress: async () => {
+            try {
+              const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images'],
+                allowsEditing: false,
+                quality: 1,
+              });
+
+              if (!result.canceled && result.assets && result.assets.length > 0) {
+                const asset = result.assets[0];
+                logStageDiagnostic('ACQUIRE_GALLERY', {
+                  uri: asset.uri,
+                  width: asset.width,
+                  height: asset.height,
+                  mimeType: asset.mimeType,
+                  source: 'GALLERY',
+                  extra: 'ocr-pilot mode',
+                });
+                const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
+                draft.mode = 'OCR_PILOT';
+                submissionDraftStore.setDraft(draft);
+                router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
+              }
+            } catch {
+              // cancelled
+            }
+          },
+        },
+        { text: 'Hủy', style: 'cancel' },
+      ]
+    );
   };
 
   return (
@@ -82,6 +141,29 @@ export default function HomeScreen() {
       >
         <Ionicons name="images-outline" size={22} color={COLORS.primary} />
         <Text style={styles.secondaryActionText}>Chọn ảnh có sẵn từ thư viện</Text>
+      </TouchableOpacity>
+
+      {/* OCR Pilot Action: THỬ NHẬN DIỆN CHỮ VIẾT TAY */}
+      <TouchableOpacity
+        style={[styles.ocrPilotAction, SHADOWS.small]}
+        onPress={handleStartOcrPilot}
+        activeOpacity={0.88}
+        accessibilityRole="button"
+        accessibilityLabel="Thử nhận diện chữ viết tay tiếng Việt với mô hình CRNN"
+      >
+        <View style={styles.ocrPilotIconBadge}>
+          <Ionicons name="document-text" size={24} color="#FFFFFF" />
+        </View>
+        <View style={styles.ocrPilotContent}>
+          <View style={styles.ocrPilotHeaderRow}>
+            <Text style={styles.ocrPilotTitle}>THỬ NHẬN DIỆN CHỮ VIẾT TAY</Text>
+            <View style={styles.ocrPilotTag}><Text style={styles.ocrPilotTagText}>PILOT</Text></View>
+          </View>
+          <Text style={styles.ocrPilotSubtitle}>
+            Chụp hoặc chọn 1 dòng chữ tiếng Việt để AI đọc & gửi phản hồi
+          </Text>
+        </View>
+        <Ionicons name="chevron-forward" size={20} color="#047857" />
       </TouchableOpacity>
 
       {/* Guidance Section: Mẹo nhỏ chụp ảnh */}
@@ -219,6 +301,55 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: COLORS.primary,
+  },
+  ocrPilotAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F0FDF4',
+    borderWidth: 1.5,
+    borderColor: '#86EFAC',
+    borderRadius: SIZES.cardRadius,
+    padding: SIZES.medium,
+    marginBottom: SIZES.xlarge,
+  },
+  ocrPilotIconBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#10B981',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SIZES.small,
+  },
+  ocrPilotContent: {
+    flex: 1,
+  },
+  ocrPilotHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
+  ocrPilotTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#065F46',
+    marginRight: 6,
+  },
+  ocrPilotTag: {
+    backgroundColor: '#047857',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+  },
+  ocrPilotTagText: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  ocrPilotSubtitle: {
+    fontSize: 12,
+    color: '#047857',
+    lineHeight: 16,
   },
   guidanceSection: {
     marginBottom: SIZES.large,
