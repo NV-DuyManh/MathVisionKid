@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -79,8 +81,17 @@ public class InternalAiCallbackController {
                 if (request.getStudentFeedback() != null) {
                     result.setStudentFeedback(request.getStudentFeedback());
                 }
-                if (request.getConfidenceBundle() != null) {
-                    result.setReviewReasons(request.getConfidenceBundle());
+                Map<String, Object> reviewReasons = request.getConfidenceBundle() != null
+                        ? new java.util.HashMap<>(request.getConfidenceBundle())
+                        : new java.util.HashMap<>();
+                if (request.getReasonCode() != null) {
+                    reviewReasons.put("reasonCode", request.getReasonCode());
+                }
+                if (request.getDiagnostics() != null) {
+                    reviewReasons.put("diagnostics", request.getDiagnostics());
+                }
+                if (!reviewReasons.isEmpty()) {
+                    result.setReviewReasons(reviewReasons);
                 }
                 if (request.getRecognizedExercise() != null) {
                     result.setRecognizedExercise(

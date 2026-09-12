@@ -15,7 +15,7 @@ class Token(BaseModel):
 
 class ImageRecognitionResult(BaseModel):
     tokens: List[Token]
-    status: str # SUCCESS, OUT_OF_SCOPE, UNCERTAIN_RECOGNITION
+    status: str # SUCCESS, OUT_OF_SCOPE, UNCERTAIN_RECOGNITION, NO_DETECTIONS
     line_recognitions: Optional[List[Any]] = None
     all_rows_agree: Optional[bool] = None
     ocr_provider_used: Optional[str] = None
@@ -25,4 +25,4 @@ class ParsedExercise(BaseModel):
     operands: List[str]
     result: str
     tokens: List[Token]
-    status: str # VALID_STRUCTURE, UNCERTAIN_STRUCTURE, OUT_OF_SCOPE, INVALID_LAYOUT
+    status: str # VALID_STRUCTURE, UNCERTAIN_STRUCTURE, OUT_OF_SCOPE, INVALID_LAYOUT, NO_CONTENT_DETECTED

@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography, Avatar, Box, Menu, MenuItem, ListItemIcon } from '@mui/material';
-import { Logout, Person } from '@mui/icons-material';
+import { Logout, Person, Home } from '@mui/icons-material';
 import { useAuth } from './AuthContext';
 import { useState } from 'react';
 
@@ -106,6 +106,15 @@ export default function Topbar() {
           <MenuItem onClick={handleClose} sx={{ py: 1, mt: 0.5, fontSize: '0.875rem' }}>
             <ListItemIcon><Person fontSize="small" /></ListItemIcon>
             Hồ sơ cá nhân
+          </MenuItem>
+          <MenuItem
+            component="a"
+            href="http://localhost:5172"
+            onClick={handleClose}
+            sx={{ py: 1, fontSize: '0.875rem', color: '#4F46E5' }}
+          >
+            <ListItemIcon><Home fontSize="small" sx={{ color: '#4F46E5' }} /></ListItemIcon>
+            Về MathVision Kids
           </MenuItem>
           <MenuItem onClick={handleLogout} sx={{ py: 1, color: '#DC2626', fontSize: '0.875rem' }}>
             <ListItemIcon><Logout fontSize="small" sx={{ color: '#DC2626' }} /></ListItemIcon>

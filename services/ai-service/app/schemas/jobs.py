@@ -59,3 +59,5 @@ class AiCallbackRequest(BaseModel):
     evidence: Optional[List[Evidence]] = None
     studentFeedback: Optional[StudentFeedback] = None   # structured object (not plain string)
     confidenceBundle: Optional[Dict[str, float]] = None  # recognition/structure/diagnosis
+    reasonCode: Optional[str] = None                     # machine-readable failure reason code
+    diagnostics: Optional[Dict[str, Any]] = None         # stage attempt diagnostics (detectorInvoked, etc.)

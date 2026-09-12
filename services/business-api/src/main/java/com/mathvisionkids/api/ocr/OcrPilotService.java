@@ -23,6 +23,7 @@ public class OcrPilotService {
 
     private final OcrTrialRepository ocrTrialRepository;
     private final ObjectStorageService objectStorageService;
+    private final OcrStorageVerifier ocrStorageVerifier;
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
     private final String aiServiceBaseUrl;
@@ -31,11 +32,13 @@ public class OcrPilotService {
     public OcrPilotService(
             OcrTrialRepository ocrTrialRepository,
             ObjectStorageService objectStorageService,
+            OcrStorageVerifier ocrStorageVerifier,
             UserRepository userRepository,
             @Value("${ai.service.base-url:${AI_SERVICE_URL:http://localhost:8000}}") String aiServiceBaseUrl,
             @Value("${ai.callback.api-key:${INTERNAL_API_KEY:secret-key-default}}") String internalApiKey) {
         this.ocrTrialRepository = ocrTrialRepository;
         this.objectStorageService = objectStorageService;
+        this.ocrStorageVerifier = ocrStorageVerifier;
         this.userRepository = userRepository;
         this.aiServiceBaseUrl = aiServiceBaseUrl.replaceAll("/+$", "");
         this.internalApiKey = internalApiKey;
@@ -160,7 +163,6 @@ public class OcrPilotService {
             // Store separate trimmed / normalized form
             trial.setVerifiedTextNormalized(request.getVerifiedText().trim());
             trial.setVerdict("CORRECTED");
-            trial.setTrainingEligible(trial.isPrivacyConfirmed() && !trial.isTestData());
 
         } else if ("CORRECT".equals(verdictUpper)) {
             // Guard: if user passed explicit text for CORRECT, verify exact equality with predictedText
@@ -176,7 +178,6 @@ public class OcrPilotService {
             trial.setVerifiedTextRaw(trial.getPredictedText());
             trial.setVerifiedTextNormalized(trial.getPredictedText() != null ? trial.getPredictedText().trim() : null);
             trial.setVerdict("CORRECT");
-            trial.setTrainingEligible(trial.isPrivacyConfirmed() && !trial.isTestData());
 
         } else { // SKIPPED
             trial.setVerifiedTextRaw(null);
@@ -184,6 +185,30 @@ public class OcrPilotService {
             trial.setVerdict("SKIPPED");
             trial.setTrainingEligible(false);
         }
+
+        boolean eligible = trial.isPrivacyConfirmed()
+                && !trial.isTestData()
+                && "HANDWRITING_TEXT".equals(trial.getDomain())
+                && ("CORRECT".equals(verdictUpper) || "CORRECTED".equals(verdictUpper))
+                && trial.getVerifiedTextRaw() != null
+                && !trial.getVerifiedTextRaw().trim().isEmpty()
+                && trial.getLineImageObjectKey() != null
+                && !trial.getLineImageObjectKey().trim().isEmpty()
+                && trial.getLineImageSha256() != null
+                && trial.getLineImageSha256().length() == 64;
+
+        if ("CORRECT".equals(verdictUpper)) {
+            eligible = eligible && trial.getVerifiedTextRaw().equals(trial.getPredictedText());
+        }
+
+        if (eligible) {
+            eligible = ocrStorageVerifier.verifyStorageIntegrity(
+                    trial.getLineImageObjectKey(),
+                    trial.getLineImageSha256()
+            );
+        }
+
+        trial.setTrainingEligible(eligible);
 
         trial.setFeedbackAt(Instant.now());
         OcrTrial updated = ocrTrialRepository.save(trial);

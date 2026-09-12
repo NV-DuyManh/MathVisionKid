@@ -5,7 +5,7 @@ import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { getSubmissionService } from '../services/api/SubmissionServiceFactory';
 import { SubmissionStatus } from '../types';
 import { Ionicons } from '@expo/vector-icons';
-import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { submissionDraftStore, isHandwritingDomain } from '../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function ProcessingScreen() {
@@ -25,6 +25,16 @@ export default function ProcessingScreen() {
       try {
         setStep(0);
         const draft = submissionDraftStore.getDraft();
+
+        if (isHandwritingDomain(draft?.mode)) {
+          if (draft?.mode === 'OCR_PILOT') {
+            router.replace('/ocr-pilot/line-crop');
+          } else {
+            router.replace('/ocr-pilot/multiline-review');
+          }
+          return;
+        }
+
         const rawParamUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
         const activeUri = draft?.uri || (rawParamUri ? ensureFileUri(rawParamUri) : '');
         const activeRetryId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
@@ -86,9 +96,16 @@ export default function ProcessingScreen() {
           logStageDiagnostic('TERMINAL_STATUS', {
             uri: activeUri,
             source: draft?.source,
-            extra: `status=${result.status}`,
+            extra: `status=${result.status} reasonCode=${result.reasonCode || 'none'}`,
           });
-          router.replace('/results/review-required');
+          router.replace({
+            pathname: '/results/review-required',
+            params: {
+              reasonCode: result.reasonCode || '',
+              submissionId,
+              diagnostics: result.diagnostics ? JSON.stringify(result.diagnostics) : '',
+            },
+          });
           return;
         }
         if (result.status === SubmissionStatus.FEEDBACK_READY) {
@@ -128,6 +145,10 @@ export default function ProcessingScreen() {
         });
 
         if (polled.status === SubmissionStatus.NEEDS_CONFIRMATION) {
+          if (isHandwritingDomain(draft?.mode)) {
+            router.replace('/ocr-pilot/result');
+            return;
+          }
           router.replace({
             pathname: '/results/token-confirmation',
             params: {
@@ -159,7 +180,14 @@ export default function ProcessingScreen() {
         }
 
         if (polled.status === SubmissionStatus.REVIEW_REQUIRED) {
-          router.replace('/results/review-required');
+          router.replace({
+            pathname: '/results/review-required',
+            params: {
+              reasonCode: polled.reasonCode || '',
+              submissionId,
+              diagnostics: polled.diagnostics ? JSON.stringify(polled.diagnostics) : '',
+            },
+          });
           return;
         }
 

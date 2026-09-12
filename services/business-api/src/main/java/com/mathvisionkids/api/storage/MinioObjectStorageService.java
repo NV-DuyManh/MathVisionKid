@@ -3,6 +3,7 @@ package com.mathvisionkids.api.storage;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
+import io.minio.GetObjectArgs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -72,5 +73,18 @@ public class MinioObjectStorageService implements ObjectStorageService {
     @Override
     public String getAuthorizedReference(String filePath) {
         return "/api/v1/internal/images?path=" + filePath;
+    }
+
+    @Override
+    public byte[] loadBytes(String filePath) throws java.io.IOException {
+        try (InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(filePath)
+                        .build())) {
+            return stream.readAllBytes();
+        } catch (Exception e) {
+            throw new java.io.IOException("Failed to load object bytes from MinIO: " + filePath, e);
+        }
     }
 }

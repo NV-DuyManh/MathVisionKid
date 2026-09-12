@@ -172,7 +172,7 @@ class YoloDetectionAdapter:
 
         if not detections:
             logger.info("YOLO produced 0 detections above threshold.")
-            return ImageRecognitionResult(tokens=[], status="OUT_OF_SCOPE")
+            return ImageRecognitionResult(tokens=[], status="NO_DETECTIONS")
 
         # NMS suppression for overlapping duplicate detections
         detections = self._nms(detections, iou_threshold=self.nms_iou_threshold)

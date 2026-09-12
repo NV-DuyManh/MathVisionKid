@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, PanResponder, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, PanResponder, Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import ViewShot from 'react-native-view-shot';
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
@@ -186,7 +187,7 @@ export default function PrivacyGateScreen() {
           source: draft?.source,
           extra: 'zero-mask bypass',
         });
-        const targetPath = draft?.mode === 'OCR_PILOT_MULTILINE'
+        const targetPath = (draft?.mode === 'OCR_PILOT_MULTILINE' || draft?.mode === 'HANDWRITING_TEXT')
           ? '/ocr-pilot/multiline-review'
           : draft?.mode === 'OCR_PILOT'
             ? '/ocr-pilot/line-crop'
@@ -239,7 +240,7 @@ export default function PrivacyGateScreen() {
           extra: `masked count=${masks.length}`,
         });
 
-        const targetPath = draft?.mode === 'OCR_PILOT_MULTILINE'
+        const targetPath = (draft?.mode === 'OCR_PILOT_MULTILINE' || draft?.mode === 'HANDWRITING_TEXT')
           ? '/ocr-pilot/multiline-review'
           : draft?.mode === 'OCR_PILOT'
             ? '/ocr-pilot/line-crop'

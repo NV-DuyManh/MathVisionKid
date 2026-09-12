@@ -44,10 +44,57 @@ export class MockSubmissionServiceClass implements SubmissionService {
         id,
         status: SubmissionStatus.OUT_OF_SCOPE,
       };
+    } else if (uriLower.includes('mock-review-layout')) {
+      result = {
+        id,
+        status: SubmissionStatus.REVIEW_REQUIRED,
+        reasonCode: 'INVALID_LAYOUT',
+        diagnostics: {
+          detectorInvoked: true,
+          detectorTokenCount: 6,
+          ocrInvoked: false,
+          parserInvoked: true,
+          parserStatus: 'INVALID_LAYOUT',
+          validatorInvoked: false,
+          validatorStatus: 'N/A',
+          qualityFlags: [],
+          reasonCode: 'INVALID_LAYOUT',
+        },
+      };
+    } else if (uriLower.includes('mock-review-empty')) {
+      result = {
+        id,
+        status: SubmissionStatus.REVIEW_REQUIRED,
+        reasonCode: 'DETECTOR_NO_TOKENS',
+        diagnostics: {
+          detectorInvoked: true,
+          detectorTokenCount: 0,
+          ocrInvoked: false,
+          parserInvoked: false,
+          parserStatus: 'SKIPPED',
+          validatorInvoked: false,
+          validatorStatus: 'SKIPPED',
+          qualityFlags: [],
+          reasonCode: 'DETECTOR_NO_TOKENS',
+        },
+      };
     } else if (uriLower.includes('mock-review')) {
       result = {
         id,
         status: SubmissionStatus.REVIEW_REQUIRED,
+        reasonCode: 'OCR_LOW_CONFIDENCE',
+        diagnostics: {
+          detectorInvoked: true,
+          detectorTokenCount: 5,
+          ocrInvoked: true,
+          ocrTextLength: 4,
+          parserInvoked: true,
+          parserStatus: 'UNCERTAIN',
+          validatorInvoked: false,
+          validatorStatus: 'SKIPPED',
+          qualityFlags: ['SLIGHT_BLUR'],
+          reasonCode: 'OCR_LOW_CONFIDENCE',
+        },
       };
     } else {
       // Default to PROCESSING for the standard paths (correct, error, confirm)

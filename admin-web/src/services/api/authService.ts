@@ -24,6 +24,27 @@ export const authService = {
     }
   },
 
+  async exchangeSsoTicket(code: string): Promise<AdminUserResponse> {
+    const { data: exchangeData } = await apiClient.post<LoginResponse>('/auth/sso/exchange', {
+      code,
+      targetApp: 'ADMIN',
+    });
+
+    tokenStore.setTokens(exchangeData.accessToken, exchangeData.refreshToken);
+
+    try {
+      const { data: userData } = await apiClient.get<AdminUserResponse>('/me');
+      if (userData.role !== 'ADMIN') {
+        tokenStore.clearTokens();
+        throw new Error('Tài khoản này không có quyền truy cập Cổng Quản Trị Hệ Thống (Yêu cầu vai trò ADMIN).');
+      }
+      return userData;
+    } catch (err) {
+      tokenStore.clearTokens();
+      throw err;
+    }
+  },
+
   async getMe(): Promise<AdminUserResponse> {
     const { data } = await apiClient.get<AdminUserResponse>('/me');
     return data;

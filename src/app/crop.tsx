@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, SafeAreaView, PanResponder, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, PanResponder, Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { COLORS, SIZES } from '../constants/theme';

@@ -1,3 +1,9 @@
+export type FlowDomain = 'HANDWRITING_TEXT' | 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
+
+export function isHandwritingDomain(mode?: string | null): boolean {
+  return mode === 'HANDWRITING_TEXT' || mode === 'OCR_PILOT' || mode === 'OCR_PILOT_MULTILINE';
+}
+
 export interface ImageDraft {
   rawUri: string;
   uri: string;
@@ -6,7 +12,7 @@ export interface ImageDraft {
   mimeType: string;
   filename: string;
   source?: 'CAMERA' | 'GALLERY';
-  mode?: 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
+  mode?: FlowDomain;
   masks?: { id: number; x: number; y: number; width: number; height: number }[];
   isMasked?: boolean;
   originalUri?: string;

@@ -8,5 +8,8 @@ import java.util.UUID;
 public class SubmissionResponse {
     private UUID submissionId;
     private String status;
+    private String reasonCode;
+    private java.util.Map<String, Object> diagnostics;
+    private String flowDomain = "ARITHMETIC";
     private Instant createdAt;
 }

@@ -73,6 +73,18 @@ class TestStudentPolicy:
         result = generate_student_feedback(_make_out_of_scope(), {})
         assert result["status"] == "OUT_OF_SCOPE"
 
+    def test_no_content_detected_status(self):
+        parsed = ParsedExercise(operationType="UNKNOWN", operands=[], result="", tokens=[], status="NO_CONTENT_DETECTED")
+        result = generate_student_feedback(parsed, {})
+        assert result["status"] == "OUT_OF_SCOPE"
+        assert "Chưa nhận diện được" in result["studentFeedback"].title
+
+    def test_invalid_layout_status(self):
+        parsed = ParsedExercise(operationType="VERTICAL_ADDITION", operands=["1"], result="", tokens=[], status="INVALID_LAYOUT")
+        result = generate_student_feedback(parsed, {})
+        assert result["status"] == "NEEDS_CONFIRMATION"
+        assert "Bố cục" in result["studentFeedback"].title
+
 
 # ─── Teacher policy ───────────────────────────────────────────────────────────
 
@@ -118,3 +130,14 @@ class TestTeacherPolicy:
     def test_out_of_scope_status(self):
         result = generate_teacher_feedback(_make_out_of_scope(), {})
         assert result["status"] == "OUT_OF_SCOPE"
+
+    def test_no_content_detected_status(self):
+        parsed = ParsedExercise(operationType="UNKNOWN", operands=[], result="", tokens=[], status="NO_CONTENT_DETECTED")
+        result = generate_teacher_feedback(parsed, {})
+        assert result["status"] == "OUT_OF_SCOPE"
+
+    def test_invalid_layout_status(self):
+        parsed = ParsedExercise(operationType="VERTICAL_ADDITION", operands=["1"], result="", tokens=[], status="INVALID_LAYOUT")
+        result = generate_teacher_feedback(parsed, {})
+        assert result["status"] == "REVIEW_REQUIRED"
+        assert result["evidence"][0]["type"] == "INVALID_LAYOUT"

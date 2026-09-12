@@ -26,4 +26,10 @@ public class AiCallbackRequest {
 
     /** Canonical confidence bundle: recognition, structure, diagnosis. */
     private Map<String, Object> confidenceBundle;
+
+    /** Machine-readable reason code for non-success outcomes (e.g. NO_CONTENT_DETECTED, INVALID_LAYOUT, OCR_LOW_CONFIDENCE, AI_RUNTIME_ERROR). */
+    private String reasonCode;
+
+    /** Stage attempt diagnostics (detectorInvoked, ocrInvoked, qualityFlags, etc.). */
+    private Map<String, Object> diagnostics;
 }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppCard } from '../ui/AppCard';
 import { AppButton } from '../ui/AppButton';
@@ -13,6 +13,16 @@ interface TokenConfirmationCardProps {
 export const TokenConfirmationCard: React.FC<TokenConfirmationCardProps> = ({ initialToken, onConfirm }) => {
   const [token, setToken] = useState(initialToken);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (!isEditing) return;
+    const backAction = () => {
+      setIsEditing(false);
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove();
+  }, [isEditing]);
 
   const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 

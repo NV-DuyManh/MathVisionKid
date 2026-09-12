@@ -205,7 +205,7 @@ $UvicornExe = Join-Path $AiDir ".venv\Scripts\uvicorn.exe"
 if (-not (Test-Path $UvicornExe)) { $UvicornExe = "uvicorn" }
 Start-TrackedService -Name "FastAPI AI Runtime" `
     -FilePath $UvicornExe `
-    -ArgumentList "app.main:app --host 0.0.0.0 --port 8000" `
+    -ArgumentList "app.main:app --host 127.0.0.1 --port 8000" `
     -WorkingDirectory $AiDir `
     -LogFile $FastApiLog `
     -PidFile $FastApiPid `
@@ -233,7 +233,19 @@ if ($celeryActive) {
         -PidFile $CeleryPid
 }
 
-# D. Teacher Web
+# D. Unified Portal Web
+$PortalDir = Join-Path $RepoRoot "portal-web"
+$PortalPid = Join-Path $PidDir "portal-web.pid"
+$PortalLog = Join-Path $LogDir "portal-web.log"
+Start-TrackedService -Name "Unified Portal Web" `
+    -FilePath "cmd.exe" `
+    -ArgumentList "/c npm run dev" `
+    -WorkingDirectory $PortalDir `
+    -LogFile $PortalLog `
+    -PidFile $PortalPid `
+    -PortCheck 5172
+
+# E. Teacher Web
 $TeacherDir = Join-Path $RepoRoot "teacher-web"
 $TeacherPid = Join-Path $PidDir "teacher-web.pid"
 $TeacherLog = Join-Path $LogDir "teacher-web.log"
@@ -245,7 +257,7 @@ Start-TrackedService -Name "Teacher Web Portal" `
     -PidFile $TeacherPid `
     -PortCheck 5173
 
-# E. Admin Web
+# F. Admin Web
 $AdminDir = Join-Path $RepoRoot "admin-web"
 $AdminPid = Join-Path $PidDir "admin-web.pid"
 $AdminLog = Join-Path $LogDir "admin-web.log"
@@ -285,6 +297,7 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
     Start-Sleep -Seconds 2
     $springUp = $false
     $fastapiUp = $false
+    $portalUp = $false
     $teacherUp = $false
     $adminUp = $false
     try {
@@ -296,6 +309,10 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
         if ($resp.status -eq "ready") { $fastapiUp = $true }
     } catch {}
     try {
+        $resp = Invoke-WebRequest -Uri "http://localhost:5172" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        if ($resp.StatusCode -eq 200) { $portalUp = $true }
+    } catch {}
+    try {
         $resp = Invoke-WebRequest -Uri "http://localhost:5173" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.StatusCode -eq 200) { $teacherUp = $true }
     } catch {}
@@ -304,7 +321,7 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
         if ($resp.StatusCode -eq 200) { $adminUp = $true }
     } catch {}
 
-    if ($springUp -and $fastapiUp -and $teacherUp -and $adminUp) {
+    if ($springUp -and $fastapiUp -and $portalUp -and $teacherUp -and $adminUp) {
         $allReady = $true
         break
     }
@@ -321,11 +338,12 @@ $DiagScript = Join-Path $RepoRoot "tools\diagnostics\check_runtime.py"
 $diagCode = $LASTEXITCODE
 
 Write-Host "`n============================================" -ForegroundColor Cyan
-Write-Host " MathVision Kids -- READY_FOR_DEMO" -ForegroundColor Cyan
+Write-Host " MathVision Kids -- Core Stack Services" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
+Write-Host "Unified Portal Web:  http://localhost:5172  <-- [MAIN ENTRY]"
 Write-Host "Admin Web Portal:    http://localhost:5174"
 Write-Host "Teacher Web Portal:  http://localhost:5173"
-Write-Host "Student Web:         http://localhost:8081/login (run 'npm start' to launch Expo)"
+Write-Host "Student Mobile:      Metro LAN (launch via RUN_MATHVISION.bat)"
 Write-Host "Spring Business API: http://127.0.0.1:8080"
 Write-Host "FastAPI AI Runtime:  http://127.0.0.1:8000"
 Write-Host "MinIO Web Console:   http://127.0.0.1:9001 (minioadmin / minioadmin123)"

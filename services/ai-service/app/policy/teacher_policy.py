@@ -20,8 +20,19 @@ def generate_teacher_feedback(parsed: ParsedExercise, validation_result: dict) -
       REVIEW_REQUIRED   = insufficient / uncertain evidence to produce any proposal
       PROPOSED_GRADE    = confident diagnosis (correct OR incorrect), teacher reviews advisory
     """
-    if parsed.status == "OUT_OF_SCOPE":
+    if parsed.status in ("OUT_OF_SCOPE", "NO_CONTENT_DETECTED"):
         return {"status": "OUT_OF_SCOPE"}
+
+    if parsed.status == "INVALID_LAYOUT":
+        return {
+            "status": "REVIEW_REQUIRED",
+            "evidence": [{
+                "evidenceId": "err_layout",
+                "type": "INVALID_LAYOUT",
+                "confidence": 0.4,
+                "description": "Bố cục phép tính chưa hoàn chỉnh hoặc thiếu toán tử / toán hạng."
+            }]
+        }
 
     if parsed.status == "UNCERTAIN_STRUCTURE":
         # Uncertainty — cannot safely diagnose. Teacher must review raw image.

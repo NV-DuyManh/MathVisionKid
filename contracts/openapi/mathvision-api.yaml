@@ -10,6 +10,7 @@ tags:
   - name: Teacher
   - name: Auth
   - name: Admin
+  - name: OcrPilot
 paths:
   /auth/login:
     post:
@@ -839,6 +840,222 @@ paths:
         '200':
           description: Paginated audit event log
 
+  /ocr/trials:
+    post:
+      tags:
+        - OcrPilot
+      summary: Create single-line OCR trial
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+              properties:
+                image:
+                  type: string
+                  format: binary
+                source:
+                  type: string
+                  enum: [CAMERA, GALLERY]
+                isTestData:
+                  type: boolean
+                  default: false
+                privacyConfirmed:
+                  type: boolean
+                  default: false
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcrTrialResponse'
+        '400':
+          description: Privacy required or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /ocr/trials/{trialId}:
+    get:
+      tags:
+        - OcrPilot
+      summary: Get single-line OCR trial by ID
+      parameters:
+        - name: trialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcrTrialResponse'
+
+  /ocr/trials/{trialId}/feedback:
+    post:
+      tags:
+        - OcrPilot
+      summary: Submit human feedback for single-line trial
+      parameters:
+        - name: trialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OcrFeedbackRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcrTrialResponse'
+
+  /ocr/trials/metrics:
+    get:
+      tags:
+        - OcrPilot
+      summary: Get OCR trial performance metrics
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcrMetricsResponse'
+
+  /ocr/multiline/detect:
+    post:
+      tags:
+        - OcrPilot
+      summary: Detect text lines on page image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+              properties:
+                image:
+                  type: string
+                  format: binary
+                privacyConfirmed:
+                  type: boolean
+                  default: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilineDetectResponse'
+        '400':
+          description: Privacy required
+
+  /ocr/multiline/trials:
+    post:
+      tags:
+        - OcrPilot
+      summary: Create multi-line trial with confirmed line boxes
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+                - confirmedLines
+              properties:
+                image:
+                  type: string
+                  format: binary
+                source:
+                  type: string
+                  enum: [CAMERA, GALLERY]
+                privacyConfirmed:
+                  type: boolean
+                  default: false
+                confirmedLines:
+                  type: string
+                  description: JSON array of LineBoxDto
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilineTrialResponse'
+
+  /ocr/multiline/trials/{trialId}:
+    get:
+      tags:
+        - OcrPilot
+      summary: Get multi-line trial with segmented lines
+      parameters:
+        - name: trialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilineTrialResponse'
+
+  /ocr/multiline/trials/{trialId}/lines/{lineId}/feedback:
+    post:
+      tags:
+        - OcrPilot
+      summary: Submit line-level feedback
+      parameters:
+        - name: trialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: lineId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultilineFeedbackRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilineLineResponse'
+
 components:
   schemas:
     ApiErrorResponse:
@@ -1237,4 +1454,209 @@ components:
         createdAt:
           type: string
           format: date-time
+
+    OcrTrialResponse:
+      type: object
+      properties:
+        trialId:
+          type: string
+          format: uuid
+        status:
+          type: string
+        recognizedText:
+          type: string
+        predictedText:
+          type: string
+        verifiedTextRaw:
+          type: string
+        verifiedTextNormalized:
+          type: string
+        verdict:
+          type: string
+          enum: [UNVERIFIED, CORRECT, CORRECTED, SKIPPED]
+        source:
+          type: string
+        domain:
+          type: string
+        dataOrigin:
+          type: string
+        trainingEligible:
+          type: boolean
+        privacyConfirmed:
+          type: boolean
+        isTestData:
+          type: boolean
+        confidence:
+          type: [number, "null"]
+        modelName:
+          type: string
+        modelVersion:
+          type: string
+        checkpointSha256:
+          type: string
+        vocabSha256:
+          type: string
+        preprocessingVersion:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        feedbackAt:
+          type: [string, "null"]
+          format: date-time
+
+    OcrFeedbackRequest:
+      type: object
+      required:
+        - verdict
+      properties:
+        verdict:
+          type: string
+          enum: [CORRECT, CORRECTED, SKIPPED]
+        verifiedText:
+          type: string
+        isTestData:
+          type: boolean
+
+    OcrMetricsResponse:
+      type: object
+      properties:
+        totalTrials:
+          type: integer
+        verifiedTrials:
+          type: integer
+        correctTrials:
+          type: integer
+        correctedTrials:
+          type: integer
+        skippedTrials:
+          type: integer
+        exactMatchRate:
+          type: [number, "null"]
+        exactMatchPercentage:
+          type: string
+        characterErrorRate:
+          type: [number, "null"]
+        cerPercentage:
+          type: string
+
+    LineBoxDto:
+      type: object
+      properties:
+        order:
+          type: integer
+        x:
+          type: integer
+        y:
+          type: integer
+        width:
+          type: integer
+        height:
+          type: integer
+
+    MultilineDetectResponse:
+      type: object
+      properties:
+        width:
+          type: integer
+        height:
+          type: integer
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineBoxDto'
+
+    MultilineTrialResponse:
+      type: object
+      properties:
+        trialId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        source:
+          type: string
+        pageImageObjectKey:
+          type: string
+        pageImageSha256:
+          type: string
+        pageWidth:
+          type: integer
+        pageHeight:
+          type: integer
+        privacyConfirmed:
+          type: boolean
+        isTestData:
+          type: boolean
+        dataOrigin:
+          type: string
+        domain:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultilineLineResponse'
+
+    MultilineLineResponse:
+      type: object
+      properties:
+        lineId:
+          type: string
+          format: uuid
+        lineOrder:
+          type: integer
+        boxX:
+          type: integer
+        boxY:
+          type: integer
+        boxWidth:
+          type: integer
+        boxHeight:
+          type: integer
+        lineImageSha256:
+          type: string
+        predictedText:
+          type: string
+        verifiedTextRaw:
+          type: string
+        verifiedTextNormalized:
+          type: string
+        verdict:
+          type: string
+          enum: [UNVERIFIED, CORRECT, CORRECTED, SKIPPED]
+        trainingEligible:
+          type: boolean
+        modelName:
+          type: string
+        modelVersion:
+          type: string
+        checkpointSha256:
+          type: string
+        vocabSha256:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        feedbackAt:
+          type: [string, "null"]
+          format: date-time
+
+    MultilineFeedbackRequest:
+      type: object
+      required:
+        - verdict
+      properties:
+        verdict:
+          type: string
+          enum: [CORRECT, CORRECTED, SKIPPED]
+        verifiedText:
+          type: string
+        isTestData:
+          type: boolean
 

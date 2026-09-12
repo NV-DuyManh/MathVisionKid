@@ -1,3 +1,5 @@
+export type FlowDomain = 'HANDWRITING_TEXT' | 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
+
 export enum SubmissionStatus {
   PROCESSING = 'PROCESSING',
   FEEDBACK_READY = 'FEEDBACK_READY',
@@ -71,6 +73,19 @@ export interface StudentFeedback {
   revealAnswer: boolean;
 }
 
+export interface RecognitionAttemptDiagnostics {
+  detectorInvoked?: boolean;
+  detectorTokenCount?: number;
+  ocrInvoked?: boolean;
+  ocrTextLength?: number;
+  parserInvoked?: boolean;
+  parserStatus?: string;
+  validatorInvoked?: boolean;
+  validatorStatus?: string;
+  qualityFlags?: string[];
+  reasonCode?: string;
+}
+
 export interface SubmissionResult {
   id: string;
   status: SubmissionStatus;
@@ -79,6 +94,9 @@ export interface SubmissionResult {
   studentFeedback?: StudentFeedback;
   imageQualityIssue?: ImageQualityIssue;
   ambiguousToken?: RecognizedToken;
+  reasonCode?: string;
+  diagnostics?: RecognitionAttemptDiagnostics;
+  flowDomain?: FlowDomain;
 }
 
 export interface SubmissionService {

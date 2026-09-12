@@ -2,14 +2,15 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppTeacherService } from '../../services/api/ServiceLocator';
 import { AuthTokenStore } from '../../services/api/AuthTokenStore';
+import apiClient from '../../services/api/apiClient';
 
 interface AuthContextType {
   user: any;
   loading: boolean;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, loading: true, logout: () => {} });
+const AuthContext = createContext<AuthContextType>({ user: null, loading: true, logout: async () => {} });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
@@ -48,10 +49,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [navigate, location.pathname]);
 
-  const logout = () => {
-    AuthTokenStore.clearTokens();
-    setUser(null);
-    navigate('/login');
+  const logout = async () => {
+    try {
+      await apiClient.post('/auth/logout');
+    } catch {
+      // Ignore network errors
+    } finally {
+      AuthTokenStore.clearTokens();
+      setUser(null);
+      window.location.href = 'http://localhost:5172/logout?source=teacher';
+    }
   };
 
   return (

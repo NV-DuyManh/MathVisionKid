@@ -26,15 +26,52 @@ def process_submission(self, job_id: str, request_data: dict):
         image_ref = request_data.get('imageReference', '')
         policy_mode = request_data.get('policyMode', 'STUDENT')  # STUDENT | TEACHER
 
-        # ── 1. Quality Gate ──────────────────────────────────────────────────
+        # ── 1. Quality Preflight & Advisory Flags ────────────────────────────
         quality_gate = QualityGate()
-        quality_status = quality_gate.evaluate(image_ref)
-        if quality_status != "PASS":
-            callback = AiCallbackRequest(status=quality_status)
-            send_callback(job_id, callback)
-            return quality_status
+        can_continue, hard_stop_reason, quality_flags = quality_gate.check_preflight(image_ref)
 
-        # ── 2. Recognition ───────────────────────────────────────────────────
+        # Track full attempt diagnostics
+        diagnostics = {
+            "detectorInvoked": False,
+            "detectorTokenCount": None,
+            "ocrInvoked": False,
+            "ocrTextLength": None,
+            "parserInvoked": False,
+            "parserStatus": None,
+            "validatorInvoked": False,
+            "validatorStatus": None,
+            "qualityFlags": quality_flags,
+            "reasonCode": None,
+        }
+
+        # Hard stop ONLY for undecodable, corrupt, or proven empty images
+        if not can_continue:
+            diagnostics["reasonCode"] = hard_stop_reason
+            status_out = "NEEDS_RETAKE" if hard_stop_reason == "IMAGE_EFFECTIVELY_EMPTY" else "REVIEW_REQUIRED"
+            student_fb = None
+            if policy_mode == "STUDENT":
+                if hard_stop_reason == "IMAGE_EFFECTIVELY_EMPTY":
+                    student_fb = StudentFeedback(
+                        title="Ảnh chưa có nội dung",
+                        hint="MathVision kiểm tra thấy ảnh chưa có chữ viết bài làm. Em hãy đặt bài làm vào khung và chụp lại nhé!",
+                        revealAnswer=False
+                    )
+                else:
+                    student_fb = StudentFeedback(
+                        title="Không thể đọc ảnh",
+                        hint="Ảnh chụp bị lỗi định dạng hoặc không thể tải lên được. Em vui lòng chụp lại nhé!",
+                        revealAnswer=False
+                    )
+            callback = AiCallbackRequest(
+                status=status_out,
+                studentFeedback=student_fb,
+                reasonCode=hard_stop_reason,
+                diagnostics=diagnostics
+            )
+            send_callback(job_id, callback)
+            return status_out
+
+        # ── 2. Recognition (ALWAYS ATTEMPTED FOR DECODABLE IMAGES) ─────────────
         if settings.runtime_mode == "FIXTURE":
             engine = FixtureRecognitionEngine()
         else:
@@ -42,21 +79,38 @@ def process_submission(self, job_id: str, request_data: dict):
             engine = ModelRecognitionEngine()
             if not engine.is_ready:
                 logger.error("MODEL mode active but ModelRecognitionEngine is not ready.")
-                callback = AiCallbackRequest(status="MODEL_NOT_AVAILABLE")
+                diagnostics["reasonCode"] = "AI_RUNTIME_ERROR"
+                callback = AiCallbackRequest(
+                    status="MODEL_NOT_AVAILABLE",
+                    reasonCode="AI_RUNTIME_ERROR",
+                    diagnostics=diagnostics
+                )
                 send_callback(job_id, callback)
                 return "MODEL_NOT_AVAILABLE"
 
+        diagnostics["detectorInvoked"] = True
         try:
             recognition_result = engine.recognize(image_ref)
         except Exception as e:
             logger.error(f"Recognition failed in mode {settings.runtime_mode}: {e}")
-            callback = AiCallbackRequest(status="MODEL_NOT_AVAILABLE")
+            diagnostics["reasonCode"] = "AI_RUNTIME_ERROR"
+            callback = AiCallbackRequest(
+                status="MODEL_NOT_AVAILABLE",
+                reasonCode="AI_RUNTIME_ERROR",
+                diagnostics=diagnostics
+            )
             send_callback(job_id, callback)
             return "MODEL_NOT_AVAILABLE"
+
+        tokens = recognition_result.tokens or []
+        diagnostics["detectorTokenCount"] = len(tokens)
 
         # Log OCR Bridge diagnostics if available
         if getattr(recognition_result, "line_recognitions", None):
             recs = recognition_result.line_recognitions
+            diagnostics["ocrInvoked"] = True
+            total_ocr_len = sum(len(r.crnn_text or "") for r in recs)
+            diagnostics["ocrTextLength"] = total_ocr_len
             logger.info(
                 f"OCR Bridge processed {len(recs)} rows | "
                 f"provider={getattr(recognition_result, 'ocr_provider_used', 'none')} | "
@@ -66,6 +120,9 @@ def process_submission(self, job_id: str, request_data: dict):
                 logger.info(
                     f"  Row {r.row_index}: YOLO='{r.yolo_text}' | CRNN='{r.crnn_text}' | Agreement={r.agreement}"
                 )
+        else:
+            diagnostics["ocrInvoked"] = False
+            diagnostics["ocrTextLength"] = None
 
         # Canonical confidence bundle — deterministic in fixture mode
         if recognition_result.status == "UNCERTAIN_RECOGNITION":
@@ -79,39 +136,117 @@ def process_submission(self, job_id: str, request_data: dict):
             conf = ConfidenceBundle(recognition=0.0, structure=0.0, diagnosis=0.0)
 
         # ── 3. Parsing ───────────────────────────────────────────────────────
+        diagnostics["parserInvoked"] = True
         parser = StructuredParser()
         parsed_exercise = parser.parse(recognition_result)
+        diagnostics["parserStatus"] = parsed_exercise.status
 
         # Update structure confidence from parse result
         if parsed_exercise.status == "VALID_STRUCTURE":
             conf = ConfidenceBundle(recognition=conf.recognition, structure=0.97, diagnosis=0.0)
 
-        # ── 4. OUT_OF_SCOPE / UNCERTAINTY early exits ────────────────────────
+        # ── 4. OUT_OF_SCOPE / NO_CONTENT_DETECTED / INVALID_LAYOUT / UNCERTAINTY early exits ──
+        if parsed_exercise.status == "NO_CONTENT_DETECTED":
+            # Check if quality heuristics support an image quality issue (e.g. BLUR, DARK)
+            if quality_flags:
+                reason_code = "IMAGE_QUALITY_FAILED"
+            else:
+                reason_code = "DETECTOR_NO_TOKENS"
+            diagnostics["reasonCode"] = reason_code
+
+            if policy_mode == "STUDENT":
+                result = generate_student_feedback(parsed_exercise, {})
+                fb = result.get("studentFeedback")
+                if reason_code == "IMAGE_QUALITY_FAILED":
+                    fb = StudentFeedback(
+                        title="Chất lượng ảnh chụp chưa đạt",
+                        hint="Ảnh chụp có thể bị chói sáng, quá tối hoặc mờ nét. Em kiểm tra lại ánh sáng và chụp lại nhé!",
+                        revealAnswer=False
+                    )
+                else:
+                    fb = StudentFeedback(
+                        title="Chưa nhận diện được bài làm",
+                        hint="MathVision đã thử nhận diện nhưng chưa nhận ra đủ chữ số hoặc dấu phép tính trong ảnh.",
+                        revealAnswer=False
+                    )
+                status_out = "NEEDS_RETAKE" if reason_code == "IMAGE_QUALITY_FAILED" else result["status"]
+                callback = AiCallbackRequest(
+                    status=status_out,
+                    studentFeedback=fb,
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode=reason_code,
+                    diagnostics=diagnostics
+                )
+            else:
+                result = generate_teacher_feedback(parsed_exercise, {})
+                status_out = "REVIEW_REQUIRED" if reason_code == "IMAGE_QUALITY_FAILED" else result["status"]
+                callback = AiCallbackRequest(
+                    status=status_out,
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode=reason_code,
+                    diagnostics=diagnostics
+                )
+            send_callback(job_id, callback)
+            return "NO_CONTENT_DETECTED"
+
         if parsed_exercise.status == "OUT_OF_SCOPE":
+            diagnostics["reasonCode"] = "OUT_OF_SCOPE"
             if policy_mode == "STUDENT":
                 result = generate_student_feedback(parsed_exercise, {})
                 callback = AiCallbackRequest(
                     status=result["status"],
                     studentFeedback=result.get("studentFeedback"),
-                    confidenceBundle=conf.model_dump()
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode="OUT_OF_SCOPE",
+                    diagnostics=diagnostics
                 )
             else:
                 result = generate_teacher_feedback(parsed_exercise, {})
                 callback = AiCallbackRequest(
                     status=result["status"],
-                    confidenceBundle=conf.model_dump()
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode="OUT_OF_SCOPE",
+                    diagnostics=diagnostics
                 )
             send_callback(job_id, callback)
             return "OUT_OF_SCOPE"
 
+        if parsed_exercise.status == "INVALID_LAYOUT":
+            diagnostics["reasonCode"] = "INVALID_LAYOUT"
+            if policy_mode == "STUDENT":
+                result = generate_student_feedback(parsed_exercise, {})
+                status_out = result["status"]
+                callback = AiCallbackRequest(
+                    status=status_out,
+                    studentFeedback=result.get("studentFeedback"),
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode="INVALID_LAYOUT",
+                    diagnostics=diagnostics
+                )
+            else:
+                result = generate_teacher_feedback(parsed_exercise, {})
+                status_out = result["status"]
+                callback = AiCallbackRequest(
+                    status=status_out,
+                    evidence=result.get("evidence"),
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode="INVALID_LAYOUT",
+                    diagnostics=diagnostics
+                )
+            send_callback(job_id, callback)
+            return status_out
+
         if parsed_exercise.status == "UNCERTAIN_STRUCTURE":
+            diagnostics["reasonCode"] = "OCR_LOW_CONFIDENCE"
             if policy_mode == "STUDENT":
                 result = generate_student_feedback(parsed_exercise, {})
                 status_out = result["status"]   # NEEDS_CONFIRMATION
                 callback = AiCallbackRequest(
                     status=status_out,
                     studentFeedback=result.get("studentFeedback"),
-                    confidenceBundle=conf.model_dump()
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode="OCR_LOW_CONFIDENCE",
+                    diagnostics=diagnostics
                 )
             else:
                 result = generate_teacher_feedback(parsed_exercise, {})
@@ -119,22 +254,33 @@ def process_submission(self, job_id: str, request_data: dict):
                 callback = AiCallbackRequest(
                     status=status_out,
                     evidence=result.get("evidence"),
-                    confidenceBundle=conf.model_dump()
+                    confidenceBundle=conf.model_dump(),
+                    reasonCode="OCR_LOW_CONFIDENCE",
+                    diagnostics=diagnostics
                 )
             send_callback(job_id, callback)
             return status_out
 
         # ── 5. Deterministic Validation ──────────────────────────────────────
+        diagnostics["validatorInvoked"] = True
         if parsed_exercise.operationType == "VERTICAL_ADDITION":
             validator = VerticalAdditionValidator()
         elif parsed_exercise.operationType == "VERTICAL_SUBTRACTION":
             validator = VerticalSubtractionValidator()
         else:
-            callback = AiCallbackRequest(status="OUT_OF_SCOPE", confidenceBundle=conf.model_dump())
+            diagnostics["validatorStatus"] = "UNSUPPORTED_OPERATION"
+            diagnostics["reasonCode"] = "OUT_OF_SCOPE"
+            callback = AiCallbackRequest(
+                status="OUT_OF_SCOPE",
+                confidenceBundle=conf.model_dump(),
+                reasonCode="OUT_OF_SCOPE",
+                diagnostics=diagnostics
+            )
             send_callback(job_id, callback)
             return "OUT_OF_SCOPE"
 
         validation_result = validator.validate(parsed_exercise)
+        diagnostics["validatorStatus"] = "VALID" if validation_result.get("is_valid") else "INVALID"
 
         # Update diagnosis confidence
         diag_conf = 0.97 if validation_result.get("is_valid") else 0.93
@@ -151,6 +297,7 @@ def process_submission(self, job_id: str, request_data: dict):
         )
 
         # ── 6. Policy Layer ──────────────────────────────────────────────────
+        diagnostics["reasonCode"] = None
         if policy_mode == "STUDENT":
             result = generate_student_feedback(parsed_exercise, validation_result)
             callback = AiCallbackRequest(
@@ -158,7 +305,9 @@ def process_submission(self, job_id: str, request_data: dict):
                 studentFeedback=result.get("studentFeedback"),
                 evidence=validation_result.get("evidence") if not validation_result.get("is_valid") else None,
                 recognizedExercise=recognized_expr,
-                confidenceBundle=conf.model_dump()
+                confidenceBundle=conf.model_dump(),
+                reasonCode=None,
+                diagnostics=diagnostics
             )
         else:
             result = generate_teacher_feedback(parsed_exercise, validation_result)
@@ -167,7 +316,9 @@ def process_submission(self, job_id: str, request_data: dict):
                 gradeProposal=result.get("gradeProposal"),
                 evidence=result.get("evidence"),
                 recognizedExercise=recognized_expr,
-                confidenceBundle=conf.model_dump()
+                confidenceBundle=conf.model_dump(),
+                reasonCode=None,
+                diagnostics=diagnostics
             )
 
         send_callback(job_id, callback)

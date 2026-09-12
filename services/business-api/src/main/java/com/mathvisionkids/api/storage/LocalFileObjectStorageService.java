@@ -55,4 +55,13 @@ public class LocalFileObjectStorageService implements ObjectStorageService {
         // In real app, this would generate a signed URL or temporary access token.
         return "/api/v1/internal/images?path=" + filePath;
     }
+
+    @Override
+    public byte[] loadBytes(String filePath) throws IOException {
+        Path targetPath = this.rootLocation.resolve(filePath).normalize().toAbsolutePath();
+        if (!Files.exists(targetPath)) {
+            throw new IOException("File not found in local storage: " + filePath);
+        }
+        return Files.readAllBytes(targetPath);
+    }
 }

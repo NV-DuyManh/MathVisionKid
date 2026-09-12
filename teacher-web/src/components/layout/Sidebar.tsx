@@ -1,5 +1,5 @@
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Box, Chip } from '@mui/material';
-import { Dashboard, School, Assignment, FactCheck, Settings } from '@mui/icons-material';
+import { Dashboard, School, Assignment, FactCheck, Settings, Home } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const DRAWER_WIDTH = 250;
@@ -91,6 +91,32 @@ export default function Sidebar() {
           );
         })}
       </List>
+
+      <Box sx={{ p: 2, borderTop: '1px solid #F1F5F9', mt: 'auto' }}>
+        <ListItemButton
+          component="a"
+          href="http://localhost:5172"
+          sx={{
+            borderRadius: 1.5,
+            py: 1,
+            px: 1.5,
+            color: '#64748B',
+            transition: 'all 150ms ease',
+            '&:hover': { bgcolor: '#F8FAFC', color: '#4F46E5' },
+          }}
+        >
+          <ListItemIcon sx={{ minWidth: 34, color: 'inherit' }}>
+            <Home sx={{ fontSize: 20 }} />
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <Typography sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
+                Trang chủ MathVision Kids
+              </Typography>
+            }
+          />
+        </ListItemButton>
+      </Box>
     </Drawer>
   );
 }

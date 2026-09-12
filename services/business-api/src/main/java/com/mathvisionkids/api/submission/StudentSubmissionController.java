@@ -1,5 +1,6 @@
 package com.mathvisionkids.api.submission;
 
+import com.mathvisionkids.api.analysis.AnalysisResultRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,12 @@ import java.util.UUID;
 public class StudentSubmissionController {
 
     private final SubmissionService submissionService;
+    private final AnalysisResultRepository analysisResultRepository;
 
-    public StudentSubmissionController(SubmissionService submissionService) {
+    public StudentSubmissionController(SubmissionService submissionService,
+                                       AnalysisResultRepository analysisResultRepository) {
         this.submissionService = submissionService;
+        this.analysisResultRepository = analysisResultRepository;
     }
 
     @PostMapping
@@ -34,6 +38,28 @@ public class StudentSubmissionController {
         response.setSubmissionId(submission.getSubmissionId());
         response.setStatus(submission.getStatus());
         response.setCreatedAt(submission.getCreatedAt());
+        response.setFlowDomain("ARITHMETIC");
+
+        analysisResultRepository.findBySubmission_SubmissionId(submission.getSubmissionId())
+                .ifPresent(ar -> {
+                    if (ar.getReviewReasons() != null) {
+                        if (ar.getReviewReasons().containsKey("reasonCode")) {
+                            Object rc = ar.getReviewReasons().get("reasonCode");
+                            if (rc != null) {
+                                response.setReasonCode(String.valueOf(rc));
+                            }
+                        }
+                        if (ar.getReviewReasons().containsKey("diagnostics")) {
+                            Object diag = ar.getReviewReasons().get("diagnostics");
+                            if (diag instanceof java.util.Map<?, ?> map) {
+                                @SuppressWarnings("unchecked")
+                                java.util.Map<String, Object> castMap = (java.util.Map<String, Object>) map;
+                                response.setDiagnostics(castMap);
+                            }
+                        }
+                    }
+                });
+
         return ResponseEntity.ok(response);
     }
 

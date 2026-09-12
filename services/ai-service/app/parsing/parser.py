@@ -3,6 +3,9 @@ from app.schemas.core import ImageRecognitionResult, ParsedExercise, Token
 
 class StructuredParser:
     def parse(self, recognition_result: ImageRecognitionResult) -> ParsedExercise:
+        if recognition_result.status == "NO_DETECTIONS":
+            return ParsedExercise(operationType="UNKNOWN", operands=[], result="", tokens=[], status="NO_CONTENT_DETECTED")
+
         if recognition_result.status == "OUT_OF_SCOPE":
             return ParsedExercise(operationType="UNKNOWN", operands=[], result="", tokens=[], status="OUT_OF_SCOPE")
             

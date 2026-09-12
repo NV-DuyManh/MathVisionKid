@@ -28,7 +28,7 @@ if (Test-Path $PidDir) {
 }
 
 # 2. Check MathVision specific ports and terminate lingering processes only if verified MathVision
-$PortsToCheck = @(8080, 8000, 5173, 5174)
+$PortsToCheck = @(8080, 8000, 5172, 5173, 5174, 8081)
 foreach ($port in $PortsToCheck) {
     try {
         $conns = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
@@ -39,8 +39,12 @@ foreach ($port in $PortsToCheck) {
                 if ($p) {
                     # Verify MathVision ownership before termination
                     $cimProc = Get-CimInstance Win32_Process -Filter "ProcessId = $procId" -ErrorAction SilentlyContinue
-                    $cmdLine = if ($cimProc) { $cimProc.CommandLine } else { "" }
-                    $isMathVision = ($cmdLine -match "MathVision|mathvisionkids|mathvision|services[\\/]business-api|services[\\/]ai-service|teacher-web|admin-web|gradlew\.bat bootRun")
+                    $cmdLine = if ($cimProc -and $cimProc.CommandLine) { $cimProc.CommandLine } else { "" }
+                    $procPath = try { $p.Path } catch { "" }
+                    $procTitle = try { $p.MainWindowTitle } catch { "" }
+                    $isMathVision = ($cmdLine -match "MathVision|mathvisionkids|mathvision|services[\\/]business-api|services[\\/]ai-service|portal-web|teacher-web|admin-web|gradlew\.bat bootRun|expo|start:device") -or
+                                    ($procPath -match "MathVision|services[\\/]ai-service") -or
+                                    ($procTitle -match "Student Mobile|Metro LAN")
                     
                     if ($isMathVision) {
                         Write-Host "Releasing port $port (Process: $($p.ProcessName), PID: $($p.Id))..."
@@ -60,6 +64,17 @@ try {
     foreach ($proc in $celeryProcs) {
         Write-Host "Stopping Celery worker process (PID: $($proc.ProcessId))..."
         & taskkill /PID $proc.ProcessId /T /F 2>$null | Out-Null
+    }
+} catch {}
+
+# 3.5 Stop Student Metro console windows if any remain
+try {
+    Get-Process | Where-Object {
+        $_.MainWindowTitle -match "MathVision Kids - Student Mobile" -or
+        $_.MainWindowTitle -match "Student Mobile \(Metro LAN\)"
+    } | ForEach-Object {
+        Write-Host "Stopping Student Mobile Metro window (PID: $($_.Id), Title: $($_.MainWindowTitle))..."
+        & taskkill /PID $_.Id /T /F 2>$null | Out-Null
     }
 } catch {}
 

@@ -1,6 +1,7 @@
 package com.mathvisionkids.api.ocr.multiline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mathvisionkids.api.ocr.OcrStorageVerifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class OcrMultilineControllerTest {
 
     @Autowired
     private OcrMultilineLineRepository lineRepository;
+
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private OcrStorageVerifier ocrStorageVerifier;
 
     private OcrMultilineTrial testTrial;
     private OcrMultilineLine testLine1;
@@ -84,6 +88,7 @@ public class OcrMultilineControllerTest {
         testLine2.setVerdict("UNVERIFIED");
         testLine2.setTrainingEligible(false);
         testLine2 = lineRepository.save(testLine2);
+        org.mockito.Mockito.when(ocrStorageVerifier.verifyStorageIntegrity(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(true);
     }
 
     @Test
@@ -234,5 +239,23 @@ public class OcrMultilineControllerTest {
 
         OcrMultilineLine updated = lineRepository.findById(testLine1.getLineId()).orElseThrow();
         assertFalse(updated.isTrainingEligible());
+    }
+
+    @Test
+    @WithMockUser(username = "student@test.com", roles = {"STUDENT"})
+    void testRecordLineFeedbackStorageIntegrityFailureMarksNotEligible() throws Exception {
+        org.mockito.Mockito.when(ocrStorageVerifier.verifyStorageIntegrity(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(false);
+
+        MultilineFeedbackRequest request = new MultilineFeedbackRequest("CORRECT", null, false);
+        mockMvc.perform(post("/api/v1/ocr/multiline/trials/" + testTrial.getTrialId() + "/lines/" + testLine1.getLineId() + "/feedback")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.verdict").value("CORRECT"))
+                .andExpect(jsonPath("$.trainingEligible").value(false));
+
+        OcrMultilineLine updated = lineRepository.findById(testLine1.getLineId()).orElseThrow();
+        assertEquals("CORRECT", updated.getVerdict());
+        assertFalse(updated.isTrainingEligible(), "Must be false when storage integrity fails");
     }
 }

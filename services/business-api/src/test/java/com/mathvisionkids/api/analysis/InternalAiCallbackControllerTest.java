@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import java.util.Map;
+import java.util.HashMap;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +34,9 @@ public class InternalAiCallbackControllerTest {
 
     @Autowired
     private SubmissionRepository submissionRepository;
+
+    @Autowired
+    private AnalysisResultRepository analysisResultRepository;
 
     private AiJob testJob;
     private Submission testSubmission;
@@ -67,6 +72,57 @@ public class InternalAiCallbackControllerTest {
         
         Submission updatedSubmission = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
         assert "PROPOSED_GRADE".equals(updatedSubmission.getStatus());
+    }
+
+    @Test
+    public void testCallbackWithReasonCode() throws Exception {
+        String url = "/internal/v1/ai/jobs/" + testJob.getJobId() + "/callback";
+
+        AiCallbackRequest payload = new AiCallbackRequest();
+        payload.setStatus("REVIEW_REQUIRED");
+        payload.setReasonCode("OCR_LOW_CONFIDENCE");
+
+        mockMvc.perform(post(url)
+                .header("X-Internal-API-Key", "test-secret-key")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().isOk());
+
+        Submission updatedSubmission = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
+        assert "REVIEW_REQUIRED".equals(updatedSubmission.getStatus());
+
+        AnalysisResult ar = analysisResultRepository.findBySubmission_SubmissionId(testSubmission.getSubmissionId()).orElseThrow();
+        assert ar.getReviewReasons() != null;
+        assert "OCR_LOW_CONFIDENCE".equals(ar.getReviewReasons().get("reasonCode"));
+    }
+
+    @Test
+    public void testCallbackWithDiagnostics() throws Exception {
+        String url = "/internal/v1/ai/jobs/" + testJob.getJobId() + "/callback";
+
+        AiCallbackRequest payload = new AiCallbackRequest();
+        payload.setStatus("REVIEW_REQUIRED");
+        payload.setReasonCode("DETECTOR_NO_TOKENS");
+        Map<String, Object> diags = new HashMap<>();
+        diags.put("detectorInvoked", true);
+        diags.put("detectorTokenCount", 0);
+        diags.put("qualityFlags", java.util.List.of("SLIGHT_BLUR"));
+        payload.setDiagnostics(diags);
+
+        mockMvc.perform(post(url)
+                .header("X-Internal-API-Key", "test-secret-key")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().isOk());
+
+        AnalysisResult ar = analysisResultRepository.findBySubmission_SubmissionId(testSubmission.getSubmissionId()).orElseThrow();
+        assert ar.getReviewReasons() != null;
+        assert "DETECTOR_NO_TOKENS".equals(ar.getReviewReasons().get("reasonCode"));
+        @SuppressWarnings("unchecked")
+        Map<String, Object> savedDiags = (Map<String, Object>) ar.getReviewReasons().get("diagnostics");
+        assert savedDiags != null;
+        assert Boolean.TRUE.equals(savedDiags.get("detectorInvoked"));
+        assert Integer.valueOf(0).equals(savedDiags.get("detectorTokenCount"));
     }
 
     @Test

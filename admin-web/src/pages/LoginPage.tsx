@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -25,11 +25,60 @@ export const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { login, loginWithSsoTicket } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
+
+  // Handle SSO Ticket Exchange if redirected from Unified Portal (URL Fragment #sso= preferred)
+  useEffect(() => {
+    let ssoCode: string | null = null;
+    const hash = window.location.hash;
+    if (hash && hash.includes('sso=')) {
+      const match = hash.match(/sso=([^&]*)/);
+      if (match) {
+        ssoCode = decodeURIComponent(match[1]);
+      }
+    }
+    // Backward compatibility fallback to query param
+    if (!ssoCode) {
+      const showDevTools = import.meta.env.VITE_SHOW_DEV_TOOLS === 'true';
+      const hasFallbackParam = new URLSearchParams(location.search).get('fallback') === 'true' ||
+                               new URLSearchParams(location.search).get('direct') === 'true';
+      const isAllowedFallback = showDevTools && hasFallbackParam;
+
+      if (!isAllowedFallback) {
+        window.location.href = 'http://localhost:5172/';
+        return;
+      }
+      return;
+    }
+
+    // IMMEDIATELY scrub the URL (fragment or query) before any network operation
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    const performSsoExchange = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        await loginWithSsoTicket(ssoCode!);
+        navigate(from, { replace: true });
+      } catch (err: unknown) {
+        const e = err as { response?: { data?: { message?: string; error?: { message?: string } } }; message?: string };
+        const message =
+          e.response?.data?.message ||
+          e.response?.data?.error?.message ||
+          e.message ||
+          'Mã xác thực chuyển giao (SSO) không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại qua Portal.';
+        setError(message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    performSsoExchange();
+  }, [location.search, loginWithSsoTicket, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -191,7 +240,36 @@ export const LoginPage: React.FC = () => {
             Điền tài khoản Admin mẫu
           </Button>
 
+          <Button
+            variant="outlined"
+            fullWidth
+            component="a"
+            href="http://localhost:5172/login"
+            sx={{
+              mt: 2,
+              py: 1,
+              fontWeight: 600,
+              fontSize: '0.85rem',
+              borderColor: '#4F46E5',
+              color: '#4F46E5',
+              '&:hover': {
+                borderColor: '#4338CA',
+                bgcolor: '#EEF2FF',
+              },
+            }}
+          >
+            Đăng nhập qua MathVision Kids
+          </Button>
+
           <Box sx={{ mt: 3, textAlign: 'center' }}>
+            <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 1 }}>
+              <a
+                href="http://localhost:5172"
+                style={{ color: '#64748B', textDecoration: 'none', fontWeight: 500 }}
+              >
+                ← Về Trang chủ MathVision Kids
+              </a>
+            </Typography>
             <Typography variant="caption" sx={{ color: '#94A3B8', display: 'block' }}>
               Hệ thống không hỗ trợ đăng ký tự do. Tài khoản được cấp bởi Quản trị viên.
             </Typography>

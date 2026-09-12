@@ -102,7 +102,7 @@ public class BatchService {
                 throw new ApiException("VALIDATION_ERROR", "Missing student mapping for index " + i, HttpStatus.BAD_REQUEST);
             }
             
-            if (mapping.getFileIndex() != i) {
+            if (mapping.getFileIndex() == null || mapping.getFileIndex() != i) {
                 throw new ApiException("VALIDATION_ERROR", "Invalid file index in mapping at index " + i, HttpStatus.BAD_REQUEST);
             }
 

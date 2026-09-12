@@ -21,6 +21,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.mathvisionkids.api.analysis.AnalysisResult;
+import com.mathvisionkids.api.analysis.AnalysisResultRepository;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +59,9 @@ public class SubmissionControllerTest {
 
     @Autowired
     private SubmissionRepository submissionRepository;
+
+    @Autowired
+    private AnalysisResultRepository analysisResultRepository;
 
     private Teacher teacherA;
     private Teacher teacherB;
@@ -182,6 +187,56 @@ public class SubmissionControllerTest {
         mockMvc.perform(get("/api/v1/student/submissions/" + submissionA.getSubmissionId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "studenta@test.com", roles = "STUDENT")
+    public void testStudentGetSubmissionWithReasonCode() throws Exception {
+        submissionA.setStatus("REVIEW_REQUIRED");
+        submissionRepository.save(submissionA);
+
+        AnalysisResult ar = new AnalysisResult();
+        ar.setSubmission(submissionA);
+        ar.setStatus("REVIEW_REQUIRED");
+        Map<String, Object> reasons = new HashMap<>();
+        reasons.put("reasonCode", "INVALID_LAYOUT");
+        ar.setReviewReasons(reasons);
+        analysisResultRepository.save(ar);
+
+        mockMvc.perform(get("/api/v1/student/submissions/" + submissionA.getSubmissionId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.status").value("REVIEW_REQUIRED"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.reasonCode").value("INVALID_LAYOUT"));
+    }
+
+    @Test
+    @WithMockUser(username = "studenta@test.com", roles = "STUDENT")
+    public void testStudentGetSubmissionWithDiagnostics() throws Exception {
+        submissionA.setStatus("REVIEW_REQUIRED");
+        submissionRepository.save(submissionA);
+
+        AnalysisResult ar = new AnalysisResult();
+        ar.setSubmission(submissionA);
+        ar.setStatus("REVIEW_REQUIRED");
+        Map<String, Object> reasons = new HashMap<>();
+        reasons.put("reasonCode", "DETECTOR_NO_TOKENS");
+        Map<String, Object> diags = new HashMap<>();
+        diags.put("detectorInvoked", true);
+        diags.put("detectorTokenCount", 0);
+        diags.put("ocrInvoked", false);
+        reasons.put("diagnostics", diags);
+        ar.setReviewReasons(reasons);
+        analysisResultRepository.save(ar);
+
+        mockMvc.perform(get("/api/v1/student/submissions/" + submissionA.getSubmissionId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.status").value("REVIEW_REQUIRED"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.reasonCode").value("DETECTOR_NO_TOKENS"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.diagnostics.detectorInvoked").value(true))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.diagnostics.detectorTokenCount").value(0))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.diagnostics.ocrInvoked").value(false));
     }
 
     @Test

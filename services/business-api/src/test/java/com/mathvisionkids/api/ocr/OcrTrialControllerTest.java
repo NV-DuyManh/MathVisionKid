@@ -33,6 +33,9 @@ public class OcrTrialControllerTest {
     @Autowired
     private OcrTrialRepository ocrTrialRepository;
 
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private OcrStorageVerifier ocrStorageVerifier;
+
     private OcrTrial testTrial;
 
     @BeforeEach
@@ -52,6 +55,7 @@ public class OcrTrialControllerTest {
         testTrial.setTestData(false);
         testTrial.setDomain("HANDWRITING_TEXT");
         testTrial = ocrTrialRepository.save(testTrial);
+        org.mockito.Mockito.when(ocrStorageVerifier.verifyStorageIntegrity(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(true);
     }
 
     @Test
@@ -233,6 +237,7 @@ public class OcrTrialControllerTest {
     @Test
     @WithMockUser(username = "student@test.com", roles = {"STUDENT"})
     void testZeroVerifiedMetricsReturnsNullAndNA() throws Exception {
+        ocrTrialRepository.deleteAll();
         // testTrial is UNVERIFIED, no verified trials exist
         mockMvc.perform(get("/api/v1/ocr/trials/metrics"))
                 .andExpect(status().isOk())
@@ -241,5 +246,23 @@ public class OcrTrialControllerTest {
                 .andExpect(jsonPath("$.exactMatchPercentage").value("N/A"))
                 .andExpect(jsonPath("$.characterErrorRate").doesNotExist())
                 .andExpect(jsonPath("$.cerPercentage").value("N/A"));
+    }
+
+    @Test
+    @WithMockUser(username = "student@test.com", roles = {"STUDENT"})
+    void testRecordFeedbackStorageIntegrityFailureMarksNotEligible() throws Exception {
+        org.mockito.Mockito.when(ocrStorageVerifier.verifyStorageIntegrity(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(false);
+
+        OcrFeedbackRequest request = new OcrFeedbackRequest("CORRECT", null, false);
+        mockMvc.perform(post("/api/v1/ocr/trials/" + testTrial.getTrialId() + "/feedback")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.verdict").value("CORRECT"))
+                .andExpect(jsonPath("$.trainingEligible").value(false));
+
+        OcrTrial updated = ocrTrialRepository.findById(testTrial.getTrialId()).orElseThrow();
+        assertEquals("CORRECT", updated.getVerdict());
+        assertFalse(updated.isTrainingEligible(), "Must be false when storage integrity fails");
     }
 }

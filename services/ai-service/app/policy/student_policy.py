@@ -3,6 +3,16 @@ from app.schemas.jobs import GradeProposal, Evidence, StudentFeedback
 
 
 def generate_student_feedback(parsed: ParsedExercise, validation_result: dict) -> dict:
+    if parsed.status == "NO_CONTENT_DETECTED":
+        return {
+            "status": "OUT_OF_SCOPE",
+            "studentFeedback": StudentFeedback(
+                title="Chưa nhận diện được bài làm",
+                hint="MathVision đã thử nhận diện nhưng chưa nhận ra đủ chữ số hoặc dấu phép tính trong ảnh.",
+                revealAnswer=False
+            )
+        }
+
     if parsed.status == "OUT_OF_SCOPE":
         return {
             "status": "OUT_OF_SCOPE",
@@ -13,12 +23,22 @@ def generate_student_feedback(parsed: ParsedExercise, validation_result: dict) -
             )
         }
 
+    if parsed.status == "INVALID_LAYOUT":
+        return {
+            "status": "NEEDS_CONFIRMATION",
+            "studentFeedback": StudentFeedback(
+                title="Bố cục chưa rõ ràng",
+                hint="Hệ thống đã nhận diện được nét viết nhưng chưa rõ bố cục phép tính. Em chụp lại ngay ngắn nhé!",
+                revealAnswer=False
+            )
+        }
+
     if parsed.status == "UNCERTAIN_STRUCTURE":
         return {
             "status": "NEEDS_CONFIRMATION",
             "studentFeedback": StudentFeedback(
-                title="Ảnh chưa rõ",
-                hint="AI không chắc chắn về cấu trúc bài làm. Em có thể chụp lại rõ hơn được không?",
+                title="MathVision chưa chắc chắn kết quả",
+                hint="MathVision đã thử đọc bài của em nhưng chưa đủ chắc chắn để kết luận. Em có thể kiểm tra hoặc chụp lại nhé!",
                 revealAnswer=False
             )
         }

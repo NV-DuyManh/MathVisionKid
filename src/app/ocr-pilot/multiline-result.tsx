@@ -8,6 +8,7 @@ import {
   TextInput,
   ActivityIndicator,
   Alert,
+  Platform,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -294,6 +295,20 @@ export default function MultilineResultScreen() {
         );
       })}
 
+      {__DEV__ && trial && (
+        <View style={styles.devBox} testID="dev-diagnostic-panel">
+          <Text style={styles.devTitle}>DEV Diagnostic (Multiline OCR)</Text>
+          <Text style={styles.devText}>flowDomain: HANDWRITING_TEXT</Text>
+          <Text style={styles.devText}>trialId: {trial.trialId}</Text>
+          <Text style={styles.devText}>lineCount: {trial.lines.length}</Text>
+          <Text style={styles.devText}>ocrInvoked: true</Text>
+          <Text style={styles.devText}>recognizedTextLength: {joinedText.length}</Text>
+          <Text style={styles.devText}>
+            perLineStatus: {trial.lines.map((l) => `L${l.lineOrder}:${l.predictedText ? 'OK' : 'EMPTY'}`).join(', ')}
+          </Text>
+        </View>
+      )}
+
       {/* Done Button */}
       <TouchableOpacity
         style={styles.doneBtn}
@@ -578,5 +593,27 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
+  },
+  devBox: {
+    marginTop: SIZES.large,
+    marginBottom: SIZES.small,
+    padding: SIZES.medium,
+    backgroundColor: '#1E293B',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  devTitle: {
+    color: '#38BDF8',
+    fontSize: 12,
+    fontWeight: '700',
+    marginBottom: 6,
+    textTransform: 'uppercase',
+  },
+  devText: {
+    color: '#94A3B8',
+    fontSize: 11,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    lineHeight: 16,
   },
 });

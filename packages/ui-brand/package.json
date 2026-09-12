@@ -1,0 +1,13 @@
+{
+  "name": "@mathvisionkid/ui-brand",
+  "version": "1.0.0",
+  "description": "Shared Brand & Design Tokens for MathVision Kids Ecosystem",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

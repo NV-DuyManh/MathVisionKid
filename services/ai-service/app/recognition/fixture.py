@@ -3,6 +3,9 @@ from app.schemas.core import ImageRecognitionResult, Token
 
 class FixtureRecognitionEngine(RecognitionEngine):
     def recognize(self, image_reference: str) -> ImageRecognitionResult:
+        if "no-tokens" in image_reference or "quality-fail" in image_reference:
+            return ImageRecognitionResult(tokens=[], status="NO_DETECTIONS")
+
         if "out-of-scope" in image_reference:
             return ImageRecognitionResult(tokens=[], status="OUT_OF_SCOPE")
             

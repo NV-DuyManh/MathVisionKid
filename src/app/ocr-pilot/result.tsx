@@ -4,13 +4,14 @@ import {
   Text,
   StyleSheet,
   Image,
-  SafeAreaView,
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
   Alert,
   ScrollView,
+  Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
@@ -120,9 +121,11 @@ export default function OcrResultScreen() {
     router.replace('/(tabs)');
   };
 
+  const hasRecognizedText = !!(trialResult && trialResult.recognizedText && trialResult.recognizedText.trim().length > 0);
+
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader title="Kết quả nhận diện chữ" showBack />
+      <AppHeader title={hasRecognizedText ? "Kết quả nhận diện" : "MathVision chưa đọc chắc chắn"} showBack />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Cropped Line Image Card */}
@@ -153,39 +156,73 @@ export default function OcrResultScreen() {
           </View>
         ) : (
           <View style={styles.resultSection}>
-            <Text style={styles.sectionHeading}>MathVision đọc được:</Text>
-
-            {/* Recognized Text Box */}
-            <View style={[styles.textBox, SHADOWS.small]}>
-              <Text style={styles.recognizedText}>
-                {trialResult?.recognizedText || '(Không nhận diện được ký tự nào)'}
-              </Text>
-            </View>
+            {hasRecognizedText ? (
+              <>
+                <Text style={styles.sectionHeading}>MathVision đọc được:</Text>
+                <View style={[styles.textBox, SHADOWS.small]}>
+                  <Text style={styles.recognizedText}>
+                    {trialResult?.recognizedText}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <View style={styles.emptyNoticeBox}>
+                <Ionicons name="help-circle-outline" size={32} color={COLORS.warning} />
+                <Text style={styles.emptyNoticeTitle}>MathVision chưa đọc chắc chắn</Text>
+                <Text style={styles.emptyNoticeSub}>
+                  MathVision đã thử đọc bài viết tay nhưng kết quả chưa đủ rõ. Em có thể thử lại hoặc nhập nội dung đúng.
+                </Text>
+              </View>
+            )}
 
             {/* Feedback Actions */}
             {!feedbackSaved ? (
               <View style={styles.feedbackSection}>
                 {!isEditing ? (
                   <>
-                    <Text style={styles.feedbackPrompt}>Kết quả đọc có chính xác không em?</Text>
+                    {hasRecognizedText ? (
+                      <>
+                        <Text style={styles.feedbackPrompt}>Kết quả đọc có chính xác không em?</Text>
 
-                    <TouchableOpacity
-                      style={[styles.actionButton, styles.correctButton]}
-                      onPress={handleCorrect}
-                      disabled={isSubmittingFeedback}
-                    >
-                      <Ionicons name="checkmark-circle" size={22} color="#FFFFFF" />
-                      <Text style={styles.actionButtonText}>✓ Đúng rồi</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.correctButton]}
+                          onPress={handleCorrect}
+                          disabled={isSubmittingFeedback}
+                        >
+                          <Ionicons name="checkmark-circle" size={22} color="#FFFFFF" />
+                          <Text style={styles.actionButtonText}>✓ Đúng</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                      style={[styles.actionButton, styles.editButton]}
-                      onPress={() => setIsEditing(true)}
-                      disabled={isSubmittingFeedback}
-                    >
-                      <Ionicons name="pencil" size={20} color={COLORS.primaryDark} />
-                      <Text style={[styles.actionButtonText, { color: COLORS.primaryDark }]}>✎ Sửa kết quả</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.editButton]}
+                          onPress={() => setIsEditing(true)}
+                          disabled={isSubmittingFeedback}
+                        >
+                          <Ionicons name="pencil" size={20} color={COLORS.primaryDark} />
+                          <Text style={[styles.actionButtonText, { color: COLORS.primaryDark }]}>✎ Sửa</Text>
+                        </TouchableOpacity>
+                      </>
+                    ) : (
+                      <>
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.retryButton]}
+                          onPress={handleRecognizeAnother}
+                          disabled={isSubmittingFeedback}
+                        >
+                          <Ionicons name="refresh" size={20} color="#FFFFFF" />
+                          <Text style={styles.actionButtonText}>Thử lại</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.editButton]}
+                          onPress={() => setIsEditing(true)}
+                          disabled={isSubmittingFeedback}
+                        >
+                          <Ionicons name="pencil" size={20} color={COLORS.primaryDark} />
+                          <Text style={[styles.actionButtonText, { color: COLORS.primaryDark }]}>Nhập nội dung đúng</Text>
+                        </TouchableOpacity>
+                      </>
+                    )}
 
                     <TouchableOpacity
                       style={styles.skipButton}
@@ -247,6 +284,18 @@ export default function OcrResultScreen() {
                 <AppButton title="Về trang chủ" onPress={() => router.replace('/(tabs)')} variant="secondary" />
               </View>
             )}
+          </View>
+        )}
+
+        {__DEV__ && (
+          <View style={styles.devBox} testID="dev-diagnostic-panel">
+            <Text style={styles.devTitle}>DEV Diagnostic (Handwriting OCR)</Text>
+            <Text style={styles.devText}>flowDomain: HANDWRITING_TEXT</Text>
+            <Text style={styles.devText}>trialId: {trialResult?.trialId || 'UNAVAILABLE'}</Text>
+            <Text style={styles.devText}>lineCount: 1</Text>
+            <Text style={styles.devText}>ocrInvoked: {trialResult ? 'true' : 'UNAVAILABLE'}</Text>
+            <Text style={styles.devText}>recognizedTextLength: {trialResult?.recognizedText ? String(trialResult.recognizedText.length) : '0'}</Text>
+            <Text style={styles.devText}>perLineStatus: {trialResult?.recognizedText ? 'OK' : 'EMPTY'}</Text>
           </View>
         )}
       </ScrollView>
@@ -334,6 +383,32 @@ const styles = StyleSheet.create({
   },
   resultSection: {
     marginTop: 4,
+  },
+  emptyNoticeBox: {
+    backgroundColor: '#FEF3C7',
+    borderWidth: 1,
+    borderColor: '#FDE68A',
+    borderRadius: 12,
+    padding: SIZES.medium,
+    alignItems: 'center',
+    marginBottom: SIZES.large,
+  },
+  emptyNoticeTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#92400E',
+    marginTop: 6,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  emptyNoticeSub: {
+    fontSize: 14,
+    color: '#B45309',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  retryButton: {
+    backgroundColor: COLORS.primary,
   },
   sectionHeading: {
     fontSize: 15,
@@ -478,5 +553,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 4,
     lineHeight: 18,
+  },
+  devBox: {
+    marginTop: SIZES.large,
+    padding: SIZES.medium,
+    backgroundColor: '#1E293B',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  devTitle: {
+    color: '#38BDF8',
+    fontSize: 12,
+    fontWeight: '700',
+    marginBottom: 6,
+    textTransform: 'uppercase',
+  },
+  devText: {
+    color: '#94A3B8',
+    fontSize: 11,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    lineHeight: 16,
   },
 });

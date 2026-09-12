@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field, AliasChoices
 from typing import Optional
 
 class Settings(BaseSettings):
@@ -6,7 +7,7 @@ class Settings(BaseSettings):
     runtime_mode: str = "FIXTURE"
     
     port: int = 8000
-    host: str = "0.0.0.0"
+    host: str = Field(default="127.0.0.1", validation_alias=AliasChoices("AI_HOST", "HOST", "host"))
     
     redis_url: str = "redis://localhost:6379/0"
     

@@ -7,4 +7,5 @@ public interface ObjectStorageService {
     String store(MultipartFile file, String directory) throws IOException;
     void delete(String filePath) throws IOException;
     String getAuthorizedReference(String filePath);
+    byte[] loadBytes(String filePath) throws IOException;
 }

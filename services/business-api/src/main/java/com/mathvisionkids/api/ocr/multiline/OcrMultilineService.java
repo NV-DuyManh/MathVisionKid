@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.storage.ObjectStorageService;
+import com.mathvisionkids.api.ocr.OcrStorageVerifier;
 import com.mathvisionkids.api.user.User;
 import com.mathvisionkids.api.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,7 @@ public class OcrMultilineService {
     private final OcrMultilineTrialRepository trialRepository;
     private final OcrMultilineLineRepository lineRepository;
     private final ObjectStorageService objectStorageService;
+    private final OcrStorageVerifier ocrStorageVerifier;
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -41,6 +43,7 @@ public class OcrMultilineService {
             OcrMultilineTrialRepository trialRepository,
             OcrMultilineLineRepository lineRepository,
             ObjectStorageService objectStorageService,
+            OcrStorageVerifier ocrStorageVerifier,
             UserRepository userRepository,
             ObjectMapper objectMapper,
             @Value("${ai.service.base-url:${AI_SERVICE_URL:http://localhost:8000}}") String aiServiceBaseUrl,
@@ -49,6 +52,7 @@ public class OcrMultilineService {
         this.trialRepository = trialRepository;
         this.lineRepository = lineRepository;
         this.objectStorageService = objectStorageService;
+        this.ocrStorageVerifier = ocrStorageVerifier;
         this.userRepository = userRepository;
         this.objectMapper = objectMapper;
         this.aiServiceBaseUrl = aiServiceBaseUrl.replaceAll("/+$", "");
@@ -317,6 +321,13 @@ public class OcrMultilineService {
 
         if ("CORRECT".equals(verdictUpper)) {
             eligible = eligible && line.getVerifiedTextRaw().equals(line.getPredictedText());
+        }
+
+        if (eligible) {
+            eligible = ocrStorageVerifier.verifyStorageIntegrity(
+                    line.getLineImageObjectKey(),
+                    line.getLineImageSha256()
+            );
         }
 
         line.setTrainingEligible(eligible);

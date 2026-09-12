@@ -1,16 +1,75 @@
-import { Box, Button, Card, CardContent, Typography, TextField, Alert, InputAdornment, IconButton, CircularProgress } from '@mui/material';
+import { Box, Button, Card, CardContent, Typography, TextField, Alert, InputAdornment, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Visibility, VisibilityOff, School } from '@mui/icons-material';
-import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, type FormEvent } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
+import apiClient from '../services/api/apiClient';
+import { AuthTokenStore } from '../services/api/AuthTokenStore';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [email, setEmail] = useState('lan.teacher@mathvision.local');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Handle SSO Ticket Exchange if redirected from Unified Portal (URL Fragment #sso= preferred)
+  useEffect(() => {
+    let ssoCode: string | null = null;
+    const hash = window.location.hash;
+    if (hash && hash.includes('sso=')) {
+      const match = hash.match(/sso=([^&]*)/);
+      if (match) {
+        ssoCode = decodeURIComponent(match[1]);
+      }
+    }
+    // Backward compatibility fallback to query param
+    if (!ssoCode) {
+      ssoCode = searchParams.get('code');
+    }
+    // Handle SSO Ticket Exchange if redirected from Unified Portal (URL Fragment #sso= preferred)
+    if (!ssoCode) {
+      const showDevTools = import.meta.env.VITE_SHOW_DEV_TOOLS === 'true';
+      const hasFallbackParam = searchParams.get('fallback') === 'true' || searchParams.get('direct') === 'true';
+      const isAllowedFallback = showDevTools && hasFallbackParam;
+
+      if (!isAllowedFallback) {
+        window.location.href = 'http://localhost:5172/';
+        return;
+      }
+      return;
+    }
+
+    // IMMEDIATELY scrub the URL (fragment or query) before any network operation
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    const exchangeTicket = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await apiClient.post('/auth/sso/exchange', {
+          code: ssoCode,
+          targetApp: 'TEACHER',
+        });
+        const { accessToken, refreshToken } = res.data;
+        if (accessToken && refreshToken) {
+          AuthTokenStore.setTokens(accessToken, refreshToken);
+        }
+        navigate('/dashboard', { replace: true });
+      } catch (err: any) {
+        setError(
+          err.response?.data?.message ||
+          'Mã xác thực chuyển giao (SSO) không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại qua Portal.'
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    exchangeTicket();
+  }, [searchParams, navigate]);
 
   const handleLogin = async (e?: FormEvent) => {
     if (e) e.preventDefault();
@@ -151,6 +210,43 @@ export default function LoginPage() {
             >
               {loading ? 'Đang đăng nhập...' : 'Đăng nhập vào hệ thống'}
             </Button>
+
+            <Divider sx={{ my: 2 }}>
+              <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600 }}>
+                HOẶC ĐĂNG NHẬP CHÍNH THỨC
+              </Typography>
+            </Divider>
+
+            <Button
+              fullWidth
+              variant="outlined"
+              component="a"
+              href="http://localhost:5172/login"
+              sx={{
+                py: 1.1,
+                fontWeight: 600,
+                fontSize: '0.9rem',
+                borderColor: '#4F46E5',
+                color: '#4F46E5',
+                '&:hover': {
+                  borderColor: '#4338CA',
+                  bgcolor: '#EEF2FF',
+                },
+              }}
+            >
+              Đăng nhập qua MathVision Kids
+            </Button>
+
+            <Box sx={{ mt: 2.5, textAlign: 'center' }}>
+              <Typography variant="caption" sx={{ color: '#64748B' }}>
+                <a
+                  href="http://localhost:5172"
+                  style={{ color: '#64748B', textDecoration: 'none', fontWeight: 500 }}
+                >
+                  ← Về Trang chủ MathVision Kids
+                </a>
+              </Typography>
+            </Box>
           </Box>
         </CardContent>
       </Card>

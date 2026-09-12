@@ -8,6 +8,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithSsoTicket: (code: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -58,6 +59,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const loginWithSsoTicket = async (code: string) => {
+    setLoading(true);
+    try {
+      const userData = await authService.exchangeSsoTicket(code);
+      setUser(userData);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = async () => {
     try {
       await authService.logout();
@@ -73,6 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isAuthenticated: !!user && user.role === 'ADMIN',
         loading,
         login,
+        loginWithSsoTicket,
         logout,
       }}
     >

@@ -19,6 +19,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import HomeIcon from '@mui/icons-material/Home';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -38,7 +39,7 @@ export const AdminSidebar: React.FC = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/login');
+    window.location.href = 'http://localhost:5172/logout?source=admin';
   };
 
   return (
@@ -144,6 +145,38 @@ export const AdminSidebar: React.FC = () => {
           );
         })}
       </List>
+
+      <Divider sx={{ borderColor: '#1E293B' }} />
+
+      {/* Unified Portal Link */}
+      <Box sx={{ px: 1.5, py: 1 }}>
+        <ListItemButton
+          component="a"
+          href="http://localhost:5172"
+          sx={{
+            borderRadius: 1.5,
+            py: 1,
+            px: 2,
+            color: '#94A3B8',
+            transition: 'all 150ms ease',
+            '&:hover': {
+              bgcolor: '#1E293B',
+              color: '#38BDF8',
+            },
+          }}
+        >
+          <ListItemIcon sx={{ minWidth: 36, color: 'inherit' }}>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <Typography sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
+                Trang chủ MathVision Kids
+              </Typography>
+            }
+          />
+        </ListItemButton>
+      </Box>
 
       <Divider sx={{ borderColor: '#1E293B' }} />
 

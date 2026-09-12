@@ -256,6 +256,34 @@ def check_celery():
         )
 
 
+def check_portal_web():
+    port = 5172
+    url = f"http://localhost:{port}"
+    try:
+        req = urllib.request.Request(url, method="GET")
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
+            if resp.status == 200:
+                record_result("Unified Portal Web", "PASS")
+            else:
+                record_result(
+                    "Unified Portal Web", "WARN",
+                    detail=f"Unified Portal Web returned HTTP {resp.status}",
+                    fix="Check portal-web terminal or runtime/logs/portal-web.log"
+                )
+    except urllib.error.URLError as e:
+        record_result(
+            "Unified Portal Web", "FAIL",
+            detail=f"Unified Portal Web not reachable at {url}: {e}",
+            fix="Start Portal Web: cd portal-web && npm run dev"
+        )
+    except Exception as e:
+        record_result(
+            "Unified Portal Web", "FAIL",
+            detail=f"Unified Portal Web check error: {e}",
+            fix="Check portal-web dev server"
+        )
+
+
 def check_teacher_web():
     # Check port 5173 or probe
     port = 5173
@@ -313,17 +341,37 @@ def check_admin_web():
         )
 
 
-def check_student_mobile():
+def check_student_metro():
     app_json = REPO_ROOT / "app.json"
     if not app_json.exists():
-        record_result("Student Mobile", "NOT_CONFIGURED")
+        record_result("Student Metro", "NOT_CONFIGURED")
         return
 
-    # Check if Metro bundler is running on port 8081
-    if check_port("localhost", 8081, timeout=0.5):
-        record_result("Student Mobile", "RUNNING")
-    else:
-        record_result("Student Mobile", "CONFIGURED")
+    # Check if port 8081 is open
+    if not check_port("localhost", 8081, timeout=0.8):
+        record_result("Student Metro", "NOT_RUNNING")
+        return
+
+    # Verify Metro bundler /status or root response
+    try:
+        req = urllib.request.Request("http://localhost:8081/status", method="GET")
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
+            content = resp.read().decode("utf-8")
+            if "packager-status:running" in content or resp.status == 200:
+                record_result("Student Metro", "PASS")
+                return
+    except Exception:
+        pass
+
+    try:
+        req = urllib.request.Request("http://localhost:8081/", method="GET")
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
+            if resp.status in (200, 404):
+                record_result("Student Metro", "PASS")
+            else:
+                record_result("Student Metro", "WARN", detail=f"Metro returned HTTP {resp.status}")
+    except Exception as e:
+        record_result("Student Metro", "NOT_RUNNING", detail=f"Port 8081 open but Metro probe failed: {e}")
 
 
 def main():
@@ -340,9 +388,10 @@ def main():
     check_spring()
     check_fastapi()
     check_celery()
+    check_portal_web()
     check_teacher_web()
     check_admin_web()
-    check_student_mobile()
+    check_student_metro()
 
     # Format output items
     items = [
@@ -353,9 +402,10 @@ def main():
         ("Spring Boot", RESULTS.get("Spring Boot", "NOT_RUNNING")),
         ("FastAPI", RESULTS.get("FastAPI", "NOT_RUNNING")),
         ("Celery Worker", RESULTS.get("Celery Worker", "NOT_RUNNING")),
+        ("Unified Portal Web", RESULTS.get("Unified Portal Web", "NOT_RUNNING")),
         ("Teacher Web", RESULTS.get("Teacher Web", "NOT_RUNNING")),
         ("Admin Web", RESULTS.get("Admin Web", "NOT_RUNNING")),
-        ("Student Mobile", RESULTS.get("Student Mobile", "NOT_CONFIGURED")),
+        ("Student Metro", RESULTS.get("Student Metro", "NOT_CONFIGURED")),
     ]
 
     for name, status in items:
@@ -382,17 +432,26 @@ def main():
     print(f"Model Artifact ........ {model_artifact}")
     print()
 
-    # Determine overall status
-    required_services = [
+    # Determine overall status distinguishing core vs full demo
+    core_services = [
         "Docker", "PostgreSQL", "MinIO", "Redis",
-        "Spring Boot", "FastAPI", "Celery Worker", "Teacher Web", "Admin Web"
+        "Spring Boot", "FastAPI", "Celery Worker",
+        "Unified Portal Web", "Teacher Web", "Admin Web"
     ]
-    all_pass = all(RESULTS.get(s) == "PASS" for s in required_services)
+    core_pass = all(RESULTS.get(s) == "PASS" for s in core_services)
+    metro_pass = (RESULTS.get("Student Metro") == "PASS")
 
-    if all_pass:
-        overall = "READY_FOR_DEMO"
+    if core_pass and metro_pass:
+        overall = "READY_FOR_FULL_DEMO"
         print(f"Overall ............... {overall}")
         print("============================================")
+        return 0
+    elif core_pass and not metro_pass:
+        overall = "READY_FOR_CORE_DEMO"
+        print(f"Overall ............... {overall}")
+        print("============================================")
+        print("Notice: Core services are operational. Student Metro is not started.")
+        print("        Launch RUN_MATHVISION.bat to start the full stack including Student Metro LAN.")
         return 0
     else:
         overall = "NOT_READY"

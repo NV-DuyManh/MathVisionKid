@@ -70,6 +70,15 @@ public class GlobalExceptionHandler {
                 .body(buildError("IMAGE_TOO_LARGE", "File size exceeds limit", getRequestId(request), null));
     }
 
+    @ExceptionHandler({
+            org.springframework.web.bind.MissingServletRequestParameterException.class,
+            org.springframework.web.multipart.support.MissingServletRequestPartException.class
+    })
+    public ResponseEntity<ApiErrorResponse> handleMissingParam(Exception ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(buildError("VALIDATION_ERROR", ex.getMessage(), getRequestId(request), null));
+    }
+
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)

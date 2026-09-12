@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -7,8 +7,8 @@ import { COLORS, SIZES } from '../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../components/ui/AppButton';
 import { ScanFrame } from '../components/domain/ScanFrame';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { submissionDraftStore, FlowDomain, isHandwritingDomain } from '../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function CameraScreen() {
@@ -18,12 +18,18 @@ export default function CameraScreen() {
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
 
-  const currentMode: 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE' =
-    params.mode === 'OCR_PILOT_MULTILINE' || submissionDraftStore.getDraft()?.mode === 'OCR_PILOT_MULTILINE'
-      ? 'OCR_PILOT_MULTILINE'
-      : params.mode === 'OCR_PILOT' || submissionDraftStore.getDraft()?.mode === 'OCR_PILOT'
-      ? 'OCR_PILOT'
-      : 'ARITHMETIC';
+  const resolveInitialMode = (): FlowDomain => {
+    if (params.mode === 'ARITHMETIC') return 'ARITHMETIC';
+    if (params.mode === 'OCR_PILOT') return 'OCR_PILOT';
+    if (params.mode === 'OCR_PILOT_MULTILINE') return 'OCR_PILOT_MULTILINE';
+    if (params.mode === 'HANDWRITING_TEXT') return 'HANDWRITING_TEXT';
+    const draftMode = submissionDraftStore.getDraft()?.mode;
+    if (draftMode) return draftMode;
+    return 'HANDWRITING_TEXT';
+  };
+
+  const [mode, setMode] = useState<FlowDomain>(resolveInitialMode);
+  const isHandwriting = isHandwritingDomain(mode);
 
   const facing = 'back';
   const [flash, setFlash] = useState<'off' | 'on'>('off');
@@ -48,9 +54,10 @@ export default function CameraScreen() {
           height: asset.height,
           mimeType: asset.mimeType,
           source: 'GALLERY',
+          extra: `mode=${mode}`,
         });
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
-        draft.mode = currentMode;
+        draft.mode = mode;
         submissionDraftStore.setDraft(draft);
         router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
       }
@@ -101,9 +108,10 @@ export default function CameraScreen() {
             height: photo.height,
             mimeType: 'image/jpeg',
             source: 'CAMERA',
+            extra: `mode=${mode}`,
           });
           const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
-          draft.mode = currentMode;
+          draft.mode = mode;
           submissionDraftStore.setDraft(draft);
           router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
         }
@@ -120,96 +128,150 @@ export default function CameraScreen() {
   return (
     <View style={styles.container}>
       <CameraView
-        style={styles.camera}
+        style={StyleSheet.absoluteFill}
         facing={facing}
         enableTorch={flash === 'on'}
         ref={cameraRef}
-      >
-        <SafeAreaView style={styles.safeArea}>
-          {/* Header Controls */}
-          <View style={[styles.header, { marginTop: Math.max(insets.top, SIZES.small) }]}>
-            <TouchableOpacity
-              onPress={() => router.back()}
-              style={styles.iconButton}
-              accessibilityRole="button"
-              accessibilityLabel="Đóng máy ảnh, quay lại"
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            >
-              <Ionicons name="close" size={26} color="#FFFFFF" />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.iconButton}
-              onPress={() =>
-                Alert.alert(
-                  'Hướng dẫn chụp bài',
-                  '1. Đặt trọn vẹn phép tính vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh không bị mờ.'
-                )
-              }
-              accessibilityRole="button"
-              accessibilityLabel="Xem hướng dẫn chụp ảnh"
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            >
-              <Ionicons name="help-circle-outline" size={26} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Central Scan Frame */}
-          <ScanFrame />
-
-          {/* Bottom Controls */}
-          <View
-            style={[
-              styles.footer,
-              { paddingBottom: Math.max(insets.bottom + 8, SIZES.large) },
-            ]}
+      />
+      <SafeAreaView style={styles.safeArea} pointerEvents="box-none">
+        {/* Header Controls */}
+        <View style={[styles.header, { marginTop: Math.max(insets.top, SIZES.small) }]}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.iconButton}
+            accessibilityRole="button"
+            accessibilityLabel="Đóng máy ảnh, quay lại"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            <TouchableOpacity
-              style={styles.footerAction}
-              onPress={handlePickImage}
-              accessibilityRole="button"
-              accessibilityLabel="Chọn ảnh từ thư viện"
-            >
-              <View style={styles.footerIconCircle}>
-                <Ionicons name="images-outline" size={24} color="#FFFFFF" />
-              </View>
-              <Text style={styles.footerActionText}>Thư viện</Text>
-            </TouchableOpacity>
+            <Ionicons name="close" size={26} color="#FFFFFF" />
+          </TouchableOpacity>
 
+          {/* Mode Selector Tab Bar */}
+          <View style={styles.modeTabBar}>
             <TouchableOpacity
-              style={styles.captureButton}
-              onPress={handleCapture}
-              accessibilityRole="button"
-              accessibilityLabel="Chụp ảnh bài toán"
+              style={[
+                styles.modeTab,
+                isHandwriting && styles.modeTabActive,
+              ]}
+              onPress={() => setMode('HANDWRITING_TEXT')}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: isHandwriting }}
+              accessibilityLabel="Chế độ chữ viết tay tiếng Việt"
             >
-              <View style={styles.captureInner} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.footerAction}
-              onPress={toggleFlash}
-              accessibilityRole="button"
-              accessibilityLabel={flash === 'on' ? 'Tắt đèn pin' : 'Bật đèn pin'}
-            >
-              <View
+              <Ionicons
+                name="create-outline"
+                size={16}
+                color={isHandwriting ? '#FFFFFF' : '#CBD5E1'}
+              />
+              <Text
                 style={[
-                  styles.footerIconCircle,
-                  flash === 'on' && styles.footerIconCircleActive,
+                  styles.modeTabText,
+                  isHandwriting && styles.modeTabTextActive,
                 ]}
               >
-                <Ionicons
-                  name={flash === 'on' ? 'flash' : 'flash-off-outline'}
-                  size={24}
-                  color={flash === 'on' ? COLORS.warning : '#FFFFFF'}
-                />
-              </View>
-              <Text style={styles.footerActionText}>
-                {flash === 'on' ? 'Tắt đèn' : 'Bật đèn'}
+                Chữ viết tay
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.modeTab,
+                !isHandwriting && styles.modeTabActive,
+              ]}
+              onPress={() => setMode('ARITHMETIC')}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: !isHandwriting }}
+              accessibilityLabel="Chế độ phép tính đặt dọc"
+            >
+              <Ionicons
+                name="calculator-outline"
+                size={16}
+                color={!isHandwriting ? '#FFFFFF' : '#CBD5E1'}
+              />
+              <Text
+                style={[
+                  styles.modeTabText,
+                  !isHandwriting && styles.modeTabTextActive,
+                ]}
+              >
+                Phép tính
               </Text>
             </TouchableOpacity>
           </View>
-        </SafeAreaView>
-      </CameraView>
+
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() =>
+              Alert.alert(
+                isHandwriting ? 'Hướng dẫn chụp chữ viết tay' : 'Hướng dẫn chụp bài toán',
+                isHandwriting
+                  ? '1. Đặt dòng chữ hoặc đoạn văn viết tay vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh rõ nét.'
+                  : '1. Đặt trọn vẹn phép tính vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh không bị mờ.'
+              )
+            }
+            accessibilityRole="button"
+            accessibilityLabel="Xem hướng dẫn chụp ảnh"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <Ionicons name="help-circle-outline" size={26} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Central Scan Frame */}
+        <ScanFrame />
+
+        {/* Bottom Controls */}
+        <View
+          style={[
+            styles.footer,
+            { paddingBottom: Math.max(insets.bottom + 8, SIZES.large) },
+          ]}
+        >
+          <TouchableOpacity
+            style={styles.footerAction}
+            onPress={handlePickImage}
+            accessibilityRole="button"
+            accessibilityLabel="Chọn ảnh từ thư viện"
+          >
+            <View style={styles.footerIconCircle}>
+              <Ionicons name="images-outline" size={24} color="#FFFFFF" />
+            </View>
+            <Text style={styles.footerActionText}>Thư viện</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.captureButton}
+            onPress={handleCapture}
+            accessibilityRole="button"
+            accessibilityLabel={isHandwriting ? 'Chụp ảnh chữ viết tay tiếng Việt' : 'Chụp ảnh bài toán'}
+          >
+            <View style={styles.captureInner} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.footerAction}
+            onPress={toggleFlash}
+            accessibilityRole="button"
+            accessibilityLabel={flash === 'on' ? 'Tắt đèn pin' : 'Bật đèn pin'}
+          >
+            <View
+              style={[
+                styles.footerIconCircle,
+                flash === 'on' && styles.footerIconCircleActive,
+              ]}
+            >
+              <Ionicons
+                name={flash === 'on' ? 'flash' : 'flash-off-outline'}
+                size={24}
+                color={flash === 'on' ? COLORS.warning : '#FFFFFF'}
+              />
+            </View>
+            <Text style={styles.footerActionText}>
+              {flash === 'on' ? 'Tắt đèn' : 'Bật đèn'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </View>
   );
 }
@@ -277,8 +339,37 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: SIZES.medium,
     zIndex: 20,
+  },
+  modeTabBar: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+    borderRadius: 24,
+    padding: 3,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  modeTab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  modeTabActive: {
+    backgroundColor: COLORS.primary,
+  },
+  modeTabText: {
+    color: '#94A3B8',
+    fontSize: 13,
+    fontWeight: '600',
+    marginLeft: 4,
+  },
+  modeTabTextActive: {
+    color: '#FFFFFF',
+    fontWeight: '700',
   },
   iconButton: {
     width: SIZES.minTouchTarget,
