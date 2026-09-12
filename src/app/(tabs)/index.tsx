@@ -47,7 +47,7 @@ export default function HomeScreen() {
 
   const handleStartOcrPilot = () => {
     Alert.alert(
-      'Thử nhận diện chữ viết tay',
+      'Thử nhận diện 1 dòng chữ (Pilot 1)',
       'Em muốn chụp ảnh mới hay chọn ảnh có sẵn từ thư viện?',
       [
         {
@@ -79,6 +79,53 @@ export default function HomeScreen() {
                 });
                 const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
                 draft.mode = 'OCR_PILOT';
+                submissionDraftStore.setDraft(draft);
+                router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
+              }
+            } catch {
+              // cancelled
+            }
+          },
+        },
+        { text: 'Hủy', style: 'cancel' },
+      ]
+    );
+  };
+
+  const handleStartOcrPilotMultiline = () => {
+    Alert.alert(
+      'Thử nhận diện nhiều dòng chữ (Pilot 2)',
+      'Em muốn chụp ảnh mới hay chọn ảnh có sẵn từ thư viện?',
+      [
+        {
+          text: 'Chụp ảnh mới',
+          onPress: () => {
+            submissionDraftStore.clearDraft();
+            router.push({ pathname: '/camera' as any, params: { mode: 'OCR_PILOT_MULTILINE' } });
+          },
+        },
+        {
+          text: 'Chọn từ thư viện',
+          onPress: async () => {
+            try {
+              const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images'],
+                allowsEditing: false,
+                quality: 1,
+              });
+
+              if (!result.canceled && result.assets && result.assets.length > 0) {
+                const asset = result.assets[0];
+                logStageDiagnostic('ACQUIRE_GALLERY', {
+                  uri: asset.uri,
+                  width: asset.width,
+                  height: asset.height,
+                  mimeType: asset.mimeType,
+                  source: 'GALLERY',
+                  extra: 'ocr-pilot-multiline mode',
+                });
+                const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
+                draft.mode = 'OCR_PILOT_MULTILINE';
                 submissionDraftStore.setDraft(draft);
                 router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
               }
@@ -143,27 +190,50 @@ export default function HomeScreen() {
         <Text style={styles.secondaryActionText}>Chọn ảnh có sẵn từ thư viện</Text>
       </TouchableOpacity>
 
-      {/* OCR Pilot Action: THỬ NHẬN DIỆN CHỮ VIẾT TAY */}
+      {/* OCR Pilot 1 Action: THỬ NHẬN DIỆN 1 DÒNG */}
       <TouchableOpacity
         style={[styles.ocrPilotAction, SHADOWS.small]}
         onPress={handleStartOcrPilot}
         activeOpacity={0.88}
         accessibilityRole="button"
-        accessibilityLabel="Thử nhận diện chữ viết tay tiếng Việt với mô hình CRNN"
+        accessibilityLabel="Thử nhận diện 1 dòng chữ viết tay tiếng Việt với mô hình CRNN"
       >
         <View style={styles.ocrPilotIconBadge}>
           <Ionicons name="document-text" size={24} color="#FFFFFF" />
         </View>
         <View style={styles.ocrPilotContent}>
           <View style={styles.ocrPilotHeaderRow}>
-            <Text style={styles.ocrPilotTitle}>THỬ NHẬN DIỆN CHỮ VIẾT TAY</Text>
-            <View style={styles.ocrPilotTag}><Text style={styles.ocrPilotTagText}>PILOT</Text></View>
+            <Text style={styles.ocrPilotTitle}>THỬ NHẬN DIỆN 1 DÒNG</Text>
+            <View style={styles.ocrPilotTag}><Text style={styles.ocrPilotTagText}>PILOT 1</Text></View>
           </View>
           <Text style={styles.ocrPilotSubtitle}>
             Chụp hoặc chọn 1 dòng chữ tiếng Việt để AI đọc & gửi phản hồi
           </Text>
         </View>
         <Ionicons name="chevron-forward" size={20} color="#047857" />
+      </TouchableOpacity>
+
+      {/* OCR Pilot 2 Action: THỬ NHẬN DIỆN NHIỀU DÒNG */}
+      <TouchableOpacity
+        style={[styles.ocrPilotAction, styles.ocrPilot2Action, SHADOWS.small]}
+        onPress={handleStartOcrPilotMultiline}
+        activeOpacity={0.88}
+        accessibilityRole="button"
+        accessibilityLabel="Thử nhận diện nhiều dòng chữ viết tay với phân đoạn dòng"
+      >
+        <View style={[styles.ocrPilotIconBadge, { backgroundColor: '#2563EB' }]}>
+          <Ionicons name="list" size={24} color="#FFFFFF" />
+        </View>
+        <View style={styles.ocrPilotContent}>
+          <View style={styles.ocrPilotHeaderRow}>
+            <Text style={[styles.ocrPilotTitle, { color: '#1E40AF' }]}>THỬ NHẬN DIỆN NHIỀU DÒNG</Text>
+            <View style={[styles.ocrPilotTag, { backgroundColor: '#2563EB' }]}><Text style={styles.ocrPilotTagText}>PILOT 2</Text></View>
+          </View>
+          <Text style={[styles.ocrPilotSubtitle, { color: '#1E40AF' }]}>
+            Chụp đoạn văn nhiều dòng, tự động tách & chỉnh sửa khung từng dòng
+          </Text>
+        </View>
+        <Ionicons name="chevron-forward" size={20} color="#2563EB" />
       </TouchableOpacity>
 
       {/* Guidance Section: Mẹo nhỏ chụp ảnh */}
@@ -310,6 +380,11 @@ const styles = StyleSheet.create({
     borderColor: '#86EFAC',
     borderRadius: SIZES.cardRadius,
     padding: SIZES.medium,
+    marginBottom: SIZES.medium,
+  },
+  ocrPilot2Action: {
+    backgroundColor: '#EFF6FF',
+    borderColor: '#93C5FD',
     marginBottom: SIZES.xlarge,
   },
   ocrPilotIconBadge: {

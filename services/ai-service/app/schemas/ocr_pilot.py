@@ -1,9 +1,18 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
-class OcrRecognizeLineRequest(BaseModel):
-    image_reference: Optional[str] = Field(None, description="minio://bucket/key or fixture:// tag")
-    image_base64: Optional[str] = Field(None, description="Base64 encoded image bytes")
+class LineBox(BaseModel):
+    line_id: str
+    x: int
+    y: int
+    width: int
+    height: int
+    order: int
+
+class OcrDetectLinesResponse(BaseModel):
+    width: int
+    height: int
+    lines: List[LineBox]
 
 class OcrRecognizeLineResponse(BaseModel):
     recognized_text: str
@@ -12,4 +21,5 @@ class OcrRecognizeLineResponse(BaseModel):
     checkpoint_sha256: str
     vocab_sha256: str
     preprocessing_version: str = "v1_resize_64x1024_imagenet"
+    confidence: Optional[float] = Field(None, description="Calibrated confidence score if available; otherwise null (no fake 1.0)")
     latency_ms: float

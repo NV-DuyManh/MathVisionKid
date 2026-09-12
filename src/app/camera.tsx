@@ -18,8 +18,10 @@ export default function CameraScreen() {
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
 
-  const currentMode: 'ARITHMETIC' | 'OCR_PILOT' =
-    params.mode === 'OCR_PILOT' || submissionDraftStore.getDraft()?.mode === 'OCR_PILOT'
+  const currentMode: 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE' =
+    params.mode === 'OCR_PILOT_MULTILINE' || submissionDraftStore.getDraft()?.mode === 'OCR_PILOT_MULTILINE'
+      ? 'OCR_PILOT_MULTILINE'
+      : params.mode === 'OCR_PILOT' || submissionDraftStore.getDraft()?.mode === 'OCR_PILOT'
       ? 'OCR_PILOT'
       : 'ARITHMETIC';
 

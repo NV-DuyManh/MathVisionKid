@@ -75,7 +75,22 @@ public class OcrTrial {
     private boolean trainingEligible = false;
 
     @Column(name = "privacy_confirmed", nullable = false)
-    private boolean privacyConfirmed = true;
+    private boolean privacyConfirmed = false;
+
+    @Column(name = "is_test_data", nullable = false)
+    private boolean isTestData = false;
+
+    @Column(name = "domain", nullable = false)
+    private String domain = "HANDWRITING_TEXT";
+
+    @Column(name = "data_origin", nullable = false)
+    private String dataOrigin = "PHYSICAL_USER";
+
+    @Column(name = "verified_text_normalized")
+    private String verifiedTextNormalized;
+
+    @Column(name = "confidence")
+    private java.math.BigDecimal confidence;
 
     @com.fasterxml.jackson.annotation.JsonProperty("userId")
     public UUID getUserId() {

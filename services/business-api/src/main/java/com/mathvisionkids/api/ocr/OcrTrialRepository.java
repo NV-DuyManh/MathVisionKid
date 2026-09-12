@@ -10,7 +10,12 @@ import java.util.UUID;
 @Repository
 public interface OcrTrialRepository extends JpaRepository<OcrTrial, UUID> {
     List<OcrTrial> findByTrainingEligibleTrueOrderByCreatedAtDesc();
+    List<OcrTrial> findByTrainingEligibleTrueAndIsTestDataFalseOrderByCreatedAtDesc();
     List<OcrTrial> findByUserOrderByCreatedAtDesc(User user);
     long countByVerdict(String verdict);
+    long countByVerdictAndIsTestDataFalse(String verdict);
+    long countByIsTestDataFalse();
     long countByTrainingEligibleTrue();
+    long countByTrainingEligibleTrueAndIsTestDataFalse();
+    List<OcrTrial> findByVerdictInAndIsTestDataFalse(List<String> verdicts);
 }

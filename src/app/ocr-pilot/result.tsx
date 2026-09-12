@@ -50,7 +50,7 @@ export default function OcrResultScreen() {
         setIsLoading(true);
         setErrorMsg(null);
         const source = draft?.source || 'CAMERA';
-        const res = await OcrPilotService.createTrial(lineCropUri, source);
+        const res = await OcrPilotService.createTrial(lineCropUri, source, false, true);
         if (!active) return;
         setTrialResult(res);
         setEditedText(res.recognizedText || '');
@@ -86,15 +86,14 @@ export default function OcrResultScreen() {
 
   const handleSaveCorrection = async () => {
     if (!trialResult) return;
-    const clean = editedText.trim();
-    if (!clean) {
+    if (!editedText || !editedText.trim()) {
       Alert.alert('Chưa nhập chữ', 'Em hãy nhập dòng chữ đúng nhé.');
       return;
     }
 
     try {
       setIsSubmittingFeedback(true);
-      await OcrPilotService.submitFeedback(trialResult.trialId, 'CORRECTED', clean);
+      await OcrPilotService.submitFeedback(trialResult.trialId, 'CORRECTED', editedText);
       setFeedbackVerdict('CORRECTED');
       setFeedbackSaved(true);
       setIsEditing(false);

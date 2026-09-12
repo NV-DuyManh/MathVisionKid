@@ -6,7 +6,7 @@ export interface ImageDraft {
   mimeType: string;
   filename: string;
   source?: 'CAMERA' | 'GALLERY';
-  mode?: 'ARITHMETIC' | 'OCR_PILOT';
+  mode?: 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
   masks?: { id: number; x: number; y: number; width: number; height: number }[];
   isMasked?: boolean;
   originalUri?: string;

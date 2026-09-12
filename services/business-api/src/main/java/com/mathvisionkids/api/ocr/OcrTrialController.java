@@ -22,9 +22,11 @@ public class OcrTrialController {
     public ResponseEntity<OcrTrialResponse> createTrial(
             @RequestParam("image") MultipartFile image,
             @RequestParam(value = "source", required = false) String source,
+            @RequestParam(value = "isTestData", required = false, defaultValue = "false") Boolean isTestData,
+            @RequestParam(value = "privacyConfirmed", required = false, defaultValue = "false") Boolean privacyConfirmed,
             Principal principal) {
         String email = principal != null ? principal.getName() : null;
-        OcrTrialResponse response = ocrPilotService.createTrial(email, image, source);
+        OcrTrialResponse response = ocrPilotService.createTrial(image, email, source, isTestData, privacyConfirmed);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

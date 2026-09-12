@@ -18,6 +18,10 @@ public class OcrMetricsResponse {
     private long correctedCount;
     private long skippedCount;
     private long unverifiedCount;
-    private double exactMatchRate;
+    private Double exactMatchRate;
     private String exactMatchPercentage;
+    private Double characterErrorRate;
+    private String cerPercentage;
+    private String domain;
+    private String evaluationScope;
 }

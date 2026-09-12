@@ -186,7 +186,11 @@ export default function PrivacyGateScreen() {
           source: draft?.source,
           extra: 'zero-mask bypass',
         });
-        const targetPath = draft?.mode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/preview';
+        const targetPath = draft?.mode === 'OCR_PILOT_MULTILINE'
+          ? '/ocr-pilot/multiline-review'
+          : draft?.mode === 'OCR_PILOT'
+            ? '/ocr-pilot/line-crop'
+            : '/preview';
         router.push({
           pathname: targetPath as any,
           params: {
@@ -235,7 +239,11 @@ export default function PrivacyGateScreen() {
           extra: `masked count=${masks.length}`,
         });
 
-        const targetPath = draft?.mode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/preview';
+        const targetPath = draft?.mode === 'OCR_PILOT_MULTILINE'
+          ? '/ocr-pilot/multiline-review'
+          : draft?.mode === 'OCR_PILOT'
+            ? '/ocr-pilot/line-crop'
+            : '/preview';
         router.push({
           pathname: targetPath as any,
           params: {

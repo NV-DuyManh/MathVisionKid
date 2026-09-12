@@ -11,5 +11,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class OcrFeedbackRequest {
     private String verdict;      // "CORRECT", "CORRECTED", "SKIPPED"
-    private String verifiedText; // Required when verdict is CORRECTED
+    private String verifiedText; // Exact raw user input when verdict is CORRECTED
+    private Boolean isTestData;  // Optional explicit test flag
 }
