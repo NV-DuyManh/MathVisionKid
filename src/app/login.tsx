@@ -36,8 +36,16 @@ export default function LoginScreen() {
     try {
       await auth.login({ email: email.trim(), password });
     } catch (e: any) {
-      const message =
-        e.response?.data?.message || 'Lỗi kết nối máy chủ. Vui lòng kiểm tra và thử lại.';
+      let message = 'Lỗi kết nối máy chủ. Vui lòng kiểm tra và thử lại.';
+      if (e.response?.status === 401) {
+        message = 'Tài khoản hoặc mật khẩu không đúng. Gợi ý: minh.student@mathvision.local / MathVision123!';
+      } else if (e.response?.data?.error?.message) {
+        message = e.response.data.error.message;
+      } else if (e.response?.data?.message) {
+        message = e.response.data.message;
+      } else if (e.message && e.message !== 'Network Error') {
+        message = e.message;
+      }
       setErrorMessage(message);
     } finally {
       setLoading(false);

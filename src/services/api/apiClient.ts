@@ -6,10 +6,7 @@ import { tokenStorage } from '../auth/tokenStorage';
 // eslint-disable-next-line import/no-named-as-default-member
 const apiClient = axios.create({
   baseURL: ENV.API_BASE_URL,
-  timeout: 4000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  timeout: 60000,
 });
 
 let isRefreshing = false;
@@ -32,10 +29,20 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    // For FormData requests (e.g. image upload), delete default Content-Type header
+    // For FormData requests (e.g. image upload), ensure Content-Type is NOT set
     // so React Native / OkHttp automatically generates multipart/form-data with boundary!
-    if (config.data instanceof FormData) {
+    const isFormData = config.data && (
+      config.data instanceof FormData ||
+      typeof config.data.append === 'function' ||
+      Boolean(config.data._parts)
+    );
+    if (isFormData && config.headers) {
+      if (typeof config.headers.delete === 'function') {
+        config.headers.delete('Content-Type');
+        config.headers.delete('content-type');
+      }
       delete config.headers['Content-Type'];
+      delete config.headers['content-type'];
     }
     return config;
   },

@@ -1,5 +1,6 @@
 import apiClient from './apiClient';
 import { ENV } from '../../config/env';
+import { tokenStorage } from '../auth/tokenStorage';
 
 export interface LoginResponse {
   accessToken: string;
@@ -41,10 +42,16 @@ export const getMockStudentUser = (email: string) => {
 
 export const authApi = {
   login: async (credentials: any): Promise<LoginResponse> => {
+    let email = (credentials.email || '').trim();
+    if (email.toLowerCase() === 'minh.student@gmail.com') {
+      email = 'minh.student@mathvision.local';
+    }
+    const cleanCredentials = { ...credentials, email };
+
     // If not explicitly set to mock, attempt real backend first
     if (!ENV.USE_MOCK) {
       try {
-        const response = await apiClient.post('/auth/login', credentials);
+        const response = await apiClient.post('/auth/login', cleanCredentials);
         return response.data;
       } catch (err: any) {
         // If the server answered with an HTTP error (like 401 Bad Credentials), rethrow it
@@ -57,7 +64,7 @@ export const authApi = {
     }
 
     // Mock Demo Authentication
-    const email = credentials.email?.toLowerCase().trim() || '';
+    const normEmail = email.toLowerCase().trim();
     const password = credentials.password || '';
 
     // Validate standard password

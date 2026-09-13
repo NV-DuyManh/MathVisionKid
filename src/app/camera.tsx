@@ -140,7 +140,13 @@ export default function CameraScreen() {
         {/* Header Controls */}
         <View style={[styles.header, { marginTop: Math.max(insets.top, SIZES.small) }]}>
           <TouchableOpacity
-            onPress={() => router.back()}
+            onPress={() => {
+              if (router.canGoBack()) {
+                router.back();
+              } else {
+                router.replace('/(tabs)' as any);
+              }
+            }}
             style={styles.iconButton}
             accessibilityRole="button"
             accessibilityLabel="Đóng máy ảnh, quay lại"

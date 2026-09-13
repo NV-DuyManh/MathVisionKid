@@ -1,11 +1,11 @@
 import React from 'react';
-import { Tabs, useRouter } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constants/theme';
 import { Platform, View, StyleSheet } from 'react-native';
+import { logFlowDomain } from '../../services/draft/submissionDraftStore';
 
 export default function TabLayout() {
-  const router = useRouter();
   return (
     <Tabs
       screenOptions={{
@@ -43,7 +43,7 @@ export default function TabLayout() {
         name="camera"
         options={{
           title: 'Chụp',
-          href: '/camera',
+          tabBarStyle: { display: 'none' },
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.cameraIconContainer}>
               <Ionicons
@@ -55,9 +55,8 @@ export default function TabLayout() {
           ),
         }}
         listeners={{
-          tabPress: (e) => {
-            e.preventDefault();
-            router.push({ pathname: '/camera' as any, params: { mode: 'HANDWRITING_TEXT' } });
+          tabPress: () => {
+            logFlowDomain('ACQUIRE', 'HANDWRITING_TEXT');
           },
         }}
       />
