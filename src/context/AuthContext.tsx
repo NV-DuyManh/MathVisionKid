@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { tokenStorage } from '../services/auth/tokenStorage';
-import { authApi } from '../services/api/authApi';
+import { authApi, getMockStudentUser } from '../services/api/authApi';
 import apiClient from '../services/api/apiClient';
 import { useRouter } from 'expo-router';
 
@@ -24,19 +24,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const restoreSession = async () => {
       try {
         const token = await tokenStorage.getAccessToken();
+        const savedUser = await tokenStorage.getUser();
+
         if (token) {
           apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          const userData = await authApi.getMe();
-          setUser(userData);
-          setIsAuthenticated(true);
+          try {
+            const userData = await authApi.getMe();
+            setUser(userData);
+            await tokenStorage.saveUser(userData);
+            setIsAuthenticated(true);
+          } catch (apiErr) {
+            if (savedUser) {
+              setUser(savedUser);
+              setIsAuthenticated(true);
+            } else {
+              throw apiErr;
+            }
+          }
         } else {
           // Attempt refresh if refresh token exists
           const refreshToken = await tokenStorage.getRefreshToken();
           if (refreshToken) {
-            // we will let the first API call trigger the interceptor or we can just try to fetch me
-            const userData = await authApi.getMe();
-            setUser(userData);
-            setIsAuthenticated(true);
+            try {
+              const userData = await authApi.getMe();
+              setUser(userData);
+              await tokenStorage.saveUser(userData);
+              setIsAuthenticated(true);
+            } catch {
+              if (savedUser) {
+                setUser(savedUser);
+                setIsAuthenticated(true);
+              }
+            }
           }
         }
       } catch (e) {
@@ -56,7 +75,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const token = data.accessToken;
     await tokenStorage.saveTokens(token, data.refreshToken);
     apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    const userData = await authApi.getMe();
+
+    let userData = data.user;
+    if (!userData) {
+      try {
+        userData = await authApi.getMe();
+      } catch {
+        userData = getMockStudentUser(credentials.email);
+      }
+    }
+    await tokenStorage.saveUser(userData);
     setUser(userData);
     setIsAuthenticated(true);
     router.replace('/(tabs)' as any);

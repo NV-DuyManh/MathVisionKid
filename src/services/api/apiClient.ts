@@ -6,6 +6,7 @@ import { tokenStorage } from '../auth/tokenStorage';
 // eslint-disable-next-line import/no-named-as-default-member
 const apiClient = axios.create({
   baseURL: ENV.API_BASE_URL,
+  timeout: 4000,
   headers: {
     'Content-Type': 'application/json',
   },

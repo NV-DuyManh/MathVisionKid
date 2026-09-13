@@ -7,7 +7,7 @@ import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
-import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { submissionDraftStore, resolveFlowDomain, logFlowDomain } from '../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
 import * as ImageManipulator from 'expo-image-manipulator';
 
@@ -35,7 +35,10 @@ export default function PrivacyGateScreen() {
   const [imageLoadError, setImageLoadError] = useState(false);
   const viewShotRef = useRef<any>(null);
 
+  const effectiveMode = resolveFlowDomain(null, draft?.mode);
+
   useEffect(() => {
+    logFlowDomain('PRIVACY', effectiveMode);
     if (activeUri) {
       logStageDiagnostic('PRIVACY_INPUT', {
         uri: activeUri,
@@ -43,9 +46,10 @@ export default function PrivacyGateScreen() {
         height: draft?.height,
         mimeType: draft?.mimeType,
         source: draft?.source,
+        extra: `mode=${effectiveMode}`,
       });
     }
-  }, [activeUri, draft?.width, draft?.height, draft?.mimeType, draft?.source]);
+  }, [activeUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode]);
 
   const panResponder = React.useMemo(() => {
     const state = {
@@ -162,7 +166,7 @@ export default function PrivacyGateScreen() {
         state.initialMask = null;
       },
     });
-  }, []);
+  }, [setMasks, setSelectedMaskId]);
 
   const undoLastMask = () => {
     setMasks(prev => prev.slice(0, -1));
@@ -175,23 +179,27 @@ export default function PrivacyGateScreen() {
     setSelectedMaskId(null);
 
     try {
+      const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
+      logFlowDomain('POST_PRIVACY', postPrivacyMode);
+
+      const targetPath = postPrivacyMode === 'ARITHMETIC'
+        ? '/preview'
+        : postPrivacyMode === 'OCR_PILOT'
+          ? '/ocr-pilot/line-crop'
+          : '/ocr-pilot/multiline-review';
+
       // If no masks were drawn, do NOT rasterize via ViewShot!
       // Forward the normalized image without an additional privacy rasterization pass.
       if (masks.length === 0) {
-        submissionDraftStore.updateDraft({ isMasked: false });
+        submissionDraftStore.updateDraft({ isMasked: false, mode: postPrivacyMode });
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: activeUri,
           width: draft?.width,
           height: draft?.height,
           mimeType: draft?.mimeType || 'image/jpeg',
           source: draft?.source,
-          extra: 'zero-mask bypass',
+          extra: `zero-mask bypass mode=${postPrivacyMode}`,
         });
-        const targetPath = (draft?.mode === 'OCR_PILOT_MULTILINE' || draft?.mode === 'HANDWRITING_TEXT')
-          ? '/ocr-pilot/multiline-review'
-          : draft?.mode === 'OCR_PILOT'
-            ? '/ocr-pilot/line-crop'
-            : '/preview';
         router.push({
           pathname: targetPath as any,
           params: {
@@ -229,6 +237,7 @@ export default function PrivacyGateScreen() {
           height: outputHeight,
           masks,
           isMasked: true,
+          mode: postPrivacyMode,
         });
 
         logStageDiagnostic('PRIVACY_OUTPUT', {
@@ -237,14 +246,9 @@ export default function PrivacyGateScreen() {
           height: outputHeight,
           mimeType: 'image/jpeg',
           source: draft?.source,
-          extra: `masked count=${masks.length}`,
+          extra: `masked count=${masks.length} mode=${postPrivacyMode}`,
         });
 
-        const targetPath = (draft?.mode === 'OCR_PILOT_MULTILINE' || draft?.mode === 'HANDWRITING_TEXT')
-          ? '/ocr-pilot/multiline-review'
-          : draft?.mode === 'OCR_PILOT'
-            ? '/ocr-pilot/line-crop'
-            : '/preview';
         router.push({
           pathname: targetPath as any,
           params: {

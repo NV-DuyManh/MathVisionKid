@@ -24,9 +24,9 @@ Key corrections implemented in this phase:
 ---
 
 ## 2. Repository State
-- **Root Directory:** `E:\MathVisionKid`
+- **Root Directory:** `D:\nhom6\train thử\MathVisionKid`
 - **Active Branch:** `main`
-- **Head Commit:** `712f806` (`feat(ocr-pilot): complete handwriting test mode, feedback loop, and mobile image pipeline`)
+- **Head Commit:** `d5e3d46` (`feat(ocr): reconcile physical runtime contract, fix zero-mask routing and authoritative review fetch`)
 - **Working Tree State:** Clean / uncommitted changes strictly isolated to OCR.PILOT.1.1 corrections.
 - **Git Policy Compliance:** No commits or pushes performed in this milestone.
 
@@ -225,11 +225,12 @@ The dataset export utility (`scripts/export_ocr_feedback_dataset.py`) enforces:
 
 ## 21. Runtime Environment Truth
 Empirically verified runtime specifications:
-- **Python Version:** `3.12.13 (main, Apr 14 2026, 14:31:26) [MSC v.1944 64 bit (AMD64)]`
-- **Python Executable:** `E:\MathVisionKid\services\ai-service\.venv\Scripts\python.exe`
-- **PyTorch Version:** `2.14.0+cpu`
-- **Device:** `CPU` (CUDA available: False)
+- **Python Version:** `3.13.9 (tags/v3.13.9:81e5e37, Oct 14 2024, 14:09:47) [MSC v.1941 64 bit (AMD64)]`
+- **Python Executable:** `C:\Users\My PC\AppData\Local\Programs\Python\Python313\python.exe`
+- **PyTorch Version:** `2.6.0+cu124`
+- **Device:** `CPU` (CUDA available: True, runtime device configured as CPU)
 - **Host OS:** Windows 11 Enterprise
+- **Node.js / npm:** Node v22.14.0 / npm 10.9.2
 
 ---
 
@@ -256,16 +257,25 @@ Executed with controlled handwriting line images:
 ---
 
 ## 24. Automated Tests
-1. **AI Service Pytest (`test_ocr_pilot_endpoint.py`):**
-   - 5/5 PASSED (raw bytes, base64 json, empty payload, invalid json, oversized payload 413, confidence is None).
-2. **Spring Boot Tests (`OcrTrialControllerTest.java`):**
+1. **OCR.PILOT.1.1 Integrity Test Suite (`scratch/test_ocr_pilot_1_1_cases.py`):**
+   - 7/7 PASSED:
+     - CASE 1 (Exact match CORRECT) -> PASS (exported)
+     - CASE 2 (CORRECTED text preservation) -> PASS (exported)
+     - CASE 3 (SKIPPED exclusion) -> PASS (excluded)
+     - CASE 4 (Bad-label mismatch CORRECT guard `nsa-ao` vs `12+34=46`) -> PASS (DATA_INTEGRITY_ERROR / excluded)
+     - CASE 5 (Test data default exclusion) -> PASS (excluded)
+     - CASE 6 (Unconfirmed privacy exclusion) -> PASS (excluded)
+     - CASE 7 (Arithmetic domain contamination exclusion) -> PASS (excluded)
+2. **OCR Flow & Routing Suite (`scripts/test_ocr_flow_routing.js`):**
+   - 6/6 PASSED (Tests A-F: handwriting text routes to handwriting OCR flow, digit confirmation blocked in handwriting domain, cross-domain ID mixup handled).
+3. **OCR Runtime Contract Suite (`scripts/test_ocr_runtime_contract_reconciliation.js`):**
+   - 7/7 PASSED (contract reconciliation, zero-mask routing, authoritative review fetch).
+4. **Spring Boot Tests (`OcrTrialControllerTest.java`):**
    - 9/9 PASSED (create, get, correct, corrected, exact raw preservation, correct mismatch guard, skipped, metrics with CER, unauthorized).
-3. **Frontend Quality:**
+5. **Frontend Quality:**
    - `npx tsc --noEmit`: 0 errors (PASS).
-   - `npm run lint`: 0 errors, 0 warnings (PASS).
+   - `npm run lint`: 0 errors (PASS).
    - `npx expo-doctor`: 20/21 checks passed (WARN: patch version notices).
-4. **Dataset Export Verification:**
-   - `scratch/test_dataset_export.py`: PASSED (excludes bad-label CORRECT, test data, and non-handwriting domains).
 
 ---
 

@@ -7,7 +7,7 @@ import { AppButton } from '../components/ui/AppButton';
 import { QualityBadge } from '../components/domain/QualityBadge';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImageManipulator from 'expo-image-manipulator';
-import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { submissionDraftStore, resolveFlowDomain, isHandwritingDomain } from '../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function PreviewScreen() {
@@ -19,6 +19,7 @@ export default function PreviewScreen() {
   }>();
 
   const draft = submissionDraftStore.getDraft();
+  const effectiveMode = resolveFlowDomain(null, draft?.mode);
   const rawUri = draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const initialUri = rawUri ? ensureFileUri(rawUri) : '';
 
@@ -26,6 +27,18 @@ export default function PreviewScreen() {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
+    if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
+      if (__DEV__) {
+        console.warn('[HANDWRITING_PREVIEW_GUARD_TRIGGERED] Non-arithmetic mode reached /preview. Redirecting to handwriting review.');
+      }
+      if (effectiveMode === 'OCR_PILOT') {
+        router.replace('/ocr-pilot/line-crop' as any);
+      } else {
+        router.replace('/ocr-pilot/multiline-review' as any);
+      }
+      return;
+    }
+
     if (initialUri) {
       logStageDiagnostic('PREVIEW_INPUT', {
         uri: initialUri,
@@ -33,17 +46,26 @@ export default function PreviewScreen() {
         height: draft?.height,
         mimeType: draft?.mimeType,
         source: draft?.source,
+        extra: `mode=${effectiveMode}`,
       });
     }
     const timer = setTimeout(() => {
       setIsChecking(false);
     }, 800);
     return () => clearTimeout(timer);
-  }, [initialUri, draft?.width, draft?.height, draft?.mimeType, draft?.source]);
+  }, [initialUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode, router]);
 
   const handleContinue = () => {
+    if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
+      if (__DEV__) {
+        console.warn('[HANDWRITING_PREVIEW_GUARD_TRIGGERED] Non-arithmetic mode in handleContinue. Blocking /processing.');
+      }
+      router.replace('/ocr-pilot/multiline-review' as any);
+      return;
+    }
+
     const activeUri = ensureFileUri(imageUri);
-    submissionDraftStore.updateDraft({ uri: activeUri });
+    submissionDraftStore.updateDraft({ uri: activeUri, mode: 'ARITHMETIC' });
 
     router.replace({
       pathname: '/processing' as any,

@@ -28,7 +28,7 @@ export default function OutOfScopeScreen() {
           <AppButton
             title="Chụp phép tính đặt dọc khác"
             variant="primary"
-            onPress={() => router.replace('/camera' as any)}
+            onPress={() => router.replace({ pathname: '/camera' as any, params: { mode: 'ARITHMETIC' } })}
           />
           <View style={{ height: SIZES.small }} />
           <AppButton

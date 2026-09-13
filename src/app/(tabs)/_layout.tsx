@@ -1,10 +1,11 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constants/theme';
 import { Platform, View, StyleSheet } from 'react-native';
 
 export default function TabLayout() {
+  const router = useRouter();
   return (
     <Tabs
       screenOptions={{
@@ -52,6 +53,12 @@ export default function TabLayout() {
               />
             </View>
           ),
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.push({ pathname: '/camera' as any, params: { mode: 'HANDWRITING_TEXT' } });
+          },
         }}
       />
       <Tabs.Screen

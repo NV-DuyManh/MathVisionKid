@@ -14,6 +14,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { OcrPilotService, MultilineTrialResult, MultilineLineResult } from '../../services/api/OcrPilotService';
+import { logFlowDomain } from '../../services/draft/submissionDraftStore';
 
 export default function MultilineResultScreen() {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function MultilineResultScreen() {
       try {
         const res = await OcrPilotService.getMultilineTrial(trialId);
         if (!active) return;
+        logFlowDomain('RESULT', 'HANDWRITING_TEXT');
         setTrial(res);
       } catch (e: any) {
         if (!active) return;

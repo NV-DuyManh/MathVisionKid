@@ -17,7 +17,7 @@ import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
-import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
+import { submissionDraftStore, logFlowDomain } from '../../services/draft/submissionDraftStore';
 import { ensureFileUri } from '../../services/image/imagePipeline';
 import { OcrPilotService, OcrTrialResult } from '../../services/api/OcrPilotService';
 
@@ -53,6 +53,7 @@ export default function OcrResultScreen() {
         const source = draft?.source || 'CAMERA';
         const res = await OcrPilotService.createTrial(lineCropUri, source, false, true);
         if (!active) return;
+        logFlowDomain('RESULT', 'HANDWRITING_TEXT');
         setTrialResult(res);
         setEditedText(res.recognizedText || '');
         setIsLoading(false);

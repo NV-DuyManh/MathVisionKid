@@ -26,12 +26,19 @@
 | `brand` | `brand` | `.agents/skills/brand/SKILL.md` | Brand voice, visual identity, messaging frameworks, asset management, brand consistency. | ACTIVE | — |
 | `slides` | `slides` | `.agents/skills/slides/SKILL.md` | Create strategic HTML presentations with Chart.js, design tokens, responsive layouts, copywriting formulas, and contextual slide strategies. | ACTIVE | — |
 | `banner-design` | `banner-design` | `.agents/skills/banner-design/SKILL.md` | Design banners for social media, ads, website heroes, creative assets, and print. Multiple art direction options with AI-generated visuals. | ACTIVE | — |
+| `ponytail` | `ponytail` | `.agents/skills/ponytail/SKILL.md` | Lazy senior dev mode. Forces the simplest, shortest solution that actually works: YAGNI, stdlib first, minimal diffs, no unrequested abstractions. | ACTIVE | — |
+| `ponytail-review` | `ponytail-review` | `.agents/skills/ponytail-review/SKILL.md` | Code review through the Ponytail lens: flags over-engineering, unneeded abstractions, bloat, and YAGNI violations. | ACTIVE | — |
+| `ponytail-audit` | `ponytail-audit` | `.agents/skills/ponytail-audit/SKILL.md` | Repository-wide simplicity audit: dead code, duplicate helpers, unused dependencies, and boilerplate. | ACTIVE | — |
+| `ponytail-debt` | `ponytail-debt` | `.agents/skills/ponytail-debt/SKILL.md` | Technical debt audit and quantification. | ACTIVE | — |
+| `ponytail-gain` | `ponytail-gain` | `.agents/skills/ponytail-gain/SKILL.md` | Complexity vs value gain evaluation. | ACTIVE | — |
+| `ponytail-help` | `ponytail-help` | `.agents/skills/ponytail-help/SKILL.md` | Ponytail quick reference guide and cheat sheet. | ACTIVE | — |
 
 ## Identifier Notes
 
 | Folder | Frontmatter `name` | Notes |
 |---|---|---|
 | `react-best-practices` | `vercel-react-best-practices` | Folder name differs from frontmatter name. Frontmatter `name` is the authoritative skill identifier used in routing matrix and reports. |
+| `ponytail` | `ponytail` | Primary lazy senior dev skill. |
 
 ## Legacy Duplicate Status
 
@@ -47,3 +54,4 @@
 | Rule | Path | Activation |
 |---|---|---|
 | Mandatory Skill Router | `.agents/rules/mandatory-skill-router.md` | ALWAYS ON (workspace rule auto-loaded by Antigravity) |
+| Ponytail (Lazy Senior Dev Mode) | `.agents/rules/ponytail.md` | ACTIVE ON DEMAND / CODING (The ladder: YAGNI -> stdlib -> minimal diff) |

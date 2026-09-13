@@ -4,6 +4,37 @@ export function isHandwritingDomain(mode?: string | null): boolean {
   return mode === 'HANDWRITING_TEXT' || mode === 'OCR_PILOT' || mode === 'OCR_PILOT_MULTILINE';
 }
 
+export function isValidFlowDomain(mode: any): mode is FlowDomain {
+  return mode === 'HANDWRITING_TEXT' || mode === 'ARITHMETIC' || mode === 'OCR_PILOT' || mode === 'OCR_PILOT_MULTILINE';
+}
+
+/**
+ * Single source of truth for flow domain resolution.
+ * Rules:
+ * 1. Explicit valid mode wins.
+ * 2. Persisted valid draft mode next.
+ * 3. Generic Student flow default = HANDWRITING_TEXT.
+ * 4. Never default to ARITHMETIC.
+ */
+export function resolveFlowDomain(explicitMode?: string | null, draftMode?: string | null): FlowDomain {
+  if (explicitMode && isValidFlowDomain(explicitMode)) {
+    return explicitMode;
+  }
+  if (draftMode && isValidFlowDomain(draftMode)) {
+    return draftMode;
+  }
+  if (explicitMode || draftMode) {
+    if (__DEV__) {
+      console.warn(`[FLOW_DOMAIN][FALLBACK] Invalid/missing mode (explicit=${explicitMode}, draft=${draftMode}). Failing closed to HANDWRITING_TEXT.`);
+    }
+  }
+  return 'HANDWRITING_TEXT';
+}
+
+export function logFlowDomain(stage: 'ACQUIRE' | 'PRIVACY' | 'POST_PRIVACY' | 'RESULT' | string, domain: FlowDomain): void {
+  console.log(`[FLOW_DOMAIN][${stage}] ${domain}`);
+}
+
 export interface ImageDraft {
   rawUri: string;
   uri: string;

@@ -5,7 +5,7 @@ import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { getSubmissionService } from '../services/api/SubmissionServiceFactory';
 import { SubmissionStatus } from '../types';
 import { Ionicons } from '@expo/vector-icons';
-import { submissionDraftStore, isHandwritingDomain } from '../services/draft/submissionDraftStore';
+import { submissionDraftStore, isHandwritingDomain, resolveFlowDomain } from '../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function ProcessingScreen() {
@@ -25,12 +25,16 @@ export default function ProcessingScreen() {
       try {
         setStep(0);
         const draft = submissionDraftStore.getDraft();
+        const effectiveMode = resolveFlowDomain(null, draft?.mode);
 
-        if (isHandwritingDomain(draft?.mode)) {
-          if (draft?.mode === 'OCR_PILOT') {
-            router.replace('/ocr-pilot/line-crop');
+        if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
+          if (__DEV__) {
+            console.warn('[HANDWRITING_PROCESSING_GUARD_TRIGGERED] Non-arithmetic domain reached /processing. Blocking arithmetic submission.');
+          }
+          if (effectiveMode === 'OCR_PILOT') {
+            router.replace('/ocr-pilot/line-crop' as any);
           } else {
-            router.replace('/ocr-pilot/multiline-review');
+            router.replace('/ocr-pilot/multiline-review' as any);
           }
           return;
         }
@@ -146,7 +150,7 @@ export default function ProcessingScreen() {
 
         if (polled.status === SubmissionStatus.NEEDS_CONFIRMATION) {
           if (isHandwritingDomain(draft?.mode)) {
-            router.replace('/ocr-pilot/result');
+            router.replace('/ocr-pilot/result' as any);
             return;
           }
           router.replace({

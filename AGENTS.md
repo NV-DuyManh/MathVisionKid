@@ -91,7 +91,10 @@ Use the **actual installed skills** at `.agents/skills/` to route tasks.
 | Banner / poster / hero image | `banner-design` | `design` |
 | Comprehensive design task | `design` | (sub-skills as needed) |
 | Web UI review / audit | `web-design-guidelines` | `fixing-accessibility` |
-| Backend / Spring / database / API | _(no UI/design skill)_ | — |
+| Code simplification / YAGNI / minimal diffs | `ponytail` | — |
+| Code review / anti-bloat / over-engineering | `ponytail-review` | `ponytail-audit` |
+| Technical debt audit / simplicity | `ponytail-debt` | `ponytail-gain` |
+| Backend / Spring / database / API | `ponytail` (if simplifying/refactoring) | — |
 | AI model / training / OCR | _(no UI/design skill)_ | — |
 
 ### Routing Examples
@@ -101,7 +104,8 @@ Use the **actual installed skills** at `.agents/skills/` to route tasks.
 | "Redesign login page in React" | `ui-ux-pro-max`, `vercel-react-best-practices`, `fixing-accessibility` |
 | "Fix animation stutter on dashboard" | `fixing-motion-performance` |
 | "Create PowerPoint defense presentation" | `slides` |
-| "Fix Spring Boot authentication service" | _(none — no backend-specific skill installed)_ |
+| "Refactor authentication service cleanly" | `ponytail` |
+| "Review PR for over-engineering and bloat" | `ponytail-review` |
 | "Review portal accessibility" | `fixing-accessibility`, `web-design-guidelines` |
 | "Design a social media banner" | `banner-design` |
 

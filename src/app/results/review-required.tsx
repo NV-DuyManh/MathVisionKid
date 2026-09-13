@@ -8,6 +8,7 @@ import { AppButton } from '../../components/ui/AppButton';
 import { StatusCard } from '../../components/domain/StatusCard';
 import { getSubmissionService } from '../../services/api/SubmissionServiceFactory';
 import { SubmissionResult } from '../../types';
+import { logFlowDomain } from '../../services/draft/submissionDraftStore';
 
 interface ReasonContent {
   title: string;
@@ -118,6 +119,10 @@ export default function ReviewRequiredScreen() {
   const effectiveFlowDomain = serverResult?.flowDomain || (parsedDiags?.flowDomain as any) || 'ARITHMETIC';
   const effectiveStatus = serverResult?.status || 'REVIEW_REQUIRED';
 
+  useEffect(() => {
+    logFlowDomain('RESULT', effectiveFlowDomain);
+  }, [effectiveFlowDomain]);
+
   const content = getReasonContent(effectiveReasonCode);
 
   const formatDiag = (val: any, naCondition: boolean = false): string => {
@@ -167,7 +172,7 @@ export default function ReviewRequiredScreen() {
           <AppButton
             title={content.actionTitle}
             variant="primary"
-            onPress={() => router.replace('/camera' as any)}
+            onPress={() => router.replace({ pathname: '/camera' as any, params: { mode: 'ARITHMETIC' } })}
           />
           <View style={{ height: SIZES.small }} />
           <AppButton

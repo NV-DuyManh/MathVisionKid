@@ -77,8 +77,17 @@ Then proceed with implementation.
 - Banner / poster work:
   `banner-design`
 
+- Code simplification, minimal diffs, YAGNI, lazy senior dev mode:
+  `ponytail`
+
+- Code review, anti-bloat, detecting over-engineering:
+  `ponytail-review`
+
+- Codebase simplicity audit, dead code, duplicate helpers:
+  `ponytail-audit`
+
 - Backend / Spring / API:
-  use no UI/design skill unless another installed skill genuinely matches.
+  use `ponytail` if simplifying/refactoring, otherwise no UI/design skill unless another installed skill genuinely matches.
 
 - AI / OCR / model work:
   use no unrelated UI/design skill unless the task also contains an actual UI component.

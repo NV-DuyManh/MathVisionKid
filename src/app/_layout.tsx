@@ -1,6 +1,9 @@
 import { Stack } from 'expo-router';
 import { AuthProvider } from '../context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Cannot connect to Expo CLI']);
 
 export default function RootLayout() {
   return (

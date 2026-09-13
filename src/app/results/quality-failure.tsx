@@ -57,7 +57,7 @@ export default function QualityFailureScreen() {
               } else {
                 router.replace({
                   pathname: '/camera' as any,
-                  params: { retrySubmissionId: submissionId },
+                  params: { retrySubmissionId: submissionId, mode: 'ARITHMETIC' },
                 });
               }
             }}

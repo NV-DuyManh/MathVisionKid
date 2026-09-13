@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
@@ -7,10 +7,15 @@ import { AppButton } from '../../components/ui/AppButton';
 import { HintCard } from '../../components/domain/HintCard';
 import { MathExpression } from '../../components/domain/MathExpression';
 import { SubmissionResult } from '../../types';
+import { logFlowDomain } from '../../services/draft/submissionDraftStore';
 
 export default function ErrorHintScreen() {
   const router = useRouter();
   const { data } = useLocalSearchParams<{ data: string }>();
+
+  useEffect(() => {
+    logFlowDomain('RESULT', 'ARITHMETIC');
+  }, []);
 
   let result: Partial<SubmissionResult> = {
     studentFeedback: {

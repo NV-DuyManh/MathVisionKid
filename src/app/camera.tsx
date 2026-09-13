@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../components/ui/AppButton';
 import { ScanFrame } from '../components/domain/ScanFrame';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { submissionDraftStore, FlowDomain, isHandwritingDomain } from '../services/draft/submissionDraftStore';
+import { submissionDraftStore, FlowDomain, isHandwritingDomain, resolveFlowDomain, logFlowDomain } from '../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../services/image/imagePipeline';
 
 export default function CameraScreen() {
@@ -19,16 +19,15 @@ export default function CameraScreen() {
   const insets = useSafeAreaInsets();
 
   const resolveInitialMode = (): FlowDomain => {
-    if (params.mode === 'ARITHMETIC') return 'ARITHMETIC';
-    if (params.mode === 'OCR_PILOT') return 'OCR_PILOT';
-    if (params.mode === 'OCR_PILOT_MULTILINE') return 'OCR_PILOT_MULTILINE';
-    if (params.mode === 'HANDWRITING_TEXT') return 'HANDWRITING_TEXT';
-    const draftMode = submissionDraftStore.getDraft()?.mode;
-    if (draftMode) return draftMode;
-    return 'HANDWRITING_TEXT';
+    return resolveFlowDomain(params.mode, submissionDraftStore.getDraft()?.mode);
   };
 
-  const [mode, setMode] = useState<FlowDomain>(resolveInitialMode);
+  const [mode, setModeState] = useState<FlowDomain>(resolveInitialMode);
+  const setMode = (newMode: FlowDomain) => {
+    setModeState(newMode);
+    submissionDraftStore.updateDraft({ mode: newMode });
+  };
+
   const isHandwriting = isHandwritingDomain(mode);
 
   const facing = 'back';
@@ -48,16 +47,18 @@ export default function CameraScreen() {
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
+        const activeMode = resolveFlowDomain(mode, null);
         logStageDiagnostic('ACQUIRE_GALLERY', {
           uri: asset.uri,
           width: asset.width,
           height: asset.height,
           mimeType: asset.mimeType,
           source: 'GALLERY',
-          extra: `mode=${mode}`,
+          extra: `mode=${activeMode}`,
         });
+        logFlowDomain('ACQUIRE', activeMode);
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
-        draft.mode = mode;
+        draft.mode = activeMode;
         submissionDraftStore.setDraft(draft);
         router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
       }
@@ -102,16 +103,18 @@ export default function CameraScreen() {
       try {
         const photo = await cameraRef.current.takePictureAsync({ quality: 1, base64: false });
         if (photo) {
+          const activeMode = resolveFlowDomain(mode, null);
           logStageDiagnostic('ACQUIRE_CAMERA', {
             uri: photo.uri,
             width: photo.width,
             height: photo.height,
             mimeType: 'image/jpeg',
             source: 'CAMERA',
-            extra: `mode=${mode}`,
+            extra: `mode=${activeMode}`,
           });
+          logFlowDomain('ACQUIRE', activeMode);
           const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
-          draft.mode = mode;
+          draft.mode = activeMode;
           submissionDraftStore.setDraft(draft);
           router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
         }

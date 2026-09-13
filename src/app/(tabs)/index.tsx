@@ -6,7 +6,7 @@ import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppCard } from '../../components/ui/AppCard';
 import { AuthContext } from '../../context/AuthContext';
 import * as ImagePicker from 'expo-image-picker';
-import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
+import { submissionDraftStore, resolveFlowDomain, logFlowDomain, FlowDomain } from '../../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../../services/image/imagePipeline';
 
 export default function HomeScreen() {
@@ -32,7 +32,8 @@ export default function HomeScreen() {
           source: 'GALLERY',
         });
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
-        draft.mode = 'ARITHMETIC';
+        draft.mode = resolveFlowDomain(null, null); // Defaults to HANDWRITING_TEXT
+        logFlowDomain('ACQUIRE', draft.mode);
         submissionDraftStore.setDraft(draft);
         router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
       }
@@ -41,8 +42,10 @@ export default function HomeScreen() {
     }
   };
 
-  const navigateToCamera = () => {
-    router.navigate('/camera' as any);
+  const navigateToCamera = (mode: FlowDomain = 'HANDWRITING_TEXT') => {
+    submissionDraftStore.clearDraft();
+    logFlowDomain('ACQUIRE', mode);
+    router.push({ pathname: '/camera' as any, params: { mode } });
   };
 
   const handleStartOcrPilot = () => {
@@ -157,20 +160,20 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Primary Hero Action: CHỤP BÀI CỦA EM */}
+      {/* Primary Hero Action: ĐỌC CHỮ VIẾT TAY */}
       <TouchableOpacity
         activeOpacity={0.92}
-        onPress={navigateToCamera}
+        onPress={() => navigateToCamera('HANDWRITING_TEXT')}
         accessibilityRole="button"
-        accessibilityLabel="Chụp bài của em, AI sẽ kiểm tra từng bước phép tính"
+        accessibilityLabel="Chụp bài chữ viết tay tiếng Việt"
       >
         <View style={[styles.heroCard, SHADOWS.medium]}>
           <View style={styles.heroIconBadge}>
-            <Ionicons name="camera" size={44} color="#FFFFFF" />
+            <Ionicons name="create" size={44} color="#FFFFFF" />
           </View>
-          <Text style={styles.heroTitle}>CHỤP BÀI CỦA EM</Text>
+          <Text style={styles.heroTitle}>ĐỌC CHỮ VIẾT TAY</Text>
           <Text style={styles.heroSubtitle}>
-            Chụp phép tính đặt dọc, MathVision sẽ giúp em kiểm tra từng hàng và gợi ý cách sửa.
+            Chụp chữ viết tay tiếng Việt để MathVision nhận diện và giúp em sửa từng dòng.
           </Text>
           <View style={styles.heroCtaPill}>
             <Text style={styles.heroCtaText}>Mở máy ảnh</Text>
@@ -179,15 +182,32 @@ export default function HomeScreen() {
         </View>
       </TouchableOpacity>
 
-      {/* Secondary Action: Thư viện ảnh */}
+      {/* Secondary Action: Thư viện ảnh (Chữ viết tay mặc định) */}
       <TouchableOpacity
         style={styles.secondaryAction}
         onPress={handlePickImage}
         accessibilityRole="button"
-        accessibilityLabel="Chọn ảnh bài tập từ thư viện máy"
+        accessibilityLabel="Chọn ảnh chữ viết tay từ thư viện máy"
       >
         <Ionicons name="images-outline" size={22} color={COLORS.primary} />
-        <Text style={styles.secondaryActionText}>Chọn ảnh có sẵn từ thư viện</Text>
+        <Text style={styles.secondaryActionText}>Chọn ảnh chữ viết tay từ thư viện</Text>
+      </TouchableOpacity>
+
+      {/* Explicit Arithmetic Action: Phép tính dọc */}
+      <TouchableOpacity
+        style={styles.arithmeticAction}
+        onPress={() => navigateToCamera('ARITHMETIC')}
+        accessibilityRole="button"
+        accessibilityLabel="Kiểm tra phép tính đặt dọc"
+      >
+        <View style={styles.arithmeticIconBadge}>
+          <Ionicons name="calculator-outline" size={24} color="#0284C7" />
+        </View>
+        <View style={styles.arithmeticActionContent}>
+          <Text style={styles.arithmeticActionTitle}>Phép tính dọc</Text>
+          <Text style={styles.arithmeticActionSubtitle}>Kiểm tra từng bước bài toán đặt tính rồi tính</Text>
+        </View>
+        <Ionicons name="chevron-forward" size={20} color="#0284C7" />
       </TouchableOpacity>
 
       {/* OCR Pilot 1 Action: THỬ NHẬN DIỆN 1 DÒNG */}
@@ -364,13 +384,46 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#BFDBFE',
     borderRadius: SIZES.cardRadius,
-    marginBottom: SIZES.xlarge,
+    marginBottom: SIZES.medium,
   },
   secondaryActionText: {
     marginLeft: SIZES.small,
     fontSize: 15,
     fontWeight: '700',
     color: COLORS.primary,
+  },
+  arithmeticAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F0F9FF',
+    borderWidth: 1.5,
+    borderColor: '#BAE6FD',
+    borderRadius: SIZES.cardRadius,
+    padding: SIZES.medium,
+    marginBottom: SIZES.large,
+  },
+  arithmeticIconBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#E0F2FE',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SIZES.small,
+  },
+  arithmeticActionContent: {
+    flex: 1,
+  },
+  arithmeticActionTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0369A1',
+    marginBottom: 2,
+  },
+  arithmeticActionSubtitle: {
+    fontSize: 12,
+    color: '#0284C7',
+    lineHeight: 16,
   },
   ocrPilotAction: {
     flexDirection: 'row',
