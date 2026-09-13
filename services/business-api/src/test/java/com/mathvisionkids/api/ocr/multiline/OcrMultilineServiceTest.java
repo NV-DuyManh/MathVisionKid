@@ -5,11 +5,8 @@ import com.mathvisionkids.api.storage.ObjectStorageService;
 import com.mathvisionkids.api.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -19,7 +16,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class OcrMultilineServiceTest {
@@ -66,6 +62,7 @@ public class OcrMultilineServiceTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void testManualLineSerialization_exactBoxesProcessed() throws Exception {
         // Simulating the user discarding auto-boxes and creating exactly 4 manual boxes
         String manualLinesJson = "[" +

@@ -9,7 +9,8 @@
       "@/assets/*": [
         "./assets/*"
       ]
-    }
+    },
+    "types": ["jest"]
   },
   "include": [
     "src/**/*.ts",
