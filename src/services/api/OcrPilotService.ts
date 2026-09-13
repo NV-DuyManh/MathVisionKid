@@ -26,16 +26,13 @@ async function postMultipart<T>(
   fileField: { key: string; uri: string; name: string; type: string },
   stringParams: Record<string, string> = {},
 ): Promise<T> {
-  const base = ENV.API_BASE_URL.replace(/\/$/, '');
   const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
 
   // Build query string from stringParams
   const qs = Object.entries(stringParams)
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     .join('&');
-  const url = qs ? `${base}${path}?${qs}` : `${base}${path}`;
-
-  const token = await tokenStorage.getAccessToken();
+  const url = qs ? `${path}?${qs}` : path;
 
   // FormData with ONLY the file part — no string parts
   const formData = new FormData();
@@ -45,54 +42,12 @@ async function postMultipart<T>(
     type: fileField.type,
   } as any);
 
-  console.log('[MULTIPART] XHR POST', url, '| file:', fileField.name);
+  console.log('[MULTIPART] Axios POST', url, '| file:', fileField.name);
 
-  return new Promise<T>((resolve, reject) => {
-    // Use XMLHttpRequest — it uses RN's native networking directly,
-    // bypassing Expo's winter/fetch that can't handle {uri,name,type} files.
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', url);
-    xhr.setRequestHeader('Accept', 'application/json');
-    if (token) {
-      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-    }
-    // Do NOT set Content-Type — XHR + FormData auto-generates multipart boundary
-
-    xhr.timeout = 120000; // 2 min timeout for large images + OCR processing
-
-    xhr.onload = () => {
-      console.log('[MULTIPART] Response:', xhr.status);
-      if (xhr.status >= 200 && xhr.status < 300) {
-        try {
-          resolve(JSON.parse(xhr.responseText) as T);
-        } catch {
-          reject(new Error('Phản hồi từ máy chủ không phải JSON hợp lệ'));
-        }
-      } else {
-        let errorMsg = `Lỗi máy chủ (HTTP ${xhr.status})`;
-        try {
-          const errJson = JSON.parse(xhr.responseText);
-          errorMsg = errJson?.message || errJson?.error?.message || errorMsg;
-        } catch {
-          // response not JSON
-        }
-        const err: any = new Error(errorMsg);
-        err.response = { status: xhr.status, data: { message: errorMsg } };
-        reject(err);
-      }
-    };
-
-    xhr.onerror = () => {
-      console.error('[MULTIPART] XHR onerror, status:', xhr.status, 'readyState:', xhr.readyState);
-      reject(new Error(`Lỗi kết nối mạng (XHR status=${xhr.status}). Kiểm tra WiFi.`));
-    };
-
-    xhr.ontimeout = () => {
-      reject(new Error('Hết thời gian chờ phản hồi (120s). Thử lại.'));
-    };
-
-    xhr.send(formData);
-  });
+  // apiClient handles Authorization header and token refresh automatically
+  // React Native's Axios adapter uses XMLHttpRequest natively and handles {uri,name,type}
+  const response = await apiClient.post<T>(url, formData);
+  return response.data;
 }
 
 export interface OcrTrialResult {

@@ -98,9 +98,18 @@ export function displayRectToSourceRect(
   actualW: number, actualH: number
 ): Rect {
   'worklet';
-  const realX = Math.max(0, Math.round((boxX - bMinX) * imgScale));
-  const realY = Math.max(0, Math.round((boxY - bMinY) * imgScale));
-  const realW = Math.max(1, Math.min(actualW - realX, Math.round(boxW * imgScale)));
-  const realH = Math.max(1, Math.min(actualH - realY, Math.round(boxH * imgScale)));
+  let realX = Math.round((boxX - bMinX) * imgScale);
+  let realY = Math.round((boxY - bMinY) * imgScale);
+  let realW = Math.round(boxW * imgScale);
+  let realH = Math.round(boxH * imgScale);
+
+  // Clamp origins securely to [0, max-1]
+  realX = Math.max(0, Math.min(actualW - 1, realX));
+  realY = Math.max(0, Math.min(actualH - 1, realY));
+
+  // Clamp dimensions securely to remaining space [1, max-origin]
+  realW = Math.max(1, Math.min(actualW - realX, realW));
+  realH = Math.max(1, Math.min(actualH - realY, realH));
+
   return { x: realX, y: realY, w: realW, h: realH };
 }

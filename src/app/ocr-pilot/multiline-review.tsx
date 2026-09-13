@@ -190,10 +190,17 @@ export default function MultilineReviewScreen() {
         params: { trialId: trial.trialId },
       });
     } catch (e: any) {
-      console.error('[MULTILINE] Submit error:', e);
-      Alert.alert('Lỗi nhận diện', e?.message || 'Không thể kết nối đến máy chủ nhận diện.');
-    } finally {
       setProcessing(false);
+      const status = e?.response?.status;
+      if (status === 401 || status === 403) {
+        console.warn('[MULTILINE] Auth expired, user should log in again.', e?.message);
+        Alert.alert('Phiên đăng nhập hết hạn', 'Vui lòng đăng nhập lại để tiếp tục.', [
+          { text: 'Đăng nhập', onPress: () => router.replace('/login') }
+        ]);
+      } else {
+        console.error('[MULTILINE] Submit error:', e);
+        Alert.alert('Lỗi nhận diện', e?.message || 'Không thể kết nối đến máy chủ nhận diện.');
+      }
     }
   };
 
@@ -466,7 +473,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#000000',
+    backgroundColor: '#F9FAFB',
     alignSelf: 'center',
     marginBottom: SIZES.medium,
     position: 'relative',

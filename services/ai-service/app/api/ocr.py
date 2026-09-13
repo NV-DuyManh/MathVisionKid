@@ -1,7 +1,7 @@
 import io
 import time
 import logging
-from typing import Optional, List
+from typing import Optional, List, Tuple
 import cv2
 import numpy as np
 from fastapi import APIRouter, Request, HTTPException
@@ -201,6 +201,244 @@ def run_classical_line_detection(bgr_image: np.ndarray, max_lines: int = MAX_DET
     return line_results
 
 
+def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -> Tuple[List[LineBox], dict]:
+    """
+    Detector B: Specialized fallback for handwriting on graph/squared paper.
+    Uses adaptive chromatic ink extraction or adaptive thresholding, followed
+    by conservative long-line suppression.
+    """
+    if bgr_image is None or bgr_image.size == 0:
+        return [], {}
+
+    bgr_image = correct_skew(bgr_image, max_angle=10.0)
+    height, width = bgr_image.shape[:2]
+    
+    diagnostics = {}
+
+    # A. Adaptive Chromatic-Ink Extraction
+    hsv = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2HSV)
+    h_chan, s_chan, v_chan = cv2.split(hsv)
+    
+    # Identify candidate colored-ink pixels: strong saturation, not pure white/bright
+    sat_mask = (s_chan > 30) & (v_chan < 230)
+    candidate_hue = h_chan[sat_mask]
+    
+    chromatic_cluster_found = False
+    dominant_hue = -1
+    binary = None
+    
+    if len(candidate_hue) > 50:
+        hist = cv2.calcHist([candidate_hue], [0], None, [180], [0, 180])
+        dominant_hue = int(np.argmax(hist))
+        
+        # We need a meaningful peak
+        if hist.flatten()[dominant_hue] > 10:
+            chromatic_cluster_found = True
+            
+            # Create circular mask around dominant hue
+            lower_hue = (dominant_hue - 15) % 180
+            upper_hue = (dominant_hue + 15) % 180
+            
+            if lower_hue < upper_hue:
+                hue_mask = (h_chan >= lower_hue) & (h_chan <= upper_hue)
+            else:
+                hue_mask = (h_chan >= lower_hue) | (h_chan <= upper_hue)
+                
+            ink_mask = hue_mask & sat_mask
+            binary = (ink_mask * 255).astype(np.uint8)
+
+    # B. Fallback to Grayscale & Conditional Grid Subtraction
+    if not chromatic_cluster_found or cv2.countNonZero(binary) < 50:
+        gray = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2GRAY)
+        binary = cv2.adaptiveThreshold(
+            gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 41, 10
+        )
+        
+        # Only aggressively subtract grid if we are in the grayscale fallback!
+        # Chromatic mask naturally separates pen from gray grid.
+        vert_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(40, int(height * 0.30))))
+        vert_lines = cv2.morphologyEx(binary, cv2.MORPH_OPEN, vert_kernel)
+        
+        horiz_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (max(40, int(width * 0.30)), 1))
+        horiz_lines = cv2.morphologyEx(binary, cv2.MORPH_OPEN, horiz_kernel)
+        
+        grid = cv2.bitwise_or(vert_lines, horiz_lines)
+        binary = cv2.subtract(binary, grid)
+
+    # Clean up isolated noise
+    noise_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, noise_kernel)
+
+    # Estimate component height
+    raw_cnts, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    heights = [cv2.boundingRect(c)[3] for c in raw_cnts if cv2.contourArea(c) > 5]
+    median_h = np.median(heights) if heights else 15
+
+    # Adaptive morphology for handwriting connectivity
+    k_width = max(10, int(median_h * 1.2))
+    k_height = max(3, int(median_h * 0.2))
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k_width, k_height))
+    dilated = cv2.dilate(binary, kernel, iterations=1)
+
+    # NEW: Projection Row Segmentation
+    # Calculate row-wise foreground density on a vertically closed mask to bridge diacritics
+    v_close_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(15, int(height * 0.05))))
+    v_close = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, v_close_kernel)
+    ink_per_row = np.sum(v_close > 0, axis=1) # 1D array of length `height`
+    
+    # Smooth the projection conservatively
+    smooth_window = max(3, int(median_h * 0.3))
+    smoothed_proj = np.convolve(ink_per_row, np.ones(smooth_window)/smooth_window, mode='same')
+    
+    # Identify bands of meaningful ink
+    ink_threshold = max(5, width * 0.005) # 0.5% of width or minimum 5 pixels
+    is_ink = smoothed_proj > ink_threshold
+    
+    bands = [] # list of (y_start, y_end)
+    in_band = False
+    start_y = 0
+    min_band_h = max(15, height * 0.05) # At least 5% of image height
+    for y, has_ink in enumerate(is_ink):
+        if has_ink and not in_band:
+            in_band = True
+            start_y = y
+        elif not has_ink and in_band:
+            in_band = False
+            if (y - start_y) >= min_band_h:
+                bands.append((start_y, y))
+    if in_band:
+        if (height - start_y) >= min_band_h:
+            bands.append((start_y, height))
+            
+    if not bands:
+        bands = [(0, height)]
+
+    # 3.5 Merge very close bands (valleys < 3% of height are likely intra-line gaps, e.g. accents)
+    merged_bands = []
+    max_gap = max(10, height * 0.03)
+    for b in bands:
+        if not merged_bands:
+            merged_bands.append(b)
+        else:
+            prev = merged_bands[-1]
+            if (b[0] - prev[1]) < max_gap:
+                merged_bands[-1] = (prev[0], b[1])
+            else:
+                merged_bands.append(b)
+    bands = merged_bands
+
+    # 4. Giant-Box Split Logic (recursive split based on local valleys)
+    def recursive_split_band(start_y, end_y):
+        band_h = end_y - start_y
+        if band_h <= median_h * 2.5:
+            return [(start_y, end_y)]
+            
+        sub_proj = smoothed_proj[start_y:end_y]
+        mid_start = int(band_h * 0.2)
+        mid_end = int(band_h * 0.8)
+        if mid_end <= mid_start:
+            return [(start_y, end_y)]
+            
+        split_idx = mid_start + np.argmin(sub_proj[mid_start:mid_end])
+        split_y = start_y + split_idx
+        
+        # Split if the valley is lower than 85% of the local peak
+        if smoothed_proj[split_y] < np.max(sub_proj) * 0.85:
+            return recursive_split_band(start_y, split_y) + recursive_split_band(split_y, end_y)
+        else:
+            return [(start_y, end_y)]
+
+    final_bands = []
+    for b in bands:
+        final_bands.extend(recursive_split_band(b[0], b[1]))
+    bands = final_bands
+
+    # B. Component Y-Clustering
+    contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    raw_boxes = []
+    min_area = 5
+    max_h = int(height * 0.5)
+
+    for cnt in contours:
+        x, y, w, h = cv2.boundingRect(cnt)
+        # Preserve small components (diacritics/punctuation) by checking area instead of strict height/width
+        if cv2.contourArea(cnt) >= min_area and h <= max_h:
+            # Assign component to band based on maximum overlap
+            best_band = 0
+            best_overlap = -1
+            cy = y + h / 2.0
+            
+            for i, b in enumerate(bands):
+                overlap = max(0, min(y+h, b[1]) - max(y, b[0]))
+                if overlap > best_overlap:
+                    best_overlap = overlap
+                    best_band = i
+            
+            # If no vertical overlap, assign to nearest center
+            if best_overlap == 0:
+                best_band = min(range(len(bands)), key=lambda i: abs(cy - ((bands[i][0]+bands[i][1])/2.0)))
+                
+            raw_boxes.append({
+                'box': [x, y, w, h],
+                'band_idx': best_band
+            })
+
+    # Group components by band to form final line boxes
+    merged_boxes = []
+    for i, band in enumerate(bands):
+        band_boxes = [b['box'] for b in raw_boxes if b['band_idx'] == i]
+        if not band_boxes:
+            continue
+            
+        x_min = min([b[0] for b in band_boxes])
+        y_min = min([b[1] for b in band_boxes])
+        x_max = max([b[0]+b[2] for b in band_boxes])
+        y_max = max([b[1]+b[3] for b in band_boxes])
+        
+        # Chain-merge prevention: clamp y_min/y_max roughly to the band's limits 
+        # allowing for natural ascenders/descenders, but preventing adjacent lines from colliding
+        margin = int(median_h * 0.4)
+        y_min = max(y_min, band[0] - margin)
+        y_max = min(y_max, band[1] + margin)
+        
+        w_line = x_max - x_min
+        h_line = y_max - y_min
+        
+        # Apply padding
+        pad_x = max(5, int(w_line * 0.02))
+        pad_y = max(5, int(h_line * 0.15))
+        
+        x_pad = max(0, x_min - pad_x)
+        y_pad = max(0, y_min - pad_y)
+        w_pad = min(width - x_pad, w_line + 2 * pad_x)
+        h_pad = min(height - y_pad, h_line + 2 * pad_y)
+        
+        merged_boxes.append((x_pad, y_pad, w_pad, h_pad))
+
+    merged_boxes.sort(key=lambda b: (b[1], b[0]))
+    if len(merged_boxes) > max_lines:
+        merged_boxes = merged_boxes[:max_lines]
+
+    line_results = []
+    for idx, b in enumerate(merged_boxes, 1):
+        line_results.append(LineBox(
+            line_id=f"line_{idx}",
+            x=int(b[0]),
+            y=int(b[1]),
+            width=int(b[2]),
+            height=int(b[3]),
+            order=idx
+        ))
+
+    diagnostics["chromatic_cluster_found"] = chromatic_cluster_found
+    diagnostics["dominant_hue"] = dominant_hue
+    diagnostics["bands_detected"] = len(bands)
+    diagnostics["final_boxes"] = len(line_results)
+
+    return line_results, diagnostics
+
+
 @router.post("/detect-lines", response_model=OcrDetectLinesResponse)
 async def detect_lines_endpoint(request: Request):
     """
@@ -249,6 +487,31 @@ async def detect_lines_endpoint(request: Request):
     height, width = cv_img.shape[:2]
     try:
         lines = run_classical_line_detection(cv_img, max_lines=MAX_DETECTED_LINES)
+        
+        # Dual-path fallback logic: 
+        # Path B (Graph Paper Handwriting) activates if Path A result is suspicious.
+        is_suspicious = False
+        if len(lines) == 0:
+            is_suspicious = True
+        elif len(lines) == 1:
+            if lines[0].height > height * 0.4:
+                is_suspicious = True
+        elif len(lines) >= 2:
+            max_h = max(l.height for l in lines)
+            min_h = min(l.height for l in lines)
+            if min_h > 0 and (max_h / min_h) > 3.0:
+                is_suspicious = True
+
+        if is_suspicious:
+            logger.info(f"[OCR_PILOT] Path A returned suspicious result (lines={len(lines)}). Triggering fallback Path B.")
+            fallback_lines, diagnostics = run_grid_handwriting_detection(cv_img, max_lines=MAX_DETECTED_LINES)
+            
+            logger.info(f"[OCR_PILOT] Path B Diagnostics: {diagnostics}")
+            
+            if len(fallback_lines) > 0:
+                logger.info(f"[OCR_PILOT] Fallback Path B returned {len(fallback_lines)} lines.")
+                lines = fallback_lines
+
         return OcrDetectLinesResponse(
             width=width,
             height=height,

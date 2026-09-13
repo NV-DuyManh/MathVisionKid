@@ -246,6 +246,16 @@ export default function CropScreen() {
         return;
       }
 
+      console.log('[DEV_STAGE][CROP_EXECUTION]', {
+        activeUri,
+        actualSize,
+        imageLayout,
+        box: { x: boxX.value, y: boxY.value, w: boxW.value, h: boxH.value },
+        bMin: { x: bMinX.value, y: bMinY.value },
+        imgScale: imgScale.value,
+        cropRect: { originX: realX, originY: realY, width: realW, height: realH }
+      });
+
       const result = await ImageManipulator.manipulateAsync(
         activeUri,
         [{ crop: { originX: realX, originY: realY, width: realW, height: realH } }],
@@ -279,9 +289,9 @@ export default function CropScreen() {
         pathname: targetPath as any,
         params: { retrySubmissionId },
       });
-    } catch (err) {
+    } catch (err: any) {
       setIsProcessing(false);
-      console.error('[CROP] Crop execution error:', err);
+      console.error('[CROP] Crop execution error:', err?.message || err);
       Alert.alert('Lỗi', 'Không thể đọc kích thước ảnh bài tập hoặc cắt ảnh. Vui lòng thử lại.');
     }
   };
