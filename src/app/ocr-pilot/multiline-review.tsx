@@ -22,7 +22,7 @@ export default function MultilineReviewScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const draft = submissionDraftStore.getDraft();
-  const imageUri = (params.uri as string) || draft?.uri || '';
+  const imageUri = draft?.uri || (params.uri as string) || '';
 
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
@@ -35,7 +35,7 @@ export default function MultilineReviewScreen() {
   const displayWidth = SCREEN_WIDTH - 32;
 
   useEffect(() => {
-    console.log('[MULTILINE_PAGE_SOURCE] MULTILINE_PAGE_SOURCE=POST_PRIVACY_ACTIVE_URI', {
+    console.log('[MULTILINE_PAGE_SOURCE] MULTILINE_PAGE_SOURCE=POST_CROP_ACTIVE_URI', {
       uri: imageUri,
       isMasked: draft?.isMasked,
       rawUriPresent: !!draft?.rawUri,
@@ -234,11 +234,14 @@ export default function MultilineReviewScreen() {
 
       {/* Image Overlay Area */}
       <View style={[styles.imageContainer, { width: displayWidth, height: displayHeight }]}>
-        <Image
-          source={{ uri: imageUri }}
-          style={{ width: displayWidth, height: displayHeight }}
-          resizeMode="contain"
-        />
+            <Image
+              source={{ uri: imageUri }}
+              style={{ width: displayWidth, height: displayHeight }}
+              resizeMode="contain"
+              onError={(e) => {
+                console.error('[MULTILINE] Image load failed:', e.nativeEvent.error);
+              }}
+            />
 
         {boxes.map((box) => {
           const isSelected = box.line_id === selectedId;

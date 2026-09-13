@@ -374,6 +374,128 @@ def check_student_metro():
         record_result("Student Metro", "NOT_RUNNING", detail=f"Port 8081 open but Metro probe failed: {e}")
 
 
+def check_lan_diagnostics():
+    lan_ip = "127.0.0.1"
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        lan_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        try:
+            lan_ip = socket.gethostbyname(socket.gethostname())
+        except Exception:
+            pass
+
+    metro_port = 8081
+    metro_local_reach = check_port("localhost", metro_port, timeout=0.8)
+
+    # Discover actual Metro bind address via subprocess
+    metro_bind_addr = "NOT_LISTENING"
+    metro_lan_ready = False
+    if metro_local_reach:
+        try:
+            proc = subprocess.run(
+                ["powershell", "-NoProfile", "-Command",
+                 f"Get-NetTCPConnection -LocalPort {metro_port} -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty LocalAddress"],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=5
+            )
+            bind_addrs = [a.strip() for a in proc.stdout.strip().splitlines() if a.strip()]
+            if bind_addrs:
+                metro_bind_addr = bind_addrs[0]
+        except Exception:
+            metro_bind_addr = "UNKNOWN"
+
+        # Test actual LAN reachability
+        if lan_ip != "127.0.0.1":
+            metro_lan_ready = check_port(lan_ip, metro_port, timeout=1.5)
+        else:
+            metro_lan_ready = metro_local_reach
+
+    # Determine metro state string
+    if not metro_local_reach:
+        metro_state = "NOT_LISTENING"
+    elif metro_bind_addr in ("::", "0.0.0.0", lan_ip) or metro_lan_ready:
+        metro_state = f"LAN_READY (bind={metro_bind_addr}, port={metro_port})"
+    else:
+        metro_state = f"LOOPBACK_ONLY (bind={metro_bind_addr}, port={metro_port})"
+
+    spring_host_reach = check_port("localhost", 8080, timeout=1.0)
+    spring_lan_reach = check_port(lan_ip, 8080, timeout=1.0) if lan_ip != "127.0.0.1" else spring_host_reach
+
+    configured_url = os.environ.get("EXPO_PUBLIC_API_BASE_URL", "")
+    config_source = "environment"
+    if not configured_url:
+        env_local = REPO_ROOT / ".env.local"
+        if env_local.exists():
+            for line in env_local.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line.startswith("EXPO_PUBLIC_API_BASE_URL="):
+                    configured_url = line.split("=", 1)[1].strip().strip('"').strip("'")
+                    config_source = ".env.local"
+                    break
+    if not configured_url:
+        env_root = REPO_ROOT / ".env"
+        if env_root.exists():
+            for line in env_root.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line.startswith("EXPO_PUBLIC_API_BASE_URL="):
+                    configured_url = line.split("=", 1)[1].strip().strip('"').strip("'")
+                    config_source = ".env"
+                    break
+
+    configured_host = "NOT_CONFIGURED"
+    if configured_url:
+        try:
+            from urllib.parse import urlparse
+            parsed = urlparse(configured_url)
+            configured_host = parsed.hostname or configured_url
+        except Exception:
+            configured_host = configured_url
+
+    mismatch_warning = None
+    if configured_host in ("127.0.0.1", "localhost"):
+        mismatch_warning = (
+            f"Configured API host is localhost ({configured_url}). "
+            f"Physical Android devices cannot connect to 127.0.0.1 over LAN. "
+            f"Set EXPO_PUBLIC_API_BASE_URL=http://{lan_ip}:8080/api/v1 in .env.local for physical device testing."
+        )
+    elif configured_host not in (lan_ip, "10.0.2.2", "NOT_CONFIGURED"):
+        mismatch_warning = (
+            f"LAN IP MISMATCH! Configured host '{configured_host}' in {config_source} does not match "
+            f"current machine LAN IP '{lan_ip}'. Physical devices may encounter 'AxiosError: Network Error'. "
+            f"Update EXPO_PUBLIC_API_BASE_URL=http://{lan_ip}:8080/api/v1 in .env.local."
+        )
+
+    # Compute overall LAN verdict
+    api_match = (configured_host == lan_ip)
+    if api_match and spring_lan_reach and metro_lan_ready:
+        lan_verdict = "PASS"
+    elif spring_lan_reach and not metro_lan_ready and metro_local_reach:
+        lan_verdict = "PARTIAL (Spring LAN OK, Metro loopback only)"
+    elif not metro_local_reach:
+        lan_verdict = "PARTIAL (Metro not running)"
+    elif mismatch_warning:
+        lan_verdict = "FAIL (API host mismatch or stale)"
+    else:
+        lan_verdict = "PARTIAL"
+
+    return {
+        "lan_ip": lan_ip,
+        "metro_port": metro_port,
+        "metro_bind_addr": metro_bind_addr,
+        "metro_state": metro_state,
+        "metro_lan_reach": "REACHABLE" if metro_lan_ready else "UNREACHABLE",
+        "spring_host_reach": "REACHABLE" if spring_host_reach else "UNREACHABLE",
+        "spring_lan_reach": "REACHABLE" if spring_lan_reach else "UNREACHABLE",
+        "configured_url": configured_url or "DEFAULT_FALLBACK",
+        "configured_host": configured_host,
+        "config_source": config_source,
+        "mismatch_warning": mismatch_warning,
+        "lan_verdict": lan_verdict,
+    }
+
+
 def main():
     print("============================================")
     print(" MathVision Kids -- Local Runtime Diagnostic")
@@ -430,6 +552,24 @@ def main():
     print(f"Primary Model ......... {primary_model}")
     print(f"Model Version ......... {model_version}")
     print(f"Model Artifact ........ {model_artifact}")
+    print()
+
+    # Network & Physical Device LAN Diagnostics
+    lan_info = check_lan_diagnostics()
+    print("--------------------------------------------")
+    print(" Network & Mobile LAN Diagnostics")
+    print("--------------------------------------------")
+    print(f"Host LAN IPv4 ......... {lan_info['lan_ip']}")
+    print(f"Metro State ........... {lan_info['metro_state']}")
+    print(f"Metro Bind Address .... {lan_info['metro_bind_addr']}")
+    print(f"Metro LAN Reach ....... {lan_info['metro_lan_reach']}")
+    print(f"Spring (localhost:8080) {lan_info['spring_host_reach']}")
+    print(f"Spring (LAN IPv4:8080)  {lan_info['spring_lan_reach']}")
+    print(f"Configured API Host ... {lan_info['configured_host']} (from {lan_info['config_source']})")
+    if lan_info['mismatch_warning']:
+        print(f"LAN Warning ........... WARN: {lan_info['mismatch_warning']}")
+    print(f"LAN Verdict ........... {lan_info['lan_verdict']}")
+    print("--------------------------------------------")
     print()
 
     # Determine overall status distinguishing core vs full demo

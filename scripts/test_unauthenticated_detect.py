@@ -17,8 +17,10 @@ def post_multipart(url, fields, files):
         return json.loads(resp.read().decode('utf-8'))
 
 if __name__ == '__main__':
+    import os
+    base_url = os.environ.get('BASE_URL', 'http://localhost:8080/api/v1')
     with open('scratch/python_exam_test.jpg', 'rb') as f:
         img_data = f.read()
 
-    res = post_multipart('http://192.168.88.56:8080/api/v1/ocr/multiline/detect', {'privacyConfirmed': 'true'}, {'image': ('test.jpg', img_data, 'image/jpeg')})
+    res = post_multipart(f'{base_url}/ocr/multiline/detect', {'privacyConfirmed': 'true'}, {'image': ('test.jpg', img_data, 'image/jpeg')})
     print(f"Unauthenticated /detect: status=200, lines={len(res.get('lines', []))}")

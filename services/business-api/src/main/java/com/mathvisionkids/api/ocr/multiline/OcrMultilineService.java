@@ -317,7 +317,7 @@ public class OcrMultilineService {
                 && line.getLineImageObjectKey() != null
                 && !line.getLineImageObjectKey().trim().isEmpty()
                 && line.getLineImageSha256() != null
-                && line.getLineImageSha256().length() == 64;
+                && line.getLineImageSha256().matches("^[a-fA-F0-9]{64}$");
 
         if ("CORRECT".equals(verdictUpper)) {
             eligible = eligible && line.getVerifiedTextRaw().equals(line.getPredictedText());

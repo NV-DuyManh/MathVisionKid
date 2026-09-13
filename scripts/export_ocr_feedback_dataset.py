@@ -203,7 +203,10 @@ def export_dataset(output_root: Path, mock_samples: list = None, include_test: b
         # Verify image checksum integrity against database record
         file_sha = compute_sha256(img_bytes)
         recorded_sha = item.get("image_sha256", "")
-        if recorded_sha and file_sha.lower() != recorded_sha.lower():
+        if not recorded_sha or len(recorded_sha) != 64 or not all(c in "0123456789abcdefABCDEF" for c in recorded_sha):
+            print(f"[EXPORT] WARNING: Invalid or missing recorded SHA256 format for sample {sample_id}. EXCLUDING!")
+            continue
+        if file_sha.lower() != recorded_sha.lower():
             print(f"[EXPORT] WARNING: SHA256 mismatch for sample {sample_id}: calculated {file_sha} != recorded {recorded_sha}. EXCLUDING!")
             continue
 

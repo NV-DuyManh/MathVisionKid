@@ -182,12 +182,6 @@ export default function PrivacyGateScreen() {
       const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
       logFlowDomain('POST_PRIVACY', postPrivacyMode);
 
-      const targetPath = postPrivacyMode === 'ARITHMETIC'
-        ? '/preview'
-        : postPrivacyMode === 'OCR_PILOT'
-          ? '/ocr-pilot/line-crop'
-          : '/ocr-pilot/multiline-review';
-
       // If no masks were drawn, do NOT rasterize via ViewShot!
       // Forward the normalized image without an additional privacy rasterization pass.
       if (masks.length === 0) {
@@ -201,12 +195,8 @@ export default function PrivacyGateScreen() {
           extra: `zero-mask bypass mode=${postPrivacyMode}`,
         });
         router.push({
-          pathname: targetPath as any,
-          params: {
-            uri: activeUri,
-            originalUri: draft?.rawUri || activeUri,
-            retrySubmissionId,
-          },
+          pathname: '/crop' as any,
+          params: { retrySubmissionId },
         });
         return;
       }
@@ -250,12 +240,8 @@ export default function PrivacyGateScreen() {
         });
 
         router.push({
-          pathname: targetPath as any,
-          params: {
-            uri: finalMaskedUri,
-            originalUri: activeUri,
-            retrySubmissionId,
-          },
+          pathname: '/crop' as any,
+          params: { retrySubmissionId },
         });
       }
     } catch (e) {

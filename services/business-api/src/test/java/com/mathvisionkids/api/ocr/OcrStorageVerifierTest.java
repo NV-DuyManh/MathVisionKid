@@ -77,6 +77,7 @@ public class OcrStorageVerifierTest {
         assertFalse(verifier.verifyStorageIntegrity("ocr-trials/sample.jpg", null));
         assertFalse(verifier.verifyStorageIntegrity("ocr-trials/sample.jpg", "short-sha"));
         assertFalse(verifier.verifyStorageIntegrity("ocr-trials/sample.jpg", "c".repeat(65)));
+        assertFalse(verifier.verifyStorageIntegrity("ocr-trials/sample.jpg", "z".repeat(64)));
     }
 
     @Test

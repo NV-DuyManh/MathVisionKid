@@ -195,7 +195,7 @@ public class OcrPilotService {
                 && trial.getLineImageObjectKey() != null
                 && !trial.getLineImageObjectKey().trim().isEmpty()
                 && trial.getLineImageSha256() != null
-                && trial.getLineImageSha256().length() == 64;
+                && trial.getLineImageSha256().matches("^[a-fA-F0-9]{64}$");
 
         if ("CORRECT".equals(verdictUpper)) {
             eligible = eligible && trial.getVerifiedTextRaw().equals(trial.getPredictedText());

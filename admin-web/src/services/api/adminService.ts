@@ -111,11 +111,11 @@ export const adminService = {
 
   async resetPassword(
     userId: string,
-    payload: ResetPasswordRequest
+    payload?: ResetPasswordRequest
   ): Promise<ResetPasswordResponse> {
     const { data } = await apiClient.post<ResetPasswordResponse>(
       `/admin/users/${userId}/reset-password`,
-      payload
+      payload || {}
     );
     return data;
   },
@@ -201,6 +201,20 @@ export const adminService = {
     const { data } = await apiClient.put<AdminClassResponse>(
       `/admin/classes/${classId}/teacher`,
       payload
+    );
+    return data;
+  },
+
+  async addStudentToClass(classId: string, studentId: string): Promise<AdminClassResponse> {
+    const { data } = await apiClient.post<AdminClassResponse>(
+      `/admin/classes/${classId}/students/${studentId}`
+    );
+    return data;
+  },
+
+  async removeStudentFromClass(classId: string, studentId: string): Promise<AdminClassResponse> {
+    const { data } = await apiClient.delete<AdminClassResponse>(
+      `/admin/classes/${classId}/students/${studentId}`
     );
     return data;
   },

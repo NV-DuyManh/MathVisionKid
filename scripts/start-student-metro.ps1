@@ -9,18 +9,41 @@ $PidDir = Join-Path $RepoRoot "runtime\pids"
 if (-not (Test-Path $PidDir)) { New-Item -ItemType Directory -Path $PidDir -Force | Out-Null }
 $MetroPidFile = Join-Path $PidDir "student-metro.pid"
 
-# Check if port 8081 is already running
-$alreadyRunning = $false
-try {
-    $tcp = New-Object System.Net.Sockets.TcpClient
-    $tcp.Connect("127.0.0.1", 8081)
-    $alreadyRunning = $tcp.Connected
-    $tcp.Close()
-} catch {}
+# Check if port 8081 is already running and identify the process
+$portInUse = $false
+$pidHoldingPort = $null
 
-if ($alreadyRunning) {
-    Write-Host "  Student Metro is already running on port 8081." -ForegroundColor Green
-    exit 0
+$netstatOutput = netstat -ano | Select-String "\s+TCP\s+.*:8081\s+.*\s+LISTENING\s+(\d+)"
+if ($netstatOutput) {
+    if ($netstatOutput.Matches.Groups.Count -ge 2) {
+        $pidHoldingPort = $netstatOutput.Matches.Groups[1].Value
+        $portInUse = $true
+    }
+}
+
+if ($portInUse) {
+    try {
+        $proc = Get-Process -Id $pidHoldingPort
+        $wmiProc = Get-CimInstance Win32_Process -Filter "ProcessId = $pidHoldingPort"
+        $isMetro = $false
+        
+        if ($proc.ProcessName -match "node" -and $wmiProc.CommandLine -match "react-native|expo|metro") {
+            $isMetro = $true
+        }
+
+        if ($isMetro) {
+            Write-Host "  Student Metro is already running on port 8081 (PID: $pidHoldingPort)." -ForegroundColor Green
+            exit 0
+        } else {
+            Write-Host "  PORT_CONFLICT: Port 8081 is occupied by a NON_METRO_PROCESS ($($proc.ProcessName), PID: $pidHoldingPort)." -ForegroundColor Red
+            Write-Host "  Student Metro launcher exiting safely without killing the unrelated process." -ForegroundColor Red
+            exit 1
+        }
+    } catch {
+        Write-Host "  PORT_CONFLICT: Port 8081 is occupied by an unknown process (PID: $pidHoldingPort)." -ForegroundColor Red
+        Write-Host "  Student Metro launcher exiting safely." -ForegroundColor Red
+        exit 1
+    }
 }
 
 Write-Host "  Launching Student Metro in visible LAN terminal..." -ForegroundColor Cyan

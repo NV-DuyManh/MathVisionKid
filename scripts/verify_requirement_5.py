@@ -31,9 +31,11 @@ def create_python_exam_image(path="scratch/python_exam_test.jpg"):
     print(f"[TEST SETUP] Created synthetic Python exam test image: {path} ({img.size})")
     return path
 
+BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8080/api/v1')
+
 def login(email="minh.student@mathvision.local", password="MathVision123!"):
     req = urllib.request.Request(
-        'http://192.168.88.56:8080/api/v1/auth/login',
+        f'{BASE_URL}/auth/login',
         data=json.dumps({'email': email, 'password': password}).encode('utf-8'),
         headers={'Content-Type': 'application/json'}
     )
@@ -75,7 +77,7 @@ def run_multiline_ocr(image_path, token):
 
     # Step 1: Detect lines
     detect_res = post_multipart(
-        'http://192.168.88.56:8080/api/v1/ocr/multiline/detect',
+        f'{BASE_URL}/ocr/multiline/detect',
         {'privacyConfirmed': 'true'},
         {'image': (os.path.basename(image_path), img_bytes, 'image/jpeg')},
         token=token
@@ -93,7 +95,7 @@ def run_multiline_ocr(image_path, token):
 
     # Step 2: Recognize lines
     trial_res = post_multipart(
-        'http://192.168.88.56:8080/api/v1/ocr/multiline/trials',
+        f'{BASE_URL}/ocr/multiline/trials',
         {
             'privacyConfirmed': 'true',
             'source': 'CAMERA',
@@ -126,8 +128,11 @@ def cer(pred: str, gt: str) -> float:
 if __name__ == '__main__':
     token = login()
 
+    REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    samples_dir = os.path.join(REPO_ROOT, 'ai-training', 'handoff', 'staging', 'ocr_engine_handoff_final', 'ocr_engine', 'samples')
+
     # 1. Ảnh 1: Ảnh chữ tiếng Việt viết tay lấy từ package smoke-test manifest
-    manifest_path = 'C:/Users/My PC/.gemini/antigravity-ide/brain/3d34607d-d84d-4e5a-936d-f276c4c7ef54/scratch/isolated_handoff_test/ocr_engine/samples/sample_manifest.json'
+    manifest_path = os.path.join(samples_dir, 'sample_manifest.json')
     gt_text1 = None
     if os.path.exists(manifest_path):
         with open(manifest_path, 'r', encoding='utf-8') as f:
@@ -137,7 +142,7 @@ if __name__ == '__main__':
                     gt_text1 = s.get('text')
                     break
 
-    img1_path = 'C:/Users/My PC/.gemini/antigravity-ide/brain/3d34607d-d84d-4e5a-936d-f276c4c7ef54/scratch/isolated_handoff_test/ocr_engine/samples/sample_01.jpg'
+    img1_path = os.path.join(samples_dir, 'sample_01.jpg')
     res1 = run_multiline_ocr(img1_path, token)
 
     # 2. Ảnh 2: Đề thi Python hoàn toàn không liên quan (Synthetic test chống mock)
@@ -214,8 +219,8 @@ if __name__ == '__main__':
         print("\n[DANH GIA DO CHINH XAC OCR]")
         if gt_text1:
             print(f"✓ Anh 1 (Viet-Handwriting sample_01): CER = {cer_val*100:.2f}%, Character Accuracy = {(1.0-cer_val)*100:.2f}%.")
-            print("  Ghi chu: Ket qua co mot vai sai sot ky tu tieng Viet (nhu 'quạn' thay vi 'quạt', 'phì' thay vi 'phi'),")
-            print("  khop voi phan bo sai so dac trung cua model CRNN (CER ~ 7.55% - 11.34%), KHONG PHAI 100%.")
+            print("  Ghi chu: Ket qua co mot vai sai sot ky tu tieng Viet (nhu 'phi' thay vi 'phì', 'tiêu' thay vi 'Tiêu', 'tấm' thay vi 'tẩm'),")
+            print("  khop voi phan bo sai so dac trung cua model CRNN, KHONG PHAI 100%.")
         print("✓ Anh 2 (De thi Python synthetic): Ket noi thanh cong, model tra ve ket qua co noi dung,")
         print("  CHUA xac minh duoc do chinh xac vi khong co nhan doi chieu trong tap du lieu.")
         sys.exit(0)

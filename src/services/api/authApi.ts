@@ -74,7 +74,7 @@ export const authApi = {
       throw error;
     }
 
-    const mockUser = getMockStudentUser(email);
+    const mockUser = getMockStudentUser(normEmail);
     return {
       accessToken: `demo_student_token_${Date.now()}`,
       refreshToken: `demo_student_refresh_${Date.now()}`,

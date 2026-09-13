@@ -103,12 +103,15 @@ if __name__ == '__main__':
     # 0. Authenticate
     token = login()
 
+    REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    samples_dir = os.path.join(REPO_ROOT, 'ai-training', 'handoff', 'staging', 'ocr_engine_handoff_final', 'ocr_engine', 'samples')
+
     # Image 1: Sample Vietnamese Handwriting 1
-    sample_1 = 'C:/Users/My PC/.gemini/antigravity-ide/brain/3d34607d-d84d-4e5a-936d-f276c4c7ef54/scratch/isolated_handoff_test/ocr_engine/samples/sample_01.jpg'
+    sample_1 = os.path.join(samples_dir, 'sample_01.jpg')
     res1 = test_ocr(sample_1, "Image 1: Vietnamese Handwriting Sample 1", token)
 
     # Image 2: Sample Vietnamese Handwriting 3
-    sample_3 = 'C:/Users/My PC/.gemini/antigravity-ide/brain/3d34607d-d84d-4e5a-936d-f276c4c7ef54/scratch/isolated_handoff_test/ocr_engine/samples/sample_03.jpg'
+    sample_3 = os.path.join(samples_dir, 'sample_03.jpg')
     res2 = test_ocr(sample_3, "Image 2: Vietnamese Handwriting Sample 3", token)
 
     # Image 3: Unrelated image (blank / synthetic)

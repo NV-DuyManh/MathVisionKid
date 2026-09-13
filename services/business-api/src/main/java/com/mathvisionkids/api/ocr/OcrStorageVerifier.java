@@ -33,7 +33,7 @@ public class OcrStorageVerifier {
      * @return true if object exists and matches hash byte-for-byte; false otherwise
      */
     public boolean verifyStorageIntegrity(String objectKey, String expectedSha256) {
-        if (objectKey == null || objectKey.trim().isEmpty() || expectedSha256 == null || expectedSha256.length() != 64) {
+        if (objectKey == null || objectKey.trim().isEmpty() || expectedSha256 == null || !expectedSha256.matches("^[a-fA-F0-9]{64}$")) {
             logger.warn("Storage integrity check skipped: invalid objectKey or expected SHA metadata format");
             return false;
         }
