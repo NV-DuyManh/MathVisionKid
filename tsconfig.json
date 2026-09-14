@@ -9,8 +9,7 @@
       "@/assets/*": [
         "./assets/*"
       ]
-    },
-    "types": ["jest"]
+    }
   },
   "include": [
     "src/**/*.ts",
@@ -21,6 +20,7 @@
   "exclude": [
     "node_modules",
     "teacher-web",
-    "dist"
+    "dist",
+    "src/**/__tests__/**"
   ]
 }

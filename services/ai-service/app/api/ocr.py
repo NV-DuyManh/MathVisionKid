@@ -1,4 +1,7 @@
 import io
+import os
+import json
+import hashlib
 import time
 import logging
 from typing import Optional, List, Tuple
@@ -14,6 +17,8 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+HW_LINE_DETECTOR_VERSION = "runtime6-hue-projection-20260914"
 
 CHECKPOINT_SHA256 = "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941"
 VOCAB_SHA256 = "6af4062e92e22cc91ece5198638e29a6ceec6cb92e3b12bd71deb4b874ac9e0d"
@@ -439,11 +444,77 @@ def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_D
     return line_results, diagnostics
 
 
+def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -> Tuple[List[LineBox], dict]:
+    """
+    Production text-line segmentation pipeline.
+    Runs Path A (classical morphology/connected components).
+    If Path A is suspicious, runs Path B (hue-clustering + projection bands for grid handwriting).
+    Returns (final_lines, diagnostics).
+    """
+    if cv_img is None or cv_img.size == 0:
+        return [], {
+            "detector_version": HW_LINE_DETECTOR_VERSION,
+            "path_a_count": 0,
+            "path_a_suspicious": True,
+            "suspicious_reason": "EMPTY_IMAGE",
+            "path_b_invoked": False,
+            "dominant_hue": None,
+            "projection_band_count": 0,
+            "final_box_count": 0
+        }
+
+    height, width = cv_img.shape[:2]
+    lines = run_classical_line_detection(cv_img, max_lines=max_lines)
+
+    path_a_count = len(lines)
+    is_suspicious = False
+    suspicious_reason = "NONE"
+
+    if path_a_count == 0:
+        is_suspicious = True
+        suspicious_reason = "ZERO_LINES"
+    elif path_a_count == 1:
+        if lines[0].height > height * 0.4:
+            is_suspicious = True
+            suspicious_reason = "SINGLE_GIANT_BOX"
+    elif path_a_count >= 2:
+        max_h = max(l.height for l in lines)
+        min_h = min(l.height for l in lines)
+        if min_h > 0 and (max_h / min_h) > 3.0:
+            is_suspicious = True
+            suspicious_reason = f"EXTREME_HEIGHT_VARIANCE_{round(max_h / min_h, 2)}"
+
+    diagnostics = {
+        "detector_version": HW_LINE_DETECTOR_VERSION,
+        "path_a_count": path_a_count,
+        "path_a_suspicious": is_suspicious,
+        "suspicious_reason": suspicious_reason,
+        "path_b_invoked": False,
+        "dominant_hue": None,
+        "projection_band_count": 0,
+        "final_box_count": path_a_count
+    }
+
+    if is_suspicious:
+        logger.info(f"[OCR_PILOT] [{HW_LINE_DETECTOR_VERSION}] Path A suspicious ({suspicious_reason}, lines={path_a_count}). Triggering Path B.")
+        fallback_lines, b_diag = run_grid_handwriting_detection(cv_img, max_lines=max_lines)
+        diagnostics["path_b_invoked"] = True
+        diagnostics["dominant_hue"] = b_diag.get("dominant_hue")
+        diagnostics["projection_band_count"] = b_diag.get("bands_detected", 0)
+        logger.info(f"[OCR_PILOT] [{HW_LINE_DETECTOR_VERSION}] Path B result: {len(fallback_lines)} lines, diag={b_diag}")
+
+        if len(fallback_lines) > 0:
+            lines = fallback_lines
+            diagnostics["final_box_count"] = len(lines)
+
+    return lines, diagnostics
+
+
 @router.post("/detect-lines", response_model=OcrDetectLinesResponse)
 async def detect_lines_endpoint(request: Request):
     """
     Dedicated OCR Pilot endpoint for candidate text-line segmentation.
-    Uses classical OpenCV morphology and contour grouping.
+    Uses classical OpenCV morphology and contour grouping with adaptive chromatic fallback.
     Requires internal service authentication via X-Internal-API-Key header.
     Accepts raw binary image stream only (image/jpeg, image/png, application/octet-stream).
     Does NOT invoke CRNN or YOLO arithmetic models.
@@ -472,9 +543,14 @@ async def detect_lines_endpoint(request: Request):
             detail=f"Payload exceeds maximum allowed size of {MAX_PAYLOAD_BYTES} bytes"
         )
 
+    upload_sha256 = hashlib.sha256(img_bytes).hexdigest()
+    logger.info(f"[OCR_PILOT] [{HW_LINE_DETECTOR_VERSION}] /detect-lines received {len(img_bytes)} bytes, SHA256={upload_sha256}")
+
     try:
-        pil_image = Image.open(io.BytesIO(img_bytes))
-        pil_image = ImageOps.exif_transpose(pil_image).convert("RGB")
+        raw_pil = Image.open(io.BytesIO(img_bytes))
+        exif = raw_pil.getexif()
+        exif_orientation = exif.get(0x0112, None) if exif else None
+        pil_image = ImageOps.exif_transpose(raw_pil).convert("RGB")
         cv_img = np.array(pil_image)
         # Convert RGB to BGR for OpenCV
         cv_img = cv_img[:, :, ::-1].copy()
@@ -485,37 +561,55 @@ async def detect_lines_endpoint(request: Request):
         raise HTTPException(status_code=400, detail="Invalid image bytes or unreadable image file")
 
     height, width = cv_img.shape[:2]
-    try:
-        lines = run_classical_line_detection(cv_img, max_lines=MAX_DETECTED_LINES)
-        
-        # Dual-path fallback logic: 
-        # Path B (Graph Paper Handwriting) activates if Path A result is suspicious.
-        is_suspicious = False
-        if len(lines) == 0:
-            is_suspicious = True
-        elif len(lines) == 1:
-            if lines[0].height > height * 0.4:
-                is_suspicious = True
-        elif len(lines) >= 2:
-            max_h = max(l.height for l in lines)
-            min_h = min(l.height for l in lines)
-            if min_h > 0 and (max_h / min_h) > 3.0:
-                is_suspicious = True
 
-        if is_suspicious:
-            logger.info(f"[OCR_PILOT] Path A returned suspicious result (lines={len(lines)}). Triggering fallback Path B.")
-            fallback_lines, diagnostics = run_grid_handwriting_detection(cv_img, max_lines=MAX_DETECTED_LINES)
-            
-            logger.info(f"[OCR_PILOT] Path B Diagnostics: {diagnostics}")
-            
-            if len(fallback_lines) > 0:
-                logger.info(f"[OCR_PILOT] Fallback Path B returned {len(fallback_lines)} lines.")
-                lines = fallback_lines
+    # Save live input for runtime forensics under scratch/runtime6_live_input/
+    save_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../scratch/runtime6_live_input"))
+    try:
+        os.makedirs(save_dir, exist_ok=True)
+        with open(os.path.join(save_dir, "raw_upload_bytes.bin"), "wb") as f:
+            f.write(img_bytes)
+        ok, enc = cv2.imencode(".png", cv_img)
+        if ok:
+            with open(os.path.join(save_dir, "decoded_input.png"), "wb") as f:
+                f.write(enc)
+    except Exception as se:
+        logger.warning(f"[OCR_PILOT] Failed to persist live input capture: {se}")
+
+    try:
+        lines, diagnostics = detect_text_lines(cv_img, max_lines=MAX_DETECTED_LINES)
+
+        # Persist metadata.json under scratch/runtime6_live_input/
+        try:
+            metadata = {
+                "timestamp": time.time(),
+                "timestamp_iso": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "width": width,
+                "height": height,
+                "channels": cv_img.shape[2] if len(cv_img.shape) > 2 else 1,
+                "mode": str(getattr(pil_image, "mode", "RGB")),
+                "sha256_upload_bytes": upload_sha256,
+                "exif_orientation": exif_orientation,
+                "detector_version": HW_LINE_DETECTOR_VERSION,
+                "path_a_count": diagnostics.get("path_a_count", 0),
+                "suspicious_reason": diagnostics.get("suspicious_reason", "NONE"),
+                "path_b_invoked": diagnostics.get("path_b_invoked", False),
+                "dominant_hue": diagnostics.get("dominant_hue"),
+                "projection_band_count": diagnostics.get("projection_band_count", 0),
+                "final_box_count": len(lines)
+            }
+            with open(os.path.join(save_dir, "metadata.json"), "w", encoding="utf-8") as mf:
+                json.dump(metadata, mf, indent=2, default=str)
+        except Exception as me:
+            logger.warning(f"[OCR_PILOT] Failed to write metadata.json: {me}")
+
+        logger.info(f"[OCR_PILOT] [{HW_LINE_DETECTOR_VERSION}] Response: {len(lines)} lines (diag: {diagnostics})")
 
         return OcrDetectLinesResponse(
             width=width,
             height=height,
-            lines=lines
+            lines=lines,
+            detector_version=HW_LINE_DETECTOR_VERSION,
+            diagnostics=diagnostics
         )
     except Exception as e:
         logger.error(f"[OCR_PILOT] Line detection error: {e}", exc_info=True)

@@ -280,6 +280,15 @@ export default function CropScreen() {
         source: draft?.source,
       });
 
+      console.log('[DEV_STAGE][CROP_IDENTITY]', {
+        croppedUri,
+        width: cropW,
+        height: cropH,
+        mimeType: 'image/jpeg',
+        source: draft?.source,
+        timestamp: new Date().toISOString(),
+      });
+
       setIsProcessing(false);
       
       const postPrivacyMode = resolveFlowDomain(null, draft?.mode);

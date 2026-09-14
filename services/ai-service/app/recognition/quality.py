@@ -41,7 +41,10 @@ class QualityGate:
         if os.path.exists(image_reference) and not image_reference.startswith("fixture://"):
             try:
                 import cv2
-                img = cv2.imread(image_reference)
+                import numpy as np
+                with open(image_reference, "rb") as f:
+                    buf = np.frombuffer(f.read(), dtype=np.uint8)
+                    img = cv2.imdecode(buf, cv2.IMREAD_COLOR)
                 if img is None:
                     return False, "IMAGE_DECODE_FAILED", ["DECODE_ERROR"]
 

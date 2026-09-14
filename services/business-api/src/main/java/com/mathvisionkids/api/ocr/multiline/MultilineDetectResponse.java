@@ -1,5 +1,6 @@
 package com.mathvisionkids.api.ocr.multiline;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MultilineDetectResponse {
     private int width;
     private int height;
     private List<LineBoxDto> lines;
+    private String detectorVersion;
 }

@@ -1,8 +1,6 @@
 import { Platform } from 'react-native';
 import apiClient from './apiClient';
 import { ensureFileUri } from '../image/imagePipeline';
-import { ENV } from '../../config/env';
-import { tokenStorage } from '../auth/tokenStorage';
 
 /**
  * Send a multipart POST request with file + string params.
@@ -42,7 +40,15 @@ async function postMultipart<T>(
     type: fileField.type,
   } as any);
 
-  console.log('[MULTIPART] Axios POST', url, '| file:', fileField.name);
+  console.log('[MULTIPART_TRANSPORT]', {
+    baseURL: apiClient.defaults.baseURL,
+    endpoint: url,
+    fullTarget: `${apiClient.defaults.baseURL || ''}${url}`,
+    fileName: fileField.name,
+    fileUri: fileField.uri,
+    fileType: fileField.type,
+    timestamp: new Date().toISOString()
+  });
 
   // apiClient handles Authorization header and token refresh automatically
   // React Native's Axios adapter uses XMLHttpRequest natively and handles {uri,name,type}
@@ -196,22 +202,24 @@ export class OcrPilotService {
     uri: string,
     privacyConfirmed: boolean = true
   ): Promise<MultilineDetectResult> {
+    const file = this.fileInfoFromUri(uri, 'page.jpg');
+    console.log('[OCR_PILOT] Requesting detectLines for URI:', uri, '| BaseURL:', apiClient.defaults.baseURL);
     try {
-      const file = this.fileInfoFromUri(uri, 'page.jpg');
-      return await postMultipart<MultilineDetectResult>(
+      const result = await postMultipart<MultilineDetectResult>(
         '/ocr/multiline/detect',
         { key: 'image', ...file },
         { privacyConfirmed: String(privacyConfirmed) },
       );
-    } catch {
-      // Offline fallback: provide default bounding box geometry so the user can adjust boxes manually
-      return {
-        width: 1080,
-        height: 1920,
-        lines: [
-          { line_id: 'line_1', x: 60, y: 350, width: 960, height: 140, order: 1 },
-        ],
-      };
+      console.log('[OCR_PILOT] detectLines success:', {
+        width: result.width,
+        height: result.height,
+        linesCount: result.lines?.length || 0,
+        detectorVersion: (result as any).detectorVersion || (result as any).detector_version,
+      });
+      return result;
+    } catch (err: any) {
+      console.error('[OCR_PILOT] detectLines network/server error:', err?.message || err, err?.response?.data);
+      throw err;
     }
   }
 

@@ -65,5 +65,7 @@ ai:
   gateway:
     mode: ${AI_GATEWAY_MODE:FASTAPI}
     url: ${AI_SERVICE_URL:http://localhost:8000/internal/v1/jobs}
+  service:
+    base-url: ${AI_SERVICE_BASE_URL:http://localhost:8000}
   callback:
     api-key: ${INTERNAL_API_KEY:secret-key-default}

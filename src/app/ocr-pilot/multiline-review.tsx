@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -33,38 +33,77 @@ export default function MultilineReviewScreen() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const displayWidth = SCREEN_WIDTH - 32;
+  const detectRequestIdRef = useRef(0);
+  const initialLoadDoneRef = useRef(false);
 
   useEffect(() => {
     console.log('[MULTILINE_PAGE_SOURCE] MULTILINE_PAGE_SOURCE=POST_CROP_ACTIVE_URI', {
       uri: imageUri,
       isMasked: draft?.isMasked,
       rawUriPresent: !!draft?.rawUri,
+      draftWidth: draft?.width,
+      draftHeight: draft?.height,
+      timestamp: new Date().toISOString(),
     });
-  }, [imageUri, draft?.isMasked, draft?.rawUri]);
+  }, [imageUri, draft?.isMasked, draft?.rawUri, draft?.width, draft?.height]);
 
-  const loadAutoDetection = useCallback(async (uri: string) => {
+  const loadAutoDetection = useCallback(async (uri: string, force: boolean = false) => {
+    const currentReqId = ++detectRequestIdRef.current;
+    console.log(`[MULTILINE] Starting loadAutoDetection (reqId=${currentReqId})`, {
+      uri,
+      force,
+      timestamp: new Date().toISOString(),
+    });
     try {
       setLoading(true);
       const res = await OcrPilotService.detectLines(uri, true);
+
+      // Stale response guard: ignore if a newer request was dispatched
+      if (currentReqId !== detectRequestIdRef.current) {
+        console.warn(`[MULTILINE] Discarding stale detection response (reqId=${currentReqId}, active=${detectRequestIdRef.current})`);
+        return;
+      }
+
+      console.log(`[MULTILINE] Detection response received (reqId=${currentReqId})`, {
+        width: res.width,
+        height: res.height,
+        lineCount: res.lines?.length || 0,
+        detectorVersion: (res as any).detector_version,
+        lines: res.lines?.map(l => ({ id: l.line_id, y: l.y, height: l.height }))
+      });
+
       if (res.width) setOrigWidth(res.width);
       if (res.height) {
         setOrigHeight(res.height);
         const calculatedH = (res.height / res.width) * displayWidth;
         setDisplayHeight(Math.min(calculatedH, 450));
       }
-      setBoxes(res.lines || []);
-      if (res.lines && res.lines.length > 0) {
-        setSelectedId(res.lines[0].line_id);
-      } else {
+
+      const incomingLines = res.lines || [];
+      setBoxes((prev) => {
+        // Prevent accidental overwrite of valid boxes with 0 on background retry
+        if (!force && prev.length > 0 && incomingLines.length === 0) {
+          console.warn('[MULTILINE] Preserving existing boxes; ignoring 0-count response on non-force load');
+          return prev;
+        }
+        return incomingLines;
+      });
+
+      if (incomingLines.length > 0) {
+        setSelectedId(incomingLines[0].line_id);
+      } else if (force) {
         setSelectedId(null);
       }
     } catch (err: any) {
+      if (currentReqId !== detectRequestIdRef.current) return;
       console.warn('[MULTILINE] Detection warning:', err?.message || err);
-      // Empty lines on detection failure or blank page — do NOT fabricate fake boxes
-      setBoxes([]);
-      setSelectedId(null);
+      // Empty lines on detection failure only if user explicitly forced refresh or no boxes exist
+      setBoxes((prev) => (force ? [] : prev));
+      if (force) setSelectedId(null);
     } finally {
-      setLoading(false);
+      if (currentReqId === detectRequestIdRef.current) {
+        setLoading(false);
+      }
     }
   }, [displayWidth]);
 
@@ -76,6 +115,9 @@ export default function MultilineReviewScreen() {
       return;
     }
 
+    if (initialLoadDoneRef.current) return;
+    initialLoadDoneRef.current = true;
+
     // Inspect real image dimensions if not present
     Image.getSize(
       imageUri,
@@ -84,10 +126,10 @@ export default function MultilineReviewScreen() {
         setOrigHeight(h);
         const calculatedH = (h / w) * displayWidth;
         setDisplayHeight(Math.min(calculatedH, 450));
-        loadAutoDetection(imageUri);
+        loadAutoDetection(imageUri, true);
       },
       () => {
-        loadAutoDetection(imageUri);
+        loadAutoDetection(imageUri, true);
       }
     );
   }, [imageUri, displayWidth, router, loadAutoDetection]);
@@ -226,7 +268,7 @@ export default function MultilineReviewScreen() {
         </TouchableOpacity>
         <Text style={styles.title}>Chỉnh sửa khung các dòng</Text>
         <TouchableOpacity
-          onPress={() => loadAutoDetection(imageUri)}
+          onPress={() => loadAutoDetection(imageUri, true)}
           style={styles.resetButton}
           accessibilityRole="button"
           accessibilityLabel="Phát hiện lại"
@@ -304,7 +346,7 @@ export default function MultilineReviewScreen() {
 
             <TouchableOpacity
               style={[styles.emptyBtn, styles.emptyBtnOutline]}
-              onPress={() => loadAutoDetection(imageUri)}
+              onPress={() => loadAutoDetection(imageUri, true)}
               accessibilityRole="button"
               accessibilityLabel="Phát hiện lại"
             >

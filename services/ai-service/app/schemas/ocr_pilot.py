@@ -13,6 +13,8 @@ class OcrDetectLinesResponse(BaseModel):
     width: int
     height: int
     lines: List[LineBox]
+    detector_version: Optional[str] = None
+    diagnostics: Optional[dict] = None
 
 class OcrRecognizeLineResponse(BaseModel):
     recognized_text: str

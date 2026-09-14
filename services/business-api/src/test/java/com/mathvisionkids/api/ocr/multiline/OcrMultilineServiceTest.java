@@ -7,14 +7,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -103,5 +107,41 @@ public class OcrMultilineServiceTest {
 
         // Verify exactly 4 network calls to AI service were made
         verify(restTemplate, times(4)).exchange(anyString(), any(), any(), any(org.springframework.core.ParameterizedTypeReference.class));
+    }
+
+    @Test
+    void testDetectLines_preservesFourBoxesAndForwardsExactSha() {
+        byte[] fakeImageBytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8};
+        MockMultipartFile file = new MockMultipartFile("image", "graph_sample.jpg", "image/jpeg", fakeImageBytes);
+
+        List<LineBoxDto> mockBoxes = List.of(
+                new LineBoxDto("line_1", 10, 20, 200, 30, 1),
+                new LineBoxDto("line_2", 10, 60, 200, 30, 2),
+                new LineBoxDto("line_3", 10, 100, 200, 30, 3),
+                new LineBoxDto("line_4", 10, 140, 200, 30, 4)
+        );
+        MultilineDetectResponse mockAiResponse = MultilineDetectResponse.builder()
+                .width(300)
+                .height(400)
+                .lines(mockBoxes)
+                .detectorVersion("runtime6-hue-projection-20260914")
+                .build();
+
+        when(restTemplate.exchange(
+                eq("http://localhost:8000/internal/v1/ocr/detect-lines"),
+                eq(HttpMethod.POST),
+                any(HttpEntity.class),
+                eq(MultilineDetectResponse.class)
+        )).thenReturn(ResponseEntity.ok(mockAiResponse));
+
+        MultilineDetectResponse response = service.detectLines(file, true);
+
+        assertNotNull(response);
+        assertEquals(300, response.getWidth());
+        assertEquals(400, response.getHeight());
+        assertEquals(4, response.getLines().size());
+        assertEquals("line_1", response.getLines().get(0).getLineId());
+        assertEquals("line_4", response.getLines().get(3).getLineId());
+        assertEquals("runtime6-hue-projection-20260914", response.getDetectorVersion());
     }
 }

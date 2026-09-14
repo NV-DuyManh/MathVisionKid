@@ -7,6 +7,8 @@ import com.mathvisionkids.api.storage.ObjectStorageService;
 import com.mathvisionkids.api.ocr.OcrStorageVerifier;
 import com.mathvisionkids.api.user.User;
 import com.mathvisionkids.api.user.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -28,6 +30,8 @@ import java.util.*;
 @Service
 public class OcrMultilineService {
 
+    private static final Logger log = LoggerFactory.getLogger(OcrMultilineService.class);
+
     private final OcrMultilineTrialRepository trialRepository;
     private final OcrMultilineLineRepository lineRepository;
     private final ObjectStorageService objectStorageService;
@@ -46,7 +50,7 @@ public class OcrMultilineService {
             OcrStorageVerifier ocrStorageVerifier,
             UserRepository userRepository,
             ObjectMapper objectMapper,
-            @Value("${ai.service.base-url:${AI_SERVICE_URL:http://localhost:8000}}") String aiServiceBaseUrl,
+            @Value("${ai.service.base-url:${AI_SERVICE_BASE_URL:http://localhost:8000}}") String aiServiceBaseUrl,
             @Value("${ai.callback.api-key:${INTERNAL_API_KEY:secret-key-default}}") String internalApiKey,
             @Value("${app.ocr.pilot.collection-mode:${OCR_PILOT_COLLECTION_MODE:TEST}}") String collectionMode) {
         this.trialRepository = trialRepository;
@@ -59,6 +63,7 @@ public class OcrMultilineService {
         this.internalApiKey = internalApiKey;
         this.collectionMode = collectionMode != null ? collectionMode.trim() : "TEST";
         this.restTemplate = new RestTemplate();
+        log.info("[OCR_MULTILINE_INIT] Resolved aiServiceBaseUrl: {}", this.aiServiceBaseUrl);
     }
 
     public MultilineDetectResponse detectLines(MultipartFile file, Boolean privacyConfirmed) {
@@ -72,13 +77,26 @@ public class OcrMultilineService {
 
         try {
             byte[] imageBytes = file.getBytes();
+            String receivedSha256 = computeSha256(imageBytes);
+            String filename = file.getOriginalFilename();
             String contentType = file.getContentType() != null ? file.getContentType() : "image/jpeg";
 
+            log.info("[OCR_MULTILINE_TRANSPORT] RECEIVED: file='{}', type='{}', bytes={}, SHA256={}",
+                    filename, contentType, imageBytes.length, receivedSha256);
+
             String targetUrl = aiServiceBaseUrl + "/internal/v1/ocr/detect-lines";
+            log.info("[OCR_MULTILINE_TARGET] Forwarding /detect-lines to targetUrl: {}", targetUrl);
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType(contentType.startsWith("image/") ? contentType : "image/jpeg"));
             headers.set("X-Internal-API-Key", internalApiKey);
             HttpEntity<byte[]> requestEntity = new HttpEntity<>(imageBytes, headers);
+
+            byte[] forwardedBytes = requestEntity.getBody();
+            String forwardedSha256 = forwardedBytes != null ? computeSha256(forwardedBytes) : "null";
+            boolean shaMatches = receivedSha256.equals(forwardedSha256);
+            log.info("[OCR_MULTILINE_TRANSPORT] FORWARDED: bytes={}, SHA256={}, match={}",
+                    forwardedBytes != null ? forwardedBytes.length : 0, forwardedSha256, shaMatches);
 
             ResponseEntity<MultilineDetectResponse> response = restTemplate.exchange(
                     targetUrl,
@@ -88,15 +106,23 @@ public class OcrMultilineService {
             );
 
             if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                log.error("[OCR_MULTILINE_TARGET] AI service returned error status: {}", response.getStatusCode());
                 throw new ApiException("AI_SERVICE_ERROR", "Failed to detect lines from page", HttpStatus.BAD_GATEWAY);
             }
 
-            return response.getBody();
+            MultilineDetectResponse result = response.getBody();
+            int lineCount = result.getLines() != null ? result.getLines().size() : 0;
+            log.info("[OCR_MULTILINE_RESPONSE] Status={}, lines={}, detectorVersion={}",
+                    response.getStatusCode(), lineCount, result.getDetectorVersion());
+
+            return result;
 
         } catch (IOException e) {
+            log.error("[OCR_MULTILINE_ERROR] Failed to read image bytes: {}", e.getMessage(), e);
             throw new ApiException("STORAGE_ERROR", "Failed to read image bytes: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             if (e instanceof ApiException) throw (ApiException) e;
+            log.error("[OCR_MULTILINE_ERROR] Detection service unreachable or error: {}", e.getMessage(), e);
             throw new ApiException("AI_SERVICE_ERROR", "Detection service unreachable: " + e.getMessage(), HttpStatus.BAD_GATEWAY);
         }
     }
