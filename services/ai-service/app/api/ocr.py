@@ -157,6 +157,67 @@ def is_component_satellite(w: float, h: float, ink: int, median_h: float) -> boo
     return not has_primary_body_evidence(w, h, ink, median_h)
 
 
+def recursive_split_giant_box(box: Tuple[int, int, int, int], binary_mask: np.ndarray, median_h: float) -> List[Tuple[int, int, int, int]]:
+    """
+    Recursively splits giant boxes that contain multiple strong handwriting body bands.
+    """
+    x, y, w, h = box
+    if h < median_h * 1.5:
+        return [box]
+        
+    x1, y1 = max(0, x), max(0, y)
+    x2, y2 = min(binary_mask.shape[1], x + w), min(binary_mask.shape[0], y + h)
+    crop = binary_mask[y1:y2, x1:x2]
+    
+    bands = compute_strong_body_bands(crop, median_h, w, h)
+    
+    if len(bands) <= 1:
+        return [box]
+        
+    # We have >= 2 strong bands, need to split.
+    best_valley_y = -1
+    max_gap = 0
+    
+    for i in range(len(bands) - 1):
+        b1_end = bands[i][1]
+        b2_start = bands[i+1][0]
+        gap = b2_start - b1_end
+        if gap > max_gap:
+            max_gap = gap
+            best_valley_y = b1_end + gap // 2
+            
+    if best_valley_y <= 0:
+        return [box]
+        
+    # Split horizontally at best_valley_y
+    split_y_global = y1 + best_valley_y
+    
+    top_crop = binary_mask[y1:split_y_global, x1:x2]
+    bot_crop = binary_mask[split_y_global:y2, x1:x2]
+    
+    children = []
+    
+    for c_crop, c_y_offset in [(top_crop, y1), (bot_crop, split_y_global)]:
+        if cv2.countNonZero(c_crop) == 0:
+            continue
+            
+        row_proj = np.any(c_crop > 0, axis=1)
+        col_proj = np.any(c_crop > 0, axis=0)
+        
+        if not np.any(row_proj) or not np.any(col_proj):
+            continue
+            
+        r_min, r_max = int(np.argmax(row_proj)), int(len(row_proj) - np.argmax(row_proj[::-1]))
+        c_min, c_max = int(np.argmax(col_proj)), int(len(col_proj) - np.argmax(col_proj[::-1]))
+        
+        child_box = (x1 + c_min, c_y_offset + r_min, c_max - c_min, r_max - r_min)
+        
+        # recursively split
+        children.extend(recursive_split_giant_box(child_box, binary_mask, median_h))
+        
+    return children if children else [box]
+
+
 def consolidate_line_boxes(boxes: List[Tuple[int, int, int, int]], binary_mask: np.ndarray, median_h: float, img_w: int, img_h: int) -> List[Tuple[int, int, int, int]]:
     """
     Hysteresis Line-Level Consolidation:
@@ -528,107 +589,11 @@ def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_D
 def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -> Tuple[List[LineBox], dict]:
     """
     Production text-line segmentation pipeline.
-    Runs Path A (classical morphology/connected components with two-level consolidation).
-    If Path A is suspicious, runs Path B (hue-clustering + specialized grid handwriting detection).
-    Performs Strong-Band Consistency Check prior to returning.
-    Returns (final_lines, diagnostics).
+    Replaced with the GENERALIZED LINE SEGMENTATION pipeline.
+    Legacy paths (Path A and Path B) are retained in the file for fallback/cleanup phase.
     """
-    if cv_img is None or cv_img.size == 0:
-        return [], {
-            "detector_version": HW_LINE_DETECTOR_VERSION,
-            "path_a_count": 0,
-            "path_a_suspicious": True,
-            "suspicious_reason": "EMPTY_IMAGE",
-            "path_b_invoked": False,
-            "dominant_hue": None,
-            "projection_band_count": 0,
-            "final_box_count": 0
-        }
-
-    height, width = cv_img.shape[:2]
-    lines = run_classical_line_detection(cv_img, max_lines=max_lines)
-
-    path_a_count = len(lines)
-    is_suspicious = False
-    suspicious_reason = "NONE"
-
-    # Evaluate chromatic presence for graph/notebook paper
-    hsv = cv2.cvtColor(cv_img, cv2.COLOR_BGR2HSV)
-    _, s_chan, v_chan = cv2.split(hsv)
-    sat_colored = (s_chan > 35) & (v_chan < 225)
-    chromatic_ratio = np.count_nonzero(sat_colored) / float(height * width)
-
-    if path_a_count == 0:
-        is_suspicious = True
-        suspicious_reason = "ZERO_LINES"
-    elif path_a_count == 1:
-        if lines[0].height > height * 0.4:
-            is_suspicious = True
-            suspicious_reason = "SINGLE_GIANT_BOX"
-    elif path_a_count >= 2:
-        max_h = max(l.height for l in lines)
-        min_h = min(l.height for l in lines)
-        if min_h > 0 and (max_h / min_h) > 2.6:
-            is_suspicious = True
-            suspicious_reason = f"EXTREME_HEIGHT_VARIANCE_{round(max_h / min_h, 2)}"
-        elif chromatic_ratio > 0.008:
-            is_suspicious = True
-            suspicious_reason = f"CHROMATIC_INK_DETECTED_{round(chromatic_ratio, 4)}"
-
-    diagnostics = {
-        "detector_version": HW_LINE_DETECTOR_VERSION,
-        "path_a_count": path_a_count,
-        "path_a_suspicious": is_suspicious,
-        "suspicious_reason": suspicious_reason,
-        "path_b_invoked": False,
-        "dominant_hue": None,
-        "projection_band_count": 0,
-        "final_box_count": path_a_count
-    }
-
-    if is_suspicious:
-        logger.info(f"[OCR_PILOT] [{HW_LINE_DETECTOR_VERSION}] Path A suspicious ({suspicious_reason}, lines={path_a_count}). Triggering Path B.")
-        fallback_lines, b_diag = run_grid_handwriting_detection(cv_img, max_lines=max_lines)
-        diagnostics["path_b_invoked"] = True
-        diagnostics["dominant_hue"] = b_diag.get("dominant_hue")
-        diagnostics["projection_band_count"] = b_diag.get("bands_detected", 0)
-        logger.info(f"[OCR_PILOT] [{HW_LINE_DETECTOR_VERSION}] Path B result: {len(fallback_lines)} lines, diag={b_diag}")
-
-        if len(fallback_lines) > 0:
-            lines = fallback_lines
-            diagnostics["final_box_count"] = len(lines)
-
-    # 8. Strong-Band Consistency Check
-    if len(lines) > 1:
-        gray = cv2.cvtColor(cv_img, cv2.COLOR_BGR2GRAY)
-        _, binary_ref = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-        r_cnts, _ = cv2.findContours(binary_ref, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        m_h = float(np.median([cv2.boundingRect(c)[3] for c in r_cnts if cv2.contourArea(c) > 5])) if r_cnts else 15.0
-        strong_bands = compute_strong_body_bands(binary_ref, m_h, width, height)
-
-        if len(strong_bands) > 0 and len(lines) >= int(len(strong_bands) * 1.5):
-            line_tuples = [(l.x, l.y, l.width, l.height) for l in lines]
-            re_consolidated = consolidate_line_boxes(line_tuples, binary_ref, m_h, width, height)
-            if len(re_consolidated) < len(lines):
-                lines = []
-                for idx, b in enumerate(re_consolidated, 1):
-                    lines.append(LineBox(
-                        line_id=f"line_{idx}",
-                        x=int(b[0]),
-                        y=int(b[1]),
-                        width=int(b[2]),
-                        height=int(b[3]),
-                        order=idx
-                    ))
-                diagnostics["final_box_count"] = len(lines)
-
-    # Strictly re-index order and ensure sorting by y
-    lines.sort(key=lambda l: (l.y, l.x))
-    for idx, l in enumerate(lines, 1):
-        l.order = idx
-        l.line_id = f"line_{idx}"
-
-    return lines, diagnostics
+    from app.api.generalized_pipeline import run_generalized_line_detection
+    return run_generalized_line_detection(cv_img, max_lines)
 
 
 @router.post("/detect-lines", response_model=OcrDetectLinesResponse)

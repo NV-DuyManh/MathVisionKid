@@ -1,0 +1,22 @@
+# Generalized Line Segmentation Implementation
+
+- `[/]` 1. Create `test_generalized_segmentation.py` with GEN-01 to GEN-25 required tests.
+- `[ ]` 2. Implement adaptive preprocessing in `ocr.py` (deskew, illumination, adaptive ink mask, paper background).
+- `[ ]` 3. Implement Global Row Proposal pass.
+- `[ ]` 4. Implement Local Component Analysis and Classification.
+- `[ ]` 5. Implement Row Assignment and Satellite Handling.
+- `[ ]` 6. Implement Merged-Row Splitting.
+- `[ ]` 7. Implement Same-Row Consolidation.
+- `[ ]` 8. Implement Primary-Body Requirement check.
+- `[ ]` 9. Implement Coverage Check and Missing-Row Recovery.
+- `[ ]` 10. Route `detect_text_lines` to the new pipeline while keeping old code intact.
+- `[ ]` 11. Debug and ensure `test_generalized_segmentation.py` passes.
+- `[ ]` 12. Debug and ensure `test_segmentation_contracts.py` (old SEG suite) passes.
+- `[ ]` 13. Debug and ensure `test_merge_purity.py` (MERGE suite) passes.
+- `[ ]` 14. Debug and ensure `test_physical_regression.py` passes.
+- `[ ]` 15. Run AI full suite.
+- `[ ]` 16. Run Business API OCR tests.
+- `[ ]` 17. Run Mobile TypeScript, lint, and Expo Doctor.
+- `[ ]` 18. Generate debugging artifacts for report.
+- `[ ]` 19. Write `report/ai_hwtext_runtime_10_generalized_line_segmentation.md`.
+- `[ ]` 20. Output exact final response format and STOP.

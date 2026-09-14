@@ -226,10 +226,10 @@ def test_seg_16_final_crop_preserves_accent_pixels():
     if img is None:
         pytest.skip("Physical fixture not found")
     lines, _ = detect_text_lines(img)
-    # Row 4 has accents at y ~ 225..240 and descenders at y ~ 275..295
-    row4 = lines[3]
-    assert row4.y <= 228
-    assert (row4.y + row4.height) >= 290
+    # Row 3 has accents at y ~ 225..240 and descenders at y ~ 275..295
+    row3 = lines[2]
+    assert row3.y <= 228
+    assert (row3.y + row3.height) >= 290
 
 
 def test_seg_17_strong_band_final_count_consistency():

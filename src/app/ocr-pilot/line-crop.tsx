@@ -13,7 +13,8 @@ import { ensureFileUri, logStageDiagnostic } from '../../services/image/imagePip
 export default function LineCropScreen() {
   const router = useRouter();
   const draft = submissionDraftStore.getDraft();
-  const activeUri = draft?.uri ? ensureFileUri(draft.uri) : '';
+  const rawUri = draft?.privacyImageUri || draft?.uri;
+  const activeUri = rawUri ? ensureFileUri(rawUri) : '';
 
   const [cropRect, setCropRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
   const [imageLayout, setImageLayout] = useState({ width: 0, height: 0, x: 0, y: 0 });
@@ -109,6 +110,7 @@ export default function LineCropScreen() {
       const finalCropHeight = result.height || Math.round(realHeight);
 
       submissionDraftStore.updateDraft({
+        croppedImageUri: croppedUri,
         uri: croppedUri,
         width: finalCropWidth,
         height: finalCropHeight,

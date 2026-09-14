@@ -29,7 +29,8 @@ export default function CropScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ retrySubmissionId?: string }>();
   const draft = submissionDraftStore.getDraft();
-  const activeUri = draft?.uri ? ensureFileUri(draft.uri) : '';
+  const rawUri = draft?.privacyImageUri || draft?.uri;
+  const activeUri = rawUri ? ensureFileUri(rawUri) : '';
   const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
 
   const [imageLayout, setImageLayout] = useState({ width: 0, height: 0, x: 0, y: 0 });
@@ -275,13 +276,16 @@ export default function CropScreen() {
       );
 
       const croppedUri = ensureFileUri(result.uri);
-      const cropW = result.width || Math.round(realW);
-      const cropH = result.height || Math.round(realH);
+      const finalCropWidth = result.width || Math.round(realWidth);
+      const finalCropHeight = result.height || Math.round(realHeight);
+      const cropW = finalCropWidth;
+      const cropH = finalCropHeight;
       
       submissionDraftStore.updateDraft({
+        croppedImageUri: croppedUri,
         uri: croppedUri,
-        width: cropW,
-        height: cropH,
+        width: finalCropWidth,
+        height: finalCropHeight,
       });
 
       logStageDiagnostic('CROP_OUTPUT', {

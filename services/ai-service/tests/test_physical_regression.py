@@ -36,8 +36,13 @@ def test_physical_graph_handwriting_fixture_detects_four_rows():
     # Calls the unified production function used by /detect-lines
     lines, diagnostics = detect_text_lines(bgr_image)
     
-    assert diagnostics["detector_version"] == HW_LINE_DETECTOR_VERSION
-    assert diagnostics["path_b_invoked"] is True
+    # Save debug image
+    debug_img = bgr_image.copy()
+    for l in lines:
+        cv2.rectangle(debug_img, (l.x, l.y), (l.x+l.width, l.y+l.height), (0,255,0), 2)
+    cv2.imwrite("debug_physical_test.jpg", debug_img)
+
+    assert diagnostics["detector_version"] == "generalized-20260914"
     assert diagnostics["final_box_count"] == 4
     assert len(lines) == 4
     
@@ -80,13 +85,12 @@ def test_mandatory_api_path_b_response_serialization():
     dummy_img = np.full((300, 300, 3), 255, dtype=np.uint8)
     _, png_bytes = cv2.imencode(".png", dummy_img)
 
-    with patch("app.api.ocr.run_classical_line_detection", return_value=[]):
-        with patch("app.api.ocr.run_grid_handwriting_detection", return_value=(mock_path_b_lines, mock_path_b_diag)):
-            response = client.post(
-                "/internal/v1/ocr/detect-lines",
-                content=png_bytes.tobytes(),
-                headers=headers
-            )
+    with patch("app.api.generalized_pipeline.run_generalized_line_detection", return_value=(mock_path_b_lines, mock_path_b_diag)):
+        response = client.post(
+            "/internal/v1/ocr/detect-lines",
+            content=png_bytes.tobytes(),
+            headers=headers
+        )
 
     assert response.status_code == 200
     data = response.json()

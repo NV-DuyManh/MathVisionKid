@@ -52,7 +52,9 @@ async function postMultipart<T>(
 
   // apiClient handles Authorization header and token refresh automatically
   // React Native's Axios adapter uses XMLHttpRequest natively and handles {uri,name,type}
-  const response = await apiClient.post<T>(url, formData);
+  const response = await apiClient.post<T>(url, formData, {
+    transformRequest: [(data) => data],
+  });
   return response.data;
 }
 
@@ -208,7 +210,10 @@ export class OcrPilotService {
       const result = await postMultipart<MultilineDetectResult>(
         '/ocr/multiline/detect',
         { key: 'image', ...file },
-        { privacyConfirmed: String(privacyConfirmed) },
+        { 
+          privacyConfirmed: String(privacyConfirmed),
+          _t: Date.now().toString()
+        },
       );
       console.log('[OCR_PILOT] detectLines success:', {
         width: result.width,

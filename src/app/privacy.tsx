@@ -24,7 +24,7 @@ export default function PrivacyGateScreen() {
   const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
   const draft = submissionDraftStore.getDraft();
 
-  const rawUri = draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
+  const rawUri = draft?.sourceImageUri || draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
   const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
 
@@ -34,6 +34,20 @@ export default function PrivacyGateScreen() {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageLoadError, setImageLoadError] = useState(false);
   const viewShotRef = useRef<any>(null);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+
+  const getFittedStyle = () => {
+    if (!containerSize.width || !containerSize.height || !draft?.width || !draft?.height) {
+      return { width: '100%', height: '100%' } as any;
+    }
+    const containerRatio = containerSize.width / containerSize.height;
+    const imageRatio = draft.width / draft.height;
+    if (imageRatio > containerRatio) {
+      return { width: containerSize.width, height: containerSize.width / imageRatio };
+    }
+    return { width: containerSize.height * imageRatio, height: containerSize.height };
+  };
+  const fittedStyle = getFittedStyle();
 
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
 
@@ -185,7 +199,7 @@ export default function PrivacyGateScreen() {
       // If no masks were drawn, do NOT rasterize via ViewShot!
       // Forward the normalized image without an additional privacy rasterization pass.
       if (masks.length === 0) {
-        submissionDraftStore.updateDraft({ isMasked: false, mode: postPrivacyMode });
+        submissionDraftStore.updateDraft({ privacyImageUri: activeUri, isMasked: false, mode: postPrivacyMode });
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: activeUri,
           width: draft?.width,
@@ -222,6 +236,7 @@ export default function PrivacyGateScreen() {
 
         // CRITICAL INVARIANT: Stored width/height MUST describe THAT NEW FILE
         submissionDraftStore.updateDraft({
+          privacyImageUri: finalMaskedUri,
           uri: finalMaskedUri,
           width: outputWidth,
           height: outputHeight,
@@ -275,21 +290,25 @@ export default function PrivacyGateScreen() {
       </View>
 
       {/* Interactive Mask Canvas */}
-      <View style={styles.imageContainer}>
-        <ViewShot
-          ref={viewShotRef}
-          options={{ format: 'jpg', quality: 0.95 }}
-          style={styles.viewShot}
-        >
-          <View
-            style={styles.imageWrapper}
-            collapsable={false}
-            {...panResponder.panHandlers}
+      <View 
+        style={styles.imageContainer}
+        onLayout={(e) => setContainerSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ViewShot
+            ref={viewShotRef}
+            options={{ format: 'jpg', quality: 0.95 }}
+            style={fittedStyle}
           >
-            <Image
-              source={{ uri: activeUri }}
-              style={styles.image}
-              resizeMode="contain"
+            <View
+              style={styles.imageWrapper}
+              collapsable={false}
+              {...panResponder.panHandlers}
+            >
+              <Image
+                source={{ uri: activeUri }}
+                style={styles.image}
+                resizeMode="contain"
               onLoadStart={() => {
                 setImageLoaded(false);
                 setImageLoadError(false);
@@ -372,6 +391,7 @@ export default function PrivacyGateScreen() {
               <Text style={styles.floatingButtonText}>Hoàn tác</Text>
             </TouchableOpacity>
           )}
+        </View>
         </View>
       </View>
 

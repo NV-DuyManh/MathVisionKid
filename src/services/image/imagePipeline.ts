@@ -66,8 +66,11 @@ export async function normalizeImageDraft(
     const resolvedHeight = manipResult.height || knownHeight || 0;
 
     const filename = `mathvision_${Date.now()}.jpg`;
+    const imageSessionId = `session_${Date.now()}`;
 
     const draft: ImageDraft = {
+      imageSessionId,
+      sourceImageUri: stableUri,
       rawUri: cleanUri,
       uri: stableUri,
       width: resolvedWidth,
@@ -91,7 +94,10 @@ export async function normalizeImageDraft(
     console.warn('[IMAGE_PIPELINE] manipulateAsync fallback used:', err);
     // If manipulateAsync throws (e.g. on web or unsupported mock), fall back gracefully
     const stableUri = ensureFileUri(cleanUri);
+    const imageSessionId = `session_${Date.now()}`;
     const draft: ImageDraft = {
+      imageSessionId,
+      sourceImageUri: stableUri,
       rawUri: cleanUri,
       uri: stableUri,
       width: knownWidth || 0,

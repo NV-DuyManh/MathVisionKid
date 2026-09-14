@@ -22,7 +22,8 @@ export default function MultilineReviewScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const draft = submissionDraftStore.getDraft();
-  const imageUri = draft?.uri || (params.uri as string) || '';
+  const imageUri = draft?.croppedImageUri || draft?.uri || (params.uri as string) || '';
+  const imageSessionId = draft?.imageSessionId || imageUri;
 
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
@@ -34,7 +35,7 @@ export default function MultilineReviewScreen() {
 
   const displayWidth = SCREEN_WIDTH - 32;
   const detectRequestIdRef = useRef(0);
-  const initialLoadDoneRef = useRef(false);
+  const initialLoadDoneRef = useRef<string | null>(null);
 
   useEffect(() => {
     console.log('[MULTILINE_PAGE_SOURCE] MULTILINE_PAGE_SOURCE=POST_CROP_ACTIVE_URI', {
@@ -97,6 +98,16 @@ export default function MultilineReviewScreen() {
     } catch (err: any) {
       if (currentReqId !== detectRequestIdRef.current) return;
       console.warn('[MULTILINE] Detection warning:', err?.message || err);
+
+      const status = err?.response?.status;
+      if (status === 401 || status === 403) {
+        Alert.alert('Phiên đăng nhập đã hết hạn', 'Vui lòng đăng nhập lại để tiếp tục.', [
+          { text: 'Đăng nhập', onPress: () => router.replace('/login') }
+        ]);
+      } else {
+        Alert.alert('Lỗi nhận diện', 'Không thể tự động phát hiện dòng chữ. Vui lòng thử lại hoặc thêm thủ công.');
+      }
+
       // Empty lines on detection failure only if user explicitly forced refresh or no boxes exist
       setBoxes((prev) => (force ? [] : prev));
       if (force) setSelectedId(null);
@@ -115,8 +126,15 @@ export default function MultilineReviewScreen() {
       return;
     }
 
-    if (initialLoadDoneRef.current) return;
-    initialLoadDoneRef.current = true;
+    if (initialLoadDoneRef.current === imageSessionId) return;
+    
+    // Clear old state before starting new detection on a new image
+    if (initialLoadDoneRef.current !== null) {
+      setBoxes([]);
+      setSelectedId(null);
+    }
+    
+    initialLoadDoneRef.current = imageSessionId;
 
     // Inspect real image dimensions if not present
     Image.getSize(
@@ -268,7 +286,20 @@ export default function MultilineReviewScreen() {
         </TouchableOpacity>
         <Text style={styles.title}>Chỉnh sửa khung các dòng</Text>
         <TouchableOpacity
-          onPress={() => loadAutoDetection(imageUri, true)}
+          onPress={() => {
+            if (boxes.length > 0) {
+              Alert.alert(
+                'Phát hiện lại',
+                'Phát hiện lại sẽ thay thế các khung hiện tại. Bạn có chắc chắn muốn tiếp tục?',
+                [
+                  { text: 'Hủy', style: 'cancel' },
+                  { text: 'Đồng ý', onPress: () => loadAutoDetection(imageUri, true) }
+                ]
+              );
+            } else {
+              loadAutoDetection(imageUri, true);
+            }
+          }}
           style={styles.resetButton}
           accessibilityRole="button"
           accessibilityLabel="Phát hiện lại"

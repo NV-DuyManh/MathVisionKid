@@ -36,6 +36,10 @@ export function logFlowDomain(stage: 'ACQUIRE' | 'PRIVACY' | 'POST_PRIVACY' | 'R
 }
 
 export interface ImageDraft {
+  imageSessionId?: string;
+  sourceImageUri?: string;
+  privacyImageUri?: string;
+  croppedImageUri?: string;
   rawUri: string;
   uri: string;
   width: number;
