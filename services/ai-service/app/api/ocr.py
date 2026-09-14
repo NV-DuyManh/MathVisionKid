@@ -89,11 +89,250 @@ def correct_skew(bgr_image: np.ndarray, max_angle: float = 10.0) -> np.ndarray:
     rotated = cv2.warpAffine(bgr_image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
     return rotated
 
+def compute_strong_body_bands(binary_mask: np.ndarray, median_h: float, width: int, height: int) -> List[Tuple[int, int]]:
+    """
+    Computes strong primary text bands based on horizontal projection profile.
+    Distinguishes primary text rows from weak satellite evidence (accents, punctuation).
+    """
+    if binary_mask is None or binary_mask.size == 0:
+        return []
+    ink_per_row = np.sum(binary_mask > 0, axis=1)
+    smooth_window = max(3, int(median_h * 0.4))
+    smoothed_proj = np.convolve(ink_per_row, np.ones(smooth_window) / smooth_window, mode='same')
+    
+    strong_thresh = max(15.0, width * 0.02)
+    is_strong = smoothed_proj >= strong_thresh
+    
+    strong_bands = []
+    in_band = False
+    start_y = 0
+    min_band_h = max(6, int(median_h * 0.5))
+    for y, s in enumerate(is_strong):
+        if s and not in_band:
+            in_band = True
+            start_y = y
+        elif not s and in_band:
+            in_band = False
+            if (y - start_y) >= min_band_h:
+                strong_bands.append((start_y, y))
+    if in_band and (height - start_y) >= min_band_h:
+        strong_bands.append((start_y, height))
+        
+    merged = []
+    for b in strong_bands:
+        if not merged:
+            merged.append(b)
+        else:
+            if b[0] - merged[-1][1] <= max(8, int(median_h * 0.8)):
+                merged[-1] = (merged[-1][0], b[1])
+            else:
+                merged.append(b)
+    return merged
+
+
+def has_primary_body_evidence(w: float, h: float, ink: int, median_h: float) -> bool:
+    """
+    Two-level model: Determines if a box has primary body evidence to anchor a text line.
+    Primary line criteria:
+    - Meaningful horizontal ink span OR
+    - Meaningful ink mass (dense text / cursive strokes) OR
+    - Normal character body height with sufficient ink mass (short legitimate rows like 'Bài giải', 'Đáp số')
+    Satellites (accents, diacritics, dots over i, isolated noise) return False.
+    """
+    if w >= max(60.0, median_h * 2.8) and ink >= max(90, int(median_h * 4.5)):
+        return True
+    if ink >= max(160, int(median_h * 8.0)):
+        return True
+    if h >= max(13.0, median_h * 0.65) and ink >= max(45, int(median_h * 2.2)) and w >= max(20.0, median_h * 0.9):
+        return True
+    return False
+
+
+def is_component_satellite(w: float, h: float, ink: int, median_h: float) -> bool:
+    """
+    Two-level model helper:
+    Identifies if a box is a satellite (diacritic, accent, tone mark, dot over i/j, or fragment).
+    A full word or text row is never classified as a satellite.
+    """
+    return not has_primary_body_evidence(w, h, ink, median_h)
+
+
+def consolidate_line_boxes(boxes: List[Tuple[int, int, int, int]], binary_mask: np.ndarray, median_h: float, img_w: int, img_h: int) -> List[Tuple[int, int, int, int]]:
+    """
+    Hysteresis Line-Level Consolidation:
+    1. Contained Fragment Suppression: absorbs small specks and fragments inside a row's span.
+    2. Collinear Word Merge: merges words/tokens on the same horizontal baseline.
+    3. Touching Vertical Splits: unifies characters horizontally sliced by graph ruling lines.
+    4. Satellite Attachment: attaches Vietnamese accents, tone marks, and descenders to the nearest row.
+    5. Minimum Standalone Evidence: unattached satellites and stray noise specks are discarded as non-text noise.
+    """
+    if not boxes:
+        return []
+
+    def get_ink(b):
+        x, y, w, h = b
+        x1_c, y1_c = max(0, min(img_w - 1, x)), max(0, min(img_h - 1, y))
+        x2_c, y2_c = max(x1_c + 1, min(img_w, x + w)), max(y1_c + 1, min(img_h, y + h))
+        crop = binary_mask[y1_c:y2_c, x1_c:x2_c]
+        return int(cv2.countNonZero(crop)) if crop.size > 0 else 0
+
+    # Step 1: Contained fragment absorption (largest parent first)
+    sorted_boxes = sorted(boxes, key=lambda b: b[2] * b[3], reverse=True)
+    parents = []
+    for b in sorted_boxes:
+        absorbed = False
+        for p_idx, p in enumerate(parents):
+            h_overlap = max(0, min(b[0] + b[2], p[0] + p[2]) - max(b[0], p[0]))
+            min_w = min(b[2], p[2])
+            v_overlap = max(0, min(b[1] + b[3], p[1] + p[3]) - max(b[1], p[1]))
+            v_gap = max(0, max(b[1], p[1]) - min(b[1] + b[3], p[1] + p[3]))
+
+            # If b is smaller, horizontally contained, and directly touching or inside p vertically
+            if (b[2] * b[3] < p[2] * p[3] * 0.45) and (h_overlap / max(1, min_w) >= 0.70) and (v_overlap > 0 or v_gap <= 4):
+                nx = min(p[0], b[0])
+                ny = min(p[1], b[1])
+                nw = max(p[0] + p[2], b[0] + b[2]) - nx
+                nh = max(p[1] + p[3], b[1] + b[3]) - ny
+                parents[p_idx] = (nx, ny, nw, nh)
+                absorbed = True
+                break
+        if not absorbed:
+            parents.append(b)
+
+    # Step 2: Multi-pass row consolidation
+    boxes_work = [list(p) for p in parents]
+    boxes_work.sort(key=lambda b: (b[1], b[0]))
+    max_line_h = min(img_h * 0.35, max(75.0, median_h * 7.5))
+
+    changed = True
+    iteration = 0
+    while changed and iteration < 12:
+        changed = False
+        iteration += 1
+        new_boxes = []
+        skip = set()
+        for i in range(len(boxes_work)):
+            if i in skip:
+                continue
+            b1 = boxes_work[i]
+            x1, y1, w1, h1 = b1
+            c1_y = y1 + h1 / 2.0
+            ink1 = get_ink(b1)
+
+            for j in range(i + 1, len(boxes_work)):
+                if j in skip:
+                    continue
+                b2 = boxes_work[j]
+                x2, y2, w2, h2 = b2
+                c2_y = y2 + h2 / 2.0
+                ink2 = get_ink(b2)
+
+                cand_min_y = min(y1, y2)
+                cand_max_y = max(y1 + h1, y2 + h2)
+                cand_h = cand_max_y - cand_min_y
+                if cand_h > max_line_h:
+                    continue
+
+                v_overlap = max(0, min(y1 + h1, y2 + h2) - max(y1, y2))
+                min_h = min(h1, h2)
+                v_overlap_ratio = v_overlap / max(1, min_h)
+                h_overlap = max(0, min(x1 + w1, x2 + w2) - max(x1, x2))
+                min_w = min(w1, w2)
+                h_overlap_ratio = h_overlap / max(1, min_w)
+                v_gap = max(0, max(y1, y2) - min(y1 + h1, y2 + h2))
+                h_gap = max(0, max(x1, x2) - min(x1 + w1, x2 + w2))
+
+                is_b1_sat = is_component_satellite(w1, h1, ink1, median_h)
+                is_b2_sat = is_component_satellite(w2, h2, ink2, median_h)
+                is_both_primary = (not is_b1_sat) and (not is_b2_sat)
+
+                should_merge = False
+
+                # Case 1: Collinear words / tokens on same horizontal baseline
+                if (v_overlap_ratio >= 0.40 and abs(c1_y - c2_y) <= max(6.0, min_h * 0.50)) or (abs(c1_y - c2_y) <= max(4.0, min_h * 0.35)):
+                    should_merge = True
+                elif (v_overlap_ratio >= 0.25) and (h_gap < max(70.0, median_h * 7.0) or h_overlap > 0):
+                    should_merge = True
+
+                # Case 2: Touching vertical splits (cut by horizontal ruling lines)
+                if not should_merge and v_gap <= max(5.0, median_h * 0.6) and h_overlap_ratio >= 0.35:
+                    should_merge = True
+
+                # Case 3: Satellite attachment (Vietnamese accents, dots over i, circumflex, descenders)
+                if not should_merge and (is_b1_sat or is_b2_sat) and not is_both_primary:
+                    if v_gap <= max(25.0, median_h * 2.5):
+                        if h_overlap_ratio >= 0.25 or (h_overlap > 0) or (h_gap < max(18.0, median_h * 1.8)):
+                            should_merge = True
+
+                # Case 4: Contained fragment / accent band absorption (Rule 6)
+                if not should_merge and h_overlap_ratio >= 0.65 and v_gap <= max(25.0, median_h * 2.5):
+                    if (h1 <= h2 * 0.55 or h2 <= h1 * 0.55) or (is_b1_sat or is_b2_sat):
+                        should_merge = True
+
+                if should_merge:
+                    nx = min(x1, x2)
+                    ny = min(y1, y2)
+                    nw = max(x1 + w1, x2 + w2) - nx
+                    nh = max(y1 + h1, y2 + h2) - ny
+                    b1 = [nx, ny, nw, nh]
+                    x1, y1, w1, h1 = b1
+                    c1_y = y1 + h1 / 2.0
+                    skip.add(j)
+                    changed = True
+            new_boxes.append(b1)
+        boxes_work = sorted(new_boxes, key=lambda b: (b[1], b[0]))
+
+    # Step 3: Satellite Attachment & Isolated Noise Suppression
+    primary_boxes = []
+    satellite_boxes = []
+    for b in boxes_work:
+        ink = get_ink(b)
+        if has_primary_body_evidence(b[2], b[3], ink, median_h):
+            primary_boxes.append(list(b))
+        else:
+            satellite_boxes.append(list(b))
+
+    # Attach remaining satellites to nearest primary row if plausible
+    for sat in satellite_boxes:
+        sx, sy, sw, sh = sat
+        best_p_idx = -1
+        best_dist = 999999.0
+        for p_idx, p in enumerate(primary_boxes):
+            px, py, pw, ph = p
+            cand_h = max(py + ph, sy + sh) - min(py, sy)
+            if cand_h > max_line_h:
+                continue
+            v_gap = max(0, max(py, sy) - min(py + ph, sy + sh))
+            h_overlap = max(0, min(px + pw, sx + sw) - max(px, sx))
+            h_gap = max(0, max(px, sx) - min(px + pw, sx + sw))
+
+            if v_gap <= max(35.0, median_h * 3.5) and (h_overlap > 0 or h_gap <= max(25.0, median_h * 2.0)):
+                dist = v_gap + h_gap * 0.5
+                if dist < best_dist:
+                    best_dist = dist
+                    best_p_idx = p_idx
+
+        if best_p_idx >= 0:
+            # Attach to primary row, expanding bounds to preserve accent/diacritic pixels
+            p = primary_boxes[best_p_idx]
+            nx = min(p[0], sx)
+            ny = min(p[1], sy)
+            nw = max(p[0] + p[2], sx + sw) - nx
+            nh = max(p[1] + p[3], sy + sh) - ny
+            primary_boxes[best_p_idx] = [nx, ny, nw, nh]
+        # Otherwise: Satellite component could not attach to any primary row -> DISCARDED AS NON-TEXT NOISE!
+
+    # Final result: only primary rows with primary body evidence
+    final_result = [(int(b[0]), int(b[1]), int(b[2]), int(b[3])) for b in primary_boxes]
+    final_result.sort(key=lambda b: (b[1], b[0]))
+    return final_result
+
+
 def run_classical_line_detection(bgr_image: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -> List[LineBox]:
     """
     Classical deterministic OpenCV text-line candidate segmentation.
     Upgraded for handwriting: includes small-angle deskew, adaptive ellipse morphology,
-    and tolerant vertical-center collinear merging to handle sloped lines and diacritics.
+    and two-level satellite consolidation to prevent diacritic over-segmentation.
     """
     if bgr_image is None or bgr_image.size == 0:
         return []
@@ -122,14 +361,14 @@ def run_classical_line_detection(bgr_image: np.ndarray, max_lines: int = MAX_DET
     rulings = cv2.morphologyEx(binary, cv2.MORPH_OPEN, ruling_kernel)
     binary = cv2.subtract(binary, rulings)
 
-    # 4.5 Clean up residual ruling fragments (jagged lines from deskew interpolation)
+    # 4.5 Clean up residual ruling fragments
     noise_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, noise_kernel)
 
     # Estimate median component height for morphology
     raw_cnts, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     heights = [cv2.boundingRect(c)[3] for c in raw_cnts if cv2.contourArea(c) > 5]
-    median_h = np.median(heights) if heights else 15
+    median_h = float(np.median(heights)) if heights else 15.0
 
     # 5. Adaptive morphology: Ellipse kernel to capture sloped text and diacritics
     k_width = max(15, int(median_h * 1.5))
@@ -140,60 +379,32 @@ def run_classical_line_detection(bgr_image: np.ndarray, max_lines: int = MAX_DET
     # 6. Find external contours
     contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    raw_boxes = []
-    min_w = max(10, int(median_h * 0.5))
-    min_h = max(5, int(median_h * 0.2))
-    max_h = int(height * 0.5)
+    raw_boxes = [
+        cv2.boundingRect(cnt) for cnt in contours
+        if cv2.boundingRect(cnt)[2] >= max(8, int(median_h * 0.4))
+        and cv2.boundingRect(cnt)[3] >= max(4, int(median_h * 0.2))
+        and cv2.boundingRect(cnt)[3] <= int(height * 0.5)
+    ]
 
-    for cnt in contours:
-        x, y, w, h = cv2.boundingRect(cnt)
-        if w >= min_w and h >= min_h and h <= max_h:
-            # Dynamic padding to ensure diacritics and descenders are preserved
-            pad_x = max(5, int(w * 0.02))
-            pad_y = max(5, int(h * 0.15))
-            x_pad = max(0, x - pad_x)
-            y_pad = max(0, y - pad_y)
-            w_pad = min(width - x_pad, w + 2 * pad_x)
-            h_pad = min(height - y_pad, h + 2 * pad_y)
-            raw_boxes.append((x_pad, y_pad, w_pad, h_pad))
+    # 7. Robust Two-Level Consolidation
+    consolidated = consolidate_line_boxes(raw_boxes, binary, median_h, width, height)
 
-    raw_boxes.sort(key=lambda b: (b[1], b[0]))
+    padded_boxes = []
+    for b in consolidated:
+        pad_x = max(5, int(b[2] * 0.02))
+        pad_y = max(4, int(b[3] * 0.10))
+        xp = max(0, b[0] - pad_x)
+        yp = max(0, b[1] - pad_y)
+        wp = min(width - xp, b[2] + 2 * pad_x)
+        hp = min(height - yp, b[3] + 2 * pad_y)
+        padded_boxes.append((xp, yp, wp, hp))
 
-    # 7. Tolerant collinear merge based on vertical centers and overlap
-    merged_boxes = []
-    for box in raw_boxes:
-        if not merged_boxes:
-            merged_boxes.append(box)
-            continue
-            
-        prev = merged_boxes[-1]
-        prev_y1, prev_y2 = prev[1], prev[1] + prev[3]
-        curr_y1, curr_y2 = box[1], box[1] + box[3]
-        
-        prev_cy = prev[1] + prev[3] / 2
-        curr_cy = box[1] + box[3] / 2
-        
-        overlap_y = max(0, min(prev_y2, curr_y2) - max(prev_y1, curr_y1))
-        min_h_overlap = min(prev[3], box[3])
-        y_dist = abs(curr_cy - prev_cy)
-        avg_h = (prev[3] + box[3]) / 2.0
-
-        # Merge if vertical overlap is significant OR centers are close relative to their actual size
-        if (min_h_overlap > 0 and (overlap_y / min_h_overlap) > 0.4) or (y_dist < avg_h * 0.4):
-            new_x = min(prev[0], box[0])
-            new_y = min(prev[1], box[1])
-            new_x2 = max(prev[0] + prev[2], box[0] + box[2])
-            new_y2 = max(prev[1] + prev[3], box[1] + box[3])
-            merged_boxes[-1] = (new_x, new_y, new_x2 - new_x, new_y2 - new_y)
-        else:
-            merged_boxes.append(box)
-
-    merged_boxes.sort(key=lambda b: (b[1], b[0]))
-    if len(merged_boxes) > max_lines:
-        merged_boxes = merged_boxes[:max_lines]
+    padded_boxes.sort(key=lambda b: (b[1], b[0]))
+    if len(padded_boxes) > max_lines:
+        padded_boxes = padded_boxes[:max_lines]
 
     line_results = []
-    for idx, b in enumerate(merged_boxes, 1):
+    for idx, b in enumerate(padded_boxes, 1):
         line_results.append(LineBox(
             line_id=f"line_{idx}",
             x=int(b[0]),
@@ -210,45 +421,36 @@ def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_D
     """
     Detector B: Specialized fallback for handwriting on graph/squared paper.
     Uses adaptive chromatic ink extraction or adaptive thresholding, followed
-    by conservative long-line suppression.
+    by robust two-level satellite consolidation.
     """
     if bgr_image is None or bgr_image.size == 0:
         return [], {}
 
     bgr_image = correct_skew(bgr_image, max_angle=10.0)
     height, width = bgr_image.shape[:2]
-    
     diagnostics = {}
 
     # A. Adaptive Chromatic-Ink Extraction
     hsv = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2HSV)
     h_chan, s_chan, v_chan = cv2.split(hsv)
-    
-    # Identify candidate colored-ink pixels: strong saturation, not pure white/bright
-    sat_mask = (s_chan > 30) & (v_chan < 230)
+    sat_mask = (s_chan > 25) & (v_chan < 235)
     candidate_hue = h_chan[sat_mask]
-    
+
     chromatic_cluster_found = False
     dominant_hue = -1
     binary = None
-    
+
     if len(candidate_hue) > 50:
         hist = cv2.calcHist([candidate_hue], [0], None, [180], [0, 180])
         dominant_hue = int(np.argmax(hist))
-        
-        # We need a meaningful peak
         if hist.flatten()[dominant_hue] > 10:
             chromatic_cluster_found = True
-            
-            # Create circular mask around dominant hue
-            lower_hue = (dominant_hue - 15) % 180
-            upper_hue = (dominant_hue + 15) % 180
-            
+            lower_hue = (dominant_hue - 25) % 180
+            upper_hue = (dominant_hue + 25) % 180
             if lower_hue < upper_hue:
                 hue_mask = (h_chan >= lower_hue) & (h_chan <= upper_hue)
             else:
                 hue_mask = (h_chan >= lower_hue) | (h_chan <= upper_hue)
-                
             ink_mask = hue_mask & sat_mask
             binary = (ink_mask * 255).astype(np.uint8)
 
@@ -258,175 +460,54 @@ def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_D
         binary = cv2.adaptiveThreshold(
             gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 41, 10
         )
-        
-        # Only aggressively subtract grid if we are in the grayscale fallback!
-        # Chromatic mask naturally separates pen from gray grid.
         vert_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(40, int(height * 0.30))))
         vert_lines = cv2.morphologyEx(binary, cv2.MORPH_OPEN, vert_kernel)
-        
         horiz_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (max(40, int(width * 0.30)), 1))
         horiz_lines = cv2.morphologyEx(binary, cv2.MORPH_OPEN, horiz_kernel)
-        
         grid = cv2.bitwise_or(vert_lines, horiz_lines)
         binary = cv2.subtract(binary, grid)
 
-    # Clean up isolated noise
-    noise_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, noise_kernel)
+        # Only clean residual grid noise in the grayscale fallback
+        noise_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, noise_kernel)
 
-    # Estimate component height
     raw_cnts, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     heights = [cv2.boundingRect(c)[3] for c in raw_cnts if cv2.contourArea(c) > 5]
-    median_h = np.median(heights) if heights else 15
+    median_h = float(np.median(heights)) if heights else 15.0
 
-    # Adaptive morphology for handwriting connectivity
-    k_width = max(10, int(median_h * 1.2))
-    k_height = max(3, int(median_h * 0.2))
+    k_width = max(15, int(median_h * 1.5))
+    k_height = max(3, int(median_h * 0.3))
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k_width, k_height))
     dilated = cv2.dilate(binary, kernel, iterations=1)
 
-    # NEW: Projection Row Segmentation
-    # Calculate row-wise foreground density on a vertically closed mask to bridge diacritics
-    v_close_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(15, int(height * 0.05))))
-    v_close = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, v_close_kernel)
-    ink_per_row = np.sum(v_close > 0, axis=1) # 1D array of length `height`
-    
-    # Smooth the projection conservatively
-    smooth_window = max(3, int(median_h * 0.3))
-    smoothed_proj = np.convolve(ink_per_row, np.ones(smooth_window)/smooth_window, mode='same')
-    
-    # Identify bands of meaningful ink
-    ink_threshold = max(5, width * 0.005) # 0.5% of width or minimum 5 pixels
-    is_ink = smoothed_proj > ink_threshold
-    
-    bands = [] # list of (y_start, y_end)
-    in_band = False
-    start_y = 0
-    min_band_h = max(15, height * 0.05) # At least 5% of image height
-    for y, has_ink in enumerate(is_ink):
-        if has_ink and not in_band:
-            in_band = True
-            start_y = y
-        elif not has_ink and in_band:
-            in_band = False
-            if (y - start_y) >= min_band_h:
-                bands.append((start_y, y))
-    if in_band:
-        if (height - start_y) >= min_band_h:
-            bands.append((start_y, height))
-            
-    if not bands:
-        bands = [(0, height)]
+    strong_bands = compute_strong_body_bands(binary, median_h, width, height)
 
-    # 3.5 Merge very close bands (valleys < 3% of height are likely intra-line gaps, e.g. accents)
-    merged_bands = []
-    max_gap = max(10, height * 0.03)
-    for b in bands:
-        if not merged_bands:
-            merged_bands.append(b)
-        else:
-            prev = merged_bands[-1]
-            if (b[0] - prev[1]) < max_gap:
-                merged_bands[-1] = (prev[0], b[1])
-            else:
-                merged_bands.append(b)
-    bands = merged_bands
-
-    # 4. Giant-Box Split Logic (recursive split based on local valleys)
-    def recursive_split_band(start_y, end_y):
-        band_h = end_y - start_y
-        if band_h <= median_h * 2.5:
-            return [(start_y, end_y)]
-            
-        sub_proj = smoothed_proj[start_y:end_y]
-        mid_start = int(band_h * 0.2)
-        mid_end = int(band_h * 0.8)
-        if mid_end <= mid_start:
-            return [(start_y, end_y)]
-            
-        split_idx = mid_start + np.argmin(sub_proj[mid_start:mid_end])
-        split_y = start_y + split_idx
-        
-        # Split if the valley is lower than 85% of the local peak
-        if smoothed_proj[split_y] < np.max(sub_proj) * 0.85:
-            return recursive_split_band(start_y, split_y) + recursive_split_band(split_y, end_y)
-        else:
-            return [(start_y, end_y)]
-
-    final_bands = []
-    for b in bands:
-        final_bands.extend(recursive_split_band(b[0], b[1]))
-    bands = final_bands
-
-    # B. Component Y-Clustering
     contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
-    raw_boxes = []
-    min_area = 5
-    max_h = int(height * 0.5)
+    raw_boxes = [
+        cv2.boundingRect(cnt) for cnt in contours
+        if cv2.boundingRect(cnt)[2] >= max(8, int(median_h * 0.4))
+        and cv2.boundingRect(cnt)[3] >= max(4, int(median_h * 0.2))
+        and cv2.boundingRect(cnt)[3] <= int(height * 0.5)
+    ]
 
-    for cnt in contours:
-        x, y, w, h = cv2.boundingRect(cnt)
-        # Preserve small components (diacritics/punctuation) by checking area instead of strict height/width
-        if cv2.contourArea(cnt) >= min_area and h <= max_h:
-            # Assign component to band based on maximum overlap
-            best_band = 0
-            best_overlap = -1
-            cy = y + h / 2.0
-            
-            for i, b in enumerate(bands):
-                overlap = max(0, min(y+h, b[1]) - max(y, b[0]))
-                if overlap > best_overlap:
-                    best_overlap = overlap
-                    best_band = i
-            
-            # If no vertical overlap, assign to nearest center
-            if best_overlap == 0:
-                best_band = min(range(len(bands)), key=lambda i: abs(cy - ((bands[i][0]+bands[i][1])/2.0)))
-                
-            raw_boxes.append({
-                'box': [x, y, w, h],
-                'band_idx': best_band
-            })
+    consolidated = consolidate_line_boxes(raw_boxes, binary, median_h, width, height)
 
-    # Group components by band to form final line boxes
-    merged_boxes = []
-    for i, band in enumerate(bands):
-        band_boxes = [b['box'] for b in raw_boxes if b['band_idx'] == i]
-        if not band_boxes:
-            continue
-            
-        x_min = min([b[0] for b in band_boxes])
-        y_min = min([b[1] for b in band_boxes])
-        x_max = max([b[0]+b[2] for b in band_boxes])
-        y_max = max([b[1]+b[3] for b in band_boxes])
-        
-        # Chain-merge prevention: clamp y_min/y_max roughly to the band's limits 
-        # allowing for natural ascenders/descenders, but preventing adjacent lines from colliding
-        margin = int(median_h * 0.4)
-        y_min = max(y_min, band[0] - margin)
-        y_max = min(y_max, band[1] + margin)
-        
-        w_line = x_max - x_min
-        h_line = y_max - y_min
-        
-        # Apply padding
-        pad_x = max(5, int(w_line * 0.02))
-        pad_y = max(5, int(h_line * 0.15))
-        
-        x_pad = max(0, x_min - pad_x)
-        y_pad = max(0, y_min - pad_y)
-        w_pad = min(width - x_pad, w_line + 2 * pad_x)
-        h_pad = min(height - y_pad, h_line + 2 * pad_y)
-        
-        merged_boxes.append((x_pad, y_pad, w_pad, h_pad))
+    padded_boxes = []
+    for b in consolidated:
+        pad_x = max(5, int(b[2] * 0.02))
+        pad_y = max(4, int(b[3] * 0.10))
+        xp = max(0, b[0] - pad_x)
+        yp = max(0, b[1] - pad_y)
+        wp = min(width - xp, b[2] + 2 * pad_x)
+        hp = min(height - yp, b[3] + 2 * pad_y)
+        padded_boxes.append((xp, yp, wp, hp))
 
-    merged_boxes.sort(key=lambda b: (b[1], b[0]))
-    if len(merged_boxes) > max_lines:
-        merged_boxes = merged_boxes[:max_lines]
+    padded_boxes.sort(key=lambda b: (b[1], b[0]))
+    if len(padded_boxes) > max_lines:
+        padded_boxes = padded_boxes[:max_lines]
 
     line_results = []
-    for idx, b in enumerate(merged_boxes, 1):
+    for idx, b in enumerate(padded_boxes, 1):
         line_results.append(LineBox(
             line_id=f"line_{idx}",
             x=int(b[0]),
@@ -438,7 +519,7 @@ def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_D
 
     diagnostics["chromatic_cluster_found"] = chromatic_cluster_found
     diagnostics["dominant_hue"] = dominant_hue
-    diagnostics["bands_detected"] = len(bands)
+    diagnostics["bands_detected"] = len(strong_bands)
     diagnostics["final_boxes"] = len(line_results)
 
     return line_results, diagnostics
@@ -447,8 +528,9 @@ def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_D
 def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -> Tuple[List[LineBox], dict]:
     """
     Production text-line segmentation pipeline.
-    Runs Path A (classical morphology/connected components).
-    If Path A is suspicious, runs Path B (hue-clustering + projection bands for grid handwriting).
+    Runs Path A (classical morphology/connected components with two-level consolidation).
+    If Path A is suspicious, runs Path B (hue-clustering + specialized grid handwriting detection).
+    Performs Strong-Band Consistency Check prior to returning.
     Returns (final_lines, diagnostics).
     """
     if cv_img is None or cv_img.size == 0:
@@ -470,6 +552,12 @@ def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -
     is_suspicious = False
     suspicious_reason = "NONE"
 
+    # Evaluate chromatic presence for graph/notebook paper
+    hsv = cv2.cvtColor(cv_img, cv2.COLOR_BGR2HSV)
+    _, s_chan, v_chan = cv2.split(hsv)
+    sat_colored = (s_chan > 35) & (v_chan < 225)
+    chromatic_ratio = np.count_nonzero(sat_colored) / float(height * width)
+
     if path_a_count == 0:
         is_suspicious = True
         suspicious_reason = "ZERO_LINES"
@@ -480,9 +568,12 @@ def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -
     elif path_a_count >= 2:
         max_h = max(l.height for l in lines)
         min_h = min(l.height for l in lines)
-        if min_h > 0 and (max_h / min_h) > 3.0:
+        if min_h > 0 and (max_h / min_h) > 2.6:
             is_suspicious = True
             suspicious_reason = f"EXTREME_HEIGHT_VARIANCE_{round(max_h / min_h, 2)}"
+        elif chromatic_ratio > 0.008:
+            is_suspicious = True
+            suspicious_reason = f"CHROMATIC_INK_DETECTED_{round(chromatic_ratio, 4)}"
 
     diagnostics = {
         "detector_version": HW_LINE_DETECTOR_VERSION,
@@ -506,6 +597,36 @@ def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -
         if len(fallback_lines) > 0:
             lines = fallback_lines
             diagnostics["final_box_count"] = len(lines)
+
+    # 8. Strong-Band Consistency Check
+    if len(lines) > 1:
+        gray = cv2.cvtColor(cv_img, cv2.COLOR_BGR2GRAY)
+        _, binary_ref = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        r_cnts, _ = cv2.findContours(binary_ref, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        m_h = float(np.median([cv2.boundingRect(c)[3] for c in r_cnts if cv2.contourArea(c) > 5])) if r_cnts else 15.0
+        strong_bands = compute_strong_body_bands(binary_ref, m_h, width, height)
+
+        if len(strong_bands) > 0 and len(lines) >= int(len(strong_bands) * 1.5):
+            line_tuples = [(l.x, l.y, l.width, l.height) for l in lines]
+            re_consolidated = consolidate_line_boxes(line_tuples, binary_ref, m_h, width, height)
+            if len(re_consolidated) < len(lines):
+                lines = []
+                for idx, b in enumerate(re_consolidated, 1):
+                    lines.append(LineBox(
+                        line_id=f"line_{idx}",
+                        x=int(b[0]),
+                        y=int(b[1]),
+                        width=int(b[2]),
+                        height=int(b[3]),
+                        order=idx
+                    ))
+                diagnostics["final_box_count"] = len(lines)
+
+    # Strictly re-index order and ensure sorting by y
+    lines.sort(key=lambda l: (l.y, l.x))
+    for idx, l in enumerate(lines, 1):
+        l.order = idx
+        l.line_id = f"line_{idx}"
 
     return lines, diagnostics
 

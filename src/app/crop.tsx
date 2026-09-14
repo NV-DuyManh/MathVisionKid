@@ -66,16 +66,14 @@ export default function CropScreen() {
         source: draft?.source,
       });
 
-      // Async resolve actual dimensions if missing
-      if (!draft?.width || !draft?.height) {
-        ImageManipulator.manipulateAsync(activeUri, [], {})
-          .then(res => {
-            if (res.width && res.height) setActualSize({ w: res.width, h: res.height });
-          })
-          .catch(() => {
-            Image.getSize(activeUri, (w, h) => setActualSize({ w, h }), () => {});
-          });
-      }
+      // Always resolve actual orientation-normalized bitmap dimensions via ImageManipulator
+      ImageManipulator.manipulateAsync(activeUri, [], {})
+        .then(res => {
+          if (res.width && res.height) setActualSize({ w: res.width, h: res.height });
+        })
+        .catch(() => {
+          Image.getSize(activeUri, (w, h) => setActualSize({ w, h }), () => {});
+        });
     }
   }, [activeUri]);
 
@@ -234,13 +232,27 @@ export default function CropScreen() {
 
     setIsProcessing(true);
     try {
+      let targetW = actualSize.w;
+      let targetH = actualSize.h;
+      if (targetW <= 0 || targetH <= 0) {
+        const probe = await ImageManipulator.manipulateAsync(activeUri, [], {});
+        targetW = probe.width || 1;
+        targetH = probe.height || 1;
+      }
+
       const { x: realX, y: realY, w: realW, h: realH } = displayRectToSourceRect(
         boxX.value, boxY.value, boxW.value, boxH.value,
         bMinX.value, bMinY.value, imgScale.value,
-        actualSize.w, actualSize.h
+        targetW, targetH
       );
 
-      if (realW <= 10 || realH <= 10) {
+      // Safe clamp ensuring realX + realW <= targetW and realY + realH <= targetH
+      const safeX = Math.max(0, Math.min(targetW - 1, realX));
+      const safeY = Math.max(0, Math.min(targetH - 1, realY));
+      const safeW = Math.max(1, Math.min(targetW - safeX, realW));
+      const safeH = Math.max(1, Math.min(targetH - safeY, realH));
+
+      if (safeW <= 10 || safeH <= 10) {
         setIsProcessing(false);
         Alert.alert('Lỗi', 'Vùng chọn quá nhỏ. Em hãy kéo khung lớn hơn nhé.');
         return;
@@ -248,17 +260,17 @@ export default function CropScreen() {
 
       console.log('[DEV_STAGE][CROP_EXECUTION]', {
         activeUri,
-        actualSize,
+        actualSize: { w: targetW, h: targetH },
         imageLayout,
         box: { x: boxX.value, y: boxY.value, w: boxW.value, h: boxH.value },
         bMin: { x: bMinX.value, y: bMinY.value },
         imgScale: imgScale.value,
-        cropRect: { originX: realX, originY: realY, width: realW, height: realH }
+        cropRect: { originX: safeX, originY: safeY, width: safeW, height: safeH }
       });
 
       const result = await ImageManipulator.manipulateAsync(
         activeUri,
-        [{ crop: { originX: realX, originY: realY, width: realW, height: realH } }],
+        [{ crop: { originX: safeX, originY: safeY, width: safeW, height: safeH } }],
         { compress: 0.95, format: ImageManipulator.SaveFormat.JPEG }
       );
 
