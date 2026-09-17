@@ -58,8 +58,9 @@ export const authApi = {
         if (err.response && err.response.status === 401) {
           throw err;
         }
-        // If the server is offline or connection refused (Network Error), fall back to demo mode
-        console.warn('Backend server is offline. Falling back to Demo Student authentication mode.', err.message);
+        // If the server is offline or connection refused (Network Error), DO NOT fall back to demo mode unless USE_MOCK is true.
+        console.error('Backend server is unreachable. Authentication failed.', err.message);
+        throw err;
       }
     }
 

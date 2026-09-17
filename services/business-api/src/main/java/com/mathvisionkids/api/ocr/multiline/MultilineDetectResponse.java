@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +19,5 @@ public class MultilineDetectResponse {
     private int height;
     private List<LineBoxDto> lines;
     private String detectorVersion;
+    private Map<String, Object> diagnostics;
 }

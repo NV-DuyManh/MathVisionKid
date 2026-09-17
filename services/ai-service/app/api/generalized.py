@@ -2,11 +2,12 @@ import cv2
 import numpy as np
 from typing import List, Tuple
 
-def extract_ink_mask(bgr_image: np.ndarray, height: int, width: int) -> np.ndarray:
+def extract_ink_mask(bgr_image: np.ndarray, height: int, width: int, profile: str = "PROFILE_A") -> np.ndarray:
     """
     Step 3/4: Adaptive ensemble ink mask extraction.
     Combines chromatic ink extraction when a dominant pen-color cluster is reliable,
     with grayscale/adaptive-threshold fallback. Includes grid suppression.
+    Supports Profiles: PROFILE_A (Default), PROFILE_B (Strong Grid Suppression), PROFILE_C (Weak Grid Suppression)
     """
     hsv = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2HSV)
     h_chan, s_chan, v_chan = cv2.split(hsv)
@@ -46,22 +47,32 @@ def extract_ink_mask(bgr_image: np.ndarray, height: int, width: int) -> np.ndarr
     # Adaptive tends to pick up grid lines strongly. We must suppress them.
     binary_base = cv2.bitwise_or(binary_otsu, binary_adapt)
     
-    # Paper Background / Grid suppression
-    # Detect long lines
-    vert_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(30, int(height * 0.25))))
-    vert_lines = cv2.morphologyEx(binary_base, cv2.MORPH_OPEN, vert_kernel)
-    horiz_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (max(30, int(width * 0.25)), 1))
-    horiz_lines = cv2.morphologyEx(binary_base, cv2.MORPH_OPEN, horiz_kernel)
+    # If chromatic mask is strong and clean, we combine it with base.
+    final_mask = cv2.bitwise_or(binary_base, chromatic_mask)
+    
+    # Paper Background / Grid suppression MUST apply to the combined mask
+    # because chromatic mask might capture blue/purple graph lines!
+    v_thresh = max(30, int(height * 0.25))
+    h_thresh = max(30, int(width * 0.25))
+    
+    if profile == "PROFILE_B":
+        v_thresh = max(15, int(height * 0.10))
+        h_thresh = max(15, int(width * 0.10))
+    elif profile == "PROFILE_C":
+        v_thresh = max(50, int(height * 0.40))
+        h_thresh = max(50, int(width * 0.40))
+
+    vert_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, v_thresh))
+    vert_lines = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, vert_kernel)
+    horiz_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (h_thresh, 1))
+    horiz_lines = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, horiz_kernel)
     grid = cv2.bitwise_or(vert_lines, horiz_lines)
-    binary_base = cv2.subtract(binary_base, grid)
+    final_mask = cv2.subtract(final_mask, grid)
     
     # Clean up residual grid noise
     noise_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    binary_base = cv2.morphologyEx(binary_base, cv2.MORPH_OPEN, noise_kernel)
+    final_mask = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, noise_kernel)
     
-    # If chromatic mask is strong and clean, we combine it with base.
-    # We take the union to ensure we don't lose faint strokes.
-    final_mask = cv2.bitwise_or(binary_base, chromatic_mask)
     return final_mask, chromatic_mask
 
 def compute_global_row_proposals(binary_mask: np.ndarray, median_h: float) -> List[Tuple[int, int]]:
@@ -84,9 +95,9 @@ def compute_global_row_proposals(binary_mask: np.ndarray, median_h: float) -> Li
     med = np.median(nonzero_proj)
     mad = np.median(np.abs(nonzero_proj - med))
     
-    # The threshold must be image-relative and robust.
+    # The threshold must be image-relative and robust to preserve short rows (e.g. 'Bài 1:') alongside long rows.
     # Sustained activation bands.
-    strong_thresh = max(10.0, width * 0.015, med * 0.5)
+    strong_thresh = max(8.0, min(max(10.0, width * 0.015), 25.0), min(med * 0.35, 25.0))
     
     is_strong = smoothed_proj >= strong_thresh
     
@@ -113,7 +124,8 @@ def compute_global_row_proposals(binary_mask: np.ndarray, median_h: float) -> Li
         if not merged:
             merged.append(b)
         else:
-            if b[0] - merged[-1][1] <= max(6, int(median_h * 0.5)):
+            # Tolerate intra-line gaps (e.g., descenders, dots, tone marks)
+            if b[0] - merged[-1][1] <= max(12, int(median_h * 1.2)):
                 merged[-1] = (merged[-1][0], b[1])
             else:
                 merged.append(b)

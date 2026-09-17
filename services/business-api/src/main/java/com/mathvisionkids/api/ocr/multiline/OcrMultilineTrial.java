@@ -65,6 +65,36 @@ public class OcrMultilineTrial {
     @OrderBy("lineOrder ASC")
     private List<OcrMultilineLine> lines = new ArrayList<>();
 
+    @Column(name = "canonical_matched")
+    private Boolean canonicalMatched;
+
+    @Column(name = "fixture_id")
+    private String fixtureId;
+
+    @Column(name = "recognition_source")
+    private String recognitionSource;
+
+    @Column(name = "recognition_engine")
+    private String recognitionEngine;
+
+    @Column(name = "segmentation_source")
+    private String segmentationSource;
+
+    @Column(name = "correction_source")
+    private String correctionSource;
+
+    @Column(name = "final_text_source")
+    private String finalTextSource;
+
+    @Transient
+    private String requestId;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = Instant.now();
+    }
+
+
     @com.fasterxml.jackson.annotation.JsonProperty("userId")
     public UUID getUserId() {
         return user != null ? user.getId() : null;

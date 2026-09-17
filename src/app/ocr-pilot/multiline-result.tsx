@@ -8,7 +8,6 @@ import {
   TextInput,
   ActivityIndicator,
   Alert,
-  Platform,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -41,6 +40,15 @@ export default function MultilineResultScreen() {
         const res = await OcrPilotService.getMultilineTrial(trialId);
         if (!active) return;
         logFlowDomain('RESULT', 'HANDWRITING_TEXT');
+        console.log('[OCR-PHYSICAL] Loaded trial:', {
+          trialId: res.trialId,
+          recognitionEngine: res.recognitionEngine,
+          segmentationSource: res.segmentationSource,
+          correctionSource: res.correctionSource,
+          finalTextSource: res.finalTextSource,
+          linesCount: res.lines?.length,
+          requestId: res.requestId,
+        });
         setTrial(res);
       } catch (e: any) {
         if (!active) return;
@@ -64,6 +72,29 @@ export default function MultilineResultScreen() {
   ) => {
     try {
       setSubmittingLineId(line.lineId);
+
+      const targetText = verifiedText !== undefined
+        ? verifiedText
+        : (verdict === 'CORRECT' ? (line.finalText || line.rawOcrText || line.predictedText) : line.predictedText);
+
+      // Immediate optimistic update of local state
+      setTrial((prev) => {
+        if (!prev) return prev;
+        const updatedLines = prev.lines.map((l) => {
+          if (l.lineId === line.lineId) {
+            return {
+              ...l,
+              verdict,
+              verifiedTextRaw: verifiedText !== undefined ? verifiedText : (verdict === 'CORRECT' ? (l.rawOcrText || l.predictedText) : l.verifiedTextRaw),
+              finalText: targetText,
+              predictedText: targetText,
+            };
+          }
+          return l;
+        });
+        return { ...prev, lines: updatedLines };
+      });
+
       const updatedLine = await OcrPilotService.submitLineFeedback(
         trialId,
         line.lineId,
@@ -71,11 +102,18 @@ export default function MultilineResultScreen() {
         verifiedText
       );
 
-      // Update local state
+      // Reconcile with server response
       setTrial((prev) => {
         if (!prev) return prev;
         const updatedLines = prev.lines.map((l) =>
-          l.lineId === line.lineId ? updatedLine : l
+          l.lineId === line.lineId
+            ? {
+                ...l,
+                ...updatedLine,
+                finalText: targetText,
+                predictedText: targetText,
+              }
+            : l
         );
         return { ...prev, lines: updatedLines };
       });
@@ -93,7 +131,7 @@ export default function MultilineResultScreen() {
 
   const startEditLine = (line: MultilineLineResult) => {
     setEditingLineId(line.lineId);
-    setEditText(line.verifiedTextRaw || line.predictedText || '');
+    setEditText(line.verifiedTextRaw || line.finalText || line.predictedText || '');
   };
 
   if (loading) {
@@ -109,14 +147,22 @@ export default function MultilineResultScreen() {
     return (
       <View style={styles.centerContainer}>
         <Text style={styles.errorText}>Không thể hiển thị kết quả bài nhận diện.</Text>
-        <TouchableOpacity style={styles.retryBtn} onPress={() => router.replace('/(tabs)' as any)}>
+        <TouchableOpacity
+          style={styles.retryBtn}
+          onPress={() => router.replace('/(tabs)' as any)}
+          accessibilityRole="button"
+          accessibilityLabel="Về trang chủ"
+        >
           <Text style={styles.retryBtnText}>Về trang chủ</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  const joinedText = trial.lines.map((l) => l.predictedText).join('\n');
+  // Current full merged text (Requirement D)
+  const currentMergedText = trial.lines
+    .map((l) => l.verifiedTextRaw || l.finalText || (l.correctionApplied ? l.correctedText : l.rawOcrText) || l.predictedText || '')
+    .join('\n');
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -134,14 +180,18 @@ export default function MultilineResultScreen() {
         <View style={{ width: 32 }} />
       </View>
 
-      {/* Combined Text Preview */}
+      {/* Top Combined Text Card (Requirement D: Toàn bộ văn bản hiện tại (N dòng)) */}
       <View style={[styles.card, SHADOWS.small]}>
         <View style={styles.cardHeader}>
           <Ionicons name="document-text" size={20} color={COLORS.primary} />
-          <Text style={styles.cardTitle}>Toàn bộ văn bản ghép lại ({trial.lines.length} dòng):</Text>
+          <Text style={styles.cardTitle}>
+            Toàn bộ văn bản hiện tại ({trial.lines.length} dòng):
+          </Text>
         </View>
         <View style={styles.joinedTextBox}>
-          <Text style={styles.joinedText}>{joinedText || '(Chưa nhận diện được chữ nào)'}</Text>
+          <Text style={styles.joinedText}>
+            {currentMergedText || '(Chưa nhận diện được chữ nào)'}
+          </Text>
         </View>
       </View>
 
@@ -173,8 +223,12 @@ export default function MultilineResultScreen() {
           badgeText = 'Đã bỏ qua';
         }
 
+        const rawText = line.rawOcrText || line.predictedText;
+        const currentLineText = line.verifiedTextRaw || line.finalText || (line.correctionApplied ? line.correctedText : rawText) || line.predictedText;
+
         return (
           <View key={line.lineId} style={[styles.lineCard, SHADOWS.small]}>
+            {/* Row Order and Verdict Badge */}
             <View style={styles.lineHeaderRow}>
               <View style={styles.lineOrderBadge}>
                 <Text style={styles.lineOrderText}>Dòng {line.lineOrder}</Text>
@@ -184,26 +238,105 @@ export default function MultilineResultScreen() {
               </View>
             </View>
 
-            {/* Prediction text display - NO FAKE CONFIDENCE */}
-            <View style={styles.predictBox}>
-              <Text style={styles.predictLabel}>MathVision đọc được:</Text>
-              <Text style={styles.predictText}>
-                {line.predictedText ? `"${line.predictedText}"` : '(Không đọc được ký tự nào)'}
+            {/* Section A: Raw CRNN OCR (Requirement B) */}
+            <View style={styles.sectionABox}>
+              <View style={styles.sectionSubHeader}>
+                <Text style={styles.sectionALabel}>OCR GỐC (CRNN):</Text>
+                {line.rawOcrConfidence != null && (
+                  <Text style={styles.confidenceBadge}>
+                    Độ tin cậy: {(line.rawOcrConfidence * 100).toFixed(0)}%
+                  </Text>
+                )}
+              </View>
+              <Text style={styles.sectionAText}>
+                {rawText ? `"${rawText}"` : '(Không nhận diện được ký tự nào)'}
               </Text>
             </View>
 
-            {/* Show verified text if corrected */}
-            {line.verdict === 'CORRECTED' && line.verifiedTextRaw && !isEditing && (
-              <View style={styles.correctedBox}>
-                <Text style={styles.correctedLabel}>Chữ chuẩn của em:</Text>
-                <Text style={styles.correctedText}>{`"${line.verifiedTextRaw}"`}</Text>
+            {/* Section B: Groq Suggestion (Requirement B) */}
+            {line.correctedText && (
+              <View style={styles.sectionBBox}>
+                <View style={styles.sectionSubHeader}>
+                  <Text style={styles.sectionBLabel}>GỢI Ý HIỆU CHỈNH (AI GROQ):</Text>
+                  {line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied ? (
+                    <View style={styles.autoApplyBadge}>
+                      <Text style={styles.autoApplyBadgeText}>Đề xuất tin cậy cao</Text>
+                    </View>
+                  ) : line.correctionDecision === 'SUGGEST_ONLY' ? (
+                    <View style={styles.suggestOnlyBadge}>
+                      <Text style={styles.suggestOnlyBadgeText}>Cần bạn xác nhận</Text>
+                    </View>
+                  ) : (
+                    <View style={styles.keepRawBadge}>
+                      <Text style={styles.keepRawBadgeText}>Không đủ chắc chắn</Text>
+                    </View>
+                  )}
+                </View>
+
+                {line.correctionDecision === 'KEEP_RAW' ? (
+                  <Text style={styles.keepRawNote}>
+                    AI gợi ý giữ nguyên OCR gốc vì chưa đủ độ tin cậy để sửa.
+                  </Text>
+                ) : (
+                  <>
+                    <Text style={styles.sectionBText}>{`"${line.correctedText}"`}</Text>
+                    {/* Action buttons for suggestion */}
+                    {line.correctionDecision === 'SUGGEST_ONLY' && line.verdict !== 'CORRECTED' && !isEditing && (
+                      <View style={styles.suggestionActionRow}>
+                        <TouchableOpacity
+                          style={styles.acceptSuggBtn}
+                          accessibilityRole="button"
+                          accessibilityLabel="Chấp nhận gợi ý của AI"
+                          onPress={() => handleFeedback(line, 'CORRECTED', line.correctedText)}
+                        >
+                          <Ionicons name="checkmark-circle" size={16} color="#FFFFFF" />
+                          <Text style={styles.acceptSuggText}>Chấp nhận gợi ý</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.keepRawBtn}
+                          accessibilityRole="button"
+                          accessibilityLabel="Giữ OCR gốc"
+                          onPress={() => handleFeedback(line, 'CORRECT', rawText)}
+                        >
+                          <Ionicons name="shield-checkmark-outline" size={16} color={COLORS.textSecondary} />
+                          <Text style={styles.keepRawText}>Giữ OCR gốc</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                    {/* If AUTO_APPLIED, allow revert to raw */}
+                    {(line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied) && line.verdict !== 'CORRECTED' && !isEditing && (
+                      <View style={styles.autoApplyActionRow}>
+                        <Text style={styles.autoApplyInfoText}>Đã tự động áp dụng gợi ý này.</Text>
+                        <TouchableOpacity
+                          style={styles.revertToRawBtn}
+                          accessibilityRole="button"
+                          accessibilityLabel="Quay về OCR gốc"
+                          onPress={() => handleFeedback(line, 'CORRECT', rawText)}
+                        >
+                          <Text style={styles.revertToRawText}>Quay về OCR gốc</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  </>
+                )}
               </View>
             )}
+
+            {/* Section C: Current Result (Requirement B) */}
+            <View style={styles.sectionCBox}>
+              <Text style={styles.sectionCLabel}>KẾT QUẢ HIỆN TẠI:</Text>
+              <Text style={styles.sectionCText}>
+                {currentLineText ? `"${currentLineText}"` : '(Trống)'}
+              </Text>
+              {line.verdict === 'CORRECTED' && line.verifiedTextRaw && !isEditing && (
+                <Text style={styles.userEditedNote}>✎ Đã được bạn chỉnh sửa</Text>
+              )}
+            </View>
 
             {/* Inline Editing Form */}
             {isEditing ? (
               <View style={styles.editForm}>
-                <Text style={styles.editFormLabel}>Nhập chữ đúng của dòng này:</Text>
+                <Text style={styles.editFormLabel}>Nhập nội dung đúng cho dòng này:</Text>
                 <TextInput
                   style={styles.editInput}
                   value={editText}
@@ -216,6 +349,8 @@ export default function MultilineResultScreen() {
                   <TouchableOpacity
                     style={styles.cancelEditBtn}
                     onPress={() => setEditingLineId(null)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Hủy chỉnh sửa"
                   >
                     <Text style={styles.cancelEditBtnText}>Hủy</Text>
                   </TouchableOpacity>
@@ -223,6 +358,8 @@ export default function MultilineResultScreen() {
                     style={[styles.saveEditBtn, isSubmitting && { opacity: 0.6 }]}
                     disabled={isSubmitting}
                     onPress={() => handleFeedback(line, 'CORRECTED', editText)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Lưu và xác nhận"
                   >
                     {isSubmitting ? (
                       <ActivityIndicator size="small" color="#FFFFFF" />
@@ -233,7 +370,7 @@ export default function MultilineResultScreen() {
                 </View>
               </View>
             ) : (
-              /* Feedback Buttons */
+              /* Feedback Action Row */
               <View style={styles.feedbackRow}>
                 <TouchableOpacity
                   style={[
@@ -243,6 +380,8 @@ export default function MultilineResultScreen() {
                   ]}
                   disabled={isSubmitting}
                   onPress={() => handleFeedback(line, 'CORRECT')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Xác nhận dòng này đúng"
                 >
                   <Ionicons
                     name="checkmark-circle"
@@ -267,6 +406,8 @@ export default function MultilineResultScreen() {
                   ]}
                   disabled={isSubmitting}
                   onPress={() => startEditLine(line)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Sửa chữ của dòng này"
                 >
                   <Ionicons
                     name="pencil"
@@ -287,6 +428,8 @@ export default function MultilineResultScreen() {
                   style={[styles.fbBtn, styles.fbSkipBtn]}
                   disabled={isSubmitting}
                   onPress={() => handleFeedback(line, 'SKIPPED')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Bỏ qua dòng này"
                 >
                   <Ionicons name="close-circle-outline" size={16} color="#64748B" />
                   <Text style={[styles.fbBtnText, { color: '#64748B' }]}>Bỏ qua</Text>
@@ -297,24 +440,12 @@ export default function MultilineResultScreen() {
         );
       })}
 
-      {__DEV__ && trial && (
-        <View style={styles.devBox} testID="dev-diagnostic-panel">
-          <Text style={styles.devTitle}>DEV Diagnostic (Multiline OCR)</Text>
-          <Text style={styles.devText}>flowDomain: HANDWRITING_TEXT</Text>
-          <Text style={styles.devText}>trialId: {trial.trialId}</Text>
-          <Text style={styles.devText}>lineCount: {trial.lines.length}</Text>
-          <Text style={styles.devText}>ocrInvoked: true</Text>
-          <Text style={styles.devText}>recognizedTextLength: {joinedText.length}</Text>
-          <Text style={styles.devText}>
-            perLineStatus: {trial.lines.map((l) => `L${l.lineOrder}:${l.predictedText ? 'OK' : 'EMPTY'}`).join(', ')}
-          </Text>
-        </View>
-      )}
-
       {/* Done Button */}
       <TouchableOpacity
         style={styles.doneBtn}
         onPress={() => router.replace('/(tabs)' as any)}
+        accessibilityRole="button"
+        accessibilityLabel="Nhận diện trang khác"
       >
         <Ionicons name="checkmark-done" size={20} color="#FFFFFF" />
         <Text style={styles.doneBtnText}>Nhận diện trang khác</Text>
@@ -406,7 +537,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
     color: COLORS.textPrimary,
-    fontFamily: 'System',
   },
   sectionTitle: {
     fontSize: 16,
@@ -432,7 +562,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   lineOrderBadge: {
     paddingVertical: 3,
@@ -454,7 +584,13 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '700',
   },
-  predictBox: {
+  sectionSubHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  sectionABox: {
     backgroundColor: '#F8FAFC',
     borderRadius: 8,
     padding: 10,
@@ -462,33 +598,169 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E2E8F0',
   },
-  predictLabel: {
+  sectionALabel: {
     fontSize: 11,
-    color: COLORS.textMuted,
-    marginBottom: 4,
+    fontWeight: '700',
+    color: '#64748B',
+    letterSpacing: 0.5,
   },
-  predictText: {
-    fontSize: 16,
+  confidenceBadge: {
+    fontSize: 11,
+    color: '#64748B',
     fontWeight: '600',
-    color: COLORS.textPrimary,
   },
-  correctedBox: {
-    backgroundColor: '#EFF6FF',
+  sectionAText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#1E293B',
+  },
+  sectionBBox: {
+    backgroundColor: '#FEF3C7',
     borderRadius: 8,
     padding: 10,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#BFDBFE',
+    borderColor: '#FDE68A',
   },
-  correctedLabel: {
+  sectionBLabel: {
     fontSize: 11,
-    color: COLORS.primary,
-    marginBottom: 4,
+    fontWeight: '700',
+    color: '#92400E',
+    letterSpacing: 0.5,
   },
-  correctedText: {
+  sectionBText: {
     fontSize: 15,
     fontWeight: '600',
-    color: COLORS.primaryDark,
+    color: '#78350F',
+    marginBottom: 8,
+  },
+  autoApplyBadge: {
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  autoApplyBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#16A34A',
+  },
+  suggestOnlyBadge: {
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#F59E0B',
+  },
+  suggestOnlyBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#B45309',
+  },
+  keepRawBadge: {
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  keepRawBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#64748B',
+  },
+  keepRawNote: {
+    fontSize: 12,
+    color: '#64748B',
+    fontStyle: 'italic',
+    marginTop: 2,
+  },
+  suggestionActionRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 4,
+  },
+  acceptSuggBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    height: 36,
+    borderRadius: 6,
+    backgroundColor: '#16A34A',
+  },
+  acceptSuggText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  keepRawBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    height: 36,
+    borderRadius: 6,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+  },
+  keepRawText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+  },
+  autoApplyActionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  autoApplyInfoText: {
+    fontSize: 12,
+    color: '#065F46',
+    fontWeight: '600',
+  },
+  revertToRawBtn: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#A7F3D0',
+  },
+  revertToRawText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#065F46',
+  },
+  sectionCBox: {
+    backgroundColor: '#EFF6FF',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: '#93C5FD',
+  },
+  sectionCLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1D4ED8',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  sectionCText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#1E3A8A',
+  },
+  userEditedNote: {
+    fontSize: 11,
+    color: '#2563EB',
+    fontWeight: '600',
+    marginTop: 4,
   },
   editForm: {
     marginTop: 8,
@@ -543,7 +815,7 @@ const styles = StyleSheet.create({
   feedbackRow: {
     flexDirection: 'row',
     gap: 8,
-    marginTop: 6,
+    marginTop: 4,
   },
   fbBtn: {
     flex: 1,
@@ -595,27 +867,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
-  },
-  devBox: {
-    marginTop: SIZES.large,
-    marginBottom: SIZES.small,
-    padding: SIZES.medium,
-    backgroundColor: '#1E293B',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#334155',
-  },
-  devTitle: {
-    color: '#38BDF8',
-    fontSize: 12,
-    fontWeight: '700',
-    marginBottom: 6,
-    textTransform: 'uppercase',
-  },
-  devText: {
-    color: '#94A3B8',
-    fontSize: 11,
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-    lineHeight: 16,
   },
 });

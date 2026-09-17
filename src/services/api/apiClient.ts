@@ -44,6 +44,11 @@ apiClient.interceptors.request.use(
       delete config.headers['Content-Type'];
       delete config.headers['content-type'];
     }
+    // Generate or preserve X-Request-ID for end-to-end traceability
+    if (!config.headers['X-Request-ID']) {
+      const generatedReqId = 'req_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
+      config.headers['X-Request-ID'] = generatedReqId;
+    }
     return config;
   },
   (error) => {
@@ -53,6 +58,10 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
+    const resReqId = response.headers?.['x-request-id'] || response.headers?.['X-Request-ID'];
+    if (resReqId && response.data && typeof response.data === 'object' && !response.data.requestId) {
+      response.data.requestId = resReqId;
+    }
     return response;
   },
   async (error) => {

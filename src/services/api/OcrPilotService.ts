@@ -23,6 +23,7 @@ async function postMultipart<T>(
   endpoint: string,
   fileField: { key: string; uri: string; name: string; type: string },
   stringParams: Record<string, string> = {},
+  signal?: AbortSignal,
 ): Promise<T> {
   const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
 
@@ -54,6 +55,7 @@ async function postMultipart<T>(
   // React Native's Axios adapter uses XMLHttpRequest natively and handles {uri,name,type}
   const response = await apiClient.post<T>(url, formData, {
     transformRequest: [(data) => data],
+    signal,
   });
   return response.data;
 }
@@ -97,12 +99,27 @@ export interface LineBox {
   width: number;
   height: number;
   order: number;
+  text?: string;
+  rawOcrText?: string;
+  rawOcrConfidence?: number;
+  correctedText?: string;
+  correctionConfidence?: number;
+  correctionApplied?: boolean;
+  correctionDecision?: string;
+  finalText?: string;
+  minTokenConfidence?: number;
+  p10TokenConfidence?: number;
+  meanTokenConfidence?: number;
+  blankRatio?: number;
+  meanEntropy?: number;
 }
 
 export interface MultilineDetectResult {
   width: number;
   height: number;
   lines: LineBox[];
+  diagnostics?: Record<string, any>;
+  requestId?: string;
 }
 
 export interface MultilineLineResult {
@@ -121,6 +138,18 @@ export interface MultilineLineResult {
   lineImageSha256?: string;
   predictedText: string;
   confidence?: number;
+  rawOcrText?: string;
+  rawOcrConfidence?: number;
+  correctedText?: string;
+  correctionConfidence?: number;
+  correctionApplied?: boolean;
+  correctionDecision?: string;
+  finalText?: string;
+  minTokenConfidence?: number;
+  p10TokenConfidence?: number;
+  meanTokenConfidence?: number;
+  blankRatio?: number;
+  meanEntropy?: number;
   verifiedTextRaw?: string;
   verifiedTextNormalized?: string;
   verdict: string;
@@ -142,6 +171,15 @@ export interface MultilineTrialResult {
   status: string;
   createdAt: string;
   lines: MultilineLineResult[];
+  canonicalMatched?: boolean;
+  fixtureId?: string;
+  recognitionSource?: string;
+  recognitionEngine?: string;
+  segmentationSource?: string;
+  correctionSource?: string;
+  finalTextSource?: string;
+  requestId?: string;
+  diagnostics?: Record<string, any>;
 }
 
 export class OcrPilotService {
@@ -221,6 +259,23 @@ export class OcrPilotService {
         linesCount: result.lines?.length || 0,
         detectorVersion: (result as any).detectorVersion || (result as any).detector_version,
       });
+      if (__DEV__ && result.diagnostics) {
+        const d = result.diagnostics;
+        result.requestId = d.requestId || (result as any).requestId;
+        console.log(
+          `[OCR-PHYSICAL]\n` +
+          `requestId=${result.requestId || 'unknown'}\n` +
+          `recognitionEngine=${d.recognitionEngine || 'CRNN'}\n` +
+          `segmentationSource=${d.segmentationSource || 'LOCAL_CV'}\n` +
+          `correctionSource=${d.correctionSource || 'NONE'}\n` +
+          `finalTextSource=${d.finalTextSource || 'CRNN_RAW'}\n` +
+          `groqLineAssistUsed=${d.groqLineAssistUsed ?? false}\n` +
+          `groqCorrectionUsed=${d.groqCorrectionUsed ?? false}\n` +
+          `groqCalls=${d.groqCalls ?? 0}\n` +
+          `lineCount=${result.lines?.length || 0}\n` +
+          `totalLatencyMs=${d.totalLatencyMs ?? 'N/A'}`
+        );
+      }
       return result;
     } catch (err: any) {
       console.error('[OCR_PILOT] detectLines network/server error:', err?.message || err, err?.response?.data);
@@ -232,7 +287,8 @@ export class OcrPilotService {
     uri: string,
     confirmedLines: LineBox[],
     source: 'CAMERA' | 'GALLERY' = 'CAMERA',
-    privacyConfirmed: boolean = true
+    privacyConfirmed: boolean = true,
+    signal?: AbortSignal
   ): Promise<MultilineTrialResult> {
     const file = this.fileInfoFromUri(uri, 'page.jpg');
     return await postMultipart<MultilineTrialResult>(
@@ -243,6 +299,7 @@ export class OcrPilotService {
         privacyConfirmed: String(privacyConfirmed),
         confirmedLines: JSON.stringify(confirmedLines),
       },
+      signal
     );
   }
 

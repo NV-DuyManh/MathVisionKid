@@ -1,5 +1,6 @@
 package com.mathvisionkids.api.ocr.multiline;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,10 @@ public class OcrMultilineController {
     @PostMapping("/detect")
     public ResponseEntity<MultilineDetectResponse> detectLines(
             @RequestParam("image") MultipartFile image,
-            @RequestParam(value = "privacyConfirmed", required = false, defaultValue = "false") Boolean privacyConfirmed) {
-        MultilineDetectResponse response = multilineService.detectLines(image, privacyConfirmed);
+            @RequestParam(value = "privacyConfirmed", required = false, defaultValue = "false") Boolean privacyConfirmed,
+            HttpServletRequest request) {
+        String requestId = resolveRequestId(request);
+        MultilineDetectResponse response = multilineService.detectLines(image, privacyConfirmed, requestId);
         return ResponseEntity.ok(response);
     }
 
@@ -32,12 +35,23 @@ public class OcrMultilineController {
             @RequestParam(value = "source", required = false) String source,
             @RequestParam(value = "privacyConfirmed", required = false, defaultValue = "false") Boolean privacyConfirmed,
             @RequestParam("confirmedLines") String confirmedLinesJson,
-            Principal principal) {
+            Principal principal,
+            HttpServletRequest request) {
         String email = principal != null ? principal.getName() : null;
+        String requestId = resolveRequestId(request);
         MultilineTrialResponse response = multilineService.createTrialAndRecognize(
-                image, email, source, privacyConfirmed, confirmedLinesJson
+                image, email, source, privacyConfirmed, confirmedLinesJson, requestId
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    private String resolveRequestId(HttpServletRequest request) {
+        if (request == null) return null;
+        String reqId = (String) request.getAttribute("X-Request-ID");
+        if (reqId == null || reqId.isBlank()) {
+            reqId = request.getHeader("X-Request-ID");
+        }
+        return reqId;
     }
 
     @GetMapping("/trials/{trialId}")

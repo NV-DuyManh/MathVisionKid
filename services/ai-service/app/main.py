@@ -11,12 +11,26 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="MathVision Kids AI Service")
 
+@app.on_event("startup")
+async def on_startup():
+    if settings.groq_enabled and settings.groq_api_keys:
+        from app.integrations.groq.validator import validate_groq_models
+        try:
+            await validate_groq_models()
+        except Exception as e:
+            logger.warning(f"Groq startup model validation error: {e}")
+
 app.include_router(jobs.router, prefix="/internal/v1/jobs", tags=["Jobs"])
 app.include_router(ocr.router, prefix="/internal/v1/ocr", tags=["OCR Pilot"])
 
 @app.get("/health")
 async def health_check():
     return {"status": "ok", "service": "mathvision-ai-service"}
+
+@app.get("/internal/v1/groq-health")
+async def groq_health_check():
+    from app.integrations.groq.health import groq_health
+    return groq_health()
 
 @app.get("/ready")
 async def readiness_check():

@@ -8,6 +8,20 @@ class LineBox(BaseModel):
     width: int
     height: int
     order: int
+    text: Optional[str] = None
+    rawOcrText: Optional[str] = None
+    rawOcrConfidence: Optional[float] = None
+    correctedText: Optional[str] = None
+    correctionConfidence: Optional[float] = None
+    correctionApplied: bool = False
+    correctionDecision: Optional[str] = None
+    finalText: Optional[str] = None
+    minTokenConfidence: Optional[float] = None
+    p10TokenConfidence: Optional[float] = None
+    meanTokenConfidence: Optional[float] = None
+    blankRatio: Optional[float] = None
+    meanEntropy: Optional[float] = None
+
 
 class OcrDetectLinesResponse(BaseModel):
     width: int

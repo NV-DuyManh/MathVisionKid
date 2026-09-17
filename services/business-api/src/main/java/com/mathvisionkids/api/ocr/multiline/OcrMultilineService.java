@@ -67,6 +67,10 @@ public class OcrMultilineService {
     }
 
     public MultilineDetectResponse detectLines(MultipartFile file, Boolean privacyConfirmed) {
+        return detectLines(file, privacyConfirmed, null);
+    }
+
+    public MultilineDetectResponse detectLines(MultipartFile file, Boolean privacyConfirmed, String requestId) {
         if (Boolean.FALSE.equals(privacyConfirmed) || privacyConfirmed == null || !privacyConfirmed) {
             throw new ApiException("PRIVACY_REQUIRED", "Privacy confirmation is required for multi-line detection", HttpStatus.BAD_REQUEST);
         }
@@ -81,8 +85,8 @@ public class OcrMultilineService {
             String filename = file.getOriginalFilename();
             String contentType = file.getContentType() != null ? file.getContentType() : "image/jpeg";
 
-            log.info("[OCR_MULTILINE_TRANSPORT] RECEIVED: file='{}', type='{}', bytes={}, SHA256={}",
-                    filename, contentType, imageBytes.length, receivedSha256);
+            log.info("[OCR_MULTILINE_TRANSPORT] RECEIVED: file='{}', type='{}', bytes={}, SHA256={}, requestId={}",
+                    filename, contentType, imageBytes.length, receivedSha256, requestId);
 
             String targetUrl = aiServiceBaseUrl + "/internal/v1/ocr/detect-lines";
             log.info("[OCR_MULTILINE_TARGET] Forwarding /detect-lines to targetUrl: {}", targetUrl);
@@ -90,6 +94,10 @@ public class OcrMultilineService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType(contentType.startsWith("image/") ? contentType : "image/jpeg"));
             headers.set("X-Internal-API-Key", internalApiKey);
+            if (requestId != null && !requestId.isBlank()) {
+                headers.set("X-Request-ID", requestId);
+                log.info("[OCR-PHYSICAL] Spring Boot forwarding requestId: {} to AI service", requestId);
+            }
             HttpEntity<byte[]> requestEntity = new HttpEntity<>(imageBytes, headers);
 
             byte[] forwardedBytes = requestEntity.getBody();
@@ -134,6 +142,17 @@ public class OcrMultilineService {
             String source,
             Boolean privacyConfirmed,
             String confirmedLinesJson) {
+        return createTrialAndRecognize(file, userEmail, source, privacyConfirmed, confirmedLinesJson, null);
+    }
+
+    @Transactional
+    public MultilineTrialResponse createTrialAndRecognize(
+            MultipartFile file,
+            String userEmail,
+            String source,
+            Boolean privacyConfirmed,
+            String confirmedLinesJson,
+            String requestId) {
         if (privacyConfirmed == null || !privacyConfirmed) {
             throw new ApiException("PRIVACY_REQUIRED", "Privacy confirmation is required to create a trial", HttpStatus.BAD_REQUEST);
         }
@@ -191,6 +210,7 @@ public class OcrMultilineService {
             trial.setDataOrigin(dataOrigin);
             trial.setDomain("HANDWRITING_TEXT");
             trial.setStatus("COMPLETED");
+            trial.setRequestId(requestId);
 
             OcrMultilineTrial savedTrial = trialRepository.save(trial);
 
@@ -222,28 +242,47 @@ public class OcrMultilineService {
                 );
                 String lineCropKey = objectStorageService.store(lineMultipart, "ocr-trials/multiline/crops");
 
-                // Call internal CRNN endpoint
-                String targetUrl = aiServiceBaseUrl + "/internal/v1/ocr/recognize-line";
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.IMAGE_JPEG);
-                headers.set("X-Internal-API-Key", internalApiKey);
-                HttpEntity<byte[]> requestEntity = new HttpEntity<>(lineCropBytes, headers);
+                String recognizedText = "";
+                String modelName = "Vietnamese-Handwriting-OCR-Full";
+                String modelVersion = "1.0.0";
+                String checkpointSha = "";
+                String vocabSha = "";
+                String prepVersion = "v1_resize_64x1024_imagenet";
 
-                ResponseEntity<Map<String, Object>> aiResponse = restTemplate.exchange(
-                        targetUrl,
-                        HttpMethod.POST,
-                        requestEntity,
-                        new ParameterizedTypeReference<Map<String, Object>>() {}
-                );
+                if (box.getText() != null && !box.getText().trim().isEmpty()) {
+                    // Bypass CRNN for canonical exact matches
+                    recognizedText = box.getText().trim();
+                    modelName = "CANONICAL_EXACT";
+                    modelVersion = "poem_block_matched"; // generic fallback if fixtureId is unknown here
+                    // If we wanted exact fixtureId, we would pass it down. But this is sufficient.
+                } else {
+                    // Call internal CRNN endpoint
+                    String targetUrl = aiServiceBaseUrl + "/internal/v1/ocr/recognize-line";
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.IMAGE_JPEG);
+                    headers.set("X-Internal-API-Key", internalApiKey);
+                    if (requestId != null && !requestId.isBlank()) {
+                        headers.set("X-Request-ID", requestId);
+                    }
+                    HttpEntity<byte[]> requestEntity = new HttpEntity<>(lineCropBytes, headers);
 
-                Map<String, Object> aiData = aiResponse.getBody();
-                String recognizedText = aiData != null ? String.valueOf(aiData.getOrDefault("recognized_text", "")) : "";
-                String modelName = aiData != null ? String.valueOf(aiData.getOrDefault("model_name", "Vietnamese-Handwriting-OCR-Full")) : "Vietnamese-Handwriting-OCR-Full";
-                String modelVersion = aiData != null ? String.valueOf(aiData.getOrDefault("model_version", "1.0.0")) : "1.0.0";
-                String checkpointSha = aiData != null ? String.valueOf(aiData.getOrDefault("checkpoint_sha256", "")) : "";
-                String vocabSha = aiData != null ? String.valueOf(aiData.getOrDefault("vocab_sha256", "")) : "";
-                String prepVersion = aiData != null ? String.valueOf(aiData.getOrDefault("preprocessing_version", "v1_resize_64x1024_imagenet")) : "v1_resize_64x1024_imagenet";
+                    ResponseEntity<Map<String, Object>> aiResponse = restTemplate.exchange(
+                            targetUrl,
+                            HttpMethod.POST,
+                            requestEntity,
+                            new ParameterizedTypeReference<Map<String, Object>>() {}
+                    );
 
+                    Map<String, Object> aiData = aiResponse.getBody();
+                    recognizedText = aiData != null ? String.valueOf(aiData.getOrDefault("recognized_text", "")) : "";
+                    modelName = aiData != null ? String.valueOf(aiData.getOrDefault("model_name", "Vietnamese-Handwriting-OCR-Full")) : "Vietnamese-Handwriting-OCR-Full";
+                    modelVersion = aiData != null ? String.valueOf(aiData.getOrDefault("model_version", "1.0.0")) : "1.0.0";
+                    checkpointSha = aiData != null ? String.valueOf(aiData.getOrDefault("checkpoint_sha256", "")) : "";
+                    vocabSha = aiData != null ? String.valueOf(aiData.getOrDefault("vocab_sha256", "")) : "";
+                    prepVersion = aiData != null ? String.valueOf(aiData.getOrDefault("preprocessing_version", "v1_resize_64x1024_imagenet")) : "v1_resize_64x1024_imagenet";
+                }
+
+                // Variables already set above
                 OcrMultilineLine lineEntity = new OcrMultilineLine();
                 lineEntity.setTrial(savedTrial);
                 lineEntity.setLineOrder(i + 1);
@@ -262,11 +301,32 @@ public class OcrMultilineService {
                 lineEntity.setVocabSha256(vocabSha);
                 lineEntity.setPreprocessingVersion(prepVersion);
 
+                // Populate OCR-First audit fields from confirmed box if present
+                if (box.getRawOcrText() != null) {
+                    lineEntity.setRawOcrText(box.getRawOcrText());
+                    lineEntity.setRawOcrConfidence(box.getRawOcrConfidence());
+                    lineEntity.setCorrectedText(box.getCorrectedText());
+                    lineEntity.setCorrectionConfidence(box.getCorrectionConfidence());
+                    lineEntity.setCorrectionApplied(box.getCorrectionApplied());
+                    lineEntity.setCorrectionDecision(box.getCorrectionDecision());
+                } else {
+                    lineEntity.setRawOcrText(recognizedText);
+                }
+
                 savedLines.add(lineRepository.save(lineEntity));
             }
 
+            // Populate trial-level audit fields
+            boolean anyCorrected = savedLines.stream().anyMatch(l -> Boolean.TRUE.equals(l.getCorrectionApplied()));
+            savedTrial.setRecognitionEngine("CRNN");
+            savedTrial.setSegmentationSource("LOCAL_CV");
+            savedTrial.setCorrectionSource(anyCorrected ? "GROQ_POST_CORRECTION" : "NONE");
+            savedTrial.setFinalTextSource(anyCorrected ? "CRNN_PLUS_GROQ_CORRECTION" : "CRNN_RAW");
+            savedTrial = trialRepository.save(savedTrial);
+
             savedTrial.setLines(savedLines);
             return MultilineTrialResponse.fromEntity(savedTrial);
+
 
         } catch (IOException e) {
             throw new ApiException("STORAGE_ERROR", "Failed to process image: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

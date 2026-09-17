@@ -276,8 +276,8 @@ export default function CropScreen() {
       );
 
       const croppedUri = ensureFileUri(result.uri);
-      const finalCropWidth = result.width || Math.round(realWidth);
-      const finalCropHeight = result.height || Math.round(realHeight);
+      const finalCropWidth = result.width || Math.round(realW);
+      const finalCropHeight = result.height || Math.round(realH);
       const cropW = finalCropWidth;
       const cropH = finalCropHeight;
       

@@ -33,6 +33,42 @@ class Settings(BaseSettings):
     ocr_model_dir: Optional[str] = None
     ocr_bridge_mode: str = "off"  # "off" | "shadow"
 
+    # Canonical runtime override (demoted from production default in GROQ.5)
+    canonical_runtime_override_enabled: bool = False
+
+    # Groq Vision Integration
+    # All keys in ONE comma-separated variable: GROQ_API_KEYS="key1,key2,key3"
+    groq_enabled: bool = False
+    groq_api_keys: str = ""  # Raw comma-separated key list — never log this
+    groq_primary_vision_model: str = "qwen/qwen3.8-27b"
+    groq_fallback_vision_model: str = "qwen/qwen3.6-27b"
+    groq_line_assist_mode: str = "suspicious_only"  # "suspicious_only" | "always" | "off"
+    groq_consensus_mode: str = "adaptive"
+    groq_accept_confidence_threshold: float = 0.80
+    groq_second_pass_confidence_threshold: float = 0.82
+    groq_timeout_seconds: float = 25.0
+    groq_connect_timeout_seconds: float = 8.0
+    groq_max_request_attempts: int = 3
+    groq_retry_base_ms: int = 400
+    groq_retry_max_ms: int = 4000
+    groq_key_cooldown_seconds: int = 60
+    groq_auth_disable_seconds: int = 1800
+    groq_rotate_on_429: bool = False
+    groq_max_long_edge: int = 2200
+    groq_jpeg_quality: int = 92
+    groq_cache_ttl_seconds: int = 300
+
+    # Groq Post-Correction (Role B)
+    groq_post_correction_enabled: bool = True
+    groq_post_correction_trigger_confidence: float = 0.82
+    groq_post_correction_auto_apply_confidence: float = 0.92
+    groq_post_correction_max_edit_ratio: float = 0.35
+    groq_ocr_correction_prompt_version: str = "groq-ocr-correction-v1"
+    groq_correction_cache_ttl_seconds: int = 3600
+    # Physical Android Trace & Observability (Development mode only; default False for production safety)
+    ocr_physical_trace_enabled: bool = False
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 settings = Settings()
+

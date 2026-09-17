@@ -1,9 +1,9 @@
-import { Platform } from 'react-native';
+
+import { resolveApiBaseUrl } from './apiResolver';
 
 export const ENV = {
-  // Use EXPO_PUBLIC_API_BASE_URL if defined, otherwise default to a LAN IP for device testing,
-  // or localhost/127.0.0.1 for web / iOS simulator.
-  // Example for LAN: 'http://192.168.1.x:8080/api/v1'
-  API_BASE_URL: process.env.EXPO_PUBLIC_API_BASE_URL || (Platform.OS === 'web' ? 'http://127.0.0.1:8080/api/v1' : 'http://10.0.2.2:8080/api/v1'),
+  // Use EXPO_PUBLIC_API_BASE_URL if defined, otherwise dynamically resolve LAN IP
+  // or use localhost/127.0.0.1 for web / iOS simulator.
+  API_BASE_URL: resolveApiBaseUrl(),
   USE_MOCK: process.env.EXPO_PUBLIC_USE_MOCK === 'true',
 };

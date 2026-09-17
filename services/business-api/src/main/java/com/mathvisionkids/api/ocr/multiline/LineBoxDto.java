@@ -1,5 +1,6 @@
 package com.mathvisionkids.api.ocr.multiline;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LineBoxDto {
     @JsonProperty("line_id")
     private String lineId;
@@ -16,4 +18,25 @@ public class LineBoxDto {
     private int width;
     private int height;
     private int order;
+    private String text;
+
+    private String rawOcrText;
+    private Double rawOcrConfidence;
+    private String correctedText;
+    private Double correctionConfidence;
+    private Boolean correctionApplied;
+    private String correctionDecision;
+    private String finalText;
+
+    public LineBoxDto(String lineId, int x, int y, int width, int height, int order, String text) {
+        this.lineId = lineId;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.order = order;
+        this.text = text;
+    }
 }
+
+

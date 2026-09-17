@@ -115,10 +115,10 @@ public class OcrMultilineServiceTest {
         MockMultipartFile file = new MockMultipartFile("image", "graph_sample.jpg", "image/jpeg", fakeImageBytes);
 
         List<LineBoxDto> mockBoxes = List.of(
-                new LineBoxDto("line_1", 10, 20, 200, 30, 1),
-                new LineBoxDto("line_2", 10, 60, 200, 30, 2),
-                new LineBoxDto("line_3", 10, 100, 200, 30, 3),
-                new LineBoxDto("line_4", 10, 140, 200, 30, 4)
+                new LineBoxDto("line_1", 10, 20, 200, 30, 1, null),
+                new LineBoxDto("line_2", 10, 60, 200, 30, 2, null),
+                new LineBoxDto("line_3", 10, 100, 200, 30, 3, null),
+                new LineBoxDto("line_4", 10, 140, 200, 30, 4, null)
         );
         MultilineDetectResponse mockAiResponse = MultilineDetectResponse.builder()
                 .width(300)

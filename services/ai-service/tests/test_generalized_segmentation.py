@@ -239,11 +239,23 @@ def test_gen_24_meaningful_ink_coverage():
 def test_gen_25_low_confidence_ambiguity_flagged():
     """GEN-25: low-confidence structural ambiguity is flagged, not silently hidden"""
     img = create_blank_bgr()
-    # Create extreme random noise that confuses the bands
     for _ in range(500):
         x = np.random.randint(0, 800)
         y = np.random.randint(0, 600)
-        cv2.circle(img, (x, y), np.random.randint(5, 20), (0,0,0), -1)
+        cv2.circle(img, (x, y), np.random.randint(2, 5), (0,0,0), -1)
     lines, diag = detect_text_lines(img)
     assert diag.get("needs_review", False) == True
 
+def test_gen_26_graph_paper_heavy_noise_triggers_fallback():
+    """GEN-26/OVER-01: verify fallback PROFILE_B is triggered when default is suspicious (over-segmentation due to graph paper)"""
+    img = create_blank_bgr()
+    for y in [100, 200, 300, 400]:
+        img = create_mock_row(img, y=y, h=40)
+    # Create horizontal line segments of length 100, spaced far from text.
+    # PROFILE_A (threshold ~200) will keep them, making separate thin strip boxes (Score Drops).
+    # PROFILE_B (threshold ~80) will remove them, keeping score at 100.
+    for y in [50, 150, 250, 350, 450, 550]:
+        cv2.line(img, (100, y), (200, y), (0,0,0), 2)
+    lines, diag = detect_text_lines(img)
+    assert diag.get("selected_profile") != "PROFILE_A", "Fallback should have been triggered"
+    assert len(lines) == 4, f"Expected 4 rows, but got {len(lines)}"

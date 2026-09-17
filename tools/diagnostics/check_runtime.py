@@ -458,18 +458,19 @@ def check_lan_diagnostics():
         mismatch_warning = (
             f"Configured API host is localhost ({configured_url}). "
             f"Physical Android devices cannot connect to 127.0.0.1 over LAN. "
-            f"Set EXPO_PUBLIC_API_BASE_URL=http://{lan_ip}:8080/api/v1 in .env.local for physical device testing."
+            f"Remove EXPO_PUBLIC_API_BASE_URL from .env.local to enable dynamic LAN IP resolution."
         )
     elif configured_host not in (lan_ip, "10.0.2.2", "NOT_CONFIGURED"):
         mismatch_warning = (
             f"LAN IP MISMATCH! Configured host '{configured_host}' in {config_source} does not match "
             f"current machine LAN IP '{lan_ip}'. Physical devices may encounter 'AxiosError: Network Error'. "
-            f"Update EXPO_PUBLIC_API_BASE_URL=http://{lan_ip}:8080/api/v1 in .env.local."
+            f"Remove EXPO_PUBLIC_API_BASE_URL from .env.local to enable dynamic LAN IP resolution."
         )
 
     # Compute overall LAN verdict
     api_match = (configured_host == lan_ip)
-    if api_match and spring_lan_reach and metro_lan_ready:
+    dynamic_resolution = (configured_host == "NOT_CONFIGURED")
+    if (api_match or dynamic_resolution) and spring_lan_reach and metro_lan_ready:
         lan_verdict = "PASS"
     elif spring_lan_reach and not metro_lan_ready and metro_local_reach:
         lan_verdict = "PARTIAL (Spring LAN OK, Metro loopback only)"

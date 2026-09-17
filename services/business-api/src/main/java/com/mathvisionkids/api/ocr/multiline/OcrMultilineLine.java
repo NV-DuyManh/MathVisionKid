@@ -76,9 +76,28 @@ public class OcrMultilineLine {
     @Column(name = "preprocessing_version")
     private String preprocessingVersion = "v1_resize_64x1024_imagenet";
 
+    @Column(name = "raw_ocr_text")
+    private String rawOcrText;
+
+    @Column(name = "raw_ocr_confidence")
+    private Double rawOcrConfidence;
+
+    @Column(name = "corrected_text")
+    private String correctedText;
+
+    @Column(name = "correction_confidence")
+    private Double correctionConfidence;
+
+    @Column(name = "correction_applied")
+    private Boolean correctionApplied;
+
+    @Column(name = "correction_decision")
+    private String correctionDecision;
+
     @Column(name = "feedback_at")
     private Instant feedbackAt;
 
     @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();
 }
+

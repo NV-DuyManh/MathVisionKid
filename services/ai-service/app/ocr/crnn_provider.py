@@ -3,13 +3,14 @@ CRNN OCR Provider for Vietnamese Handwriting.
 Consumes CRNN+CTC model checkpoint and vocabulary.
 Memory-safe micro-batching and CPU/CUDA inference.
 """
-from typing import List, Union, Optional, Dict, Any
+from typing import List, Union, Optional, Dict, Any, Tuple
 from pathlib import Path
 import os
 import json
 import logging
 import threading
 
+import numpy as np
 import torch
 from torchvision import transforms
 from PIL import Image
@@ -123,20 +124,94 @@ class CrnnOcrProvider(OcrProvider):
             "is_available": self.is_available(),
         }
 
+    def _decode_logits_with_uncertainty(self, logits: torch.Tensor) -> List[Tuple[str, Dict[str, Any]]]:
+        """
+        Greedy CTC decode with mathematically grounded sequence confidence and uncertainty features:
+        - rawCrnnConfidence: arithmetic mean of emitted non-blank character probabilities
+        - minTokenConfidence: minimum non-blank emitted token probability
+        - p10TokenConfidence: 10th percentile token probability
+        - meanTokenConfidence: same as rawCrnnConfidence
+        - blankRatio: fraction of timesteps predicted as CTC blank
+        - meanEntropy: average Shannon entropy over timesteps: - sum(p * ln(p))
+        - lowConfidenceTokenCount: count of emitted characters with probability < 0.50
+        - sequenceLength: number of decoded characters
+        """
+        probs = torch.softmax(logits, dim=-1).cpu().numpy()
+        preds = logits.argmax(2).cpu().numpy()
+        results: List[Tuple[str, Dict[str, Any]]] = []
+
+        for b in range(preds.shape[0]):
+            out = []
+            char_probs = []
+            prev = -1
+            current_char_prob = 0.0
+
+            for t, idx in enumerate(preds[b, :]):
+                token_p = float(probs[b, t, idx])
+                if idx != BLANK_IDX:
+                    if idx != prev:
+                        if prev != -1 and prev != BLANK_IDX:
+                            char_probs.append(current_char_prob)
+                        out.append(self._inv_vocab.get(int(idx), "?"))
+                        current_char_prob = token_p
+                    else:
+                        if token_p > current_char_prob:
+                            current_char_prob = token_p
+                else:
+                    if prev != -1 and prev != BLANK_IDX:
+                        char_probs.append(current_char_prob)
+                    current_char_prob = 0.0
+                prev = idx
+
+            if prev != -1 and prev != BLANK_IDX and current_char_prob > 0.0:
+                char_probs.append(current_char_prob)
+
+            text = "".join(out)
+            t_total = max(1, preds.shape[1])
+            blank_ratio = float(np.sum(preds[b, :] == BLANK_IDX) / t_total)
+
+            # Shannon entropy: - sum(p * ln(p + 1e-12))
+            entropy_per_timestep = -np.sum(probs[b] * np.log(probs[b] + 1e-12), axis=-1)
+            mean_entropy = float(np.mean(entropy_per_timestep))
+
+            if not char_probs:
+                raw_conf = 0.0
+                min_conf = 0.0
+                p10_conf = 0.0
+                low_conf_count = 0
+            else:
+                raw_conf = float(np.mean(char_probs))
+                min_conf = float(np.min(char_probs))
+                p10_conf = float(np.percentile(char_probs, 10))
+                low_conf_count = int(sum(1 for p in char_probs if p < 0.50))
+
+            uncertainty_data = {
+                "rawCrnnConfidence": round(raw_conf, 4),
+                "minTokenConfidence": round(min_conf, 4),
+                "p10TokenConfidence": round(p10_conf, 4),
+                "meanTokenConfidence": round(raw_conf, 4),
+                "blankRatio": round(blank_ratio, 4),
+                "meanEntropy": round(mean_entropy, 4),
+                "lowConfidenceTokenCount": low_conf_count,
+                "sequenceLength": len(text),
+            }
+            results.append((text, uncertainty_data))
+
+        return results
+
+    def _decode_logits_with_confidence(self, logits: torch.Tensor) -> List[Tuple[str, float]]:
+        """
+        Greedy CTC decode with sequence confidence.
+        """
+        uncertainty_results = self._decode_logits_with_uncertainty(logits)
+        return [(text, u["rawCrnnConfidence"]) for text, u in uncertainty_results]
+
     def _decode_logits(self, logits: torch.Tensor) -> List[str]:
         """Greedy CTC decode [B, T, C]."""
-        preds = logits.argmax(2).cpu().numpy()
-        texts: List[str] = []
-        for b in range(preds.shape[0]):
-            out, prev = [], -1
-            for idx in preds[b, :]:
-                if idx != BLANK_IDX and idx != prev:
-                    out.append(self._inv_vocab.get(int(idx), "?"))
-                prev = idx
-            texts.append("".join(out))
-        return texts
+        decoded = self._decode_logits_with_confidence(logits)
+        return [text for text, _ in decoded]
 
-    def _prepare_image(self, image: Union[str, Path, Image.Image]) -> Image.Image:
+    def _prepare_image(self, image: Union[str, Path, Image.Image, np.ndarray]) -> Image.Image:
         if isinstance(image, (str, Path)):
             p = Path(image)
             if not p.is_file():
@@ -144,19 +219,51 @@ class CrnnOcrProvider(OcrProvider):
             return Image.open(str(p)).convert("RGB")
         elif isinstance(image, Image.Image):
             return image.convert("RGB")
+        elif isinstance(image, np.ndarray):
+            if len(image.shape) == 2:
+                return Image.fromarray(image).convert("RGB")
+            elif len(image.shape) == 3:
+                if image.shape[2] == 3:
+                    import cv2
+                    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                    return Image.fromarray(rgb).convert("RGB")
+                return Image.fromarray(image).convert("RGB")
+            else:
+                return Image.fromarray(image).convert("RGB")
         else:
-            raise TypeError(f"Expected str, Path or PIL.Image.Image, got {type(image)}")
+            raise TypeError(f"Expected str, Path, np.ndarray or PIL.Image.Image, got {type(image)}")
+
 
     @torch.no_grad()
     def recognize_line(self, image: Union[str, Path, Image.Image]) -> str:
         """
         Recognize text in a single line image crop.
         """
+        return self.recognize_line_with_confidence(image)[0]
+
+    @torch.no_grad()
+    def recognize_line_with_confidence(self, image: Union[str, Path, Image.Image, np.ndarray]) -> Tuple[str, float]:
+        """
+        Recognize text in a single line image crop with sequence confidence.
+        """
         self._ensure_loaded()
         pil_img = self._prepare_image(image)
         x = _TRANSFORM(pil_img).unsqueeze(0).to(self.device)
         logits = self._model(x)
-        res = self._decode_logits(logits)[0]
+        res = self._decode_logits_with_confidence(logits)[0]
+        del x, logits
+        return res
+
+    @torch.no_grad()
+    def recognize_line_with_uncertainty(self, image: Union[str, Path, Image.Image, np.ndarray]) -> Tuple[str, Dict[str, Any]]:
+        """
+        Recognize text in a single line image crop with detailed uncertainty metrics.
+        """
+        self._ensure_loaded()
+        pil_img = self._prepare_image(image)
+        x = _TRANSFORM(pil_img).unsqueeze(0).to(self.device)
+        logits = self._model(x)
+        res = self._decode_logits_with_uncertainty(logits)[0]
         del x, logits
         return res
 
@@ -169,6 +276,17 @@ class CrnnOcrProvider(OcrProvider):
         """
         Recognize text in a batch of line image crops using memory-safe micro-batching.
         """
+        return [text for text, _ in self.recognize_batch_with_confidence(images, batch_size=batch_size)]
+
+    @torch.no_grad()
+    def recognize_batch_with_confidence(
+        self,
+        images: List[Union[str, Path, Image.Image]],
+        batch_size: int = 4,
+    ) -> List[Tuple[str, float]]:
+        """
+        Recognize text in a batch of line image crops with sequence confidence.
+        """
         self._ensure_loaded()
         if not images:
             return []
@@ -176,7 +294,7 @@ class CrnnOcrProvider(OcrProvider):
         if batch_size < 1:
             raise ValueError(f"batch_size must be >= 1, got {batch_size}")
 
-        results: List[str] = []
+        results: List[Tuple[str, float]] = []
         total = len(images)
 
         for start_idx in range(0, total, batch_size):
@@ -188,11 +306,12 @@ class CrnnOcrProvider(OcrProvider):
 
             chunk_x = torch.stack(tensors, dim=0).to(self.device)
             chunk_logits = self._model(chunk_x)
-            chunk_texts = self._decode_logits(chunk_logits)
-            results.extend(chunk_texts)
+            chunk_results = self._decode_logits_with_confidence(chunk_logits)
+            results.extend(chunk_results)
 
             # Release tensor references immediately
             del chunk_x
             del chunk_logits
 
         return results
+

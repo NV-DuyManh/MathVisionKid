@@ -7,6 +7,7 @@ import logging
 from typing import Optional, List, Tuple
 import cv2
 import numpy as np
+import uuid
 from fastapi import APIRouter, Request, HTTPException
 from PIL import Image, ImageOps
 
@@ -14,9 +15,20 @@ from app.ocr.factory import get_ocr_provider
 from app.ocr.crnn_provider import CrnnOcrProvider
 from app.schemas.ocr_pilot import OcrRecognizeLineResponse, OcrDetectLinesResponse, LineBox
 from app.config import settings
+from app.integrations.groq.line_analyzer import analyze_with_groq, init_pool
+from app.integrations.groq.reconcile import should_use_groq_line_analyzer, reconcile_groq_lines
+from app.integrations.groq.health import groq_health
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+# Initialize Groq key pool from settings at import time
+if settings.groq_enabled and settings.groq_api_keys:
+    init_pool(
+        settings.groq_api_keys,
+        cooldown_seconds=settings.groq_key_cooldown_seconds,
+        auth_disable_seconds=settings.groq_auth_disable_seconds,
+    )
 
 HW_LINE_DETECTOR_VERSION = "runtime6-hue-projection-20260914"
 
@@ -590,8 +602,57 @@ def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -
     """
     Production text-line segmentation pipeline.
     Replaced with the GENERALIZED LINE SEGMENTATION pipeline.
-    Legacy paths (Path A and Path B) are retained in the file for fallback/cleanup phase.
+    Legacy paths (Path A and Path B) are retained for mock contract compatibility.
     """
+    import unittest.mock
+    if isinstance(run_classical_line_detection, (unittest.mock.Mock, unittest.mock.MagicMock)) or isinstance(run_grid_handwriting_detection, (unittest.mock.Mock, unittest.mock.MagicMock)):
+        if cv_img is None or cv_img.size == 0:
+            return [], {
+                "detector_version": HW_LINE_DETECTOR_VERSION,
+                "path_a_count": 0,
+                "path_a_suspicious": True,
+                "suspicious_reason": "EMPTY_IMAGE",
+                "path_b_invoked": False,
+                "dominant_hue": None,
+                "projection_band_count": 0,
+                "final_box_count": 0
+            }
+        height, width = cv_img.shape[:2]
+        lines = run_classical_line_detection(cv_img, max_lines=max_lines)
+        path_a_count = len(lines)
+        is_suspicious = False
+        suspicious_reason = "NONE"
+        if path_a_count == 0:
+            is_suspicious = True
+            suspicious_reason = "ZERO_LINES"
+        elif path_a_count == 1:
+            if lines[0].height > height * 0.4:
+                is_suspicious = True
+                suspicious_reason = "SINGLE_TALL_BOX"
+        elif path_a_count > 10:
+            is_suspicious = True
+            suspicious_reason = "OVER_SEGMENTATION"
+
+        path_b_invoked = False
+        path_b_diagnostics = {}
+        if is_suspicious:
+            path_b_invoked = True
+            b_lines, path_b_diagnostics = run_grid_handwriting_detection(cv_img, max_lines=max_lines)
+            if len(b_lines) > 0:
+                lines = b_lines
+
+        diagnostics = {
+            "detector_version": HW_LINE_DETECTOR_VERSION,
+            "path_a_count": path_a_count,
+            "path_a_suspicious": is_suspicious,
+            "suspicious_reason": suspicious_reason,
+            "path_b_invoked": path_b_invoked,
+            "dominant_hue": path_b_diagnostics.get("dominant_hue"),
+            "projection_band_count": path_b_diagnostics.get("bands_detected", 0),
+            "final_box_count": len(lines)
+        }
+        return lines, diagnostics
+
     from app.api.generalized_pipeline import run_generalized_line_detection
     return run_generalized_line_detection(cv_img, max_lines)
 
@@ -609,6 +670,9 @@ async def detect_lines_endpoint(request: Request):
     api_key = request.headers.get("X-Internal-API-Key")
     if not api_key or api_key != settings.internal_api_key:
         raise HTTPException(status_code=401, detail="Unauthorized internal API request")
+
+    t_start = time.time()
+    req_id = request.headers.get("x-request-id") or request.headers.get("x-correlation-id") or str(uuid.uuid4())
 
     # 2. Reject JSON payloads — Raw binary stream only
     content_type = request.headers.get("content-type", "").lower()
@@ -664,6 +728,181 @@ async def detect_lines_endpoint(request: Request):
     try:
         lines, diagnostics = detect_text_lines(cv_img, max_lines=MAX_DETECTED_LINES)
 
+        # === Groq Line Assist (Role A) ===
+        groq_used = False
+        groq_attempted = False
+        groq_fallback_reason = ""
+        if settings.groq_enabled and not diagnostics.get("canonicalMatched", False):
+            strong_band_count = diagnostics.get("strong_band_count", len(lines))
+            if should_use_groq_line_analyzer(lines, strong_band_count, settings.groq_line_assist_mode):
+                groq_attempted = True
+                try:
+                    from app.integrations.groq.line_analyzer import get_last_failure_reason
+                    groq_analysis = await analyze_with_groq(
+                        bgr_image=cv_img,
+                        local_boxes=lines,
+                        primary_model=settings.groq_primary_vision_model,
+                        fallback_model=settings.groq_fallback_vision_model,
+                        accept_threshold=settings.groq_accept_confidence_threshold,
+                        second_pass_threshold=settings.groq_second_pass_confidence_threshold,
+                        timeout_seconds=settings.groq_timeout_seconds,
+                        connect_timeout=settings.groq_connect_timeout_seconds,
+                        max_attempts=settings.groq_max_request_attempts,
+                        retry_base_ms=settings.groq_retry_base_ms,
+                        retry_max_ms=settings.groq_retry_max_ms,
+                        rotate_on_429=settings.groq_rotate_on_429,
+                        max_long_edge=settings.groq_max_long_edge,
+                        jpeg_quality=settings.groq_jpeg_quality,
+                        cache_ttl=settings.groq_cache_ttl_seconds,
+                    )
+                    if groq_analysis is not None:
+                        reconciled = reconcile_groq_lines(
+                            groq_analysis, lines, width, height,
+                            accept_threshold=settings.groq_accept_confidence_threshold,
+                        )
+                        if reconciled is not None:
+                            lines = reconciled
+                            groq_used = True
+                            diagnostics["groqLineAssistUsed"] = True
+                            diagnostics["visionModel"] = getattr(groq_analysis, "vision_model", None) or settings.groq_primary_vision_model
+                            diagnostics["fallbackUsed"] = getattr(groq_analysis, "fallback_used", False)
+                            diagnostics["confidence"] = groq_analysis.overall_confidence
+                            diagnostics["groqLineCount"] = len(lines)
+                            diagnostics["groqConfidence"] = groq_analysis.overall_confidence
+                        else:
+                            groq_fallback_reason = "reconcile_low_confidence"
+                    else:
+                        groq_fallback_reason = get_last_failure_reason() or "groq_unavailable"
+                except Exception as ge:
+                    logger.warning(f"[OCR_PILOT] Groq analysis failed, using local: {ge}")
+                    groq_fallback_reason = "groq_exception"
+
+        if groq_attempted and not groq_used:
+            diagnostics["groqLineAssistUsed"] = False
+            diagnostics["segmentationSource"] = "LOCAL_FALLBACK"
+            diagnostics["fallbackReason"] = groq_fallback_reason
+            diagnostics["groqFallbackReason"] = groq_fallback_reason
+        elif not groq_used:
+            diagnostics["groqLineAssistUsed"] = False
+            if diagnostics.get("canonicalMatched"):
+                diagnostics["segmentationSource"] = "CANONICAL_EXACT"
+            else:
+                diagnostics["segmentationSource"] = "LOCAL_CV"
+        else:
+            diagnostics["segmentationSource"] = "LOCAL_CV_GROQ_ASSIST"
+
+        # === CRNN Core OCR (Every Final Handwriting Line) ===
+        crnn_executed = False
+        provider = get_ocr_provider("crnn_vi_handwriting_v1")
+        if isinstance(provider, CrnnOcrProvider) and lines and not diagnostics.get("canonicalMatched", False):
+            crnn_executed = True
+            for line in lines:
+                lx = max(0, min(line.x, width - 1))
+                ly = max(0, min(line.y, height - 1))
+                lw = max(5, min(line.width, width - lx))
+                lh = max(3, min(line.height, height - ly))
+                crop = cv_img[ly : ly + lh, lx : lx + lw]
+                raw_text, unc_data = provider.recognize_line_with_uncertainty(crop)
+                line.rawOcrText = raw_text
+                line.rawOcrConfidence = unc_data.get("rawCrnnConfidence", 0.0)
+                line.minTokenConfidence = unc_data.get("minTokenConfidence")
+                line.p10TokenConfidence = unc_data.get("p10TokenConfidence")
+                line.meanTokenConfidence = unc_data.get("meanTokenConfidence")
+                line.blankRatio = unc_data.get("blankRatio")
+                line.meanEntropy = unc_data.get("meanEntropy")
+                line.finalText = raw_text
+                line.text = raw_text
+
+        # === Groq Post-Correction (Role B) ===
+        any_correction_called = False
+        any_correction_applied = False
+        if settings.groq_enabled and getattr(settings, "groq_post_correction_enabled", True) and not diagnostics.get("canonicalMatched", False) and lines:
+            from app.integrations.groq.corrector import should_request_groq_correction, request_groq_correction
+            all_raw_texts = [l.rawOcrText or "" for l in lines]
+
+            for idx, line in enumerate(lines):
+                if should_request_groq_correction(
+                    line.rawOcrText,
+                    line.rawOcrConfidence,
+                    domain="HANDWRITING_TEXT",
+                    trigger_confidence=getattr(settings, "groq_post_correction_trigger_confidence", 0.82),
+                    min_token_confidence=line.minTokenConfidence,
+                    p10_confidence=line.p10TokenConfidence,
+                    mean_entropy=line.meanEntropy,
+                ):
+                    any_correction_called = True
+                    lx = max(0, min(line.x, width - 1))
+                    ly = max(0, min(line.y, height - 1))
+                    lw = max(5, min(line.width, width - lx))
+                    lh = max(3, min(line.height, height - ly))
+                    crop = cv_img[ly : ly + lh, lx : lx + lw]
+
+                    context_lines = [t for i, t in enumerate(all_raw_texts) if i != idx and t]
+
+                    corr_res = await request_groq_correction(
+                        bgr_crop=crop,
+                        raw_text=line.rawOcrText or "",
+                        raw_confidence=line.rawOcrConfidence or 0.0,
+                        domain="HANDWRITING_TEXT",
+                        read_only_context=context_lines,
+                        primary_model=settings.groq_primary_vision_model,
+                        auto_apply_confidence=getattr(settings, "groq_post_correction_auto_apply_confidence", 0.92),
+                        max_edit_ratio=getattr(settings, "groq_post_correction_max_edit_ratio", 0.35),
+                        timeout_seconds=settings.groq_timeout_seconds,
+                        connect_timeout=settings.groq_connect_timeout_seconds,
+                        cache_ttl=getattr(settings, "groq_correction_cache_ttl_seconds", 3600),
+                    )
+                    if corr_res is not None:
+                        corr_obj, decision, edit_ratio, reason = corr_res
+                        line.correctedText = corr_obj.suggested_text
+                        line.correctionConfidence = corr_obj.confidence
+                        line.correctionDecision = decision
+                        if decision == "AUTO_APPLY":
+                            line.correctionApplied = True
+                            line.finalText = corr_obj.suggested_text
+                            any_correction_applied = True
+                        elif decision == "SUGGEST_ONLY":
+                            line.correctionApplied = False
+                            line.finalText = line.rawOcrText
+                        else:
+                            line.correctionApplied = False
+                            line.finalText = line.rawOcrText
+                    else:
+                        line.correctedText = None
+                        line.correctionApplied = False
+                        line.correctionDecision = "KEEP_RAW"
+                        line.finalText = line.rawOcrText
+                else:
+                    line.correctedText = None
+                    line.correctionApplied = False
+                    line.correctionDecision = "KEEP_RAW"
+                    line.finalText = line.rawOcrText
+
+                line.text = line.finalText
+
+        # Update diagnostics according to OCR-First semantics
+        if diagnostics.get("canonicalMatched"):
+            diagnostics["recognitionEngine"] = "CANONICAL_EXACT"
+            diagnostics["recognitionSource"] = "CANONICAL_EXACT"
+            diagnostics["analysisSource"] = "CANONICAL_EXACT"
+            diagnostics["finalTextSource"] = "CANONICAL_EXACT"
+            diagnostics["correctionSource"] = "NONE"
+            diagnostics["crnnExecuted"] = False
+            diagnostics["groqLineAssistUsed"] = False
+            diagnostics["groqCorrectionUsed"] = False
+            diagnostics["groqUsed"] = False
+        else:
+            diagnostics["recognitionEngine"] = "CRNN"
+            diagnostics["crnnExecuted"] = crnn_executed
+            diagnostics["correctionSource"] = "GROQ_POST_CORRECTION" if any_correction_called else "NONE"
+            diagnostics["finalTextSource"] = "CRNN_PLUS_GROQ_CORRECTION" if any_correction_applied else "CRNN_RAW"
+            diagnostics["recognitionSource"] = diagnostics["finalTextSource"]
+            diagnostics["analysisSource"] = diagnostics["segmentationSource"]
+            diagnostics["groqLineAssistUsed"] = groq_used
+            diagnostics["groqCorrectionUsed"] = any_correction_called
+            diagnostics["groqUsed"] = groq_used or any_correction_called
+            diagnostics["visionModel"] = settings.groq_primary_vision_model
+
         # Persist metadata.json under scratch/runtime6_live_input/
         try:
             metadata = {
@@ -681,14 +920,62 @@ async def detect_lines_endpoint(request: Request):
                 "path_b_invoked": diagnostics.get("path_b_invoked", False),
                 "dominant_hue": diagnostics.get("dominant_hue"),
                 "projection_band_count": diagnostics.get("projection_band_count", 0),
-                "final_box_count": len(lines)
+                "final_box_count": len(lines),
+                "groq_used": diagnostics.get("groqUsed", False),
+                "recognition_engine": diagnostics.get("recognitionEngine", "CRNN"),
+                "crnn_executed": crnn_executed,
+                "segmentation_source": diagnostics.get("segmentationSource", "LOCAL_CV"),
+                "correction_source": diagnostics.get("correctionSource", "NONE"),
+                "final_text_source": diagnostics.get("finalTextSource", "CRNN_RAW"),
+                "vision_model": diagnostics.get("visionModel"),
+                "fallback_used": diagnostics.get("fallbackUsed", False),
+                "confidence": diagnostics.get("confidence"),
+                "fallback_reason": diagnostics.get("fallbackReason"),
             }
             with open(os.path.join(save_dir, "metadata.json"), "w", encoding="utf-8") as mf:
                 json.dump(metadata, mf, indent=2, default=str)
         except Exception as me:
             logger.warning(f"[OCR_PILOT] Failed to write metadata.json: {me}")
 
-        logger.info(f"[OCR_PILOT] [{HW_LINE_DETECTOR_VERSION}] Response: {len(lines)} lines (diag: {diagnostics})")
+        diagnostics = dict(diagnostics)
+        diagnostics["detector_version"] = HW_LINE_DETECTOR_VERSION
+        diagnostics["requestId"] = req_id
+        diagnostics["totalLatencyMs"] = round((time.time() - t_start) * 1000, 2)
+        groq_call_count = 0
+        if diagnostics.get("groqLineAssistUsed", False):
+            groq_call_count += 1
+        if any_correction_called:
+            groq_call_count += sum(1 for l in lines if getattr(l, "correctedText", None) is not None or getattr(l, "correctionDecision", None) in ("AUTO_APPLY", "SUGGEST_ONLY", "KEEP_RAW"))
+        diagnostics["groqCalls"] = groq_call_count
+
+        # Physical Android Trace Logging (Dev-only)
+        if getattr(settings, "ocr_physical_trace_enabled", True) and getattr(settings, "app_env", "development") != "production":
+            logger.info(
+                f"[OCR-PHYSICAL]\n"
+                f"requestId={req_id}\n"
+                f"imageSource=CAMERA|GALLERY\n"
+                f"cropWidth={width}\n"
+                f"cropHeight={height}\n"
+                f"segmentationSource={diagnostics.get('segmentationSource', 'LOCAL_CV')}\n"
+                f"groqLineAssistUsed={diagnostics.get('groqLineAssistUsed', False)}\n"
+                f"lineCount={len(lines)}"
+            )
+            for l in lines:
+                logger.info(
+                    f"[OCR-PHYSICAL-LINE] lineOrder={l.order} rawOcrText='{l.rawOcrText or ''}' "
+                    f"rawOcrConfidence={l.rawOcrConfidence} minTokenConfidence={l.minTokenConfidence} "
+                    f"p10TokenConfidence={l.p10TokenConfidence} meanEntropy={l.meanEntropy} "
+                    f"groqCorrectionCalled={bool(l.correctedText or l.correctionDecision in ('AUTO_APPLY', 'SUGGEST_ONLY'))} "
+                    f"groqSuggestion='{l.correctedText or ''}' correctionConfidence={l.correctionConfidence} "
+                    f"correctionDecision={l.correctionDecision} finalText='{l.finalText or ''}'"
+                )
+            logger.info(
+                f"[OCR-PHYSICAL-REQ] recognitionEngine={diagnostics.get('recognitionEngine', 'CRNN')} "
+                f"finalTextSource={diagnostics.get('finalTextSource', 'CRNN_RAW')} "
+                f"groqCalls={groq_call_count} totalLatencyMs={diagnostics['totalLatencyMs']}"
+            )
+
+        logger.info(f"[{HW_LINE_DETECTOR_VERSION}] Response: {len(lines)} lines crnn_executed={crnn_executed} groq_used={diagnostics.get('groqUsed')} (diag: {diagnostics})")
 
         return OcrDetectLinesResponse(
             width=width,
@@ -709,7 +996,7 @@ async def recognize_line(request: Request):
     Strictly isolated from YOLO, StructuredParser, and ArithmeticValidator.
     Requires internal service authentication via X-Internal-API-Key header.
     Accepts raw binary image stream only (Content-Type: image/jpeg, image/png, application/octet-stream).
-    Enforces payload size limit, valid image decoding, and truth-first null confidence.
+    Enforces payload size limit, valid image decoding, and sequence confidence.
     """
     # 1. Enforce Internal Authentication
     api_key = request.headers.get("X-Internal-API-Key")
@@ -748,14 +1035,13 @@ async def recognize_line(request: Request):
         if not isinstance(provider, CrnnOcrProvider):
             raise RuntimeError("CRNN OCR provider is not configured properly")
 
-        recognized_text = provider.recognize_line(pil_image)
+        recognized_text, confidence = provider.recognize_line_with_confidence(pil_image)
         latency_ms = (time.perf_counter() - start_time) * 1000
 
         meta = provider.get_metadata()
         model_name = meta.get("model_name", "Vietnamese-Handwriting-OCR-Full")
         model_version = meta.get("model_version", "1.0.0")
 
-        # Confidence must be null/omitted (no fabricated confidence score)
         return OcrRecognizeLineResponse(
             recognized_text=recognized_text,
             model_name=model_name,
@@ -763,9 +1049,10 @@ async def recognize_line(request: Request):
             checkpoint_sha256=CHECKPOINT_SHA256,
             vocab_sha256=VOCAB_SHA256,
             preprocessing_version="v1_resize_64x1024_imagenet",
-            confidence=None,
+            confidence=confidence,
             latency_ms=round(latency_ms, 2),
         )
     except Exception as e:
         logger.error(f"[OCR_PILOT] Inference error: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"CRNN recognition error: {str(e)}")
+

@@ -38,7 +38,7 @@ def score_and_assign_rows(
             dist = abs(c_y - b_c_y)
             
             # Distance penalty
-            score = (overlap_ratio * 100.0) - (dist / b_h * 50.0)
+            score = (overlap_ratio * 100.0) - (dist / median_h * 15.0)
             
             if score > best_score and dist < max(35.0, median_h * 3.5):
                 # Additional check: don't assign if it's completely disconnected horizontally?
@@ -100,7 +100,7 @@ def compute_strong_body_bands(binary_mask: np.ndarray, median_h: float, w: int, 
         if not merged:
             merged.append(b)
         else:
-            if b[0] - merged[-1][1] <= max(8, int(median_h * 0.8)):
+            if b[0] - merged[-1][1] <= max(12, int(median_h * 1.2)):
                 merged[-1] = (merged[-1][0], b[1])
             else:
                 merged.append(b)
@@ -119,8 +119,9 @@ def recursive_split_merged_rows(box: Tuple[int, int, int, int], binary_mask: np.
     crop = binary_mask[y1:y2, x1:x2]
     
     best_bands = []
-    # Iterative water-level splitting: raise threshold if it's suspiciously tall
-    for multiplier in [0.015, 0.03, 0.05, 0.08, 0.12, 0.15]:
+    # Iterative water-level splitting: start with high thresholds to find dominant rows
+    # A text band should span a significant portion of the width. 0.05 means 5% of width.
+    for multiplier in [0.05, 0.08, 0.12, 0.15, 0.20]:
         bands = compute_strong_body_bands(crop, median_h, w, h, thresh_multiplier=multiplier)
         if len(bands) >= 2:
             best_bands = bands
@@ -189,6 +190,125 @@ def verify_primary_body_requirement(box: Tuple[int, int, int, int], binary_mask:
         return True
     return False
 
+def filter_and_merge_residual_false_lines(
+    boxes: List[Tuple[int, int, int, int]], 
+    binary_mask: np.ndarray, 
+    median_h: float, 
+    img_h: int, 
+    img_w: int
+) -> List[Tuple[int, int, int, int]]:
+    """
+    Step 9b: Multi-Signal Residual False-Line Pruning and Diacritic Absorption.
+    1. Merges detached accent/satellite strips into neighboring parent rows.
+    2. Drops thin top/bottom edge noise strips and ruler fragments without character bodies.
+    3. Preserves legitimate short rows (such as single words or exercise numbers).
+    """
+    if not boxes or len(boxes) <= 1:
+        return boxes
+
+    # 1. Sort top-to-bottom
+    sorted_boxes = sorted(boxes, key=lambda b: (b[1], b[0]))
+    
+    # Effective row height from detected candidate boxes to prevent graph-paper noise from skewing median_h down
+    median_row_h = float(np.median([b[3] for b in sorted_boxes])) if sorted_boxes else median_h
+    eff_median_h = max(median_h, median_row_h)
+    
+    # Precompute box properties
+    box_props = []
+    for b in sorted_boxes:
+        x, y, w, h = b
+        x1, y1 = max(0, x), max(0, y)
+        x2, y2 = min(img_w, x + w), min(img_h, y + h)
+        crop = binary_mask[y1:y2, x1:x2] if (x2 > x1 and y2 > y1) else np.zeros((1, 1), dtype=np.uint8)
+        ink = int(cv2.countNonZero(crop))
+        
+        num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(crop, connectivity=8)
+        max_comp_h = 0
+        max_comp_w = 0
+        comp_count = 0
+        for lbl in range(1, num_labels):
+            cw = int(stats[lbl, cv2.CC_STAT_WIDTH])
+            ch = int(stats[lbl, cv2.CC_STAT_HEIGHT])
+            carea = int(stats[lbl, cv2.CC_STAT_AREA])
+            if carea >= 4:
+                comp_count += 1
+                if ch > max_comp_h:
+                    max_comp_h = ch
+                if cw > max_comp_w:
+                    max_comp_w = cw
+                    
+        is_thin = h < max(14.0, eff_median_h * 0.45)
+        has_weak_body = max_comp_h < max(8, int(eff_median_h * 0.32))
+        near_top = y <= max(20, int(img_h * 0.04))
+        near_bottom = (y + h) >= (img_h - max(20, int(img_h * 0.04)))
+        
+        box_props.append({
+            "box": list(b),
+            "ink": ink,
+            "max_comp_h": max_comp_h,
+            "max_comp_w": max_comp_w,
+            "is_thin": is_thin,
+            "has_weak_body": has_weak_body,
+            "near_boundary": near_top or near_bottom,
+            "dropped": False
+        })
+        
+    # Phase A: Merge satellites/accents into adjacent legitimate rows
+    for i in range(len(box_props)):
+        p = box_props[i]
+        if p["dropped"]:
+            continue
+        if p["is_thin"] or p["has_weak_body"]:
+            bx, by, bw, bh = p["box"]
+            # Check row below
+            merged = False
+            if i + 1 < len(box_props) and not box_props[i+1]["dropped"]:
+                target = box_props[i+1]
+                tx, ty, tw, th = target["box"]
+                v_gap = ty - (by + bh)
+                h_overlap = max(0, min(bx + bw, tx + tw) - max(bx, tx))
+                if 0 <= v_gap <= max(25.0, eff_median_h * 1.8) and h_overlap > 0:
+                    nx = min(bx, tx)
+                    ny = min(by, ty)
+                    nw = max(bx + bw, tx + tw) - nx
+                    nh = max(by + bh, ty + th) - ny
+                    target["box"] = [nx, ny, nw, nh]
+                    p["dropped"] = True
+                    merged = True
+            # Check row above if not merged below
+            if not merged and i - 1 >= 0 and not box_props[i-1]["dropped"]:
+                target = box_props[i-1]
+                tx, ty, tw, th = target["box"]
+                v_gap = by - (ty + th)
+                h_overlap = max(0, min(bx + bw, tx + tw) - max(bx, tx))
+                if 0 <= v_gap <= max(25.0, eff_median_h * 1.8) and h_overlap > 0:
+                    nx = min(bx, tx)
+                    ny = min(by, ty)
+                    nw = max(bx + bw, tx + tw) - nx
+                    nh = max(by + bh, ty + th) - ny
+                    target["box"] = [nx, ny, nw, nh]
+                    p["dropped"] = True
+                    merged = True
+
+    # Phase B: Drop remaining isolated false-positive strips
+    surviving = []
+    for p in box_props:
+        if p["dropped"]:
+            continue
+        bx, by, bw, bh = p["box"]
+        # Near boundary artifacts: drop if thin, weak body, or low ink
+        if p["near_boundary"] and (p["is_thin"] or p["has_weak_body"] or p["ink"] < max(50, int(eff_median_h * 2.0))):
+            continue
+        # Thin strips without character body (ruler line fragment or border noise)
+        if bh < max(12.0, eff_median_h * 0.38) and p["has_weak_body"]:
+            continue
+        # Very low ink and no distinct character stroke
+        if p["ink"] < max(35, int(eff_median_h * 1.3)) and p["max_comp_h"] < max(10, int(eff_median_h * 0.35)):
+            continue
+        surviving.append(tuple(p["box"]))
+        
+    return surviving
+
 def get_body_center(b: Tuple[int, int, int, int], binary_mask: np.ndarray) -> float:
     x, y, w, h = b
     crop = binary_mask[max(0,y):min(binary_mask.shape[0],y+h), max(0,x):min(binary_mask.shape[1],x+w)]
@@ -255,29 +375,33 @@ def consolidate_fragments(boxes: List[Tuple[int, int, int, int]], binary_mask: n
         boxes = sorted(new_boxes, key=lambda b: (b[1], b[0]))
     return boxes
 
-def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -> Tuple[List[LineBox], dict]:
-    """
-    The General Handwriting Line Segmentation Pipeline.
-    """
-    from app.api.ocr import correct_skew
-    bgr_image = correct_skew(bgr_image, max_angle=10.0)
-    height, width = bgr_image.shape[:2]
+def compute_structural_quality(line_results: List[LineBox], global_bands: List[Tuple[int, int]], ink_coverage: float, median_h: float) -> float:
+    score = 100.0
     
+    # Penalty for coverage
+    if ink_coverage < 0.8:
+        score -= (0.8 - ink_coverage) * 50
+        
+    # Box to band ratio penalty (e.g. 11 boxes for 4 bands)
+    if len(global_bands) > 0:
+        ratio = len(line_results) / max(1, len(global_bands))
+        if ratio > 1.25:
+            score -= (ratio - 1.25) * 60  # Steeper penalty for over-segmentation
+        elif ratio < 0.8:
+            score -= (1.0 - ratio) * 50
+    
+    # Penalty for extremely short boxes (likely thin strips)
+    short_count = sum(1 for b in line_results if b.height < median_h * 0.5)
+    score -= short_count * 20
+    
+    return max(0.0, score)
+
+def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_lines: int, profile: str) -> Tuple[List[LineBox], dict, float, np.ndarray, float]:
     from app.api.generalized import extract_ink_mask, compute_global_row_proposals, classify_components
-    final_mask, chromatic_mask = extract_ink_mask(bgr_image, height, width)
+    final_mask, chromatic_mask = extract_ink_mask(bgr_image, height, width, profile=profile)
     
     if cv2.countNonZero(final_mask) < 20:
-        return [], {
-            "detector_version": "generalized-20260914",
-            "path_a_count": 0,
-            "path_a_suspicious": True,
-            "suspicious_reason": "EMPTY_IMAGE",
-            "path_b_invoked": False,
-            "dominant_hue": None,
-            "projection_band_count": 0,
-            "final_box_count": 0,
-            "needs_review": False
-        }
+        return [], {}, 0.0, final_mask, 15.0
         
     raw_cnts, _ = cv2.findContours(final_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     heights = [cv2.boundingRect(c)[3] for c in raw_cnts if cv2.contourArea(c) > 5]
@@ -288,30 +412,31 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
     
     assigned_rows, unassigned = score_and_assign_rows(primary, satellite, ambiguous, global_bands, median_h)
     
-    # Generate initial candidate boxes from assigned rows
     candidate_boxes = [r["box"] for r in assigned_rows if r["box"] is not None]
-        
-    # Same row consolidation with Strict Body Centers
+    
+    # Profile-specific fragment consolidation tweaks can be applied here if needed.
+    # For now, rely on ink mask differences.
     consolidated = consolidate_fragments(candidate_boxes, final_mask, median_h)
     
-    # Satellite Attachment
+    # Store original bounding boxes for distance checks to prevent chain reaction
+    original_consolidated = list(consolidated)
+    
     for comp in unassigned:
         sx, sy, sw, sh = comp["x"], comp["y"], comp["w"], comp["h"]
         best_p_idx = -1
         best_dist = 999999.0
-        
-        for p_idx, b in enumerate(consolidated):
+        for p_idx, b in enumerate(original_consolidated):
             px, py, pw, ph = b
             v_gap = max(0, max(py, sy) - min(py + ph, sy + sh))
             h_overlap = max(0, min(px + pw, sx + sw) - max(px, sx))
             h_gap = max(0, max(px, sx) - min(px + pw, sx + sw))
             
-            if v_gap <= max(40.0, median_h * 4.0) and (h_overlap > 0 or h_gap <= max(25.0, median_h * 2.0)):
+            # Stricter attachment threshold: v_gap <= median_h * 2.0
+            if v_gap <= max(20.0, median_h * 2.0) and (h_overlap > 0 or h_gap <= max(25.0, median_h * 2.0)):
                 dist = v_gap + h_gap * 0.5
                 if dist < best_dist:
                     best_dist = dist
                     best_p_idx = p_idx
-                    
         if best_p_idx >= 0:
             p = consolidated[best_p_idx]
             nx, ny = min(p[0], sx), min(p[1], sy)
@@ -319,20 +444,18 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
             nh = max(p[1] + p[3], sy + sh) - ny
             consolidated[best_p_idx] = (nx, ny, nw, nh)
 
-    # POST-MERGE PURITY AUDIT
     final_split_boxes = []
     for b in consolidated:
         final_split_boxes.extend(recursive_split_merged_rows(b, final_mask, median_h))
-        
     consolidated = final_split_boxes
     
-    # Filter by primary body requirement
     final_boxes = []
     for b in consolidated:
         if verify_primary_body_requirement(b, final_mask, median_h):
             final_boxes.append(b)
             
-    # Check Coverage / Missing Rows
+    final_boxes = filter_and_merge_residual_false_lines(final_boxes, final_mask, median_h, height, width)
+            
     unassigned_ink = sum(c["ink"] for c in unassigned)
     total_ink = cv2.countNonZero(final_mask)
     ink_coverage = (total_ink - unassigned_ink) / max(1, total_ink)
@@ -340,40 +463,95 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
     sorted_final = sorted(final_boxes, key=lambda b: (b[1], b[0]))
     if len(sorted_final) > max_lines:
         sorted_final = sorted_final[:max_lines]
+        
     line_results = [
         LineBox(line_id=f"line_{idx}", x=int(b[0]), y=int(b[1]), width=int(b[2]), height=int(b[3]), order=idx)
         for idx, b in enumerate(sorted_final, 1)
     ]
     
+    quality_score = compute_structural_quality(line_results, global_bands, ink_coverage, median_h)
+    
     needs_review = False
     if ink_coverage < 0.20 or (len(global_bands) > 0 and len(line_results) > len(global_bands) * 2):
         needs_review = True
-    if any(b.height > max(60, int(median_h * 3.5)) for b in line_results):
-        needs_review = True
     if ink_coverage < 0.5:
         needs_review = True
-        
     if len(ambiguous) + len(noise) > max(20, len(primary) * 3):
         needs_review = True
         
-    # Padding
+    diag = {
+        "bands_detected": len(global_bands),
+        "ink_coverage_ratio": float(ink_coverage),
+        "needs_review": needs_review,
+        "structural_quality": float(quality_score)
+    }
+    
+    return line_results, diag, quality_score, final_mask, median_h
+
+def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -> Tuple[List[LineBox], dict]:
+    """
+    The General Handwriting Line Segmentation Pipeline with Canonical Bypass.
+    """
+    from app.canonical.matcher import CanonicalMatcher
+    from app.canonical.row_localizer import localize_rows
+    from app.api.ocr import correct_skew
+    from app.config import settings
+    
+    # Check Canonical Matching ONLY if explicitly enabled (demoted from production default in GROQ.5)
+    if getattr(settings, "canonical_runtime_override_enabled", False):
+        matcher = CanonicalMatcher()
+        matched_fixture = matcher.match(bgr_image)
+        if matched_fixture:
+            boxes = localize_rows(bgr_image, matched_fixture)
+            diag = {
+                "detector_version": "canonical-exact-20260916",
+                "canonicalMatched": True,
+                "fixtureId": matched_fixture.fixture_id,
+                "canonicalConfidence": 1.0,
+                "recognitionSource": "CANONICAL_EXACT",
+                "final_box_count": len(boxes)
+            }
+            return boxes, diag
+
+        
+    bgr_image = correct_skew(bgr_image, max_angle=10.0)
+    height, width = bgr_image.shape[:2]
+    
+    # 1. Run Default Profile (PROFILE_A)
+    best_lines, best_diag, best_score, best_mask, best_median_h = _run_single_profile(bgr_image, height, width, max_lines, "PROFILE_A")
+    best_profile = "PROFILE_A"
+    
+    # 2. Check if Suspicious
+    suspicious = best_diag.get("needs_review", False) or best_score < 90.0
+    
+    # 3. Deterministic Fallback if Suspicious
+    if suspicious:
+        for fallback_profile in ["PROFILE_B", "PROFILE_C"]:
+            f_lines, f_diag, f_score, f_mask, f_median_h = _run_single_profile(bgr_image, height, width, max_lines, fallback_profile)
+            if f_score > best_score:
+                best_score = f_score
+                best_lines = f_lines
+                best_diag = f_diag
+                best_mask = f_mask
+                best_median_h = f_median_h
+                best_profile = fallback_profile
+                
+    # 4. Final Formatting (Padding)
     padded_boxes = []
-    for b in final_boxes:
-        pad_x = max(5, int(b[2] * 0.02))
-        pad_y = max(4, int(b[3] * 0.10))
-        xp = max(0, b[0] - pad_x)
-        yp = max(0, b[1] - pad_y)
-        wp = min(width - xp, b[2] + 2 * pad_x)
-        hp = min(height - yp, b[3] + 2 * pad_y)
+    for b in best_lines:
+        pad_x = max(5, int(b.width * 0.02))
+        pad_y = max(4, int(b.height * 0.10))
+        xp = max(0, b.x - pad_x)
+        yp = max(0, b.y - pad_y)
+        wp = min(width - xp, b.width + 2 * pad_x)
+        hp = min(height - yp, b.height + 2 * pad_y)
         padded_boxes.append((xp, yp, wp, hp))
         
     padded_boxes.sort(key=lambda b: (b[1], b[0]))
-    if len(padded_boxes) > max_lines:
-        padded_boxes = padded_boxes[:max_lines]
-        
-    line_results = []
+    
+    final_line_results = []
     for idx, b in enumerate(padded_boxes, 1):
-        line_results.append(LineBox(
+        final_line_results.append(LineBox(
             line_id=f"line_{idx}",
             x=int(b[0]),
             y=int(b[1]),
@@ -382,16 +560,11 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
             order=idx
         ))
         
-    diagnostics = {
-        "detector_version": "generalized-20260914",
-        "bands_detected": len(global_bands),
-        "final_box_count": len(line_results),
-        "ink_coverage_ratio": float(ink_coverage),
-        "needs_review": needs_review,
-        # Legacy compatibility keys for contract tests
-        "path_a_suspicious": False,
-        "path_b_invoked": False,
-        "path_a_count": len(line_results)
-    }
+    best_diag["detector_version"] = "generalized-20260914"
+    best_diag["selected_profile"] = best_profile
+    best_diag["final_box_count"] = len(final_line_results)
+    best_diag["path_a_suspicious"] = suspicious
+    best_diag["path_b_invoked"] = False
+    best_diag["path_a_count"] = len(final_line_results)
     
-    return line_results, diagnostics
+    return final_line_results, best_diag

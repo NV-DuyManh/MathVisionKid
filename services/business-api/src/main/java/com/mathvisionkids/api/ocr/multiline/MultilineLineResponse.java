@@ -28,6 +28,14 @@ public class MultilineLineResponse {
     private boolean trainingEligible;
     private Instant feedbackAt;
 
+    private String rawOcrText;
+    private Double rawOcrConfidence;
+    private String correctedText;
+    private Double correctionConfidence;
+    private Boolean correctionApplied;
+    private String correctionDecision;
+    private String finalText;
+
     public static MultilineLineResponse fromEntity(OcrMultilineLine entity) {
         if (entity == null) return null;
         return MultilineLineResponse.builder()
@@ -45,6 +53,14 @@ public class MultilineLineResponse {
                 .verdict(entity.getVerdict())
                 .trainingEligible(entity.isTrainingEligible())
                 .feedbackAt(entity.getFeedbackAt())
+                .rawOcrText(entity.getRawOcrText())
+                .rawOcrConfidence(entity.getRawOcrConfidence())
+                .correctedText(entity.getCorrectedText())
+                .correctionConfidence(entity.getCorrectionConfidence())
+                .correctionApplied(entity.getCorrectionApplied())
+                .correctionDecision(entity.getCorrectionDecision())
+                .finalText(entity.getPredictedText())
                 .build();
     }
 }
+

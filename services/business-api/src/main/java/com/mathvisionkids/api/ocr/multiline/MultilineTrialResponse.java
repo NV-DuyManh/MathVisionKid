@@ -29,6 +29,14 @@ public class MultilineTrialResponse {
     private String status;
     private Instant createdAt;
     private List<MultilineLineResponse> lines;
+    private Boolean canonicalMatched;
+    private String fixtureId;
+    private String recognitionSource;
+    private String recognitionEngine;
+    private String segmentationSource;
+    private String correctionSource;
+    private String finalTextSource;
+    private String requestId;
 
     public static MultilineTrialResponse fromEntity(OcrMultilineTrial entity) {
         if (entity == null) return null;
@@ -51,6 +59,15 @@ public class MultilineTrialResponse {
                 .status(entity.getStatus())
                 .createdAt(entity.getCreatedAt())
                 .lines(lineResponses)
+                .canonicalMatched(entity.getCanonicalMatched())
+                .fixtureId(entity.getFixtureId())
+                .recognitionSource(entity.getRecognitionSource())
+                .recognitionEngine(entity.getRecognitionEngine())
+                .segmentationSource(entity.getSegmentationSource())
+                .correctionSource(entity.getCorrectionSource())
+                .finalTextSource(entity.getFinalTextSource())
+                .requestId(entity.getRequestId())
                 .build();
     }
 }
+

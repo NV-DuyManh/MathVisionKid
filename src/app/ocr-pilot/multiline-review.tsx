@@ -10,13 +10,15 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
 import { OcrPilotService, LineBox } from '../../services/api/OcrPilotService';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+
+type RequestStatus = 'IDLE' | 'SUBMITTING' | 'SUCCESS' | 'ERROR' | 'CANCELLED';
 
 export default function MultilineReviewScreen() {
   const router = useRouter();
@@ -26,16 +28,45 @@ export default function MultilineReviewScreen() {
   const imageSessionId = draft?.imageSessionId || imageUri;
 
   const [loading, setLoading] = useState(true);
-  const [processing, setProcessing] = useState(false);
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('IDLE');
   const [origWidth, setOrigWidth] = useState(draft?.width || 800);
   const [origHeight, setOrigHeight] = useState(draft?.height || 600);
   const [displayHeight, setDisplayHeight] = useState(300);
   const [boxes, setBoxes] = useState<LineBox[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isNetworkError, setIsNetworkError] = useState(false);
+  const [isCanonical, setIsCanonical] = useState(false);
 
   const displayWidth = SCREEN_WIDTH - 32;
   const detectRequestIdRef = useRef(0);
   const initialLoadDoneRef = useRef<string | null>(null);
+  const operationGenerationRef = useRef(0);
+  const activeAbortControllerRef = useRef<AbortController | null>(null);
+  const hasNavigatedRef = useRef(false);
+
+  // Invalidate any in-flight request and ensure clean state on blur / focus
+  useFocusEffect(
+    useCallback(() => {
+      // On screen focus: ensure fresh IDLE state
+      setRequestStatus('IDLE');
+      hasNavigatedRef.current = false;
+      return () => {
+        // On screen blur or navigation away: cancel in-flight request and bump generation
+        operationGenerationRef.current += 1;
+        activeAbortControllerRef.current?.abort();
+        activeAbortControllerRef.current = null;
+        setRequestStatus('IDLE');
+      };
+    }, [])
+  );
+
+  const handleBack = () => {
+    operationGenerationRef.current += 1;
+    activeAbortControllerRef.current?.abort();
+    activeAbortControllerRef.current = null;
+    setRequestStatus('IDLE');
+    router.back();
+  };
 
   useEffect(() => {
     console.log('[MULTILINE_PAGE_SOURCE] MULTILINE_PAGE_SOURCE=POST_CROP_ACTIVE_URI', {
@@ -57,6 +88,7 @@ export default function MultilineReviewScreen() {
     });
     try {
       setLoading(true);
+      setIsNetworkError(false);
       const res = await OcrPilotService.detectLines(uri, true);
 
       // Stale response guard: ignore if a newer request was dispatched
@@ -92,8 +124,10 @@ export default function MultilineReviewScreen() {
 
       if (incomingLines.length > 0) {
         setSelectedId(incomingLines[0].line_id);
+        setIsCanonical(!!res.diagnostics?.canonicalMatched);
       } else if (force) {
         setSelectedId(null);
+        setIsCanonical(false);
       }
     } catch (err: any) {
       if (currentReqId !== detectRequestIdRef.current) return;
@@ -104,6 +138,9 @@ export default function MultilineReviewScreen() {
         Alert.alert('Phiên đăng nhập đã hết hạn', 'Vui lòng đăng nhập lại để tiếp tục.', [
           { text: 'Đăng nhập', onPress: () => router.replace('/login') }
         ]);
+      } else if (!err?.response && (err?.message?.includes('Network Error') || err?.message?.includes('Network request failed') || err?.message?.toLowerCase().includes('failed to fetch'))) {
+        setIsNetworkError(true);
+        Alert.alert('Lỗi kết nối', 'Không thể kết nối đến máy chủ nhận diện. Vui lòng kiểm tra lại mạng.');
       } else {
         Alert.alert('Lỗi nhận diện', 'Không thể tự động phát hiện dòng chữ. Vui lòng thử lại hoặc thêm thủ công.');
       }
@@ -116,7 +153,7 @@ export default function MultilineReviewScreen() {
         setLoading(false);
       }
     }
-  }, [displayWidth]);
+  }, [displayWidth, router]);
 
   useEffect(() => {
     if (!imageUri) {
@@ -150,7 +187,7 @@ export default function MultilineReviewScreen() {
         loadAutoDetection(imageUri, true);
       }
     );
-  }, [imageUri, displayWidth, router, loadAutoDetection]);
+  }, [imageUri, displayWidth, router, loadAutoDetection, imageSessionId]);
 
   const scaleX = displayWidth / (origWidth || 1);
   const scaleY = displayHeight / (origHeight || 1);
@@ -227,13 +264,22 @@ export default function MultilineReviewScreen() {
   };
 
   const handleConfirmLines = async () => {
+    // Double-tap protection
+    if (requestStatus === 'SUBMITTING') return;
+
     if (boxes.length === 0) {
       Alert.alert('Chưa có dòng nào', 'Vui lòng thêm ít nhất 1 dòng chữ trước khi nhận diện.');
       return;
     }
 
+    const currentGen = ++operationGenerationRef.current;
+    activeAbortControllerRef.current?.abort();
+    const abortController = new AbortController();
+    activeAbortControllerRef.current = abortController;
+
+    setRequestStatus('SUBMITTING');
+
     try {
-      setProcessing(true);
       // Deterministically sort top-to-bottom
       const sorted = [...boxes].sort((a, b) => a.y - b.y);
       const renumbered = sorted.map((b, idx) => ({ ...b, order: idx + 1 }));
@@ -242,24 +288,44 @@ export default function MultilineReviewScreen() {
         imageUri,
         renumbered,
         (draft?.source as any) || 'CAMERA',
-        true   // Privacy confirmed
+        true,   // Privacy confirmed
+        abortController.signal
       );
 
-      router.push({
-        pathname: '/ocr-pilot/multiline-result' as any,
-        params: { trialId: trial.trialId },
-      });
+      // Verify this request is still the active generation (not cancelled/superseded by back/blur)
+      if (currentGen !== operationGenerationRef.current) {
+        console.log('[MULTILINE] In-flight request was superseded or cancelled; discarding result');
+        return;
+      }
+
+      setRequestStatus('SUCCESS');
+
+      if (!hasNavigatedRef.current) {
+        hasNavigatedRef.current = true;
+        router.push({
+          pathname: '/ocr-pilot/multiline-result' as any,
+          params: { trialId: trial.trialId },
+        });
+      }
     } catch (e: any) {
-      setProcessing(false);
+      if (currentGen !== operationGenerationRef.current) {
+        return; // Ignore error from superseded / cancelled request
+      }
+      setRequestStatus('ERROR');
       const status = e?.response?.status;
       if (status === 401 || status === 403) {
         console.warn('[MULTILINE] Auth expired, user should log in again.', e?.message);
         Alert.alert('Phiên đăng nhập hết hạn', 'Vui lòng đăng nhập lại để tiếp tục.', [
           { text: 'Đăng nhập', onPress: () => router.replace('/login') }
         ]);
-      } else {
+      } else if (!e?.name?.includes('Abort') && !e?.message?.includes('canceled') && !e?.message?.includes('aborted')) {
         console.error('[MULTILINE] Submit error:', e);
         Alert.alert('Lỗi nhận diện', e?.message || 'Không thể kết nối đến máy chủ nhận diện.');
+      }
+    } finally {
+      if (currentGen === operationGenerationRef.current) {
+        // Always reset to IDLE so the button never stays permanently spinning!
+        setRequestStatus('IDLE');
       }
     }
   };
@@ -277,7 +343,7 @@ export default function MultilineReviewScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={handleBack}
           style={styles.backButton}
           accessibilityRole="button"
           accessibilityLabel="Quay lại"
@@ -309,7 +375,9 @@ export default function MultilineReviewScreen() {
       </View>
 
       <Text style={styles.instruction}>
-        Đã tìm thấy {boxes.length} dòng chữ. Em có thể chạm vào từng khung để điều chỉnh vị trí hoặc xóa bớt:
+        {isCanonical 
+          ? `Đã tìm thấy ${boxes.length} dòng chữ (Dữ liệu gốc). Em có thể chạm vào từng khung để điều chỉnh vị trí hoặc xóa bớt:` 
+          : `Đã tìm thấy ${boxes.length} dòng chữ. Em có thể chạm vào từng khung để điều chỉnh vị trí hoặc xóa bớt:`}
       </Text>
 
       {/* Image Overlay Area */}
@@ -357,7 +425,33 @@ export default function MultilineReviewScreen() {
       </View>
 
       {/* Box Editing Controls or Blank State Card */}
-      {boxes.length === 0 ? (
+      {isNetworkError && boxes.length === 0 ? (
+        <View style={styles.emptyCard}>
+          <Ionicons name="wifi-outline" size={40} color="#DC2626" style={{ marginBottom: 8 }} />
+          <Text style={styles.emptyTitle}>Lỗi kết nối máy chủ</Text>
+          <Text style={styles.emptySubtitle}>
+            Không thể kết nối đến hệ thống nhận diện. Hãy đảm bảo máy chủ đang hoạt động và kết nối mạng ổn định.
+          </Text>
+          <View style={styles.emptyActions}>
+            <TouchableOpacity
+              style={[styles.emptyBtn, styles.emptyBtnOutline]}
+              onPress={() => loadAutoDetection(imageUri, true)}
+              accessibilityRole="button"
+            >
+              <Ionicons name="refresh" size={18} color={COLORS.primary} />
+              <Text style={[styles.emptyBtnText, { color: COLORS.primary }]}>Thử kết nối lại</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.emptyBtn, styles.emptyBtnOutline]}
+              onPress={() => router.back()}
+              accessibilityRole="button"
+            >
+              <Ionicons name="arrow-back" size={18} color={COLORS.textSecondary} />
+              <Text style={[styles.emptyBtnText, { color: COLORS.textSecondary }]}>Quay lại</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : boxes.length === 0 ? (
         <View style={styles.emptyCard}>
           <Ionicons name="alert-circle-outline" size={40} color={COLORS.textSecondary} style={{ marginBottom: 8 }} />
           <Text style={styles.emptyTitle}>Chưa phát hiện được dòng chữ nào.</Text>
@@ -475,13 +569,13 @@ export default function MultilineReviewScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.primaryBtn, (processing || boxes.length === 0) && { opacity: 0.5 }]}
+          style={[styles.primaryBtn, (requestStatus === 'SUBMITTING' || boxes.length === 0) && { opacity: 0.5 }]}
           onPress={handleConfirmLines}
-          disabled={processing || boxes.length === 0}
+          disabled={requestStatus === 'SUBMITTING' || boxes.length === 0}
           accessibilityRole="button"
           accessibilityLabel={`Xác nhận ${boxes.length} dòng chữ và nhận diện`}
         >
-          {processing ? (
+          {requestStatus === 'SUBMITTING' ? (
             <ActivityIndicator size="small" color="#FFFFFF" />
           ) : (
             <>

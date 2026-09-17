@@ -83,8 +83,9 @@ def test_ocr_pilot_recognize_line_raw_bytes_success():
     assert data["model_name"] == "Vietnamese-Handwriting-OCR-Full"
     assert data["latency_ms"] >= 0
     assert data["preprocessing_version"] == "v1_resize_64x1024_imagenet"
-    # Confidence must be None / null (no fake 1.0)
-    assert data.get("confidence") is None
+    # Real CRNN confidence metric (0.0 to 1.0), not None and no fake 1.0
+    assert data.get("confidence") is not None
+    assert 0.0 <= data["confidence"] <= 1.0
 
 def test_ocr_pilot_empty_image_rejected():
     response = client.post(
