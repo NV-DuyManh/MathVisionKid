@@ -92,6 +92,16 @@ export interface OcrMetrics {
   accuracyRate: number;
 }
 
+export interface AdvisorSuggestion {
+  provider: 'GROQ' | 'GEMINI' | string;
+  model?: string;
+  text: string;
+  confidence: number;
+  visualSupport?: string;
+  decision?: string;
+  status?: string;
+}
+
 export interface LineBox {
   line_id: string;
   x: number;
@@ -112,6 +122,17 @@ export interface LineBox {
   meanTokenConfidence?: number;
   blankRatio?: number;
   meanEntropy?: number;
+  groqSuggestion?: string;
+  groqConfidence?: number;
+  groqDecision?: string;
+  groqStatus?: string;
+  groqModel?: string;
+  geminiSuggestion?: string;
+  geminiConfidence?: number;
+  geminiDecision?: string;
+  geminiStatus?: string;
+  geminiModel?: string;
+  suggestions?: AdvisorSuggestion[];
 }
 
 export interface MultilineDetectResult {
@@ -136,18 +157,33 @@ export interface MultilineLineResult {
   height?: number;
   lineImageObjectKey?: string;
   lineImageSha256?: string;
+  /** Legacy effective-text alias mirroring finalText for backwards compatibility */
   predictedText: string;
   confidence?: number;
+  /** Immutable raw CRNN prediction / raw OCR output. Never mutated by post-correction or user edits. */
   rawOcrText?: string;
   rawOcrConfidence?: number;
   correctedText?: string;
   correctionConfidence?: number;
   correctionApplied?: boolean;
   correctionDecision?: string;
+  /** Current effective text for this line (CRNN raw, auto-applied, advisor choice, or manual edit) */
   finalText?: string;
   minTokenConfidence?: number;
   p10TokenConfidence?: number;
   meanTokenConfidence?: number;
+  groqSuggestion?: string;
+  groqConfidence?: number;
+  groqDecision?: string;
+  groqStatus?: string;
+  groqModel?: string;
+  geminiSuggestion?: string;
+  geminiConfidence?: number;
+  geminiDecision?: string;
+  geminiStatus?: string;
+  geminiModel?: string;
+  suggestions?: AdvisorSuggestion[];
+
   blankRatio?: number;
   meanEntropy?: number;
   verifiedTextRaw?: string;
@@ -183,6 +219,18 @@ export interface MultilineTrialResult {
 }
 
 export class OcrPilotService {
+  private static cachedTrials = new Map<string, MultilineTrialResult>();
+
+  static cacheTrial(trial: MultilineTrialResult): void {
+    if (trial && trial.trialId) {
+      this.cachedTrials.set(trial.trialId, trial);
+    }
+  }
+
+  static getCachedTrial(trialId: string): MultilineTrialResult | undefined {
+    return this.cachedTrials.get(trialId);
+  }
+
   // Helper to extract file info from a URI
   private static fileInfoFromUri(rawUri: string, fallbackName: string) {
     const cleanUri = ensureFileUri(Array.isArray(rawUri) ? rawUri[0] : rawUri);
@@ -291,7 +339,7 @@ export class OcrPilotService {
     signal?: AbortSignal
   ): Promise<MultilineTrialResult> {
     const file = this.fileInfoFromUri(uri, 'page.jpg');
-    return await postMultipart<MultilineTrialResult>(
+    const res = await postMultipart<MultilineTrialResult>(
       '/ocr/multiline/trials',
       { key: 'image', ...file },
       {
@@ -301,6 +349,10 @@ export class OcrPilotService {
       },
       signal
     );
+    if (res && res.trialId) {
+      this.cacheTrial(res);
+    }
+    return res;
   }
 
   static async getMultilineTrial(trialId: string): Promise<MultilineTrialResult> {

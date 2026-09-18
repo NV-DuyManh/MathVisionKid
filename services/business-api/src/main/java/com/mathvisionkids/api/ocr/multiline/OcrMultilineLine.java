@@ -94,6 +94,39 @@ public class OcrMultilineLine {
     @Column(name = "correction_decision")
     private String correctionDecision;
 
+    @Column(name = "groq_suggestion")
+    private String groqSuggestion;
+
+    @Column(name = "groq_confidence")
+    private Double groqConfidence;
+
+    @Column(name = "groq_decision")
+    private String groqDecision;
+
+    @Column(name = "groq_status")
+    private String groqStatus;
+
+    @Column(name = "groq_model")
+    private String groqModel;
+
+    @Column(name = "gemini_suggestion")
+    private String geminiSuggestion;
+
+    @Column(name = "gemini_confidence")
+    private Double geminiConfidence;
+
+    @Column(name = "gemini_decision")
+    private String geminiDecision;
+
+    @Column(name = "gemini_status")
+    private String geminiStatus;
+
+    @Column(name = "gemini_model")
+    private String geminiModel;
+
+    @Column(name = "suggestions_json")
+    private String suggestionsJson;
+
     @Column(name = "feedback_at")
     private Instant feedbackAt;
 

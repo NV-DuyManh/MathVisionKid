@@ -313,6 +313,24 @@ public class OcrMultilineService {
                     lineEntity.setRawOcrText(recognizedText);
                 }
 
+                lineEntity.setGroqSuggestion(box.getGroqSuggestion());
+                lineEntity.setGroqConfidence(box.getGroqConfidence());
+                lineEntity.setGroqDecision(box.getGroqDecision());
+                lineEntity.setGroqStatus(box.getGroqStatus());
+                lineEntity.setGroqModel(box.getGroqModel());
+
+                lineEntity.setGeminiSuggestion(box.getGeminiSuggestion());
+                lineEntity.setGeminiConfidence(box.getGeminiConfidence());
+                lineEntity.setGeminiDecision(box.getGeminiDecision());
+                lineEntity.setGeminiStatus(box.getGeminiStatus());
+                lineEntity.setGeminiModel(box.getGeminiModel());
+
+                if (box.getSuggestions() != null && !box.getSuggestions().isEmpty()) {
+                    try {
+                        lineEntity.setSuggestionsJson(objectMapper.writeValueAsString(box.getSuggestions()));
+                    } catch (Exception ignored) {}
+                }
+
                 savedLines.add(lineRepository.save(lineEntity));
             }
 

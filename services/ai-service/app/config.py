@@ -68,6 +68,16 @@ class Settings(BaseSettings):
     # Physical Android Trace & Observability (Development mode only; default False for production safety)
     ocr_physical_trace_enabled: bool = False
 
+    # Gemini 2nd Advisor Integration
+    gemini_enabled: bool = False
+    gemini_api_keys: str = ""  # Raw comma-separated key list — never log this
+    gemini_model: str = "gemini-2.5-flash"
+    gemini_post_correction_enabled: bool = True
+    gemini_timeout_seconds: float = 10.0
+    gemini_rotate_on_429: bool = False
+    gemini_correction_prompt_version: str = "gemini-ocr-correction-v1"
+    gemini_correction_cache_ttl_seconds: int = 3600
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 settings = Settings()

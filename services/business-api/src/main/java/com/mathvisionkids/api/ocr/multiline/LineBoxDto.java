@@ -27,6 +27,21 @@ public class LineBoxDto {
     private Boolean correctionApplied;
     private String correctionDecision;
     private String finalText;
+    private String predictedText;
+
+    private String groqSuggestion;
+    private Double groqConfidence;
+    private String groqDecision;
+    private String groqStatus;
+    private String groqModel;
+
+    private String geminiSuggestion;
+    private Double geminiConfidence;
+    private String geminiDecision;
+    private String geminiStatus;
+    private String geminiModel;
+
+    private java.util.List<java.util.Map<String, Object>> suggestions;
 
     public LineBoxDto(String lineId, int x, int y, int width, int height, int order, String text) {
         this.lineId = lineId;

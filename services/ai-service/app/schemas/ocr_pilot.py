@@ -8,8 +8,14 @@ class LineBox(BaseModel):
     width: int
     height: int
     order: int
+    # Text Semantics Contract:
+    # - rawOcrText: Immutable raw CRNN prediction / raw OCR output. Never overwritten.
+    # - finalText: Current effective text (CRNN raw, auto-applied correction, or user choice).
+    # - text: Effective text alias mirroring finalText.
+    # - predictedText: Legacy effective-text alias mirroring finalText for backwards compatibility.
     text: Optional[str] = None
     rawOcrText: Optional[str] = None
+    predictedText: Optional[str] = None
     rawOcrConfidence: Optional[float] = None
     correctedText: Optional[str] = None
     correctionConfidence: Optional[float] = None
@@ -21,6 +27,23 @@ class LineBox(BaseModel):
     meanTokenConfidence: Optional[float] = None
     blankRatio: Optional[float] = None
     meanEntropy: Optional[float] = None
+
+    # Groq Advisor 1 explicit fields (mirrored from correctedText for clarity)
+    groqSuggestion: Optional[str] = None
+    groqConfidence: Optional[float] = None
+    groqDecision: Optional[str] = None
+    groqStatus: Optional[str] = None
+    groqModel: Optional[str] = None
+
+    # Gemini Advisor 2 explicit fields
+    geminiSuggestion: Optional[str] = None
+    geminiConfidence: Optional[float] = None
+    geminiDecision: Optional[str] = None
+    geminiStatus: Optional[str] = None
+    geminiModel: Optional[str] = None
+
+    # Unified suggestions list
+    suggestions: List[dict] = Field(default_factory=list)
 
 
 class OcrDetectLinesResponse(BaseModel):

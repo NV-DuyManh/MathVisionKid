@@ -36,8 +36,33 @@ public class MultilineLineResponse {
     private String correctionDecision;
     private String finalText;
 
+    private String groqSuggestion;
+    private Double groqConfidence;
+    private String groqDecision;
+    private String groqStatus;
+    private String groqModel;
+
+    private String geminiSuggestion;
+    private Double geminiConfidence;
+    private String geminiDecision;
+    private String geminiStatus;
+    private String geminiModel;
+
+    private java.util.List<java.util.Map<String, Object>> suggestions;
+
     public static MultilineLineResponse fromEntity(OcrMultilineLine entity) {
         if (entity == null) return null;
+
+        java.util.List<java.util.Map<String, Object>> parsedSuggestions = null;
+        if (entity.getSuggestionsJson() != null && !entity.getSuggestionsJson().isBlank()) {
+            try {
+                parsedSuggestions = new com.fasterxml.jackson.databind.ObjectMapper().readValue(
+                        entity.getSuggestionsJson(),
+                        new com.fasterxml.jackson.core.type.TypeReference<java.util.List<java.util.Map<String, Object>>>() {}
+                );
+            } catch (Exception ignored) {}
+        }
+
         return MultilineLineResponse.builder()
                 .lineId(entity.getLineId())
                 .lineOrder(entity.getLineOrder())
@@ -60,6 +85,17 @@ public class MultilineLineResponse {
                 .correctionApplied(entity.getCorrectionApplied())
                 .correctionDecision(entity.getCorrectionDecision())
                 .finalText(entity.getPredictedText())
+                .groqSuggestion(entity.getGroqSuggestion())
+                .groqConfidence(entity.getGroqConfidence())
+                .groqDecision(entity.getGroqDecision())
+                .groqStatus(entity.getGroqStatus())
+                .groqModel(entity.getGroqModel())
+                .geminiSuggestion(entity.getGeminiSuggestion())
+                .geminiConfidence(entity.getGeminiConfidence())
+                .geminiDecision(entity.getGeminiDecision())
+                .geminiStatus(entity.getGeminiStatus())
+                .geminiModel(entity.getGeminiModel())
+                .suggestions(parsedSuggestions)
                 .build();
     }
 }

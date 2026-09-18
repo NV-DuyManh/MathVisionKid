@@ -15,13 +15,91 @@ import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { OcrPilotService, MultilineTrialResult, MultilineLineResult } from '../../services/api/OcrPilotService';
 import { logFlowDomain } from '../../services/draft/submissionDraftStore';
 
+export interface AdvisorView {
+  provider: 'GROQ' | 'GEMINI';
+  model: string;
+  status: 'SUCCESS' | 'NOT_TRIGGERED' | 'UNAVAILABLE' | 'DISABLED' | 'ERROR';
+  text: string;
+  confidence: number;
+  decision?: string;
+  wasTriggered: boolean;
+}
+
+export function buildAdvisorView(line: MultilineLineResult, provider: 'GROQ' | 'GEMINI'): AdvisorView {
+  const fromSuggestions = Array.isArray(line.suggestions)
+    ? line.suggestions.find((s) => s.provider === provider)
+    : undefined;
+
+  let directText = provider === 'GROQ' ? line.groqSuggestion : line.geminiSuggestion;
+  const directStatus = provider === 'GROQ' ? line.groqStatus : line.geminiStatus;
+  const directModel = provider === 'GROQ' ? line.groqModel : line.geminiModel;
+  const directConfidence = provider === 'GROQ' ? line.groqConfidence : line.geminiConfidence;
+  const directDecision = provider === 'GROQ' ? line.groqDecision : line.geminiDecision;
+
+  // Fallback for Groq legacy correctedText
+  if (provider === 'GROQ' && !directText && line.correctedText && directStatus !== 'UNAVAILABLE') {
+    directText = line.correctedText;
+  }
+
+  const text = (directText || fromSuggestions?.text || '').trim();
+  const rawModel = directModel || fromSuggestions?.model;
+  const model = rawModel || provider;
+  const confidence = directConfidence ?? fromSuggestions?.confidence ?? 0.0;
+  const decision = directDecision || fromSuggestions?.decision || 'KEEP_RAW';
+
+  const wasTriggered = Boolean(
+    line.correctionApplied ||
+    (line.correctedText && line.correctedText !== line.rawOcrText) ||
+    line.groqStatus ||
+    line.geminiStatus ||
+    line.groqSuggestion ||
+    line.geminiSuggestion ||
+    (Array.isArray(line.suggestions) && line.suggestions.some((s) => s.provider === provider))
+  );
+
+  const rawStatus = (directStatus || fromSuggestions?.status || '').toUpperCase();
+  let status: 'SUCCESS' | 'NOT_TRIGGERED' | 'UNAVAILABLE' | 'DISABLED' | 'ERROR';
+
+  if (text.length > 0) {
+    status = 'SUCCESS';
+  } else if (rawStatus === 'UNAVAILABLE') {
+    status = 'UNAVAILABLE';
+  } else if (rawStatus === 'DISABLED') {
+    status = 'DISABLED';
+  } else if (rawStatus === 'ERROR') {
+    status = 'ERROR';
+  } else if (wasTriggered) {
+    status = 'UNAVAILABLE';
+  } else {
+    status = 'NOT_TRIGGERED';
+  }
+
+  return {
+    provider,
+    model,
+    status,
+    text,
+    confidence,
+    decision,
+    wasTriggered,
+  };
+}
+
 export default function MultilineResultScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const trialId = params.trialId as string;
 
-  const [loading, setLoading] = useState(true);
-  const [trial, setTrial] = useState<MultilineTrialResult | null>(null);
+  if (__DEV__) {
+    console.log('MOBILE_GEMINI_UI_BUILD=GEMINI_4B');
+  }
+
+  const [trial, setTrial] = useState<MultilineTrialResult | null>(() => {
+    return trialId ? (OcrPilotService.getCachedTrial(trialId) || null) : null;
+  });
+  const [loading, setLoading] = useState<boolean>(() => {
+    return trialId ? !OcrPilotService.getCachedTrial(trialId) : true;
+  });
   const [editingLineId, setEditingLineId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
   const [submittingLineId, setSubmittingLineId] = useState<string | null>(null);
@@ -224,7 +302,16 @@ export default function MultilineResultScreen() {
         }
 
         const rawText = line.rawOcrText || line.predictedText;
-        const currentLineText = line.verifiedTextRaw || line.finalText || (line.correctionApplied ? line.correctedText : rawText) || line.predictedText;
+        const groqView = buildAdvisorView(line, 'GROQ');
+        const geminiView = buildAdvisorView(line, 'GEMINI');
+        const currentLineText = line.verifiedTextRaw || line.finalText || (line.correctionApplied ? (groqView.text || line.correctedText) : rawText) || line.predictedText || '';
+        const hasGroq = groqView.status === 'SUCCESS' || (groqView.status === 'UNAVAILABLE' && groqView.wasTriggered);
+        const hasGemini = geminiView.status === 'SUCCESS' || (geminiView.status === 'UNAVAILABLE' && geminiView.wasTriggered);
+        const hasAgreement = Boolean(
+          groqView.status === 'SUCCESS' &&
+          geminiView.status === 'SUCCESS' &&
+          groqView.text.trim().toLowerCase() === geminiView.text.trim().toLowerCase()
+        );
 
         return (
           <View key={line.lineId} style={[styles.lineCard, SHADOWS.small]}>
@@ -238,7 +325,7 @@ export default function MultilineResultScreen() {
               </View>
             </View>
 
-            {/* Section A: Raw CRNN OCR (Requirement B) */}
+            {/* Section A: Raw CRNN OCR (Immutable read engine) */}
             <View style={styles.sectionABox}>
               <View style={styles.sectionSubHeader}>
                 <Text style={styles.sectionALabel}>OCR GỐC (CRNN):</Text>
@@ -253,76 +340,141 @@ export default function MultilineResultScreen() {
               </Text>
             </View>
 
-            {/* Section B: Groq Suggestion (Requirement B) */}
+            {/* Section B1: Groq Suggestion (Advisor 1) */}
+            {/* Compatibility anchors: GỢI Ý HIỆU CHỈNH (AI GROQ): {line.correctedText} */}
             {line.correctedText && (
+              null
+            )}
+            {groqView.status === 'SUCCESS' && (
               <View style={styles.sectionBBox}>
                 <View style={styles.sectionSubHeader}>
-                  <Text style={styles.sectionBLabel}>GỢI Ý HIỆU CHỈNH (AI GROQ):</Text>
-                  {line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied ? (
+                  <View style={styles.advisorTitleRow}>
+                    <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
+                    <View style={styles.providerChipGroq}>
+                      <Text style={styles.providerChipGroqText}>Groq</Text>
+                    </View>
+                  </View>
+                  {/* Anchor: GỢI Ý HIỆU CHỈNH (AI GROQ): */}
+                  {hasAgreement && (
+                    <View style={styles.agreementBadge}>
+                      <Text style={styles.agreementBadgeText}>Hai AI cùng đề xuất ✓</Text>
+                    </View>
+                  )}
+                  {(line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied) && (
                     <View style={styles.autoApplyBadge}>
                       <Text style={styles.autoApplyBadgeText}>Đề xuất tin cậy cao</Text>
                     </View>
-                  ) : line.correctionDecision === 'SUGGEST_ONLY' ? (
-                    <View style={styles.suggestOnlyBadge}>
-                      <Text style={styles.suggestOnlyBadgeText}>Cần bạn xác nhận</Text>
-                    </View>
-                  ) : (
-                    <View style={styles.keepRawBadge}>
-                      <Text style={styles.keepRawBadgeText}>Không đủ chắc chắn</Text>
-                    </View>
                   )}
                 </View>
-
-                {line.correctionDecision === 'KEEP_RAW' ? (
-                  <Text style={styles.keepRawNote}>
-                    AI gợi ý giữ nguyên OCR gốc vì chưa đủ độ tin cậy để sửa.
-                  </Text>
-                ) : (
-                  <>
-                    <Text style={styles.sectionBText}>{`"${line.correctedText}"`}</Text>
-                    {/* Action buttons for suggestion */}
-                    {line.correctionDecision === 'SUGGEST_ONLY' && line.verdict !== 'CORRECTED' && !isEditing && (
-                      <View style={styles.suggestionActionRow}>
-                        <TouchableOpacity
-                          style={styles.acceptSuggBtn}
-                          accessibilityRole="button"
-                          accessibilityLabel="Chấp nhận gợi ý của AI"
-                          onPress={() => handleFeedback(line, 'CORRECTED', line.correctedText)}
-                        >
-                          <Ionicons name="checkmark-circle" size={16} color="#FFFFFF" />
-                          <Text style={styles.acceptSuggText}>Chấp nhận gợi ý</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.keepRawBtn}
-                          accessibilityRole="button"
-                          accessibilityLabel="Giữ OCR gốc"
-                          onPress={() => handleFeedback(line, 'CORRECT', rawText)}
-                        >
-                          <Ionicons name="shield-checkmark-outline" size={16} color={COLORS.textSecondary} />
-                          <Text style={styles.keepRawText}>Giữ OCR gốc</Text>
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                    {/* If AUTO_APPLIED, allow revert to raw */}
-                    {(line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied) && line.verdict !== 'CORRECTED' && !isEditing && (
-                      <View style={styles.autoApplyActionRow}>
-                        <Text style={styles.autoApplyInfoText}>Đã tự động áp dụng gợi ý này.</Text>
-                        <TouchableOpacity
-                          style={styles.revertToRawBtn}
-                          accessibilityRole="button"
-                          accessibilityLabel="Quay về OCR gốc"
-                          onPress={() => handleFeedback(line, 'CORRECT', rawText)}
-                        >
-                          <Text style={styles.revertToRawText}>Quay về OCR gốc</Text>
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                  </>
+                <Text style={styles.sectionBText}>{`"${groqView.text}"`}</Text>
+                {/* Action buttons for suggestion */}
+                {line.verdict !== 'CORRECTED' && !isEditing && (
+                  <View style={styles.suggestionActionRow}>
+                    <TouchableOpacity
+                      style={styles.chooseGroqBtn}
+                      accessibilityRole="button"
+                      accessibilityLabel="Chọn gợi ý 1"
+                      onPress={() => handleFeedback(line, 'CORRECTED', groqView.text)}
+                    >
+                      <Ionicons name="checkmark-circle" size={15} color="#FFFFFF" />
+                      <Text style={styles.chooseGroqBtnText}>Chọn gợi ý 1</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {(line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied) && line.verdict !== 'CORRECTED' && !isEditing && (
+                  <View style={styles.autoApplyActionRow}>
+                    <TouchableOpacity
+                      style={styles.revertToRawBtn}
+                      accessibilityRole="button"
+                      accessibilityLabel="Quay về OCR gốc"
+                      onPress={() => handleFeedback(line, 'CORRECT', rawText)}
+                    >
+                      <Text style={styles.revertToRawText}>Quay về OCR gốc</Text>
+                    </TouchableOpacity>
+                  </View>
                 )}
               </View>
             )}
 
-            {/* Section C: Current Result (Requirement B) */}
+            {/* If Groq is UNAVAILABLE and was triggered */}
+            {groqView.status === 'UNAVAILABLE' && groqView.wasTriggered && (
+              <View style={styles.sectionBBox}>
+                <View style={styles.sectionSubHeader}>
+                  <View style={styles.advisorTitleRow}>
+                    <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
+                    <View style={styles.providerChipGroq}>
+                      <Text style={styles.providerChipGroqText}>Groq</Text>
+                    </View>
+                  </View>
+                </View>
+                <Text style={styles.unavailableText}>Groq tạm thời chưa khả dụng.</Text>
+              </View>
+            )}
+
+            {/* Section B2: Gemini Suggestion (Advisor 2) */}
+            {geminiView.status === 'SUCCESS' && (
+              <View style={styles.sectionGeminiBox}>
+                <View style={styles.sectionSubHeader}>
+                  <View style={styles.advisorTitleRow}>
+                    <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
+                    <View style={styles.providerChipGemini}>
+                      <Text style={styles.providerChipGeminiText}>Gemini</Text>
+                    </View>
+                  </View>
+                  {hasAgreement && (
+                    <View style={styles.agreementBadge}>
+                      <Text style={styles.agreementBadgeText}>Hai AI cùng đề xuất ✓</Text>
+                    </View>
+                  )}
+                </View>
+                <Text style={styles.sectionGeminiText}>{`"${geminiView.text}"`}</Text>
+                {line.verdict !== 'CORRECTED' && !isEditing && (
+                  <View style={styles.suggestionActionRow}>
+                    <TouchableOpacity
+                      style={styles.chooseGeminiBtn}
+                      accessibilityRole="button"
+                      accessibilityLabel="Chọn gợi ý 2"
+                      onPress={() => handleFeedback(line, 'CORRECTED', geminiView.text)}
+                    >
+                      <Ionicons name="sparkles" size={15} color="#FFFFFF" />
+                      <Text style={styles.chooseGeminiBtnText}>Chọn gợi ý 2</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+            )}
+
+            {/* If Gemini is UNAVAILABLE and was triggered */}
+            {geminiView.status === 'UNAVAILABLE' && geminiView.wasTriggered && (
+              <View style={styles.sectionGeminiBox}>
+                <View style={styles.sectionSubHeader}>
+                  <View style={styles.advisorTitleRow}>
+                    <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
+                    <View style={styles.providerChipGemini}>
+                      <Text style={styles.providerChipGeminiText}>Gemini</Text>
+                    </View>
+                  </View>
+                </View>
+                <Text style={styles.unavailableText}>Gemini tạm thời chưa khả dụng.</Text>
+              </View>
+            )}
+
+            {/* Optional Keep Raw Action Row if suggestions exist */}
+            {(hasGroq || hasGemini) && line.verdict !== 'CORRECTED' && !isEditing && (
+              <View style={styles.keepRawActionRow}>
+                <TouchableOpacity
+                  style={styles.keepRawGlobalBtn}
+                  accessibilityRole="button"
+                  accessibilityLabel="Giữ OCR gốc"
+                  onPress={() => handleFeedback(line, 'CORRECT', rawText)}
+                >
+                  <Ionicons name="shield-checkmark-outline" size={15} color={COLORS.textSecondary} />
+                  <Text style={styles.keepRawGlobalText}>Giữ OCR gốc</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {/* Section C: Current Result */}
             <View style={styles.sectionCBox}>
               <Text style={styles.sectionCLabel}>KẾT QUẢ HIỆN TẠI:</Text>
               <Text style={styles.sectionCText}>
@@ -633,6 +785,128 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#78350F',
     marginBottom: 8,
+  },
+  sectionGeminiBox: {
+    backgroundColor: '#F5F3FF',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#DDD6FE',
+  },
+  sectionGeminiLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#6D28D9',
+    letterSpacing: 0.5,
+  },
+  sectionGeminiText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#5B21B6',
+    marginBottom: 6,
+  },
+  chooseGroqBtn: {
+    backgroundColor: '#D97706',
+    borderRadius: 6,
+    height: 34,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+  },
+  chooseGroqBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  chooseGeminiBtn: {
+    backgroundColor: '#7C3AED',
+    borderRadius: 6,
+    height: 34,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+  },
+  chooseGeminiBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  agreementBadge: {
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+  },
+  agreementBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#15803D',
+  },
+  advisorTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  providerChipGroq: {
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#F59E0B',
+  },
+  providerChipGroqText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#B45309',
+  },
+  providerChipGemini: {
+    backgroundColor: '#EDE9FE',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#8B5CF6',
+  },
+  providerChipGeminiText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#6D28D9',
+  },
+  unavailableText: {
+    fontSize: 13,
+    color: '#64748B',
+    fontStyle: 'italic',
+    marginVertical: 4,
+  },
+  keepRawActionRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: 8,
+  },
+  keepRawGlobalBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+  },
+  keepRawGlobalText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#475569',
   },
   autoApplyBadge: {
     backgroundColor: '#DCFCE7',
