@@ -36,13 +36,8 @@ def score_and_assign_rows(
             v_overlap = max(0, min(y + h, b_end) - max(y, b_start))
             overlap_ratio = v_overlap / max(1, h)
             dist = abs(c_y - b_c_y)
-            
-            # Distance penalty
             score = (overlap_ratio * 100.0) - (dist / median_h * 15.0)
-            
             if score > best_score and dist < max(35.0, median_h * 3.5):
-                # Additional check: don't assign if it's completely disconnected horizontally?
-                # Actually, components are just assigned vertically.
                 best_score = score
                 best_band_idx = idx
                 
@@ -237,10 +232,10 @@ def filter_and_merge_residual_false_lines(
                 if cw > max_comp_w:
                     max_comp_w = cw
                     
-        is_thin = h < max(14.0, eff_median_h * 0.45)
-        has_weak_body = max_comp_h < max(8, int(eff_median_h * 0.32))
-        near_top = y <= max(20, int(img_h * 0.04))
-        near_bottom = (y + h) >= (img_h - max(20, int(img_h * 0.04)))
+        is_thin = h < (eff_median_h * 0.45)
+        has_weak_body = max_comp_h < (eff_median_h * 0.32)
+        near_top = y <= max(15, int(img_h * 0.03))
+        near_bottom = (y + h) >= (img_h - max(15, int(img_h * 0.03)))
         
         box_props.append({
             "box": list(b),
@@ -297,13 +292,13 @@ def filter_and_merge_residual_false_lines(
             continue
         bx, by, bw, bh = p["box"]
         # Near boundary artifacts: drop if thin, weak body, or low ink
-        if p["near_boundary"] and (p["is_thin"] or p["has_weak_body"] or p["ink"] < max(50, int(eff_median_h * 2.0))):
+        if p["near_boundary"] and (p["is_thin"] or p["has_weak_body"] or p["ink"] < max(20, int(eff_median_h * 2.0))):
             continue
         # Thin strips without character body (ruler line fragment or border noise)
-        if bh < max(12.0, eff_median_h * 0.38) and p["has_weak_body"]:
+        if (bh < eff_median_h * 0.45 and p["has_weak_body"]) or (p["is_thin"] and p["has_weak_body"]):
             continue
         # Very low ink and no distinct character stroke
-        if p["ink"] < max(35, int(eff_median_h * 1.3)) and p["max_comp_h"] < max(10, int(eff_median_h * 0.35)):
+        if p["ink"] < max(20, int(eff_median_h * 1.3)) and p["max_comp_h"] < (eff_median_h * 0.32):
             continue
         surviving.append(tuple(p["box"]))
         
@@ -394,6 +389,18 @@ def compute_structural_quality(line_results: List[LineBox], global_bands: List[T
     short_count = sum(1 for b in line_results if b.height < median_h * 0.5)
     score -= short_count * 20
     
+    # Penalty for vertically overlapping boxes (improper split / over-segmentation)
+    overlap_count = 0
+    for i in range(len(line_results)):
+        for j in range(i + 1, len(line_results)):
+            b1, b2 = line_results[i], line_results[j]
+            v_overlap = max(0, min(b1.y + b1.height, b2.y + b2.height) - max(b1.y, b2.y))
+            min_h = max(1, min(b1.height, b2.height))
+            if v_overlap / min_h > 0.35:
+                overlap_count += 1
+    if overlap_count > 0:
+        score -= overlap_count * 25.0
+        
     return max(0.0, score)
 
 def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_lines: int, profile: str) -> Tuple[List[LineBox], dict, float, np.ndarray, float]:
@@ -447,7 +454,7 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
     final_split_boxes = []
     for b in consolidated:
         final_split_boxes.extend(recursive_split_merged_rows(b, final_mask, median_h))
-    consolidated = final_split_boxes
+    consolidated = consolidate_fragments(final_split_boxes, final_mask, median_h)
     
     final_boxes = []
     for b in consolidated:

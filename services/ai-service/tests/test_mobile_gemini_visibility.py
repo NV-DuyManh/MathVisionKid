@@ -34,12 +34,12 @@ def test_mobgem_02_fastapi_to_spring_preserves_gemini_fields():
         rawOcrConfidence=0.80,
         geminiSuggestion="Bảo vệ thông tin riêng tư",
         geminiStatus="SUCCESS",
-        geminiModel="gemini-2.5-flash",
+        geminiModel="gemini-3.6-flash",
     )
     d = box.model_dump()
     assert d["geminiSuggestion"] == "Bảo vệ thông tin riêng tư"
     assert d["geminiStatus"] == "SUCCESS"
-    assert d["geminiModel"] == "gemini-2.5-flash"
+    assert d["geminiModel"] == "gemini-3.6-flash"
 
 
 def test_mobgem_03_spring_to_ocr_pilot_service_preserves_gemini_fields():
@@ -176,6 +176,6 @@ def test_mobgem_14_no_dev_panel_is_added():
 
 
 def test_mobgem_15_provider_model_metadata_remains_locked():
-    """MOBGEM-15: Provider model metadata remains Groq Qwen3.8 and Gemini 2.5."""
+    """MOBGEM-15: Provider model metadata remains Groq Qwen3.8 and Gemini 3.6."""
     assert settings.groq_primary_vision_model == "qwen/qwen3.8-27b"
-    assert settings.gemini_model == "gemini-2.5-flash"
+    assert settings.gemini_model == "gemini-3.6-flash"

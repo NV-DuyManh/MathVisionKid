@@ -31,17 +31,35 @@ public class OcrMultilineController {
 
     @PostMapping("/trials")
     public ResponseEntity<MultilineTrialResponse> createTrial(
-            @RequestParam("image") MultipartFile image,
-            @RequestParam(value = "source", required = false) String source,
-            @RequestParam(value = "privacyConfirmed", required = false, defaultValue = "false") Boolean privacyConfirmed,
-            @RequestParam("confirmedLines") String confirmedLinesJson,
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestPart(value = "file", required = false) MultipartFile filePart,
+            @RequestParam(value = "source", required = false) String sourceParam,
+            @RequestParam(value = "privacyConfirmed", required = false) Boolean privacyConfirmedParam,
+            @RequestParam(value = "confirmedLines", required = false) String confirmedLinesParam,
+            @RequestPart(value = "metadata", required = false) MultilineTrialMetadataDto metadataDto,
             Principal principal,
             HttpServletRequest request) {
         String email = principal != null ? principal.getName() : null;
         String requestId = resolveRequestId(request);
-        MultilineTrialResponse response = multilineService.createTrialAndRecognize(
-                image, email, source, privacyConfirmed, confirmedLinesJson, requestId
-        );
+
+        MultipartFile file = (image != null && !image.isEmpty()) ? image : filePart;
+        String source = (metadataDto != null && metadataDto.getSource() != null)
+                ? metadataDto.getSource()
+                : (sourceParam != null ? sourceParam : "CAMERA");
+        Boolean privacyConfirmed = (metadataDto != null && metadataDto.getPrivacyConfirmed() != null)
+                ? metadataDto.getPrivacyConfirmed()
+                : (privacyConfirmedParam != null ? privacyConfirmedParam : false);
+
+        MultilineTrialResponse response;
+        if (metadataDto != null && metadataDto.getConfirmedLines() != null) {
+            response = multilineService.createTrialAndRecognize(
+                    file, email, source, privacyConfirmed, metadataDto.getConfirmedLines(), requestId
+            );
+        } else {
+            response = multilineService.createTrialAndRecognize(
+                    file, email, source, privacyConfirmed, confirmedLinesParam, requestId
+            );
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

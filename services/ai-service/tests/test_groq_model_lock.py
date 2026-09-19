@@ -73,14 +73,14 @@ def test_groqlock_06_groq_unavailable_does_not_break_crnn_gemini():
         groqStatus="UNAVAILABLE",
         groqModel="qwen/qwen3.8-27b",
         geminiStatus="SUCCESS",
-        geminiModel="gemini-2.5-flash",
+        geminiModel="gemini-3.6-flash",
         geminiSuggestion="Test text suggestion",
     )
     assert box.groqStatus == "UNAVAILABLE"
     assert box.geminiStatus == "SUCCESS"
     assert box.finalText == "Test text"
     assert box.groqModel == "qwen/qwen3.8-27b"
-    assert box.geminiModel == "gemini-2.5-flash"
+    assert box.geminiModel == "gemini-3.6-flash"
 
 
 def test_groqlock_07_same_line_dual_advisor_reports_correct_models():
@@ -94,7 +94,7 @@ def test_groqlock_07_same_line_dual_advisor_reports_correct_models():
         groqModel="qwen/qwen3.8-27b",
         groqSuggestion="Bảo vệ thông tin",
         geminiStatus="SUCCESS",
-        geminiModel="gemini-2.5-flash",
+        geminiModel="gemini-3.6-flash",
         geminiSuggestion="Bảo vệ thông tin",
         suggestions=[
             {
@@ -105,17 +105,17 @@ def test_groqlock_07_same_line_dual_advisor_reports_correct_models():
             },
             {
                 "provider": "GEMINI",
-                "model": "gemini-2.5-flash",
+                "model": "gemini-3.6-flash",
                 "text": "Bảo vệ thông tin",
                 "status": "SUCCESS",
             },
         ],
     )
     assert box.groqModel == "qwen/qwen3.8-27b"
-    assert box.geminiModel == "gemini-2.5-flash"
+    assert box.geminiModel == "gemini-3.6-flash"
     assert len(box.suggestions) == 2
     assert box.suggestions[0]["model"] == "qwen/qwen3.8-27b"
-    assert box.suggestions[1]["model"] == "gemini-2.5-flash"
+    assert box.suggestions[1]["model"] == "gemini-3.6-flash"
 
 
 def test_groqlock_08_stale_mocks_fixtures_cannot_overwrite_live_metadata():
@@ -124,6 +124,6 @@ def test_groqlock_08_stale_mocks_fixtures_cannot_overwrite_live_metadata():
     box = LineBox(line_id="l1", x=0, y=0, width=50, height=20, order=0)
     # Default model assignments must derive from settings or explicit runtime fields
     box.groqModel = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
-    box.geminiModel = getattr(settings, "gemini_model", "gemini-2.5-flash")
+    box.geminiModel = getattr(settings, "gemini_model", "gemini-3.6-flash")
     assert box.groqModel == "qwen/qwen3.8-27b"
-    assert box.geminiModel == "gemini-2.5-flash"
+    assert box.geminiModel == "gemini-3.6-flash"

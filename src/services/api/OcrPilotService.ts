@@ -27,19 +27,22 @@ async function postMultipart<T>(
 ): Promise<T> {
   const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
 
-  // Build query string from stringParams
-  const qs = Object.entries(stringParams)
-    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
-    .join('&');
-  const url = qs ? `${path}?${qs}` : path;
-
-  // FormData with ONLY the file part — no string parts
+  // Build FormData with the file part AND string parts in the HTTP body
+  // (Prevents giant URL query strings from exceeding Tomcat's 8KB header buffer limit)
   const formData = new FormData();
   formData.append(fileField.key, {
     uri: fileField.uri,
     name: fileField.name,
     type: fileField.type,
   } as any);
+
+  for (const [k, v] of Object.entries(stringParams)) {
+    if (v !== undefined && v !== null) {
+      formData.append(k, String(v));
+    }
+  }
+
+  const url = path;
 
   console.log('[MULTIPART_TRANSPORT]', {
     baseURL: apiClient.defaults.baseURL,
@@ -48,6 +51,7 @@ async function postMultipart<T>(
     fileName: fileField.name,
     fileUri: fileField.uri,
     fileType: fileField.type,
+    paramKeys: Object.keys(stringParams),
     timestamp: new Date().toISOString()
   });
 
@@ -92,13 +96,15 @@ export interface OcrMetrics {
   accuracyRate: number;
 }
 
+export type AdvisorDecision = 'AUTO_APPLY' | 'SUGGEST_ONLY' | 'KEEP_RAW';
+
 export interface AdvisorSuggestion {
   provider: 'GROQ' | 'GEMINI' | string;
   model?: string;
   text: string;
   confidence: number;
   visualSupport?: string;
-  decision?: string;
+  decision?: AdvisorDecision;
   status?: string;
 }
 
@@ -115,7 +121,7 @@ export interface LineBox {
   correctedText?: string;
   correctionConfidence?: number;
   correctionApplied?: boolean;
-  correctionDecision?: string;
+  correctionDecision?: AdvisorDecision;
   finalText?: string;
   minTokenConfidence?: number;
   p10TokenConfidence?: number;
@@ -124,12 +130,12 @@ export interface LineBox {
   meanEntropy?: number;
   groqSuggestion?: string;
   groqConfidence?: number;
-  groqDecision?: string;
+  groqDecision?: AdvisorDecision;
   groqStatus?: string;
   groqModel?: string;
   geminiSuggestion?: string;
   geminiConfidence?: number;
-  geminiDecision?: string;
+  geminiDecision?: AdvisorDecision;
   geminiStatus?: string;
   geminiModel?: string;
   suggestions?: AdvisorSuggestion[];
@@ -166,7 +172,7 @@ export interface MultilineLineResult {
   correctedText?: string;
   correctionConfidence?: number;
   correctionApplied?: boolean;
-  correctionDecision?: string;
+  correctionDecision?: AdvisorDecision;
   /** Current effective text for this line (CRNN raw, auto-applied, advisor choice, or manual edit) */
   finalText?: string;
   minTokenConfidence?: number;
@@ -174,12 +180,12 @@ export interface MultilineLineResult {
   meanTokenConfidence?: number;
   groqSuggestion?: string;
   groqConfidence?: number;
-  groqDecision?: string;
+  groqDecision?: AdvisorDecision;
   groqStatus?: string;
   groqModel?: string;
   geminiSuggestion?: string;
   geminiConfidence?: number;
-  geminiDecision?: string;
+  geminiDecision?: AdvisorDecision;
   geminiStatus?: string;
   geminiModel?: string;
   suggestions?: AdvisorSuggestion[];
@@ -331,6 +337,33 @@ export class OcrPilotService {
     }
   }
 
+  static minimizeLineForTransport(line: LineBox): Partial<LineBox> {
+    return {
+      line_id: line.line_id,
+      x: line.x,
+      y: line.y,
+      width: line.width,
+      height: line.height,
+      order: line.order,
+      rawOcrText: line.rawOcrText || line.text || '',
+      rawOcrConfidence: line.rawOcrConfidence ?? undefined,
+      finalText: line.finalText || line.text || line.rawOcrText || '',
+      groqSuggestion: line.groqSuggestion ?? undefined,
+      groqConfidence: line.groqConfidence ?? undefined,
+      groqStatus: line.groqStatus ?? undefined,
+      groqModel: line.groqModel ?? undefined,
+      geminiSuggestion: line.geminiSuggestion ?? undefined,
+      geminiConfidence: line.geminiConfidence ?? undefined,
+      geminiStatus: line.geminiStatus ?? undefined,
+      geminiModel: line.geminiModel ?? undefined,
+      correctedText: line.correctedText ?? undefined,
+      correctionApplied: line.correctionApplied ?? undefined,
+      correctionDecision: line.correctionDecision ?? undefined,
+      // Keep suggestions only if needed for fallback compatibility
+      suggestions: line.suggestions && line.suggestions.length > 0 ? line.suggestions : undefined,
+    };
+  }
+
   static async createMultilineTrial(
     uri: string,
     confirmedLines: LineBox[],
@@ -339,13 +372,14 @@ export class OcrPilotService {
     signal?: AbortSignal
   ): Promise<MultilineTrialResult> {
     const file = this.fileInfoFromUri(uri, 'page.jpg');
+    const minimizedLines = confirmedLines.map((l) => this.minimizeLineForTransport(l));
     const res = await postMultipart<MultilineTrialResult>(
       '/ocr/multiline/trials',
       { key: 'image', ...file },
       {
         source,
         privacyConfirmed: String(privacyConfirmed),
-        confirmedLines: JSON.stringify(confirmedLines),
+        confirmedLines: JSON.stringify(minimizedLines),
       },
       signal
     );
@@ -376,4 +410,64 @@ export class OcrPilotService {
     return response.data;
   }
 }
+
+/**
+ * Normalized user-facing error handler for handwriting OCR workflows.
+ * Replaces cryptic AxiosError and HTTP status codes with kid-friendly Vietnamese messages.
+ */
+export function normalizeOcrError(err: any): { title: string; message: string; technical?: string } {
+  const status = err?.response?.status;
+  const data = err?.response?.data;
+  const backendCode = data?.error?.code || data?.code;
+  const technical = `status=${status || 'N/A'}, code=${backendCode || 'N/A'}, message=${err?.message || 'N/A'}`;
+
+  if (status === 400) {
+    return {
+      title: 'Chưa thể xử lý các dòng chữ',
+      message: 'Một số dòng chưa hợp lệ. Em hãy kiểm tra lại các khung chữ rồi thử tiếp.',
+      technical,
+    };
+  }
+  if (status === 401 || status === 403) {
+    return {
+      title: 'Phiên đăng nhập hết hạn',
+      message: 'Phiên đăng nhập của em đã hết hạn. Vui lòng đăng nhập lại để tiếp tục.',
+      technical,
+    };
+  }
+  if (status === 404) {
+    return {
+      title: 'Phiên nhận diện hết hạn',
+      message: 'Phiên nhận diện đã hết hạn. Vui lòng nhận diện lại ảnh.',
+      technical,
+    };
+  }
+  if (status && status >= 500) {
+    return {
+      title: 'Hệ thống đang bận',
+      message: 'Hệ thống đang bận. Vui lòng thử lại sau ít phút.',
+      technical,
+    };
+  }
+  if (err?.code === 'ECONNABORTED' || err?.message?.includes('timeout')) {
+    return {
+      title: 'Hết thời gian chờ',
+      message: 'Hệ thống phản hồi lâu hơn dự kiến. Em hãy kiểm tra mạng và thử lại nhé.',
+      technical,
+    };
+  }
+  if (err?.message?.includes('Network Error') || !err?.response) {
+    return {
+      title: 'Không thể kết nối',
+      message: 'Không thể kết nối đến hệ thống. Hãy kiểm tra mạng và thử lại.',
+      technical,
+    };
+  }
+  return {
+    title: 'Chưa thể nhận diện',
+    message: 'Đã có lỗi xảy ra trong quá trình nhận diện. Em hãy thử lại nhé.',
+    technical,
+  };
+}
+
 

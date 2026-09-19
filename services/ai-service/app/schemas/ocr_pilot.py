@@ -1,5 +1,25 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional, List, Set
+
+CANONICAL_ADVISOR_DECISIONS: Set[str] = {"AUTO_APPLY", "SUGGEST_ONLY", "KEEP_RAW"}
+
+
+def normalize_canonical_advisor_decision(decision: Optional[str]) -> str:
+    """
+    Normalize cross-stack advisor decision to canonical 3-valued enum:
+    AUTO_APPLY, SUGGEST_ONLY, KEEP_RAW.
+    Normalizes internal representations (such as Gemini's AUTO_APPLY_SAFE)
+    before exposing to shared DTOs, persistence, and mobile clients.
+    """
+    if not decision:
+        return "KEEP_RAW"
+    d = str(decision).strip().upper()
+    if d in ("AUTO_APPLY", "AUTO_APPLY_SAFE"):
+        return "AUTO_APPLY"
+    if d == "SUGGEST_ONLY":
+        return "SUGGEST_ONLY"
+    return "KEEP_RAW"
+
 
 class LineBox(BaseModel):
     line_id: str
@@ -27,6 +47,8 @@ class LineBox(BaseModel):
     meanTokenConfidence: Optional[float] = None
     blankRatio: Optional[float] = None
     meanEntropy: Optional[float] = None
+    tokenAnomalyDetected: Optional[bool] = None
+    decoderAnomalyDetected: Optional[bool] = None
 
     # Groq Advisor 1 explicit fields (mirrored from correctedText for clarity)
     groqSuggestion: Optional[str] = None

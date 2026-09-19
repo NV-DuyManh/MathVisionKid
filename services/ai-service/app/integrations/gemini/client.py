@@ -93,7 +93,10 @@ async def call_gemini_correction(
 
     elapsed = time.time() - t0
 
-    if resp.status_code == 401 or resp.status_code == 403:
+    if (
+        resp.status_code in (401, 403)
+        or (resp.status_code == 400 and ("API_KEY_INVALID" in resp.text or "API key not valid" in resp.text))
+    ):
         raise GeminiError("AUTH_ERROR", f"Gemini auth error {resp.status_code}: {resp.text[:200]}")
 
     if resp.status_code == 429:
@@ -108,6 +111,12 @@ async def call_gemini_correction(
 
     if resp.status_code >= 500:
         raise GeminiError("SERVER_ERROR_5XX", f"Gemini server error {resp.status_code}")
+
+    if resp.status_code == 400:
+        raise GeminiError("BAD_REQUEST", f"Gemini bad request 400: {resp.text[:200]}")
+
+    if resp.status_code == 404:
+        raise GeminiError("MODEL_UNAVAILABLE", f"Gemini model {model} unavailable (404): {resp.text[:200]}")
 
     if not resp.is_success:
         raise GeminiError("API_ERROR", f"Gemini unexpected status {resp.status_code}: {resp.text[:200]}")

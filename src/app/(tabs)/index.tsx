@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
-import { AppCard } from '../../components/ui/AppCard';
+import { COLORS, SHADOWS } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
 import * as ImagePicker from 'expo-image-picker';
 import { submissionDraftStore, resolveFlowDomain, logFlowDomain, FlowDomain } from '../../services/draft/submissionDraftStore';
@@ -48,235 +47,123 @@ export default function HomeScreen() {
     router.push({ pathname: '/camera' as any, params: { mode } });
   };
 
-  const handleStartOcrPilot = () => {
-    Alert.alert(
-      'Thử nhận diện 1 dòng chữ (Pilot 1)',
-      'Em muốn chụp ảnh mới hay chọn ảnh có sẵn từ thư viện?',
-      [
-        {
-          text: 'Chụp ảnh mới',
-          onPress: () => {
-            submissionDraftStore.clearDraft();
-            router.push({ pathname: '/camera' as any, params: { mode: 'OCR_PILOT' } });
-          },
-        },
-        {
-          text: 'Chọn từ thư viện',
-          onPress: async () => {
-            try {
-              const result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ['images'],
-                allowsEditing: false,
-                quality: 1,
-              });
-
-              if (!result.canceled && result.assets && result.assets.length > 0) {
-                const asset = result.assets[0];
-                logStageDiagnostic('ACQUIRE_GALLERY', {
-                  uri: asset.uri,
-                  width: asset.width,
-                  height: asset.height,
-                  mimeType: asset.mimeType,
-                  source: 'GALLERY',
-                  extra: 'ocr-pilot mode',
-                });
-                const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
-                draft.mode = 'OCR_PILOT';
-                submissionDraftStore.setDraft(draft);
-                router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
-              }
-            } catch {
-              // cancelled
-            }
-          },
-        },
-        { text: 'Hủy', style: 'cancel' },
-      ]
-    );
-  };
-
-  const handleStartOcrPilotMultiline = () => {
-    Alert.alert(
-      'Thử nhận diện nhiều dòng chữ (Pilot 2)',
-      'Em muốn chụp ảnh mới hay chọn ảnh có sẵn từ thư viện?',
-      [
-        {
-          text: 'Chụp ảnh mới',
-          onPress: () => {
-            submissionDraftStore.clearDraft();
-            router.push({ pathname: '/camera' as any, params: { mode: 'OCR_PILOT_MULTILINE' } });
-          },
-        },
-        {
-          text: 'Chọn từ thư viện',
-          onPress: async () => {
-            try {
-              const result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ['images'],
-                allowsEditing: false,
-                quality: 1,
-              });
-
-              if (!result.canceled && result.assets && result.assets.length > 0) {
-                const asset = result.assets[0];
-                logStageDiagnostic('ACQUIRE_GALLERY', {
-                  uri: asset.uri,
-                  width: asset.width,
-                  height: asset.height,
-                  mimeType: asset.mimeType,
-                  source: 'GALLERY',
-                  extra: 'ocr-pilot-multiline mode',
-                });
-                const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
-                draft.mode = 'OCR_PILOT_MULTILINE';
-                submissionDraftStore.setDraft(draft);
-                router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
-              }
-            } catch {
-              // cancelled
-            }
-          },
-        },
-        { text: 'Hủy', style: 'cancel' },
-      ]
-    );
-  };
-
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {/* Header with greeting and avatar */}
+    <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      {/* Header: Greeting & Profile Avatar */}
       <View style={styles.header}>
         <View style={styles.greetingContainer}>
-          <Text style={styles.greeting}>Xin chào {userName}! 👋</Text>
-          <Text style={styles.subtitle}>Hôm nay mình cùng kiểm tra bài toán nhé!</Text>
+          <Text style={styles.greeting}>Xin chào, {userName}! 👋</Text>
+          <Text style={styles.subtitle}>Cùng MathVision nhận diện và rèn luyện chữ viết tay nhé</Text>
         </View>
         <TouchableOpacity
-          style={styles.avatar}
+          style={[styles.avatar, SHADOWS.small]}
           onPress={() => router.push('/(tabs)/profile')}
           accessibilityRole="button"
           accessibilityLabel="Trang cá nhân của em"
         >
-          <Ionicons name="person" size={24} color={COLORS.primary} />
+          <Ionicons name="person" size={20} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
 
-      {/* Primary Hero Action: ĐỌC CHỮ VIẾT TAY */}
-      <TouchableOpacity
-        activeOpacity={0.92}
-        onPress={() => navigateToCamera('HANDWRITING_TEXT')}
-        accessibilityRole="button"
-        accessibilityLabel="Chụp bài chữ viết tay tiếng Việt"
-      >
-        <View style={[styles.heroCard, SHADOWS.medium]}>
+      {/* Main Unified Handwriting Entry Point */}
+      <View style={[styles.mainHeroCard, SHADOWS.medium]}>
+        <View style={styles.heroHeaderRow}>
           <View style={styles.heroIconBadge}>
-            <Ionicons name="create" size={44} color="#FFFFFF" />
+            <Ionicons name="create" size={28} color="#FFFFFF" />
           </View>
-          <Text style={styles.heroTitle}>ĐỌC CHỮ VIẾT TAY</Text>
-          <Text style={styles.heroSubtitle}>
-            Chụp chữ viết tay tiếng Việt để MathVision nhận diện và giúp em sửa từng dòng.
-          </Text>
-          <View style={styles.heroCtaPill}>
-            <Text style={styles.heroCtaText}>Mở máy ảnh</Text>
-            <Ionicons name="arrow-forward" size={18} color={COLORS.primaryDark} />
+          <View style={styles.heroTag}>
+            <Text style={styles.heroTagText}>Chữ viết tay tiếng Việt</Text>
           </View>
         </View>
-      </TouchableOpacity>
 
-      {/* Secondary Action: Thư viện ảnh (Chữ viết tay mặc định) */}
-      <TouchableOpacity
-        style={styles.secondaryAction}
-        onPress={handlePickImage}
-        accessibilityRole="button"
-        accessibilityLabel="Chọn ảnh chữ viết tay từ thư viện máy"
-      >
-        <Ionicons name="images-outline" size={22} color={COLORS.primary} />
-        <Text style={styles.secondaryActionText}>Chọn ảnh chữ viết tay từ thư viện</Text>
-      </TouchableOpacity>
+        <Text style={styles.heroTitle}>Đọc chữ viết tay</Text>
+        <Text style={styles.heroDescription}>
+          Chụp hoặc chọn ảnh bài viết để hệ thống tự động tách từng dòng chữ, nhận diện nội dung và hỗ trợ chỉnh sửa trực quan.
+        </Text>
 
-      {/* Explicit Arithmetic Action: Phép tính dọc */}
-      <TouchableOpacity
-        style={styles.arithmeticAction}
-        onPress={() => navigateToCamera('ARITHMETIC')}
-        accessibilityRole="button"
-        accessibilityLabel="Kiểm tra phép tính đặt dọc"
-      >
-        <View style={styles.arithmeticIconBadge}>
-          <Ionicons name="calculator-outline" size={24} color="#0284C7" />
-        </View>
-        <View style={styles.arithmeticActionContent}>
-          <Text style={styles.arithmeticActionTitle}>Phép tính dọc</Text>
-          <Text style={styles.arithmeticActionSubtitle}>Kiểm tra từng bước bài toán đặt tính rồi tính</Text>
-        </View>
-        <Ionicons name="chevron-forward" size={20} color="#0284C7" />
-      </TouchableOpacity>
+        {/* 2 Primary Direct CTAs */}
+        <View style={styles.heroActionRow}>
+          <TouchableOpacity
+            style={[styles.ctaPrimaryBtn, SHADOWS.small]}
+            onPress={() => navigateToCamera('HANDWRITING_TEXT')}
+            activeOpacity={0.88}
+            accessibilityRole="button"
+            accessibilityLabel="Chụp ảnh mới"
+          >
+            <Ionicons name="camera" size={19} color={COLORS.primaryDark} />
+            <Text style={styles.ctaPrimaryBtnText}>Chụp ảnh mới</Text>
+          </TouchableOpacity>
 
-      {/* OCR Pilot 1 Action: THỬ NHẬN DIỆN 1 DÒNG */}
-      <TouchableOpacity
-        style={[styles.ocrPilotAction, SHADOWS.small]}
-        onPress={handleStartOcrPilot}
-        activeOpacity={0.88}
-        accessibilityRole="button"
-        accessibilityLabel="Thử nhận diện 1 dòng chữ viết tay tiếng Việt với mô hình CRNN"
-      >
-        <View style={styles.ocrPilotIconBadge}>
-          <Ionicons name="document-text" size={24} color="#FFFFFF" />
+          <TouchableOpacity
+            style={styles.ctaSecondaryBtn}
+            onPress={handlePickImage}
+            activeOpacity={0.88}
+            accessibilityRole="button"
+            accessibilityLabel="Chọn từ thư viện"
+          >
+            <Ionicons name="images-outline" size={19} color="#FFFFFF" />
+            <Text style={styles.ctaSecondaryBtnText}>Chọn từ thư viện</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.ocrPilotContent}>
-          <View style={styles.ocrPilotHeaderRow}>
-            <Text style={styles.ocrPilotTitle}>THỬ NHẬN DIỆN 1 DÒNG</Text>
-            <View style={styles.ocrPilotTag}><Text style={styles.ocrPilotTagText}>PILOT 1</Text></View>
+      </View>
+
+      {/* Secondary Feature: Arithmetic */}
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionHeading}>Tính năng bổ trợ</Text>
+
+        <TouchableOpacity
+          style={[styles.secondaryFeatureCard, SHADOWS.small]}
+          onPress={() => navigateToCamera('ARITHMETIC')}
+          activeOpacity={0.88}
+          accessibilityRole="button"
+          accessibilityLabel="Đọc phép tính đặt dọc"
+        >
+          <View style={styles.featureIconBadge}>
+            <Ionicons name="calculator-outline" size={22} color="#0284C7" />
           </View>
-          <Text style={styles.ocrPilotSubtitle}>
-            Chụp hoặc chọn 1 dòng chữ tiếng Việt để AI đọc & gửi phản hồi
-          </Text>
-        </View>
-        <Ionicons name="chevron-forward" size={20} color="#047857" />
-      </TouchableOpacity>
-
-      {/* OCR Pilot 2 Action: THỬ NHẬN DIỆN NHIỀU DÒNG */}
-      <TouchableOpacity
-        style={[styles.ocrPilotAction, styles.ocrPilot2Action, SHADOWS.small]}
-        onPress={handleStartOcrPilotMultiline}
-        activeOpacity={0.88}
-        accessibilityRole="button"
-        accessibilityLabel="Thử nhận diện nhiều dòng chữ viết tay với phân đoạn dòng"
-      >
-        <View style={[styles.ocrPilotIconBadge, { backgroundColor: '#2563EB' }]}>
-          <Ionicons name="list" size={24} color="#FFFFFF" />
-        </View>
-        <View style={styles.ocrPilotContent}>
-          <View style={styles.ocrPilotHeaderRow}>
-            <Text style={[styles.ocrPilotTitle, { color: '#1E40AF' }]}>THỬ NHẬN DIỆN NHIỀU DÒNG</Text>
-            <View style={[styles.ocrPilotTag, { backgroundColor: '#2563EB' }]}><Text style={styles.ocrPilotTagText}>PILOT 2</Text></View>
+          <View style={styles.featureContent}>
+            <Text style={styles.featureTitle}>Đọc phép tính đặt dọc</Text>
+            <Text style={styles.featureSubtitle}>
+              Nhận diện bài toán cộng, trừ, nhân, chia và hỗ trợ kiểm tra từng bước.
+            </Text>
           </View>
-          <Text style={[styles.ocrPilotSubtitle, { color: '#1E40AF' }]}>
-            Chụp đoạn văn nhiều dòng, tự động tách & chỉnh sửa khung từng dòng
-          </Text>
+          <Ionicons name="chevron-forward" size={18} color="#94A3B8" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Sleek Minimalist Photo Tips Card */}
+      <View style={[styles.tipsCard, SHADOWS.small]}>
+        <View style={styles.tipsHeader}>
+          <View style={styles.tipsIconPill}>
+            <Ionicons name="bulb-outline" size={16} color="#D97706" />
+          </View>
+          <Text style={styles.tipsHeading}>Mẹo chụp ảnh rõ nét</Text>
         </View>
-        <Ionicons name="chevron-forward" size={20} color="#2563EB" />
-      </TouchableOpacity>
 
-      {/* Guidance Section: Mẹo nhỏ chụp ảnh */}
-      <View style={styles.guidanceSection}>
-        <Text style={styles.guidanceTitle}>Mẹo nhỏ để kiểm tra chính xác</Text>
-        <View style={styles.guidanceRow}>
-          <AppCard style={styles.guidanceCard} variant="outlined">
-            <View style={[styles.tipIconBadge, { backgroundColor: '#FEF3C7' }]}>
-              <Ionicons name="sunny" size={24} color={COLORS.warning} />
-            </View>
-            <Text style={styles.guidanceHead}>Đủ ánh sáng</Text>
-            <Text style={styles.guidanceSub}>Tránh để bóng tay che chữ số</Text>
-          </AppCard>
+        <View style={styles.tipsList}>
+          <View style={styles.tipItem}>
+            <Ionicons name="sunny-outline" size={16} color="#059669" style={styles.tipItemIcon} />
+            <Text style={styles.tipItemText}>
+              <Text style={styles.tipItemBold}>Đủ ánh sáng: </Text>
+              Chụp ở nơi sáng đều, tránh để bóng tay che khuất các nét chữ.
+            </Text>
+          </View>
 
-          <View style={{ width: SIZES.medium }} />
+          <View style={styles.tipItem}>
+            <Ionicons name="phone-portrait-outline" size={16} color="#2563EB" style={styles.tipItemIcon} />
+            <Text style={styles.tipItemText}>
+              <Text style={styles.tipItemBold}>Chụp thẳng góc: </Text>
+              Giữ điện thoại song song với mặt trang giấy, tránh chụp quá nghiêng.
+            </Text>
+          </View>
 
-          <AppCard style={styles.guidanceCard} variant="outlined">
-            <View style={[styles.tipIconBadge, { backgroundColor: '#DCFCE7' }]}>
-              <Ionicons name="scan" size={24} color={COLORS.success} />
-            </View>
-            <Text style={styles.guidanceHead}>Một phép tính</Text>
-            <Text style={styles.guidanceSub}>Đưa trọn vẹn bài vào khung</Text>
-          </AppCard>
+          <View style={styles.tipItem}>
+            <Ionicons name="scan-outline" size={16} color="#7C3AED" style={styles.tipItemIcon} />
+            <Text style={styles.tipItemText}>
+              <Text style={styles.tipItemBold}>Căn trọn khung hình: </Text>
+              Để trọn vẹn các dòng chữ vào giữa khung, không bị cắt mép đầu hoặc đuôi dòng.
+            </Text>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -286,12 +173,12 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: '#F8FAFC',
   },
   content: {
-    padding: SIZES.medium,
-    paddingTop: 56,
-    paddingBottom: SIZES.xxlarge,
+    paddingHorizontal: 20,
+    paddingTop: 52,
+    paddingBottom: 40,
     maxWidth: 600,
     width: '100%',
     alignSelf: 'center',
@@ -300,222 +187,210 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SIZES.xlarge,
+    marginBottom: 20,
   },
   greetingContainer: {
     flex: 1,
-    paddingRight: SIZES.small,
+    paddingRight: 12,
   },
   greeting: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '800',
-    color: COLORS.primaryDark,
+    color: '#0F172A',
+    letterSpacing: -0.3,
     marginBottom: 4,
   },
   subtitle: {
-    fontSize: 14,
-    color: COLORS.textSecondary,
-    lineHeight: 20,
+    fontSize: 13,
+    color: '#64748B',
+    lineHeight: 18,
   },
   avatar: {
-    width: SIZES.minTouchTarget,
-    height: SIZES.minTouchTarget,
-    borderRadius: SIZES.minTouchTarget / 2,
-    backgroundColor: COLORS.surfaceSubdued,
-    borderWidth: 1.5,
-    borderColor: '#BFDBFE',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  heroCard: {
-    backgroundColor: COLORS.primary,
-    borderRadius: SIZES.cardRadius,
+
+  /* Main Hero Card */
+  mainHeroCard: {
+    backgroundColor: '#1E40AF',
+    borderRadius: 20,
+    padding: 22,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: '#1D4ED8',
+  },
+  heroHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: SIZES.xxlarge,
-    paddingHorizontal: SIZES.large,
-    marginBottom: SIZES.medium,
+    marginBottom: 14,
   },
   heroIconBadge: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.22)',
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.16)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: SIZES.medium,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.35)',
+  },
+  heroTag: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+  },
+  heroTagText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#DBEAFE',
   },
   heroTitle: {
     fontSize: 22,
     fontWeight: '800',
     color: '#FFFFFF',
+    letterSpacing: -0.3,
     marginBottom: 8,
-    letterSpacing: 0.8,
   },
-  heroSubtitle: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.92)',
-    textAlign: 'center',
+  heroDescription: {
+    fontSize: 13,
+    color: '#BFDBFE',
     lineHeight: 20,
-    marginBottom: SIZES.large,
-    paddingHorizontal: SIZES.small,
+    marginBottom: 20,
   },
-  heroCtaPill: {
+  heroActionRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  ctaPrimaryBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 13,
+    borderRadius: 12,
+    gap: 8,
+  },
+  ctaPrimaryBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1E40AF',
+  },
+  ctaSecondaryBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.14)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.28)',
+    paddingVertical: 13,
+    borderRadius: 12,
+    gap: 8,
+  },
+  ctaSecondaryBtnText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+
+  /* Section Container */
+  sectionContainer: {
+    marginBottom: 24,
+  },
+  sectionHeading: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#334155',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 10,
+  },
+  secondaryFeatureCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: SIZES.large,
-    paddingVertical: 10,
-    borderRadius: SIZES.pillRadius,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    gap: 14,
   },
-  heroCtaText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: COLORS.primaryDark,
-    marginRight: 6,
-  },
-  secondaryAction: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: SIZES.minTouchTarget,
-    backgroundColor: COLORS.surfaceSubdued,
-    borderWidth: 1.5,
-    borderColor: '#BFDBFE',
-    borderRadius: SIZES.cardRadius,
-    marginBottom: SIZES.medium,
-  },
-  secondaryActionText: {
-    marginLeft: SIZES.small,
-    fontSize: 15,
-    fontWeight: '700',
-    color: COLORS.primary,
-  },
-  arithmeticAction: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  featureIconBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
     backgroundColor: '#F0F9FF',
-    borderWidth: 1.5,
-    borderColor: '#BAE6FD',
-    borderRadius: SIZES.cardRadius,
-    padding: SIZES.medium,
-    marginBottom: SIZES.large,
-  },
-  arithmeticIconBadge: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: '#E0F2FE',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: SIZES.small,
   },
-  arithmeticActionContent: {
+  featureContent: {
     flex: 1,
   },
-  arithmeticActionTitle: {
+  featureTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#0369A1',
-    marginBottom: 2,
+    color: '#0F172A',
+    marginBottom: 3,
   },
-  arithmeticActionSubtitle: {
+  featureSubtitle: {
     fontSize: 12,
-    color: '#0284C7',
-    lineHeight: 16,
+    color: '#64748B',
+    lineHeight: 17,
   },
-  ocrPilotAction: {
+
+  /* Sleek Tips Card */
+  tipsCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  tipsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F0FDF4',
-    borderWidth: 1.5,
-    borderColor: '#86EFAC',
-    borderRadius: SIZES.cardRadius,
-    padding: SIZES.medium,
-    marginBottom: SIZES.medium,
+    gap: 8,
+    marginBottom: 14,
   },
-  ocrPilot2Action: {
-    backgroundColor: '#EFF6FF',
-    borderColor: '#93C5FD',
-    marginBottom: SIZES.xlarge,
-  },
-  ocrPilotIconBadge: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: '#10B981',
+  tipsIconPill: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    backgroundColor: '#FEF3C7',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: SIZES.small,
   },
-  ocrPilotContent: {
-    flex: 1,
-  },
-  ocrPilotHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 2,
-  },
-  ocrPilotTitle: {
+  tipsHeading: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#065F46',
-    marginRight: 6,
+    color: '#0F172A',
   },
-  ocrPilotTag: {
-    backgroundColor: '#047857',
-    paddingHorizontal: 6,
-    paddingVertical: 1,
-    borderRadius: 4,
+  tipsList: {
+    gap: 10,
   },
-  ocrPilotTagText: {
-    color: '#FFFFFF',
-    fontSize: 10,
-    fontWeight: '700',
-  },
-  ocrPilotSubtitle: {
-    fontSize: 12,
-    color: '#047857',
-    lineHeight: 16,
-  },
-  guidanceSection: {
-    marginBottom: SIZES.large,
-  },
-  guidanceTitle: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
-    marginBottom: SIZES.medium,
-  },
-  guidanceRow: {
+  tipItem: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
   },
-  guidanceCard: {
+  tipItemIcon: {
+    marginTop: 2,
+  },
+  tipItemText: {
     flex: 1,
-    alignItems: 'center',
-    paddingVertical: SIZES.large,
-    paddingHorizontal: SIZES.small,
-  },
-  tipIconBadge: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: SIZES.small,
-  },
-  guidanceHead: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
-    marginBottom: 4,
-    textAlign: 'center',
-  },
-  guidanceSub: {
     fontSize: 12,
-    color: COLORS.textSecondary,
-    textAlign: 'center',
-    lineHeight: 16,
+    color: '#475569',
+    lineHeight: 18,
+  },
+  tipItemBold: {
+    fontWeight: '700',
+    color: '#1E293B',
   },
 });

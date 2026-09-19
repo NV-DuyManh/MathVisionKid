@@ -14,7 +14,12 @@ from PIL import Image, ImageOps
 
 from app.ocr.factory import get_ocr_provider
 from app.ocr.crnn_provider import CrnnOcrProvider
-from app.schemas.ocr_pilot import OcrRecognizeLineResponse, OcrDetectLinesResponse, LineBox
+from app.schemas.ocr_pilot import (
+    OcrRecognizeLineResponse,
+    OcrDetectLinesResponse,
+    LineBox,
+    normalize_canonical_advisor_decision,
+)
 from app.config import settings
 from app.integrations.groq.line_analyzer import analyze_with_groq, init_pool
 from app.integrations.groq.reconcile import should_use_groq_line_analyzer, reconcile_groq_lines
@@ -803,7 +808,9 @@ async def detect_lines_endpoint(request: Request):
                 lw = max(5, min(line.width, width - lx))
                 lh = max(3, min(line.height, height - ly))
                 crop = cv_img[ly : ly + lh, lx : lx + lw]
+                t_crnn_0 = time.perf_counter()
                 raw_text, unc_data = provider.recognize_line_with_uncertainty(crop)
+                setattr(line, "_crnn_ms", round((time.perf_counter() - t_crnn_0) * 1000.0, 2))
                 line.rawOcrText = raw_text
                 line.rawOcrConfidence = unc_data.get("rawCrnnConfidence", 0.0)
                 line.minTokenConfidence = unc_data.get("minTokenConfidence")
@@ -811,6 +818,8 @@ async def detect_lines_endpoint(request: Request):
                 line.meanTokenConfidence = unc_data.get("meanTokenConfidence")
                 line.blankRatio = unc_data.get("blankRatio")
                 line.meanEntropy = unc_data.get("meanEntropy")
+                line.tokenAnomalyDetected = unc_data.get("tokenAnomalyDetected", False)
+                line.decoderAnomalyDetected = unc_data.get("decoderAnomalyDetected", False)
                 line.finalText = raw_text
                 line.text = raw_text
 
@@ -824,13 +833,18 @@ async def detect_lines_endpoint(request: Request):
         dual_call_count = 0
         groq_total_latency_ms = 0.0
         gemini_total_latency_ms = 0.0
+        line_advisor_timings = []
+        parallel_wall_clock_ms = 0.0
+        sequential_sum_ms = 0.0
         total_corr_start_time = time.time()
 
         if (groq_active or gemini_active) and not diagnostics.get("canonicalMatched", False) and lines:
             from app.integrations.groq.corrector import should_request_groq_correction, request_groq_correction
-            from app.integrations.gemini.corrector import request_gemini_correction
+            from app.integrations.gemini.corrector import request_gemini_correction, get_current_gemini_meta
             all_raw_texts = [l.rawOcrText or "" for l in lines]
 
+            # Pass 1: Set clean defaults and identify triggered lines
+            triggered_items = []
             for idx, line in enumerate(lines):
                 line.suggestions = []
                 line.groqSuggestion = None
@@ -842,7 +856,13 @@ async def detect_lines_endpoint(request: Request):
                 line.geminiConfidence = None
                 line.geminiDecision = None
                 line.geminiStatus = None
-                line.geminiModel = getattr(settings, "gemini_model", "gemini-2.5-flash")
+                line.geminiModel = getattr(settings, "gemini_model", "gemini-3.6-flash")
+                line.correctedText = None
+                line.correctionApplied = False
+                line.correctionDecision = "KEEP_RAW"
+                line.finalText = line.rawOcrText
+                line.text = line.finalText
+                line.predictedText = line.finalText
 
                 is_triggered = should_request_groq_correction(
                     line.rawOcrText,
@@ -852,189 +872,232 @@ async def detect_lines_endpoint(request: Request):
                     min_token_confidence=line.minTokenConfidence,
                     p10_confidence=line.p10TokenConfidence,
                     mean_entropy=line.meanEntropy,
+                    token_anomaly_detected=line.tokenAnomalyDetected,
+                    decoder_anomaly_detected=line.decoderAnomalyDetected,
+                    require_token_metrics=True,
                 )
 
                 if is_triggered:
                     any_correction_called = True
-                    lx = max(0, min(line.x, width - 1))
-                    ly = max(0, min(line.y, height - 1))
-                    lw = max(5, min(line.width, width - lx))
-                    lh = max(3, min(line.height, height - ly))
-                    crop = cv_img[ly : ly + lh, lx : lx + lw]
+                    if getattr(line, "tokenAnomalyDetected", False):
+                        trigger_reason = "TOKEN_ANOMALY"
+                    elif getattr(line, "decoderAnomalyDetected", False):
+                        trigger_reason = "DECODER_ANOMALY"
+                    elif (line.rawOcrConfidence or 0.0) < getattr(settings, "groq_post_correction_trigger_confidence", 0.82):
+                        trigger_reason = "LOW_CONFIDENCE"
+                    elif line.minTokenConfidence is None or line.p10TokenConfidence is None:
+                        trigger_reason = "MISSING_TOKEN_METRICS"
+                    else:
+                        trigger_reason = "UNCERTAINTY_HEURISTIC"
+                    triggered_items.append((idx, line, trigger_reason))
 
-                    context_lines = [t for i, t in enumerate(all_raw_texts) if i != idx and t]
+            # Pass 2: Bounded concurrent scheduling across triggered lines
+            if triggered_items:
+                concurrency_bound = max(1, getattr(settings, "cloud_advisor_max_concurrency", 3))
+                sem = asyncio.Semaphore(concurrency_bound)
 
-                    # Parallel, independent advisor execution
-                    async def run_groq():
-                        t0 = time.time()
-                        res = await request_groq_correction(
-                            bgr_crop=crop,
-                            raw_text=line.rawOcrText or "",
-                            raw_confidence=line.rawOcrConfidence or 0.0,
-                            domain="HANDWRITING_TEXT",
-                            read_only_context=context_lines,
-                            primary_model=settings.groq_primary_vision_model,
-                            auto_apply_confidence=getattr(settings, "groq_post_correction_auto_apply_confidence", 0.92),
-                            max_edit_ratio=getattr(settings, "groq_post_correction_max_edit_ratio", 0.35),
-                            timeout_seconds=settings.groq_timeout_seconds,
-                            connect_timeout=settings.groq_connect_timeout_seconds,
-                            cache_ttl=getattr(settings, "groq_correction_cache_ttl_seconds", 3600),
-                        )
-                        lat = (time.time() - t0) * 1000
-                        return res, lat
+                async def process_one_triggered_line(idx: int, line: LineBox, trigger_reason: str):
+                    async with sem:
+                        t_line_start = time.perf_counter()
+                        lx = max(0, min(line.x, width - 1))
+                        ly = max(0, min(line.y, height - 1))
+                        lw = max(5, min(line.width, width - lx))
+                        lh = max(3, min(line.height, height - ly))
+                        crop = cv_img[ly : ly + lh, lx : lx + lw]
 
-                    async def run_gemini():
-                        t0 = time.time()
-                        res = await request_gemini_correction(
-                            bgr_crop=crop,
-                            raw_text=line.rawOcrText or "",
-                            raw_confidence=line.rawOcrConfidence or 0.0,
-                            domain="HANDWRITING_TEXT",
-                            model=getattr(settings, "gemini_model", "gemini-2.5-flash"),
-                            timeout_seconds=getattr(settings, "gemini_timeout_seconds", 10.0),
-                            cache_ttl=getattr(settings, "gemini_correction_cache_ttl_seconds", 3600),
-                        )
-                        lat = (time.time() - t0) * 1000
-                        return res, lat
+                        context_lines = [t for i, t in enumerate(all_raw_texts) if i != idx and t]
 
-                    coros = []
-                    coro_names = []
-                    if groq_active:
-                        coros.append(run_groq())
-                        coro_names.append("GROQ")
-                        groq_call_count += 1
-                    if gemini_active:
-                        coros.append(run_gemini())
-                        coro_names.append("GEMINI")
-                        gemini_call_count += 1
-                    if groq_active and gemini_active:
-                        dual_call_count += 1
+                        async def run_groq():
+                            t0 = time.perf_counter()
+                            res = await request_groq_correction(
+                                bgr_crop=crop,
+                                raw_text=line.rawOcrText or "",
+                                raw_confidence=line.rawOcrConfidence or 0.0,
+                                domain="HANDWRITING_TEXT",
+                                read_only_context=context_lines,
+                                primary_model=settings.groq_primary_vision_model,
+                                auto_apply_confidence=getattr(settings, "groq_post_correction_auto_apply_confidence", 0.92),
+                                max_edit_ratio=getattr(settings, "groq_post_correction_max_edit_ratio", 0.35),
+                                timeout_seconds=settings.groq_timeout_seconds,
+                                connect_timeout=settings.groq_connect_timeout_seconds,
+                                cache_ttl=getattr(settings, "groq_correction_cache_ttl_seconds", 3600),
+                            )
+                            lat = (time.perf_counter() - t0) * 1000.0
+                            return res, lat
 
-                    raw_results = await asyncio.gather(*coros, return_exceptions=True)
+                        async def run_gemini():
+                            t0 = time.perf_counter()
+                            res = await request_gemini_correction(
+                                bgr_crop=crop,
+                                raw_text=line.rawOcrText or "",
+                                raw_confidence=line.rawOcrConfidence or 0.0,
+                                domain="HANDWRITING_TEXT",
+                                model=getattr(settings, "gemini_model", "gemini-3.6-flash"),
+                                timeout_seconds=getattr(settings, "gemini_timeout_seconds", 18.0),
+                                connect_timeout=getattr(settings, "gemini_connect_timeout_seconds", 4.0),
+                                cache_ttl=getattr(settings, "gemini_correction_cache_ttl_seconds", 3600),
+                            )
+                            lat = (time.perf_counter() - t0) * 1000.0
+                            meta = get_current_gemini_meta()
+                            return res, lat, meta
 
-                    groq_res, gemini_res = None, None
-                    corr_obj = None
-                    gem_obj = None
+                        coros = []
+                        coro_names = []
+                        if groq_active:
+                            coros.append(run_groq())
+                            coro_names.append("GROQ")
+                        if gemini_active:
+                            coros.append(run_gemini())
+                            coro_names.append("GEMINI")
 
-                    for name, r in zip(coro_names, raw_results):
-                        if isinstance(r, Exception):
-                            logger.warning(f"[OCR_PILOT] Advisor {name} error: {r}")
-                            if name == "GROQ":
-                                line.groqStatus = "UNAVAILABLE"
-                            else:
-                                line.geminiStatus = "UNAVAILABLE"
-                        elif r is not None:
-                            res_val, lat_val = r
-                            if name == "GROQ":
-                                groq_res = res_val
-                                groq_total_latency_ms += lat_val
-                            else:
-                                gemini_res = res_val
-                                gemini_total_latency_ms += lat_val
+                        raw_results = await asyncio.gather(*coros, return_exceptions=True)
 
-                    # Process Groq (Advisor 1)
-                    if groq_res is not None:
-                        corr_obj, decision, edit_ratio, reason = groq_res
-                        line.correctedText = corr_obj.suggested_text
-                        line.correctionConfidence = corr_obj.confidence
-                        line.correctionDecision = decision
-                        line.groqSuggestion = corr_obj.suggested_text
-                        line.groqConfidence = corr_obj.confidence
-                        line.groqDecision = decision
-                        line.groqStatus = "SUCCESS"
-                        if decision == "AUTO_APPLY":
-                            line.correctionApplied = True
-                            line.finalText = corr_obj.suggested_text
-                            any_correction_applied = True
-                        else:
+                        groq_res, gemini_res = None, None
+                        groq_lat, gemini_lat = 0.0, 0.0
+                        gemini_call_meta = {}
+                        corr_obj = None
+                        gem_obj = None
+
+                        for name, r in zip(coro_names, raw_results):
+                            if isinstance(r, Exception):
+                                logger.warning(f"[OCR_PILOT] Advisor {name} error: {r}")
+                                if name == "GROQ":
+                                    line.groqStatus = "UNAVAILABLE"
+                                else:
+                                    line.geminiStatus = "UNAVAILABLE"
+                            elif r is not None:
+                                if name == "GROQ":
+                                    groq_res, groq_lat = r
+                                else:
+                                    gemini_res, gemini_lat, gemini_call_meta = r
+
+                        # Process Groq (Advisor 1)
+                        if groq_res is not None:
+                            corr_obj, decision, edit_ratio, reason = groq_res
+                            canonical_groq_dec = normalize_canonical_advisor_decision(decision)
+                            line.correctedText = corr_obj.suggested_text
+                            line.correctionConfidence = corr_obj.confidence
+                            line.correctionDecision = canonical_groq_dec
+                            line.groqSuggestion = corr_obj.suggested_text
+                            line.groqConfidence = corr_obj.confidence
+                            line.groqDecision = canonical_groq_dec
+                            line.groqStatus = "SUCCESS"
                             line.correctionApplied = False
                             line.finalText = line.rawOcrText
-                    elif groq_active:
-                        line.correctedText = None
-                        line.correctionApplied = False
-                        line.correctionDecision = "KEEP_RAW"
-                        line.finalText = line.rawOcrText
-                        if not line.groqStatus:
-                            line.groqStatus = "UNAVAILABLE"
-                    else:
-                        line.correctedText = None
-                        line.correctionApplied = False
-                        line.correctionDecision = "KEEP_RAW"
-                        line.finalText = line.rawOcrText
+                        elif groq_active:
+                            line.correctedText = None
+                            line.correctionApplied = False
+                            line.correctionDecision = "KEEP_RAW"
+                            line.groqDecision = "KEEP_RAW"
+                            line.finalText = line.rawOcrText
+                            if not line.groqStatus:
+                                line.groqStatus = "UNAVAILABLE"
+                        else:
+                            line.correctedText = None
+                            line.correctionApplied = False
+                            line.correctionDecision = "KEEP_RAW"
+                            line.finalText = line.rawOcrText
 
-                    # Process Gemini (Advisor 2 - Advisory-first, never silently overrides finalText)
-                    if gemini_active:
-                        line.geminiModel = getattr(settings, "gemini_model", "gemini-2.5-flash")
-                    if gemini_res is not None:
-                        gem_obj, gem_dec, gem_ratio, gem_reason = gemini_res
-                        line.geminiSuggestion = gem_obj.suggested_text
-                        line.geminiConfidence = gem_obj.confidence
-                        line.geminiDecision = gem_dec
-                        line.geminiStatus = "SUCCESS"
-                    elif gemini_active:
-                        line.geminiSuggestion = None
-                        line.geminiDecision = "KEEP_RAW"
-                        if not line.geminiStatus:
-                            line.geminiStatus = "UNAVAILABLE"
+                        # Process Gemini (Advisor 2 - Advisory-first, never silently overrides finalText)
+                        if gemini_active:
+                            line.geminiModel = getattr(settings, "gemini_model", "gemini-3.6-flash")
+                        if gemini_res is not None:
+                            gem_obj, gem_dec, gem_ratio, gem_reason = gemini_res
+                            canonical_gem_dec = normalize_canonical_advisor_decision(gem_dec)
+                            line.geminiSuggestion = gem_obj.suggested_text
+                            line.geminiConfidence = gem_obj.confidence
+                            line.geminiDecision = canonical_gem_dec
+                            line.geminiStatus = "SUCCESS"
+                        elif gemini_active:
+                            line.geminiSuggestion = None
+                            line.geminiDecision = "KEEP_RAW"
+                            if not line.geminiStatus:
+                                line.geminiStatus = "UNAVAILABLE"
 
-                    # Populate unified suggestions list
-                    line_suggestions = []
-                    if line.groqStatus == "SUCCESS" and line.groqSuggestion:
-                        line_suggestions.append({
-                            "provider": "GROQ",
-                            "model": settings.groq_primary_vision_model,
-                            "text": line.groqSuggestion,
-                            "confidence": line.groqConfidence or 0.0,
-                            "visualSupport": getattr(corr_obj, "visual_support", "STRONG"),
-                            "decision": line.groqDecision or "SUGGEST_ONLY",
-                            "status": "SUCCESS"
-                        })
-                    elif groq_active and line.groqStatus:
-                        line_suggestions.append({
-                            "provider": "GROQ",
-                            "model": settings.groq_primary_vision_model,
-                            "text": "",
-                            "confidence": 0.0,
-                            "visualSupport": "NONE",
-                            "decision": "KEEP_RAW",
-                            "status": line.groqStatus
-                        })
+                        # Populate unified suggestions list
+                        line_suggestions = []
+                        if line.groqStatus == "SUCCESS" and line.groqSuggestion:
+                            line_suggestions.append({
+                                "provider": "GROQ",
+                                "model": settings.groq_primary_vision_model,
+                                "text": line.groqSuggestion,
+                                "confidence": line.groqConfidence or 0.0,
+                                "visualSupport": getattr(corr_obj, "visual_support", "STRONG"),
+                                "decision": normalize_canonical_advisor_decision(line.groqDecision),
+                                "status": "SUCCESS"
+                            })
+                        elif groq_active and line.groqStatus:
+                            line_suggestions.append({
+                                "provider": "GROQ",
+                                "model": settings.groq_primary_vision_model,
+                                "text": "",
+                                "confidence": 0.0,
+                                "visualSupport": "NONE",
+                                "decision": "KEEP_RAW",
+                                "status": line.groqStatus
+                            })
 
-                    if line.geminiStatus == "SUCCESS" and line.geminiSuggestion:
-                        line_suggestions.append({
-                            "provider": "GEMINI",
-                            "model": line.geminiModel or getattr(settings, "gemini_model", "gemini-2.5-flash"),
-                            "text": line.geminiSuggestion,
-                            "confidence": line.geminiConfidence or 0.0,
-                            "visualSupport": getattr(gem_obj, "visual_support", "STRONG"),
-                            "decision": line.geminiDecision or "SUGGEST_ONLY",
-                            "status": "SUCCESS"
-                        })
-                    elif gemini_active and line.geminiStatus:
-                        line_suggestions.append({
-                            "provider": "GEMINI",
-                            "model": line.geminiModel or getattr(settings, "gemini_model", "gemini-2.5-flash"),
-                            "text": "",
-                            "confidence": 0.0,
-                            "visualSupport": "NONE",
-                            "decision": "KEEP_RAW",
-                            "status": line.geminiStatus
-                        })
+                        if line.geminiStatus == "SUCCESS" and line.geminiSuggestion:
+                            line_suggestions.append({
+                                "provider": "GEMINI",
+                                "model": line.geminiModel or getattr(settings, "gemini_model", "gemini-3.6-flash"),
+                                "text": line.geminiSuggestion,
+                                "confidence": line.geminiConfidence or 0.0,
+                                "visualSupport": getattr(gem_obj, "visual_support", "STRONG"),
+                                "decision": normalize_canonical_advisor_decision(line.geminiDecision),
+                                "status": "SUCCESS"
+                            })
+                        elif gemini_active and line.geminiStatus:
+                            line_suggestions.append({
+                                "provider": "GEMINI",
+                                "model": line.geminiModel or getattr(settings, "gemini_model", "gemini-3.6-flash"),
+                                "text": "",
+                                "confidence": 0.0,
+                                "visualSupport": "NONE",
+                                "decision": "KEEP_RAW",
+                                "status": line.geminiStatus
+                            })
 
-                    line.suggestions = line_suggestions
-                else:
-                    line.correctedText = None
-                    line.correctionApplied = False
-                    line.correctionDecision = "KEEP_RAW"
-                    line.finalText = line.rawOcrText
-                    line.groqStatus = None
-                    line.groqModel = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
-                    line.geminiStatus = None
-                    line.geminiModel = getattr(settings, "gemini_model", "gemini-2.5-flash")
-                    line.suggestions = []
+                        line.suggestions = line_suggestions
+                        line.text = line.finalText
+                        line.predictedText = line.finalText
 
-                line.text = line.finalText
-                line.predictedText = line.finalText
+                        total_line_ms = round((time.perf_counter() - t_line_start) * 1000.0, 2)
+
+                        timing_record = {
+                            "line_index": idx,
+                            "crnn_ms": getattr(line, "_crnn_ms", 0.0),
+                            "groq_ms": round(groq_lat, 2),
+                            "gemini_ms": round(gemini_lat, 2),
+                            "key_attempt_count": gemini_call_meta.get("key_attempt_count", 0),
+                            "key_failover_ms": gemini_call_meta.get("key_failover_ms", 0.0),
+                            "provider_wait_ms": gemini_call_meta.get("provider_wait_ms", 0.0),
+                            "total_line_ms": total_line_ms,
+                            "trigger_reason": trigger_reason,
+                            "groq_status": line.groqStatus,
+                            "gemini_status": line.geminiStatus,
+                        }
+                        return idx, groq_lat, gemini_lat, (1 if groq_active else 0), (1 if gemini_active else 0), timing_record
+
+                t_gather_start = time.perf_counter()
+                results = await asyncio.gather(
+                    *(process_one_triggered_line(i, l, r) for i, l, r in triggered_items)
+                )
+                parallel_wall_clock_ms = (time.perf_counter() - t_gather_start) * 1000.0
+
+                for res in results:
+                    _, g_lat, gem_lat, g_count, gem_count, timing_rec = res
+                    groq_total_latency_ms += g_lat
+                    gemini_total_latency_ms += gem_lat
+                    groq_call_count += g_count
+                    gemini_call_count += gem_count
+                    if g_count > 0 and gem_count > 0:
+                        dual_call_count += 1
+                    line_advisor_timings.append(timing_rec)
+
+                # Sort by line_index for clean deterministic ordering
+                line_advisor_timings.sort(key=lambda x: x["line_index"])
+                sequential_sum_ms = sum(max(t["groq_ms"], t["gemini_ms"]) for t in line_advisor_timings)
         else:
             for line in lines:
                 line.suggestions = []
@@ -1047,7 +1110,7 @@ async def detect_lines_endpoint(request: Request):
                 line.geminiConfidence = None
                 line.geminiDecision = None
                 line.geminiStatus = None
-                line.geminiModel = getattr(settings, "gemini_model", "gemini-2.5-flash")
+                line.geminiModel = getattr(settings, "gemini_model", "gemini-3.6-flash")
                 line.correctedText = None
                 line.correctionApplied = False
                 line.correctionDecision = "KEEP_RAW"
@@ -1084,7 +1147,7 @@ async def detect_lines_endpoint(request: Request):
             diagnostics["geminiCorrectionUsed"] = (gemini_call_count > 0)
             diagnostics["geminiUsed"] = (gemini_call_count > 0)
             diagnostics["groqModel"] = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
-            diagnostics["geminiModel"] = getattr(settings, "gemini_model", "gemini-2.5-flash")
+            diagnostics["geminiModel"] = getattr(settings, "gemini_model", "gemini-3.6-flash")
 
         # Persist metadata.json under scratch/runtime6_live_input/
         try:
@@ -1133,6 +1196,18 @@ async def detect_lines_endpoint(request: Request):
         diagnostics["groqLatencyMs"] = round(groq_total_latency_ms, 2)
         diagnostics["geminiLatencyMs"] = round(gemini_total_latency_ms, 2)
         diagnostics["totalCorrectionLatencyMs"] = round(total_correction_latency_ms, 2)
+        diagnostics["missingTokenMetricsCount"] = sum(1 for l in lines if l.minTokenConfidence is None or l.p10TokenConfidence is None)
+        diagnostics["forcedTriggerDueToMissingMetricsCount"] = sum(
+            1 for l in lines
+            if (l.minTokenConfidence is None or l.p10TokenConfidence is None)
+            and (l.rawOcrConfidence or 0.0) >= getattr(settings, "groq_post_correction_trigger_confidence", 0.82)
+        )
+        diagnostics["tokenAnomalyTriggerCount"] = sum(1 for l in lines if getattr(l, "tokenAnomalyDetected", False) is True)
+        diagnostics["decoderAnomalyTriggerCount"] = sum(1 for l in lines if getattr(l, "decoderAnomalyDetected", False) is True)
+        diagnostics["lineAdvisorTimings"] = line_advisor_timings
+        diagnostics["sequentialSumMs"] = round(sequential_sum_ms, 2)
+        diagnostics["parallelWallClockMs"] = round(parallel_wall_clock_ms, 2)
+        diagnostics["advisorConcurrency"] = getattr(settings, "cloud_advisor_max_concurrency", 3)
 
 
         # Physical Android Trace Logging (Dev-only)

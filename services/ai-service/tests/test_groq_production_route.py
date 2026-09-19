@@ -291,7 +291,7 @@ def test_http4_06_recognition_source_survives_to_client():
         )
     assert r.status_code == 200
     diag = r.json().get("diagnostics", {})
-    assert diag.get("recognitionSource") in ("GROQ_VISION", "CANONICAL_EXACT", "LOCAL_FALLBACK", "CRNN", "CRNN_PLUS_GROQ_CORRECTION")
+    assert diag.get("recognitionSource") in ("GROQ_VISION", "CANONICAL_EXACT", "LOCAL_FALLBACK", "CRNN", "CRNN_RAW", "CRNN_PLUS_GROQ_CORRECTION")
 
 
 # =====================================================================

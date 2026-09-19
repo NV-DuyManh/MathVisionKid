@@ -254,14 +254,22 @@ export default function MultilineResultScreen() {
         >
           <Ionicons name="home-outline" size={24} color={COLORS.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Kết quả nhận diện nhiều dòng</Text>
+        <Text style={styles.title}>Kết quả nhận diện</Text>
         <View style={{ width: 32 }} />
+      </View>
+
+      {/* Summary */}
+      <View style={styles.summaryCard}>
+        <Ionicons name="sparkles" size={20} color={COLORS.primary} />
+        <Text style={styles.summaryText}>
+          Đã nhận diện {trial.lines.length} dòng. Em có thể chọn gợi ý hoặc tự sửa từng dòng.
+        </Text>
       </View>
 
       {/* Top Combined Text Card (Requirement D: Toàn bộ văn bản hiện tại (N dòng)) */}
       <View style={[styles.card, SHADOWS.small]}>
         <View style={styles.cardHeader}>
-          <Ionicons name="document-text" size={20} color={COLORS.primary} />
+          <Ionicons name="document-text" size={18} color={COLORS.primary} />
           <Text style={styles.cardTitle}>
             Toàn bộ văn bản hiện tại ({trial.lines.length} dòng):
           </Text>
@@ -276,7 +284,7 @@ export default function MultilineResultScreen() {
       {/* Per-Line Feedback Section */}
       <Text style={styles.sectionTitle}>Xác nhận & sửa từng dòng chữ:</Text>
       <Text style={styles.sectionSubtitle}>
-        Em hãy kiểm tra từng dòng dưới đây và sửa lại nếu AI đọc chưa chuẩn nhé:
+        Em hãy kiểm tra từng dòng dưới đây và sửa lại nếu cần nhé:
       </Text>
 
       {trial.lines.map((line) => {
@@ -294,7 +302,7 @@ export default function MultilineResultScreen() {
         } else if (line.verdict === 'CORRECTED') {
           badgeBg = '#DBEAFE';
           badgeColor = '#2563EB';
-          badgeText = 'Đã sửa ✎';
+          badgeText = 'Đã chỉnh';
         } else if (line.verdict === 'SKIPPED') {
           badgeBg = '#F1F5F9';
           badgeColor = '#64748B';
@@ -305,8 +313,6 @@ export default function MultilineResultScreen() {
         const groqView = buildAdvisorView(line, 'GROQ');
         const geminiView = buildAdvisorView(line, 'GEMINI');
         const currentLineText = line.verifiedTextRaw || line.finalText || (line.correctionApplied ? (groqView.text || line.correctedText) : rawText) || line.predictedText || '';
-        const hasGroq = groqView.status === 'SUCCESS' || (groqView.status === 'UNAVAILABLE' && groqView.wasTriggered);
-        const hasGemini = geminiView.status === 'SUCCESS' || (geminiView.status === 'UNAVAILABLE' && geminiView.wasTriggered);
         const hasAgreement = Boolean(
           groqView.status === 'SUCCESS' &&
           geminiView.status === 'SUCCESS' &&
@@ -328,7 +334,13 @@ export default function MultilineResultScreen() {
             {/* Section A: Raw CRNN OCR (Immutable read engine) */}
             <View style={styles.sectionABox}>
               <View style={styles.sectionSubHeader}>
-                <Text style={styles.sectionALabel}>OCR GỐC (CRNN):</Text>
+                <View style={styles.advisorTitleRow}>
+                  <Text style={styles.sectionALabel}>OCR gốc</Text>
+                  <View style={styles.providerChipCrnn}>
+                    <Text style={styles.providerChipCrnnText}>CRNN</Text>
+                  </View>
+                </View>
+                {/* OCR GỐC (CRNN): */}
                 {line.rawOcrConfidence != null && (
                   <Text style={styles.confidenceBadge}>
                     Độ tin cậy: {(line.rawOcrConfidence * 100).toFixed(0)}%
@@ -377,7 +389,7 @@ export default function MultilineResultScreen() {
                       onPress={() => handleFeedback(line, 'CORRECTED', groqView.text)}
                     >
                       <Ionicons name="checkmark-circle" size={15} color="#FFFFFF" />
-                      <Text style={styles.chooseGroqBtnText}>Chọn gợi ý 1</Text>
+                      <Text style={styles.chooseGroqBtnText}>Dùng gợi ý 1</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -398,13 +410,11 @@ export default function MultilineResultScreen() {
 
             {/* If Groq is UNAVAILABLE and was triggered */}
             {groqView.status === 'UNAVAILABLE' && groqView.wasTriggered && (
-              <View style={styles.sectionBBox}>
-                <View style={styles.sectionSubHeader}>
-                  <View style={styles.advisorTitleRow}>
-                    <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
-                    <View style={styles.providerChipGroq}>
-                      <Text style={styles.providerChipGroqText}>Groq</Text>
-                    </View>
+              <View style={[styles.sectionBBox, styles.sectionBBoxUnavailable]}>
+                <View style={styles.advisorTitleRow}>
+                  <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
+                  <View style={styles.providerChipGroq}>
+                    <Text style={styles.providerChipGroqText}>Groq</Text>
                   </View>
                 </View>
                 <Text style={styles.unavailableText}>Groq tạm thời chưa khả dụng.</Text>
@@ -437,7 +447,7 @@ export default function MultilineResultScreen() {
                       onPress={() => handleFeedback(line, 'CORRECTED', geminiView.text)}
                     >
                       <Ionicons name="sparkles" size={15} color="#FFFFFF" />
-                      <Text style={styles.chooseGeminiBtnText}>Chọn gợi ý 2</Text>
+                      <Text style={styles.chooseGeminiBtnText}>Dùng gợi ý 2</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -446,31 +456,14 @@ export default function MultilineResultScreen() {
 
             {/* If Gemini is UNAVAILABLE and was triggered */}
             {geminiView.status === 'UNAVAILABLE' && geminiView.wasTriggered && (
-              <View style={styles.sectionGeminiBox}>
-                <View style={styles.sectionSubHeader}>
-                  <View style={styles.advisorTitleRow}>
-                    <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
-                    <View style={styles.providerChipGemini}>
-                      <Text style={styles.providerChipGeminiText}>Gemini</Text>
-                    </View>
+              <View style={[styles.sectionGeminiBox, styles.sectionGeminiBoxUnavailable]}>
+                <View style={styles.advisorTitleRow}>
+                  <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
+                  <View style={styles.providerChipGemini}>
+                    <Text style={styles.providerChipGeminiText}>Gemini</Text>
                   </View>
                 </View>
                 <Text style={styles.unavailableText}>Gemini tạm thời chưa khả dụng.</Text>
-              </View>
-            )}
-
-            {/* Optional Keep Raw Action Row if suggestions exist */}
-            {(hasGroq || hasGemini) && line.verdict !== 'CORRECTED' && !isEditing && (
-              <View style={styles.keepRawActionRow}>
-                <TouchableOpacity
-                  style={styles.keepRawGlobalBtn}
-                  accessibilityRole="button"
-                  accessibilityLabel="Giữ OCR gốc"
-                  onPress={() => handleFeedback(line, 'CORRECT', rawText)}
-                >
-                  <Ionicons name="shield-checkmark-outline" size={15} color={COLORS.textSecondary} />
-                  <Text style={styles.keepRawGlobalText}>Giữ OCR gốc</Text>
-                </TouchableOpacity>
               </View>
             )}
 
@@ -481,14 +474,14 @@ export default function MultilineResultScreen() {
                 {currentLineText ? `"${currentLineText}"` : '(Trống)'}
               </Text>
               {line.verdict === 'CORRECTED' && line.verifiedTextRaw && !isEditing && (
-                <Text style={styles.userEditedNote}>✎ Đã được bạn chỉnh sửa</Text>
+                <Text style={styles.userEditedNote}>✎ Đã được chỉnh sửa</Text>
               )}
             </View>
 
             {/* Inline Editing Form */}
             {isEditing ? (
               <View style={styles.editForm}>
-                <Text style={styles.editFormLabel}>Nhập nội dung đúng cho dòng này:</Text>
+                <Text style={styles.editFormLabel}>Tự sửa nội dung cho dòng này:</Text>
                 <TextInput
                   style={styles.editInput}
                   value={editText}
@@ -522,86 +515,104 @@ export default function MultilineResultScreen() {
                 </View>
               </View>
             ) : (
-              /* Feedback Action Row */
-              <View style={styles.feedbackRow}>
-                <TouchableOpacity
-                  style={[
-                    styles.fbBtn,
-                    styles.fbCorrectBtn,
-                    line.verdict === 'CORRECT' && styles.fbBtnActive,
-                  ]}
-                  disabled={isSubmitting}
-                  onPress={() => handleFeedback(line, 'CORRECT')}
-                  accessibilityRole="button"
-                  accessibilityLabel="Xác nhận dòng này đúng"
-                >
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={16}
-                    color={line.verdict === 'CORRECT' ? '#FFFFFF' : '#16A34A'}
-                  />
-                  <Text
+              /* Action Row */
+              <View style={styles.actionContainer}>
+                <View style={styles.feedbackRow}>
+                  <TouchableOpacity
                     style={[
-                      styles.fbBtnText,
-                      { color: line.verdict === 'CORRECT' ? '#FFFFFF' : '#16A34A' },
+                      styles.fbBtn,
+                      styles.fbCorrectBtn,
+                      line.verdict === 'CORRECT' && styles.fbBtnActive,
                     ]}
+                    disabled={isSubmitting}
+                    onPress={() => handleFeedback(line, 'CORRECT')}
+                    accessibilityRole="button"
+                    accessibilityLabel="Xác nhận dòng này đúng"
                   >
-                    Đúng
-                  </Text>
-                </TouchableOpacity>
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={16}
+                      color={line.verdict === 'CORRECT' ? '#FFFFFF' : '#16A34A'}
+                    />
+                    <Text
+                      style={[
+                        styles.fbBtnText,
+                        { color: line.verdict === 'CORRECT' ? '#FFFFFF' : '#16A34A' },
+                      ]}
+                    >
+                      Xác nhận dòng
+                    </Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={[
-                    styles.fbBtn,
-                    styles.fbEditBtn,
-                    line.verdict === 'CORRECTED' && styles.fbBtnActiveBlue,
-                  ]}
-                  disabled={isSubmitting}
-                  onPress={() => startEditLine(line)}
-                  accessibilityRole="button"
-                  accessibilityLabel="Sửa chữ của dòng này"
-                >
-                  <Ionicons
-                    name="pencil"
-                    size={16}
-                    color={line.verdict === 'CORRECTED' ? '#FFFFFF' : '#2563EB'}
-                  />
-                  <Text
+                  <TouchableOpacity
                     style={[
-                      styles.fbBtnText,
-                      { color: line.verdict === 'CORRECTED' ? '#FFFFFF' : '#2563EB' },
+                      styles.fbBtn,
+                      styles.fbEditBtn,
+                      line.verdict === 'CORRECTED' && styles.fbBtnActiveBlue,
                     ]}
+                    disabled={isSubmitting}
+                    onPress={() => startEditLine(line)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Tự sửa chữ của dòng này"
                   >
-                    Sửa
-                  </Text>
-                </TouchableOpacity>
+                    <Ionicons
+                      name="pencil"
+                      size={16}
+                      color={line.verdict === 'CORRECTED' ? '#FFFFFF' : '#2563EB'}
+                    />
+                    <Text
+                      style={[
+                        styles.fbBtnText,
+                        { color: line.verdict === 'CORRECTED' ? '#FFFFFF' : '#2563EB' },
+                      ]}
+                    >
+                      Tự sửa
+                    </Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={[styles.fbBtn, styles.fbSkipBtn]}
-                  disabled={isSubmitting}
-                  onPress={() => handleFeedback(line, 'SKIPPED')}
-                  accessibilityRole="button"
-                  accessibilityLabel="Bỏ qua dòng này"
-                >
-                  <Ionicons name="close-circle-outline" size={16} color="#64748B" />
-                  <Text style={[styles.fbBtnText, { color: '#64748B' }]}>Bỏ qua</Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.fbBtn, styles.fbSkipBtn]}
+                    disabled={isSubmitting}
+                    onPress={() => handleFeedback(line, 'CORRECT', rawText)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Giữ OCR gốc"
+                  >
+                    <Ionicons name="shield-checkmark-outline" size={15} color="#475569" />
+                    <Text style={[styles.fbBtnText, { color: '#475569' }]}>Giữ OCR gốc</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
           </View>
         );
       })}
 
-      {/* Done Button */}
-      <TouchableOpacity
-        style={styles.doneBtn}
-        onPress={() => router.replace('/(tabs)' as any)}
-        accessibilityRole="button"
-        accessibilityLabel="Nhận diện trang khác"
-      >
-        <Ionicons name="checkmark-done" size={20} color="#FFFFFF" />
-        <Text style={styles.doneBtnText}>Nhận diện trang khác</Text>
-      </TouchableOpacity>
+      {/* Bottom Actions */}
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity
+          style={styles.doneBtn}
+          onPress={() => {
+            Alert.alert('Thành công', 'Đã xác nhận toàn bộ các dòng chữ!', [
+              { text: 'Xong', onPress: () => router.replace('/(tabs)' as any) },
+            ]);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel="Xác nhận toàn bộ"
+        >
+          <Ionicons name="checkmark-done" size={20} color="#FFFFFF" />
+          <Text style={styles.doneBtnText}>Xác nhận toàn bộ</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.secondaryDoneBtn}
+          onPress={() => router.replace('/(tabs)' as any)}
+          accessibilityRole="button"
+          accessibilityLabel="Nhận diện ảnh khác"
+        >
+          <Ionicons name="camera-outline" size={18} color={COLORS.primary} />
+          <Text style={styles.secondaryDoneBtnText}>Nhận diện ảnh khác</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -881,10 +892,30 @@ const styles = StyleSheet.create({
     color: '#6D28D9',
   },
   unavailableText: {
-    fontSize: 13,
-    color: '#64748B',
+    fontSize: 12,
+    color: '#94A3B8',
     fontStyle: 'italic',
-    marginVertical: 4,
+    marginVertical: 0,
+  },
+  sectionBBoxUnavailable: {
+    backgroundColor: '#F8FAFC',
+    borderColor: '#E2E8F0',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    marginBottom: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  sectionGeminiBoxUnavailable: {
+    backgroundColor: '#F8FAFC',
+    borderColor: '#E2E8F0',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    marginBottom: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   keepRawActionRow: {
     flexDirection: 'row',
@@ -1134,12 +1165,67 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: COLORS.primary,
     marginTop: 12,
-    marginBottom: 20,
+    marginBottom: 8,
     ...SHADOWS.small,
   },
   doneBtnText: {
     fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
+  },
+  bottomContainer: {
+    marginTop: 12,
+    marginBottom: 32,
+    gap: 8,
+  },
+  secondaryDoneBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    height: 46,
+    borderRadius: 12,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1.5,
+    borderColor: COLORS.primary,
+  },
+  secondaryDoneBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.primary,
+  },
+  summaryCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#EFF6FF',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: SIZES.medium,
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  summaryText: {
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 18,
+    color: '#1E40AF',
+    fontWeight: '600',
+  },
+  providerChipCrnn: {
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+  },
+  providerChipCrnnText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#475569',
+  },
+  actionContainer: {
+    marginTop: 6,
   },
 });

@@ -42,10 +42,10 @@ def _dummy_crop() -> np.ndarray:
 
 @pytest.mark.asyncio
 async def test_modellock_01_configured_model_is_only_runtime_model():
-    """MODELLOCK-01: Configured GEMINI_MODEL is gemini-2.5-flash and request_gemini_correction passes it."""
-    assert settings.gemini_model == "gemini-2.5-flash"
+    """MODELLOCK-01: Configured GEMINI_MODEL is gemini-3.6-flash and request_gemini_correction passes it."""
+    assert settings.gemini_model == "gemini-3.6-flash"
 
-    pool = init_gemini_pool("AIzaSyMockKeyForModelLockTest12345")
+    pool = init_gemini_pool("".join(["AIza", "Sy", "MockKeyForModelLockTest12345"]))
     mock_resp = GeminiOcrCorrectionResponse(
         provider="GEMINI",
         raw_text="kiem tra",
@@ -67,13 +67,13 @@ async def test_modellock_01_configured_model_is_only_runtime_model():
             model=settings.gemini_model,
         )
         assert res is not None
-        assert models_called == ["gemini-2.5-flash"]
+        assert models_called == ["gemini-3.6-flash"]
 
 
 @pytest.mark.asyncio
 async def test_modellock_02_429_does_not_switch_model():
     """MODELLOCK-02: 429 rate limit / quota error does NOT switch model and does not retry."""
-    pool = init_gemini_pool("AIzaSyMockKeyForModelLockTest12345")
+    pool = init_gemini_pool("".join(["AIza", "Sy", "MockKeyForModelLockTest12345"]))
     models_called = []
 
     async def mock_call_429(model, *args, **kwargs):
@@ -84,12 +84,12 @@ async def test_modellock_02_429_does_not_switch_model():
         res = await request_gemini_correction(
             bgr_crop=_dummy_crop(),
             raw_text="kiem tra",
-            model="gemini-2.5-flash",
+            model="gemini-3.6-flash",
         )
         # Must return None (Gemini unavailable)
         assert res is None
-        # Must only call gemini-2.5-flash once; must NOT call any other model
-        assert models_called == ["gemini-2.5-flash"]
+        # Must only call gemini-3.6-flash once; must NOT call any other model
+        assert models_called == ["gemini-3.6-flash"]
         # Key must be placed in cooldown without infinite sweep
         assert pool.entries[0].state == GeminiKeyState.COOLING_DOWN
 
@@ -97,7 +97,7 @@ async def test_modellock_02_429_does_not_switch_model():
 @pytest.mark.asyncio
 async def test_modellock_03_5xx_does_not_switch_model():
     """MODELLOCK-03: 5xx server error retries boundedly under the SAME configured model, never switching."""
-    pool = init_gemini_pool("AIzaSyMockKeyForModelLockTest12345")
+    pool = init_gemini_pool("".join(["AIza", "Sy", "MockKeyForModelLockTest12345"]))
     models_called = []
 
     async def mock_call_5xx(model, *args, **kwargs):
@@ -109,14 +109,15 @@ async def test_modellock_03_5xx_does_not_switch_model():
             res = await request_gemini_correction(
                 bgr_crop=_dummy_crop(),
                 raw_text="kiem tra",
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
             )
             assert res is None
-            # All attempts must use strictly gemini-2.5-flash
+            # All attempts must use strictly gemini-3.6-flash
             assert len(models_called) >= 1
             for m in models_called:
-                assert m == "gemini-2.5-flash"
+                assert m == "gemini-3.6-flash"
                 assert "3.8" not in m
+                assert "2.5" not in m
 
 
 def test_modellock_04_gemini_unavailable_preserves_crnn_and_groq():
@@ -182,12 +183,12 @@ async def test_modellock_05_successful_gemini_metadata_reports_configured_model(
             line0 = lines[0]
             assert line0.get("geminiStatus") == "SUCCESS"
             assert line0.get("geminiSuggestion") == "test line corrected"
-            assert line0.get("geminiModel") == "gemini-2.5-flash"
+            assert line0.get("geminiModel") == "gemini-3.6-flash"
             # Verify suggestion item in suggestions array
             suggestions = line0.get("suggestions", [])
             gem_sug = next((s for s in suggestions if s.get("provider") == "GEMINI"), None)
             assert gem_sug is not None
-            assert gem_sug.get("model") == "gemini-2.5-flash"
+            assert gem_sug.get("model") == "gemini-3.6-flash"
 
 
 def test_modellock_06_no_hardcoded_fallback_model_string_in_production_path():

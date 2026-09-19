@@ -153,19 +153,32 @@ public class OcrMultilineService {
             Boolean privacyConfirmed,
             String confirmedLinesJson,
             String requestId) {
+        if (confirmedLinesJson == null || confirmedLinesJson.isBlank()) {
+            throw new ApiException("VALIDATION_ERROR", "confirmedLines is required", HttpStatus.BAD_REQUEST);
+        }
+        List<LineBoxDto> confirmedLines;
+        try {
+            confirmedLines = objectMapper.readValue(confirmedLinesJson, new TypeReference<List<LineBoxDto>>() {});
+        } catch (Exception e) {
+            throw new ApiException("VALIDATION_ERROR", "Invalid confirmedLines JSON format: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return createTrialAndRecognize(file, userEmail, source, privacyConfirmed, confirmedLines, requestId);
+    }
+
+    @Transactional
+    public MultilineTrialResponse createTrialAndRecognize(
+            MultipartFile file,
+            String userEmail,
+            String source,
+            Boolean privacyConfirmed,
+            List<LineBoxDto> confirmedLines,
+            String requestId) {
         if (privacyConfirmed == null || !privacyConfirmed) {
             throw new ApiException("PRIVACY_REQUIRED", "Privacy confirmation is required to create a trial", HttpStatus.BAD_REQUEST);
         }
 
         if (file == null || file.isEmpty()) {
             throw new ApiException("VALIDATION_ERROR", "Page image file is required", HttpStatus.BAD_REQUEST);
-        }
-
-        List<LineBoxDto> confirmedLines;
-        try {
-            confirmedLines = objectMapper.readValue(confirmedLinesJson, new TypeReference<List<LineBoxDto>>() {});
-        } catch (Exception e) {
-            throw new ApiException("VALIDATION_ERROR", "Invalid confirmedLines JSON format: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         if (confirmedLines == null || confirmedLines.isEmpty()) {

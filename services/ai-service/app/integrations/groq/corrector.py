@@ -138,19 +138,26 @@ def should_request_groq_correction(
     min_token_confidence: Optional[float] = None,
     p10_confidence: Optional[float] = None,
     mean_entropy: Optional[float] = None,
+    token_anomaly_detected: Optional[bool] = None,
+    decoder_anomaly_detected: Optional[bool] = None,
+    require_token_metrics: bool = False,
 ) -> bool:
     """
     Decide whether to invoke Groq post-correction for a recognized line.
     Uses hybrid uncertainty signals:
     - Bypasses if domain is ARITHMETIC (protected)
     - Triggers if raw text is empty/whitespace or confidence is None
+    - Triggers if require_token_metrics is True and token metrics are missing (TRIGGER8-02)
     - Triggers if min emitted token confidence < 0.40
     - Triggers if p10 emitted token confidence < 0.50
     - Triggers if mean entropy > 1.20
     - Triggers if unknown/replacement characters exist ('?', '')
     - Triggers if extreme repeated characters exist (>= 4 repeats)
+    - Triggers if token_anomaly_detected or decoder_anomaly_detected is True (TRIGGER8-04)
+    - Triggers if disagreement anomaly: high aggregate confidence but a character token drops
+      below 0.50 with large confidence spread (raw_ocr_confidence - min_token_confidence >= 0.40)
     - Triggers if overall sequence confidence < trigger_confidence
-    - Otherwise bypasses Groq correction (saves latency/cost)
+    - Otherwise bypasses Groq correction (saves latency/cost, TRIGGER8-05)
     """
     if domain.upper() == "ARITHMETIC":
         # Post-correction disabled by default for arithmetic to protect numeric answers
@@ -162,7 +169,11 @@ def should_request_groq_correction(
     if raw_ocr_confidence is None:
         return True
 
-    # High uncertainty signals override mean confidence
+    # TRIGGER8-02: When token metrics are required, missing token metrics cannot silently default to non-triggering
+    if require_token_metrics and (min_token_confidence is None or p10_confidence is None):
+        return True
+
+    # 1. High uncertainty signals override mean confidence
     if min_token_confidence is not None and min_token_confidence < 0.40:
         return True
 
@@ -172,15 +183,28 @@ def should_request_groq_correction(
     if mean_entropy is not None and mean_entropy > 1.20:
         return True
 
-    # Unknown or replacement tokens
+    # 2. Unknown or replacement tokens
     if re.search(r"[\?]", raw_ocr_text):
         return True
 
-    # Extreme character repetitions
+    # 3. Extreme character repetitions
     if re.search(r"(.)\1{3,}", raw_ocr_text):
         return True
 
-    # High confidence CRNN lines bypass Groq correction
+    # 4. Explicit token or decoder anomaly (TRIGGER8-04)
+    if token_anomaly_detected is True or decoder_anomaly_detected is True:
+        return True
+
+    # 5. Inferred token-aggregate disagreement anomaly: high sequence confidence masking an acute local failure
+    if (
+        min_token_confidence is not None
+        and min_token_confidence < 0.50
+        and raw_ocr_confidence is not None
+        and (raw_ocr_confidence - min_token_confidence >= 0.40)
+    ):
+        return True
+
+    # 6. High confidence CRNN lines bypass Groq correction (TRIGGER8-05)
     if raw_ocr_confidence >= trigger_confidence:
         return False
 

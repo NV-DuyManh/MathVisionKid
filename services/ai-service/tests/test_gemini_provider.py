@@ -108,16 +108,13 @@ async def test_gemprov_04_401_failover():
         )
 
     with patch("app.integrations.gemini.corrector.call_gemini_correction", side_effect=mock_call):
-        # Call 1 hits BadKey1 -> disabled
+        # Call 1: BadKey1 -> AUTH_ERROR -> disabled -> immediate failover to GoodKey2 -> success
         res1 = await request_gemini_correction(_dummy_crop(), "kết quả", raw_confidence=0.70)
-        assert res1 is None
+        assert res1 is not None, "Multi-key failover should succeed when key2 is healthy"
+        assert res1[0].suggested_text == "kết quả tốt"
         assert pool.entries[0].state == GeminiKeyState.DISABLED_AUTH
-
-        # Call 2 leases GoodKey2 -> success
-        res2 = await request_gemini_correction(_dummy_crop(), "kết quả khác", raw_confidence=0.70)
-        assert res2 is not None
-        assert res2[0].suggested_text == "kết quả tốt"
         assert pool.entries[1].state == GeminiKeyState.HEALTHY
+        assert calls == ["AIzaBadKey1", "AIzaGoodKey2"]
 
 
 @pytest.mark.asyncio

@@ -90,7 +90,13 @@ def test_sec_gem_04_env_example_contains_placeholders_only():
 
     content = env_example_path.read_text(encoding="utf-8")
     assert not _has_raw_gemini_key(content), ".env.example contains a raw Gemini secret!"
-    assert 'GEMINI_API_KEYS=""' in content or "GEMINI_API_KEYS=''" in content
+    # Accept empty placeholders or placeholder template values (PASTE_KEY_*_HERE)
+    assert "GEMINI_API_KEYS=" in content, "GEMINI_API_KEYS not found in .env.example"
+    # Ensure no real key pattern (AIza* or AQ.* prefix) in the value
+    import re
+    key_line = [l for l in content.splitlines() if l.startswith("GEMINI_API_KEYS=")]
+    assert len(key_line) == 1
+    assert not re.search(r'AIza[0-9A-Za-z_-]{20,}', key_line[0]), ".env.example contains real-looking API key"
 
 
 def test_sec_gem_05_mobile_contains_no_gemini_secrets():
@@ -226,7 +232,7 @@ def test_sec_gem_10_gemini_http_exception_sanitizes_query_credential():
 
     # The client constructs URLs with ?key= — verify the key pool safe_id
     # never reveals URL-embeddable credential
-    url_with_key = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={entry.raw_key}"
+    url_with_key = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={entry.raw_key}"
 
     # Create error with safe_id (as the code does)
     sanitized_url = url_with_key.replace(entry.raw_key, entry.safe_id)

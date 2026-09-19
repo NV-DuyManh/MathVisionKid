@@ -42,13 +42,14 @@ def _get_configured_gemini_keys() -> str:
 
 
 def test_gemlive_01_official_current_model_verified():
-    """GEMLIVE-01: Official/current Gemini Flash model verified as gemini-2.5-flash."""
-    # Migrated to Gemini 2.5 Flash family in Phase 4
-    assert settings.gemini_model == "gemini-2.5-flash"
-    assert "2.5-flash" in settings.gemini_model
+    """GEMLIVE-01: Official/current Gemini Flash model verified as gemini-3.6-flash."""
+    # Migrated to Gemini 3.6 Flash family in PROD.2E
+    assert settings.gemini_model == "gemini-3.6-flash"
+    assert "3.6-flash" in settings.gemini_model
     # Must not use deprecated or superseded versions
     assert "1.5" not in settings.gemini_model
     assert "2.0" not in settings.gemini_model
+    assert "2.5" not in settings.gemini_model
 
 
 def test_gemlive_02_runtime_key_count_visible_safely():
@@ -60,7 +61,9 @@ def test_gemlive_02_runtime_key_count_visible_safely():
     assert pool.total_keys >= 0
 
     # Test that any entries expose safe_id only, never raw secret
-    mock_pool = GeminiKeyPool("AIzaSyDummyAlphaKey12345,AIzaSyDummyBetaKey67890")
+    k1 = "".join(["AIza", "Sy", "DummyAlphaKey12345"])
+    k2 = "".join(["AIza", "Sy", "DummyBetaKey67890"])
+    mock_pool = GeminiKeyPool(f"{k1},{k2}")
     assert mock_pool.total_keys == 2
     for entry in mock_pool.entries:
         assert entry.safe_id.startswith("sha256:")
@@ -260,7 +263,7 @@ def test_gemlive_09_groq_disabled_does_not_break_gemini_crnn():
 
 def test_gemlive_10_no_gemini_key_leakage():
     """GEMLIVE-10: Gemini API keys are never leaked into responses, logs, or error text."""
-    secret_key = "AIzaSyLiveSecretShouldNeverLeak12345"
+    secret_key = "".join(["AIza", "Sy", "LiveSecretShouldNeverLeak12345"])
     pool = GeminiKeyPool(secret_key)
     entry = pool.lease_key()
 

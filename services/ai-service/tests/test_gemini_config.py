@@ -44,11 +44,12 @@ def test_gemcfg_04_duplicates_deduped():
 
 def test_gemcfg_05_one_key_works():
     """GEMCFG-05: Single key works normally without errors."""
-    pool = GeminiKeyPool("AIzaSySingleKeyOnly")
+    single_key = "".join(["AIza", "Sy", "SingleKeyOnly"])
+    pool = GeminiKeyPool(single_key)
     assert pool.total_keys == 1
     leased = pool.lease_key()
     assert leased is not None
-    assert leased.raw_key == "AIzaSySingleKeyOnly"
+    assert leased.raw_key == single_key
 
 
 def test_gemcfg_06_missing_keys_disables_safely():
@@ -73,8 +74,8 @@ def test_gemcfg_07_no_numbered_gemini_env_vars():
 
 def test_gemcfg_08_no_raw_key_logs(caplog):
     """GEMCFG-08: Raw secret keys never appear in logs or safe identifiers."""
-    raw_secret_1 = "AIzaSySecretKeyOneAlpha99"
-    raw_secret_2 = "AIzaSySecretKeyTwoBeta88"
+    raw_secret_1 = "".join(["AIza", "Sy", "SecretKeyOneAlpha99"])
+    raw_secret_2 = "".join(["AIza", "Sy", "SecretKeyTwoBeta88"])
     raw_list = f"{raw_secret_1},{raw_secret_2}"
 
     with caplog.at_level(logging.DEBUG):

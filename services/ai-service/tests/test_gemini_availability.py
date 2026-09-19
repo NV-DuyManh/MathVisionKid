@@ -20,8 +20,8 @@ def test_gemavail_02_gemini_post_correction_enabled():
 
 
 def test_gemavail_03_model_exactly_gemini_2_5_flash():
-    """GEMAVAIL-03: Configured Gemini model is strictly 'gemini-2.5-flash'."""
-    assert settings.gemini_model == "gemini-2.5-flash"
+    """GEMAVAIL-03: Configured Gemini model is strictly 'gemini-3.6-flash'."""
+    assert settings.gemini_model == "gemini-3.6-flash"
     assert "3.8" not in settings.gemini_model
 
 
@@ -83,7 +83,10 @@ def test_gemavail_07_gemini_fields_survive_to_mobile_contract():
     # LineBox interface check
     assert "geminiSuggestion?: string;" in mobile_src
     assert "geminiConfidence?: number;" in mobile_src
-    assert "geminiDecision?: string;" in mobile_src
+    assert (
+        "geminiDecision?: AdvisorDecision;" in mobile_src
+        or "geminiDecision?: string;" in mobile_src
+    )
     assert "geminiStatus?: string;" in mobile_src
     assert "geminiModel?: string;" in mobile_src
 

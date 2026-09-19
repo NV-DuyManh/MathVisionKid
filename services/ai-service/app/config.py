@@ -71,12 +71,20 @@ class Settings(BaseSettings):
     # Gemini 2nd Advisor Integration
     gemini_enabled: bool = False
     gemini_api_keys: str = ""  # Raw comma-separated key list — never log this
-    gemini_model: str = "gemini-2.5-flash"
+    gemini_model: str = "gemini-3.6-flash"
+    gemini_fallback_enabled: bool = False
+    gemini_fallback_model: str = "gemini-flash-lite-latest"
     gemini_post_correction_enabled: bool = True
-    gemini_timeout_seconds: float = 10.0
+    gemini_timeout_seconds: float = 18.0
+    gemini_connect_timeout_seconds: float = 4.0
     gemini_rotate_on_429: bool = False
+    gemini_key_cooldown_seconds: int = 300
+    gemini_max_key_attempts_per_request: int = 3  # Maximum unique keys to attempt per line request
     gemini_correction_prompt_version: str = "gemini-ocr-correction-v1"
     gemini_correction_cache_ttl_seconds: int = 3600
+
+    # Cloud Advisor Concurrency (PROD.2G)
+    cloud_advisor_max_concurrency: int = 3
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 

@@ -13,8 +13,8 @@ import {
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { OcrPilotService, LineBox, normalizeOcrError } from '../../services/api/OcrPilotService';
 import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
-import { OcrPilotService, LineBox } from '../../services/api/OcrPilotService';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -35,7 +35,6 @@ export default function MultilineReviewScreen() {
   const [boxes, setBoxes] = useState<LineBox[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isNetworkError, setIsNetworkError] = useState(false);
-  const [isCanonical, setIsCanonical] = useState(false);
 
   const displayWidth = SCREEN_WIDTH - 32;
   const detectRequestIdRef = useRef(0);
@@ -124,10 +123,8 @@ export default function MultilineReviewScreen() {
 
       if (incomingLines.length > 0) {
         setSelectedId(incomingLines[0].line_id);
-        setIsCanonical(!!res.diagnostics?.canonicalMatched);
       } else if (force) {
         setSelectedId(null);
-        setIsCanonical(false);
       }
     } catch (err: any) {
       if (currentReqId !== detectRequestIdRef.current) return;
@@ -312,15 +309,10 @@ export default function MultilineReviewScreen() {
         return; // Ignore error from superseded / cancelled request
       }
       setRequestStatus('ERROR');
-      const status = e?.response?.status;
-      if (status === 401 || status === 403) {
-        console.warn('[MULTILINE] Auth expired, user should log in again.', e?.message);
-        Alert.alert('Phiên đăng nhập hết hạn', 'Vui lòng đăng nhập lại để tiếp tục.', [
-          { text: 'Đăng nhập', onPress: () => router.replace('/login') }
-        ]);
-      } else if (!e?.name?.includes('Abort') && !e?.message?.includes('canceled') && !e?.message?.includes('aborted')) {
-        console.error('[MULTILINE] Submit error:', e);
-        Alert.alert('Lỗi nhận diện', e?.message || 'Không thể kết nối đến máy chủ nhận diện.');
+      if (!e?.name?.includes('Abort') && !e?.message?.includes('canceled') && !e?.message?.includes('aborted')) {
+        const errInfo = normalizeOcrError(e);
+        console.error('[MULTILINE] Submit error details:', errInfo.technical);
+        Alert.alert(errInfo.title, errInfo.message);
       }
     } finally {
       if (currentGen === operationGenerationRef.current) {
@@ -350,7 +342,7 @@ export default function MultilineReviewScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={COLORS.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Chỉnh sửa khung các dòng</Text>
+        <Text style={styles.title}>Kiểm tra các dòng chữ</Text>
         <TouchableOpacity
           onPress={() => {
             if (boxes.length > 0) {
@@ -375,9 +367,7 @@ export default function MultilineReviewScreen() {
       </View>
 
       <Text style={styles.instruction}>
-        {isCanonical 
-          ? `Đã tìm thấy ${boxes.length} dòng chữ (Dữ liệu gốc). Em có thể chạm vào từng khung để điều chỉnh vị trí hoặc xóa bớt:` 
-          : `Đã tìm thấy ${boxes.length} dòng chữ. Em có thể chạm vào từng khung để điều chỉnh vị trí hoặc xóa bớt:`}
+        {`Đã tìm thấy ${boxes.length} dòng. Chạm vào một khung để chỉnh lại nếu cần.`}
       </Text>
 
       {/* Image Overlay Area */}
@@ -494,15 +484,15 @@ export default function MultilineReviewScreen() {
         <View style={styles.controlCard}>
           <View style={styles.controlHeaderRow}>
             <Text style={styles.controlTitle}>
-              Đang chỉnh: <Text style={{ color: COLORS.primary, fontWeight: '700' }}>Dòng [{selectedBox.order}]</Text>
+              Dòng đang chọn: <Text style={{ color: COLORS.primary, fontWeight: '700' }}>{selectedBox.order}</Text>
             </Text>
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={handleDelete}
               accessibilityRole="button"
-              accessibilityLabel="Xóa dòng này"
+              accessibilityLabel="Xóa dòng"
             >
-              <Ionicons name="trash-outline" size={18} color="#DC2626" />
+              <Ionicons name="trash-outline" size={17} color="#DC2626" />
               <Text style={styles.deleteButtonText}>Xóa dòng</Text>
             </TouchableOpacity>
           </View>
@@ -512,16 +502,16 @@ export default function MultilineReviewScreen() {
             <View style={styles.controlGroup}>
               <Text style={styles.groupLabel}>Di chuyển:</Text>
               <View style={styles.btnRow}>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, -1)}>
+                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, -1)} accessibilityLabel="Di chuyển lên">
                   <Ionicons name="arrow-up" size={18} color={COLORS.textPrimary} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, 1)}>
+                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, 1)} accessibilityLabel="Di chuyển xuống">
                   <Ionicons name="arrow-down" size={18} color={COLORS.textPrimary} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(-1, 0)}>
+                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(-1, 0)} accessibilityLabel="Di chuyển sang trái">
                   <Ionicons name="arrow-back" size={18} color={COLORS.textPrimary} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(1, 0)}>
+                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(1, 0)} accessibilityLabel="Di chuyển sang phải">
                   <Ionicons name="arrow-forward" size={18} color={COLORS.textPrimary} />
                 </TouchableOpacity>
               </View>
@@ -530,21 +520,17 @@ export default function MultilineReviewScreen() {
             <View style={styles.controlGroup}>
               <Text style={styles.groupLabel}>Kích thước:</Text>
               <View style={styles.btnRow}>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleResize(0, 1)}>
-                  <Ionicons name="resize" size={16} color={COLORS.textPrimary} />
-                  <Text style={styles.btnSub}>+H</Text>
+                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(-1, 0)} accessibilityLabel="Giảm chiều rộng">
+                  <Text style={styles.resizeBtnText}>− Rộng</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleResize(0, -1)}>
-                  <Ionicons name="remove" size={16} color={COLORS.textPrimary} />
-                  <Text style={styles.btnSub}>-H</Text>
+                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(1, 0)} accessibilityLabel="Tăng chiều rộng">
+                  <Text style={styles.resizeBtnText}>+ Rộng</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleResize(1, 0)}>
-                  <Ionicons name="add" size={16} color={COLORS.textPrimary} />
-                  <Text style={styles.btnSub}>+W</Text>
+                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, -1)} accessibilityLabel="Giảm chiều cao">
+                  <Text style={styles.resizeBtnText}>− Cao</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleResize(-1, 0)}>
-                  <Ionicons name="remove" size={16} color={COLORS.textPrimary} />
-                  <Text style={styles.btnSub}>-W</Text>
+                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, 1)} accessibilityLabel="Tăng chiều cao">
+                  <Text style={styles.resizeBtnText}>+ Cao</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -562,7 +548,7 @@ export default function MultilineReviewScreen() {
           style={styles.secondaryBtn}
           onPress={handleAddLine}
           accessibilityRole="button"
-          accessibilityLabel="Thêm một khung dòng mới"
+          accessibilityLabel="Thêm dòng"
         >
           <Ionicons name="add-circle-outline" size={20} color={COLORS.primary} />
           <Text style={styles.secondaryBtnText}>Thêm dòng</Text>
@@ -573,15 +559,21 @@ export default function MultilineReviewScreen() {
           onPress={handleConfirmLines}
           disabled={requestStatus === 'SUBMITTING' || boxes.length === 0}
           accessibilityRole="button"
-          accessibilityLabel={`Xác nhận ${boxes.length} dòng chữ và nhận diện`}
+          accessibilityLabel="Nhận diện chữ"
         >
           {requestStatus === 'SUBMITTING' ? (
-            <ActivityIndicator size="small" color="#FFFFFF" />
+            <View style={styles.ctaLoadingRow}>
+              <ActivityIndicator size="small" color="#FFFFFF" />
+              <Text style={styles.primaryBtnText}>Đang xử lý...</Text>
+            </View>
           ) : (
-            <>
-              <Text style={styles.primaryBtnText}>Xác nhận ({boxes.length} dòng)</Text>
-              <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />
-            </>
+            <View style={styles.ctaColumn}>
+              <View style={styles.ctaTextRow}>
+                <Text style={styles.primaryBtnText}>Nhận diện chữ</Text>
+                <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />
+              </View>
+              <Text style={styles.ctaSupportText}>{boxes.length} dòng đã sẵn sàng</Text>
+            </View>
           )}
         </TouchableOpacity>
       </View>
@@ -827,6 +819,42 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#FFFFFF',
+  },
+  resizeBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    backgroundColor: COLORS.surfaceSubdued,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  resizeBtnText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: COLORS.textPrimary,
+  },
+  ctaLoadingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  ctaColumn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ctaTextRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  ctaSupportText: {
+    fontSize: 10,
+    color: '#E0E7FF',
+    fontWeight: '500',
+    marginTop: 1,
   },
 });
 

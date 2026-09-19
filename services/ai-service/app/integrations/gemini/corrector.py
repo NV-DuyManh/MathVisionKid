@@ -10,8 +10,9 @@ import hashlib
 import json
 import logging
 import re
+import contextvars
 import time
-from typing import Optional, Tuple, List, Dict
+from typing import Optional, Tuple, List, Dict, Any, Set
 import numpy as np
 
 from app.integrations.gemini.client import call_gemini_correction, GeminiError
@@ -20,6 +21,21 @@ from app.integrations.gemini.schemas import GeminiOcrCorrectionResponse
 from app.config import settings
 
 logger = logging.getLogger(__name__)
+
+_current_gemini_meta = contextvars.ContextVar("gemini_call_meta", default=None)
+
+
+def get_current_gemini_meta() -> Dict[str, Any]:
+    meta = _current_gemini_meta.get()
+    if meta is None:
+        return {
+            "key_attempt_count": 0,
+            "key_failover_ms": 0.0,
+            "provider_wait_ms": 0.0,
+            "attempted_keys": [],
+            "success": False,
+        }
+    return meta
 
 GEMINI_OCR_CORRECTION_PROMPT_VERSION = "gemini-ocr-correction-v1"
 
@@ -180,19 +196,25 @@ async def request_gemini_correction(
     raw_text: str,
     raw_confidence: float = 0.0,
     domain: str = "HANDWRITING_TEXT",
-    model: str = "gemini-2.5-flash",
+    model: str = "gemini-3.6-flash",
     auto_apply_confidence: float = 0.94,
     max_edit_ratio: float = 0.35,
-    timeout_seconds: float = 10.0,
-    connect_timeout: float = 4.0,
+    timeout_seconds: Optional[float] = None,
+    connect_timeout: Optional[float] = None,
     cache_ttl: int = 3600,
 ) -> Optional[Tuple[GeminiOcrCorrectionResponse, str, float, str]]:
     """
-    Request Gemini multimodal OCR post-correction.
+    Request Gemini multimodal OCR post-correction with multi-key failover.
+    Rotates credentials on 429/AUTH/5xx/timeout. Fails immediately on BAD_REQUEST.
     Returns (GeminiOcrCorrectionResponse, decision, edit_ratio, reason) or None.
     """
     if bgr_crop is None or bgr_crop.size == 0 or not raw_text or not raw_text.strip():
         return None
+
+    if timeout_seconds is None:
+        timeout_seconds = getattr(settings, "gemini_timeout_seconds", 20.0)
+    if connect_timeout is None:
+        connect_timeout = getattr(settings, "gemini_connect_timeout_seconds", 8.0)
 
     pool = get_gemini_pool()
     if pool is None and getattr(settings, "gemini_enabled", False):
@@ -201,6 +223,7 @@ async def request_gemini_correction(
             pool = init_gemini_pool(
                 raw_keys_str=raw_keys,
                 rotate_on_429=getattr(settings, "gemini_rotate_on_429", False),
+                cooldown_seconds=getattr(settings, "gemini_key_cooldown_seconds", 300),
             )
 
     if not pool or pool.total_keys == 0:
@@ -222,20 +245,49 @@ async def request_gemini_correction(
         cached_time, cached_resp, c_dec, c_ratio, c_reason = _gemini_correction_cache[cache_key]
         if now - cached_time < cache_ttl:
             logger.debug(f"[GeminiCorrector] Cache hit for key {cache_key[:12]}")
+            call_meta: Dict[str, Any] = {
+                "key_attempt_count": 0,
+                "key_failover_ms": 0.0,
+                "provider_wait_ms": 0.0,
+                "attempted_keys": [],
+                "success": True,
+            }
+            _current_gemini_meta.set(call_meta)
             return cached_resp, c_dec, c_ratio, c_reason
 
     image_b64 = base64.b64encode(crop_bytes).decode("utf-8")
 
-    # Bounded attempt policy: 5xx retry once under the exact same model; 429 fails immediately without model switch
-    max_attempts = 2
+    # Multi-key failover: try each unique eligible key at most once
+    max_attempts_cfg = getattr(settings, "gemini_max_key_attempts_per_request", 3)
+    max_attempts = max_attempts_cfg if max_attempts_cfg > 0 else pool.total_keys
+    attempted_keys: Set[str] = set()
     corr_resp = None
+    failover_ms = 0.0
+    provider_wait_ms = 0.0
 
-    for attempt in range(max_attempts):
-        key_entry = pool.lease_key()
+    call_meta = {
+        "key_attempt_count": 0,
+        "key_failover_ms": 0.0,
+        "provider_wait_ms": 0.0,
+        "attempted_keys": [],
+        "success": False,
+    }
+    _current_gemini_meta.set(call_meta)
+
+    for _ in range(max_attempts):
+        key_entry = pool.lease_key(exclude_safe_ids=attempted_keys)
         if not key_entry:
             logger.warning("[GeminiCorrector] No active Gemini keys available")
-            return None
+            break
 
+        # Skip if we already tried this exact key in this request
+        if key_entry.safe_id in attempted_keys:
+            break
+        attempted_keys.add(key_entry.safe_id)
+        call_meta["key_attempt_count"] = len(attempted_keys)
+        call_meta["attempted_keys"] = list(attempted_keys)
+
+        t_attempt_0 = time.perf_counter()
         try:
             corr_resp = await call_gemini_correction(
                 model=model,
@@ -247,25 +299,62 @@ async def request_gemini_correction(
                 timeout_seconds=timeout_seconds,
                 connect_timeout=connect_timeout,
             )
-            pool.mark_success(key_entry)
+            provider_wait_ms = (time.perf_counter() - t_attempt_0) * 1000.0
+            call_meta["provider_wait_ms"] = round(provider_wait_ms, 2)
+            call_meta["key_failover_ms"] = round(failover_ms, 2)
+            call_meta["success"] = True
+            pool.mark_success(key_entry, latency_ms=provider_wait_ms)
             break
         except GeminiError as ge:
+            t_attempt_elapsed = (time.perf_counter() - t_attempt_0) * 1000.0
+            failover_ms += t_attempt_elapsed
+            call_meta["key_failover_ms"] = round(failover_ms, 2)
             pool.mark_failure(key_entry, ge.error_class, retry_after=ge.retry_after)
-            logger.warning(f"[GeminiCorrector] GeminiError (attempt {attempt + 1}/{max_attempts}): {ge.error_class} - {ge}")
-            # 429 quota or auth failure: no retry, no alternate model
-            if ge.error_class in ("RATE_LIMIT_429", "AUTH_ERROR", "MALFORMED_RESPONSE", "RESPONSE_VALIDATION_ERROR"):
+
+            if ge.error_class == "BAD_REQUEST":
+                # Payload error — rotating keys won't fix it
+                logger.warning(f"[GeminiCorrector] BAD_REQUEST on {model}; not rotating (payload error)")
                 return None
-            # 5xx / timeout: allow one bounded retry on the exact same model if attempts remain
-            if attempt < max_attempts - 1:
-                await asyncio.sleep(0.5)
+
+            if ge.error_class in ("MALFORMED_RESPONSE", "RESPONSE_VALIDATION_ERROR"):
+                # Response parse error — same payload same model, next key unlikely to help
+                logger.warning(f"[GeminiCorrector] {ge.error_class} on {model}; not rotating")
+                return None
+
+            if ge.error_class == "RATE_LIMIT_429":
+                logger.info(
+                    f"[GeminiCorrector] 429 on key {key_entry.safe_id} model={model}; "
+                    f"trying next key ({len(attempted_keys)}/{max_attempts})"
+                )
                 continue
-            return None
+
+            if ge.error_class == "AUTH_ERROR":
+                logger.warning(
+                    f"[GeminiCorrector] AUTH_ERROR on key {key_entry.safe_id}; "
+                    f"disabled, trying next key ({len(attempted_keys)}/{max_attempts})"
+                )
+                continue
+
+            # 5xx / timeout / network / unknown — try next key
+            logger.warning(
+                f"[GeminiCorrector] {ge.error_class} on key {key_entry.safe_id}; "
+                f"trying next key ({len(attempted_keys)}/{max_attempts})"
+            )
+            continue
         except Exception as e:
+            t_attempt_elapsed = (time.perf_counter() - t_attempt_0) * 1000.0
+            failover_ms += t_attempt_elapsed
+            call_meta["key_failover_ms"] = round(failover_ms, 2)
             logger.warning(f"[GeminiCorrector] Unexpected error calling Gemini: {e}")
             pool.mark_failure(key_entry, "UNKNOWN_ERROR")
-            return None
+            continue
 
     if corr_resp is None:
+        if attempted_keys:
+            logger.warning(
+                f"[GeminiCorrector] All {len(attempted_keys)} attempted key(s) failed on model={model}; "
+                f"Gemini UNAVAILABLE for this request"
+            )
         return None
 
     decision, edit_ratio, reason = evaluate_gemini_safety(
@@ -281,3 +370,4 @@ async def request_gemini_correction(
 
     _gemini_correction_cache[cache_key] = (now, corr_resp, decision, edit_ratio, reason)
     return corr_resp, decision, edit_ratio, reason
+

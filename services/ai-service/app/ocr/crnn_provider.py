@@ -9,6 +9,7 @@ import os
 import json
 import logging
 import threading
+import re
 
 import numpy as np
 import torch
@@ -143,28 +144,40 @@ class CrnnOcrProvider(OcrProvider):
         for b in range(preds.shape[0]):
             out = []
             char_probs = []
+            char_margins = []
             prev = -1
             current_char_prob = 0.0
+            current_margin = 1.0
 
             for t, idx in enumerate(preds[b, :]):
                 token_p = float(probs[b, t, idx])
+                top2 = np.partition(probs[b, t], -2)[-2:]
+                margin = float(top2[1] - top2[0])
+
                 if idx != BLANK_IDX:
                     if idx != prev:
                         if prev != -1 and prev != BLANK_IDX:
                             char_probs.append(current_char_prob)
+                            char_margins.append(current_margin)
                         out.append(self._inv_vocab.get(int(idx), "?"))
                         current_char_prob = token_p
+                        current_margin = margin
                     else:
                         if token_p > current_char_prob:
                             current_char_prob = token_p
+                        if margin < current_margin:
+                            current_margin = margin
                 else:
                     if prev != -1 and prev != BLANK_IDX:
                         char_probs.append(current_char_prob)
+                        char_margins.append(current_margin)
                     current_char_prob = 0.0
+                    current_margin = 1.0
                 prev = idx
 
             if prev != -1 and prev != BLANK_IDX and current_char_prob > 0.0:
                 char_probs.append(current_char_prob)
+                char_margins.append(current_margin)
 
             text = "".join(out)
             t_total = max(1, preds.shape[1])
@@ -179,11 +192,21 @@ class CrnnOcrProvider(OcrProvider):
                 min_conf = 0.0
                 p10_conf = 0.0
                 low_conf_count = 0
+                decoder_anomaly = False
+                token_anomaly = False
             else:
                 raw_conf = float(np.mean(char_probs))
                 min_conf = float(np.min(char_probs))
                 p10_conf = float(np.percentile(char_probs, 10))
                 low_conf_count = int(sum(1 for p in char_probs if p < 0.50))
+                # Generic OCR anomaly signals:
+                # 1. Decoder ambiguity: any emitted character with top1 prob < 0.50 and top1-top2 margin < 0.15
+                decoder_anomaly = bool(any(p < 0.50 and m < 0.15 for p, m in zip(char_probs, char_margins)))
+                # 2. Disagreement anomaly: high average confidence masking a weak token with large spread (>= 0.40)
+                disagreement_anomaly = bool(raw_conf >= 0.82 and min_conf < 0.50 and (raw_conf - min_conf >= 0.40))
+                # 3. Replacement / repetition anomaly
+                replacement_anomaly = bool(re.search(r"[\?]", text) or re.search(r"(.)\1{3,}", text))
+                token_anomaly = bool(decoder_anomaly or disagreement_anomaly or replacement_anomaly)
 
             uncertainty_data = {
                 "rawCrnnConfidence": round(raw_conf, 4),
@@ -194,6 +217,8 @@ class CrnnOcrProvider(OcrProvider):
                 "meanEntropy": round(mean_entropy, 4),
                 "lowConfidenceTokenCount": low_conf_count,
                 "sequenceLength": len(text),
+                "decoderAnomalyDetected": decoder_anomaly,
+                "tokenAnomalyDetected": token_anomaly,
             }
             results.append((text, uncertainty_data))
 
