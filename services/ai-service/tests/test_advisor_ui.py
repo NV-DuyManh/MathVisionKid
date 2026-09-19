@@ -49,12 +49,11 @@ def test_advisorui_01_title_is_goi_y_1():
     assert "GỢI Ý 1 — GROQ:" not in src
 
 
-def test_advisorui_02_groq_is_secondary_badge():
-    """ADVISORUI-02: Groq is displayed as a secondary chip/badge next to 'Gợi ý 1'."""
+def test_advisorui_02_groq_badge_removed_from_student_ui():
+    """ADVISORUI-02: Per PROD.3B, Groq provider badge is removed from student-facing UI."""
     src = _read_ui_source()
     assert "providerChipGroq" in src
-    assert "providerChipGroqText" in src
-    assert "<Text style={styles.providerChipGroqText}>Groq</Text>" in src
+    assert "<Text style={styles.providerChipGroqText}>Groq</Text>" not in src
 
 
 def test_advisorui_03_title_is_goi_y_2():
@@ -64,12 +63,11 @@ def test_advisorui_03_title_is_goi_y_2():
     assert "GỢI Ý 2 — GEMINI:" not in src
 
 
-def test_advisorui_04_gemini_is_secondary_badge():
-    """ADVISORUI-04: Gemini is displayed as a secondary chip/badge next to 'Gợi ý 2'."""
+def test_advisorui_04_gemini_badge_removed_from_student_ui():
+    """ADVISORUI-04: Per PROD.3B, Gemini provider badge is removed from student-facing UI."""
     src = _read_ui_source()
     assert "providerChipGemini" in src
-    assert "providerChipGeminiText" in src
-    assert "<Text style={styles.providerChipGeminiText}>Gemini</Text>" in src
+    assert "<Text style={styles.providerChipGeminiText}>Gemini</Text>" not in src
 
 
 def test_advisorui_05_choose_suggestion_1_updates_final_only():
@@ -114,10 +112,11 @@ def test_advisorui_07_keep_raw_restores_raw_ocr_text():
     assert line.rawOcrText == "toan hoc"
 
 
-def test_advisorui_08_triggered_gemini_unavailable_shows_compact_card():
-    """ADVISORUI-08: When triggered and Gemini is UNAVAILABLE, show compact 'Gemini tạm thời chưa khả dụng.' card."""
+def test_advisorui_08_triggered_gemini_unavailable_does_not_show_ugly_copy():
+    """ADVISORUI-08: When triggered and Gemini is UNAVAILABLE, ugly provider failure copy is not shown."""
     src = _read_ui_source()
-    assert "Gemini tạm thời chưa khả dụng." in src
+    assert "Gemini tạm thời chưa khả dụng." not in src
+    assert "Groq tạm thời chưa khả dụng." not in src
 
     line = _make_sample_line(
         raw="dong mo",
@@ -126,12 +125,7 @@ def test_advisorui_08_triggered_gemini_unavailable_shows_compact_card():
         groq_status="SUCCESS",
         gemini_status="UNAVAILABLE",
     )
-    # hasGemini evaluates to True for UNAVAILABLE state
-    has_gemini = bool(line.geminiSuggestion or line.geminiStatus == "UNAVAILABLE")
-    assert has_gemini is True
-    # Card status text is compact and user friendly
-    msg = "Gemini tạm thời chưa khả dụng." if line.geminiStatus == "UNAVAILABLE" else ""
-    assert msg == "Gemini tạm thời chưa khả dụng."
+    assert line.geminiStatus == "UNAVAILABLE"
 
 
 def test_advisorui_09_not_triggered_line_shows_no_pointless_cards():

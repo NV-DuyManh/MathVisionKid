@@ -193,7 +193,7 @@ def test_result_07_no_dev_panel():
 
 
 def test_result_08_unavailable_provider_state_clean():
-    """RESULT-08: Unavailable provider state is compact and clean"""
+    """RESULT-08: Unavailable provider state is clean without ugly copy (Task D)"""
     content = read_file(RESULT_SCREEN_PATH)
-    assert "Gemini tạm thời chưa khả dụng." in content
-    assert "unavailableText" in content
+    assert "Gemini tạm thời chưa khả dụng." not in content
+    assert "Groq tạm thời chưa khả dụng." not in content

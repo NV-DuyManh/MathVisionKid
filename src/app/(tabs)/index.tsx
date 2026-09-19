@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,11 +7,13 @@ import { AuthContext } from '../../context/AuthContext';
 import * as ImagePicker from 'expo-image-picker';
 import { submissionDraftStore, resolveFlowDomain, logFlowDomain, FlowDomain } from '../../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../../services/image/imagePipeline';
+import { ImageSourceModal } from '../../components/ui/ImageSourceModal';
 
 export default function HomeScreen() {
   const router = useRouter();
   const auth = useContext(AuthContext);
   const userName = auth?.user?.name || 'em';
+  const [showSourceModal, setShowSourceModal] = useState(false);
 
   const handlePickImage = async () => {
     try {
@@ -65,11 +67,11 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Main Unified Handwriting Entry Point */}
+      {/* Main Unified Handwriting Entry Point - Gauth-inspired Dominant Hero Card */}
       <View style={[styles.mainHeroCard, SHADOWS.medium]}>
         <View style={styles.heroHeaderRow}>
           <View style={styles.heroIconBadge}>
-            <Ionicons name="create" size={28} color="#FFFFFF" />
+            <Ionicons name="create-outline" size={26} color="#FFFFFF" />
           </View>
           <View style={styles.heroTag}>
             <Text style={styles.heroTagText}>Chữ viết tay tiếng Việt</Text>
@@ -81,7 +83,7 @@ export default function HomeScreen() {
           Chụp hoặc chọn ảnh bài viết để hệ thống tự động tách từng dòng chữ, nhận diện nội dung và hỗ trợ chỉnh sửa trực quan.
         </Text>
 
-        {/* 2 Primary Direct CTAs */}
+        {/* 2 Primary Direct CTAs - Confident, Rounded, High-Quality Mobile Feel */}
         <View style={styles.heroActionRow}>
           <TouchableOpacity
             style={[styles.ctaPrimaryBtn, SHADOWS.small]}
@@ -90,13 +92,13 @@ export default function HomeScreen() {
             accessibilityRole="button"
             accessibilityLabel="Chụp ảnh mới"
           >
-            <Ionicons name="camera" size={19} color={COLORS.primaryDark} />
+            <Ionicons name="camera" size={20} color={COLORS.primaryDark} />
             <Text style={styles.ctaPrimaryBtnText}>Chụp ảnh mới</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.ctaSecondaryBtn}
-            onPress={handlePickImage}
+            onPress={() => setShowSourceModal(true)}
             activeOpacity={0.88}
             accessibilityRole="button"
             accessibilityLabel="Chọn từ thư viện"
@@ -105,30 +107,6 @@ export default function HomeScreen() {
             <Text style={styles.ctaSecondaryBtnText}>Chọn từ thư viện</Text>
           </TouchableOpacity>
         </View>
-      </View>
-
-      {/* Secondary Feature: Arithmetic */}
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionHeading}>Tính năng bổ trợ</Text>
-
-        <TouchableOpacity
-          style={[styles.secondaryFeatureCard, SHADOWS.small]}
-          onPress={() => navigateToCamera('ARITHMETIC')}
-          activeOpacity={0.88}
-          accessibilityRole="button"
-          accessibilityLabel="Đọc phép tính đặt dọc"
-        >
-          <View style={styles.featureIconBadge}>
-            <Ionicons name="calculator-outline" size={22} color="#0284C7" />
-          </View>
-          <View style={styles.featureContent}>
-            <Text style={styles.featureTitle}>Đọc phép tính đặt dọc</Text>
-            <Text style={styles.featureSubtitle}>
-              Nhận diện bài toán cộng, trừ, nhân, chia và hỗ trợ kiểm tra từng bước.
-            </Text>
-          </View>
-          <Ionicons name="chevron-forward" size={18} color="#94A3B8" />
-        </TouchableOpacity>
       </View>
 
       {/* Sleek Minimalist Photo Tips Card */}
@@ -142,7 +120,9 @@ export default function HomeScreen() {
 
         <View style={styles.tipsList}>
           <View style={styles.tipItem}>
-            <Ionicons name="sunny-outline" size={16} color="#059669" style={styles.tipItemIcon} />
+            <View style={[styles.tipIconBadge, { backgroundColor: '#ECFDF5' }]}>
+              <Ionicons name="sunny-outline" size={15} color="#059669" />
+            </View>
             <Text style={styles.tipItemText}>
               <Text style={styles.tipItemBold}>Đủ ánh sáng: </Text>
               Chụp ở nơi sáng đều, tránh để bóng tay che khuất các nét chữ.
@@ -150,7 +130,9 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.tipItem}>
-            <Ionicons name="phone-portrait-outline" size={16} color="#2563EB" style={styles.tipItemIcon} />
+            <View style={[styles.tipIconBadge, { backgroundColor: '#EFF6FF' }]}>
+              <Ionicons name="phone-portrait-outline" size={15} color="#2563EB" />
+            </View>
             <Text style={styles.tipItemText}>
               <Text style={styles.tipItemBold}>Chụp thẳng góc: </Text>
               Giữ điện thoại song song với mặt trang giấy, tránh chụp quá nghiêng.
@@ -158,7 +140,9 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.tipItem}>
-            <Ionicons name="scan-outline" size={16} color="#7C3AED" style={styles.tipItemIcon} />
+            <View style={[styles.tipIconBadge, { backgroundColor: '#F5F3FF' }]}>
+              <Ionicons name="scan-outline" size={15} color="#7C3AED" />
+            </View>
             <Text style={styles.tipItemText}>
               <Text style={styles.tipItemBold}>Căn trọn khung hình: </Text>
               Để trọn vẹn các dòng chữ vào giữa khung, không bị cắt mép đầu hoặc đuôi dòng.
@@ -166,6 +150,37 @@ export default function HomeScreen() {
           </View>
         </View>
       </View>
+
+      {/* Secondary Feature: Arithmetic (Subordinated & Clean) */}
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionHeading}>Tính năng bổ trợ</Text>
+
+        <TouchableOpacity
+          style={[styles.secondaryFeatureCard, SHADOWS.small]}
+          onPress={() => navigateToCamera('ARITHMETIC')}
+          activeOpacity={0.88}
+          accessibilityRole="button"
+          accessibilityLabel="Đọc phép tính đặt dọc"
+        >
+          <View style={styles.featureIconBadge}>
+            <Ionicons name="calculator-outline" size={20} color="#0284C7" />
+          </View>
+          <View style={styles.featureContent}>
+            <Text style={styles.featureTitle}>Đọc phép tính đặt dọc</Text>
+            <Text style={styles.featureSubtitle}>
+              Nhận diện bài toán cộng, trừ, nhân, chia và hỗ trợ kiểm tra từng bước.
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color="#94A3B8" />
+        </TouchableOpacity>
+      </View>
+
+      <ImageSourceModal
+        visible={showSourceModal}
+        onClose={() => setShowSourceModal(false)}
+        onSelectCamera={() => navigateToCamera('HANDWRITING_TEXT')}
+        onSelectGallery={handlePickImage}
+      />
     </ScrollView>
   );
 }
@@ -187,17 +202,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 22,
   },
   greetingContainer: {
     flex: 1,
     paddingRight: 12,
   },
   greeting: {
-    fontSize: 22,
+    fontSize: 23,
     fontWeight: '800',
     color: '#0F172A',
-    letterSpacing: -0.3,
+    letterSpacing: -0.4,
     marginBottom: 4,
   },
   subtitle: {
@@ -216,14 +231,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  /* Main Hero Card */
+  /* Main Hero Card - Gauth/Gauss-Inspired Visual Language */
   mainHeroCard: {
-    backgroundColor: '#1E40AF',
-    borderRadius: 20,
+    backgroundColor: '#1D4ED8',
+    borderRadius: 24,
     padding: 22,
-    marginBottom: 24,
+    marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#1D4ED8',
+    borderColor: '#2563EB',
   },
   heroHeaderRow: {
     flexDirection: 'row',
@@ -232,17 +247,17 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   heroIconBadge: {
-    width: 52,
-    height: 52,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.16)',
+    width: 46,
+    height: 46,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255, 255, 255, 0.18)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   heroTag: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 999,
     backgroundColor: 'rgba(255, 255, 255, 0.18)',
   },
   heroTagText: {
@@ -251,11 +266,11 @@ const styles = StyleSheet.create({
     color: '#DBEAFE',
   },
   heroTitle: {
-    fontSize: 22,
+    fontSize: 23,
     fontWeight: '800',
     color: '#FFFFFF',
-    letterSpacing: -0.3,
-    marginBottom: 8,
+    letterSpacing: -0.4,
+    marginBottom: 6,
   },
   heroDescription: {
     fontSize: 13,
@@ -265,7 +280,7 @@ const styles = StyleSheet.create({
   },
   heroActionRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
   },
   ctaPrimaryBtn: {
     flex: 1,
@@ -273,25 +288,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    paddingVertical: 13,
-    borderRadius: 12,
+    height: 48,
+    borderRadius: 14,
     gap: 8,
   },
   ctaPrimaryBtnText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#1E40AF',
+    color: '#1D4ED8',
   },
   ctaSecondaryBtn: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.14)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.28)',
-    paddingVertical: 13,
-    borderRadius: 12,
+    height: 48,
+    borderRadius: 14,
     gap: 8,
   },
   ctaSecondaryBtnText: {
@@ -300,23 +315,81 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 
-  /* Section Container */
-  sectionContainer: {
-    marginBottom: 24,
+  /* Sleek Tips Card */
+  tipsCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 18,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
   },
-  sectionHeading: {
+  tipsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 14,
+  },
+  tipsIconPill: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    backgroundColor: '#FEF3C7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tipsHeading: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#334155',
+    color: '#0F172A',
+  },
+  tipsList: {
+    gap: 10,
+  },
+  tipItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 12,
+    padding: 10,
+  },
+  tipIconBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tipItemText: {
+    flex: 1,
+    fontSize: 12,
+    color: '#475569',
+    lineHeight: 18,
+  },
+  tipItemBold: {
+    fontWeight: '700',
+    color: '#1E293B',
+  },
+
+  /* Section Container (Arithmetic Feature) */
+  sectionContainer: {
+    marginBottom: 20,
+  },
+  sectionHeading: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#64748B',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
     marginBottom: 10,
+    marginLeft: 2,
   },
   secondaryFeatureCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 16,
+    borderRadius: 18,
     padding: 16,
     borderWidth: 1,
     borderColor: '#E2E8F0',
@@ -343,54 +416,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#64748B',
     lineHeight: 17,
-  },
-
-  /* Sleek Tips Card */
-  tipsCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 18,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  tipsHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 14,
-  },
-  tipsIconPill: {
-    width: 28,
-    height: 28,
-    borderRadius: 8,
-    backgroundColor: '#FEF3C7',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  tipsHeading: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#0F172A',
-  },
-  tipsList: {
-    gap: 10,
-  },
-  tipItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 8,
-  },
-  tipItemIcon: {
-    marginTop: 2,
-  },
-  tipItemText: {
-    flex: 1,
-    fontSize: 12,
-    color: '#475569',
-    lineHeight: 18,
-  },
-  tipItemBold: {
-    fontWeight: '700',
-    color: '#1E293B',
   },
 });

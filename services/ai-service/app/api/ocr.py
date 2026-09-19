@@ -1133,6 +1133,11 @@ async def detect_lines_endpoint(request: Request):
             diagnostics["groqUsed"] = False
             diagnostics["geminiCorrectionUsed"] = False
             diagnostics["geminiUsed"] = False
+            # Truthful semantics (PROD.3A.2): unambiguous attempted/succeeded
+            diagnostics["geminiAttempted"] = False
+            diagnostics["geminiSucceeded"] = False
+            diagnostics["geminiAttemptCount"] = 0
+            diagnostics["geminiSuccessCount"] = 0
         else:
             diagnostics["recognitionEngine"] = "CRNN"
             diagnostics["crnnExecuted"] = crnn_executed
@@ -1148,6 +1153,12 @@ async def detect_lines_endpoint(request: Request):
             diagnostics["geminiUsed"] = (gemini_call_count > 0)
             diagnostics["groqModel"] = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
             diagnostics["geminiModel"] = getattr(settings, "gemini_model", "gemini-3.6-flash")
+            # Truthful semantics (PROD.3A.2): unambiguous attempted/succeeded
+            diagnostics["geminiAttempted"] = (gemini_call_count > 0)
+            gemini_success_count = sum(1 for l in lines if getattr(l, "geminiStatus", None) == "SUCCESS")
+            diagnostics["geminiSucceeded"] = (gemini_success_count > 0)
+            diagnostics["geminiAttemptCount"] = gemini_call_count
+            diagnostics["geminiSuccessCount"] = gemini_success_count
 
         # Persist metadata.json under scratch/runtime6_live_input/
         try:

@@ -88,15 +88,15 @@ def test_mobgem_06_gemini_success_renders_goi_y_2():
     assert "Chọn gợi ý 2" in src
 
 
-def test_mobgem_07_gemini_unavailable_renders_compact_unavailable_card():
-    """MOBGEM-07: Gemini UNAVAILABLE renders compact Gợi ý 2 unavailable card."""
+def test_mobgem_07_gemini_unavailable_not_rendered():
+    """MOBGEM-07: Per Task D, provider-specific unavailable copy is not rendered on visible card."""
     res_path = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
-    assert "geminiView.status === 'UNAVAILABLE' && geminiView.wasTriggered" in src
-    assert "Gemini tạm thời chưa khả dụng." in src
+    assert "Gemini tạm thời chưa khả dụng." not in src
+    assert "Groq tạm thời chưa khả dụng." not in src
 
 
 def test_mobgem_08_gemini_render_does_not_depend_on_groq_fields():

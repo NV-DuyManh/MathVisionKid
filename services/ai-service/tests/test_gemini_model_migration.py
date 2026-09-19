@@ -206,25 +206,25 @@ def test_mig25_11_crnn_remains_primary():
 
 
 def test_mig25_12_groq_remains_advisor_1():
-    """MIG25-12: Groq is bound to Section B1 (Gợi ý 1 [Groq])."""
+    """MIG25-12: Groq is bound to Section B1 (Gợi ý 1); provider chip removed per PROD.3B."""
     ui_path = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx")
     )
     with open(ui_path, "r", encoding="utf-8") as f:
         src = f.read()
     assert "<Text style={styles.sectionBLabel}>Gợi ý 1</Text>" in src
-    assert "<Text style={styles.providerChipGroqText}>Groq</Text>" in src
+    assert "<Text style={styles.providerChipGroqText}>Groq</Text>" not in src
 
 
 def test_mig25_13_gemini_remains_advisor_2():
-    """MIG25-13: Gemini is bound to Section B2 (Gợi ý 2 [Gemini])."""
+    """MIG25-13: Gemini is bound to Section B2 (Gợi ý 2); provider chip removed per PROD.3B."""
     ui_path = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx")
     )
     with open(ui_path, "r", encoding="utf-8") as f:
         src = f.read()
     assert "<Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>" in src
-    assert "<Text style={styles.providerChipGeminiText}>Gemini</Text>" in src
+    assert "<Text style={styles.providerChipGeminiText}>Gemini</Text>" not in src
 
 
 def test_mig25_14_full_spring_route_preserves_gemini_model():
@@ -249,4 +249,4 @@ def test_mig25_15_mobile_contract_can_render_goi_y_2_from_successful_gemini():
         src = f.read()
     assert "Chọn gợi ý 2" in src
     assert "sectionGeminiBox" in src
-    assert "Gemini tạm thời chưa khả dụng." in src
+    assert "Gemini tạm thời chưa khả dụng." not in src

@@ -5,6 +5,7 @@ Provides robust timeout isolation, error classification, and structured JSON par
 
 import json
 import logging
+import re
 import time
 from typing import Optional, Dict, Any
 import httpx
@@ -131,7 +132,10 @@ async def call_gemini_correction(
         if not parts or "text" not in parts[0]:
             raise GeminiError("EMPTY_RESPONSE", "Gemini returned no text content in part")
 
-        raw_json_str = parts[0]["text"]
+        raw_json_str = parts[0]["text"].strip()
+        if raw_json_str.startswith("```"):
+            raw_json_str = re.sub(r"^```(?:json)?\s*", "", raw_json_str)
+            raw_json_str = re.sub(r"\s*```$", "", raw_json_str)
         parsed_json = json.loads(raw_json_str)
         if not isinstance(parsed_json, dict):
             parsed_json = {"suggested_text": str(parsed_json)}

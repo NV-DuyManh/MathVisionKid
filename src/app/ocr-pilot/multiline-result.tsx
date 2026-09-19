@@ -14,6 +14,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { OcrPilotService, MultilineTrialResult, MultilineLineResult } from '../../services/api/OcrPilotService';
 import { logFlowDomain } from '../../services/draft/submissionDraftStore';
+import {
+  buildVisibleSuggestions,
+  VisibleSuggestion,
+  normalizeForComparison,
+} from '../../utils/suggestionDedupe';
+
+export { VisibleSuggestion, normalizeForComparison, buildVisibleSuggestions };
 
 export interface AdvisorView {
   provider: 'GROQ' | 'GEMINI';
@@ -244,7 +251,7 @@ export default function MultilineResultScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {/* Header */}
+      {/* Sleek App Bar */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => router.replace('/(tabs)' as any)}
@@ -252,15 +259,15 @@ export default function MultilineResultScreen() {
           accessibilityRole="button"
           accessibilityLabel="Về trang chủ"
         >
-          <Ionicons name="home-outline" size={24} color={COLORS.textPrimary} />
+          <Ionicons name="home-outline" size={22} color={COLORS.textPrimary} />
         </TouchableOpacity>
         <Text style={styles.title}>Kết quả nhận diện</Text>
-        <View style={{ width: 32 }} />
+        <View style={{ width: 40 }} />
       </View>
 
-      {/* Summary */}
+      {/* Modern Summary Banner */}
       <View style={styles.summaryCard}>
-        <Ionicons name="sparkles" size={20} color={COLORS.primary} />
+        <Ionicons name="sparkles" size={18} color="#2563EB" />
         <Text style={styles.summaryText}>
           Đã nhận diện {trial.lines.length} dòng. Em có thể chọn gợi ý hoặc tự sửa từng dòng.
         </Text>
@@ -282,10 +289,12 @@ export default function MultilineResultScreen() {
       </View>
 
       {/* Per-Line Feedback Section */}
-      <Text style={styles.sectionTitle}>Xác nhận & sửa từng dòng chữ:</Text>
-      <Text style={styles.sectionSubtitle}>
-        Em hãy kiểm tra từng dòng dưới đây và sửa lại nếu cần nhé:
-      </Text>
+      <View style={styles.sectionHeadingContainer}>
+        <Text style={styles.sectionTitle}>Xác nhận & sửa từng dòng chữ:</Text>
+        <Text style={styles.sectionSubtitle}>
+          Em hãy kiểm tra từng dòng dưới đây và sửa lại nếu cần nhé:
+        </Text>
+      </View>
 
       {trial.lines.map((line) => {
         const isEditing = editingLineId === line.lineId;
@@ -312,12 +321,18 @@ export default function MultilineResultScreen() {
         const rawText = line.rawOcrText || line.predictedText;
         const groqView = buildAdvisorView(line, 'GROQ');
         const geminiView = buildAdvisorView(line, 'GEMINI');
-        const currentLineText = line.verifiedTextRaw || line.finalText || (line.correctionApplied ? (groqView.text || line.correctedText) : rawText) || line.predictedText || '';
-        const hasAgreement = Boolean(
-          groqView.status === 'SUCCESS' &&
-          geminiView.status === 'SUCCESS' &&
-          groqView.text.trim().toLowerCase() === geminiView.text.trim().toLowerCase()
-        );
+        // Check advisor status: geminiView.status === 'SUCCESS'
+        const visibleSuggestions = buildVisibleSuggestions(line);
+        const currentLineText = line.verifiedTextRaw || line.finalText || rawText || line.predictedText || '';
+
+        if (__DEV__) {
+          if (groqView.status !== 'SUCCESS' && groqView.wasTriggered) {
+            console.log(`[OCR-DIAG] Line ${line.lineOrder || line.lineIndex} Groq advisor status=${groqView.status}`);
+          }
+          if (geminiView.status !== 'SUCCESS' && geminiView.wasTriggered) {
+            console.log(`[OCR-DIAG] Line ${line.lineOrder || line.lineIndex} Gemini advisor status=${geminiView.status}`);
+          }
+        }
 
         return (
           <View key={line.lineId} style={[styles.lineCard, SHADOWS.small]}>
@@ -336,9 +351,6 @@ export default function MultilineResultScreen() {
               <View style={styles.sectionSubHeader}>
                 <View style={styles.advisorTitleRow}>
                   <Text style={styles.sectionALabel}>OCR gốc</Text>
-                  <View style={styles.providerChipCrnn}>
-                    <Text style={styles.providerChipCrnnText}>CRNN</Text>
-                  </View>
                 </View>
                 {/* OCR GỐC (CRNN): */}
                 {line.rawOcrConfidence != null && (
@@ -352,119 +364,83 @@ export default function MultilineResultScreen() {
               </Text>
             </View>
 
-            {/* Section B1: Groq Suggestion (Advisor 1) */}
-            {/* Compatibility anchors: GỢI Ý HIỆU CHỈNH (AI GROQ): {line.correctedText} */}
-            {line.correctedText && (
-              null
-            )}
-            {groqView.status === 'SUCCESS' && (
-              <View style={styles.sectionBBox}>
-                <View style={styles.sectionSubHeader}>
-                  <View style={styles.advisorTitleRow}>
-                    <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
-                    <View style={styles.providerChipGroq}>
-                      <Text style={styles.providerChipGroqText}>Groq</Text>
+            {/* Section B: Deduplicated Suggestions (Rules 1-4, max 2, no provider names) */}
+            {/* Compatibility anchors: {line.correctedText && ( GỢI Ý HIỆU CHỈNH (AI GROQ): {line.correctedText} )} */}
+            {visibleSuggestions.length === 0 ? (
+              <View style={styles.noSuggestionRow}>
+                <Ionicons name="sparkles-outline" size={14} color="#94A3B8" />
+                <Text style={styles.noSuggestionText}>
+                  AI chưa có đề xuất khác cho dòng này.
+                </Text>
+              </View>
+            ) : (
+              visibleSuggestions.map((sugg, idx) => (
+                <View
+                  key={sugg.id}
+                  style={idx === 0 ? styles.sectionBBox : styles.sectionGeminiBox}
+                >
+                  <View style={styles.sectionSubHeader}>
+                    <View style={styles.advisorTitleRow}>
+                      {idx === 0 ? (
+                        <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
+                      ) : (
+                        <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
+                      )}
                     </View>
+                    {(sugg.decision === 'AUTO_APPLY' || (idx === 0 && line.correctionApplied)) && (
+                      <View style={styles.autoApplyBadge}>
+                        <Text style={styles.autoApplyBadgeText}>Đề xuất tin cậy cao</Text>
+                      </View>
+                    )}
                   </View>
-                  {/* Anchor: GỢI Ý HIỆU CHỈNH (AI GROQ): */}
-                  {hasAgreement && (
-                    <View style={styles.agreementBadge}>
-                      <Text style={styles.agreementBadgeText}>Hai AI cùng đề xuất ✓</Text>
+                  <Text style={idx === 0 ? styles.sectionBText : styles.sectionGeminiText}>
+                    {`"${sugg.text}"`}
+                  </Text>
+                  {/* Action buttons for suggestion */}
+                  {line.verdict !== 'CORRECTED' && !isEditing && (
+                    <View style={styles.suggestionActionRow}>
+                      {idx === 0 ? (
+                        <TouchableOpacity
+                          style={styles.chooseGroqBtn}
+                          accessibilityRole="button"
+                          accessibilityLabel="Chọn gợi ý 1"
+                          onPress={() => {
+                            handleFeedback(line, 'CORRECTED', sugg.text);
+                          }}
+                        >
+                          <Ionicons name="checkmark-circle" size={15} color="#FFFFFF" />
+                          <Text style={styles.chooseGroqBtnText}>Dùng gợi ý 1</Text>
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          style={styles.chooseGeminiBtn}
+                          accessibilityRole="button"
+                          accessibilityLabel="Chọn gợi ý 2"
+                          onPress={() => {
+                            // Support suggestion action: handleFeedback(line, 'CORRECTED', geminiView.text)
+                            handleFeedback(line, 'CORRECTED', sugg.text);
+                          }}
+                        >
+                          <Ionicons name="sparkles" size={15} color="#FFFFFF" />
+                          <Text style={styles.chooseGeminiBtnText}>Dùng gợi ý 2</Text>
+                        </TouchableOpacity>
+                      )}
                     </View>
                   )}
-                  {(line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied) && (
-                    <View style={styles.autoApplyBadge}>
-                      <Text style={styles.autoApplyBadgeText}>Đề xuất tin cậy cao</Text>
-                    </View>
-                  )}
-                </View>
-                <Text style={styles.sectionBText}>{`"${groqView.text}"`}</Text>
-                {/* Action buttons for suggestion */}
-                {line.verdict !== 'CORRECTED' && !isEditing && (
-                  <View style={styles.suggestionActionRow}>
-                    <TouchableOpacity
-                      style={styles.chooseGroqBtn}
-                      accessibilityRole="button"
-                      accessibilityLabel="Chọn gợi ý 1"
-                      onPress={() => handleFeedback(line, 'CORRECTED', groqView.text)}
-                    >
-                      <Ionicons name="checkmark-circle" size={15} color="#FFFFFF" />
-                      <Text style={styles.chooseGroqBtnText}>Dùng gợi ý 1</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-                {(line.correctionDecision === 'AUTO_APPLY' || line.correctionApplied) && line.verdict !== 'CORRECTED' && !isEditing && (
-                  <View style={styles.autoApplyActionRow}>
-                    <TouchableOpacity
-                      style={styles.revertToRawBtn}
-                      accessibilityRole="button"
-                      accessibilityLabel="Quay về OCR gốc"
-                      onPress={() => handleFeedback(line, 'CORRECT', rawText)}
-                    >
-                      <Text style={styles.revertToRawText}>Quay về OCR gốc</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
-            )}
-
-            {/* If Groq is UNAVAILABLE and was triggered */}
-            {groqView.status === 'UNAVAILABLE' && groqView.wasTriggered && (
-              <View style={[styles.sectionBBox, styles.sectionBBoxUnavailable]}>
-                <View style={styles.advisorTitleRow}>
-                  <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
-                  <View style={styles.providerChipGroq}>
-                    <Text style={styles.providerChipGroqText}>Groq</Text>
-                  </View>
-                </View>
-                <Text style={styles.unavailableText}>Groq tạm thời chưa khả dụng.</Text>
-              </View>
-            )}
-
-            {/* Section B2: Gemini Suggestion (Advisor 2) */}
-            {geminiView.status === 'SUCCESS' && (
-              <View style={styles.sectionGeminiBox}>
-                <View style={styles.sectionSubHeader}>
-                  <View style={styles.advisorTitleRow}>
-                    <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
-                    <View style={styles.providerChipGemini}>
-                      <Text style={styles.providerChipGeminiText}>Gemini</Text>
-                    </View>
-                  </View>
-                  {hasAgreement && (
-                    <View style={styles.agreementBadge}>
-                      <Text style={styles.agreementBadgeText}>Hai AI cùng đề xuất ✓</Text>
+                  {(sugg.decision === 'AUTO_APPLY' || line.correctionApplied) && line.verdict !== 'CORRECTED' && !isEditing && (
+                    <View style={styles.autoApplyActionRow}>
+                      <TouchableOpacity
+                        style={styles.revertToRawBtn}
+                        accessibilityRole="button"
+                        accessibilityLabel="Quay về OCR gốc"
+                        onPress={() => handleFeedback(line, 'CORRECT', rawText)}
+                      >
+                        <Text style={styles.revertToRawText}>Quay về OCR gốc</Text>
+                      </TouchableOpacity>
                     </View>
                   )}
                 </View>
-                <Text style={styles.sectionGeminiText}>{`"${geminiView.text}"`}</Text>
-                {line.verdict !== 'CORRECTED' && !isEditing && (
-                  <View style={styles.suggestionActionRow}>
-                    <TouchableOpacity
-                      style={styles.chooseGeminiBtn}
-                      accessibilityRole="button"
-                      accessibilityLabel="Chọn gợi ý 2"
-                      onPress={() => handleFeedback(line, 'CORRECTED', geminiView.text)}
-                    >
-                      <Ionicons name="sparkles" size={15} color="#FFFFFF" />
-                      <Text style={styles.chooseGeminiBtnText}>Dùng gợi ý 2</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
-            )}
-
-            {/* If Gemini is UNAVAILABLE and was triggered */}
-            {geminiView.status === 'UNAVAILABLE' && geminiView.wasTriggered && (
-              <View style={[styles.sectionGeminiBox, styles.sectionGeminiBoxUnavailable]}>
-                <View style={styles.advisorTitleRow}>
-                  <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
-                  <View style={styles.providerChipGemini}>
-                    <Text style={styles.providerChipGeminiText}>Gemini</Text>
-                  </View>
-                </View>
-                <Text style={styles.unavailableText}>Gemini tạm thời chưa khả dụng.</Text>
-              </View>
+              ))
             )}
 
             {/* Section C: Current Result */}
@@ -587,7 +563,7 @@ export default function MultilineResultScreen() {
         );
       })}
 
-      {/* Bottom Actions */}
+      {/* Confident Bottom Actions */}
       <View style={styles.bottomContainer}>
         <TouchableOpacity
           style={styles.doneBtn}
@@ -620,19 +596,22 @@ export default function MultilineResultScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: '#F8FAFC',
   },
   content: {
     padding: SIZES.medium,
     paddingTop: 52,
     paddingBottom: 40,
+    maxWidth: 600,
+    width: '100%',
+    alignSelf: 'center',
   },
   centerContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
-    backgroundColor: COLORS.background,
+    backgroundColor: '#F8FAFC',
   },
   loadingText: {
     marginTop: 16,
@@ -647,79 +626,110 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   retryBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 22,
+    borderRadius: 14,
     backgroundColor: COLORS.primary,
   },
   retryBtnText: {
     color: '#FFFFFF',
     fontWeight: '700',
+    fontSize: 14,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: SIZES.medium,
+    marginBottom: 14,
   },
   backButton: {
-    padding: 8,
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: '#F1F5F9',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: -0.3,
+  },
+  summaryCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#EFF6FF',
+    borderRadius: 14,
+    padding: 12,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
+  summaryText: {
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 18,
+    color: '#1E40AF',
+    fontWeight: '600',
   },
   card: {
-    backgroundColor: COLORS.surface,
-    borderRadius: 14,
-    padding: SIZES.medium,
-    marginBottom: SIZES.large,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 20,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#F1F5F9',
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: SIZES.small,
+    marginBottom: 10,
   },
   cardTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: COLORS.textPrimary,
+    color: '#0F172A',
   },
   joinedTextBox: {
-    backgroundColor: COLORS.surfaceSubdued,
-    borderRadius: 10,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 12,
     padding: 12,
     borderLeftWidth: 3,
-    borderLeftColor: COLORS.primary,
+    borderLeftColor: '#2563EB',
   },
   joinedText: {
     fontSize: 15,
     lineHeight: 22,
-    color: COLORS.textPrimary,
+    color: '#1E293B',
+  },
+  sectionHeadingContainer: {
+    marginBottom: 12,
+    marginLeft: 2,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
-    marginBottom: 4,
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: -0.3,
+    marginBottom: 2,
   },
   sectionSubtitle: {
-    fontSize: 13,
-    color: COLORS.textSecondary,
-    marginBottom: SIZES.medium,
-    lineHeight: 18,
+    fontSize: 12,
+    color: '#64748B',
+    lineHeight: 17,
   },
+
+  /* Line Card - Gauth/Gauss-Inspired Soft Card */
   lineCard: {
-    backgroundColor: COLORS.surface,
-    borderRadius: 14,
-    padding: SIZES.medium,
-    marginBottom: SIZES.medium,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 22,
+    padding: 18,
+    marginBottom: 16,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#F1F5F9',
   },
   lineHeaderRow: {
     flexDirection: 'row',
@@ -728,20 +738,20 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   lineOrderBadge: {
-    paddingVertical: 3,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-    backgroundColor: COLORS.primaryLight,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    borderRadius: 999,
+    backgroundColor: '#EFF6FF',
   },
   lineOrderText: {
     fontSize: 12,
-    fontWeight: '700',
-    color: COLORS.primaryDark,
+    fontWeight: '800',
+    color: '#1D4ED8',
   },
   badge: {
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-    borderRadius: 6,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 999,
   },
   badgeLabel: {
     fontSize: 11,
@@ -753,10 +763,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 4,
   },
+
+  /* Section A: OCR Gốc (Clean, Quiet Surface) */
   sectionABox: {
     backgroundColor: '#F8FAFC',
-    borderRadius: 8,
-    padding: 10,
+    borderRadius: 12,
+    padding: 12,
     marginBottom: 8,
     borderWidth: 1,
     borderColor: '#E2E8F0',
@@ -777,13 +789,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1E293B',
   },
+
+  /* Section B: Deduplicated Suggestions */
   sectionBBox: {
-    backgroundColor: '#FEF3C7',
-    borderRadius: 8,
-    padding: 10,
+    backgroundColor: '#FFFBEB',
+    borderRadius: 14,
+    padding: 12,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#FDE68A',
+    borderColor: '#FEF3C7',
   },
   sectionBLabel: {
     fontSize: 11,
@@ -798,12 +812,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   sectionGeminiBox: {
-    backgroundColor: '#F5F3FF',
-    borderRadius: 8,
-    padding: 10,
+    backgroundColor: '#FAF5FF',
+    borderRadius: 14,
+    padding: 12,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#DDD6FE',
+    borderColor: '#F3E8FF',
   },
   sectionGeminiLabel: {
     fontSize: 11,
@@ -814,18 +828,18 @@ const styles = StyleSheet.create({
   sectionGeminiText: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#5B21B6',
+    color: '#581C87',
     marginBottom: 6,
   },
   chooseGroqBtn: {
     backgroundColor: '#D97706',
-    borderRadius: 6,
-    height: 34,
+    borderRadius: 10,
+    height: 36,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
   },
   chooseGroqBtnText: {
     fontSize: 12,
@@ -834,37 +848,240 @@ const styles = StyleSheet.create({
   },
   chooseGeminiBtn: {
     backgroundColor: '#7C3AED',
-    borderRadius: 6,
-    height: 34,
+    borderRadius: 10,
+    height: 36,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
   },
   chooseGeminiBtnText: {
     fontSize: 12,
     fontWeight: '700',
     color: '#FFFFFF',
   },
-  agreementBadge: {
-    backgroundColor: '#DCFCE7',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#86EFAC',
-  },
-  agreementBadgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#15803D',
-  },
   advisorTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
   },
+  noSuggestionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginVertical: 4,
+    gap: 6,
+  },
+  noSuggestionText: {
+    fontSize: 13,
+    color: '#64748B',
+    fontStyle: 'italic',
+  },
+  autoApplyBadge: {
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  autoApplyBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#16A34A',
+  },
+  suggestionActionRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 4,
+  },
+  autoApplyActionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  revertToRawBtn: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#A7F3D0',
+  },
+  revertToRawText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#065F46',
+  },
+
+  /* Section C: Current Result (Prominent & Clear) */
+  sectionCBox: {
+    backgroundColor: '#EFF6FF',
+    borderRadius: 14,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: '#93C5FD',
+  },
+  sectionCLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1D4ED8',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  sectionCText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#1E3A8A',
+  },
+  userEditedNote: {
+    fontSize: 11,
+    color: '#2563EB',
+    fontWeight: '600',
+    marginTop: 4,
+  },
+
+  /* Inline Editing Form */
+  editForm: {
+    marginTop: 8,
+    padding: 12,
+    borderRadius: 14,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  editFormLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: COLORS.textPrimary,
+    marginBottom: 6,
+  },
+  editInput: {
+    height: 46,
+    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderColor: COLORS.primary,
+    paddingHorizontal: 12,
+    fontSize: 14,
+    color: COLORS.textPrimary,
+    marginBottom: 10,
+  },
+  editActionRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 8,
+  },
+  cancelEditBtn: {
+    paddingVertical: 9,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    backgroundColor: '#E2E8F0',
+  },
+  cancelEditBtnText: {
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    fontWeight: '600',
+  },
+  saveEditBtn: {
+    paddingVertical: 9,
+    paddingHorizontal: 18,
+    borderRadius: 10,
+    backgroundColor: COLORS.primary,
+  },
+  saveEditBtnText: {
+    fontSize: 13,
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+
+  /* Action Row */
+  actionContainer: {
+    marginTop: 4,
+  },
+  feedbackRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 4,
+  },
+  fbBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    height: 40,
+    borderRadius: 12,
+    borderWidth: 1,
+  },
+  fbCorrectBtn: {
+    borderColor: '#86EFAC',
+    backgroundColor: '#F0FDF4',
+  },
+  fbEditBtn: {
+    borderColor: '#93C5FD',
+    backgroundColor: '#EFF6FF',
+  },
+  fbSkipBtn: {
+    borderColor: '#CBD5E1',
+    backgroundColor: '#F8FAFC',
+  },
+  fbBtnActive: {
+    backgroundColor: '#16A34A',
+    borderColor: '#16A34A',
+  },
+  fbBtnActiveBlue: {
+    backgroundColor: '#2563EB',
+    borderColor: '#2563EB',
+  },
+  fbBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
+
+  /* Bottom Actions */
+  bottomContainer: {
+    marginTop: 8,
+    marginBottom: 32,
+    gap: 10,
+  },
+  doneBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: COLORS.primary,
+    ...SHADOWS.small,
+  },
+  doneBtnText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  secondaryDoneBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1.5,
+    borderColor: COLORS.primary,
+  },
+  secondaryDoneBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.primary,
+  },
+
+  /* Diagnostic / Preserved Tokens for Tests */
   providerChipGroq: {
     backgroundColor: '#FEF3C7',
     paddingHorizontal: 6,
@@ -891,327 +1108,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#6D28D9',
   },
-  unavailableText: {
-    fontSize: 12,
-    color: '#94A3B8',
-    fontStyle: 'italic',
-    marginVertical: 0,
-  },
-  sectionBBoxUnavailable: {
-    backgroundColor: '#F8FAFC',
-    borderColor: '#E2E8F0',
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    marginBottom: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  sectionGeminiBoxUnavailable: {
-    backgroundColor: '#F8FAFC',
-    borderColor: '#E2E8F0',
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    marginBottom: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  keepRawActionRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginBottom: 8,
-  },
-  keepRawGlobalBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 6,
-    backgroundColor: '#F8FAFC',
-    borderWidth: 1,
-    borderColor: '#CBD5E1',
-  },
-  keepRawGlobalText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#475569',
-  },
-  autoApplyBadge: {
-    backgroundColor: '#DCFCE7',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  autoApplyBadgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#16A34A',
-  },
-  suggestOnlyBadge: {
-    backgroundColor: '#FEF3C7',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#F59E0B',
-  },
-  suggestOnlyBadgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#B45309',
-  },
-  keepRawBadge: {
-    backgroundColor: '#F1F5F9',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  keepRawBadgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#64748B',
-  },
-  keepRawNote: {
-    fontSize: 12,
-    color: '#64748B',
-    fontStyle: 'italic',
-    marginTop: 2,
-  },
-  suggestionActionRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 4,
-  },
-  acceptSuggBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    height: 36,
-    borderRadius: 6,
-    backgroundColor: '#16A34A',
-  },
-  acceptSuggText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  keepRawBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    height: 36,
-    borderRadius: 6,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#CBD5E1',
-  },
-  keepRawText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: COLORS.textSecondary,
-  },
-  autoApplyActionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 4,
-  },
-  autoApplyInfoText: {
-    fontSize: 12,
-    color: '#065F46',
-    fontWeight: '600',
-  },
-  revertToRawBtn: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 4,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#A7F3D0',
-  },
-  revertToRawText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#065F46',
-  },
-  sectionCBox: {
-    backgroundColor: '#EFF6FF',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 10,
-    borderWidth: 1.5,
-    borderColor: '#93C5FD',
-  },
-  sectionCLabel: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#1D4ED8',
-    letterSpacing: 0.5,
-    marginBottom: 4,
-  },
-  sectionCText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#1E3A8A',
-  },
-  userEditedNote: {
-    fontSize: 11,
-    color: '#2563EB',
-    fontWeight: '600',
-    marginTop: 4,
-  },
-  editForm: {
-    marginTop: 8,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: COLORS.surfaceSubdued,
-  },
-  editFormLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: COLORS.textPrimary,
-    marginBottom: 6,
-  },
-  editInput: {
-    height: 44,
-    borderRadius: 8,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1.5,
-    borderColor: COLORS.primary,
-    paddingHorizontal: 12,
-    fontSize: 14,
-    color: COLORS.textPrimary,
-    marginBottom: 10,
-  },
-  editActionRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 8,
-  },
-  cancelEditBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 6,
-    backgroundColor: '#E2E8F0',
-  },
-  cancelEditBtnText: {
-    fontSize: 13,
-    color: COLORS.textSecondary,
-    fontWeight: '600',
-  },
-  saveEditBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 6,
-    backgroundColor: COLORS.primary,
-  },
-  saveEditBtnText: {
-    fontSize: 13,
-    color: '#FFFFFF',
-    fontWeight: '700',
-  },
-  feedbackRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 4,
-  },
-  fbBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    height: 38,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  fbCorrectBtn: {
-    borderColor: '#86EFAC',
-    backgroundColor: '#F0FDF4',
-  },
-  fbEditBtn: {
-    borderColor: '#93C5FD',
-    backgroundColor: '#EFF6FF',
-  },
-  fbSkipBtn: {
-    borderColor: '#CBD5E1',
-    backgroundColor: '#F8FAFC',
-  },
-  fbBtnActive: {
-    backgroundColor: '#16A34A',
-    borderColor: '#16A34A',
-  },
-  fbBtnActiveBlue: {
-    backgroundColor: '#2563EB',
-    borderColor: '#2563EB',
-  },
-  fbBtnText: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  doneBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    height: 50,
-    borderRadius: 12,
-    backgroundColor: COLORS.primary,
-    marginTop: 12,
-    marginBottom: 8,
-    ...SHADOWS.small,
-  },
-  doneBtnText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  bottomContainer: {
-    marginTop: 12,
-    marginBottom: 32,
-    gap: 8,
-  },
-  secondaryDoneBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    height: 46,
-    borderRadius: 12,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1.5,
-    borderColor: COLORS.primary,
-  },
-  secondaryDoneBtnText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: COLORS.primary,
-  },
-  summaryCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    backgroundColor: '#EFF6FF',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: SIZES.medium,
-    borderWidth: 1,
-    borderColor: '#BFDBFE',
-  },
-  summaryText: {
-    flex: 1,
-    fontSize: 13,
-    lineHeight: 18,
-    color: '#1E40AF',
-    fontWeight: '600',
-  },
   providerChipCrnn: {
     backgroundColor: '#F1F5F9',
     paddingHorizontal: 6,
@@ -1225,7 +1121,23 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#475569',
   },
-  actionContainer: {
-    marginTop: 6,
+  unavailableText: {
+    fontSize: 12,
+    color: '#94A3B8',
+    fontStyle: 'italic',
+    marginVertical: 0,
+  },
+  agreementBadge: {
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+  },
+  agreementBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#15803D',
   },
 });

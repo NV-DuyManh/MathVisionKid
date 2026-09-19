@@ -28,6 +28,7 @@ import cv2
 import numpy as np
 from pydantic import BaseModel, Field
 
+from app.config import settings
 from app.integrations.groq.client import call_groq_correction, GroqError
 from app.integrations.groq.key_pool import GroqKeyPool
 from app.integrations.groq.line_analyzer import get_pool
@@ -353,11 +354,6 @@ async def request_groq_correction(
         logger.warning("[GroqCorrector] Key pool not initialized.")
         return None
 
-    key_entry = pool.acquire()
-    if not key_entry:
-        logger.warning("[GroqCorrector] Key pool unavailable or all keys exhausted.")
-        return None
-
     user_text = f"Raw OCR: {raw_text}\nOCR Confidence: {raw_confidence:.2f}"
     if read_only_context:
         ctx_lines = "\n".join(f"- {c}" for c in read_only_context if c)
@@ -366,19 +362,41 @@ async def request_groq_correction(
     user_text += "\n\nReturn structured JSON correction for this line crop."
 
     t0 = time.time()
+    max_attempts = getattr(settings, "groq_max_request_attempts", 3)
+    raw_json = None
+
+    for _ in range(max_attempts):
+        key_entry = pool.acquire()
+        if not key_entry:
+            logger.warning("[GroqCorrector] Key pool unavailable or all keys exhausted.")
+            return None
+
+        try:
+            raw_json = await call_groq_correction(
+                model=primary_model,
+                system_prompt=CORRECTION_SYSTEM_PROMPT,
+                user_text=user_text,
+                line_crop_b64=crop_b64,
+                key_entry=key_entry,
+                timeout_seconds=timeout_seconds,
+                connect_timeout=connect_timeout,
+            )
+            pool.report_success(key_entry)
+            break
+        except GroqError as ge:
+            pool.report_failure(key_entry, ge.error_class, retry_after_seconds=ge.retry_after)
+            logger.warning(f"[GroqCorrector] GroqError: {ge.error_class} - {ge}")
+            if ge.error_class in ("AUTH_INVALID", "AUTH_FORBIDDEN", "RATE_LIMIT", "TRANSIENT_NETWORK", "PROVIDER_TRANSIENT", "TIMEOUT"):
+                continue
+            return None
+        except Exception as e:
+            logger.warning(f"[GroqCorrector] Unexpected error: {e}")
+            return None
+
+    if raw_json is None:
+        return None
 
     try:
-        raw_json = await call_groq_correction(
-            model=primary_model,
-            system_prompt=CORRECTION_SYSTEM_PROMPT,
-            user_text=user_text,
-            line_crop_b64=crop_b64,
-            key_entry=key_entry,
-            timeout_seconds=timeout_seconds,
-            connect_timeout=connect_timeout,
-        )
-        pool.report_success(key_entry)
-
         # Parse & validate schema
         correction_resp = GroqOcrCorrectionResponse.model_validate(raw_json)
 
@@ -403,11 +421,6 @@ async def request_groq_correction(
         )
         return correction_resp, decision, edit_ratio, reason
 
-    except GroqError as ge:
-        pool.report_failure(key_entry, ge.error_class, retry_after_seconds=ge.retry_after)
-        logger.warning(f"[GroqCorrector] GroqError: {ge.error_class} - {ge}")
-        return None
-
     except Exception as e:
-        logger.warning(f"[GroqCorrector] Unexpected error: {e}")
+        logger.warning(f"[GroqCorrector] Validation error: {e}")
         return None

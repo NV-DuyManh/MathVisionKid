@@ -35,6 +35,7 @@ export default function MultilineReviewScreen() {
   const [boxes, setBoxes] = useState<LineBox[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isNetworkError, setIsNetworkError] = useState(false);
+  const [editMode, setEditMode] = useState<'MOVE' | 'RESIZE'>('MOVE');
 
   const displayWidth = SCREEN_WIDTH - 32;
   const detectRequestIdRef = useRef(0);
@@ -333,6 +334,7 @@ export default function MultilineReviewScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      {/* Sleek App Bar */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={handleBack}
@@ -340,7 +342,7 @@ export default function MultilineReviewScreen() {
           accessibilityRole="button"
           accessibilityLabel="Quay lại"
         >
-          <Ionicons name="arrow-back" size={24} color={COLORS.textPrimary} />
+          <Ionicons name="arrow-back" size={22} color={COLORS.textPrimary} />
         </TouchableOpacity>
         <Text style={styles.title}>Kiểm tra các dòng chữ</Text>
         <TouchableOpacity
@@ -370,16 +372,16 @@ export default function MultilineReviewScreen() {
         {`Đã tìm thấy ${boxes.length} dòng. Chạm vào một khung để chỉnh lại nếu cần.`}
       </Text>
 
-      {/* Image Overlay Area */}
-      <View style={[styles.imageContainer, { width: displayWidth, height: displayHeight }]}>
-            <Image
-              source={{ uri: imageUri }}
-              style={{ width: displayWidth, height: displayHeight }}
-              resizeMode="contain"
-              onError={(e) => {
-                console.error('[MULTILINE] Image load failed:', e.nativeEvent.error);
-              }}
-            />
+      {/* Dominant Image Canvas Area */}
+      <View style={[styles.imageContainer, SHADOWS.small, { width: displayWidth, height: displayHeight }]}>
+        <Image
+          source={{ uri: imageUri }}
+          style={{ width: displayWidth, height: displayHeight }}
+          resizeMode="contain"
+          onError={(e) => {
+            console.error('[MULTILINE] Image load failed:', e.nativeEvent.error);
+          }}
+        />
 
         {boxes.map((box) => {
           const isSelected = box.line_id === selectedId;
@@ -417,7 +419,7 @@ export default function MultilineReviewScreen() {
       {/* Box Editing Controls or Blank State Card */}
       {isNetworkError && boxes.length === 0 ? (
         <View style={styles.emptyCard}>
-          <Ionicons name="wifi-outline" size={40} color="#DC2626" style={{ marginBottom: 8 }} />
+          <Ionicons name="wifi-outline" size={36} color="#DC2626" style={{ marginBottom: 8 }} />
           <Text style={styles.emptyTitle}>Lỗi kết nối máy chủ</Text>
           <Text style={styles.emptySubtitle}>
             Không thể kết nối đến hệ thống nhận diện. Hãy đảm bảo máy chủ đang hoạt động và kết nối mạng ổn định.
@@ -443,7 +445,7 @@ export default function MultilineReviewScreen() {
         </View>
       ) : boxes.length === 0 ? (
         <View style={styles.emptyCard}>
-          <Ionicons name="alert-circle-outline" size={40} color={COLORS.textSecondary} style={{ marginBottom: 8 }} />
+          <Ionicons name="alert-circle-outline" size={36} color={COLORS.textSecondary} style={{ marginBottom: 8 }} />
           <Text style={styles.emptyTitle}>Chưa phát hiện được dòng chữ nào.</Text>
           <Text style={styles.emptySubtitle}>
             Không tìm thấy văn bản trên ảnh, hoặc chữ viết quá mờ/nhỏ. Bạn có thể tự thêm dòng, thử phát hiện lại hoặc chụp/chọn ảnh khác.
@@ -481,68 +483,103 @@ export default function MultilineReviewScreen() {
           </View>
         </View>
       ) : selectedBox ? (
-        <View style={styles.controlCard}>
+        <View style={[styles.controlCard, SHADOWS.small]}>
+          {/* Card Header: Selected Line Tag & Delete Button */}
           <View style={styles.controlHeaderRow}>
-            <Text style={styles.controlTitle}>
-              Dòng đang chọn: <Text style={{ color: COLORS.primary, fontWeight: '700' }}>{selectedBox.order}</Text>
-            </Text>
+            <View style={styles.selectedLinePill}>
+              <Text style={styles.controlTitle}>
+                Dòng đang chọn: <Text style={{ color: COLORS.primary, fontWeight: '800' }}>{selectedBox.order}</Text>
+              </Text>
+            </View>
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={handleDelete}
               accessibilityRole="button"
               accessibilityLabel="Xóa dòng"
             >
-              <Ionicons name="trash-outline" size={17} color="#DC2626" />
+              <Ionicons name="trash-outline" size={15} color="#DC2626" />
               <Text style={styles.deleteButtonText}>Xóa dòng</Text>
             </TouchableOpacity>
           </View>
 
-          {/* D-Pad Style Controls */}
-          <View style={styles.controlsRow}>
-            <View style={styles.controlGroup}>
-              <Text style={styles.groupLabel}>Di chuyển:</Text>
-              <View style={styles.btnRow}>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, -1)} accessibilityLabel="Di chuyển lên">
-                  <Ionicons name="arrow-up" size={18} color={COLORS.textPrimary} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, 1)} accessibilityLabel="Di chuyển xuống">
-                  <Ionicons name="arrow-down" size={18} color={COLORS.textPrimary} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(-1, 0)} accessibilityLabel="Di chuyển sang trái">
-                  <Ionicons name="arrow-back" size={18} color={COLORS.textPrimary} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(1, 0)} accessibilityLabel="Di chuyển sang phải">
-                  <Ionicons name="arrow-forward" size={18} color={COLORS.textPrimary} />
-                </TouchableOpacity>
-              </View>
-            </View>
+          {/* Gauth-Inspired Segmented Tool Switcher */}
+          <View style={styles.segmentContainer}>
+            <TouchableOpacity
+              style={[styles.segmentBtn, editMode === 'MOVE' && styles.segmentBtnActive]}
+              onPress={() => setEditMode('MOVE')}
+              activeOpacity={0.8}
+              accessibilityRole="button"
+              accessibilityLabel="Chế độ di chuyển"
+            >
+              <Ionicons name="move-outline" size={15} color={editMode === 'MOVE' ? '#1D4ED8' : '#64748B'} />
+              <Text style={[styles.segmentBtnText, editMode === 'MOVE' && styles.segmentBtnTextActive]}>
+                Di chuyển
+              </Text>
+            </TouchableOpacity>
 
-            <View style={styles.controlGroup}>
-              <Text style={styles.groupLabel}>Kích thước:</Text>
-              <View style={styles.btnRow}>
-                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(-1, 0)} accessibilityLabel="Giảm chiều rộng">
-                  <Text style={styles.resizeBtnText}>− Rộng</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(1, 0)} accessibilityLabel="Tăng chiều rộng">
-                  <Text style={styles.resizeBtnText}>+ Rộng</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, -1)} accessibilityLabel="Giảm chiều cao">
-                  <Text style={styles.resizeBtnText}>− Cao</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, 1)} accessibilityLabel="Tăng chiều cao">
-                  <Text style={styles.resizeBtnText}>+ Cao</Text>
-                </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.segmentBtn, editMode === 'RESIZE' && styles.segmentBtnActive]}
+              onPress={() => setEditMode('RESIZE')}
+              activeOpacity={0.8}
+              accessibilityRole="button"
+              accessibilityLabel="Chế độ kích thước"
+            >
+              <Ionicons name="expand-outline" size={15} color={editMode === 'RESIZE' ? '#1D4ED8' : '#64748B'} />
+              <Text style={[styles.segmentBtnText, editMode === 'RESIZE' && styles.segmentBtnTextActive]}>
+                Kích thước
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Tactile Control Buttons */}
+          <View style={styles.controlsRow}>
+            {editMode === 'MOVE' ? (
+              <View style={styles.controlGroup}>
+                <Text style={styles.groupLabel}>Di chuyển vị trí khung:</Text>
+                <View style={styles.btnRow}>
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, -1)} accessibilityLabel="Di chuyển lên">
+                    <Ionicons name="arrow-up" size={18} color={COLORS.textPrimary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, 1)} accessibilityLabel="Di chuyển xuống">
+                    <Ionicons name="arrow-down" size={18} color={COLORS.textPrimary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(-1, 0)} accessibilityLabel="Di chuyển sang trái">
+                    <Ionicons name="arrow-back" size={18} color={COLORS.textPrimary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(1, 0)} accessibilityLabel="Di chuyển sang phải">
+                    <Ionicons name="arrow-forward" size={18} color={COLORS.textPrimary} />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            ) : (
+              <View style={styles.controlGroup}>
+                <Text style={styles.groupLabel}>Kích thước khung chữ:</Text>
+                <View style={styles.btnRow}>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(-1, 0)} accessibilityLabel="Giảm chiều rộng">
+                    <Text style={styles.resizeBtnText}>− Rộng</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(1, 0)} accessibilityLabel="Tăng chiều rộng">
+                    <Text style={styles.resizeBtnText}>+ Rộng</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, -1)} accessibilityLabel="Giảm chiều cao">
+                    <Text style={styles.resizeBtnText}>− Cao</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, 1)} accessibilityLabel="Tăng chiều cao">
+                    <Text style={styles.resizeBtnText}>+ Cao</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
           </View>
         </View>
       ) : (
         <View style={styles.noSelectCard}>
+          <Ionicons name="hand-left-outline" size={20} color="#94A3B8" style={{ marginBottom: 4 }} />
           <Text style={styles.noSelectText}>Chạm vào một khung chữ trên ảnh để chỉnh sửa.</Text>
         </View>
       )}
 
-      {/* Global Actions */}
+      {/* Confident Bottom Action Bar */}
       <View style={styles.actionRow}>
         <TouchableOpacity
           style={styles.secondaryBtn}
@@ -550,7 +587,7 @@ export default function MultilineReviewScreen() {
           accessibilityRole="button"
           accessibilityLabel="Thêm dòng"
         >
-          <Ionicons name="add-circle-outline" size={20} color={COLORS.primary} />
+          <Ionicons name="add-circle-outline" size={19} color={COLORS.primary} />
           <Text style={styles.secondaryBtnText}>Thêm dòng</Text>
         </TouchableOpacity>
 
@@ -584,19 +621,22 @@ export default function MultilineReviewScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: '#F8FAFC',
   },
   content: {
     padding: SIZES.medium,
     paddingTop: 52,
     paddingBottom: 40,
+    maxWidth: 600,
+    width: '100%',
+    alignSelf: 'center',
   },
   centerContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
-    backgroundColor: COLORS.background,
+    backgroundColor: '#F8FAFC',
   },
   loadingText: {
     marginTop: 16,
@@ -608,38 +648,49 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: SIZES.small,
+    marginBottom: 12,
   },
   backButton: {
-    padding: 8,
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: '#F1F5F9',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   resetButton: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: COLORS.surfaceSubdued,
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: '#F1F5F9',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: -0.3,
   },
   instruction: {
     fontSize: 13,
-    color: COLORS.textSecondary,
-    marginBottom: SIZES.small,
+    color: '#64748B',
+    marginBottom: 14,
     lineHeight: 18,
   },
   imageContainer: {
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: 'hidden',
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F8FAFC',
     alignSelf: 'center',
-    marginBottom: SIZES.medium,
+    marginBottom: 16,
     position: 'relative',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
   },
   boxOverlay: {
     position: 'absolute',
-    borderRadius: 4,
+    borderRadius: 6,
   },
   orderTag: {
     position: 'absolute',
@@ -656,32 +707,40 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '800',
   },
+
+  /* Control Card */
   controlCard: {
-    backgroundColor: COLORS.surface,
-    borderRadius: 14,
-    padding: SIZES.medium,
-    marginBottom: SIZES.medium,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 16,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    ...SHADOWS.small,
+    borderColor: '#F1F5F9',
   },
   controlHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SIZES.small,
+    marginBottom: 12,
+  },
+  selectedLinePill: {
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 999,
   },
   controlTitle: {
-    fontSize: 14,
-    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#1E40AF',
   },
   deleteButton: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 6,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 8,
     backgroundColor: '#FEE2E2',
   },
   deleteButtonText: {
@@ -689,33 +748,78 @@ const styles = StyleSheet.create({
     color: '#DC2626',
     fontWeight: '600',
   },
+
+  /* Segmented Tool Switcher */
+  segmentContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#F1F5F9',
+    borderRadius: 12,
+    padding: 3,
+    marginBottom: 14,
+  },
+  segmentBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    height: 36,
+    borderRadius: 10,
+  },
+  segmentBtnActive: {
+    backgroundColor: '#FFFFFF',
+    ...SHADOWS.small,
+  },
+  segmentBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#64748B',
+  },
+  segmentBtnTextActive: {
+    color: '#1D4ED8',
+    fontWeight: '700',
+  },
+
   controlsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
   },
   controlGroup: {
     flex: 1,
   },
   groupLabel: {
     fontSize: 12,
-    color: COLORS.textMuted,
-    marginBottom: 6,
+    color: '#64748B',
+    marginBottom: 8,
+    fontWeight: '600',
   },
   btnRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
+    gap: 8,
   },
   ctrlBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 8,
-    backgroundColor: COLORS.surfaceSubdued,
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#F8FAFC',
     borderWidth: 1,
-    borderColor: '#BFDBFE',
+    borderColor: '#E2E8F0',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  resizeBtn: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  resizeBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1E293B',
   },
   btnSub: {
     fontSize: 8,
@@ -724,19 +828,24 @@ const styles = StyleSheet.create({
     marginTop: -2,
   },
   noSelectCard: {
-    padding: 16,
-    borderRadius: 12,
-    backgroundColor: COLORS.surfaceSubdued,
+    padding: 18,
+    borderRadius: 16,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
     alignItems: 'center',
-    marginBottom: SIZES.medium,
+    marginBottom: 16,
   },
   noSelectText: {
     fontSize: 13,
-    color: COLORS.textSecondary,
+    color: '#64748B',
+    fontWeight: '500',
   },
+
+  /* Action Row */
   actionRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
     alignItems: 'center',
   },
   secondaryBtn: {
@@ -745,11 +854,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: COLORS.surfaceSubdued,
-    borderWidth: 1.5,
-    borderColor: COLORS.primary,
+    height: 50,
+    borderRadius: 16,
+    backgroundColor: '#F1F5F9',
   },
   secondaryBtnText: {
     fontSize: 14,
@@ -762,9 +869,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: COLORS.primary,
+    height: 50,
+    borderRadius: 16,
+    backgroundColor: '#2563EB',
     ...SHADOWS.small,
   },
   primaryBtnText: {
@@ -774,10 +881,10 @@ const styles = StyleSheet.create({
   },
   emptyCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 14,
+    borderRadius: 20,
     padding: 20,
     alignItems: 'center',
-    marginBottom: SIZES.medium,
+    marginBottom: 16,
     borderWidth: 1,
     borderColor: '#E2E8F0',
     ...SHADOWS.small,
@@ -808,7 +915,7 @@ const styles = StyleSheet.create({
     gap: 8,
     backgroundColor: COLORS.primary,
     paddingVertical: 12,
-    borderRadius: 10,
+    borderRadius: 12,
   },
   emptyBtnOutline: {
     backgroundColor: '#F1F5F9',
@@ -819,21 +926,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#FFFFFF',
-  },
-  resizeBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    borderRadius: 8,
-    backgroundColor: COLORS.surfaceSubdued,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  resizeBtnText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: COLORS.textPrimary,
   },
   ctaLoadingRow: {
     flexDirection: 'row',
@@ -851,8 +943,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   ctaSupportText: {
-    fontSize: 10,
-    color: '#E0E7FF',
+    fontSize: 11,
+    color: '#BFDBFE',
     fontWeight: '500',
     marginTop: 1,
   },

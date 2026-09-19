@@ -1,8 +1,19 @@
+/* eslint-disable react-hooks/immutability, react-hooks/purity, react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, PanResponder, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import ViewShot from 'react-native-view-shot';
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  runOnJS,
+} from 'react-native-reanimated';
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
@@ -10,6 +21,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { submissionDraftStore, resolveFlowDomain, logFlowDomain } from '../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
 import * as ImageManipulator from 'expo-image-manipulator';
+import {
+  calculateMaskMove,
+  calculateMaskResizeBR,
+  calculateMaskDraw,
+  isPointInsideMask,
+  isPointInsideResizeHandle,
+  MIN_MASK_SIZE,
+  MaskRect,
+} from '../utils/privacyGeometry';
 
 interface Mask {
   id: number;
@@ -65,125 +85,286 @@ export default function PrivacyGateScreen() {
     }
   }, [activeUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode]);
 
-  const panResponder = React.useMemo(() => {
-    const state = {
-      startX: 0,
-      startY: 0,
-      currentMaskId: null as number | null,
-      action: null as 'DRAW' | 'MOVE' | 'RESIZE' | null,
-      initialMask: null as Mask | null,
-    };
+  // =========================================================================
+  // Reanimated Shared Values for Native UI-Thread Worklet Gesture Recognition
+  // =========================================================================
+  const containerW = useSharedValue(0);
+  const containerH = useSharedValue(0);
 
-    return PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (evt) => {
-        state.startX = evt.nativeEvent.locationX;
-        state.startY = evt.nativeEvent.locationY;
+  useEffect(() => {
+    const w = typeof fittedStyle.width === 'number' ? fittedStyle.width : containerSize.width;
+    const h = typeof fittedStyle.height === 'number' ? fittedStyle.height : containerSize.height;
+    containerW.value = w;
+    containerH.value = h;
+  }, [fittedStyle.width, fittedStyle.height, containerSize.width, containerSize.height]);
 
-        setMasks(prev => {
-          let touchedMask: Mask | null = null;
-          for (let i = prev.length - 1; i >= 0; i--) {
-            const m = prev[i];
-            if (
-              state.startX >= m.x &&
-              state.startX <= m.x + m.width &&
-              state.startY >= m.y &&
-              state.startY <= m.y + m.height
-            ) {
-              touchedMask = m;
-              break;
-            }
-          }
+  const allMasksShared = useSharedValue<Mask[]>([]);
+  useEffect(() => {
+    allMasksShared.value = masks;
+  }, [masks]);
 
-          if (touchedMask) {
-            state.currentMaskId = touchedMask.id;
-            setSelectedMaskId(state.currentMaskId);
-            state.initialMask = { ...touchedMask };
+  // Gesture action mode: 0 = NONE, 1 = MOVE, 2 = RESIZE, 3 = DRAW
+  const gestureAction = useSharedValue(0);
+  const activeMaskId = useSharedValue<number | null>(null);
 
-            if (
-              state.startX >= touchedMask.x + touchedMask.width - 30 &&
-              state.startY >= touchedMask.y + touchedMask.height - 30
-            ) {
-              state.action = 'RESIZE';
-            } else {
-              state.action = 'MOVE';
-            }
-            return prev;
-          } else {
-            state.currentMaskId = Date.now();
-            setSelectedMaskId(state.currentMaskId);
-            state.action = 'DRAW';
-            return [
-              ...prev,
-              {
-                id: state.currentMaskId,
-                x: state.startX,
-                y: state.startY,
-                width: 0,
-                height: 0,
-              },
-            ];
-          }
-        });
-      },
-      onPanResponderMove: (evt) => {
-        if (!state.currentMaskId) return;
+  // Active mask rectangle values (driven by worklets at native 60-120Hz)
+  const activeX = useSharedValue(0);
+  const activeY = useSharedValue(0);
+  const activeW = useSharedValue(0);
+  const activeH = useSharedValue(0);
+  const activeOpacity = useSharedValue(0);
 
-        const currentX = evt.nativeEvent.locationX;
-        const currentY = evt.nativeEvent.locationY;
-        const dx = currentX - state.startX;
-        const dy = currentY - state.startY;
+  // Initial anchors on gesture start
+  const initBoxX = useSharedValue(0);
+  const initBoxY = useSharedValue(0);
+  const initBoxW = useSharedValue(0);
+  const initBoxH = useSharedValue(0);
 
-        setMasks(prev =>
-          prev.map(mask => {
-            if (mask.id === state.currentMaskId) {
-              if (state.action === 'DRAW') {
-                return {
-                  ...mask,
-                  x: Math.min(state.startX, currentX),
-                  y: Math.min(state.startY, currentY),
-                  width: Math.abs(currentX - state.startX),
-                  height: Math.abs(currentY - state.startY),
-                };
-              } else if (state.action === 'MOVE' && state.initialMask) {
-                return {
-                  ...mask,
-                  x: state.initialMask.x + dx,
-                  y: state.initialMask.y + dy,
-                };
-              } else if (state.action === 'RESIZE' && state.initialMask) {
-                return {
-                  ...mask,
-                  width: Math.max(24, state.initialMask.width + dx),
-                  height: Math.max(24, state.initialMask.height + dy),
-                };
-              }
-            }
-            return mask;
-          })
-        );
-      },
-      onPanResponderRelease: () => {
-        if (state.action === 'DRAW') {
-          setMasks(prev => {
-            const lastMask = prev.find(m => m.id === state.currentMaskId);
-            if (lastMask && (lastMask.width < 20 || lastMask.height < 20)) {
-              setSelectedMaskId(null);
-              return prev.filter(m => m.id !== state.currentMaskId);
-            }
-            return prev;
-          });
+  // Synchronize Reanimated shared values when user selects mask from React UI buttons
+  useEffect(() => {
+    if (selectedMaskId !== null) {
+      const found = masks.find(m => m.id === selectedMaskId);
+      if (found) {
+        activeMaskId.value = found.id;
+        activeX.value = found.x;
+        activeY.value = found.y;
+        activeW.value = found.width;
+        activeH.value = found.height;
+        activeOpacity.value = 1;
+      }
+    } else {
+      activeMaskId.value = null;
+      activeOpacity.value = 0;
+    }
+  }, [selectedMaskId, masks]);
+
+  // =========================================================================
+  // JS-Thread Commit Callbacks — Executed ONLY via runOnJS on Gesture End
+  // (Zero React setState during per-frame movement)
+  // =========================================================================
+  const commitMaskUpdate = (targetId: number, rect: MaskRect) => {
+    setMasks(prev =>
+      prev.map(m => (m.id === targetId ? { ...m, ...rect } : m))
+    );
+  };
+
+  const commitNewMask = (rect: MaskRect) => {
+    const newId = Date.now();
+    setMasks(prev => [...prev, { id: newId, ...rect }]);
+    setSelectedMaskId(newId);
+  };
+
+  const commitSelectMask = (id: number) => {
+    setSelectedMaskId(id);
+  };
+
+  const commitDeselect = () => {
+    setSelectedMaskId(null);
+  };
+
+  // =========================================================================
+  // UI-Thread Worklet Gesture Pipeline via react-native-gesture-handler
+  // =========================================================================
+  const panGesture = Gesture.Pan()
+    .minDistance(0)
+    .onStart((e) => {
+      'worklet';
+      const touchX = e.x;
+      const touchY = e.y;
+      const cW = containerW.value;
+      const cH = containerH.value;
+
+      // 1. Check if touch hit the active selected mask's resize handle (bottom-right 40px zone)
+      const currentActiveId = activeMaskId.value;
+      if (currentActiveId !== null && activeOpacity.value > 0) {
+        const bX = activeX.value;
+        const bY = activeY.value;
+        const bW = activeW.value;
+        const bH = activeH.value;
+
+        if (
+          isPointInsideResizeHandle(touchX, touchY, { x: bX, y: bY, width: bW, height: bH }, 40)
+        ) {
+          gestureAction.value = 2; // RESIZE
+          initBoxX.value = bX;
+          initBoxY.value = bY;
+          initBoxW.value = bW;
+          initBoxH.value = bH;
+          return;
         }
-        state.currentMaskId = null;
-        state.action = null;
-        state.initialMask = null;
-      },
+      }
+
+      // 2. Check if touch hit any mask (top-to-bottom search in allMasksShared)
+      const list = allMasksShared.value;
+      let hitMask: Mask | null = null;
+      for (let i = list.length - 1; i >= 0; i--) {
+        const m = list[i];
+        if (isPointInsideMask(touchX, touchY, m)) {
+          hitMask = m;
+          break;
+        }
+      }
+
+      if (hitMask !== null) {
+        gestureAction.value = 1; // MOVE
+        activeMaskId.value = hitMask.id;
+
+        initBoxX.value = hitMask.x;
+        initBoxY.value = hitMask.y;
+        initBoxW.value = hitMask.width;
+        initBoxH.value = hitMask.height;
+
+        activeX.value = hitMask.x;
+        activeY.value = hitMask.y;
+        activeW.value = hitMask.width;
+        activeH.value = hitMask.height;
+        activeOpacity.value = 1;
+
+        runOnJS(commitSelectMask)(hitMask.id);
+      } else {
+        // 3. Touch landed on empty canvas: initiate DRAW
+        gestureAction.value = 3; // DRAW
+        activeMaskId.value = null;
+
+        const clampedX = Math.max(0, Math.min(touchX, cW));
+        const clampedY = Math.max(0, Math.min(touchY, cH));
+
+        initBoxX.value = clampedX;
+        initBoxY.value = clampedY;
+        initBoxW.value = 0;
+        initBoxH.value = 0;
+
+        activeX.value = clampedX;
+        activeY.value = clampedY;
+        activeW.value = 0;
+        activeH.value = 0;
+        activeOpacity.value = 1;
+      }
+    })
+    .onUpdate((e) => {
+      'worklet';
+      const act = gestureAction.value;
+      if (act === 0) return;
+
+      const cW = containerW.value;
+      const cH = containerH.value;
+
+      if (act === 1) {
+        // MOVE: strictly clamped to container boundaries
+        const next = calculateMaskMove(
+          initBoxX.value,
+          initBoxY.value,
+          initBoxW.value,
+          initBoxH.value,
+          e.translationX,
+          e.translationY,
+          cW,
+          cH
+        );
+        activeX.value = next.x;
+        activeY.value = next.y;
+      } else if (act === 2) {
+        // RESIZE: strictly clamped to container boundaries, minimum 28px, non-inverting
+        const next = calculateMaskResizeBR(
+          initBoxW.value,
+          initBoxH.value,
+          e.translationX,
+          e.translationY,
+          initBoxX.value,
+          initBoxY.value,
+          cW,
+          cH,
+          MIN_MASK_SIZE
+        );
+        activeW.value = next.width;
+        activeH.value = next.height;
+      } else if (act === 3) {
+        // DRAW: strictly clamped to container boundaries
+        const next = calculateMaskDraw(
+          initBoxX.value,
+          initBoxY.value,
+          initBoxX.value + e.translationX,
+          initBoxY.value + e.translationY,
+          cW,
+          cH
+        );
+        activeX.value = next.x;
+        activeY.value = next.y;
+        activeW.value = next.width;
+        activeH.value = next.height;
+      }
+    })
+    .onEnd(() => {
+      'worklet';
+      const act = gestureAction.value;
+
+      if (act === 1 || act === 2) {
+        // MOVE or RESIZE: Commit final coordinates once
+        const targetId = activeMaskId.value;
+        if (targetId !== null) {
+          const finalRect: MaskRect = {
+            x: activeX.value,
+            y: activeY.value,
+            width: activeW.value,
+            height: activeH.value,
+          };
+          runOnJS(commitMaskUpdate)(targetId, finalRect);
+        }
+      } else if (act === 3) {
+        // DRAW: Only commit if rectangle is at least 24x24; otherwise discard as empty tap
+        const finalW = activeW.value;
+        const finalH = activeH.value;
+        if (finalW >= 24 && finalH >= 24) {
+          const finalRect: MaskRect = {
+            x: activeX.value,
+            y: activeY.value,
+            width: finalW,
+            height: finalH,
+          };
+          runOnJS(commitNewMask)(finalRect);
+        } else {
+          // Discard tiny accidental touch and deselect
+          activeOpacity.value = 0;
+          activeMaskId.value = null;
+          runOnJS(commitDeselect)();
+        }
+      }
+
+      gestureAction.value = 0;
+    })
+    .onFinalize((success) => {
+      'worklet';
+      if (!success && gestureAction.value !== 0) {
+        activeOpacity.value = 0;
+        gestureAction.value = 0;
+        activeMaskId.value = null;
+        runOnJS(commitDeselect)();
+      }
     });
-  }, [setMasks, setSelectedMaskId]);
+
+  const animatedActiveStyle = useAnimatedStyle(() => {
+    return {
+      opacity: activeOpacity.value,
+      left: activeX.value,
+      top: activeY.value,
+      width: activeW.value,
+      height: activeH.value,
+      position: 'absolute',
+      backgroundColor: '#000000',
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: '#F59E0B',
+      zIndex: 99,
+    };
+  });
 
   const undoLastMask = () => {
     setMasks(prev => prev.slice(0, -1));
+    setSelectedMaskId(null);
+  };
+
+  const clearAllMasks = () => {
+    setMasks([]);
     setSelectedMaskId(null);
   };
 
@@ -191,13 +372,14 @@ export default function PrivacyGateScreen() {
     if (!confirmed) return;
 
     setSelectedMaskId(null);
+    activeOpacity.value = 0;
+    activeMaskId.value = null;
 
     try {
       const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
       logFlowDomain('POST_PRIVACY', postPrivacyMode);
 
       // If no masks were drawn, do NOT rasterize via ViewShot!
-      // Forward the normalized image without an additional privacy rasterization pass.
       if (masks.length === 0) {
         submissionDraftStore.updateDraft({ privacyImageUri: activeUri, isMasked: false, mode: postPrivacyMode });
         logStageDiagnostic('PRIVACY_OUTPUT', {
@@ -221,7 +403,6 @@ export default function PrivacyGateScreen() {
         const captured = await viewShotRef.current.capture();
         const finalMaskedUri = ensureFileUri(captured);
 
-        // ViewShot output dimension audit: measure actual captured image file
         let outputWidth = draft?.width || 0;
         let outputHeight = draft?.height || 0;
         try {
@@ -234,7 +415,6 @@ export default function PrivacyGateScreen() {
           console.warn('[PRIVACY] Could not inspect ViewShot dimensions:', inspectErr);
         }
 
-        // CRITICAL INVARIANT: Stored width/height MUST describe THAT NEW FILE
         submissionDraftStore.updateDraft({
           privacyImageUri: finalMaskedUri,
           uri: finalMaskedUri,
@@ -275,160 +455,196 @@ export default function PrivacyGateScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AppHeader title="Bảo vệ thông tin riêng tư" showBack />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        <AppHeader title="Bảo vệ thông tin riêng tư" showBack />
 
-      {/* Child-friendly explanation */}
-      <View style={styles.instructionCard}>
-        <View style={styles.instructionHeader}>
-          <Ionicons name="shield-checkmark" size={20} color={COLORS.primary} />
-          <Text style={styles.instructionTitle}>Giữ an toàn cho em</Text>
-        </View>
-        <Text style={styles.instructionText}>
-          Dùng ngón tay vẽ hộp đen che tên của em, tên trường hoặc khuôn mặt nếu có trong ảnh trước khi gửi bài nhé.
-        </Text>
-      </View>
-
-      {/* Interactive Mask Canvas */}
-      <View 
-        style={styles.imageContainer}
-        onLayout={(e) => setContainerSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
-      >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ViewShot
-            ref={viewShotRef}
-            options={{ format: 'jpg', quality: 0.95 }}
-            style={fittedStyle}
-          >
-            <View
-              style={styles.imageWrapper}
-              collapsable={false}
-              {...panResponder.panHandlers}
-            >
-              <Image
-                source={{ uri: activeUri }}
-                style={styles.image}
-                resizeMode="contain"
-              onLoadStart={() => {
-                setImageLoaded(false);
-                setImageLoadError(false);
-              }}
-              onLoad={() => {
-                setImageLoaded(true);
-                setImageLoadError(false);
-              }}
-              onError={(e) => {
-                console.error('[PRIVACY] Image render failed:', e.nativeEvent.error);
-                setImageLoadError(true);
-              }}
-            />
-
-            {!imageLoaded && !imageLoadError && (
-              <View style={styles.loadingOverlay}>
-                <ActivityIndicator size="large" color={COLORS.primary} />
-                <Text style={styles.loadingText}>Đang tải ảnh bài tập...</Text>
-              </View>
-            )}
-
-            {imageLoadError && (
-              <View style={styles.errorOverlay}>
-                <Ionicons name="alert-circle" size={40} color={COLORS.error} />
-                <Text style={styles.errorTitle}>Không thể hiển thị ảnh</Text>
-                <Text style={styles.errorSub}>Vui lòng chụp lại hoặc chọn ảnh khác từ thư viện.</Text>
-                <TouchableOpacity style={styles.retryButton} onPress={() => router.back()}>
-                  <Text style={styles.retryButtonText}>Quay lại chụp ảnh</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-
-            {masks.map(mask => {
-              const isSelected = mask.id === selectedMaskId;
-              return (
-                <View
-                  key={mask.id}
-                  style={[
-                    styles.maskBlock,
-                    {
-                      left: mask.x,
-                      top: mask.y,
-                      width: mask.width,
-                      height: mask.height,
-                      borderWidth: isSelected ? 2 : 0,
-                      borderColor: COLORS.warning,
-                    },
-                  ]}
-                />
-              );
-            })}
+        {/* Child-friendly explanation */}
+        <View style={styles.instructionCard}>
+          <View style={styles.instructionHeader}>
+            <Ionicons name="shield-checkmark" size={18} color={COLORS.primary} />
+            <Text style={styles.instructionTitle}>Giữ an toàn cho em</Text>
           </View>
-        </ViewShot>
-
-        {/* Floating Mask Control Buttons */}
-        <View style={styles.floatingControls}>
-          {selectedMaskId && (
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={() => {
-                setMasks(prev => prev.filter(m => m.id !== selectedMaskId));
-                setSelectedMaskId(null);
-              }}
-              accessibilityRole="button"
-              accessibilityLabel="Xóa vùng che đang chọn"
-            >
-              <Ionicons name="trash-outline" size={20} color="#FFFFFF" />
-              <Text style={styles.floatingButtonText}>Xóa vùng</Text>
-            </TouchableOpacity>
-          )}
-
-          {masks.length > 0 && (
-            <TouchableOpacity
-              style={styles.undoButton}
-              onPress={undoLastMask}
-              accessibilityRole="button"
-              accessibilityLabel="Hoàn tác vùng che vừa vẽ"
-            >
-              <Ionicons name="arrow-undo-outline" size={20} color="#FFFFFF" />
-              <Text style={styles.floatingButtonText}>Hoàn tác</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        </View>
-      </View>
-
-      {/* Footer Confirmation & Actions */}
-      <View style={[styles.footer, SHADOWS.medium]}>
-        <TouchableOpacity
-          style={styles.checkboxContainer}
-          onPress={() => setConfirmed(!confirmed)}
-          activeOpacity={0.8}
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: confirmed }}
-          accessibilityLabel="Tôi đã kiểm tra và che thông tin riêng tư trong ảnh"
-        >
-          <Ionicons
-            name={confirmed ? 'checkbox' : 'square-outline'}
-            size={26}
-            color={confirmed ? COLORS.primary : COLORS.textSecondary}
-          />
-          <Text style={styles.checkboxText}>
-            Em đã kiểm tra và che hết thông tin riêng tư trong ảnh.
+          <Text style={styles.instructionText}>
+            Dùng ngón tay vẽ hộp đen che tên của em, tên trường hoặc khuôn mặt nếu có trong ảnh trước khi gửi bài nhé.
           </Text>
-        </TouchableOpacity>
+        </View>
 
-        <AppButton
-          title="Tiếp tục xem lại"
-          onPress={handleDone}
-          disabled={!confirmed || imageLoadError}
-          variant="primary"
-        />
-        <View style={{ height: SIZES.small }} />
-        <AppButton
-          title="Chụp lại ảnh khác"
-          variant="secondary"
-          onPress={() => router.back()}
-        />
-      </View>
-    </SafeAreaView>
+        {/* Micro-UX hint bar */}
+        <View style={styles.hintBar}>
+          <Ionicons name="information-circle-outline" size={15} color="#94A3B8" />
+          <Text style={styles.hintText}>
+            Chạm để chọn • Kéo để di chuyển • Kéo góc dưới phải để đổi cỡ
+          </Text>
+        </View>
+
+        {/* Interactive Mask Canvas */}
+        <View 
+          style={styles.imageContainer}
+          onLayout={(e) => setContainerSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ViewShot
+              ref={viewShotRef}
+              options={{ format: 'jpg', quality: 0.95 }}
+              style={fittedStyle}
+            >
+              <GestureDetector gesture={panGesture}>
+                <View
+                  style={styles.imageWrapper}
+                  collapsable={false}
+                >
+                  <Image
+                    source={{ uri: activeUri }}
+                    style={styles.image}
+                    resizeMode="contain"
+                    onLoadStart={() => {
+                      setImageLoaded(false);
+                      setImageLoadError(false);
+                    }}
+                    onLoad={() => {
+                      setImageLoaded(true);
+                      setImageLoadError(false);
+                    }}
+                    onError={(e) => {
+                      console.error('[PRIVACY] Image render failed:', e.nativeEvent.error);
+                      setImageLoadError(true);
+                    }}
+                  />
+
+                  {!imageLoaded && !imageLoadError && (
+                    <View style={styles.loadingOverlay} pointerEvents="none">
+                      <ActivityIndicator size="large" color={COLORS.primary} />
+                      <Text style={styles.loadingText}>Đang tải ảnh bài tập...</Text>
+                    </View>
+                  )}
+
+                  {imageLoadError && (
+                    <View style={styles.errorOverlay}>
+                      <Ionicons name="alert-circle" size={40} color={COLORS.error} />
+                      <Text style={styles.errorTitle}>Không thể hiển thị ảnh</Text>
+                      <Text style={styles.errorSub}>Vui lòng chụp lại hoặc chọn ảnh khác từ thư viện.</Text>
+                      <TouchableOpacity style={styles.retryButton} onPress={() => router.back()}>
+                        <Text style={styles.retryButtonText}>Quay lại chụp ảnh</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+
+                  {/* Committed Masks (Rendered as static views; active selected mask rendered via Animated.View) */}
+                  {masks.map(mask => {
+                    const isSelected = mask.id === selectedMaskId;
+                    return (
+                      <View
+                        key={mask.id}
+                        pointerEvents="none"
+                        style={[
+                          styles.maskBlock,
+                          {
+                            left: mask.x,
+                            top: mask.y,
+                            width: mask.width,
+                            height: mask.height,
+                            borderWidth: isSelected ? 2 : 0,
+                            borderColor: '#F59E0B',
+                            opacity: isSelected ? 0 : 1,
+                          },
+                        ]}
+                      />
+                    );
+                  })}
+
+                  {/* Live Reanimated Active Mask Overlay (runs at 60-120Hz on UI thread worklets) */}
+                  <Animated.View
+                    pointerEvents="none"
+                    style={animatedActiveStyle}
+                  >
+                    <View style={styles.resizeHandleBadge}>
+                      <View style={styles.resizeHandleDot} />
+                    </View>
+                  </Animated.View>
+                </View>
+              </GestureDetector>
+            </ViewShot>
+
+            {/* Floating Mask Control Buttons */}
+            <View style={styles.floatingControls}>
+              {selectedMaskId && (
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => {
+                    setMasks(prev => prev.filter(m => m.id !== selectedMaskId));
+                    setSelectedMaskId(null);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Xóa vùng che đang chọn"
+                >
+                  <Ionicons name="trash-outline" size={18} color="#FFFFFF" />
+                  <Text style={styles.floatingButtonText}>Xóa vùng này</Text>
+                </TouchableOpacity>
+              )}
+
+              {masks.length > 0 && (
+                <View style={styles.rightControlsRow}>
+                  <TouchableOpacity
+                    style={styles.resetButton}
+                    onPress={clearAllMasks}
+                    accessibilityRole="button"
+                    accessibilityLabel="Xóa tất cả vùng che"
+                  >
+                    <Ionicons name="refresh-outline" size={18} color="#FFFFFF" />
+                    <Text style={styles.floatingButtonText}>Xóa tất cả</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.undoButton}
+                    onPress={undoLastMask}
+                    accessibilityRole="button"
+                    accessibilityLabel="Hoàn tác vùng che vừa vẽ"
+                  >
+                    <Ionicons name="arrow-undo-outline" size={18} color="#FFFFFF" />
+                    <Text style={styles.floatingButtonText}>Hoàn tác</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </View>
+        </View>
+
+        {/* Footer Confirmation & Actions */}
+        <View style={[styles.footer, SHADOWS.medium]}>
+          <TouchableOpacity
+            style={styles.checkboxContainer}
+            onPress={() => setConfirmed(!confirmed)}
+            activeOpacity={0.8}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: confirmed }}
+            accessibilityLabel="Tôi đã kiểm tra và che thông tin riêng tư trong ảnh"
+          >
+            <Ionicons
+              name={confirmed ? 'checkbox' : 'square-outline'}
+              size={26}
+              color={confirmed ? COLORS.primary : COLORS.textSecondary}
+            />
+            <Text style={styles.checkboxText}>
+              Em đã kiểm tra và che hết thông tin riêng tư trong ảnh.
+            </Text>
+          </TouchableOpacity>
+
+          <AppButton
+            title="Tiếp tục xem lại"
+            onPress={handleDone}
+            disabled={!confirmed || imageLoadError}
+            variant="primary"
+          />
+          <View style={{ height: SIZES.small }} />
+          <AppButton
+            title="Chụp lại ảnh khác"
+            variant="secondary"
+            onPress={() => router.back()}
+          />
+        </View>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 
@@ -471,15 +687,26 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     lineHeight: 18,
   },
+  hintBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#0F172A',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderBottomWidth: 1,
+    borderColor: '#1E293B',
+  },
+  hintText: {
+    color: '#94A3B8',
+    fontSize: 11,
+    fontWeight: '500',
+    marginLeft: 6,
+  },
   imageContainer: {
     flex: 1,
     backgroundColor: '#0F172A',
     position: 'relative',
-  },
-  viewShot: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
   },
   imageWrapper: {
     flex: 1,
@@ -540,6 +767,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     borderRadius: 4,
   },
+  resizeHandleBadge: {
+    position: 'absolute',
+    right: -8,
+    bottom: -8,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 2,
+    borderColor: '#F59E0B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+  resizeHandleDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#F59E0B',
+  },
   floatingControls: {
     position: 'absolute',
     bottom: SIZES.medium,
@@ -547,29 +798,43 @@ const styles = StyleSheet.create({
     right: SIZES.medium,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     zIndex: 10,
+  },
+  rightControlsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    gap: 8,
   },
   deleteButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(220, 38, 38, 0.9)',
-    minHeight: SIZES.minTouchTarget,
-    paddingHorizontal: SIZES.medium,
-    borderRadius: SIZES.pillRadius,
+    backgroundColor: 'rgba(220, 38, 38, 0.92)',
+    minHeight: 44,
+    paddingHorizontal: 14,
+    borderRadius: 22,
+  },
+  resetButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(71, 85, 105, 0.88)',
+    minHeight: 44,
+    paddingHorizontal: 12,
+    borderRadius: 22,
   },
   undoButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
-    minHeight: SIZES.minTouchTarget,
-    paddingHorizontal: SIZES.medium,
-    borderRadius: SIZES.pillRadius,
-    marginLeft: 'auto',
+    backgroundColor: 'rgba(15, 23, 42, 0.88)',
+    minHeight: 44,
+    paddingHorizontal: 14,
+    borderRadius: 22,
   },
   floatingButtonText: {
     color: '#FFFFFF',
     marginLeft: 6,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
   },
   footer: {
@@ -581,7 +846,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    minHeight: SIZES.minTouchTarget,
+    minHeight: 48,
     marginBottom: SIZES.medium,
     paddingRight: SIZES.small,
   },
