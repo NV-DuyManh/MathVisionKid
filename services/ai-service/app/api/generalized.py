@@ -33,6 +33,11 @@ def extract_ink_mask(bgr_image: np.ndarray, height: int, width: int, profile: st
     # 2. Grayscale/Adaptive fallback
     gray = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2GRAY)
     
+    # Adaptive polarity check: if background is dark, invert grayscale so ink is always foreground
+    bg_level = float(np.median(gray))
+    if bg_level < 100.0:
+        gray = cv2.bitwise_not(gray)
+    
     # Illumination normalization
     bg = cv2.morphologyEx(gray, cv2.MORPH_DILATE, cv2.getStructuringElement(cv2.MORPH_RECT, (35, 35)))
     norm = cv2.divide(gray, bg, scale=255)
@@ -50,6 +55,19 @@ def extract_ink_mask(bgr_image: np.ndarray, height: int, width: int, profile: st
     # If chromatic mask is strong and clean, we combine it with base.
     final_mask = cv2.bitwise_or(binary_base, chromatic_mask)
     
+    # Suppress full-width solid divider lines (e.g. notebook ruling lines, UI divider borders)
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(final_mask, connectivity=8)
+    for lbl in range(1, num_labels):
+        cw = stats[lbl, cv2.CC_STAT_WIDTH]
+        ch = stats[lbl, cv2.CC_STAT_HEIGHT]
+        carea = stats[lbl, cv2.CC_STAT_AREA]
+        # Solid horizontal line (notebook ruling or UI card separator)
+        if cw > width * 0.60 and ch < 35 and carea / (cw * ch) > 0.35:
+            final_mask[labels == lbl] = 0
+        # Solid vertical line (border or margin line)
+        if ch > height * 0.50 and cw < 25 and carea / (cw * ch) > 0.35:
+            final_mask[labels == lbl] = 0
+
     # Paper Background / Grid suppression MUST apply to the combined mask
     # because chromatic mask might capture blue/purple graph lines!
     v_thresh = max(30, int(height * 0.25))
@@ -73,7 +91,69 @@ def extract_ink_mask(bgr_image: np.ndarray, height: int, width: int, profile: st
     noise_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     final_mask = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, noise_kernel)
     
+    has_page_rulings = (cv2.countNonZero(horiz_lines) > 200)
+    # Rigorous notebook ruling line suppression (preserves crossing handwriting strokes)
+    final_mask, _ = suppress_notebook_rulings(final_mask, width, height, profile=profile, has_page_rulings=has_page_rulings)
+    
     return final_mask, chromatic_mask
+
+def suppress_notebook_rulings(binary_mask: np.ndarray, width: int, height: int, profile: str = "PROFILE_A", has_page_rulings: bool = False) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Suppresses dark/printed notebook ruling lines while preserving crossing handwriting strokes.
+    Uses horizontal continuity, high aspect ratio, and crossing-stroke validation.
+    """
+    if binary_mask is None or binary_mask.size == 0 or cv2.countNonZero(binary_mask) < 20:
+        return binary_mask, np.zeros_like(binary_mask)
+        
+    # 1. Bridge dashed / interrupted ruling segments
+    bridge_k = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 1))
+    bridged = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, bridge_k)
+    
+    # 2. Horizontal morphological opening
+    kern_w = max(30, min(80, int(width * 0.05)))
+    h_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kern_w, 1))
+    h_morph = cv2.morphologyEx(bridged, cv2.MORPH_OPEN, h_kernel)
+    
+    # 3. Ruling connected components
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(h_morph, connectivity=8)
+    ruling_mask = np.zeros_like(binary_mask)
+    max_ruling_h = min(14, max(6, int(height * 0.06)))
+    
+    for i in range(1, num_labels):
+        rw, rh = stats[i, cv2.CC_STAT_WIDTH], stats[i, cv2.CC_STAT_HEIGHT]
+        aspect = rw / max(1, rh)
+        if profile == "PROFILE_B" or has_page_rulings:
+            is_ruling = rh <= max_ruling_h and (aspect >= 8.0 or rw >= width * 0.15)
+        else:
+            is_ruling = rh <= max_ruling_h and (aspect >= 10.0 and rw >= max(50, int(width * 0.25)))
+        if is_ruling:
+            ruling_mask[labels == i] = 255
+            
+    # 4. Check for crossing strokes: preserve ruling pixels where handwriting crosses
+    crossing_mask = np.zeros_like(binary_mask)
+    for i in range(1, num_labels):
+        rw, rh = stats[i, cv2.CC_STAT_WIDTH], stats[i, cv2.CC_STAT_HEIGHT]
+        rx, ry = stats[i, cv2.CC_STAT_LEFT], stats[i, cv2.CC_STAT_TOP]
+        aspect = rw / max(1, rh)
+        if profile == "PROFILE_B" or has_page_rulings:
+            is_ruling = rh <= max_ruling_h and (aspect >= 8.0 or rw >= width * 0.15)
+        else:
+            is_ruling = rh <= max_ruling_h and (aspect >= 10.0 and rw >= max(50, int(width * 0.25)))
+        if is_ruling:
+            above_y1, above_y2 = max(0, ry - 6), ry
+            below_y1, below_y2 = ry + rh, min(height, ry + rh + 6)
+            
+            above_ink = (np.sum(binary_mask[above_y1:above_y2, rx:rx+rw] > 0, axis=0) > 0)
+            below_ink = (np.sum(binary_mask[below_y1:below_y2, rx:rx+rw] > 0, axis=0) > 0)
+            
+            crossing_x = np.where(above_ink & below_ink)[0] + rx
+            if len(crossing_x) > 0:
+                for cx in crossing_x:
+                    crossing_mask[ry:ry+rh, max(0, cx-1):min(width, cx+2)] = 255
+
+    ruling_to_remove = cv2.subtract(ruling_mask, crossing_mask)
+    clean_mask = cv2.subtract(binary_mask, ruling_to_remove)
+    return clean_mask, ruling_to_remove
 
 def compute_global_row_proposals(binary_mask: np.ndarray, median_h: float) -> List[Tuple[int, int]]:
     """
@@ -87,17 +167,25 @@ def compute_global_row_proposals(binary_mask: np.ndarray, median_h: float) -> Li
     smooth_window = max(3, int(median_h * 0.4))
     smoothed_proj = np.convolve(ink_per_row, np.ones(smooth_window) / smooth_window, mode='same')
     
-    # Adaptive threshold based on robust statistics (median absolute deviation)
+    # Adaptive threshold dynamically scales between the valley floor (whitespace/noise)
+    # and line peaks, preventing full-page collapse when background noise or image width > 1000px.
     nonzero_proj = smoothed_proj[smoothed_proj > 0]
     if len(nonzero_proj) == 0:
         return []
         
-    med = np.median(nonzero_proj)
-    mad = np.median(np.abs(nonzero_proj - med))
+    p10 = float(np.percentile(smoothed_proj, 10))
+    p75 = float(np.percentile(smoothed_proj, 75))
+    p90 = float(np.percentile(smoothed_proj, 90))
     
-    # The threshold must be image-relative and robust to preserve short rows (e.g. 'Bài 1:') alongside long rows.
-    # Sustained activation bands.
-    strong_thresh = max(8.0, min(max(10.0, width * 0.015), 25.0), min(med * 0.35, 25.0))
+    valley_baseline = max(p10, float(np.min(smoothed_proj)))
+    peak_level = max(p90, p75)
+    dyn_range = peak_level - valley_baseline
+    
+    if dyn_range > 15.0:
+        strong_thresh = valley_baseline + dyn_range * 0.25
+    else:
+        med = float(np.median(nonzero_proj))
+        strong_thresh = max(8.0, valley_baseline + 5.0, med * 0.35)
     
     is_strong = smoothed_proj >= strong_thresh
     
@@ -125,7 +213,7 @@ def compute_global_row_proposals(binary_mask: np.ndarray, median_h: float) -> Li
             merged.append(b)
         else:
             # Tolerate intra-line gaps (e.g., descenders, dots, tone marks)
-            if b[0] - merged[-1][1] <= max(12, int(median_h * 1.2)):
+            if b[0] - merged[-1][1] <= max(8, int(median_h * 0.7)):
                 merged[-1] = (merged[-1][0], b[1])
             else:
                 merged.append(b)

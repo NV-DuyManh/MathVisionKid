@@ -89,7 +89,7 @@ export default function MultilineReviewScreen() {
     try {
       setLoading(true);
       setIsNetworkError(false);
-      const res = await OcrPilotService.detectLines(uri, true);
+      const res = await OcrPilotService.detectLines(uri, true, force);
 
       // Stale response guard: ignore if a newer request was dispatched
       if (currentReqId !== detectRequestIdRef.current) {

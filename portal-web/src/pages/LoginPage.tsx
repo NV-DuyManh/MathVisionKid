@@ -38,6 +38,7 @@ export const LoginPage: React.FC = () => {
   // Display session expired notice if redirected after expiry
   useEffect(() => {
     if (searchParams.get('expired') === 'true' || searchParams.get('session') === 'expired') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
       return;
     }

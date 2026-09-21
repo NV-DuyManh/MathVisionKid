@@ -61,3 +61,4 @@ class AiCallbackRequest(BaseModel):
     confidenceBundle: Optional[Dict[str, float]] = None  # recognition/structure/diagnosis
     reasonCode: Optional[str] = None                     # machine-readable failure reason code
     diagnostics: Optional[Dict[str, Any]] = None         # stage attempt diagnostics (detectorInvoked, etc.)
+    modelVersion: Optional[str] = None                   # canonical runtime model provenance

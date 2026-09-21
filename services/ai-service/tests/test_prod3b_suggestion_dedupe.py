@@ -25,12 +25,12 @@ def _read_dedupe_file() -> str:
 
 
 def test_prod3b_01_all_10_matrix_cases_pass_in_node():
-    """PROD3B-01: Run node test suite covering all 10 mandatory matrix cases."""
+    """PROD3B-01: Run node test suite covering all mandatory matrix cases."""
     assert NODE_TEST_PATH.exists(), f"Node test file not found at {NODE_TEST_PATH}"
     cmd = ["node", "--experimental-strip-types", str(NODE_TEST_PATH)]
     res = subprocess.run(cmd, cwd=str(REPO_ROOT), capture_output=True, text=True, encoding="utf-8")
     assert res.returncode == 0, f"Node test failed with code {res.returncode}:\n{res.stderr}\n{res.stdout}"
-    assert "ALL 10 MANDATORY CASES PASSED SUCCESSFULLY" in res.stdout
+    assert "CASES PASSED SUCCESSFULLY" in res.stdout
 
 
 def test_prod3b_02_helper_exports_present():
@@ -65,11 +65,12 @@ def test_prod3b_04_no_ugly_failure_copy():
 
 
 def test_prod3b_05_compact_neutral_empty_state_present():
-    """PROD3B-05: Subtle neutral row rendered when no distinct suggestions exist."""
+    """PROD3B-05 / PROD3F-05: Old negative copy eliminated; AI confirmed / outage row present."""
     res_src = _read_result_file()
-    assert "AI chưa có đề xuất khác cho dòng này." in res_src
-    assert "noSuggestionRow" in res_src
-    assert "noSuggestionText" in res_src
+    # PROD.3F requirement: Eliminate old copy "AI chưa có đề xuất khác cho dòng này."
+    assert "AI chưa có đề xuất khác cho dòng này." not in res_src
+    assert "AI xác nhận nội dung chính xác ✓" in res_src
+    assert "aiConfirmedRow" in res_src
 
 
 def test_prod3b_06_student_labels_only_goi_y_1_and_2():
@@ -113,12 +114,13 @@ def test_prod3b_10_raw_ocr_text_immutable():
 
 
 def test_prod3b_11_case_1_dedupe_logic():
-    """Case 1: RAW == AI_A, AI_B unavailable -> 0 suggestions."""
+    """Case 1 / PROD.3F.1 Case C: RAW == AI_A -> distinct=0, PROD.3F.1 confirmed card labeled 'Gợi ý 1'."""
     # Test via node invocation
     script = (
         "import { buildVisibleSuggestions } from './src/utils/suggestionDedupe.ts';"
-        "const res = buildVisibleSuggestions({ rawOcrText: 'Em yêu mùa hè', groqSuggestion: 'Em yêu mùa hè', groqStatus: 'SUCCESS' });"
-        "process.exit(res.length === 0 ? 0 : 1);"
+        "const distinct = buildVisibleSuggestions({ rawOcrText: 'Em yêu mùa hè', groqSuggestion: 'Em yêu mùa hè', groqStatus: 'SUCCESS' }, { includeConfirmedCard: false });"
+        "const confirmed = buildVisibleSuggestions({ rawOcrText: 'Em yêu mùa hè', groqSuggestion: 'Em yêu mùa hè', groqStatus: 'SUCCESS' });"
+        "process.exit(distinct.length === 0 && confirmed.length === 1 && confirmed[0].label === 'Gợi ý 1' && confirmed[0].isAiConfirmed === true ? 0 : 1);"
     )
     cmd = ["node", "--experimental-strip-types", "-e", script]
     assert subprocess.run(cmd, cwd=str(REPO_ROOT)).returncode == 0

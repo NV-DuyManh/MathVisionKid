@@ -449,6 +449,8 @@ def test_prod2g_15_detect_lines_endpoint_contains_line_advisor_timings():
          patch.object(settings, "groq_post_correction_enabled", True), \
          patch.object(settings, "gemini_enabled", True), \
          patch.object(settings, "gemini_post_correction_enabled", True), \
+         patch.object(settings, "hwtext_always_review_enabled", False), \
+         patch.object(settings, "always_review_enabled", False), \
          patch.object(settings, "cloud_advisor_max_concurrency", 3):
 
         resp = client.post(

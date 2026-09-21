@@ -201,4 +201,22 @@ public class InternalAiCallbackControllerTest {
         Submission updatedSubmission = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
         assert "REVIEW_REQUIRED".equals(updatedSubmission.getStatus());
     }
+
+    @Test
+    public void testCallbackWithModelProvenance() throws Exception {
+        String url = "/internal/v1/ai/jobs/" + testJob.getJobId() + "/callback";
+
+        AiCallbackRequest payload = new AiCallbackRequest();
+        payload.setStatus("FEEDBACK_READY");
+        payload.setModelVersion("MODEL:MathVision-Kids-Detection:1.0.0:e78f8fa5");
+
+        mockMvc.perform(post(url)
+                .header("X-Internal-API-Key", "test-secret-key")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().isOk());
+
+        AnalysisResult ar = analysisResultRepository.findBySubmission_SubmissionId(testSubmission.getSubmissionId()).orElseThrow();
+        assert "MODEL:MathVision-Kids-Detection:1.0.0:e78f8fa5".equals(ar.getModelVersion());
+    }
 }

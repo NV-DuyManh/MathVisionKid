@@ -96,7 +96,11 @@ public class InternalAiCallbackController {
                     result.setRecognizedExercise(
                             java.util.Collections.singletonMap("expression", request.getRecognizedExercise()));
                 }
-                result.setModelVersion("fixture-v1");
+                if (request.getModelVersion() != null && !request.getModelVersion().isBlank()) {
+                    result.setModelVersion(request.getModelVersion());
+                } else {
+                    result.setModelVersion("fixture-v1");
+                }
 
                 analysisResultRepository.save(result);
             }

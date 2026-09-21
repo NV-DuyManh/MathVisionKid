@@ -67,10 +67,14 @@ public class OcrMultilineService {
     }
 
     public MultilineDetectResponse detectLines(MultipartFile file, Boolean privacyConfirmed) {
-        return detectLines(file, privacyConfirmed, null);
+        return detectLines(file, privacyConfirmed, false, null);
     }
 
     public MultilineDetectResponse detectLines(MultipartFile file, Boolean privacyConfirmed, String requestId) {
+        return detectLines(file, privacyConfirmed, false, requestId);
+    }
+
+    public MultilineDetectResponse detectLines(MultipartFile file, Boolean privacyConfirmed, Boolean forceRedetect, String requestId) {
         if (Boolean.FALSE.equals(privacyConfirmed) || privacyConfirmed == null || !privacyConfirmed) {
             throw new ApiException("PRIVACY_REQUIRED", "Privacy confirmation is required for multi-line detection", HttpStatus.BAD_REQUEST);
         }
@@ -85,8 +89,8 @@ public class OcrMultilineService {
             String filename = file.getOriginalFilename();
             String contentType = file.getContentType() != null ? file.getContentType() : "image/jpeg";
 
-            log.info("[OCR_MULTILINE_TRANSPORT] RECEIVED: file='{}', type='{}', bytes={}, SHA256={}, requestId={}",
-                    filename, contentType, imageBytes.length, receivedSha256, requestId);
+            log.info("[OCR_MULTILINE_TRANSPORT] RECEIVED: file='{}', type='{}', bytes={}, SHA256={}, forceRedetect={}, requestId={}",
+                    filename, contentType, imageBytes.length, receivedSha256, forceRedetect, requestId);
 
             String targetUrl = aiServiceBaseUrl + "/internal/v1/ocr/detect-lines";
             log.info("[OCR_MULTILINE_TARGET] Forwarding /detect-lines to targetUrl: {}", targetUrl);
@@ -97,6 +101,10 @@ public class OcrMultilineService {
             if (requestId != null && !requestId.isBlank()) {
                 headers.set("X-Request-ID", requestId);
                 log.info("[OCR-PHYSICAL] Spring Boot forwarding requestId: {} to AI service", requestId);
+            }
+            if (Boolean.TRUE.equals(forceRedetect)) {
+                headers.set("X-Force-Redetect", "true");
+                log.info("[OCR-PHYSICAL] Spring Boot forwarding forceRedetect=true to AI service");
             }
             HttpEntity<byte[]> requestEntity = new HttpEntity<>(imageBytes, headers);
 
@@ -266,8 +274,12 @@ public class OcrMultilineService {
                     // Bypass CRNN for canonical exact matches
                     recognizedText = box.getText().trim();
                     modelName = "CANONICAL_EXACT";
-                    modelVersion = "poem_block_matched"; // generic fallback if fixtureId is unknown here
-                    // If we wanted exact fixtureId, we would pass it down. But this is sufficient.
+                    modelVersion = "poem_block_matched";
+                } else if (box.getRawOcrText() != null && !box.getRawOcrText().trim().isEmpty()) {
+                    // Reuse OCR already recognized during detection to prevent slice-induced corruptions
+                    recognizedText = box.getRawOcrText().trim();
+                    modelName = "Vietnamese-Handwriting-OCR-Full";
+                    modelVersion = "1.0.0";
                 } else {
                     // Call internal CRNN endpoint
                     String targetUrl = aiServiceBaseUrl + "/internal/v1/ocr/recognize-line";
@@ -295,6 +307,11 @@ public class OcrMultilineService {
                     prepVersion = aiData != null ? String.valueOf(aiData.getOrDefault("preprocessing_version", "v1_resize_64x1024_imagenet")) : "v1_resize_64x1024_imagenet";
                 }
 
+                // Preserve finalText if passed from detect-lines, otherwise fallback to recognizedText
+                String effectivePredicted = (box.getFinalText() != null && !box.getFinalText().trim().isEmpty())
+                        ? box.getFinalText().trim()
+                        : recognizedText;
+
                 // Variables already set above
                 OcrMultilineLine lineEntity = new OcrMultilineLine();
                 lineEntity.setTrial(savedTrial);
@@ -305,7 +322,7 @@ public class OcrMultilineService {
                 lineEntity.setHeight(h);
                 lineEntity.setLineImageObjectKey(lineCropKey);
                 lineEntity.setLineImageSha256(lineSha256);
-                lineEntity.setPredictedText(recognizedText);
+                lineEntity.setPredictedText(effectivePredicted);
                 lineEntity.setVerdict("UNVERIFIED");
                 lineEntity.setTrainingEligible(false);
                 lineEntity.setModelName(modelName);
@@ -356,6 +373,14 @@ public class OcrMultilineService {
             savedTrial = trialRepository.save(savedTrial);
 
             savedTrial.setLines(savedLines);
+            
+            // BACKGROUND ADVISOR PATH
+            final UUID finalTrialId = savedTrial.getTrialId();
+            final String finalRequestId = requestId;
+            java.util.concurrent.CompletableFuture.runAsync(() -> {
+                runBackgroundAdvisors(finalTrialId, finalRequestId);
+            });
+
             return MultilineTrialResponse.fromEntity(savedTrial);
 
 
@@ -469,4 +494,87 @@ public class OcrMultilineService {
             throw new RuntimeException("SHA-256 algorithm missing", e);
         }
     }
+
+    private void runBackgroundAdvisors(UUID trialId, String requestId) {
+        try {
+            // Wait slightly for transaction to commit
+            Thread.sleep(500);
+            
+            OcrMultilineTrial trial = trialRepository.findById(trialId).orElse(null);
+            if (trial == null) return;
+            
+            List<OcrMultilineLine> lines = lineRepository.findByTrialOrderByLineOrderAsc(trial);
+            if (lines.isEmpty()) return;
+            
+            List<Map<String, Object>> requestLines = new ArrayList<>();
+            for (OcrMultilineLine line : lines) {
+                Map<String, Object> reqLine = new HashMap<>();
+                reqLine.put("x", line.getX());
+                reqLine.put("y", line.getY());
+                reqLine.put("width", line.getWidth());
+                reqLine.put("height", line.getHeight());
+                reqLine.put("rawOcrText", line.getRawOcrText());
+                requestLines.add(reqLine);
+            }
+            
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("lines", requestLines);
+            
+            String targetUrl = aiServiceBaseUrl + "/internal/v1/ocr/advise-lines";
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("X-Internal-API-Key", internalApiKey);
+            if (requestId != null && !requestId.isBlank()) {
+                headers.set("X-Request-ID", requestId);
+            }
+            
+            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+            
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    targetUrl,
+                    HttpMethod.POST,
+                    requestEntity,
+                    new ParameterizedTypeReference<Map<String, Object>>() {}
+            );
+            
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> respLines = (List<Map<String, Object>>) response.getBody().get("lines");
+                if (respLines != null && respLines.size() == lines.size()) {
+                    boolean anyCorrected = false;
+                    for (int i = 0; i < lines.size(); i++) {
+                        OcrMultilineLine line = lines.get(i);
+                        Map<String, Object> respLine = respLines.get(i);
+                        
+                        line.setGroqSuggestion((String) respLine.get("groqSuggestion"));
+                        line.setGroqConfidence(respLine.get("groqConfidence") != null ? Double.parseDouble(respLine.get("groqConfidence").toString()) : null);
+                        line.setGroqDecision((String) respLine.get("groqDecision"));
+                        line.setGroqStatus((String) respLine.get("groqStatus"));
+                        
+                        line.setGeminiSuggestion((String) respLine.get("geminiSuggestion"));
+                        line.setGeminiConfidence(respLine.get("geminiConfidence") != null ? Double.parseDouble(respLine.get("geminiConfidence").toString()) : null);
+                        line.setGeminiDecision((String) respLine.get("geminiDecision"));
+                        line.setGeminiStatus((String) respLine.get("geminiStatus"));
+                        
+                        if (Boolean.TRUE.equals(respLine.get("correctionApplied"))) {
+                            line.setPredictedText((String) respLine.get("finalText"));
+                            line.setCorrectedText((String) respLine.get("correctedText"));
+                            line.setCorrectionApplied(true);
+                            line.setCorrectionDecision((String) respLine.get("correctionDecision"));
+                            anyCorrected = true;
+                        }
+                        lineRepository.save(line);
+                    }
+                    if (anyCorrected) {
+                        trial.setCorrectionSource("GROQ_POST_CORRECTION");
+                        trial.setFinalTextSource("CRNN_PLUS_GROQ_CORRECTION");
+                        trialRepository.save(trial);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("[OCR_MULTILINE_ADVISOR] Background advisor failed for trial {}: {}", trialId, e.getMessage(), e);
+        }
+    }
+
 }

@@ -1,6 +1,10 @@
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field, AliasChoices
 from typing import Optional
+
+_SERVICE_DIR = Path(__file__).resolve().parent.parent
+_ENV_FILES = [str(_SERVICE_DIR / ".env"), ".env"]
 
 class Settings(BaseSettings):
     app_env: str = "development"
@@ -86,7 +90,15 @@ class Settings(BaseSettings):
     # Cloud Advisor Concurrency (PROD.2G)
     cloud_advisor_max_concurrency: int = 3
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    # PROD.3F / PROD.3F.1 Always-Review Policy (Handwriting domain-specific)
+    hwtext_always_review_enabled: bool = Field(
+        default=True,
+        validation_alias=AliasChoices("HWTEXT_ALWAYS_REVIEW_ENABLED", "hwtext_always_review_enabled"),
+        description="When True, every recognized handwriting line receives AI review in healthy runtime"
+    )
+    always_review_enabled: bool = False
+
+    model_config = SettingsConfigDict(env_file=_ENV_FILES, env_file_encoding="utf-8", extra="ignore")
 
 settings = Settings()
 

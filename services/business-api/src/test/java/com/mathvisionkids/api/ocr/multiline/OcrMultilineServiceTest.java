@@ -144,4 +144,46 @@ public class OcrMultilineServiceTest {
         assertEquals("line_4", response.getLines().get(3).getLineId());
         assertEquals("runtime6-hue-projection-20260914", response.getDetectorVersion());
     }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void testHiddenReOcrCallCount_zeroWhenRawOcrTextPresent() throws Exception {
+        // PROD.4A.1 Section B: If a line already has rawOcrText/final candidate state from detection,
+        // Spring must NOT perform an unrequested second line OCR pass. Hidden re-OCR count must be 0.
+        String detectedLinesJson = "[" +
+                "{\"line_id\": \"line_1\", \"x\": 10, \"y\": 100, \"width\": 200, \"height\": 50, \"order\": 1, \"rawOcrText\": \"Bó hoa si tím\", \"finalText\": \"Bó hoa sim tím\", \"rawOcrConfidence\": 0.86}," +
+                "{\"line_id\": \"line_2\", \"x\": 10, \"y\": 160, \"width\": 200, \"height\": 50, \"order\": 2, \"rawOcrText\": \"Em yêu mùa hè\", \"finalText\": \"Em yêu mùa hè\", \"rawOcrConfidence\": 0.88}" +
+                "]";
+
+        ReflectionTestUtils.setField(service, "objectMapper", new ObjectMapper());
+
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(300, 400, java.awt.image.BufferedImage.TYPE_INT_RGB);
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        javax.imageio.ImageIO.write(img, "jpg", baos);
+        byte[] fakeImageBytes = baos.toByteArray();
+        MockMultipartFile file = new MockMultipartFile("image", "sample.jpg", "image/jpeg", fakeImageBytes);
+
+        OcrMultilineTrial mockTrial = new OcrMultilineTrial();
+        mockTrial.setTrialId(java.util.UUID.randomUUID());
+        when(trialRepository.save(any())).thenReturn(mockTrial);
+        when(lineRepository.save(any(OcrMultilineLine.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        MultilineTrialResponse response = service.createTrialAndRecognize(
+                file, "test@example.com", "CAMERA", true, detectedLinesJson
+        );
+
+        // Verify that recognize-line was called ZERO times because rawOcrText was present
+        verify(restTemplate, times(0)).exchange(
+                contains("/recognize-line"),
+                any(),
+                any(),
+                any(org.springframework.core.ParameterizedTypeReference.class)
+        );
+
+        assertEquals(2, response.getLines().size());
+        assertEquals("Bó hoa si tím", response.getLines().get(0).getRawOcrText());
+        assertEquals("Bó hoa sim tím", response.getLines().get(0).getPredictedText());
+        assertEquals("Em yêu mùa hè", response.getLines().get(1).getRawOcrText());
+        assertEquals("Em yêu mùa hè", response.getLines().get(1).getPredictedText());
+    }
 }

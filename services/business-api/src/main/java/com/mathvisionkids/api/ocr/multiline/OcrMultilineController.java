@@ -23,9 +23,10 @@ public class OcrMultilineController {
     public ResponseEntity<MultilineDetectResponse> detectLines(
             @RequestParam("image") MultipartFile image,
             @RequestParam(value = "privacyConfirmed", required = false, defaultValue = "false") Boolean privacyConfirmed,
+            @RequestParam(value = "forceRedetect", required = false, defaultValue = "false") Boolean forceRedetect,
             HttpServletRequest request) {
         String requestId = resolveRequestId(request);
-        MultilineDetectResponse response = multilineService.detectLines(image, privacyConfirmed, requestId);
+        MultilineDetectResponse response = multilineService.detectLines(image, privacyConfirmed, forceRedetect, requestId);
         return ResponseEntity.ok(response);
     }
 

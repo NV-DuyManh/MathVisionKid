@@ -232,6 +232,7 @@ def filter_and_merge_residual_false_lines(
                 if cw > max_comp_w:
                     max_comp_w = cw
                     
+        fill_ratio = ink / max(1, w * h)
         is_thin = h < (eff_median_h * 0.45)
         has_weak_body = max_comp_h < (eff_median_h * 0.32)
         near_top = y <= max(15, int(img_h * 0.03))
@@ -240,6 +241,8 @@ def filter_and_merge_residual_false_lines(
         box_props.append({
             "box": list(b),
             "ink": ink,
+            "fill_ratio": fill_ratio,
+            "comp_count": comp_count,
             "max_comp_h": max_comp_h,
             "max_comp_w": max_comp_w,
             "is_thin": is_thin,
@@ -248,7 +251,9 @@ def filter_and_merge_residual_false_lines(
             "dropped": False
         })
         
-    # Phase A: Merge satellites/accents into adjacent legitimate rows
+    # Phase A: Merge satellites/accents/halves into adjacent legitimate rows
+    # Stricter: combined_h must not exceed reasonable line height to prevent merging text row with giant cards
+    max_legit_line_h = max(75.0, eff_median_h * 2.5)
     for i in range(len(box_props)):
         p = box_props[i]
         if p["dropped"]:
@@ -262,12 +267,9 @@ def filter_and_merge_residual_false_lines(
                 tx, ty, tw, th = target["box"]
                 v_gap = ty - (by + bh)
                 h_overlap = max(0, min(bx + bw, tx + tw) - max(bx, tx))
-                if 0 <= v_gap <= max(25.0, eff_median_h * 1.8) and h_overlap > 0:
-                    nx = min(bx, tx)
-                    ny = min(by, ty)
-                    nw = max(bx + bw, tx + tw) - nx
-                    nh = max(by + bh, ty + th) - ny
-                    target["box"] = [nx, ny, nw, nh]
+                combined_h = max(by + bh, ty + th) - min(by, ty)
+                if -max(15.0, eff_median_h * 1.5) <= v_gap <= max(25.0, eff_median_h * 1.8) and h_overlap > 0 and combined_h <= max_legit_line_h:
+                    target["box"] = [min(bx, tx), min(by, ty), max(bx + bw, tx + tw) - min(bx, tx), combined_h]
                     p["dropped"] = True
                     merged = True
             # Check row above if not merged below
@@ -276,12 +278,9 @@ def filter_and_merge_residual_false_lines(
                 tx, ty, tw, th = target["box"]
                 v_gap = by - (ty + th)
                 h_overlap = max(0, min(bx + bw, tx + tw) - max(bx, tx))
-                if 0 <= v_gap <= max(25.0, eff_median_h * 1.8) and h_overlap > 0:
-                    nx = min(bx, tx)
-                    ny = min(by, ty)
-                    nw = max(bx + bw, tx + tw) - nx
-                    nh = max(by + bh, ty + th) - ny
-                    target["box"] = [nx, ny, nw, nh]
+                combined_h = max(by + bh, ty + th) - min(by, ty)
+                if -max(15.0, eff_median_h * 1.5) <= v_gap <= max(25.0, eff_median_h * 1.8) and h_overlap > 0 and combined_h <= max_legit_line_h:
+                    target["box"] = [min(bx, tx), min(by, ty), max(bx + bw, tx + tw) - min(bx, tx), combined_h]
                     p["dropped"] = True
                     merged = True
 
@@ -300,9 +299,57 @@ def filter_and_merge_residual_false_lines(
         # Very low ink and no distinct character stroke
         if p["ink"] < max(20, int(eff_median_h * 1.3)) and p["max_comp_h"] < (eff_median_h * 0.32):
             continue
+        # Near-solid UI blocks / buttons / cards (not text, text has fill < 0.35)
+        if p["fill_ratio"] > 0.55 and (bw * bh) > 600:
+            continue
+
+        # Empty UI containers / card frames: wide box with very low component density and low ink fill
+        comp_density = p["comp_count"] / max(1.0, bw / 100.0)
+        if bw > max(150, int(eff_median_h * 3.0)) and comp_density < 2.0 and p["fill_ratio"] < 0.05:
+            continue
+            
+        # Top-edge status bar / header band (touching top edge with high fill or thin strip)
+        if by <= max(5, int(img_h * 0.015)) and (p["fill_ratio"] > 0.40 or bh < 30):
+            continue
+
         surviving.append(tuple(p["box"]))
         
-    return surviving
+    # Phase C: Merge vertically split halves of the same line (e.g. upper/lower halves separated by ruling)
+    sorted_surviving = sorted(surviving, key=lambda b: b[1])
+    changed = True
+    while changed:
+        changed = False
+        new_boxes = []
+        skip = set()
+        for i in range(len(sorted_surviving)):
+            if i in skip:
+                continue
+            b1 = sorted_surviving[i]
+            x1, y1, w1, h1 = b1
+            for j in range(i + 1, len(sorted_surviving)):
+                if j in skip:
+                    continue
+                b2 = sorted_surviving[j]
+                x2, y2, w2, h2 = b2
+                
+                v_gap = y2 - (y1 + h1)
+                combined_h = max(y1 + h1, y2 + h2) - min(y1, y2)
+                width_ratio = min(w1, w2) / max(1, max(w1, w2))
+                x_aligned = abs(x1 - x2) <= max(20, int(median_h * 1.5))
+                
+                if width_ratio >= 0.80 and x_aligned:
+                    if -max(25.0, median_h * 2.5) <= v_gap <= max(12.0, median_h * 1.5) and combined_h <= max(75.0, median_h * 2.0):
+                        nx = min(x1, x2)
+                        ny = min(y1, y2)
+                        nw = max(x1 + w1, x2 + w2) - nx
+                        nh = combined_h
+                        b1 = (nx, ny, nw, nh)
+                        skip.add(j)
+                        changed = True
+            new_boxes.append(b1)
+        sorted_surviving = new_boxes
+
+    return sorted_surviving
 
 def get_body_center(b: Tuple[int, int, int, int], binary_mask: np.ndarray) -> float:
     x, y, w, h = b
@@ -370,7 +417,7 @@ def consolidate_fragments(boxes: List[Tuple[int, int, int, int]], binary_mask: n
         boxes = sorted(new_boxes, key=lambda b: (b[1], b[0]))
     return boxes
 
-def compute_structural_quality(line_results: List[LineBox], global_bands: List[Tuple[int, int]], ink_coverage: float, median_h: float) -> float:
+def compute_structural_quality(line_results: List[LineBox], global_bands: List[Tuple[int, int]], ink_coverage: float, median_h: float, img_h: int = 0, img_w: int = 0) -> float:
     score = 100.0
     
     # Penalty for coverage
@@ -400,6 +447,23 @@ def compute_structural_quality(line_results: List[LineBox], global_bands: List[T
                 overlap_count += 1
     if overlap_count > 0:
         score -= overlap_count * 25.0
+
+    # Penalty for content spanning an unusually large fraction of the image.
+    # Only applies to tall images (mobile screenshots) where keyboard contamination is likely.
+    # Short/wide images (cropped handwriting) are excluded.
+    is_tall_mobile = img_h > 600 and img_w > 0 and (img_h / max(1, img_w)) > 1.3
+    if is_tall_mobile and len(line_results) >= 2:
+        min_y = min(b.y for b in line_results)
+        max_y_bottom = max(b.y + b.height for b in line_results)
+        content_span = (max_y_bottom - min_y) / img_h
+        if content_span > 0.80:
+            score -= (content_span - 0.80) * 200.0
+        
+    # Penalty for collapsed / excessively tall boxes (e.g. giant UI containers / keyboard blocks)
+    tall_limit = max(200, int(img_h * 0.40)) if is_tall_mobile else max(150, int(img_h * 0.50))
+    tall_boxes = [b for b in line_results if b.height > tall_limit]
+    if tall_boxes:
+        score -= len(tall_boxes) * 40.0
         
     return max(0.0, score)
 
@@ -438,8 +502,8 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
             h_overlap = max(0, min(px + pw, sx + sw) - max(px, sx))
             h_gap = max(0, max(px, sx) - min(px + pw, sx + sw))
             
-            # Stricter attachment threshold: v_gap <= median_h * 2.0
-            if v_gap <= max(20.0, median_h * 2.0) and (h_overlap > 0 or h_gap <= max(25.0, median_h * 2.0)):
+            # Robust satellite attachment threshold: v_gap <= max(30.0, median_h * 2.5)
+            if v_gap <= max(30.0, median_h * 2.5) and (h_overlap > 0 or h_gap <= max(35.0, median_h * 2.5)):
                 dist = v_gap + h_gap * 0.5
                 if dist < best_dist:
                     best_dist = dist
@@ -462,6 +526,22 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
             final_boxes.append(b)
             
     final_boxes = filter_and_merge_residual_false_lines(final_boxes, final_mask, median_h, height, width)
+
+    # Prune detached bottom UI / keyboard blocks in mobile screenshots:
+    # A massive vertical gap (>35% image height) separating content from full-width (>85% width) bottom elements.
+    if len(final_boxes) >= 2 and height > 400:
+        sorted_for_gap = sorted(final_boxes, key=lambda b: b[1])
+        chrome_start_y = None
+        for gi in range(1, len(sorted_for_gap)):
+            prev_bottom = sorted_for_gap[gi - 1][1] + sorted_for_gap[gi - 1][3]
+            curr_top = sorted_for_gap[gi][1]
+            curr_w = sorted_for_gap[gi][2]
+            gap = curr_top - prev_bottom
+            if gap > (height * 0.35) and curr_top > (height * 0.65) and curr_w > (width * 0.85):
+                chrome_start_y = curr_top
+                break
+        if chrome_start_y is not None:
+            final_boxes = [b for b in final_boxes if b[1] < chrome_start_y]
             
     unassigned_ink = sum(c["ink"] for c in unassigned)
     total_ink = cv2.countNonZero(final_mask)
@@ -476,7 +556,7 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
         for idx, b in enumerate(sorted_final, 1)
     ]
     
-    quality_score = compute_structural_quality(line_results, global_bands, ink_coverage, median_h)
+    quality_score = compute_structural_quality(line_results, global_bands, ink_coverage, median_h, img_h=height, img_w=width)
     
     needs_review = False
     if ink_coverage < 0.20 or (len(global_bands) > 0 and len(line_results) > len(global_bands) * 2):
@@ -484,6 +564,8 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
     if ink_coverage < 0.5:
         needs_review = True
     if len(ambiguous) + len(noise) > max(20, len(primary) * 3):
+        needs_review = True
+    if quality_score < 85.0:
         needs_review = True
         
     diag = {
@@ -495,15 +577,76 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
     
     return line_results, diag, quality_score, final_mask, median_h
 
-def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -> Tuple[List[LineBox], dict]:
+_DETECTION_RUN_CACHE: dict = {}
+
+def find_inner_ui_cards(img: np.ndarray) -> List[Tuple[int, int, int, int]]:
     """
-    The General Handwriting Line Segmentation Pipeline with Canonical Bypass.
+    Detects inner UI cards / dialog frames in mobile screenshots.
+    Uses contour analysis, geometric positioning, and bounding area.
     """
+    if img is None or img.size == 0:
+        return []
+    h, w = img.shape[:2]
+    if h < 500 or (h / max(1, w)) < 1.3:
+        return []
+        
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    edges = cv2.Canny(gray, 50, 150)
+    cnts, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    ui_cards = []
+    for c in cnts:
+        rx, ry, rw, rh = cv2.boundingRect(c)
+        area = cv2.contourArea(c)
+        if ry > 120 and rw > w * 0.40 and rh > h * 0.25 and area > (w * h * 0.10):
+            aspect = rw / max(1, rh)
+            if 0.3 <= aspect <= 2.5:
+                ui_cards.append((rx, ry, rw, rh))
+    return ui_cards
+
+def clear_detection_cache():
+    _DETECTION_RUN_CACHE.clear()
+
+def run_generalized_line_detection(
+    bgr_image: np.ndarray,
+    max_lines: int = 30,
+    force_redetect: bool = False,
+    request_id: str = None
+) -> Tuple[List[LineBox], dict]:
+    """
+    The General Handwriting Line Segmentation Pipeline with Canonical Bypass,
+    caching, and True Re-detect Quality Safety.
+    """
+    import hashlib
+    import uuid
+
+    if bgr_image is None or bgr_image.size == 0:
+        return [], {
+            "detector_version": "generalized-20260914",
+            "cacheHit": False,
+            "detectionRunId": str(uuid.uuid4()),
+            "requestId": request_id or str(uuid.uuid4()),
+            "final_box_count": 0
+        }
+
+    img_hash = hashlib.sha256(bgr_image.tobytes()).hexdigest()
+
+    if not force_redetect and img_hash in _DETECTION_RUN_CACHE:
+        cached = _DETECTION_RUN_CACHE[img_hash]
+        lines = [LineBox(line_id=b.line_id, x=b.x, y=b.y, width=b.width, height=b.height, order=b.order) for b in cached["lines"]]
+        diag = dict(cached["diag"])
+        diag["cacheHit"] = True
+        diag["detectionRunId"] = cached["run_id"]
+        if request_id:
+            diag["requestId"] = request_id
+        return lines, diag
+
     from app.canonical.matcher import CanonicalMatcher
     from app.canonical.row_localizer import localize_rows
     from app.api.ocr import correct_skew
     from app.config import settings
-    
+
+    current_run_id = str(uuid.uuid4())
+
     # Check Canonical Matching ONLY if explicitly enabled (demoted from production default in GROQ.5)
     if getattr(settings, "canonical_runtime_override_enabled", False):
         matcher = CanonicalMatcher()
@@ -516,21 +659,30 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
                 "fixtureId": matched_fixture.fixture_id,
                 "canonicalConfidence": 1.0,
                 "recognitionSource": "CANONICAL_EXACT",
-                "final_box_count": len(boxes)
+                "final_box_count": len(boxes),
+                "cacheHit": False,
+                "detectionRunId": current_run_id,
+                "requestId": request_id or str(uuid.uuid4())
+            }
+            _DETECTION_RUN_CACHE[img_hash] = {
+                "lines": boxes,
+                "diag": diag,
+                "score": 100.0,
+                "run_id": current_run_id,
+                "requestId": request_id,
             }
             return boxes, diag
 
-        
     bgr_image = correct_skew(bgr_image, max_angle=10.0)
     height, width = bgr_image.shape[:2]
-    
+
     # 1. Run Default Profile (PROFILE_A)
     best_lines, best_diag, best_score, best_mask, best_median_h = _run_single_profile(bgr_image, height, width, max_lines, "PROFILE_A")
     best_profile = "PROFILE_A"
-    
+
     # 2. Check if Suspicious
     suspicious = best_diag.get("needs_review", False) or best_score < 90.0
-    
+
     # 3. Deterministic Fallback if Suspicious
     if suspicious:
         for fallback_profile in ["PROFILE_B", "PROFILE_C"]:
@@ -542,7 +694,7 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
                 best_mask = f_mask
                 best_median_h = f_median_h
                 best_profile = fallback_profile
-                
+
     # 4. Final Formatting (Padding)
     padded_boxes = []
     for b in best_lines:
@@ -553,9 +705,9 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
         wp = min(width - xp, b.width + 2 * pad_x)
         hp = min(height - yp, b.height + 2 * pad_y)
         padded_boxes.append((xp, yp, wp, hp))
-        
+
     padded_boxes.sort(key=lambda b: (b[1], b[0]))
-    
+
     final_line_results = []
     for idx, b in enumerate(padded_boxes, 1):
         final_line_results.append(LineBox(
@@ -566,12 +718,56 @@ def run_generalized_line_detection(bgr_image: np.ndarray, max_lines: int = 30) -
             height=int(b[3]),
             order=idx
         ))
-        
+
+    # Mobile UI chrome / inner dialog card suppression:
+    cards = find_inner_ui_cards(bgr_image)
+    if cards:
+        card_top = min(c[1] for c in cards)
+        pruned_lines = [l for l in final_line_results if (l.y + l.height * 0.5) < card_top]
+        if len(pruned_lines) > 0:
+            final_line_results = [
+                LineBox(line_id=f"line_{idx}", x=l.x, y=l.y, width=l.width, height=l.height, order=idx)
+                for idx, l in enumerate(pruned_lines, 1)
+            ]
+            best_diag["inner_ui_card_pruned"] = True
+
+    # True Re-detect Quality Safety (Section 10)
+    # If force_redetect is active and previous standard run had a high quality score (>= 80),
+    # but the retry produces a worse/lower score, the system MUST preserve the better STANDARD result.
+    if force_redetect and img_hash in _DETECTION_RUN_CACHE:
+        previous = _DETECTION_RUN_CACHE[img_hash]
+        if previous["score"] >= 80.0 and best_score < previous["score"]:
+            lines = [LineBox(line_id=b.line_id, x=b.x, y=b.y, width=b.width, height=b.height, order=b.order) for b in previous["lines"]]
+            diag = dict(previous["diag"])
+            diag["cacheHit"] = False
+            diag["forceRedetect"] = True
+            diag["detectionRunId"] = current_run_id
+            diag["previousRunId"] = previous["run_id"]
+            diag["qualitySelection"] = "PRESERVED_SUPERIOR_STANDARD"
+            if request_id:
+                diag["requestId"] = request_id
+            return lines, diag
+
     best_diag["detector_version"] = "generalized-20260914"
     best_diag["selected_profile"] = best_profile
     best_diag["final_box_count"] = len(final_line_results)
     best_diag["path_a_suspicious"] = suspicious
     best_diag["path_b_invoked"] = False
     best_diag["path_a_count"] = len(final_line_results)
-    
+    best_diag["cacheHit"] = False
+    best_diag["detectionRunId"] = current_run_id
+    best_diag["forceRedetect"] = force_redetect
+    if request_id:
+        best_diag["requestId"] = request_id
+    if force_redetect and img_hash in _DETECTION_RUN_CACHE:
+        best_diag["qualitySelection"] = "ACCEPTED_RETRY"
+
+    _DETECTION_RUN_CACHE[img_hash] = {
+        "lines": final_line_results,
+        "diag": best_diag,
+        "score": best_score,
+        "run_id": current_run_id,
+        "requestId": request_id,
+    }
+
     return final_line_results, best_diag

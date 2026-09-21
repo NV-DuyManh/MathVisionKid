@@ -30,6 +30,22 @@ def process_submission(self, job_id: str, request_data: dict):
         quality_gate = QualityGate()
         can_continue, hard_stop_reason, quality_flags = quality_gate.check_preflight(image_ref)
 
+        # Determine initial model provenance based on runtime mode
+        if settings.runtime_mode == "FIXTURE":
+            model_version_str = "FIXTURE:fixture-v1"
+            model_provenance = {
+                "recognitionMode": "FIXTURE",
+                "modelVersion": "fixture-v1",
+            }
+        else:
+            model_version_str = "MODEL:MathVision-Kids-Detection:1.0.0:e78f8fa5"
+            model_provenance = {
+                "recognitionMode": "MODEL",
+                "modelName": "MathVision-Kids-Detection",
+                "modelVersion": "1.0.0",
+                "modelSha256": "e78f8fa5a2fc8be581b8624fa510cd2c429c40cdbd0930dbb2f1c2d870338985",
+            }
+
         # Track full attempt diagnostics
         diagnostics = {
             "detectorInvoked": False,
@@ -42,6 +58,7 @@ def process_submission(self, job_id: str, request_data: dict):
             "validatorStatus": None,
             "qualityFlags": quality_flags,
             "reasonCode": None,
+            "modelProvenance": model_provenance,
         }
 
         # Hard stop ONLY for undecodable, corrupt, or proven empty images
@@ -66,7 +83,8 @@ def process_submission(self, job_id: str, request_data: dict):
                 status=status_out,
                 studentFeedback=student_fb,
                 reasonCode=hard_stop_reason,
-                diagnostics=diagnostics
+                diagnostics=diagnostics,
+                modelVersion=model_version_str
             )
             send_callback(job_id, callback)
             return status_out
@@ -77,13 +95,20 @@ def process_submission(self, job_id: str, request_data: dict):
         else:
             from app.recognition.model_engine import ModelRecognitionEngine
             engine = ModelRecognitionEngine()
+            if getattr(engine, "manifest", None):
+                m = engine.manifest
+                model_version_str = f"MODEL:{m.modelName}:{m.modelVersion}:{m.sha256[:8]}"
+                model_provenance["modelName"] = m.modelName
+                model_provenance["modelVersion"] = m.modelVersion
+                model_provenance["modelSha256"] = m.sha256
             if not engine.is_ready:
                 logger.error("MODEL mode active but ModelRecognitionEngine is not ready.")
                 diagnostics["reasonCode"] = "AI_RUNTIME_ERROR"
                 callback = AiCallbackRequest(
                     status="MODEL_NOT_AVAILABLE",
                     reasonCode="AI_RUNTIME_ERROR",
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
                 send_callback(job_id, callback)
                 return "MODEL_NOT_AVAILABLE"
@@ -97,7 +122,8 @@ def process_submission(self, job_id: str, request_data: dict):
             callback = AiCallbackRequest(
                 status="MODEL_NOT_AVAILABLE",
                 reasonCode="AI_RUNTIME_ERROR",
-                diagnostics=diagnostics
+                diagnostics=diagnostics,
+                modelVersion=model_version_str
             )
             send_callback(job_id, callback)
             return "MODEL_NOT_AVAILABLE"
@@ -175,7 +201,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     studentFeedback=fb,
                     confidenceBundle=conf.model_dump(),
                     reasonCode=reason_code,
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             else:
                 result = generate_teacher_feedback(parsed_exercise, {})
@@ -184,7 +211,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     status=status_out,
                     confidenceBundle=conf.model_dump(),
                     reasonCode=reason_code,
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             send_callback(job_id, callback)
             return "NO_CONTENT_DETECTED"
@@ -198,7 +226,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     studentFeedback=result.get("studentFeedback"),
                     confidenceBundle=conf.model_dump(),
                     reasonCode="OUT_OF_SCOPE",
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             else:
                 result = generate_teacher_feedback(parsed_exercise, {})
@@ -206,7 +235,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     status=result["status"],
                     confidenceBundle=conf.model_dump(),
                     reasonCode="OUT_OF_SCOPE",
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             send_callback(job_id, callback)
             return "OUT_OF_SCOPE"
@@ -221,7 +251,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     studentFeedback=result.get("studentFeedback"),
                     confidenceBundle=conf.model_dump(),
                     reasonCode="INVALID_LAYOUT",
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             else:
                 result = generate_teacher_feedback(parsed_exercise, {})
@@ -231,7 +262,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     evidence=result.get("evidence"),
                     confidenceBundle=conf.model_dump(),
                     reasonCode="INVALID_LAYOUT",
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             send_callback(job_id, callback)
             return status_out
@@ -246,7 +278,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     studentFeedback=result.get("studentFeedback"),
                     confidenceBundle=conf.model_dump(),
                     reasonCode="OCR_LOW_CONFIDENCE",
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             else:
                 result = generate_teacher_feedback(parsed_exercise, {})
@@ -256,7 +289,8 @@ def process_submission(self, job_id: str, request_data: dict):
                     evidence=result.get("evidence"),
                     confidenceBundle=conf.model_dump(),
                     reasonCode="OCR_LOW_CONFIDENCE",
-                    diagnostics=diagnostics
+                    diagnostics=diagnostics,
+                    modelVersion=model_version_str
                 )
             send_callback(job_id, callback)
             return status_out
@@ -274,7 +308,8 @@ def process_submission(self, job_id: str, request_data: dict):
                 status="OUT_OF_SCOPE",
                 confidenceBundle=conf.model_dump(),
                 reasonCode="OUT_OF_SCOPE",
-                diagnostics=diagnostics
+                diagnostics=diagnostics,
+                modelVersion=model_version_str
             )
             send_callback(job_id, callback)
             return "OUT_OF_SCOPE"
@@ -307,7 +342,8 @@ def process_submission(self, job_id: str, request_data: dict):
                 recognizedExercise=recognized_expr,
                 confidenceBundle=conf.model_dump(),
                 reasonCode=None,
-                diagnostics=diagnostics
+                diagnostics=diagnostics,
+                modelVersion=model_version_str
             )
         else:
             result = generate_teacher_feedback(parsed_exercise, validation_result)
@@ -318,7 +354,8 @@ def process_submission(self, job_id: str, request_data: dict):
                 recognizedExercise=recognized_expr,
                 confidenceBundle=conf.model_dump(),
                 reasonCode=None,
-                diagnostics=diagnostics
+                diagnostics=diagnostics,
+                modelVersion=model_version_str
             )
 
         send_callback(job_id, callback)

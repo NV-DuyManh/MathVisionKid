@@ -22,26 +22,32 @@ from app.schemas.ocr_pilot import LineBox
 # =====================================================================
 
 def test_source_01_ui_raw_ocr_source_is_raw_ocr_text():
-    """SOURCE-01: UI raw OCR source is line.rawOcrText"""
+    """SOURCE-01: UI raw OCR source is displayed from resolveLineDisplayState.ocrText
+    (Refactored PROD.3B/3F: component now uses resolveLineDisplayState() instead of direct line.rawOcrText access)"""
     result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
-    # Verifies the raw text binding in JSX uses line.rawOcrText
-    assert "const rawText = line.rawOcrText || line.predictedText;" in content
-    assert "OCR GỐC (CRNN):" in content
+    # Verifies raw OCR text is sourced via resolveLineDisplayState() and displayed in Section A
+    assert "resolveLineDisplayState" in content, "Must use resolveLineDisplayState for provenance"
+    assert "ocrText" in content, "ocrText from resolveLineDisplayState must be rendered"
+    assert "OCR gốc" in content, "Section A must be labeled 'OCR gốc'"
+    assert "sectionABox" in content, "Section A container must exist"
+    assert "sectionAText" in content, "Section A text element must exist"
     # Schema check
     box = LineBox(line_id="1", x=0, y=0, width=10, height=10, order=1, rawOcrText="test raw")
     assert box.rawOcrText == "test raw"
 
 
-def test_source_02_ui_groq_suggestion_source_is_corrected_text():
-    """SOURCE-02: UI Groq suggestion source is line.correctedText"""
+def test_source_02_ui_suggestion_source_is_ai_suggestions():
+    """SOURCE-02: UI AI suggestions are rendered from resolveLineDisplayState.aiSuggestions
+    (Refactored PROD.3B/3F: component uses aiSuggestions from resolveLineDisplayState, not direct line.correctedText)"""
     result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
-    assert "{line.correctedText && (" in content
-    assert "GỢI Ý HIỆU CHỈNH (AI GROQ):" in content
-    assert "{line.correctedText}" in content
+    # Verifies AI suggestions are rendered via aiSuggestions from resolveLineDisplayState
+    assert "aiSuggestions" in content, "aiSuggestions from resolveLineDisplayState must be used"
+    assert "sectionBBox" in content, "Section B suggestion container must exist"
+    assert "sugg.text" in content, "Suggestion text must be rendered from sugg.text"
 
 
 def test_source_03_ui_current_final_source_is_final_text():
@@ -435,31 +441,35 @@ def test_ui_02_dev_diagnostic_string_absent():
         content = f.read()
     assert "Bảng chẩn đoán kỹ thuật (DEV)" not in content
 
-def test_ui_03_every_line_shows_ocr_goc_crnn_from_raw():
-    """UI-03: Every line always shows 'OCR GỐC (CRNN)' using rawOcrText"""
+def test_ui_03_every_line_shows_ocr_goc_from_resolve_state():
+    """UI-03: Every line shows 'OCR gốc' section from resolveLineDisplayState.ocrText
+    (Refactored PROD.3B/3F: uses ocrText from resolveLineDisplayState, not direct rawOcrText access)"""
     result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
-    assert "OCR GỐC (CRNN):" in content
-    # Prove it reads rawText = line.rawOcrText || line.predictedText
-    assert "const rawText = line.rawOcrText || line.predictedText;" in content
-    assert 'sectionAText' in content
+    assert "OCR gốc" in content, "Must label raw OCR section as 'OCR gốc'"
+    assert "resolveLineDisplayState" in content, "Must use resolveLineDisplayState"
+    assert 'sectionAText' in content, "Section A text element must exist"
+    assert 'sectionABox' in content, "Section A container must exist"
 
-def test_ui_04_groq_suggestion_section_appears_when_corrected():
-    """UI-04: Groq suggestion section appears when correctedText exists"""
+def test_ui_04_suggestion_section_appears_when_ai_suggestions_exist():
+    """UI-04: Suggestion section appears when aiSuggestions exist
+    (Refactored PROD.3B/3F: uses aiSuggestions from resolveLineDisplayState, not line.correctedText guard)"""
     result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
-    assert "{line.correctedText && (" in content
-    assert "GỢI Ý HIỆU CHỈNH (AI GROQ):" in content
+    # Verifies suggestion section is rendered from aiSuggestions array
+    assert "aiSuggestions.map" in content or "aiSuggestions.length" in content, "Must iterate/check aiSuggestions"
+    assert "sectionBBox" in content, "Section B container must exist for first suggestion"
 
-def test_ui_05_groq_suggestion_absent_when_no_correction():
-    """UI-05: Groq suggestion section absent when no correction exists (guarded by line.correctedText)"""
+def test_ui_05_no_suggestion_section_when_ai_suggestions_empty():
+    """UI-05: No suggestion cards rendered when aiSuggestions is empty
+    (Refactored PROD.3B/3F: guard condition uses aiSuggestions.length === 0 instead of line.correctedText)"""
     result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../src/app/ocr-pilot/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
-    # Guard condition verified
-    assert "{line.correctedText && (" in content
+    # Guard condition: when aiSuggestions is empty, fallback to AI_CONFIRMED notice or outage notice
+    assert "aiSuggestions.length === 0" in content, "Must guard suggestion section with aiSuggestions.length === 0"
 
 def test_ui_06_auto_apply_transparently_shows_all_three():
     """UI-06: AUTO_APPLY transparently shows raw CRNN, Groq suggestion, and current final text"""

@@ -46,6 +46,7 @@ export default function SubmissionReviewPage() {
   useEffect(() => {
     if (sub && editScore === '') {
       const initial = sub.suggestedScore !== undefined ? sub.suggestedScore : (sub.gradeProposal?.score ?? 0);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditScore(initial);
     }
   }, [sub, editScore]);

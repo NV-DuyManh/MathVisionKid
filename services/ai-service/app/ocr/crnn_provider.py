@@ -10,6 +10,7 @@ import json
 import logging
 import threading
 import re
+from collections import defaultdict
 
 import numpy as np
 import torch
@@ -67,6 +68,17 @@ class CrnnOcrProvider(OcrProvider):
         self._inv_vocab: Optional[Dict[int, str]] = None
         self._manifest: Optional[Dict[str, Any]] = None
         self._lock = threading.Lock()
+        self.model_forward_call_count: int = 0
+        self.last_batch_shapes: List[Tuple[int, ...]] = []
+
+    def reset_forward_counters(self):
+        self.model_forward_call_count = 0
+        self.last_batch_shapes = []
+
+    def _forward(self, x: torch.Tensor) -> torch.Tensor:
+        self.model_forward_call_count += 1
+        self.last_batch_shapes.append(tuple(x.shape))
+        return self._model(x)
 
     def _ensure_loaded(self):
         """Lazy load model weights and vocabulary safely with threading lock."""
@@ -125,9 +137,76 @@ class CrnnOcrProvider(OcrProvider):
             "is_available": self.is_available(),
         }
 
+    def _decode_ctc_beam_search(
+        self,
+        probs: np.ndarray,
+        beam_width: int = 15,
+        top_k: int = 5
+    ) -> List[Dict[str, Any]]:
+        """
+        General CTC beam search decoder preserving top-K candidate sequences,
+        normalized log probabilities, and candidate margins.
+        """
+        T, C = probs.shape
+        beams = {(): (1.0, 0.0)}
+        blank_idx = BLANK_IDX
+
+        for t in range(T):
+            p_t = probs[t]
+            cand_indices = np.where(p_t > 1e-4)[0]
+            if len(cand_indices) == 0:
+                cand_indices = np.argsort(p_t)[-10:]
+
+            next_beams = defaultdict(lambda: (0.0, 0.0))
+            p_blank = float(p_t[blank_idx])
+
+            for prefix, (p_b, p_nb) in beams.items():
+                p_total = p_b + p_nb
+                if p_total <= 0.0:
+                    continue
+                if p_blank > 1e-6:
+                    curr_b, curr_nb = next_beams[prefix]
+                    next_beams[prefix] = (curr_b + p_total * p_blank, curr_nb)
+
+                for c in cand_indices:
+                    if c == blank_idx:
+                        continue
+                    p_c = float(p_t[c])
+                    last_c = prefix[-1] if prefix else None
+                    if c == last_c:
+                        new_prefix = prefix + (c,)
+                        curr_b, curr_nb = next_beams[new_prefix]
+                        next_beams[new_prefix] = (curr_b, curr_nb + p_b * p_c)
+                        curr_b, curr_nb = next_beams[prefix]
+                        next_beams[prefix] = (curr_b, curr_nb + p_nb * p_c)
+                    else:
+                        new_prefix = prefix + (c,)
+                        curr_b, curr_nb = next_beams[new_prefix]
+                        next_beams[new_prefix] = (curr_b, curr_nb + p_total * p_c)
+
+            sorted_prefixes = sorted(
+                next_beams.keys(),
+                key=lambda pref: next_beams[pref][0] + next_beams[pref][1],
+                reverse=True
+            )[:beam_width]
+            beams = {p: next_beams[p] for p in sorted_prefixes}
+
+        candidates = []
+        for prefix, (p_b, p_nb) in beams.items():
+            total_p = p_b + p_nb
+            text = "".join(self._inv_vocab.get(idx, "?") for idx in prefix)
+            log_p = float(np.log(max(1e-30, total_p)))
+            length = max(1, len(text))
+            norm_score = float(np.exp(log_p / length))
+            candidates.append({"text": text, "logProb": round(log_p, 4), "normalizedScore": round(norm_score, 4)})
+
+        candidates.sort(key=lambda x: x["logProb"], reverse=True)
+        return candidates[:top_k]
+
     def _decode_logits_with_uncertainty(self, logits: torch.Tensor) -> List[Tuple[str, Dict[str, Any]]]:
         """
-        Greedy CTC decode with mathematically grounded sequence confidence and uncertainty features:
+        CTC decode with mathematically grounded sequence confidence, uncertainty features,
+        character-level visual evidence, and beam-search top-k hypotheses:
         - rawCrnnConfidence: arithmetic mean of emitted non-blank character probabilities
         - minTokenConfidence: minimum non-blank emitted token probability
         - p10TokenConfidence: 10th percentile token probability
@@ -136,6 +215,9 @@ class CrnnOcrProvider(OcrProvider):
         - meanEntropy: average Shannon entropy over timesteps: - sum(p * ln(p))
         - lowConfidenceTokenCount: count of emitted characters with probability < 0.50
         - sequenceLength: number of decoded characters
+        - charVisualEvidence: character-level emission probabilities, alternative characters, margins, timesteps
+        - topCandidates: top candidate hypotheses from CTC beam search
+        - candidateMargin: normalized margin between top-1 and top-2 candidate sequences
         """
         probs = torch.softmax(logits, dim=-1).cpu().numpy()
         preds = logits.argmax(2).cpu().numpy()
@@ -145,39 +227,78 @@ class CrnnOcrProvider(OcrProvider):
             out = []
             char_probs = []
             char_margins = []
+            char_evidence = []
             prev = -1
             current_char_prob = 0.0
             current_margin = 1.0
+            current_alt_char = ""
+            current_alt_prob = 0.0
+            current_peak_t = 0
 
             for t, idx in enumerate(preds[b, :]):
                 token_p = float(probs[b, t, idx])
-                top2 = np.partition(probs[b, t], -2)[-2:]
-                margin = float(top2[1] - top2[0])
+                top2_indices = np.argsort(probs[b, t])[-2:]
+                top_idx = top2_indices[1]
+                alt_idx = top2_indices[0]
+                margin = float(probs[b, t, top_idx] - probs[b, t, alt_idx])
+                alt_char = self._inv_vocab.get(int(alt_idx), "") if alt_idx != BLANK_IDX else "BLANK"
 
                 if idx != BLANK_IDX:
                     if idx != prev:
-                        if prev != -1 and prev != BLANK_IDX:
+                        if prev != -1 and prev != BLANK_IDX and len(out) > 0:
                             char_probs.append(current_char_prob)
                             char_margins.append(current_margin)
-                        out.append(self._inv_vocab.get(int(idx), "?"))
+                            char_evidence.append({
+                                "char": out[-1],
+                                "prob": round(current_char_prob, 4),
+                                "altChar": current_alt_char,
+                                "altProb": round(current_alt_prob, 4),
+                                "margin": round(current_margin, 4),
+                                "timestep": current_peak_t
+                            })
+                        emitted_char = self._inv_vocab.get(int(idx), "?")
+                        out.append(emitted_char)
                         current_char_prob = token_p
                         current_margin = margin
+                        current_alt_char = alt_char
+                        current_alt_prob = float(probs[b, t, alt_idx])
+                        current_peak_t = t
                     else:
                         if token_p > current_char_prob:
                             current_char_prob = token_p
-                        if margin < current_margin:
                             current_margin = margin
+                            current_alt_char = alt_char
+                            current_alt_prob = float(probs[b, t, alt_idx])
+                            current_peak_t = t
                 else:
-                    if prev != -1 and prev != BLANK_IDX:
+                    if prev != -1 and prev != BLANK_IDX and len(out) > 0:
                         char_probs.append(current_char_prob)
                         char_margins.append(current_margin)
+                        char_evidence.append({
+                            "char": out[-1],
+                            "prob": round(current_char_prob, 4),
+                            "altChar": current_alt_char,
+                            "altProb": round(current_alt_prob, 4),
+                            "margin": round(current_margin, 4),
+                            "timestep": current_peak_t
+                        })
                     current_char_prob = 0.0
                     current_margin = 1.0
+                    current_alt_char = ""
+                    current_alt_prob = 0.0
                 prev = idx
 
-            if prev != -1 and prev != BLANK_IDX and current_char_prob > 0.0:
+            if prev != -1 and prev != BLANK_IDX and current_char_prob > 0.0 and len(out) > 0:
                 char_probs.append(current_char_prob)
                 char_margins.append(current_margin)
+                char_evidence.append({
+                    "char": out[-1],
+                    "prob": round(current_char_prob, 4),
+                    "altChar": current_alt_char,
+                    "altProb": round(current_alt_prob, 4),
+                    "margin": round(current_margin, 4),
+                    "timestep": current_peak_t
+                })
 
             text = "".join(out)
             t_total = max(1, preds.shape[1])
@@ -208,6 +329,12 @@ class CrnnOcrProvider(OcrProvider):
                 replacement_anomaly = bool(re.search(r"[\?]", text) or re.search(r"(.)\1{3,}", text))
                 token_anomaly = bool(decoder_anomaly or disagreement_anomaly or replacement_anomaly)
 
+            # CTC Beam Search top-K candidates
+            candidates = self._decode_ctc_beam_search(probs[b], beam_width=15, top_k=5)
+            cand_margin = 0.0
+            if len(candidates) >= 2:
+                cand_margin = max(0.0, candidates[0]["normalizedScore"] - candidates[1]["normalizedScore"])
+
             uncertainty_data = {
                 "rawCrnnConfidence": round(raw_conf, 4),
                 "minTokenConfidence": round(min_conf, 4),
@@ -219,6 +346,9 @@ class CrnnOcrProvider(OcrProvider):
                 "sequenceLength": len(text),
                 "decoderAnomalyDetected": decoder_anomaly,
                 "tokenAnomalyDetected": token_anomaly,
+                "charVisualEvidence": char_evidence,
+                "topCandidates": candidates,
+                "candidateMargin": round(cand_margin, 4),
             }
             results.append((text, uncertainty_data))
 
@@ -274,7 +404,7 @@ class CrnnOcrProvider(OcrProvider):
         self._ensure_loaded()
         pil_img = self._prepare_image(image)
         x = _TRANSFORM(pil_img).unsqueeze(0).to(self.device)
-        logits = self._model(x)
+        logits = self._forward(x)
         res = self._decode_logits_with_confidence(logits)[0]
         del x, logits
         return res
@@ -287,7 +417,7 @@ class CrnnOcrProvider(OcrProvider):
         self._ensure_loaded()
         pil_img = self._prepare_image(image)
         x = _TRANSFORM(pil_img).unsqueeze(0).to(self.device)
-        logits = self._model(x)
+        logits = self._forward(x)
         res = self._decode_logits_with_uncertainty(logits)[0]
         del x, logits
         return res
@@ -330,7 +460,7 @@ class CrnnOcrProvider(OcrProvider):
                 tensors.append(_TRANSFORM(pil_img))
 
             chunk_x = torch.stack(tensors, dim=0).to(self.device)
-            chunk_logits = self._model(chunk_x)
+            chunk_logits = self._forward(chunk_x)
             chunk_results = self._decode_logits_with_confidence(chunk_logits)
             results.extend(chunk_results)
 
@@ -340,3 +470,39 @@ class CrnnOcrProvider(OcrProvider):
 
         return results
 
+
+    @torch.no_grad()
+    def recognize_batch_with_uncertainty(
+        self,
+        images: List[Union[str, Path, Image.Image, np.ndarray]],
+        batch_size: int = 4,
+    ) -> List[Tuple[str, Dict[str, Any]]]:
+        """
+        Recognize text in a batch of line image crops with detailed uncertainty metrics.
+        """
+        self._ensure_loaded()
+        if not images:
+            return []
+
+        if batch_size < 1:
+            raise ValueError(f"batch_size must be >= 1, got {batch_size}")
+
+        results: List[Tuple[str, Dict[str, Any]]] = []
+        total = len(images)
+
+        for start_idx in range(0, total, batch_size):
+            chunk = images[start_idx : start_idx + batch_size]
+            tensors = []
+            for item in chunk:
+                pil_img = self._prepare_image(item)
+                tensors.append(_TRANSFORM(pil_img))
+
+            chunk_x = torch.stack(tensors, dim=0).to(self.device)
+            chunk_logits = self._forward(chunk_x)
+            chunk_results = self._decode_logits_with_uncertainty(chunk_logits)
+            results.extend(chunk_results)
+
+            del chunk_x
+            del chunk_logits
+
+        return results

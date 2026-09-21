@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useRef, useEffect } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, IconButton, Tooltip, Typography } from '@mui/material';
@@ -35,6 +36,7 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
 
   useEffect(() => {
     if (open && file) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMasks([]);
       setSelectedMask(null);
       const url = URL.createObjectURL(file);

@@ -78,7 +78,7 @@ export default function CropScreen() {
     }
   }, [activeUri]);
 
-  // Recalculate physical display bounds whenever layout or actual size changes
+  // Recalculate physical display bounds whenever layout, actual size, or image session changes
   useEffect(() => {
     if (imageLayout.width > 0 && imageLayout.height > 0 && actualSize.w > 0 && actualSize.h > 0) {
       const containerRatio = imageLayout.width / imageLayout.height;
@@ -113,7 +113,7 @@ export default function CropScreen() {
 
       setBoundsReady(true);
     }
-  }, [imageLayout.width, imageLayout.height, actualSize.w, actualSize.h]);
+  }, [imageLayout.width, imageLayout.height, actualSize.w, actualSize.h, draft?.imageSessionId]);
 
   const animatedBoxStyle = useAnimatedStyle(() => {
     return {

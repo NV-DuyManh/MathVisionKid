@@ -62,6 +62,14 @@ venv/
 # Scratch & temporary artifacts
 scratch/
 *.log
+scratch_*.py
+scratch_patch_ocr.py
+old_ocr.py
+diff.txt
+debug_physical_test.jpg
+services/ai-service/debug_physical_test.jpg
+services/ai-service/scratch_*.py
+services/ai-service/patch_ocr.py
 
 # Large model binary artifacts and handoff archives (not tracked in Git)
 *.pt

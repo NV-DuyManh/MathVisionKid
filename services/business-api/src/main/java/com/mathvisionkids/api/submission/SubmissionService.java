@@ -249,7 +249,7 @@ public class SubmissionService {
         decision.setSubmission(submission);
         decision.setTeacher(teacherRepository.findByEmail(email).orElseThrow());
         decision.setType("APPROVED");
-        decision.setFinalScore(submission.getAssignment().getMaxScore() != null ? submission.getAssignment().getMaxScore() : 10);
+        decision.setFinalScore(submission.getAssignment() != null && submission.getAssignment().getMaxScore() != null ? submission.getAssignment().getMaxScore() : 10);
         teacherDecisionRepository.save(decision);
         
         AuditEvent auditEvent = new AuditEvent();

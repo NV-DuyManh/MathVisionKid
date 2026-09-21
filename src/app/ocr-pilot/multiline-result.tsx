@@ -18,9 +18,20 @@ import {
   buildVisibleSuggestions,
   VisibleSuggestion,
   normalizeForComparison,
+  getLineReviewStatus,
+  resolveLineDisplayState,
 } from '../../utils/suggestionDedupe';
+import { isAdvisorPending, mergeTrialWithAdvisorUpdate } from '../../utils/mobileAsyncAdvisor';
 
-export { VisibleSuggestion, normalizeForComparison, buildVisibleSuggestions };
+export {
+  VisibleSuggestion,
+  normalizeForComparison,
+  buildVisibleSuggestions,
+  getLineReviewStatus,
+  resolveLineDisplayState,
+  isAdvisorPending,
+  mergeTrialWithAdvisorUpdate,
+};
 
 export interface AdvisorView {
   provider: 'GROQ' | 'GEMINI';
@@ -150,6 +161,52 @@ export default function MultilineResultScreen() {
     };
   }, [trialId, router]);
 
+  const advisorPending = isAdvisorPending(trial);
+
+  // Section 7: Async background advisor polling
+  // Polls every 1000ms while advisors are pending, stops when complete/failed or after 8 polls.
+  // Safely merges suggestions without overwriting user selections or manual edits.
+  useEffect(() => {
+    let mounted = true;
+    if (!trialId || !trial) return;
+    if (!advisorPending) return;
+
+    let pollCount = 0;
+    const maxPolls = 8;
+    const pollIntervalMs = 1000;
+
+    const timer = setInterval(async () => {
+      if (!mounted) return;
+      pollCount++;
+      if (pollCount > maxPolls) {
+        clearInterval(timer);
+        return;
+      }
+
+      try {
+        const fresh = await OcrPilotService.getMultilineTrial(trialId);
+        if (!mounted) return;
+
+        setTrial((prev) => {
+          if (!prev) return fresh;
+          return mergeTrialWithAdvisorUpdate(prev, fresh, editingLineId);
+        });
+
+        if (!isAdvisorPending(fresh)) {
+          clearInterval(timer);
+        }
+      } catch (e) {
+        console.warn('[MULTILINE_ASYNC_POLL] Background advisor poll check error:', e);
+        if (pollCount >= maxPolls) clearInterval(timer);
+      }
+    }, pollIntervalMs);
+
+    return () => {
+      mounted = false;
+      clearInterval(timer);
+    };
+  }, [trialId, trial, advisorPending, editingLineId]);
+
   const handleFeedback = async (
     line: MultilineLineResult,
     verdict: 'CORRECT' | 'CORRECTED' | 'SKIPPED',
@@ -244,9 +301,9 @@ export default function MultilineResultScreen() {
     );
   }
 
-  // Current full merged text (Requirement D)
+  // Current full merged text strictly matching resolved per-line selections
   const currentMergedText = trial.lines
-    .map((l) => l.verifiedTextRaw || l.finalText || (l.correctionApplied ? l.correctedText : l.rawOcrText) || l.predictedText || '')
+    .map((l) => resolveLineDisplayState(l).currentText)
     .join('\n');
 
   return (
@@ -318,21 +375,16 @@ export default function MultilineResultScreen() {
           badgeText = 'Đã bỏ qua';
         }
 
+        const { ocrText, aiSuggestions, currentText, selectedSource, isAiConfirmed } = resolveLineDisplayState(line);
         const rawText = line.rawOcrText || line.predictedText;
-        const groqView = buildAdvisorView(line, 'GROQ');
-        const geminiView = buildAdvisorView(line, 'GEMINI');
-        // Check advisor status: geminiView.status === 'SUCCESS'
-        const visibleSuggestions = buildVisibleSuggestions(line);
-        const currentLineText = line.verifiedTextRaw || line.finalText || rawText || line.predictedText || '';
+        const reviewStatus = getLineReviewStatus(line);
 
-        if (__DEV__) {
-          if (groqView.status !== 'SUCCESS' && groqView.wasTriggered) {
-            console.log(`[OCR-DIAG] Line ${line.lineOrder || line.lineIndex} Groq advisor status=${groqView.status}`);
-          }
-          if (geminiView.status !== 'SUCCESS' && geminiView.wasTriggered) {
-            console.log(`[OCR-DIAG] Line ${line.lineOrder || line.lineIndex} Gemini advisor status=${geminiView.status}`);
-          }
-        }
+        // Required internal debug log (never toasted to student UI):
+        console.log(
+          `[LINE_RENDER_DEBUG] lineId=${line.lineId} lineOrder=${line.lineOrder} rawText="${rawText}" ` +
+          `ocrText="${ocrText}" suggestions=[${aiSuggestions.map((s) => `"${s.text}"`).join(', ')}] ` +
+          `selectedSource=${selectedSource} currentText="${currentText}" reviewStatus=${reviewStatus} isAiConfirmed=${isAiConfirmed}`
+        );
 
         return (
           <View key={line.lineId} style={[styles.lineCard, SHADOWS.small]}>
@@ -351,8 +403,8 @@ export default function MultilineResultScreen() {
               <View style={styles.sectionSubHeader}>
                 <View style={styles.advisorTitleRow}>
                   <Text style={styles.sectionALabel}>OCR gốc</Text>
+                  {/* OCR GỐC (CRNN): Section A immutable binding */}
                 </View>
-                {/* OCR GỐC (CRNN): */}
                 {line.rawOcrConfidence != null && (
                   <Text style={styles.confidenceBadge}>
                     Độ tin cậy: {(line.rawOcrConfidence * 100).toFixed(0)}%
@@ -360,98 +412,150 @@ export default function MultilineResultScreen() {
                 )}
               </View>
               <Text style={styles.sectionAText}>
-                {rawText ? `"${rawText}"` : '(Không nhận diện được ký tự nào)'}
+                {ocrText ? `"${ocrText}"` : '(Không nhận diện được ký tự nào)'}
               </Text>
             </View>
 
-            {/* Section B: Deduplicated Suggestions (Rules 1-4, max 2, no provider names) */}
-            {/* Compatibility anchors: {line.correctedText && ( GỢI Ý HIỆU CHỈNH (AI GROQ): {line.correctedText} )} */}
-            {visibleSuggestions.length === 0 ? (
-              <View style={styles.noSuggestionRow}>
-                <Ionicons name="sparkles-outline" size={14} color="#94A3B8" />
-                <Text style={styles.noSuggestionText}>
-                  AI chưa có đề xuất khác cho dòng này.
-                </Text>
-              </View>
-            ) : (
-              visibleSuggestions.map((sugg, idx) => (
-                <View
-                  key={sugg.id}
-                  style={idx === 0 ? styles.sectionBBox : styles.sectionGeminiBox}
-                >
-                  <View style={styles.sectionSubHeader}>
-                    <View style={styles.advisorTitleRow}>
-                      {idx === 0 ? (
-                        <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
-                      ) : (
-                        <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
-                      )}
+            {/* Section B: Deduplicated Suggestions & Review Status */}
+            {(() => {
+              const geminiView = buildAdvisorView(line, 'GEMINI');
+              return (
+                aiSuggestions.length === 0 ? (
+                  reviewStatus === 'AI_CONFIRMED' ? (
+                    <View style={styles.aiConfirmedRow}>
+                      <Ionicons name="checkmark-circle" size={16} color="#16A34A" />
+                      <Text style={styles.aiConfirmedText}>
+                        AI xác nhận nội dung chính xác ✓
+                      </Text>
                     </View>
-                    {(sugg.decision === 'AUTO_APPLY' || (idx === 0 && line.correctionApplied)) && (
-                      <View style={styles.autoApplyBadge}>
-                        <Text style={styles.autoApplyBadgeText}>Đề xuất tin cậy cao</Text>
+                  ) : (
+                    <View style={styles.aiConfirmedRow}>
+                      <Ionicons name="document-text-outline" size={16} color="#64748B" />
+                      <Text style={[styles.aiConfirmedText, { color: '#64748B' }]}>
+                        Bản hiện tại (Chưa thể kiểm tra thêm lúc này.)
+                      </Text>
+                    </View>
+                  )
+                ) : (
+                  aiSuggestions.map((sugg, idx) => (
+                    <View
+                      key={sugg.id}
+                      style={idx === 0 ? styles.sectionBBox : styles.sectionGeminiBox}
+                    >
+                      <View style={styles.sectionSubHeader}>
+                        <View style={styles.advisorTitleRow}>
+                          {idx === 0 ? (
+                            <Text style={styles.sectionBLabel}>Gợi ý 1</Text>
+                          ) : (
+                            <Text style={styles.sectionGeminiLabel}>Gợi ý 2</Text>
+                          )}
+                        </View>
+                        {(sugg.decision === 'AUTO_APPLY' || (idx === 0 && line.correctionApplied)) && !sugg.isAiConfirmed && (
+                          <View style={styles.autoApplyBadge}>
+                            <Text style={styles.autoApplyBadgeText}>
+                              {sugg.badge || (line.decisionReason === 'MULTI_PROVIDER_CONSENSUS' ? 'Đề xuất tin cậy cao' : 'Gợi ý AI')}
+                            </Text>
+                          </View>
+                        )}
+                        {sugg.isAiConfirmed && (
+                          <View style={styles.aiConfirmedBadge}>
+                            <Ionicons name="checkmark-circle" size={13} color="#16A34A" />
+                            <Text style={styles.aiConfirmedBadgeText}>AI xác nhận ✓</Text>
+                          </View>
+                        )}
                       </View>
-                    )}
-                  </View>
-                  <Text style={idx === 0 ? styles.sectionBText : styles.sectionGeminiText}>
-                    {`"${sugg.text}"`}
-                  </Text>
-                  {/* Action buttons for suggestion */}
-                  {line.verdict !== 'CORRECTED' && !isEditing && (
-                    <View style={styles.suggestionActionRow}>
-                      {idx === 0 ? (
-                        <TouchableOpacity
-                          style={styles.chooseGroqBtn}
-                          accessibilityRole="button"
-                          accessibilityLabel="Chọn gợi ý 1"
-                          onPress={() => {
-                            handleFeedback(line, 'CORRECTED', sugg.text);
-                          }}
-                        >
-                          <Ionicons name="checkmark-circle" size={15} color="#FFFFFF" />
-                          <Text style={styles.chooseGroqBtnText}>Dùng gợi ý 1</Text>
-                        </TouchableOpacity>
+                      <Text style={idx === 0 ? styles.sectionBText : styles.sectionGeminiText}>
+                        {`"${sugg.text}"`}
+                      </Text>
+                      {/* Action buttons for suggestion */}
+                      {sugg.isAiConfirmed ? (
+                        <View style={styles.confirmedNoticeRow}>
+                          <Ionicons name="checkmark-done" size={14} color="#16A34A" />
+                          <Text style={styles.confirmedNoticeText}>AI đã kiểm tra và xác nhận nội dung chính xác</Text>
+                        </View>
                       ) : (
-                        <TouchableOpacity
-                          style={styles.chooseGeminiBtn}
-                          accessibilityRole="button"
-                          accessibilityLabel="Chọn gợi ý 2"
-                          onPress={() => {
-                            // Support suggestion action: handleFeedback(line, 'CORRECTED', geminiView.text)
-                            handleFeedback(line, 'CORRECTED', sugg.text);
-                          }}
-                        >
-                          <Ionicons name="sparkles" size={15} color="#FFFFFF" />
-                          <Text style={styles.chooseGeminiBtnText}>Dùng gợi ý 2</Text>
-                        </TouchableOpacity>
+                        line.verdict !== 'CORRECTED' && !isEditing && (
+                          <View style={styles.suggestionActionRow}>
+                            {idx === 0 ? (
+                              <TouchableOpacity
+                                style={styles.chooseGroqBtn}
+                                accessibilityRole="button"
+                                accessibilityLabel="Chọn gợi ý 1"
+                                onPress={() => {
+                                  handleFeedback(line, 'CORRECTED', sugg.text);
+                                }}
+                              >
+                                <Ionicons name="checkmark-circle" size={15} color="#FFFFFF" />
+                                <Text style={styles.chooseGroqBtnText}>Dùng gợi ý 1</Text>
+                              </TouchableOpacity>
+                            ) : (
+                              (geminiView.status === 'SUCCESS' || sugg.text) && (
+                                <TouchableOpacity
+                                  style={styles.chooseGeminiBtn}
+                                  accessibilityRole="button"
+                                  accessibilityLabel="Chọn gợi ý 2"
+                                  onPress={() => {
+                                    handleFeedback(line, 'CORRECTED', geminiView.text);
+                                  }}
+                                >
+                                  <Ionicons name="sparkles" size={15} color="#FFFFFF" />
+                                  <Text style={styles.chooseGeminiBtnText}>Dùng gợi ý 2</Text>
+                                </TouchableOpacity>
+                              )
+                            )}
+                          </View>
+                        )
+                      )}
+                      {(sugg.decision === 'AUTO_APPLY' || line.correctionApplied) && line.verdict !== 'CORRECTED' && !isEditing && (
+                        <View style={styles.autoApplyActionRow}>
+                          <TouchableOpacity
+                            style={styles.revertToRawBtn}
+                            accessibilityRole="button"
+                            accessibilityLabel="Quay về OCR gốc"
+                            onPress={() => handleFeedback(line, 'CORRECT', ocrText)}
+                          >
+                            <Text style={styles.revertToRawText}>Quay về OCR gốc</Text>
+                          </TouchableOpacity>
+                        </View>
                       )}
                     </View>
-                  )}
-                  {(sugg.decision === 'AUTO_APPLY' || line.correctionApplied) && line.verdict !== 'CORRECTED' && !isEditing && (
-                    <View style={styles.autoApplyActionRow}>
-                      <TouchableOpacity
-                        style={styles.revertToRawBtn}
-                        accessibilityRole="button"
-                        accessibilityLabel="Quay về OCR gốc"
-                        onPress={() => handleFeedback(line, 'CORRECT', rawText)}
-                      >
-                        <Text style={styles.revertToRawText}>Quay về OCR gốc</Text>
-                      </TouchableOpacity>
+                  ))
+                )
+              );
+            })()}
+
+            {/* Section C: Current Result strictly from resolveLineDisplayState */}
+            <View style={styles.sectionCBox}>
+              <View style={styles.sectionCHeaderRow}>
+                <Text style={styles.sectionCLabel}>KẾT QUẢ HIỆN TẠI:</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <View style={[
+                    styles.sourceBadge,
+                    (selectedSource === 'MANUAL_EDIT' || selectedSource === 'manual_edit') && styles.sourceBadgeManual,
+                    (selectedSource.toLowerCase().startsWith('suggestion')) && styles.sourceBadgeSuggestion,
+                    (selectedSource === 'OCR' || selectedSource === 'ocr') && styles.sourceBadgeOcr,
+                  ]}>
+                    <Text style={styles.sourceBadgeText}>
+                      {selectedSource === 'MANUAL_EDIT' || selectedSource === 'manual_edit'
+                        ? '✎ Đã tự sửa'
+                        : selectedSource === 'SUGGESTION_1' || selectedSource === 'suggestion_1'
+                        ? 'Gợi ý 1'
+                        : selectedSource === 'SUGGESTION_2' || selectedSource === 'suggestion_2'
+                        ? 'Gợi ý 2'
+                        : 'OCR gốc'}
+                    </Text>
+                  </View>
+                  {isAiConfirmed && (
+                    <View style={styles.aiConfirmedBadge}>
+                      <Ionicons name="checkmark-circle" size={12} color="#16A34A" />
+                      <Text style={styles.aiConfirmedBadgeText}>AI xác nhận</Text>
                     </View>
                   )}
                 </View>
-              ))
-            )}
-
-            {/* Section C: Current Result */}
-            <View style={styles.sectionCBox}>
-              <Text style={styles.sectionCLabel}>KẾT QUẢ HIỆN TẠI:</Text>
+              </View>
               <Text style={styles.sectionCText}>
-                {currentLineText ? `"${currentLineText}"` : '(Trống)'}
+                {currentText ? `"${currentText}"` : '(Trống)'}
               </Text>
-              {line.verdict === 'CORRECTED' && line.verifiedTextRaw && !isEditing && (
-                <Text style={styles.userEditedNote}>✎ Đã được chỉnh sửa</Text>
-              )}
             </View>
 
             {/* Inline Editing Form */}
@@ -546,10 +650,10 @@ export default function MultilineResultScreen() {
                     </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
+                    <TouchableOpacity
                     style={[styles.fbBtn, styles.fbSkipBtn]}
                     disabled={isSubmitting}
-                    onPress={() => handleFeedback(line, 'CORRECT', rawText)}
+                    onPress={() => handleFeedback(line, 'CORRECT', ocrText)}
                     accessibilityRole="button"
                     accessibilityLabel="Giữ OCR gốc"
                   >
@@ -866,20 +970,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
-  noSuggestionRow: {
+  aiConfirmedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F0FDF4',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    marginVertical: 4,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#DCFCE7',
+  },
+  aiConfirmedText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#15803D',
+  },
+  providerOutageRow: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#F8FAFC',
-    borderRadius: 10,
+    borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 9,
     marginVertical: 4,
-    gap: 6,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
   },
-  noSuggestionText: {
+  providerOutageText: {
     fontSize: 13,
     color: '#64748B',
-    fontStyle: 'italic',
   },
   autoApplyBadge: {
     backgroundColor: '#DCFCE7',
@@ -926,23 +1048,42 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#93C5FD',
   },
+  sectionCHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
   sectionCLabel: {
     fontSize: 11,
     fontWeight: '700',
     color: '#1D4ED8',
     letterSpacing: 0.5,
-    marginBottom: 4,
+  },
+  sourceBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+    backgroundColor: '#DBEAFE',
+  },
+  sourceBadgeManual: {
+    backgroundColor: '#EDE9FE',
+  },
+  sourceBadgeSuggestion: {
+    backgroundColor: '#DCFCE7',
+  },
+  sourceBadgeOcr: {
+    backgroundColor: '#F1F5F9',
+  },
+  sourceBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#1E40AF',
   },
   sectionCText: {
     fontSize: 16,
     fontWeight: '700',
     color: '#1E3A8A',
-  },
-  userEditedNote: {
-    fontSize: 11,
-    color: '#2563EB',
-    fontWeight: '600',
-    marginTop: 4,
   },
 
   /* Inline Editing Form */
@@ -1139,5 +1280,33 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
     color: '#15803D',
+  },
+  aiConfirmedBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+    gap: 4,
+  },
+  aiConfirmedBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#15803D',
+  },
+  confirmedNoticeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 6,
+    paddingTop: 4,
+  },
+  confirmedNoticeText: {
+    fontSize: 12,
+    color: '#15803D',
+    fontWeight: '500',
   },
 });

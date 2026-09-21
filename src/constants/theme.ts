@@ -23,6 +23,11 @@ export const COLORS = {
   reviewLight: '#EDE9FE',
   border: '#E2E8F0',
   borderFocus: '#2563EB',
+  pastelBlue: '#EFF6FF',
+  pastelGreen: '#F0FDF4',
+  pastelPeach: '#FFF7ED',
+  pastelPurple: '#FAF5FF',
+  pastelAmber: '#FEFCE8',
 };
 
 export const SIZES = {
@@ -35,6 +40,10 @@ export const SIZES = {
   xxlarge: 32,
   hero: 48,
   minTouchTarget: 48,
+  radiusSm: 8,
+  radiusMd: 14,
+  radiusLg: 20,
+  radiusXl: 24,
   cardRadius: 20,
   buttonRadius: 26,
   inputRadius: 14,

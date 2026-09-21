@@ -87,11 +87,14 @@ export default function ProcessingScreen() {
           });
           return;
         }
-        if (result.status === SubmissionStatus.OUT_OF_SCOPE) {
+        if (
+          result.status === SubmissionStatus.OUT_OF_SCOPE ||
+          result.reasonCode === 'OUT_OF_SCOPE'
+        ) {
           logStageDiagnostic('TERMINAL_STATUS', {
             uri: activeUri,
             source: draft?.source,
-            extra: `status=${result.status}`,
+            extra: `status=${result.status} reasonCode=${result.reasonCode || 'none'}`,
           });
           router.replace('/results/out-of-scope');
           return;
@@ -178,7 +181,10 @@ export default function ProcessingScreen() {
           return;
         }
 
-        if (polled.status === SubmissionStatus.OUT_OF_SCOPE) {
+        if (
+          polled.status === SubmissionStatus.OUT_OF_SCOPE ||
+          polled.reasonCode === 'OUT_OF_SCOPE'
+        ) {
           router.replace('/results/out-of-scope');
           return;
         }

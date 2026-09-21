@@ -604,7 +604,12 @@ def run_grid_handwriting_detection(bgr_image: np.ndarray, max_lines: int = MAX_D
     return line_results, diagnostics
 
 
-def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -> Tuple[List[LineBox], dict]:
+def detect_text_lines(
+    cv_img: np.ndarray,
+    max_lines: int = MAX_DETECTED_LINES,
+    force_redetect: bool = False,
+    request_id: str = None
+) -> Tuple[List[LineBox], dict]:
     """
     Production text-line segmentation pipeline.
     Replaced with the GENERALIZED LINE SEGMENTATION pipeline.
@@ -660,7 +665,7 @@ def detect_text_lines(cv_img: np.ndarray, max_lines: int = MAX_DETECTED_LINES) -
         return lines, diagnostics
 
     from app.api.generalized_pipeline import run_generalized_line_detection
-    return run_generalized_line_detection(cv_img, max_lines)
+    return run_generalized_line_detection(cv_img, max_lines, force_redetect=force_redetect, request_id=request_id)
 
 
 @router.post("/detect-lines", response_model=OcrDetectLinesResponse)
@@ -679,6 +684,10 @@ async def detect_lines_endpoint(request: Request):
 
     t_start = time.time()
     req_id = request.headers.get("x-request-id") or request.headers.get("x-correlation-id") or str(uuid.uuid4())
+    force_redetect = (
+        request.headers.get("X-Force-Redetect", "").lower() == "true" or
+        request.query_params.get("forceRedetect", "").lower() == "true"
+    )
 
     # 2. Reject JSON payloads — Raw binary stream only
     content_type = request.headers.get("content-type", "").lower()
@@ -732,7 +741,12 @@ async def detect_lines_endpoint(request: Request):
         logger.warning(f"[OCR_PILOT] Failed to persist live input capture: {se}")
 
     try:
-        lines, diagnostics = detect_text_lines(cv_img, max_lines=MAX_DETECTED_LINES)
+        lines, diagnostics = detect_text_lines(
+            cv_img,
+            max_lines=MAX_DETECTED_LINES,
+            force_redetect=force_redetect,
+            request_id=req_id
+        )
 
         # === Groq Line Assist (Role A) ===
         groq_used = False
@@ -802,15 +816,23 @@ async def detect_lines_endpoint(request: Request):
         provider = get_ocr_provider("crnn_vi_handwriting_v1")
         if isinstance(provider, CrnnOcrProvider) and lines and not diagnostics.get("canonicalMatched", False):
             crnn_executed = True
+            
+            # FAST PATH: Batch CRNN execution
+            crops = []
             for line in lines:
                 lx = max(0, min(line.x, width - 1))
                 ly = max(0, min(line.y, height - 1))
                 lw = max(5, min(line.width, width - lx))
                 lh = max(3, min(line.height, height - ly))
-                crop = cv_img[ly : ly + lh, lx : lx + lw]
-                t_crnn_0 = time.perf_counter()
-                raw_text, unc_data = provider.recognize_line_with_uncertainty(crop)
-                setattr(line, "_crnn_ms", round((time.perf_counter() - t_crnn_0) * 1000.0, 2))
+                crops.append(cv_img[ly : ly + lh, lx : lx + lw])
+            
+            t_crnn_0 = time.perf_counter()
+            # Batch size of 8 is generally safe for CPU/GPU memory footprint of this CRNN
+            batch_results = provider.recognize_batch_with_uncertainty(crops, batch_size=8)
+            crnn_total_ms = round((time.perf_counter() - t_crnn_0) * 1000.0, 2)
+            
+            for line, (raw_text, unc_data) in zip(lines, batch_results):
+                setattr(line, "_crnn_ms", crnn_total_ms / len(lines)) # approximate per-line avg
                 line.rawOcrText = raw_text
                 line.rawOcrConfidence = unc_data.get("rawCrnnConfidence", 0.0)
                 line.minTokenConfidence = unc_data.get("minTokenConfidence")
@@ -838,7 +860,8 @@ async def detect_lines_endpoint(request: Request):
         sequential_sum_ms = 0.0
         total_corr_start_time = time.time()
 
-        if (groq_active or gemini_active) and not diagnostics.get("canonicalMatched", False) and lines:
+        fast_path = (request.headers.get("X-Fast-Path") == "true" or request.query_params.get("fastPath") == "true")
+        if not fast_path and (groq_active or gemini_active) and not diagnostics.get("canonicalMatched", False) and lines:
             from app.integrations.groq.corrector import should_request_groq_correction, request_groq_correction
             from app.integrations.gemini.corrector import request_gemini_correction, get_current_gemini_meta
             all_raw_texts = [l.rawOcrText or "" for l in lines]
@@ -1120,47 +1143,6 @@ async def detect_lines_endpoint(request: Request):
 
         total_correction_latency_ms = (time.time() - total_corr_start_time) * 1000 if any_correction_called else 0.0
 
-        # Update diagnostics according to OCR-First semantics
-        if diagnostics.get("canonicalMatched"):
-            diagnostics["recognitionEngine"] = "CANONICAL_EXACT"
-            diagnostics["recognitionSource"] = "CANONICAL_EXACT"
-            diagnostics["analysisSource"] = "CANONICAL_EXACT"
-            diagnostics["finalTextSource"] = "CANONICAL_EXACT"
-            diagnostics["correctionSource"] = "NONE"
-            diagnostics["crnnExecuted"] = False
-            diagnostics["groqLineAssistUsed"] = False
-            diagnostics["groqCorrectionUsed"] = False
-            diagnostics["groqUsed"] = False
-            diagnostics["geminiCorrectionUsed"] = False
-            diagnostics["geminiUsed"] = False
-            # Truthful semantics (PROD.3A.2): unambiguous attempted/succeeded
-            diagnostics["geminiAttempted"] = False
-            diagnostics["geminiSucceeded"] = False
-            diagnostics["geminiAttemptCount"] = 0
-            diagnostics["geminiSuccessCount"] = 0
-        else:
-            diagnostics["recognitionEngine"] = "CRNN"
-            diagnostics["crnnExecuted"] = crnn_executed
-            diagnostics["correctionSource"] = "GROQ_POST_CORRECTION" if any_correction_called else "NONE"
-            diagnostics["finalTextSource"] = "CRNN_PLUS_GROQ_CORRECTION" if any_correction_applied else "CRNN_RAW"
-            diagnostics["recognitionSource"] = diagnostics["finalTextSource"]
-            diagnostics["analysisSource"] = diagnostics["segmentationSource"]
-            diagnostics["groqLineAssistUsed"] = groq_used
-            diagnostics["groqCorrectionUsed"] = (groq_call_count > 0)
-            diagnostics["groqUsed"] = groq_used or (groq_call_count > 0)
-            diagnostics["visionModel"] = settings.groq_primary_vision_model
-            diagnostics["geminiCorrectionUsed"] = (gemini_call_count > 0)
-            diagnostics["geminiUsed"] = (gemini_call_count > 0)
-            diagnostics["groqModel"] = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
-            diagnostics["geminiModel"] = getattr(settings, "gemini_model", "gemini-3.6-flash")
-            # Truthful semantics (PROD.3A.2): unambiguous attempted/succeeded
-            diagnostics["geminiAttempted"] = (gemini_call_count > 0)
-            gemini_success_count = sum(1 for l in lines if getattr(l, "geminiStatus", None) == "SUCCESS")
-            diagnostics["geminiSucceeded"] = (gemini_success_count > 0)
-            diagnostics["geminiAttemptCount"] = gemini_call_count
-            diagnostics["geminiSuccessCount"] = gemini_success_count
-
-        # Persist metadata.json under scratch/runtime6_live_input/
         try:
             metadata = {
                 "timestamp": time.time(),
@@ -1219,7 +1201,49 @@ async def detect_lines_endpoint(request: Request):
         diagnostics["sequentialSumMs"] = round(sequential_sum_ms, 2)
         diagnostics["parallelWallClockMs"] = round(parallel_wall_clock_ms, 2)
         diagnostics["advisorConcurrency"] = getattr(settings, "cloud_advisor_max_concurrency", 3)
+        any_correction_called = False
+        any_correction_applied = False
+        groq_used = False
 
+        # Update diagnostics according to OCR-First semantics
+        if diagnostics.get("canonicalMatched"):
+            diagnostics["recognitionEngine"] = "CANONICAL_EXACT"
+            diagnostics["recognitionSource"] = "CANONICAL_EXACT"
+            diagnostics["analysisSource"] = "CANONICAL_EXACT"
+            diagnostics["finalTextSource"] = "CANONICAL_EXACT"
+            diagnostics["correctionSource"] = "NONE"
+            diagnostics["crnnExecuted"] = False
+            diagnostics["groqLineAssistUsed"] = False
+            diagnostics["groqCorrectionUsed"] = False
+            diagnostics["groqUsed"] = False
+            diagnostics["geminiCorrectionUsed"] = False
+            diagnostics["geminiUsed"] = False
+            # Truthful semantics (PROD.3A.2): unambiguous attempted/succeeded
+            diagnostics["geminiAttempted"] = False
+            diagnostics["geminiSucceeded"] = False
+            diagnostics["geminiAttemptCount"] = 0
+            diagnostics["geminiSuccessCount"] = 0
+        else:
+            diagnostics["recognitionEngine"] = "CRNN"
+            diagnostics["crnnExecuted"] = crnn_executed
+            diagnostics["correctionSource"] = "GROQ_POST_CORRECTION" if any_correction_called else "NONE"
+            diagnostics["finalTextSource"] = "CRNN_PLUS_GROQ_CORRECTION" if any_correction_applied else "CRNN_RAW"
+            diagnostics["recognitionSource"] = diagnostics["finalTextSource"]
+            diagnostics["analysisSource"] = diagnostics.get("segmentationSource", "LOCAL_CV")
+            diagnostics["groqLineAssistUsed"] = groq_used
+            diagnostics["groqCorrectionUsed"] = (groq_call_count > 0)
+            diagnostics["groqUsed"] = groq_used or (groq_call_count > 0)
+            diagnostics["visionModel"] = settings.groq_primary_vision_model
+            diagnostics["geminiCorrectionUsed"] = (gemini_call_count > 0)
+            diagnostics["geminiUsed"] = (gemini_call_count > 0)
+            diagnostics["groqModel"] = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
+            diagnostics["geminiModel"] = getattr(settings, "gemini_model", "gemini-3.6-flash")
+            # Truthful semantics (PROD.3A.2): unambiguous attempted/succeeded
+            diagnostics["geminiAttempted"] = (gemini_call_count > 0)
+            gemini_success_count = sum(1 for l in lines if getattr(l, "geminiStatus", None) == "SUCCESS")
+            diagnostics["geminiSucceeded"] = (gemini_success_count > 0)
+            diagnostics["geminiAttemptCount"] = gemini_call_count
+            diagnostics["geminiSuccessCount"] = gemini_success_count
 
         # Physical Android Trace Logging (Dev-only)
         if getattr(settings, "ocr_physical_trace_enabled", True) and getattr(settings, "app_env", "development") != "production":
@@ -1332,3 +1356,114 @@ async def recognize_line(request: Request):
         logger.error(f"[OCR_PILOT] Inference error: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"CRNN recognition error: {str(e)}")
 
+
+from pydantic import BaseModel
+class AdviseLinesRequest(BaseModel):
+    lines: List[LineBox]
+    
+@router.post("/advise-lines")
+@router.post("/internal/v1/ocr/advise-lines")
+async def advise_lines_endpoint(request: Request):
+    """
+    BACKGROUND ADVISOR PATH.
+    Accepts raw CRNN lines, runs Groq and Gemini sequentially or asynchronously in a document batch,
+    applies the Safe Arbitration Rule, and returns the AI suggestions.
+    """
+    from app.integrations.groq.document_corrector import request_groq_document_correction
+    from app.integrations.gemini.document_corrector import request_gemini_document_correction
+    import time
+    
+    body = await request.json()
+    lines_data = body.get("lines", [])
+    if not lines_data:
+        return {"lines": []}
+        
+    lines = [LineBox(**l) for l in lines_data]
+    
+    groq_active = bool(settings.groq_enabled and getattr(settings, "groq_post_correction_enabled", True))
+    gemini_active = bool(getattr(settings, "gemini_enabled", False) and getattr(settings, "gemini_post_correction_enabled", True))
+    
+    if not groq_active and not gemini_active:
+        return {"lines": [l.dict() for l in lines]}
+        
+    import asyncio
+    
+    # Run Groq Document Corrector
+    groq_task = asyncio.create_task(request_groq_document_correction(lines)) if groq_active else None
+    
+    # Run Gemini Document Corrector
+    gemini_task = asyncio.create_task(request_gemini_document_correction(lines)) if gemini_active else None
+    
+    groq_results = []
+    gemini_results = []
+    
+    if groq_task:
+        try:
+            groq_results = await groq_task
+        except Exception as e:
+            logger.error(f"Groq advisor failed: {e}")
+            
+    if gemini_task:
+        try:
+            gemini_results = await gemini_task
+        except Exception as e:
+            logger.error(f"Gemini advisor failed: {e}")
+            
+    # Apply Safe Arbitration Rules
+    for i, line in enumerate(lines):
+        groq_corr = groq_results[i] if groq_results and i < len(groq_results) else None
+        gemini_corr = gemini_results[i] if gemini_results and i < len(gemini_results) else None
+        
+        g_sugg = groq_corr["corrected_text"] if groq_corr and groq_corr["status"] == "SUCCESS" else None
+        gem_sugg = gemini_corr["corrected_text"] if gemini_corr and gemini_corr["status"] == "SUCCESS" else None
+        
+        line.groqSuggestion = g_sugg
+        line.groqConfidence = groq_corr.get("confidence", 0.0) if groq_corr else 0.0
+        line.groqDecision = groq_corr.get("decision", "ERROR") if groq_corr else "ERROR"
+        line.groqStatus = groq_corr.get("status", "ERROR") if groq_corr else "ERROR"
+        line.groqModel = groq_corr.get("model", "") if groq_corr else ""
+        
+        line.geminiSuggestion = gem_sugg
+        line.geminiConfidence = gemini_corr.get("confidence", 0.0) if gemini_corr else 0.0
+        line.geminiDecision = gemini_corr.get("decision", "ERROR") if gemini_corr else "ERROR"
+        line.geminiStatus = gemini_corr.get("status", "ERROR") if gemini_corr else "ERROR"
+        line.geminiModel = gemini_corr.get("model", "") if gemini_corr else ""
+        
+        # Arbitration
+        raw = line.rawOcrText
+        if not g_sugg and not gem_sugg:
+            continue
+            
+        # Consensus
+        if g_sugg and gem_sugg and g_sugg == gem_sugg and g_sugg != raw:
+            line.finalText = g_sugg
+            line.correctedText = g_sugg
+            line.correctionApplied = True
+            line.correctionDecision = "CONSENSUS_APPLY"
+            continue
+            
+        # Deterministic Changed-Span Evidence (Trailing duplicate removal)
+        if g_sugg and g_sugg != raw:
+            # Example: tímm -> tím
+            if len(raw) > len(g_sugg) and raw.startswith(g_sugg) and raw[-1] == raw[-2]:
+                line.finalText = g_sugg
+                line.correctedText = g_sugg
+                line.correctionApplied = True
+                line.correctionDecision = "DETERMINISTIC_APPLY"
+                continue
+                
+        if gem_sugg and gem_sugg != raw:
+            if len(raw) > len(gem_sugg) and raw.startswith(gem_sugg) and raw[-1] == raw[-2]:
+                line.finalText = gem_sugg
+                line.correctedText = gem_sugg
+                line.correctionApplied = True
+                line.correctionDecision = "DETERMINISTIC_APPLY"
+                continue
+                
+        # Default: NEEDS_REVIEW
+        line.finalText = raw
+        line.correctedText = None
+        line.correctionApplied = False
+        line.correctionDecision = "NEEDS_REVIEW"
+        
+    return {"lines": [l.dict() for l in lines]}

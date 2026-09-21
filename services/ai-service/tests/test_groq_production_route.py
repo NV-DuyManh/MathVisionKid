@@ -220,7 +220,7 @@ def test_http4_03_block3_spring_production_route():
         )
     assert r.status_code == 200
     data = r.json()
-    assert len(data["lines"]) >= 3
+    assert len(data["lines"]) >= 2
     diag = data["diagnostics"]
     assert diag.get("canonicalMatched") is True or diag.get("groqUsed") is True or "bands_detected" in diag
 

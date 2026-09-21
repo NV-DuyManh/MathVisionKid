@@ -118,6 +118,7 @@ public class HttpAiAnalysisGateway implements AiAnalysisGateway {
                 allowedOps.add(submission.getAssignment().getOperationType());
             } else {
                 allowedOps.add("VERTICAL_ADDITION");
+                allowedOps.add("VERTICAL_SUBTRACTION");
             }
 
             return new JobCreationResult(springJobId, submissionId.toString(), imageRef, allowedOps, policyMode, job);

@@ -26,7 +26,7 @@ class StructuredParser:
         # Sort each row by column (descending to read left-to-right correctly if column 0 is ones, column 1 is tens)
         # Assuming column 0 is units, 1 is tens, etc.
         for r in rows:
-            rows[r].sort(key=lambda x: x.column, reverse=True)
+            rows[r].sort(key=lambda x: x.column if x.column is not None else -1, reverse=True)
             
         def build_number(row_tokens: List[Token]) -> str:
             digits = [t.value for t in row_tokens if t.tokenClass == "digit"]

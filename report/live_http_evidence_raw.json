@@ -1,0 +1,178 @@
+{
+  "timestamp": "2026-09-21T09:07:25Z",
+  "health": {
+    "spring_boot": {
+      "status": "UP",
+      "components": {
+        "db": {
+          "status": "UP",
+          "details": {
+            "database": "PostgreSQL",
+            "validationQuery": "isValid()"
+          }
+        },
+        "diskSpace": {
+          "status": "UP",
+          "details": {
+            "total": 23837274112,
+            "free": 10147299328,
+            "threshold": 10485760,
+            "path": "E:\\MathVisionKid\\services\\business-api\\.",
+            "exists": true
+          }
+        },
+        "ping": {
+          "status": "UP"
+        }
+      }
+    },
+    "fastapi": {
+      "status": "ready",
+      "redis_connected": true,
+      "model_loaded": true,
+      "mode": "MODEL"
+    }
+  },
+  "auth": {
+    "student_login_status": 200,
+    "student_email": "minh.student@mathvision.local",
+    "student_role": "STUDENT",
+    "teacher_login_status": 200,
+    "teacher_email": "lan.teacher@mathvision.local",
+    "teacher_role": "TEACHER",
+    "rbac_student_access_teacher_api_status": 403,
+    "bad_credentials_status": 401,
+    "bad_token_status": 401
+  },
+  "scenarios": {
+    "A_addition_correct": {
+      "sub_id": "f7d34b4b-a926-4101-b1ee-605a9caa2d0c",
+      "final_data": {
+        "submissionId": "f7d34b4b-a926-4101-b1ee-605a9caa2d0c",
+        "status": "FEEDBACK_READY",
+        "reasonCode": null,
+        "diagnostics": {
+          "ocrInvoked": true,
+          "reasonCode": null,
+          "parserStatus": "VALID_STRUCTURE",
+          "qualityFlags": [],
+          "ocrTextLength": 0,
+          "parserInvoked": true,
+          "detectorInvoked": true,
+          "validatorStatus": "VALID",
+          "validatorInvoked": true,
+          "detectorTokenCount": 7
+        },
+        "flowDomain": "ARITHMETIC",
+        "createdAt": "2026-09-21T09:07:18.994763Z"
+      },
+      "elapsed": 1.045853614807129,
+      "pg_sub": "submission_id             |     status     |          created_at           \n--------------------------------------+----------------+-------------------------------\n f7d34b4b-a926-4101-b1ee-605a9caa2d0c | FEEDBACK_READY | 2026-09-21 09:07:18.994763+00\n(1 row)",
+      "pg_img": "image_id               |                           file_path                           | content_type | file_size | source \n--------------------------------------+---------------------------------------------------------------+--------------+-----------+--------\n b5594aff-2290-43a9-8b18-494d71eeaec5 | submissions/dae21b31-5fd6-47b5-8b0f-1275e566d475_exercise.jpg | image/jpeg   |     11785 | CAMERA\n(1 row)",
+      "pg_job": "job_id                |  status   |         submitted_at          |         completed_at          \n--------------------------------------+-----------+-------------------------------+-------------------------------\n f27672d8-8897-40b2-9932-b5c62b0227f1 | COMPLETED | 2026-09-21 09:07:19.003017+00 | 2026-09-21 09:07:19.162482+00\n(1 row)",
+      "pg_ar": "status     |      recognized_exercise       | validation | confidence |                                              student_feedback                                               |                                                                                                                                                         review_reasons                                                                                                                                                         | model_version \n----------------+--------------------------------+------------+------------+-------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------\n FEEDBACK_READY | {\"expression\": \"45 + 27 = 72\"} |            |            | {\"hint\": \"Bài làm hoàn toàn chính xác! Làm tốt lắm!\", \"title\": \"Bài làm chính xác!\", \"revealAnswer\": false} | {\"diagnosis\": 0.97, \"structure\": 0.97, \"diagnostics\": {\"ocrInvoked\": true, \"reasonCode\": null, \"parserStatus\": \"VALID_STRUCTURE\", \"qualityFlags\": [], \"ocrTextLength\": 0, \"parserInvoked\": true, \"detectorInvoked\": true, \"validatorStatus\": \"VALID\", \"validatorInvoked\": true, \"detectorTokenCount\": 7}, \"recognition\": 0.78} | fixture-v1\n(1 row)",
+      "pg_audit": "event_type     |          created_at           \n--------------------+-------------------------------\n SUBMISSION_CREATED | 2026-09-21 09:07:18.995413+00\n(1 row)"
+    },
+    "B_subtraction_incorrect": {
+      "sub_id": "175aabda-65f2-42f1-9078-bd467690a584",
+      "final_data": {
+        "submissionId": "175aabda-65f2-42f1-9078-bd467690a584",
+        "status": "FEEDBACK_READY",
+        "reasonCode": null,
+        "diagnostics": {
+          "ocrInvoked": true,
+          "reasonCode": null,
+          "parserStatus": "VALID_STRUCTURE",
+          "qualityFlags": [],
+          "ocrTextLength": 0,
+          "parserInvoked": true,
+          "detectorInvoked": true,
+          "validatorStatus": "INVALID",
+          "validatorInvoked": true,
+          "detectorTokenCount": 7
+        },
+        "flowDomain": "ARITHMETIC",
+        "createdAt": "2026-09-21T09:07:20.525970Z"
+      },
+      "elapsed": 1.0419158935546875,
+      "pg_sub": "submission_id             |     status     |          created_at          \n--------------------------------------+----------------+------------------------------\n 175aabda-65f2-42f1-9078-bd467690a584 | FEEDBACK_READY | 2026-09-21 09:07:20.52597+00\n(1 row)",
+      "pg_img": "image_id               |                           file_path                           | content_type | file_size | source \n--------------------------------------+---------------------------------------------------------------+--------------+-----------+--------\n 323a09df-60cd-4852-ad3a-0f66bbe097de | submissions/21e9989c-55f9-48d6-a075-7ab971f61435_exercise.jpg | image/jpeg   |     22593 | CAMERA\n(1 row)",
+      "pg_job": "job_id                |  status   |         submitted_at          |         completed_at          \n--------------------------------------+-----------+-------------------------------+-------------------------------\n 1fea7ccc-6c19-4917-9d34-0e9d27ae7fa6 | COMPLETED | 2026-09-21 09:07:20.536107+00 | 2026-09-21 09:07:20.699175+00\n(1 row)",
+      "pg_ar": "status     |      recognized_exercise       | validation | confidence |                                                                            student_feedback                                                                            |                                                                                                                                                          review_reasons                                                                                                                                                          | model_version \n----------------+--------------------------------+------------+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------\n FEEDBACK_READY | {\"expression\": \"52 - 18 = 44\"} |            |            | {\"hint\": \"Hãy kiểm tra lại Hàng chục nhé. Phép tính này có nhớ/mượn không em?\", \"title\": \"Bài làm cần xem lại\", \"revealAnswer\": false, \"focusEvidenceId\": \"err_sub_1\"} | {\"diagnosis\": 0.93, \"structure\": 0.97, \"diagnostics\": {\"ocrInvoked\": true, \"reasonCode\": null, \"parserStatus\": \"VALID_STRUCTURE\", \"qualityFlags\": [], \"ocrTextLength\": 0, \"parserInvoked\": true, \"detectorInvoked\": true, \"validatorStatus\": \"INVALID\", \"validatorInvoked\": true, \"detectorTokenCount\": 7}, \"recognition\": 0.85} | fixture-v1\n(1 row)",
+      "pg_audit": "event_type     |          created_at           \n--------------------+-------------------------------\n SUBMISSION_CREATED | 2026-09-21 09:07:20.526609+00\n(1 row)"
+    },
+    "C_subtraction_correct": {
+      "sub_id": "65f30758-aadb-44ef-b9a0-ccc6042f0f51",
+      "final_data": {
+        "submissionId": "65f30758-aadb-44ef-b9a0-ccc6042f0f51",
+        "status": "FEEDBACK_READY",
+        "reasonCode": null,
+        "diagnostics": {
+          "ocrInvoked": true,
+          "reasonCode": null,
+          "parserStatus": "VALID_STRUCTURE",
+          "qualityFlags": [],
+          "ocrTextLength": 0,
+          "parserInvoked": true,
+          "detectorInvoked": true,
+          "validatorStatus": "VALID",
+          "validatorInvoked": true,
+          "detectorTokenCount": 7
+        },
+        "flowDomain": "ARITHMETIC",
+        "createdAt": "2026-09-21T09:07:22.015738Z"
+      },
+      "elapsed": 1.0389893054962158,
+      "pg_sub": "submission_id             |     status     |          created_at           \n--------------------------------------+----------------+-------------------------------\n 65f30758-aadb-44ef-b9a0-ccc6042f0f51 | FEEDBACK_READY | 2026-09-21 09:07:22.015738+00\n(1 row)",
+      "pg_img": "image_id               |                           file_path                           | content_type | file_size | source \n--------------------------------------+---------------------------------------------------------------+--------------+-----------+--------\n 1ae3f0dd-da6a-4827-8b52-03635decfbee | submissions/0bd63776-83a1-47ad-923d-b548c6d1c099_exercise.jpg | image/jpeg   |     11639 | CAMERA\n(1 row)",
+      "pg_job": "job_id                |  status   |         submitted_at         |         completed_at          \n--------------------------------------+-----------+------------------------------+-------------------------------\n 0e2d2633-55d7-46f0-81ed-2835a97b8d18 | COMPLETED | 2026-09-21 09:07:22.02372+00 | 2026-09-21 09:07:22.205152+00\n(1 row)",
+      "pg_ar": "status     |      recognized_exercise       | validation | confidence |                                              student_feedback                                               |                                                                                                                                                        review_reasons                                                                                                                                                         | model_version \n----------------+--------------------------------+------------+------------+-------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------\n FEEDBACK_READY | {\"expression\": \"52 - 18 = 34\"} |            |            | {\"hint\": \"Bài làm hoàn toàn chính xác! Làm tốt lắm!\", \"title\": \"Bài làm chính xác!\", \"revealAnswer\": false} | {\"diagnosis\": 0.97, \"structure\": 0.97, \"diagnostics\": {\"ocrInvoked\": true, \"reasonCode\": null, \"parserStatus\": \"VALID_STRUCTURE\", \"qualityFlags\": [], \"ocrTextLength\": 0, \"parserInvoked\": true, \"detectorInvoked\": true, \"validatorStatus\": \"VALID\", \"validatorInvoked\": true, \"detectorTokenCount\": 7}, \"recognition\": 0.8} | fixture-v1\n(1 row)",
+      "pg_audit": "event_type     |          created_at           \n--------------------+-------------------------------\n SUBMISSION_CREATED | 2026-09-21 09:07:22.016269+00\n(1 row)"
+    },
+    "D_teacher_actions": {
+      "scenario_a_approval": {
+        "submission_id": "f7d34b4b-a926-4101-b1ee-605a9caa2d0c",
+        "pre_status": "FEEDBACK_READY",
+        "post_status": "TEACHER_APPROVED",
+        "pg_decision": "decision_id              |   type   | final_score | reason |          created_at           \n--------------------------------------+----------+-------------+--------+-------------------------------\n d9310129-5b5c-406b-b315-9b4e9a528d39 | APPROVED |          10 |        | 2026-09-21 09:07:23.517923+00\n(1 row)"
+      },
+      "scenario_b_override": {
+        "submission_id": "175aabda-65f2-42f1-9078-bd467690a584",
+        "override_payload": {
+          "reason": "Học sinh tính nhầm hàng chục (chưa trừ phần nhớ), cho 8 điểm vì cách đặt tính chuẩn.",
+          "score": 8
+        },
+        "post_status": "TEACHER_OVERRIDDEN",
+        "pg_decision": "decision_id              |    type    | final_score |                                        reason                                        |         created_at         \n--------------------------------------+------------+-------------+--------------------------------------------------------------------------------------+----------------------------\n 21cac595-f27d-4ade-aada-65a209d84139 | OVERRIDDEN |           8 | Học sinh tính nhầm hàng chục (chưa trừ phần nhớ), cho 8 điểm vì cách đặt tính chuẩn. | 2026-09-21 09:07:23.633+00\n(1 row)"
+      }
+    },
+    "E_ambiguous_structure": {
+      "sub_id": "5382daaa-d71b-49e8-809a-2bc926c8d208",
+      "final_data": {
+        "submissionId": "5382daaa-d71b-49e8-809a-2bc926c8d208",
+        "status": "NEEDS_CONFIRMATION",
+        "reasonCode": "OCR_LOW_CONFIDENCE",
+        "diagnostics": {
+          "ocrInvoked": true,
+          "reasonCode": "OCR_LOW_CONFIDENCE",
+          "parserStatus": "UNCERTAIN_STRUCTURE",
+          "qualityFlags": [],
+          "ocrTextLength": 0,
+          "parserInvoked": true,
+          "detectorInvoked": true,
+          "validatorStatus": null,
+          "validatorInvoked": false,
+          "detectorTokenCount": 7
+        },
+        "flowDomain": "ARITHMETIC",
+        "createdAt": "2026-09-21T09:07:23.780577Z"
+      },
+      "elapsed": 1.0647227764129639,
+      "pg_sub": "submission_id             |       status       |          created_at           \n--------------------------------------+--------------------+-------------------------------\n 5382daaa-d71b-49e8-809a-2bc926c8d208 | NEEDS_CONFIRMATION | 2026-09-21 09:07:23.780577+00\n(1 row)",
+      "pg_img": "image_id               |                           file_path                           | content_type | file_size | source \n--------------------------------------+---------------------------------------------------------------+--------------+-----------+--------\n df9da64e-e863-4792-96d4-ee958586919a | submissions/aabbea89-3a60-4669-9799-3e55ebd2003f_exercise.jpg | image/jpeg   |    695018 | CAMERA\n(1 row)",
+      "pg_job": "job_id                |  status   |         submitted_at          |         completed_at          \n--------------------------------------+-----------+-------------------------------+-------------------------------\n 95543d8f-cfcb-4fa2-a174-f60e96df3185 | COMPLETED | 2026-09-21 09:07:23.792792+00 | 2026-09-21 09:07:23.973365+00\n(1 row)",
+      "pg_ar": "status       | recognized_exercise | validation | confidence |                                                                                       student_feedback                                                                                       |                                                                                                                                                                                  review_reasons                                                                                                                                                                                   | model_version \n--------------------+---------------------+------------+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------\n NEEDS_CONFIRMATION |                     |            |            | {\"hint\": \"MathVision đã thử đọc bài của em nhưng chưa đủ chắc chắn để kết luận. Em có thể kiểm tra hoặc chụp lại nhé!\", \"title\": \"MathVision chưa chắc chắn kết quả\", \"revealAnswer\": false} | {\"diagnosis\": 0.0, \"structure\": 0.3, \"reasonCode\": \"OCR_LOW_CONFIDENCE\", \"diagnostics\": {\"ocrInvoked\": true, \"reasonCode\": \"OCR_LOW_CONFIDENCE\", \"parserStatus\": \"UNCERTAIN_STRUCTURE\", \"qualityFlags\": [], \"ocrTextLength\": 0, \"parserInvoked\": true, \"detectorInvoked\": true, \"validatorStatus\": null, \"validatorInvoked\": false, \"detectorTokenCount\": 7}, \"recognition\": 0.4} | fixture-v1\n(1 row)",
+      "pg_audit": "event_type     |          created_at           \n--------------------+-------------------------------\n SUBMISSION_CREATED | 2026-09-21 09:07:23.781616+00\n(1 row)"
+    }
+  }
+}

@@ -50,6 +50,7 @@ export default function PrivacyGateScreen() {
 
   const [masks, setMasks] = useState<Mask[]>([]);
   const [selectedMaskId, setSelectedMaskId] = useState<number | null>(null);
+  const [movingMaskId, setMovingMaskId] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageLoadError, setImageLoadError] = useState(false);
@@ -107,12 +108,19 @@ export default function PrivacyGateScreen() {
   const gestureAction = useSharedValue(0);
   const activeMaskId = useSharedValue<number | null>(null);
 
-  // Active mask rectangle values (driven by worklets at native 60-120Hz)
+  // Active mask rectangle values (driven by worklets at native 60-120Hz for MOVE / RESIZE)
   const activeX = useSharedValue(0);
   const activeY = useSharedValue(0);
   const activeW = useSharedValue(0);
   const activeH = useSharedValue(0);
   const activeOpacity = useSharedValue(0);
+
+  // Dedicated draft mask rectangle values for drawing new masks (100% independent from selection)
+  const draftX = useSharedValue(0);
+  const draftY = useSharedValue(0);
+  const draftW = useSharedValue(0);
+  const draftH = useSharedValue(0);
+  const draftOpacity = useSharedValue(0);
 
   // Initial anchors on gesture start
   const initBoxX = useSharedValue(0);
@@ -122,6 +130,9 @@ export default function PrivacyGateScreen() {
 
   // Synchronize Reanimated shared values when user selects mask from React UI buttons
   useEffect(() => {
+    // Never disrupt an ongoing UI-thread gesture (DRAW, MOVE, RESIZE)
+    if (gestureAction.value !== 0) return;
+
     if (selectedMaskId !== null) {
       const found = masks.find(m => m.id === selectedMaskId);
       if (found) {
@@ -190,6 +201,7 @@ export default function PrivacyGateScreen() {
           initBoxY.value = bY;
           initBoxW.value = bW;
           initBoxH.value = bH;
+          runOnJS(setMovingMaskId)(currentActiveId);
           return;
         }
       }
@@ -220,11 +232,13 @@ export default function PrivacyGateScreen() {
         activeH.value = hitMask.height;
         activeOpacity.value = 1;
 
+        runOnJS(setMovingMaskId)(hitMask.id);
         runOnJS(commitSelectMask)(hitMask.id);
       } else {
-        // 3. Touch landed on empty canvas: initiate DRAW
+        // 3. Touch landed on empty canvas: initiate DRAW with dedicated draft values
         gestureAction.value = 3; // DRAW
         activeMaskId.value = null;
+        activeOpacity.value = 0;
 
         const clampedX = Math.max(0, Math.min(touchX, cW));
         const clampedY = Math.max(0, Math.min(touchY, cH));
@@ -234,11 +248,14 @@ export default function PrivacyGateScreen() {
         initBoxW.value = 0;
         initBoxH.value = 0;
 
-        activeX.value = clampedX;
-        activeY.value = clampedY;
-        activeW.value = 0;
-        activeH.value = 0;
-        activeOpacity.value = 1;
+        draftX.value = clampedX;
+        draftY.value = clampedY;
+        draftW.value = 0;
+        draftH.value = 0;
+        draftOpacity.value = 1;
+
+        runOnJS(setMovingMaskId)(null);
+        runOnJS(commitDeselect)();
       }
     })
     .onUpdate((e) => {
@@ -279,7 +296,7 @@ export default function PrivacyGateScreen() {
         activeW.value = next.width;
         activeH.value = next.height;
       } else if (act === 3) {
-        // DRAW: strictly clamped to container boundaries
+        // DRAW: strictly clamped to container boundaries via dedicated draft values
         const next = calculateMaskDraw(
           initBoxX.value,
           initBoxY.value,
@@ -288,10 +305,11 @@ export default function PrivacyGateScreen() {
           cW,
           cH
         );
-        activeX.value = next.x;
-        activeY.value = next.y;
-        activeW.value = next.width;
-        activeH.value = next.height;
+        draftX.value = next.x;
+        draftY.value = next.y;
+        draftW.value = next.width;
+        draftH.value = next.height;
+        draftOpacity.value = 1;
       }
     })
     .onEnd(() => {
@@ -312,28 +330,32 @@ export default function PrivacyGateScreen() {
         }
       } else if (act === 3) {
         // DRAW: Only commit if rectangle is at least 24x24; otherwise discard as empty tap
-        const finalW = activeW.value;
-        const finalH = activeH.value;
+        const finalW = draftW.value;
+        const finalH = draftH.value;
         if (finalW >= 24 && finalH >= 24) {
           const finalRect: MaskRect = {
-            x: activeX.value,
-            y: activeY.value,
+            x: draftX.value,
+            y: draftY.value,
             width: finalW,
             height: finalH,
           };
           runOnJS(commitNewMask)(finalRect);
         } else {
           // Discard tiny accidental touch and deselect
-          activeOpacity.value = 0;
-          activeMaskId.value = null;
           runOnJS(commitDeselect)();
         }
+        draftOpacity.value = 0;
+        draftW.value = 0;
+        draftH.value = 0;
       }
 
+      runOnJS(setMovingMaskId)(null);
       gestureAction.value = 0;
     })
     .onFinalize((success) => {
       'worklet';
+      runOnJS(setMovingMaskId)(null);
+      draftOpacity.value = 0;
       if (!success && gestureAction.value !== 0) {
         activeOpacity.value = 0;
         gestureAction.value = 0;
@@ -355,6 +377,22 @@ export default function PrivacyGateScreen() {
       borderWidth: 2,
       borderColor: '#F59E0B',
       zIndex: 99,
+    };
+  });
+
+  const animatedDraftStyle = useAnimatedStyle(() => {
+    return {
+      opacity: draftOpacity.value,
+      left: draftX.value,
+      top: draftY.value,
+      width: draftW.value,
+      height: draftH.value,
+      position: 'absolute',
+      backgroundColor: '#000000',
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: '#F59E0B',
+      zIndex: 100,
     };
   });
 
@@ -530,9 +568,10 @@ export default function PrivacyGateScreen() {
                     </View>
                   )}
 
-                  {/* Committed Masks (Rendered as static views; active selected mask rendered via Animated.View) */}
+                  {/* Committed Masks: ALWAYS rendered as persistent visible blocks; only the actively moved mask is hidden during MOVE/RESIZE */}
                   {masks.map(mask => {
                     const isSelected = mask.id === selectedMaskId;
+                    const isMoving = mask.id === movingMaskId;
                     return (
                       <View
                         key={mask.id}
@@ -546,14 +585,20 @@ export default function PrivacyGateScreen() {
                             height: mask.height,
                             borderWidth: isSelected ? 2 : 0,
                             borderColor: '#F59E0B',
-                            opacity: isSelected ? 0 : 1,
+                            opacity: isMoving ? 0 : 1,
                           },
                         ]}
-                      />
+                      >
+                        {isSelected && movingMaskId === null && (
+                          <View style={styles.resizeHandleBadge}>
+                            <View style={styles.resizeHandleDot} />
+                          </View>
+                        )}
+                      </View>
                     );
                   })}
 
-                  {/* Live Reanimated Active Mask Overlay (runs at 60-120Hz on UI thread worklets) */}
+                  {/* Live Reanimated Active Mask Overlay (runs at 60-120Hz on UI thread worklets for MOVE / RESIZE) */}
                   <Animated.View
                     pointerEvents="none"
                     style={animatedActiveStyle}
@@ -562,6 +607,12 @@ export default function PrivacyGateScreen() {
                       <View style={styles.resizeHandleDot} />
                     </View>
                   </Animated.View>
+
+                  {/* Dedicated Live Draft Mask Overlay for active DRAW gesture (100% visible on region 1, 2, 3, 4+) */}
+                  <Animated.View
+                    pointerEvents="none"
+                    style={animatedDraftStyle}
+                  />
                 </View>
               </GestureDetector>
             </ViewShot>

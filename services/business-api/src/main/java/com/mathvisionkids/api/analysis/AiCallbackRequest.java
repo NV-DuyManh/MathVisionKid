@@ -32,4 +32,7 @@ public class AiCallbackRequest {
 
     /** Stage attempt diagnostics (detectorInvoked, ocrInvoked, qualityFlags, etc.). */
     private Map<String, Object> diagnostics;
+
+    /** Model provenance version string from AI runtime (e.g. MODEL:MathVision-Kids-Detection:1.0.0:e78f8fa5). */
+    private String modelVersion;
 }

@@ -21,6 +21,7 @@ class GeminiOcrCorrectionResponse(BaseModel):
     confidence: float = Field(default=0.9, ge=0.0, le=1.0)
     visual_support: str = "STRONG"  # "STRONG" | "MODERATE" | "WEAK"
     changes: List[GeminiSpanChange] = []
+    alternative_suggestions: List[str] = Field(default_factory=list, description="Optional secondary candidates")
     uncertain: bool = False
 
     @field_validator("visual_support", mode="before")

@@ -1,0 +1,47 @@
+{
+  "reportVersion": "1.0.0-MODEL.V2-FINAL",
+  "timestamp": "2026-09-21T15:00:00Z",
+  "holdoutDatasetName": "INDEPENDENT_HOLDOUT_V2",
+  "status": "BLOCKED_DATASET_MISSING",
+  "reason": "INDEPENDENT_HOLDOUT_REQUIRED",
+  "datasetAudit": {
+    "writersCount": 0,
+    "pagesCount": 0,
+    "linesCount": 0,
+    "physicalLinesCount": 0,
+    "syntheticLinesCount": 0,
+    "dataAvailability": "MISSING_FROM_WORKSPACE"
+  },
+  "metrics": {
+    "v1_baseline": {
+      "status": "NOT_EVALUATED_NO_HOLDOUT_DATASET",
+      "cer": null,
+      "wer": null,
+      "exactMatch": null,
+      "perWriterMetrics": []
+    },
+    "v2_candidate": {
+      "status": "NOT_EVALUATED_NO_HOLDOUT_DATASET",
+      "cer": null,
+      "wer": null,
+      "exactMatch": null,
+      "perWriterMetrics": []
+    }
+  },
+  "governanceFindings": [
+    "The 33-line locked benchmark (REGRESSION_33) has been exposed across multiple engineering iterations and cannot be claimed as an independent holdout.",
+    "The 173-image owner dataset parked under ai-training/parking/owner_173_untrained/ contains 0 verified annotations and is quarantined.",
+    "No writer-disjoint multi-child physical handwriting holdout dataset is currently present on this machine.",
+    "In accordance with project rules, holdout evidence must NOT be fabricated, simulated, or derived from training phrases."
+  ],
+  "requiredHoldoutCriteriaToUnblock": {
+    "minWriters": 10,
+    "minPhysicalPages": 20,
+    "minHandwritingLines": 200,
+    "writerDisjointness": "100% disjoint from training corpus",
+    "requiredPaperStyles": ["grid_ruled (ô ly)", "horizontal_ruled", "plain"],
+    "requiredImplements": ["blue_ink_fountain_pen", "blue_ballpoint", "pencil"],
+    "phonotacticCoverage": ["E/S/T/C cursive capitals", "all 5 Vietnamese tone marks", "consonant ligatures tr/th/ch/nh/ng/ph/kh/gh"]
+  },
+  "verdict": "BLOCKED"
+}

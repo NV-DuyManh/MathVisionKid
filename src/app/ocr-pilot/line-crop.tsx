@@ -20,6 +20,12 @@ export default function LineCropScreen() {
   const [imageLayout, setImageLayout] = useState({ width: 0, height: 0, x: 0, y: 0 });
   const [isProcessing, setIsProcessing] = useState(false);
 
+  React.useEffect(() => {
+    // Reset crop state when a new image session starts
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCropRect(null);
+  }, [draft?.imageSessionId]);
+
   const panResponder = useMemo(() => {
     const state = { x: 0, y: 0 };
     return PanResponder.create({

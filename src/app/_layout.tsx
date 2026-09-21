@@ -41,6 +41,7 @@ export default function RootLayout() {
         <Stack.Screen name="preview" />
         <Stack.Screen name="processing" />
         <Stack.Screen name="results" />
+        <Stack.Screen name="gallery" />
       </Stack>
     </AuthProvider>
   );

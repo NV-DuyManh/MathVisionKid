@@ -123,6 +123,7 @@ export interface LineBox {
   correctionApplied?: boolean;
   correctionDecision?: AdvisorDecision;
   finalText?: string;
+  predictedText?: string;
   minTokenConfidence?: number;
   p10TokenConfidence?: number;
   meanTokenConfidence?: number;
@@ -197,6 +198,14 @@ export interface MultilineLineResult {
   verdict: string;
   trainingEligible: boolean;
   feedbackAt?: string;
+
+  /** Canonical current text strictly from resolveLineDisplayState (PROD.4A.1) */
+  currentText?: string;
+  /** Selected source: OCR | SUGGESTION_1 | SUGGESTION_2 | MANUAL_EDIT */
+  selectedSource?: 'OCR' | 'SUGGESTION_1' | 'SUGGESTION_2' | 'MANUAL_EDIT' | 'ocr' | 'suggestion_1' | 'suggestion_2' | 'manual_edit';
+  /** Selection reason explaining the decision */
+  selectionReason?: string;
+  decisionReason?: string;
 }
 
 export interface MultilineTrialResult {
@@ -294,7 +303,8 @@ export class OcrPilotService {
   // Multi-line Pilot 2 methods
   static async detectLines(
     uri: string,
-    privacyConfirmed: boolean = true
+    privacyConfirmed: boolean = true,
+    forceRedetect: boolean = false
   ): Promise<MultilineDetectResult> {
     const file = this.fileInfoFromUri(uri, 'page.jpg');
     console.log('[OCR_PILOT] Requesting detectLines for URI:', uri, '| BaseURL:', apiClient.defaults.baseURL);
@@ -304,6 +314,7 @@ export class OcrPilotService {
         { key: 'image', ...file },
         { 
           privacyConfirmed: String(privacyConfirmed),
+          forceRedetect: String(forceRedetect),
           _t: Date.now().toString()
         },
       );
@@ -338,6 +349,8 @@ export class OcrPilotService {
   }
 
   static minimizeLineForTransport(line: LineBox): Partial<LineBox> {
+    const effectiveOcr = (line.rawOcrText || line.text || '').trim();
+    const effectiveFinal = (line.finalText || effectiveOcr).trim();
     return {
       line_id: line.line_id,
       x: line.x,
@@ -345,9 +358,11 @@ export class OcrPilotService {
       width: line.width,
       height: line.height,
       order: line.order,
-      rawOcrText: line.rawOcrText || line.text || '',
+      text: effectiveFinal || effectiveOcr,
+      rawOcrText: effectiveOcr,
       rawOcrConfidence: line.rawOcrConfidence ?? undefined,
-      finalText: line.finalText || line.text || line.rawOcrText || '',
+      finalText: effectiveFinal || effectiveOcr,
+      predictedText: effectiveFinal || effectiveOcr,
       groqSuggestion: line.groqSuggestion ?? undefined,
       groqConfidence: line.groqConfidence ?? undefined,
       groqDecision: line.groqDecision ?? undefined,

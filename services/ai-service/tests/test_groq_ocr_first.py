@@ -36,6 +36,20 @@ from app.integrations.groq.client import GroqError
 client = TestClient(app)
 AUTH_HEADERS = {"X-Internal-API-Key": settings.internal_api_key}
 
+from app.integrations.groq.line_analyzer import get_pool
+from app.integrations.groq.key_pool import KeyState
+
+@pytest.fixture(autouse=True)
+def reset_groq_pool():
+    pool = get_pool()
+    if pool:
+        with pool._lock:
+            for e in pool._entries:
+                e.state = KeyState.HEALTHY
+                e.consecutive_failures = 0
+                e.cooldown_until = 0.0
+    yield
+
 
 # =====================================================================
 # CORE: Core OCR-First Architecture (CORE-01 .. CORE-08)
