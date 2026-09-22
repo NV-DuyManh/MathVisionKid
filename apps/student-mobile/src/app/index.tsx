@@ -5,28 +5,46 @@ import { COLORS } from '../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
 
+import { getAppBranding, isHandAIMode } from '../config/appMode';
+
 export default function SplashScreen() {
   const router = useRouter();
   const auth = useContext(AuthContext);
+  const isHandAI = isHandAIMode();
+  const branding = getAppBranding();
 
   useEffect(() => {
     // S00 - SPLASH logic
     const timer = setTimeout(() => {
-      if (auth?.isAuthenticated) {
+      if (isHandAI) {
+        // HAND_AI mode: Direct startup to Home (no login, no permissions)
+        router.replace('/(tabs)' as any);
+      } else if (auth?.isAuthenticated) {
         router.replace('/(tabs)' as any);
       } else {
         router.replace('/login');
       }
-    }, 1500);
+    }, 1200);
 
     return () => clearTimeout(timer);
-  }, [router, auth?.isAuthenticated]);
+  }, [router, auth?.isAuthenticated, isHandAI]);
 
   return (
     <View style={styles.container}>
-      <Ionicons name="scan-circle" size={80} color={COLORS.primary} style={styles.icon} />
-      <Text style={styles.title}>MathVision Kids</Text>
-      <Text style={styles.tagline}>Chụp bài • Hiểu lỗi • Tự sửa</Text>
+      <Ionicons
+        name={isHandAI ? 'hardware-chip-outline' : 'scan-circle'}
+        size={80}
+        color={COLORS.primary}
+        style={styles.icon}
+      />
+      <Text style={styles.title}>{branding.name}</Text>
+      <Text style={styles.subtitle}>{branding.subtitle}</Text>
+      {isHandAI && (
+        <View style={styles.scopeBadge}>
+          <Text style={styles.scopeBadgeText}>{branding.detailedSubtitle}</Text>
+        </View>
+      )}
+      {!isHandAI && <Text style={styles.tagline}>{branding.tagline}</Text>}
     </View>
   );
 }
@@ -51,5 +69,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.textSecondary,
     fontWeight: '500',
-  }
+  },
+  subtitle: {
+    fontSize: 16,
+    color: COLORS.textPrimary,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 8,
+    paddingHorizontal: 24,
+  },
+  scopeBadge: {
+    backgroundColor: COLORS.primaryLight,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 999,
+    marginTop: 4,
+  },
+  scopeBadgeText: {
+    fontSize: 13,
+    color: COLORS.primaryDark,
+    fontWeight: '700',
+  },
 });

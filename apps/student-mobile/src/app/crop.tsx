@@ -10,6 +10,7 @@ import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
 import { submissionDraftStore, resolveFlowDomain } from '../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
+import { isHandAIMode } from '../config/appMode';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
 import {
@@ -27,11 +28,24 @@ const HIT_SLOP = { top: 24, bottom: 24, left: 24, right: 24 };
 
 export default function CropScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ retrySubmissionId?: string }>();
+  const isHandAI = isHandAIMode();
+  const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
   const draft = submissionDraftStore.getDraft();
-  const rawUri = draft?.privacyImageUri || draft?.uri;
+
+  // In HAND_AI mode: strictly use the original notebook image URI (never a privacy viewshot layer)
+  const paramUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
+  const rawUri = isHandAI
+    ? (draft?.sourceImageUri || draft?.rawUri || paramUri || draft?.uri)
+    : (draft?.privacyImageUri || draft?.uri || paramUri);
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
   const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
+
+  useEffect(() => {
+    // Clear any residual privacy image URI in HandAI mode
+    if (isHandAI && draft?.privacyImageUri) {
+      submissionDraftStore.updateDraft({ privacyImageUri: undefined, isMasked: false });
+    }
+  }, [isHandAI, draft?.privacyImageUri]);
 
   const [imageLayout, setImageLayout] = useState({ width: 0, height: 0, x: 0, y: 0 });
   const [actualSize, setActualSize] = useState({ w: draft?.width || 0, h: draft?.height || 0 });
@@ -307,8 +321,11 @@ export default function CropScreen() {
 
       setIsProcessing(false);
       
+      const isHandAI = isHandAIMode();
       const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
-      const targetPath = postPrivacyMode === 'ARITHMETIC' ? '/preview' : (postPrivacyMode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/ocr-pilot/multiline-review');
+      const targetPath = isHandAI
+        ? '/ocr-pilot/multiline-review'
+        : (postPrivacyMode === 'ARITHMETIC' ? '/preview' : (postPrivacyMode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/ocr-pilot/multiline-review'));
       
       router.push({
         pathname: targetPath as any,
@@ -324,8 +341,8 @@ export default function CropScreen() {
   if (!activeUri) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>Chưa có ảnh bài tập</Text>
-        <AppButton title="Quay lại" onPress={() => router.back()} />
+        <Text style={styles.emptyText}>{isHandAI ? 'No image available' : 'Chưa có ảnh bài tập'}</Text>
+        <AppButton title={isHandAI ? 'Back' : 'Quay lại'} onPress={() => router.back()} />
       </View>
     );
   }
@@ -333,12 +350,14 @@ export default function CropScreen() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-        <AppHeader title="Cắt gọn ảnh bài tập" showBack />
+        <AppHeader title={isHandAI ? 'Crop Notebook Image' : 'Cắt gọn ảnh bài tập'} showBack />
 
         <View style={styles.instructionBox}>
           <Ionicons name="crop-outline" size={20} color={COLORS.primary} style={styles.instructionIcon} />
           <Text style={styles.instructionText}>
-            Kéo các góc để chọn phần nội dung em muốn nhận diện.
+            {isHandAI
+              ? 'Drag corners to select the notebook handwriting region for recognition.'
+              : 'Kéo các góc để chọn phần nội dung em muốn nhận diện.'}
           </Text>
         </View>
 
@@ -361,7 +380,9 @@ export default function CropScreen() {
             {imageLoadError && (
               <View style={styles.errorOverlay}>
                 <Ionicons name="alert-circle" size={40} color={COLORS.error} />
-                <Text style={styles.errorText}>Không thể hiển thị ảnh</Text>
+                <Text style={styles.errorText}>
+                  {isHandAI ? 'Failed to display image' : 'Không thể hiển thị ảnh'}
+                </Text>
               </View>
             )}
 
@@ -405,7 +426,9 @@ export default function CropScreen() {
             {isProcessing && (
               <View style={styles.processingOverlay}>
                 <ActivityIndicator size="large" color="#FFFFFF" />
-                <Text style={styles.processingText}>Đang cắt ảnh...</Text>
+                <Text style={styles.processingText}>
+                  {isHandAI ? 'Cropping notebook image...' : 'Đang cắt ảnh...'}
+                </Text>
               </View>
             )}
           </View>
@@ -415,23 +438,23 @@ export default function CropScreen() {
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.iconBtn} onPress={resetBox}>
               <Ionicons name="refresh-outline" size={24} color={COLORS.primary} />
-              <Text style={styles.iconBtnText}>Đặt lại</Text>
+              <Text style={styles.iconBtnText}>{isHandAI ? 'Reset' : 'Đặt lại'}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconBtn} onPress={setFullImage}>
               <Ionicons name="expand-outline" size={24} color={COLORS.primary} />
-              <Text style={styles.iconBtnText}>Dùng toàn ảnh</Text>
+              <Text style={styles.iconBtnText}>{isHandAI ? 'Full Image' : 'Dùng toàn ảnh'}</Text>
             </TouchableOpacity>
           </View>
           
           <AppButton
-            title={isProcessing ? "Đang xử lý..." : "Xác nhận cắt ảnh"}
+            title={isProcessing ? (isHandAI ? 'Processing...' : 'Đang xử lý...') : (isHandAI ? 'Confirm Crop' : 'Xác nhận cắt ảnh')}
             onPress={handleDone}
             disabled={!boundsReady || isProcessing || imageLoadError}
             variant="primary"
           />
           <View style={{ height: SIZES.small }} />
           <AppButton
-            title="Quay lại"
+            title={isHandAI ? 'Back' : 'Quay lại'}
             variant="secondary"
             onPress={() => router.back()}
             disabled={isProcessing}

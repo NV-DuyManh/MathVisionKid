@@ -20,9 +20,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { submissionDraftStore, logFlowDomain } from '../../services/draft/submissionDraftStore';
 import { ensureFileUri } from '../../services/image/imagePipeline';
 import { OcrPilotService, OcrTrialResult } from '../../services/api/OcrPilotService';
+import { getAppBranding } from '../../config/appMode';
 
 export default function OcrResultScreen() {
   const router = useRouter();
+  const branding = getAppBranding();
   const draft = submissionDraftStore.getDraft();
   const lineCropUri = draft?.uri ? ensureFileUri(draft.uri) : '';
 
@@ -126,7 +128,7 @@ export default function OcrResultScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader title={hasRecognizedText ? "Kết quả nhận diện" : "MathVision chưa đọc chắc chắn"} showBack />
+      <AppHeader title={hasRecognizedText ? "Kết quả nhận diện" : `${branding.name} chưa đọc chắc chắn`} showBack />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Cropped Line Image Card */}
@@ -145,7 +147,7 @@ export default function OcrResultScreen() {
         {isLoading ? (
           <View style={styles.loadingBox}>
             <ActivityIndicator size="large" color={COLORS.primary} />
-            <Text style={styles.loadingTitle}>MathVision đang đọc chữ viết tay...</Text>
+            <Text style={styles.loadingTitle}>{branding.name} đang đọc chữ viết tay...</Text>
             <Text style={styles.loadingSub}>Mô hình AI CRNN đang xử lý dòng chữ tiếng Việt</Text>
           </View>
         ) : errorMsg ? (
@@ -159,7 +161,7 @@ export default function OcrResultScreen() {
           <View style={styles.resultSection}>
             {hasRecognizedText ? (
               <>
-                <Text style={styles.sectionHeading}>MathVision đọc được:</Text>
+                <Text style={styles.sectionHeading}>{branding.name} đọc được:</Text>
                 <View style={[styles.textBox, SHADOWS.small]}>
                   <Text style={styles.recognizedText}>
                     {trialResult?.recognizedText}
@@ -169,9 +171,9 @@ export default function OcrResultScreen() {
             ) : (
               <View style={styles.emptyNoticeBox}>
                 <Ionicons name="help-circle-outline" size={32} color={COLORS.warning} />
-                <Text style={styles.emptyNoticeTitle}>MathVision chưa đọc chắc chắn</Text>
+                <Text style={styles.emptyNoticeTitle}>{branding.name} chưa đọc chắc chắn</Text>
                 <Text style={styles.emptyNoticeSub}>
-                  MathVision đã thử đọc bài viết tay nhưng kết quả chưa đủ rõ. Em có thể thử lại hoặc nhập nội dung đúng.
+                  {branding.name} đã thử đọc bài viết tay nhưng kết quả chưa đủ rõ. Em có thể thử lại hoặc nhập nội dung đúng.
                 </Text>
               </View>
             )}

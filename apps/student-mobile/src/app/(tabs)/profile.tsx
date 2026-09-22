@@ -6,7 +6,10 @@ import { AppCard } from '../../components/ui/AppCard';
 import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 
+import { isHandAIMode } from '../../config/appMode';
+
 export default function ProfileScreen() {
+  const isHandAI = isHandAIMode();
   const auth = useContext(AuthContext);
   const user = auth?.user;
 
@@ -20,6 +23,83 @@ export default function ProfileScreen() {
       ]
     );
   };
+
+  if (isHandAI) {
+    return (
+      <View style={styles.container}>
+        <AppHeader title="Recognition History" />
+        <ScrollView contentContainerStyle={styles.content}>
+          {/* Research Dataset & System Specification Card */}
+          <AppCard style={styles.researchCard} variant="elevated">
+            <View style={styles.researchHeaderRow}>
+              <View style={styles.researchIconContainer}>
+                <Ionicons name="analytics" size={28} color="#2563EB" />
+              </View>
+              <View style={styles.researchTitleContainer}>
+                <Text style={styles.researchTitle}>HandAI Research System</Text>
+                <Text style={styles.researchSubtitle}>Grade 1-5 Student Handwriting Dataset</Text>
+              </View>
+            </View>
+
+            <View style={styles.researchMetaGrid}>
+              <View style={styles.researchMetaItem}>
+                <Text style={styles.researchMetaLabel}>Domain</Text>
+                <Text style={styles.researchMetaValue}>Primary Handwriting</Text>
+              </View>
+              <View style={styles.researchMetaItem}>
+                <Text style={styles.researchMetaLabel}>Scope</Text>
+                <Text style={styles.researchMetaValue}>Grade 1-5 Vietnamese</Text>
+              </View>
+              <View style={styles.researchMetaItem}>
+                <Text style={styles.researchMetaLabel}>Model</Text>
+                <Text style={styles.researchMetaValue}>CRNN + CTC Softmax</Text>
+              </View>
+              <View style={styles.researchMetaItem}>
+                <Text style={styles.researchMetaLabel}>Arbitration</Text>
+                <Text style={styles.researchMetaValue}>Multi-Provider Consensus</Text>
+              </View>
+            </View>
+          </AppCard>
+
+          {/* Pipeline Specifications */}
+          <AppCard style={styles.researchCard} variant="outlined">
+            <Text style={styles.researchSectionTitle}>Processing Pipeline</Text>
+            <View style={styles.pipelineList}>
+              {[
+                { step: '1', title: 'Image Acquisition', desc: 'Direct camera / photo library acquisition' },
+                { step: '2', title: 'Preprocessing', desc: 'Perspective notebook crop and orientation normalization' },
+                { step: '3', title: 'Line Segmentation', desc: 'Multi-line bounding box detection and ordering' },
+                { step: '4', title: 'Handwriting Recognition', desc: 'CRNN sequence predictor with CTC softmax' },
+                { step: '5', title: 'Result Analysis', desc: 'Candidate arbitration and transparent decision display' },
+              ].map((item) => (
+                <View key={item.step} style={styles.pipelineStepRow}>
+                  <View style={styles.pipelineStepBadge}>
+                    <Text style={styles.pipelineStepBadgeText}>{item.step}</Text>
+                  </View>
+                  <View style={styles.pipelineStepContent}>
+                    <Text style={styles.pipelineStepTitle}>{item.title}</Text>
+                    <Text style={styles.pipelineStepDesc}>{item.desc}</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </AppCard>
+
+          {/* Session Trial Status */}
+          <AppCard style={styles.researchCard} variant="outlined">
+            <Text style={styles.researchSectionTitle}>Session Benchmark Trials</Text>
+            <View style={styles.emptyTrialsContainer}>
+              <Ionicons name="time-outline" size={36} color="#94A3B8" />
+              <Text style={styles.emptyTrialsTitle}>Ready for Evaluation</Text>
+              <Text style={styles.emptyTrialsDesc}>
+                Acquire or upload notebook images from Home or Scan to execute the handwriting recognition pipeline.
+              </Text>
+            </View>
+          </AppCard>
+        </ScrollView>
+      </View>
+    );
+  }
 
   const menuItems = [
     {
@@ -194,5 +274,127 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: COLORS.error,
+  },
+  // HandAI Research Demo V3 styles
+  researchCard: {
+    marginBottom: SIZES.large,
+    padding: SIZES.large,
+  },
+  researchHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: SIZES.medium,
+    gap: 12,
+  },
+  researchIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#EFF6FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  researchTitleContainer: {
+    flex: 1,
+  },
+  researchTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#0F172A',
+  },
+  researchSubtitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#64748B',
+    marginTop: 2,
+  },
+  researchMetaGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 4,
+  },
+  researchMetaItem: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 8,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  researchMetaLabel: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#64748B',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  researchMetaValue: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1E293B',
+  },
+  researchSectionTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#0F172A',
+    marginBottom: SIZES.medium,
+  },
+  pipelineList: {
+    gap: 12,
+  },
+  pipelineStepRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+  },
+  pipelineStepBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#2563EB',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  pipelineStepBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  pipelineStepContent: {
+    flex: 1,
+  },
+  pipelineStepTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1E293B',
+  },
+  pipelineStepDesc: {
+    fontSize: 12,
+    color: '#64748B',
+    marginTop: 2,
+    lineHeight: 16,
+  },
+  emptyTrialsContainer: {
+    alignItems: 'center',
+    paddingVertical: SIZES.large,
+    gap: 8,
+  },
+  emptyTrialsTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#334155',
+  },
+  emptyTrialsDesc: {
+    fontSize: 12,
+    color: '#64748B',
+    textAlign: 'center',
+    lineHeight: 18,
+    maxWidth: 320,
   },
 });

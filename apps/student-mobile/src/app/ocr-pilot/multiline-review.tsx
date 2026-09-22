@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { OcrPilotService, LineBox, normalizeOcrError } from '../../services/api/OcrPilotService';
 import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
+import { isHandAIMode } from '../../config/appMode';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -22,6 +23,7 @@ type RequestStatus = 'IDLE' | 'SUBMITTING' | 'SUCCESS' | 'ERROR' | 'CANCELLED';
 
 export default function MultilineReviewScreen() {
   const router = useRouter();
+  const isHandAI = isHandAIMode();
   const params = useLocalSearchParams();
   const draft = submissionDraftStore.getDraft();
   const imageUri = draft?.croppedImageUri || draft?.uri || (params.uri as string) || '';
@@ -344,16 +346,20 @@ export default function MultilineReviewScreen() {
         >
           <Ionicons name="arrow-back" size={22} color={COLORS.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Kiểm tra các dòng chữ</Text>
+        <Text style={styles.title}>
+          {isHandAI ? 'Review Detected Lines' : 'Kiểm tra các dòng chữ'}
+        </Text>
         <TouchableOpacity
           onPress={() => {
             if (boxes.length > 0) {
               Alert.alert(
-                'Phát hiện lại',
-                'Phát hiện lại sẽ thay thế các khung hiện tại. Bạn có chắc chắn muốn tiếp tục?',
+                isHandAI ? 'Re-detect Lines' : 'Phát hiện lại',
+                isHandAI
+                  ? 'Re-detecting will recalculate line segmentation boxes. Continue?'
+                  : 'Phát hiện lại sẽ thay thế các khung hiện tại. Bạn có chắc chắn muốn tiếp tục?',
                 [
-                  { text: 'Hủy', style: 'cancel' },
-                  { text: 'Đồng ý', onPress: () => loadAutoDetection(imageUri, true) }
+                  { text: isHandAI ? 'Cancel' : 'Hủy', style: 'cancel' },
+                  { text: isHandAI ? 'Confirm' : 'Đồng ý', onPress: () => loadAutoDetection(imageUri, true) }
                 ]
               );
             } else {
@@ -362,14 +368,16 @@ export default function MultilineReviewScreen() {
           }}
           style={styles.resetButton}
           accessibilityRole="button"
-          accessibilityLabel="Phát hiện lại"
+          accessibilityLabel={isHandAI ? 'Re-detect lines' : 'Phát hiện lại'}
         >
           <Ionicons name="refresh" size={20} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
 
       <Text style={styles.instruction}>
-        {`Đã tìm thấy ${boxes.length} dòng. Chạm vào một khung để chỉnh lại nếu cần.`}
+        {isHandAI
+          ? `Detected Lines: ${boxes.length}. Tap a line box on the image to edit.`
+          : `Đã tìm thấy ${boxes.length} dòng. Chạm vào một khung để chỉnh lại nếu cần.`}
       </Text>
 
       {/* Dominant Image Canvas Area */}
@@ -488,17 +496,20 @@ export default function MultilineReviewScreen() {
           <View style={styles.controlHeaderRow}>
             <View style={styles.selectedLinePill}>
               <Text style={styles.controlTitle}>
-                Dòng đang chọn: <Text style={{ color: COLORS.primary, fontWeight: '800' }}>{selectedBox.order}</Text>
+                {isHandAI ? 'Selected Line: ' : 'Dòng đang chọn: '}
+                <Text style={{ color: COLORS.primary, fontWeight: '800' }}>
+                  {isHandAI ? `Line ${selectedBox.order}` : selectedBox.order}
+                </Text>
               </Text>
             </View>
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={handleDelete}
               accessibilityRole="button"
-              accessibilityLabel="Xóa dòng"
+              accessibilityLabel={isHandAI ? 'Delete Line' : 'Xóa dòng'}
             >
               <Ionicons name="trash-outline" size={15} color="#DC2626" />
-              <Text style={styles.deleteButtonText}>Xóa dòng</Text>
+              <Text style={styles.deleteButtonText}>{isHandAI ? 'Delete Line' : 'Xóa dòng'}</Text>
             </TouchableOpacity>
           </View>
 
@@ -509,11 +520,11 @@ export default function MultilineReviewScreen() {
               onPress={() => setEditMode('MOVE')}
               activeOpacity={0.8}
               accessibilityRole="button"
-              accessibilityLabel="Chế độ di chuyển"
+              accessibilityLabel={isHandAI ? 'Move mode' : 'Chế độ di chuyển'}
             >
               <Ionicons name="move-outline" size={15} color={editMode === 'MOVE' ? '#1D4ED8' : '#64748B'} />
               <Text style={[styles.segmentBtnText, editMode === 'MOVE' && styles.segmentBtnTextActive]}>
-                Di chuyển
+                {isHandAI ? 'Move' : 'Di chuyển'}
               </Text>
             </TouchableOpacity>
 
@@ -522,11 +533,11 @@ export default function MultilineReviewScreen() {
               onPress={() => setEditMode('RESIZE')}
               activeOpacity={0.8}
               accessibilityRole="button"
-              accessibilityLabel="Chế độ kích thước"
+              accessibilityLabel={isHandAI ? 'Resize mode' : 'Chế độ kích thước'}
             >
               <Ionicons name="expand-outline" size={15} color={editMode === 'RESIZE' ? '#1D4ED8' : '#64748B'} />
               <Text style={[styles.segmentBtnText, editMode === 'RESIZE' && styles.segmentBtnTextActive]}>
-                Kích thước
+                {isHandAI ? 'Resize' : 'Kích thước'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -535,37 +546,41 @@ export default function MultilineReviewScreen() {
           <View style={styles.controlsRow}>
             {editMode === 'MOVE' ? (
               <View style={styles.controlGroup}>
-                <Text style={styles.groupLabel}>Di chuyển vị trí khung:</Text>
+                <Text style={styles.groupLabel}>
+                  {isHandAI ? 'Move box position:' : 'Di chuyển vị trí khung:'}
+                </Text>
                 <View style={styles.btnRow}>
-                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, -1)} accessibilityLabel="Di chuyển lên">
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, -1)} accessibilityLabel={isHandAI ? 'Move up' : 'Di chuyển lên'}>
                     <Ionicons name="arrow-up" size={18} color={COLORS.textPrimary} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, 1)} accessibilityLabel="Di chuyển xuống">
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(0, 1)} accessibilityLabel={isHandAI ? 'Move down' : 'Di chuyển xuống'}>
                     <Ionicons name="arrow-down" size={18} color={COLORS.textPrimary} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(-1, 0)} accessibilityLabel="Di chuyển sang trái">
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(-1, 0)} accessibilityLabel={isHandAI ? 'Move left' : 'Di chuyển sang trái'}>
                     <Ionicons name="arrow-back" size={18} color={COLORS.textPrimary} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(1, 0)} accessibilityLabel="Di chuyển sang phải">
+                  <TouchableOpacity style={styles.ctrlBtn} onPress={() => handleMove(1, 0)} accessibilityLabel={isHandAI ? 'Move right' : 'Di chuyển sang phải'}>
                     <Ionicons name="arrow-forward" size={18} color={COLORS.textPrimary} />
                   </TouchableOpacity>
                 </View>
               </View>
             ) : (
               <View style={styles.controlGroup}>
-                <Text style={styles.groupLabel}>Kích thước khung chữ:</Text>
+                <Text style={styles.groupLabel}>
+                  {isHandAI ? 'Resize line box:' : 'Kích thước khung chữ:'}
+                </Text>
                 <View style={styles.btnRow}>
-                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(-1, 0)} accessibilityLabel="Giảm chiều rộng">
-                    <Text style={styles.resizeBtnText}>− Rộng</Text>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(-1, 0)} accessibilityLabel={isHandAI ? 'Reduce width' : 'Giảm chiều rộng'}>
+                    <Text style={styles.resizeBtnText}>{isHandAI ? '− Width' : '− Rộng'}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(1, 0)} accessibilityLabel="Tăng chiều rộng">
-                    <Text style={styles.resizeBtnText}>+ Rộng</Text>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(1, 0)} accessibilityLabel={isHandAI ? 'Increase width' : 'Tăng chiều rộng'}>
+                    <Text style={styles.resizeBtnText}>{isHandAI ? '+ Width' : '+ Rộng'}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, -1)} accessibilityLabel="Giảm chiều cao">
-                    <Text style={styles.resizeBtnText}>− Cao</Text>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, -1)} accessibilityLabel={isHandAI ? 'Reduce height' : 'Giảm chiều cao'}>
+                    <Text style={styles.resizeBtnText}>{isHandAI ? '− Height' : '− Cao'}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, 1)} accessibilityLabel="Tăng chiều cao">
-                    <Text style={styles.resizeBtnText}>+ Cao</Text>
+                  <TouchableOpacity style={styles.resizeBtn} onPress={() => handleResize(0, 1)} accessibilityLabel={isHandAI ? 'Increase height' : 'Tăng chiều cao'}>
+                    <Text style={styles.resizeBtnText}>{isHandAI ? '+ Height' : '+ Cao'}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -575,7 +590,9 @@ export default function MultilineReviewScreen() {
       ) : (
         <View style={styles.noSelectCard}>
           <Ionicons name="hand-left-outline" size={20} color="#94A3B8" style={{ marginBottom: 4 }} />
-          <Text style={styles.noSelectText}>Chạm vào một khung chữ trên ảnh để chỉnh sửa.</Text>
+          <Text style={styles.noSelectText}>
+            {isHandAI ? 'Tap a line box on the image to edit.' : 'Chạm vào một khung chữ trên ảnh để chỉnh sửa.'}
+          </Text>
         </View>
       )}
 
@@ -585,10 +602,10 @@ export default function MultilineReviewScreen() {
           style={styles.secondaryBtn}
           onPress={handleAddLine}
           accessibilityRole="button"
-          accessibilityLabel="Thêm dòng"
+          accessibilityLabel={isHandAI ? 'Add Line' : 'Thêm dòng'}
         >
           <Ionicons name="add-circle-outline" size={19} color={COLORS.primary} />
-          <Text style={styles.secondaryBtnText}>Thêm dòng</Text>
+          <Text style={styles.secondaryBtnText}>{isHandAI ? 'Add Line' : 'Thêm dòng'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -596,20 +613,28 @@ export default function MultilineReviewScreen() {
           onPress={handleConfirmLines}
           disabled={requestStatus === 'SUBMITTING' || boxes.length === 0}
           accessibilityRole="button"
-          accessibilityLabel="Nhận diện chữ"
+          accessibilityLabel={isHandAI ? 'Run Recognition' : 'Nhận diện chữ'}
         >
           {requestStatus === 'SUBMITTING' ? (
             <View style={styles.ctaLoadingRow}>
               <ActivityIndicator size="small" color="#FFFFFF" />
-              <Text style={styles.primaryBtnText}>Đang xử lý...</Text>
+              <Text style={styles.primaryBtnText}>
+                {isHandAI ? 'Running recognition...' : 'Đang xử lý...'}
+              </Text>
             </View>
           ) : (
             <View style={styles.ctaColumn}>
               <View style={styles.ctaTextRow}>
-                <Text style={styles.primaryBtnText}>Nhận diện chữ</Text>
+                <Text style={styles.primaryBtnText}>
+                  {isHandAI ? 'Run Recognition' : 'Nhận diện chữ'}
+                </Text>
                 <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />
               </View>
-              <Text style={styles.ctaSupportText}>{boxes.length} dòng đã sẵn sàng</Text>
+              <Text style={styles.ctaSupportText}>
+                {isHandAI
+                  ? `${boxes.length} lines ready for recognition`
+                  : `${boxes.length} dòng đã sẵn sàng`}
+              </Text>
             </View>
           )}
         </TouchableOpacity>

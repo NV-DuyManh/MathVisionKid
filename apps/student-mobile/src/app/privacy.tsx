@@ -20,6 +20,7 @@ import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
 import { submissionDraftStore, resolveFlowDomain, logFlowDomain } from '../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
+import { isHandAIMode } from '../config/appMode';
 import * as ImageManipulator from 'expo-image-manipulator';
 import {
   calculateMaskMove,
@@ -73,6 +74,11 @@ export default function PrivacyGateScreen() {
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
 
   useEffect(() => {
+    if (isHandAIMode()) {
+      submissionDraftStore.updateDraft({ privacyImageUri: activeUri, isMasked: false, mode: 'HANDWRITING_TEXT' });
+      router.replace({ pathname: '/crop' as any, params: { retrySubmissionId } });
+      return;
+    }
     logFlowDomain('PRIVACY', effectiveMode);
     if (activeUri) {
       logStageDiagnostic('PRIVACY_INPUT', {

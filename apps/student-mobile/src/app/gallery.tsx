@@ -21,6 +21,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SHADOWS } from '../constants/theme';
 import { submissionDraftStore, resolveFlowDomain, logFlowDomain } from '../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../services/image/imagePipeline';
+import { isHandAIMode } from '../config/appMode';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const GRID_PADDING = 12;
@@ -254,7 +255,8 @@ export default function CustomGalleryScreen() {
       logFlowDomain('ACQUIRE', draft.mode);
       submissionDraftStore.setDraft(draft);
 
-      router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
+      const nextTarget = isHandAIMode() ? '/crop' : '/privacy';
+      router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
     } catch {
       Alert.alert(
         'Không thể mở ảnh',
@@ -289,7 +291,8 @@ export default function CustomGalleryScreen() {
         logFlowDomain('ACQUIRE', draft.mode);
         submissionDraftStore.setDraft(draft);
 
-        router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
+        const nextTarget = isHandAIMode() ? '/crop' : '/privacy';
+        router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
       }
     } catch (e: any) {
       console.warn('[CustomGallery] System picker fallback failed:', e?.message);

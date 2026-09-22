@@ -9,9 +9,11 @@ import { AppButton } from '../../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
 import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../../services/image/imagePipeline';
+import { getAppBranding } from '../../config/appMode';
 
 export default function LineCropScreen() {
   const router = useRouter();
+  const branding = getAppBranding();
   const draft = submissionDraftStore.getDraft();
   const rawUri = draft?.privacyImageUri || draft?.uri;
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
@@ -160,7 +162,7 @@ export default function LineCropScreen() {
           <Text style={styles.instructionTitle}>Chọn 1 dòng chữ viết tay</Text>
         </View>
         <Text style={styles.instructionText}>
-          Dùng ngón tay kéo một khung chữ nhật bao quanh DUY NHẤT một dòng chữ tiếng Việt để MathVision nhận diện nhé.
+          Dùng ngón tay kéo một khung chữ nhật bao quanh DUY NHẤT một dòng chữ tiếng Việt để {branding.name} nhận diện nhé.
         </Text>
         <View style={styles.pillContainer}>
           <View style={styles.pill}><Text style={styles.pillText}>Ví dụ: &quot;hôm nay trời nắng&quot;</Text></View>

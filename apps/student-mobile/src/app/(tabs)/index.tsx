@@ -20,6 +20,7 @@ import {
   FlowDomain,
 } from '../../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../../services/image/imagePipeline';
+import { getAppBranding, isHandAIMode, getFeatureFlags } from '../../config/appMode';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -27,6 +28,9 @@ export default function HomeScreen() {
   const userName = auth?.user?.name || 'em';
   const [showTipsModal, setShowTipsModal] = useState(false);
   const [showPrivacyInfoModal, setShowPrivacyInfoModal] = useState(false);
+  const isHandAI = isHandAIMode();
+  const branding = getAppBranding();
+  const featureFlags = getFeatureFlags();
 
   // Direct Native/System Image Picker — launches system library directly without intermediate custom /gallery
   const handlePickImage = async () => {
@@ -52,10 +56,11 @@ export default function HomeScreen() {
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
         draft.mode = activeMode;
         submissionDraftStore.setDraft(draft);
-        router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
+        const nextTarget = isHandAI ? '/crop' : '/privacy';
+        router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
       }
     } catch {
-      Alert.alert('Lỗi', 'MathVision không mở được thư viện ảnh.');
+      Alert.alert('Lỗi', `${branding.name} không mở được thư viện ảnh.`);
     }
   };
 
@@ -71,158 +76,363 @@ export default function HomeScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      {/* Brand & Greeting Header */}
-      <View style={styles.header}>
-        <View style={styles.greetingContainer}>
-          <View style={styles.brandRow}>
-            <View style={styles.brandBadge}>
-              <Ionicons name="sparkles" size={13} color={COLORS.primary} />
-              <Text style={styles.brandText}>MATHVISION KIDS</Text>
-            </View>
-          </View>
-          <Text style={styles.greeting}>Xin chào, {userName}! 👋</Text>
-          <Text style={styles.subtitle}>
-            Cùng em nhận diện và rèn luyện chữ viết tay mỗi ngày
-          </Text>
-        </View>
-        <TouchableOpacity
-          style={[styles.avatar, SHADOWS.small]}
-          onPress={() => router.push('/(tabs)/profile')}
-          accessibilityRole="button"
-          accessibilityLabel="Trang cá nhân của em"
-        >
-          <Ionicons name="person" size={20} color={COLORS.primary} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Main Unified Handwriting Entry Point - Gauth/Gauss-Inspired Hero Card */}
-      <View style={[styles.mainHeroCard, SHADOWS.medium]}>
-        {/* Decorative Mascot Art Element */}
-        <View style={styles.heroTopBar}>
-          <View style={styles.heroBadgePill}>
-            <Ionicons name="create" size={14} color="#FFFFFF" />
-            <Text style={styles.heroBadgePillText}>Nhận diện bài viết</Text>
-          </View>
-          <View style={styles.mascotArtContainer}>
-            <View style={styles.mascotCircleOuter}>
-              <View style={styles.mascotCircleInner}>
-                <Ionicons name="school" size={24} color="#2563EB" />
+      {isHandAI ? (
+        /* ============================================================
+           HAND_AI MODE: PROFESSIONAL BIG DATA RESEARCH DEMO VIEW
+           ============================================================ */
+        <View style={styles.researchContainer}>
+          {/* Research Header */}
+          <View style={styles.researchHeader}>
+            <View style={styles.researchBadgeRow}>
+              <View style={styles.researchLabBadge}>
+                <View style={styles.researchPillDot} />
+                <Text style={styles.researchLabBadgeText}>{branding.badgeText}</Text>
+              </View>
+              <View style={styles.researchScopePill}>
+                <Text style={styles.researchScopePillText}>{branding.detailedSubtitle}</Text>
               </View>
             </View>
-            <View style={styles.mascotSparkle1}>
-              <Ionicons name="star" size={10} color="#FBBF24" />
+            <Text style={styles.researchTitle}>{branding.name}</Text>
+            <Text style={styles.researchSubtitle}>{branding.subtitle}</Text>
+            <Text style={styles.researchDatasetScope}>
+              {branding.datasetScope || 'Grade 1-5 Student Handwriting Dataset'}
+            </Text>
+          </View>
+
+          {/* Main Research Card: AI Pipeline & CTAs */}
+          <View style={[styles.researchMainCard, SHADOWS.medium]}>
+            <View style={styles.researchCardTop}>
+              <View style={styles.pipelineTitleBadge}>
+                <Ionicons name="hardware-chip-outline" size={16} color="#A5B4FC" />
+                <Text style={styles.pipelineTitleBadgeText}>AI Pipeline:</Text>
+              </View>
+              <Text style={styles.pipelineVersionText}>CRNN • Grade 1-5</Text>
             </View>
-            <View style={styles.mascotSparkle2}>
-              <Ionicons name="star" size={8} color="#FDE68A" />
+
+            <View style={styles.pipelineChecklist}>
+              {branding.features.map((step, idx) => (
+                <View key={idx} style={styles.pipelineStepRow}>
+                  <View style={styles.pipelineStepIconWrapper}>
+                    <Ionicons name="checkmark-circle" size={18} color="#34D399" />
+                  </View>
+                  <Text style={styles.pipelineStepTitle}>✓ {step}</Text>
+                </View>
+              ))}
             </View>
+
+            {/* Direct Action Execution Buttons */}
+            <View style={styles.researchActionRow}>
+              <TouchableOpacity
+                style={[styles.researchBtnPrimary, SHADOWS.small]}
+                onPress={handlePickImage}
+                activeOpacity={0.88}
+                accessibilityRole="button"
+                accessibilityLabel="Upload Image"
+              >
+                <Ionicons name="cloud-upload-outline" size={20} color="#FFFFFF" />
+                <Text style={styles.researchBtnPrimaryText}>Upload Image</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.researchBtnSecondary}
+                onPress={() => navigateToCamera('HANDWRITING_TEXT')}
+                activeOpacity={0.88}
+                accessibilityRole="button"
+                accessibilityLabel="Capture Image"
+              >
+                <Ionicons name="camera-outline" size={20} color="#FFFFFF" />
+                <Text style={styles.researchBtnSecondaryText}>Capture Image</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* AI Pipeline Architecture Flowchart Section (Requirement 10) */}
+          <View style={[styles.researchSectionCard, SHADOWS.small]}>
+            <View style={styles.researchSectionHeader}>
+              <Ionicons name="git-network-outline" size={18} color={COLORS.primary} />
+              <Text style={styles.researchSectionTitle}>AI Pipeline Architecture</Text>
+            </View>
+
+            <View style={styles.flowchartContainer}>
+              <View style={styles.flowStepNode}>
+                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>1</Text></View>
+                <View style={styles.flowStepInfo}>
+                  <Text style={styles.flowStepTitle}>Image Acquisition</Text>
+                  <Text style={styles.flowStepDesc}>High-resolution notebook image acquisition</Text>
+                </View>
+              </View>
+
+              <View style={styles.flowConnector}>
+                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
+              </View>
+
+              <View style={styles.flowStepNode}>
+                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>2</Text></View>
+                <View style={styles.flowStepInfo}>
+                  <Text style={styles.flowStepTitle}>Preprocessing</Text>
+                  <Text style={styles.flowStepDesc}>Aspect normalization, adaptive binarization & boundary crop</Text>
+                </View>
+              </View>
+
+              <View style={styles.flowConnector}>
+                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
+              </View>
+
+              <View style={styles.flowStepNode}>
+                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>3</Text></View>
+                <View style={styles.flowStepInfo}>
+                  <Text style={styles.flowStepTitle}>Line Segmentation</Text>
+                  <Text style={styles.flowStepDesc}>Projection profiling & bounding box segmentation</Text>
+                </View>
+              </View>
+
+              <View style={styles.flowConnector}>
+                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
+              </View>
+
+              <View style={styles.flowStepNode}>
+                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>4</Text></View>
+                <View style={styles.flowStepInfo}>
+                  <Text style={styles.flowStepTitle}>Handwriting Recognition</Text>
+                  <Text style={styles.flowStepDesc}>CRNN sequence prediction for Vietnamese characters & tone marks</Text>
+                </View>
+              </View>
+
+              <View style={styles.flowConnector}>
+                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
+              </View>
+
+              <View style={styles.flowStepNode}>
+                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>5</Text></View>
+                <View style={styles.flowStepInfo}>
+                  <Text style={styles.flowStepTitle}>Result Analysis</Text>
+                  <Text style={styles.flowStepDesc}>Multiline transcription with per-line confidence & AI analysis</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* Research Specifications & Dataset Scope Card */}
+          <View style={[styles.researchSectionCard, SHADOWS.small]}>
+            <View style={styles.researchSectionHeader}>
+              <Ionicons name="school-outline" size={18} color={COLORS.primary} />
+              <Text style={styles.researchSectionTitle}>Scope & Dataset Specifications</Text>
+            </View>
+
+            <View style={styles.specGrid}>
+              <View style={styles.specItem}>
+                <Text style={styles.specLabel}>Language</Text>
+                <Text style={styles.specValue}>Vietnamese (89 diacritic chars)</Text>
+              </View>
+              <View style={styles.specItem}>
+                <Text style={styles.specLabel}>Target Cohort</Text>
+                <Text style={styles.specValue}>Primary Students (Grade 1–5)</Text>
+              </View>
+              <View style={styles.specItem}>
+                <Text style={styles.specLabel}>Medium</Text>
+                <Text style={styles.specValue}>Grid Notebooks (Vở ô ly)</Text>
+              </View>
+              <View style={styles.specItem}>
+                <Text style={styles.specLabel}>Analysis</Text>
+                <Text style={styles.specValue}>Line & Character Confidence</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Secondary Quick Links */}
+          <View style={styles.researchLinksRow}>
+            <TouchableOpacity
+              style={[styles.researchLinkCard, SHADOWS.small]}
+              onPress={() => router.push('/(tabs)/profile')}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Recognition History"
+            >
+              <View style={[styles.researchLinkIconBadge, { backgroundColor: '#EEF2FF' }]}>
+                <Ionicons name="time-outline" size={20} color="#4F46E5" />
+              </View>
+              <View style={styles.researchLinkTextCol}>
+                <Text style={styles.researchLinkTitle}>Recognition History</Text>
+                <Text style={styles.researchLinkDesc}>Review processed trials</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.researchLinkCard, SHADOWS.small]}
+              onPress={() => setShowTipsModal(true)}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Capture Tips"
+            >
+              <View style={[styles.researchLinkIconBadge, { backgroundColor: '#ECFDF5' }]}>
+                <Ionicons name="bulb-outline" size={20} color="#059669" />
+              </View>
+              <View style={styles.researchLinkTextCol}>
+                <Text style={styles.researchLinkTitle}>Capture Tips</Text>
+                <Text style={styles.researchLinkDesc}>Guidelines for best results</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
+      ) : (
+        /* ============================================================
+           MATHVISION_KIDS MODE: 100% PRESERVED ORIGINAL INTERFACE
+           ============================================================ */
+        <View>
+          {/* Brand & Greeting Header */}
+          <View style={styles.header}>
+            <View style={styles.greetingContainer}>
+              <View style={styles.brandRow}>
+                <View style={styles.brandBadge}>
+                  <Ionicons name="sparkles" size={13} color={COLORS.primary} />
+                  <Text style={styles.brandText}>MATHVISION KIDS</Text>
+                </View>
+              </View>
+              <Text style={styles.greeting}>Xin chào, {userName}! 👋</Text>
+              <Text style={styles.subtitle}>
+                Cùng em nhận diện và rèn luyện chữ viết tay mỗi ngày
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={[styles.avatar, SHADOWS.small]}
+              onPress={() => router.push('/(tabs)/profile')}
+              accessibilityRole="button"
+              accessibilityLabel="Trang cá nhân của em"
+            >
+              <Ionicons name="person" size={20} color={COLORS.primary} />
+            </TouchableOpacity>
+          </View>
 
-        <Text style={styles.heroTitle}>Đọc chữ viết tay</Text>
-        <Text style={styles.heroDescription}>
-          Chụp hoặc chọn ảnh bài viết tiếng Việt. Hệ thống tự động phân tích từng dòng, nhận diện chữ chuẩn xác và gợi ý sửa lỗi trực quan.
-        </Text>
+          {/* Main Unified Handwriting Entry Point - Hero Card */}
+          <View style={[styles.mainHeroCard, SHADOWS.medium]}>
+            {/* Decorative Mascot Art Element */}
+            <View style={styles.heroTopBar}>
+              <View style={styles.heroBadgePill}>
+                <Ionicons name="create" size={14} color="#FFFFFF" />
+                <Text style={styles.heroBadgePillText}>Nhận diện bài viết</Text>
+              </View>
+              <View style={styles.mascotArtContainer}>
+                <View style={styles.mascotCircleOuter}>
+                  <View style={styles.mascotCircleInner}>
+                    <Ionicons name="school" size={24} color="#2563EB" />
+                  </View>
+                </View>
+                <View style={styles.mascotSparkle1}>
+                  <Ionicons name="star" size={10} color="#FBBF24" />
+                </View>
+                <View style={styles.mascotSparkle2}>
+                  <Ionicons name="star" size={8} color="#FDE68A" />
+                </View>
+              </View>
+            </View>
 
-        {/* 2 Primary Direct CTAs — 1-Tap Execution */}
-        <View style={styles.heroActionRow}>
-          <TouchableOpacity
-            style={[styles.ctaPrimaryBtn, SHADOWS.small]}
-            onPress={() => navigateToCamera('HANDWRITING_TEXT')}
-            activeOpacity={0.88}
-            accessibilityRole="button"
-            accessibilityLabel="Chụp ảnh mới"
-          >
-            <Ionicons name="camera" size={20} color={COLORS.primaryDark} />
-            <Text style={styles.ctaPrimaryBtnText}>Chụp ảnh mới</Text>
-          </TouchableOpacity>
+            <Text style={styles.heroTitle}>Đọc chữ viết tay</Text>
+            <Text style={styles.heroDescription}>
+              Chụp hoặc chọn ảnh bài viết tiếng Việt. Hệ thống tự động phân tích từng dòng, nhận diện chữ chuẩn xác và gợi ý sửa lỗi trực quan.
+            </Text>
 
-          <TouchableOpacity
-            style={styles.ctaSecondaryBtn}
-            onPress={handlePickImage}
-            activeOpacity={0.88}
-            accessibilityRole="button"
-            accessibilityLabel="Chọn từ thư viện"
-          >
-            <Ionicons name="images-outline" size={19} color="#FFFFFF" />
-            <Text style={styles.ctaSecondaryBtnText}>Chọn từ thư viện</Text>
-          </TouchableOpacity>
+            {/* 2 Primary Direct CTAs — 1-Tap Execution */}
+            <View style={styles.heroActionRow}>
+              <TouchableOpacity
+                style={[styles.ctaPrimaryBtn, SHADOWS.small]}
+                onPress={() => navigateToCamera('HANDWRITING_TEXT')}
+                activeOpacity={0.88}
+                accessibilityRole="button"
+                accessibilityLabel="Chụp ảnh mới"
+              >
+                <Ionicons name="camera" size={20} color={COLORS.primaryDark} />
+                <Text style={styles.ctaPrimaryBtnText}>Chụp ảnh mới</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.ctaSecondaryBtn}
+                onPress={handlePickImage}
+                activeOpacity={0.88}
+                accessibilityRole="button"
+                accessibilityLabel="Chọn từ thư viện"
+              >
+                <Ionicons name="images-outline" size={19} color="#FFFFFF" />
+                <Text style={styles.ctaSecondaryBtnText}>Chọn từ thư viện</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Secondary Features Section */}
+          <View style={styles.sectionHeaderRow}>
+            <Text style={styles.sectionHeading}>Tính năng học tập</Text>
+          </View>
+
+          <View style={styles.featureGrid}>
+            {/* Feature 1: Arithmetic */}
+            <TouchableOpacity
+              style={[styles.gridCard, { backgroundColor: '#EFF6FF' }, SHADOWS.small]}
+              onPress={() => navigateToCamera('ARITHMETIC')}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Đọc phép tính đặt dọc"
+            >
+              <View style={[styles.gridIconBadge, { backgroundColor: '#DBEAFE' }]}>
+                <Ionicons name="calculator" size={22} color="#2563EB" />
+              </View>
+              <Text style={styles.gridCardTitle}>Đọc phép tính</Text>
+              <Text style={styles.gridCardSubtitle}>
+                Cộng, trừ, nhân, chia đặt tính rồi tính
+              </Text>
+            </TouchableOpacity>
+
+            {/* Feature 2: Privacy Protection Info */}
+            <TouchableOpacity
+              style={[styles.gridCard, { backgroundColor: '#F0FDF4' }, SHADOWS.small]}
+              onPress={() => setShowPrivacyInfoModal(true)}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Bảo vệ riêng tư"
+            >
+              <View style={[styles.gridIconBadge, { backgroundColor: '#DCFCE7' }]}>
+                <Ionicons name="shield-checkmark" size={22} color="#16A34A" />
+              </View>
+              <Text style={styles.gridCardTitle}>Bảo vệ riêng tư</Text>
+              <Text style={styles.gridCardSubtitle}>
+                Tự động che tên và thông tin học sinh
+              </Text>
+            </TouchableOpacity>
+
+            {/* Feature 3: Exercise History */}
+            <TouchableOpacity
+              style={[styles.gridCard, { backgroundColor: '#FAF5FF' }, SHADOWS.small]}
+              onPress={() => router.push('/(tabs)/profile')}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Lịch sử bài tập"
+            >
+              <View style={[styles.gridIconBadge, { backgroundColor: '#F3E8FF' }]}>
+                <Ionicons name="time" size={22} color="#7C3AED" />
+              </View>
+              <Text style={styles.gridCardTitle}>Lịch sử bài tập</Text>
+              <Text style={styles.gridCardSubtitle}>
+                Xem lại các bài viết và kết quả đã lưu
+              </Text>
+            </TouchableOpacity>
+
+            {/* Feature 4: Photo Capture Tips */}
+            <TouchableOpacity
+              style={[styles.gridCard, { backgroundColor: '#FFF7ED' }, SHADOWS.small]}
+              onPress={() => setShowTipsModal(true)}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Mẹo chụp ảnh nét"
+            >
+              <View style={[styles.gridIconBadge, { backgroundColor: '#FFEDD5' }]}>
+                <Ionicons name="bulb" size={22} color="#EA580C" />
+              </View>
+              <Text style={styles.gridCardTitle}>Mẹo chụp rõ nét</Text>
+              <Text style={styles.gridCardSubtitle}>
+                Bí quyết chụp ảnh để AI nhận diện tốt nhất
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-
-      {/* Secondary Features Section — Clean 2-Column Educational Cards */}
-      <View style={styles.sectionHeaderRow}>
-        <Text style={styles.sectionHeading}>Tính năng học tập</Text>
-      </View>
-
-      <View style={styles.featureGrid}>
-        {/* Feature 1: Arithmetic */}
-        <TouchableOpacity
-          style={[styles.gridCard, { backgroundColor: '#EFF6FF' }, SHADOWS.small]}
-          onPress={() => navigateToCamera('ARITHMETIC')}
-          activeOpacity={0.88}
-          accessibilityRole="button"
-          accessibilityLabel="Đọc phép tính đặt dọc"
-        >
-          <View style={[styles.gridIconBadge, { backgroundColor: '#DBEAFE' }]}>
-            <Ionicons name="calculator" size={22} color="#2563EB" />
-          </View>
-          <Text style={styles.gridCardTitle}>Đọc phép tính</Text>
-          <Text style={styles.gridCardSubtitle}>
-            Cộng, trừ, nhân, chia đặt tính rồi tính
-          </Text>
-        </TouchableOpacity>
-
-        {/* Feature 2: Privacy Protection Info */}
-        <TouchableOpacity
-          style={[styles.gridCard, { backgroundColor: '#F0FDF4' }, SHADOWS.small]}
-          onPress={() => setShowPrivacyInfoModal(true)}
-          activeOpacity={0.88}
-          accessibilityRole="button"
-          accessibilityLabel="Bảo vệ riêng tư"
-        >
-          <View style={[styles.gridIconBadge, { backgroundColor: '#DCFCE7' }]}>
-            <Ionicons name="shield-checkmark" size={22} color="#16A34A" />
-          </View>
-          <Text style={styles.gridCardTitle}>Bảo vệ riêng tư</Text>
-          <Text style={styles.gridCardSubtitle}>
-            Tự động che tên và thông tin học sinh
-          </Text>
-        </TouchableOpacity>
-
-        {/* Feature 3: Exercise History */}
-        <TouchableOpacity
-          style={[styles.gridCard, { backgroundColor: '#FAF5FF' }, SHADOWS.small]}
-          onPress={() => router.push('/(tabs)/profile')}
-          activeOpacity={0.88}
-          accessibilityRole="button"
-          accessibilityLabel="Lịch sử bài tập"
-        >
-          <View style={[styles.gridIconBadge, { backgroundColor: '#F3E8FF' }]}>
-            <Ionicons name="time" size={22} color="#7C3AED" />
-          </View>
-          <Text style={styles.gridCardTitle}>Lịch sử bài tập</Text>
-          <Text style={styles.gridCardSubtitle}>
-            Xem lại các bài viết và kết quả đã lưu
-          </Text>
-        </TouchableOpacity>
-
-        {/* Feature 4: Photo Capture Tips */}
-        <TouchableOpacity
-          style={[styles.gridCard, { backgroundColor: '#FFF7ED' }, SHADOWS.small]}
-          onPress={() => setShowTipsModal(true)}
-          activeOpacity={0.88}
-          accessibilityRole="button"
-          accessibilityLabel="Mẹo chụp ảnh nét"
-        >
-          <View style={[styles.gridIconBadge, { backgroundColor: '#FFEDD5' }]}>
-            <Ionicons name="bulb" size={22} color="#EA580C" />
-          </View>
-          <Text style={styles.gridCardTitle}>Mẹo chụp rõ nét</Text>
-          <Text style={styles.gridCardSubtitle}>
-            Bí quyết chụp ảnh để AI nhận diện tốt nhất
-          </Text>
-        </TouchableOpacity>
-      </View>
+      )}
 
       {/* Modal: Helpful Photo Tips */}
       <Modal
@@ -319,7 +529,7 @@ export default function HomeScreen() {
             </View>
 
             <Text style={styles.privacyModalIntro}>
-              MathVision Kids cam kết giữ an toàn tối đa cho học sinh:
+              {branding.name} cam kết giữ an toàn tối đa cho học sinh:
             </Text>
 
             <View style={styles.tipRow}>
@@ -672,5 +882,298 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
+  },
+  /* HandAI Professional Research Demo Styles */
+  researchContainer: {
+    width: '100%',
+  },
+  researchHeader: {
+    marginBottom: 20,
+  },
+  researchBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 10,
+  },
+  researchLabBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#EEF2FF',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#C7D2FE',
+  },
+  researchPillDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#4F46E5',
+  },
+  researchLabBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#4F46E5',
+    letterSpacing: 0.8,
+  },
+  researchScopePill: {
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  researchScopePillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#475569',
+  },
+  researchTitle: {
+    fontSize: 34,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: -0.5,
+    marginBottom: 4,
+  },
+  researchSubtitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#475569',
+    lineHeight: 22,
+  },
+  researchDatasetScope: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#2563EB',
+    marginTop: 4,
+  },
+  researchMainCard: {
+    backgroundColor: '#1E1B4B',
+    borderRadius: SIZES.radiusXl,
+    padding: 22,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#312E81',
+  },
+  researchCardTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  pipelineTitleBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+  },
+  pipelineTitleBadgeText: {
+    color: '#E0E7FF',
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.4,
+  },
+  pipelineVersionText: {
+    color: '#94A3B8',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  pipelineChecklist: {
+    marginBottom: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  pipelineStepRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 10,
+  },
+  pipelineStepIconWrapper: {
+    width: 22,
+    height: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pipelineStepTitle: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  researchActionRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  researchBtnPrimary: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#4F46E5',
+    paddingVertical: 14,
+    borderRadius: 14,
+  },
+  researchBtnPrimaryText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  researchBtnSecondary: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    paddingVertical: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.25)',
+  },
+  researchBtnSecondaryText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  researchSectionCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: SIZES.radiusLg,
+    padding: 18,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  researchSectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 14,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+  },
+  researchSectionTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: 0.2,
+  },
+  flowchartContainer: {
+    paddingVertical: 4,
+  },
+  flowStepNode: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: '#F8FAFC',
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  flowStepBadge: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: '#4F46E5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flowStepNum: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  flowStepInfo: {
+    flex: 1,
+  },
+  flowStepTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#0F172A',
+    marginBottom: 2,
+  },
+  flowStepDesc: {
+    fontSize: 12,
+    color: '#64748B',
+    lineHeight: 16,
+  },
+  flowConnector: {
+    alignItems: 'center',
+    paddingVertical: 4,
+  },
+  specGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  specItem: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: '#F8FAFC',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  specLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#64748B',
+    marginBottom: 2,
+    textTransform: 'uppercase',
+  },
+  specValue: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  researchLinksRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 20,
+  },
+  researchLinkCard: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#FFFFFF',
+    padding: 12,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  researchLinkIconBadge: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  researchLinkTextCol: {
+    flex: 1,
+  },
+  researchLinkTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  researchLinkDesc: {
+    fontSize: 11,
+    color: '#64748B',
+    marginTop: 1,
   },
 });

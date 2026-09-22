@@ -10,6 +10,7 @@ import { ScanFrame } from '../components/domain/ScanFrame';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { submissionDraftStore, FlowDomain, isHandwritingDomain, resolveFlowDomain, logFlowDomain } from '../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../services/image/imagePipeline';
+import { isHandAIMode, getAppBranding, getFeatureFlags } from '../config/appMode';
 
 export default function CameraScreen() {
   const router = useRouter();
@@ -17,15 +18,20 @@ export default function CameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
+  const isHandAI = isHandAIMode();
+  const branding = getAppBranding();
+  const featureFlags = getFeatureFlags();
 
   const resolveInitialMode = (): FlowDomain => {
+    if (isHandAI) return 'HANDWRITING_TEXT';
     return resolveFlowDomain(params.mode, submissionDraftStore.getDraft()?.mode);
   };
 
   const [mode, setModeState] = useState<FlowDomain>(resolveInitialMode);
   const setMode = (newMode: FlowDomain) => {
-    setModeState(newMode);
-    submissionDraftStore.updateDraft({ mode: newMode });
+    const effectiveMode = isHandAI ? 'HANDWRITING_TEXT' : newMode;
+    setModeState(effectiveMode);
+    submissionDraftStore.updateDraft({ mode: effectiveMode });
   };
 
   const isHandwriting = isHandwritingDomain(mode);
@@ -60,10 +66,14 @@ export default function CameraScreen() {
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
         draft.mode = activeMode;
         submissionDraftStore.setDraft(draft);
-        router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
+        const nextTarget = isHandAI ? '/crop' : '/privacy';
+        router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
       }
     } catch {
-      Alert.alert('Lỗi', 'MathVision không mở được thư viện ảnh.');
+      Alert.alert(
+        isHandAI ? 'Error' : 'Lỗi',
+        isHandAI ? `${branding.name} could not open image gallery.` : `${branding.name} không mở được thư viện ảnh.`
+      );
     }
   };
 
@@ -73,9 +83,11 @@ export default function CameraScreen() {
         <View style={styles.permissionIconBadge}>
           <Ionicons name="camera-outline" size={48} color={COLORS.primary} />
         </View>
-        <Text style={styles.permissionTitle}>MathVision cần mở máy ảnh</Text>
+        <Text style={styles.permissionTitle}>{branding.name} cần mở máy ảnh</Text>
         <Text style={styles.permissionText}>
-          Em hãy cho phép ứng dụng truy cập máy ảnh để chụp và kiểm tra bài toán nhé.
+          {isHandAI
+            ? 'Em hãy cho phép ứng dụng truy cập máy ảnh để chụp và nhận diện bài viết tay nhé.'
+            : 'Em hãy cho phép ứng dụng truy cập máy ảnh để chụp và kiểm tra bài toán nhé.'}
         </Text>
         <View style={styles.permissionActions}>
           <AppButton title="Cho phép mở máy ảnh" onPress={requestPermission} />
@@ -116,7 +128,8 @@ export default function CameraScreen() {
           const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
           draft.mode = activeMode;
           submissionDraftStore.setDraft(draft);
-          router.push({ pathname: '/privacy' as any, params: { uri: draft.uri } });
+          const nextTarget = isHandAI ? '/crop' : '/privacy';
+          router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
         }
       } catch {
         Alert.alert('Lỗi', 'Không thể chụp ảnh, vui lòng thử lại.');
@@ -155,71 +168,84 @@ export default function CameraScreen() {
             <Ionicons name="close" size={26} color="#FFFFFF" />
           </TouchableOpacity>
 
-          {/* Mode Selector Tab Bar */}
-          <View style={styles.modeTabBar}>
-            <TouchableOpacity
-              style={[
-                styles.modeTab,
-                isHandwriting && styles.modeTabActive,
-              ]}
-              onPress={() => setMode('HANDWRITING_TEXT')}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: isHandwriting }}
-              accessibilityLabel="Chế độ chữ viết tay tiếng Việt"
-            >
-              <Ionicons
-                name="create-outline"
-                size={16}
-                color={isHandwriting ? '#FFFFFF' : '#CBD5E1'}
-              />
-              <Text
+          {/* Mode Selector Tab Bar or Single Mode Badge */}
+          {featureFlags.showArithmeticMode ? (
+            <View style={styles.modeTabBar}>
+              <TouchableOpacity
                 style={[
-                  styles.modeTabText,
-                  isHandwriting && styles.modeTabTextActive,
+                  styles.modeTab,
+                  isHandwriting && styles.modeTabActive,
                 ]}
+                onPress={() => setMode('HANDWRITING_TEXT')}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: isHandwriting }}
+                accessibilityLabel="Chế độ chữ viết tay tiếng Việt"
               >
-                Chữ viết tay
-              </Text>
-            </TouchableOpacity>
+                <Ionicons
+                  name="create-outline"
+                  size={16}
+                  color={isHandwriting ? '#FFFFFF' : '#CBD5E1'}
+                />
+                <Text
+                  style={[
+                    styles.modeTabText,
+                    isHandwriting && styles.modeTabTextActive,
+                  ]}
+                >
+                  Chữ viết tay
+                </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.modeTab,
-                !isHandwriting && styles.modeTabActive,
-              ]}
-              onPress={() => setMode('ARITHMETIC')}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: !isHandwriting }}
-              accessibilityLabel="Chế độ phép tính đặt dọc"
-            >
-              <Ionicons
-                name="calculator-outline"
-                size={16}
-                color={!isHandwriting ? '#FFFFFF' : '#CBD5E1'}
-              />
-              <Text
+              <TouchableOpacity
                 style={[
-                  styles.modeTabText,
-                  !isHandwriting && styles.modeTabTextActive,
+                  styles.modeTab,
+                  !isHandwriting && styles.modeTabActive,
                 ]}
+                onPress={() => setMode('ARITHMETIC')}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: !isHandwriting }}
+                accessibilityLabel="Chế độ phép tính đặt dọc"
               >
-                Phép tính
+                <Ionicons
+                  name="calculator-outline"
+                  size={16}
+                  color={!isHandwriting ? '#FFFFFF' : '#CBD5E1'}
+                />
+                <Text
+                  style={[
+                    styles.modeTabText,
+                    !isHandwriting && styles.modeTabTextActive,
+                  ]}
+                >
+                  Phép tính
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.singleModeBadge}>
+              <Ionicons name="create-outline" size={16} color="#FFFFFF" />
+              <Text style={styles.singleModeBadgeText}>
+                {isHandAI ? 'Vietnamese Handwriting Recognition' : 'Nhận diện chữ viết tay'}
               </Text>
-            </TouchableOpacity>
-          </View>
+            </View>
+          )}
 
           <TouchableOpacity
             style={styles.iconButton}
             onPress={() =>
               Alert.alert(
-                isHandwriting ? 'Hướng dẫn chụp chữ viết tay' : 'Hướng dẫn chụp bài toán',
-                isHandwriting
-                  ? '1. Đặt dòng chữ hoặc đoạn văn viết tay vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh rõ nét.'
-                  : '1. Đặt trọn vẹn phép tính vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh không bị mờ.'
+                isHandAI
+                  ? 'Handwriting Capture Guidelines'
+                  : (isHandwriting ? 'Hướng dẫn chụp chữ viết tay' : 'Hướng dẫn chụp bài toán'),
+                isHandAI
+                  ? '1. Align notebook handwriting lines in frame.\n2. Ensure adequate lighting.\n3. Hold steady for clear focus.'
+                  : (isHandwriting
+                    ? '1. Đặt dòng chữ hoặc đoạn văn viết tay vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh rõ nét.'
+                    : '1. Đặt trọn vẹn phép tính vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh không bị mờ.')
               )
             }
             accessibilityRole="button"
-            accessibilityLabel="Xem hướng dẫn chụp ảnh"
+            accessibilityLabel={isHandAI ? 'View capture guidelines' : 'Xem hướng dẫn chụp ảnh'}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <Ionicons name="help-circle-outline" size={26} color="#FFFFFF" />
@@ -240,19 +266,23 @@ export default function CameraScreen() {
             style={styles.footerAction}
             onPress={handlePickImage}
             accessibilityRole="button"
-            accessibilityLabel="Chọn ảnh từ thư viện"
+            accessibilityLabel={isHandAI ? 'Upload image from gallery' : 'Chọn ảnh từ thư viện'}
           >
             <View style={styles.footerIconCircle}>
               <Ionicons name="images-outline" size={24} color="#FFFFFF" />
             </View>
-            <Text style={styles.footerActionText}>Thư viện</Text>
+            <Text style={styles.footerActionText}>{isHandAI ? 'Upload' : 'Thư viện'}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.captureButton}
             onPress={handleCapture}
             accessibilityRole="button"
-            accessibilityLabel={isHandwriting ? 'Chụp ảnh chữ viết tay tiếng Việt' : 'Chụp ảnh bài toán'}
+            accessibilityLabel={
+              isHandAI
+                ? 'Capture notebook handwriting image'
+                : (isHandwriting ? 'Chụp ảnh chữ viết tay tiếng Việt' : 'Chụp ảnh bài toán')
+            }
           >
             <View style={styles.captureInner} />
           </TouchableOpacity>
@@ -261,7 +291,7 @@ export default function CameraScreen() {
             style={styles.footerAction}
             onPress={toggleFlash}
             accessibilityRole="button"
-            accessibilityLabel={flash === 'on' ? 'Tắt đèn pin' : 'Bật đèn pin'}
+            accessibilityLabel={flash === 'on' ? (isHandAI ? 'Turn off torch' : 'Tắt đèn pin') : (isHandAI ? 'Turn on torch' : 'Bật đèn pin')}
           >
             <View
               style={[
@@ -276,7 +306,7 @@ export default function CameraScreen() {
               />
             </View>
             <Text style={styles.footerActionText}>
-              {flash === 'on' ? 'Tắt đèn' : 'Bật đèn'}
+              {flash === 'on' ? (isHandAI ? 'Torch' : 'Tắt đèn') : (isHandAI ? 'Torch' : 'Bật đèn')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -436,5 +466,21 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     backgroundColor: '#FFFFFF',
+  },
+  singleModeBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  singleModeBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
   },
 });

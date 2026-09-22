@@ -14,6 +14,7 @@ import { AppButton } from '../components/ui/AppButton';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { getAppBranding, isHandAIMode } from '../config/appMode';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -23,6 +24,14 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const auth = useContext(AuthContext);
+  const isHandAI = isHandAIMode();
+  const branding = getAppBranding();
+
+  React.useEffect(() => {
+    if (isHandAI) {
+      router.replace('/(tabs)' as any);
+    }
+  }, [isHandAI, router]);
 
   const handleLogin = async () => {
     if (!auth) return;
@@ -38,7 +47,9 @@ export default function LoginScreen() {
     } catch (e: any) {
       let message = 'Lỗi kết nối máy chủ. Vui lòng kiểm tra và thử lại.';
       if (e.response?.status === 401) {
-        message = 'Tài khoản hoặc mật khẩu không đúng. Gợi ý: minh.student@mathvision.local / MathVision123!';
+        message = isHandAI
+          ? 'Tài khoản hoặc mật khẩu không đúng. Vui lòng kiểm tra lại.'
+          : 'Tài khoản hoặc mật khẩu không đúng. Gợi ý: minh.student@mathvision.local / MathVision123!';
       } else if (e.response?.data?.error?.message) {
         message = e.response.data.error.message;
       } else if (e.response?.data?.message) {
@@ -63,15 +74,23 @@ export default function LoginScreen() {
       >
         <View style={styles.brandSection}>
           <View style={[styles.logoBadge, SHADOWS.medium]}>
-            <Ionicons name="calculator" size={40} color={COLORS.primary} />
+            <Ionicons
+              name={isHandAI ? 'create-outline' : 'calculator'}
+              size={40}
+              color={COLORS.primary}
+            />
           </View>
-          <Text style={styles.appName}>MathVision Kids</Text>
-          <Text style={styles.appTagline}>Trợ lý toán học cho học sinh tiểu học</Text>
+          <Text style={styles.appName}>{branding.name}</Text>
+          <Text style={styles.appTagline}>{branding.detailedSubtitle}</Text>
         </View>
 
         <View style={[styles.card, SHADOWS.small]}>
           <Text style={styles.title}>Đăng nhập</Text>
-          <Text style={styles.subtitle}>Cùng giải và kiểm tra bài toán hôm nay nhé!</Text>
+          <Text style={styles.subtitle}>
+            {isHandAI
+              ? 'Nhận diện chữ viết tay học sinh tiểu học'
+              : 'Cùng giải và kiểm tra bài toán hôm nay nhé!'}
+          </Text>
 
           {errorMessage ? (
             <View

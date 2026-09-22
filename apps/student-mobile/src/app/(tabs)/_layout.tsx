@@ -4,8 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constants/theme';
 import { Platform, View, StyleSheet } from 'react-native';
 import { logFlowDomain } from '../../services/draft/submissionDraftStore';
+import { isHandAIMode } from '../../config/appMode';
 
 export default function TabLayout() {
+  const isHandAI = isHandAIMode();
+
   return (
     <Tabs
       screenOptions={{
@@ -29,7 +32,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Trang chủ',
+          title: isHandAI ? 'Home' : 'Trang chủ',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
@@ -42,7 +45,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="camera"
         options={{
-          title: 'Chụp',
+          title: isHandAI ? 'Scan' : 'Chụp',
           tabBarStyle: { display: 'none' },
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.cameraIconContainer}>
@@ -63,10 +66,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Của em',
+          title: isHandAI ? 'History' : 'Của em',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? 'person' : 'person-outline'}
+              name={isHandAI ? (focused ? 'time' : 'time-outline') : (focused ? 'person' : 'person-outline')}
               size={24}
               color={color}
             />
