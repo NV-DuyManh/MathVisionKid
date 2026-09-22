@@ -5,5 +5,11 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "java.compile.nullAnalysis.mode": "disabled"
+  "java.compile.nullAnalysis.mode": "disabled",
+  "java.import.exclusions": [
+    "**/node_modules/**",
+    "**/.git/**",
+    "**/dist/**",
+    "**/build/**"
+  ]
 }

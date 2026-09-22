@@ -1,0 +1,101 @@
+{
+  "models": [
+    {
+      "modelName": "MathVision-Kids-Detection",
+      "modelVersion": "1.0.0",
+      "task": "object_detection",
+      "framework": "ultralytics-yolov8",
+      "frameworkVersion": "ultralytics >= 8.0 (PyTorch 2.6.0+cu124)",
+      "artifactFilename": "yolov8n_mathvision_det_v1.pt",
+      "artifactFormat": ".pt (ultralytics YOLOv8 native checkpoint)",
+      "artifactSizeBytes": 6257636,
+      "sha256": "E78F8FA5A2FC8BE581B8624FA510CD2C429C40CDBD0930DBB2F1C2D870338985",
+      "datasetVersion": "combined_dataset_fixed_v1.0",
+      "annotationSchemaVersion": "yolo-v1.0 (class_id x_center y_center width height, normalized [0,1])",
+      "input": {
+        "channels": 3,
+        "height": 640,
+        "width": 640,
+        "colorSpace": "RGB",
+        "dtype": "float32",
+        "note": "ultralytics handles resize internally from any input resolution to imgsz=640"
+      },
+      "preprocessing": {
+        "resize": "letterbox to 640x640 (ultralytics built-in)",
+        "normalize": "0-255 uint8 → 0.0-1.0 float32 (ultralytics built-in)",
+        "colorConversion": "BGR→RGB (if input is BGR, ultralytics handles)"
+      },
+      "output": {
+        "format": "per-image list of (x1, y1, x2, y2, confidence, class_id)",
+        "nms": "built-in (IoU=0.7, conf=0.25 default)",
+        "maxDetections": 300
+      },
+      "labelMapVersion": "mathvision_det_v1.0",
+      "labelMapFile": "label_map_detection.json",
+      "runtime": {
+        "python": ">=3.10",
+        "pytorch": ">=2.0.0",
+        "cuda": ">=12.0 (optional, CPU supported)",
+        "ultralytics": ">=8.0",
+        "gpu_tested": "NVIDIA GeForce RTX 4050 Laptop GPU (6 GB)"
+      }
+    },
+    {
+      "modelName": "MathVision-Kids-OCR",
+      "modelVersion": "1.0.0-experimental",
+      "task": "optical_character_recognition (CTC-based line-level)",
+      "framework": "pytorch",
+      "frameworkVersion": "PyTorch 2.6.0+cu124",
+      "artifactFilename": "crnn_mathvision_ocr_v1.pth",
+      "artifactFormat": ".pth (PyTorch state_dict)",
+      "artifactSizeBytes": 23771549,
+      "sha256": "758E4991F0746AD5CFAB0E927DB1705D17C82E7084144B3D7819C4BE9AC8A860",
+      "datasetVersion": "Viet-Handwriting-OCR-v2 (2000 samples, 1800 train / 200 val)",
+      "annotationSchemaVersion": "jsonl-v1.0 ({image, text} per line)",
+      "input": {
+        "channels": 3,
+        "height": 64,
+        "width": 1024,
+        "colorSpace": "RGB",
+        "dtype": "float32"
+      },
+      "preprocessing": {
+        "resize": "PIL.Image.Resize((64, 1024))",
+        "toTensor": "torchvision.transforms.ToTensor() → [0.0, 1.0]",
+        "normalize": "mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225] (ImageNet)"
+      },
+      "output": {
+        "format": "logits tensor (batch, timesteps, num_classes=237)",
+        "decoding": "CTC greedy decode (blank_idx=0)",
+        "vocabSize": 237,
+        "vocabFile": "vocab_ocr_v1.json"
+      },
+      "labelMapVersion": "ocr_vocab_v1.0 (237 classes including <blank> and <unk>)",
+      "labelMapFile": "vocab_ocr_v1.json",
+      "runtime": {
+        "python": ">=3.10",
+        "pytorch": ">=2.0.0",
+        "cuda": ">=12.0 (optional, CPU supported)",
+        "torchvision": ">=0.15.0",
+        "pillow": ">=10.0",
+        "gpu_tested": "NVIDIA GeForce RTX 4050 Laptop GPU (6 GB)"
+      },
+      "warnings": [
+        "EXPERIMENTAL: CER not yet validated to production threshold (<0.15)",
+        "Model architecture defined inline (see MODEL_CARD for CRNN definition)",
+        "Vocab built from 1000-sample subset; may not cover all Vietnamese diacritics in production"
+      ]
+    }
+  ],
+  "parserEngine": {
+    "name": "MathVision-Kids-Parser",
+    "version": "1.0.0",
+    "file": "parser_engine.py",
+    "description": "Deterministic rule engine: YOLO detections → structured math problem parse (vertical addition/subtraction)",
+    "inputFormat": "list of detection dicts from YOLO model",
+    "outputFormat": "JSON with status, operation, numbers, column-by-column verification, confidence, warnings",
+    "labelMapDependency": "mathvision_det_v1.0 (14 classes)"
+  },
+  "handoffDate": "2026-09-08T18:38:00+07:00",
+  "preparedBy": "nhom6-ai-assistant"
+}

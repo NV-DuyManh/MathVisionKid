@@ -1,3 +1,3 @@
 preset = "basic"
-python-interpreter-path = "services/ai-service/.venv/Scripts/python.exe"
-search-path = ["services/ai-service", "."]
+python-interpreter-path = "ai/runtime/.venv/Scripts/python.exe"
+search-path = ["ai/runtime", "."]

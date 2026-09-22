@@ -22,7 +22,7 @@ from pathlib import Path
 
 # Paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-AI_SERVICE_DIR = REPO_ROOT / "services" / "ai-service"
+AI_SERVICE_DIR = REPO_ROOT / "ai" / "runtime"
 AI_VENV_PYTHON = AI_SERVICE_DIR / ".venv" / "Scripts" / "python.exe"
 if not AI_VENV_PYTHON.exists():
     AI_VENV_PYTHON = AI_SERVICE_DIR / ".venv" / "bin" / "python"
@@ -77,7 +77,7 @@ def check_postgres():
         record_result(
             "PostgreSQL", "FAIL",
             detail="PostgreSQL port 5432 is not reachable.",
-            fix="docker compose -f services/business-api/docker-compose.yml up -d postgres"
+            fix="docker compose -f infra/docker/docker-compose.yml up -d postgres"
         )
         return
 
@@ -108,7 +108,7 @@ def check_minio():
         record_result(
             "MinIO", "FAIL",
             detail="MinIO API port 9000 is not reachable.",
-            fix="docker compose -f services/business-api/docker-compose.yml up -d minio"
+            fix="docker compose -f infra/docker/docker-compose.yml up -d minio"
         )
         return
 
@@ -127,7 +127,7 @@ def check_minio():
         record_result(
             "MinIO", "FAIL",
             detail=f"Cannot reach MinIO health endpoint: {e}",
-            fix="docker compose -f services/business-api/docker-compose.yml up -d minio"
+            fix="docker compose -f infra/docker/docker-compose.yml up -d minio"
         )
 
 
@@ -143,13 +143,13 @@ def check_redis():
             record_result(
                 "Redis", "FAIL",
                 detail=f"Redis replied unexpectedly: {response.strip()}",
-                fix="docker compose -f services/business-api/docker-compose.yml restart redis"
+                fix="docker compose -f infra/docker/docker-compose.yml restart redis"
             )
     except Exception as e:
         record_result(
             "Redis", "FAIL",
             detail=f"Redis connection failed on localhost:6379: {e}",
-            fix="docker compose -f services/business-api/docker-compose.yml up -d redis"
+            fix="docker compose -f infra/docker/docker-compose.yml up -d redis"
         )
 
 
@@ -164,19 +164,19 @@ def check_spring():
                 record_result(
                     "Spring Boot", "WARN",
                     detail=f"Spring health status is {data.get('status')}",
-                    fix="Inspect Spring logs: check runtime/logs/spring.log"
+                    fix="Inspect Spring logs: check infra/local-runtime/logs/spring.log"
                 )
     except urllib.error.URLError as e:
         record_result(
             "Spring Boot", "FAIL",
             detail=f"Spring Boot not reachable at http://127.0.0.1:8080: {e}",
-            fix="Start Spring Boot: scripts/start-all.bat or cd services/business-api && .\\gradlew.bat bootRun"
+            fix="Start Spring Boot: scripts/start-all.bat or cd backend/business-api && .\\gradlew.bat bootRun"
         )
     except Exception as e:
         record_result(
             "Spring Boot", "FAIL",
             detail=f"Spring Boot health check error: {e}",
-            fix="Inspect Spring logs: check runtime/logs/spring.log"
+            fix="Inspect Spring logs: check infra/local-runtime/logs/spring.log"
         )
 
 
@@ -188,7 +188,7 @@ def check_fastapi():
                 record_result(
                     "FastAPI", "FAIL",
                     detail=f"FastAPI /health returned HTTP {resp.status}",
-                    fix="Inspect FastAPI logs: check runtime/logs/fastapi.log"
+                    fix="Inspect FastAPI logs: check infra/local-runtime/logs/fastapi.log"
                 )
                 return
 
@@ -202,19 +202,19 @@ def check_fastapi():
                 record_result(
                     "FastAPI", "WARN",
                     detail=f"FastAPI /ready status: {data.get('status')}",
-                    fix="Inspect FastAPI logs: check runtime/logs/fastapi.log"
+                    fix="Inspect FastAPI logs: check infra/local-runtime/logs/fastapi.log"
                 )
     except urllib.error.URLError as e:
         record_result(
             "FastAPI", "FAIL",
             detail=f"FastAPI not reachable at http://127.0.0.1:8000: {e}",
-            fix="Start FastAPI: scripts/start-all.bat or cd services/ai-service && .\\.venv\\Scripts\\uvicorn app.main:app --port 8000"
+            fix="Start FastAPI: scripts/start-all.bat or cd ai/runtime && .\\.venv\\Scripts\\uvicorn app.main:app --port 8000"
         )
     except Exception as e:
         record_result(
             "FastAPI", "FAIL",
             detail=f"FastAPI error: {e}",
-            fix="Inspect FastAPI logs: check runtime/logs/fastapi.log"
+            fix="Inspect FastAPI logs: check infra/local-runtime/logs/fastapi.log"
         )
 
 
@@ -240,19 +240,19 @@ def check_celery():
             record_result(
                 "Celery Worker", "FAIL",
                 detail="Celery worker did not respond to control ping.",
-                fix="Start Celery worker: cd services/ai-service && .\\.venv\\Scripts\\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo"
+                fix="Start Celery worker: cd ai/runtime && .\\.venv\\Scripts\\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo"
             )
     except subprocess.TimeoutExpired:
         record_result(
             "Celery Worker", "FAIL",
             detail="Celery worker ping timed out.",
-            fix="Ensure Redis is running and start worker: cd services/ai-service && .\\.venv\\Scripts\\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo"
+            fix="Ensure Redis is running and start worker: cd ai/runtime && .\\.venv\\Scripts\\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo"
         )
     except Exception as e:
         record_result(
             "Celery Worker", "FAIL",
             detail=f"Celery inspection failed: {e}",
-            fix="Ensure Celery is installed in services/ai-service/.venv"
+            fix="Ensure Celery is installed in ai/runtime/.venv"
         )
 
 
@@ -268,13 +268,13 @@ def check_portal_web():
                 record_result(
                     "Unified Portal Web", "WARN",
                     detail=f"Unified Portal Web returned HTTP {resp.status}",
-                    fix="Check portal-web terminal or runtime/logs/portal-web.log"
+                    fix="Check portal-web terminal or infra/local-runtime/logs/portal-web.log"
                 )
     except urllib.error.URLError as e:
         record_result(
             "Unified Portal Web", "FAIL",
             detail=f"Unified Portal Web not reachable at {url}: {e}",
-            fix="Start Portal Web: cd portal-web && npm run dev"
+            fix="Start Portal Web: cd apps/portal-web && npm run dev"
         )
     except Exception as e:
         record_result(
@@ -297,13 +297,13 @@ def check_teacher_web():
                 record_result(
                     "Teacher Web", "WARN",
                     detail=f"Teacher Web returned HTTP {resp.status}",
-                    fix="Check teacher-web terminal or runtime/logs/teacher-web.log"
+                    fix="Check teacher-web terminal or infra/local-runtime/logs/teacher-web.log"
                 )
     except urllib.error.URLError as e:
         record_result(
             "Teacher Web", "FAIL",
             detail=f"Teacher Web not reachable at {url}: {e}",
-            fix="Start Teacher Web: cd teacher-web && npm run dev"
+            fix="Start Teacher Web: cd apps/teacher-web && npm run dev"
         )
     except Exception as e:
         record_result(
@@ -325,13 +325,13 @@ def check_admin_web():
                 record_result(
                     "Admin Web", "WARN",
                     detail=f"Admin Web returned HTTP {resp.status}",
-                    fix="Check admin-web terminal or runtime/logs/admin-web.log"
+                    fix="Check admin-web terminal or infra/local-runtime/logs/admin-web.log"
                 )
     except urllib.error.URLError as e:
         record_result(
             "Admin Web", "FAIL",
             detail=f"Admin Web not reachable at {url}: {e}",
-            fix="Start Admin Web: cd admin-web && npm run dev"
+            fix="Start Admin Web: cd apps/admin-web && npm run dev"
         )
     except Exception as e:
         record_result(
@@ -342,7 +342,7 @@ def check_admin_web():
 
 
 def check_student_metro():
-    app_json = REPO_ROOT / "app.json"
+    app_json = REPO_ROOT / "apps" / "student-mobile" / "app.json"
     if not app_json.exists():
         record_result("Student Metro", "NOT_CONFIGURED")
         return
@@ -537,8 +537,8 @@ def main():
 
     print()
     ai_mode = FASTAPI_INFO.get("mode") or os.environ.get("RUNTIME_MODE", "FIXTURE")
-    model_path = REPO_ROOT / "services" / "ai-service" / "models" / "yolov8n_mathvision_det_v1.pt"
-    manifest_path = REPO_ROOT / "services" / "ai-service" / "models" / "model_manifest.json"
+    model_path = REPO_ROOT / "ai" / "runtime" / "models" / "yolov8n_mathvision_det_v1.pt"
+    manifest_path = REPO_ROOT / "ai" / "runtime" / "models" / "model_manifest.json"
 
     if model_path.exists() and manifest_path.exists():
         model_artifact = "LOADED"

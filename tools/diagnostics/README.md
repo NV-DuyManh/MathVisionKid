@@ -11,14 +11,14 @@ The diagnostic utility (`check_runtime.py`) provides an automated health and rea
 | Component | Target Checked | Success Criteria | Failure Remediation |
 | :--- | :--- | :--- | :--- |
 | **Docker** | Docker daemon version / CLI | Exit code 0 | Start Docker Desktop |
-| **PostgreSQL** | `localhost:5432` & `pg_isready` | Connection accepted & DB exists | `docker compose -f services/business-api/docker-compose.yml up -d postgres` |
-| **MinIO** | `localhost:9000` & `/minio/health/live` | HTTP 200 | `docker compose -f services/business-api/docker-compose.yml up -d minio` |
-| **Redis** | `localhost:6379` | `PING` -> `+PONG` | `docker compose -f services/business-api/docker-compose.yml up -d redis` |
-| **Spring Boot** | `http://localhost:8080/actuator/health` | HTTP 200 & `status == "UP"` | Run `scripts/start-all.bat` or inspect `runtime/logs/spring.log` |
-| **FastAPI** | `http://localhost:8000/health` & `/ready` | HTTP 200 & `status == "ready"` | Run `scripts/start-all.bat` or inspect `runtime/logs/fastapi.log` |
-| **Celery Worker** | Celery Control Ping | Active worker responds with pong | Run `scripts/start-all.bat` or inspect `runtime/logs/celery.log` |
-| **Teacher Web** | `http://localhost:5173` | HTTP 200 from Vite dev server | Run `scripts/start-all.bat` or inspect `runtime/logs/teacher-web.log` |
-| **Student Mobile** | `app.json` & port `8081` | Config valid; reports `RUNNING` or `CONFIGURED` | Run `npm start` from repository root |
+| **PostgreSQL** | `localhost:5432` & `pg_isready` | Connection accepted & DB exists | `docker compose -f infra/docker/docker-compose.yml up -d postgres` |
+| **MinIO** | `localhost:9000` & `/minio/health/live` | HTTP 200 | `docker compose -f infra/docker/docker-compose.yml up -d minio` |
+| **Redis** | `localhost:6379` | `PING` -> `+PONG` | `docker compose -f infra/docker/docker-compose.yml up -d redis` |
+| **Spring Boot** | `http://localhost:8080/actuator/health` | HTTP 200 & `status == "UP"` | Run `scripts/start-all.bat` or inspect `infra/local-runtime/logs/spring.log` |
+| **FastAPI** | `http://localhost:8000/health` & `/ready` | HTTP 200 & `status == "ready"` | Run `scripts/start-all.bat` or inspect `infra/local-runtime/logs/fastapi.log` |
+| **Celery Worker** | Celery Control Ping | Active worker responds with pong | Run `scripts/start-all.bat` or inspect `infra/local-runtime/logs/celery.log` |
+| **Teacher Web** | `http://localhost:5173` | HTTP 200 from Vite dev server | Run `scripts/start-all.bat` or inspect `infra/local-runtime/logs/teacher-web.log` |
+| **Student Mobile** | `app.json` & port `8081` | Config valid; reports `RUNNING` or `CONFIGURED` | Run `RUN_MATHVISION.bat` or `scripts/launch-student-metro.bat` |
 
 ## Diagnostic States
 

@@ -1,0 +1,136 @@
+{
+  "description": "Expected output from MathVision Kids pipeline (YOLO detection → Parser Engine) for the sample synthetic input image (38 + 47 = 85, vertical addition).",
+  "input_image": "sample_io/sample_input_synthetic.jpg",
+  "pipeline": "YOLOv8n detection → parser_engine.parse_detections()",
+  "expected_detections": [
+    {
+      "token_value": "3",
+      "token_class": "digit",
+      "class_id": 3,
+      "bounding_box": {"x_center": 0.50, "y_center": 0.20, "width": 0.08, "height": 0.12},
+      "bounding_box_format": "normalized [0,1] center (x_center, y_center, width, height)",
+      "confidence": 0.90,
+      "row": "top",
+      "column": 1,
+      "column_note": "index_from_right=1 (tens digit)",
+      "alternatives": [],
+      "ambiguity": null
+    },
+    {
+      "token_value": "8",
+      "token_class": "digit",
+      "class_id": 8,
+      "bounding_box": {"x_center": 0.60, "y_center": 0.20, "width": 0.08, "height": 0.12},
+      "bounding_box_format": "normalized [0,1] center",
+      "confidence": 0.92,
+      "row": "top",
+      "column": 0,
+      "column_note": "index_from_right=0 (units digit)",
+      "alternatives": [],
+      "ambiguity": null
+    },
+    {
+      "token_value": "+",
+      "token_class": "operator",
+      "class_id": 10,
+      "bounding_box": {"x_center": 0.35, "y_center": 0.35, "width": 0.08, "height": 0.12},
+      "bounding_box_format": "normalized [0,1] center",
+      "confidence": 0.88,
+      "row": "bottom",
+      "column": null,
+      "column_note": "operator, not assigned to a digit column",
+      "alternatives": [],
+      "ambiguity": null
+    },
+    {
+      "token_value": "4",
+      "token_class": "digit",
+      "class_id": 4,
+      "bounding_box": {"x_center": 0.50, "y_center": 0.35, "width": 0.08, "height": 0.12},
+      "bounding_box_format": "normalized [0,1] center",
+      "confidence": 0.91,
+      "row": "bottom",
+      "column": 1,
+      "column_note": "index_from_right=1 (tens digit)",
+      "alternatives": [],
+      "ambiguity": null
+    },
+    {
+      "token_value": "7",
+      "token_class": "digit",
+      "class_id": 7,
+      "bounding_box": {"x_center": 0.60, "y_center": 0.35, "width": 0.08, "height": 0.12},
+      "bounding_box_format": "normalized [0,1] center",
+      "confidence": 0.93,
+      "row": "bottom",
+      "column": 0,
+      "column_note": "index_from_right=0 (units digit)",
+      "alternatives": [],
+      "ambiguity": null
+    },
+    {
+      "token_value": "8",
+      "token_class": "digit",
+      "class_id": 8,
+      "bounding_box": {"x_center": 0.50, "y_center": 0.50, "width": 0.08, "height": 0.12},
+      "bounding_box_format": "normalized [0,1] center",
+      "confidence": 0.89,
+      "row": "result",
+      "column": 1,
+      "column_note": "index_from_right=1 (tens digit)",
+      "alternatives": [],
+      "ambiguity": null
+    },
+    {
+      "token_value": "5",
+      "token_class": "digit",
+      "class_id": 5,
+      "bounding_box": {"x_center": 0.60, "y_center": 0.50, "width": 0.08, "height": 0.12},
+      "bounding_box_format": "normalized [0,1] center",
+      "confidence": 0.90,
+      "row": "result",
+      "column": 0,
+      "column_note": "index_from_right=0 (units digit)",
+      "alternatives": [],
+      "ambiguity": null
+    }
+  ],
+  "expected_parser_output": {
+    "status": "ok",
+    "operation": "+",
+    "top_number": "38",
+    "bottom_number": "47",
+    "student_result": "85",
+    "correct_result": "85",
+    "confidence": 0.95,
+    "first_error_column": null,
+    "columns": [
+      {
+        "index_from_right": 0,
+        "top_digit": 8,
+        "bottom_digit": 7,
+        "student_digit": 5,
+        "expected_digit": 5,
+        "incoming_carry_or_borrow": 0,
+        "outgoing_carry_or_borrow": 1,
+        "correct": true
+      },
+      {
+        "index_from_right": 1,
+        "top_digit": 3,
+        "bottom_digit": 4,
+        "student_digit": 8,
+        "expected_digit": 8,
+        "incoming_carry_or_borrow": 1,
+        "outgoing_carry_or_borrow": 0,
+        "correct": true
+      }
+    ],
+    "warnings": []
+  },
+  "notes": [
+    "Bounding box values above are illustrative normalized coordinates, not exact pixel measurements of the synthetic image",
+    "Actual YOLO output will use pixel coordinates converted to normalized format",
+    "Confidence values are representative of model performance on similar inputs (mAP50=0.967 on val set)"
+  ]
+}

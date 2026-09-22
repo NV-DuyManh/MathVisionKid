@@ -8,8 +8,8 @@ set "REPO_ROOT=%CD%"
 popd
 
 :: Locate Python
-if exist "%REPO_ROOT%\services\ai-service\.venv\Scripts\python.exe" (
-    set "PYTHON_EXE=%REPO_ROOT%\services\ai-service\.venv\Scripts\python.exe"
+if exist "%REPO_ROOT%\ai\runtime\.venv\Scripts\python.exe" (
+    set "PYTHON_EXE=%REPO_ROOT%\ai\runtime\.venv\Scripts\python.exe"
 ) else (
     set "PYTHON_EXE=python"
 )

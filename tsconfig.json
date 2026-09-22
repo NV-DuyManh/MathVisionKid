@@ -1,26 +1,12 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/assets/*": [
-        "./assets/*"
-      ]
-    }
+    "module": "commonjs",
+    "target": "es2022"
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ],
   "exclude": [
     "node_modules",
-    "teacher-web",
-    "dist",
-    "src/**/__tests__/**"
+    "apps",
+    "packages",
+    "dist"
   ]
 }
