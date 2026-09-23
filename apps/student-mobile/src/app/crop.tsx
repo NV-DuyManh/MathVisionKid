@@ -9,7 +9,7 @@ import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
 import { submissionDraftStore, resolveFlowDomain } from '../services/draft/submissionDraftStore';
-import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
+import { ensureFileUri, normalizeFileUri, normalizeLocalFileUri, resolveSafeCropImage, logStageDiagnostic } from '../services/image/imagePipeline';
 import { isHandAIMode } from '../config/appMode';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
@@ -29,15 +29,70 @@ const HIT_SLOP = { top: 24, bottom: 24, left: 24, right: 24 };
 export default function CropScreen() {
   const router = useRouter();
   const isHandAI = isHandAIMode();
-  const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
+  const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string; originalImageUri?: string }>();
   const draft = submissionDraftStore.getDraft();
 
-  // In HAND_AI mode: strictly use the original notebook image URI (never a privacy viewshot layer)
   const paramUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
-  const rawUri = isHandAI
-    ? (draft?.sourceImageUri || draft?.rawUri || paramUri || draft?.uri)
-    : (draft?.privacyImageUri || draft?.uri || paramUri);
-  const activeUri = rawUri ? ensureFileUri(rawUri) : '';
+  const paramOriginal = Array.isArray(params.originalImageUri) ? params.originalImageUri[0] : params.originalImageUri;
+  const isPrivacyUri = (u?: string) => !!u && (u.includes('privacy') || u.includes('viewshot') || u.includes('masked') || u.includes('ViewShot'));
+  const safeParamUri = isPrivacyUri(paramUri) ? '' : paramUri;
+
+  // Rules 1, 3 & 4: In HandAI mode, draft.originalImageUri in memory is the immutable single source of truth (never altered by Expo Router URL decoding)
+  const originalUri = isHandAI
+    ? (draft?.originalImageUri || draft?.originalUri || draft?.sourceImageUri || paramOriginal || safeParamUri || '')
+    : (paramOriginal || draft?.originalImageUri || draft?.originalUri || (!isPrivacyUri(draft?.sourceImageUri) ? draft?.sourceImageUri : '') || (!isPrivacyUri(draft?.rawUri) ? draft?.rawUri : '') || safeParamUri);
+  const cropInputUri = isHandAI ? originalUri : (draft?.privacyImageUri || originalUri);
+
+  const [resolvedUri, setResolvedUri] = useState<string>('');
+  const [isResolvingImage, setIsResolvingImage] = useState<boolean>(true);
+
+  // Validate FileSystem existence and handle fallback/copying
+  useEffect(() => {
+    let isMounted = true;
+    async function initCropImage() {
+      setIsResolvingImage(true);
+      setImageLoadError(false);
+
+      const candidateFallbacks = [
+        draft?.originalImageUri,
+        draft?.originalUri,
+        draft?.sourceImageUri,
+        draft?.rawUri,
+        paramOriginal,
+        paramUri,
+      ].filter(Boolean) as string[];
+
+      const res = await resolveSafeCropImage(cropInputUri, candidateFallbacks);
+      if (!isMounted) return;
+
+      if (res.finalUri) {
+        setResolvedUri(res.finalUri);
+        // If image was copied or resolved from an alternate existing path in HandAI mode, update draft
+        if (res.exists && res.finalUri !== draft?.originalImageUri && isHandAI) {
+          submissionDraftStore.updateDraft({
+            originalImageUri: res.finalUri,
+            uri: res.finalUri,
+          });
+        }
+      } else {
+        setResolvedUri(cropInputUri);
+      }
+      setIsResolvingImage(false);
+    }
+
+    if (cropInputUri) {
+      initCropImage();
+    } else {
+      setIsResolvingImage(false);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [cropInputUri, draft?.originalImageUri, paramOriginal, paramUri, isHandAI]);
+
+  const activeUri = resolvedUri || (cropInputUri ? normalizeFileUri(cropInputUri) : '');
+  const activeRecognitionUri = draft?.croppedImageUri || activeUri || cropInputUri;
   const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
 
   useEffect(() => {
@@ -45,7 +100,8 @@ export default function CropScreen() {
     if (isHandAI && draft?.privacyImageUri) {
       submissionDraftStore.updateDraft({ privacyImageUri: undefined, isMasked: false });
     }
-  }, [isHandAI, draft?.privacyImageUri]);
+    console.log(`[IMAGE_FLOW]\noriginalUri=${originalUri}\nprivacyUri=${draft?.privacyImageUri || 'undefined'}\ncropInputUri=${cropInputUri}\nactiveRecognitionUri=${activeRecognitionUri || 'pending'}\n`);
+  }, [isHandAI, draft?.privacyImageUri, originalUri, cropInputUri, activeRecognitionUri]);
 
   const [imageLayout, setImageLayout] = useState({ width: 0, height: 0, x: 0, y: 0 });
   const [actualSize, setActualSize] = useState({ w: draft?.width || 0, h: draft?.height || 0 });
@@ -289,7 +345,7 @@ export default function CropScreen() {
         { compress: 0.95, format: ImageManipulator.SaveFormat.JPEG }
       );
 
-      const croppedUri = ensureFileUri(result.uri);
+      const croppedUri = normalizeLocalFileUri(result.uri);
       const finalCropWidth = result.width || Math.round(realW);
       const finalCropHeight = result.height || Math.round(realH);
       const cropW = finalCropWidth;
@@ -329,7 +385,9 @@ export default function CropScreen() {
       
       router.push({
         pathname: targetPath as any,
-        params: { retrySubmissionId },
+        params: isHandAI
+          ? { retrySubmissionId }
+          : { retrySubmissionId, originalImageUri: originalUri },
       });
     } catch (err: any) {
       setIsProcessing(false);
@@ -367,17 +425,23 @@ export default function CropScreen() {
             collapsable={false}
             onLayout={(e) => setImageLayout(e.nativeEvent.layout)}
           >
-            <Image 
-              source={{ uri: activeUri }} 
-              style={styles.image} 
-              resizeMode="contain" 
-              onError={(e) => {
-                console.error('[CROP] Image load failed:', e.nativeEvent.error);
-                setImageLoadError(true);
-              }}
-            />
+            {isResolvingImage ? (
+              <View style={styles.imageLoadingContainer}>
+                <ActivityIndicator size="large" color="#FFFFFF" />
+              </View>
+            ) : (
+              <Image 
+                source={{ uri: activeUri }} 
+                style={styles.image} 
+                resizeMode="contain" 
+                onError={(e) => {
+                  console.error('[CROP] Image load failed:', e.nativeEvent.error);
+                  setImageLoadError(true);
+                }}
+              />
+            )}
 
-            {imageLoadError && (
+            {imageLoadError && !isResolvingImage && (
               <View style={styles.errorOverlay}>
                 <Ionicons name="alert-circle" size={40} color={COLORS.error} />
                 <Text style={styles.errorText}>
@@ -509,6 +573,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'relative',
+  },
+  imageLoadingContainer: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0F172A',
   },
   image: {
     flex: 1,

@@ -1,12 +1,143 @@
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as FileSystem from 'expo-file-system/legacy';
+import { Platform } from 'react-native';
 import { ImageDraft } from '../draft/submissionDraftStore';
 
-export function ensureFileUri(uri: string): string {
+/**
+ * Normalizes local file URIs safely.
+ * - Guarantees file:// scheme
+ * - NEVER runs decodeURIComponent() or decodeURI() on file:// paths
+ * - Preserves literal percent-encoded Expo ExperienceData paths (%2540 / %40)
+ */
+export function normalizeLocalFileUri(uri: string): string {
   if (!uri || typeof uri !== 'string') return '';
-  if (uri.startsWith('file://') || uri.startsWith('content://') || uri.startsWith('http://') || uri.startsWith('https://')) {
-    return uri;
+  let clean = uri.trim();
+  if (
+    !clean.startsWith('file://') &&
+    !clean.startsWith('content://') &&
+    !clean.startsWith('http://') &&
+    !clean.startsWith('https://')
+  ) {
+    clean = clean.startsWith('/') ? `file://${clean}` : `file:///${clean}`;
   }
-  return `file://${uri}`;
+  // Keep file:// URI unchanged — never decode existing Expo cache / ExperienceData URI
+  return clean;
+}
+
+export const normalizeFileUri = normalizeLocalFileUri;
+export const ensureFileUri = normalizeLocalFileUri;
+
+/**
+ * Validates local file existence via FileSystem.getInfoAsync and copies to cache directory if missing.
+ * Logs [CROP_DEBUG] diagnostic details.
+ */
+export async function resolveSafeCropImage(
+  inputUri: string,
+  candidateFallbacks: (string | undefined)[] = []
+): Promise<{
+  originalUri: string;
+  normalizedUri: string;
+  exists: boolean;
+  finalUri: string;
+}> {
+  const originalUri = inputUri || '';
+  const normalizedUri = normalizeLocalFileUri(originalUri);
+
+  // On Web or if empty URI, bypass native FileSystem checks
+  if (Platform.OS === 'web' || !normalizedUri) {
+    const exists = !!normalizedUri;
+    const finalUri = normalizedUri;
+    console.log(
+      `[CROP_DEBUG]\noriginalUri=${originalUri}\nnormalizedUri=${normalizedUri}\nexists=${exists}\nfinalUri=${finalUri}`
+    );
+    return { originalUri, normalizedUri, exists, finalUri };
+  }
+
+  // 1. Check primary normalized URI
+  let exists = false;
+  try {
+    const info = await FileSystem.getInfoAsync(normalizedUri);
+    exists = !!info.exists;
+  } catch {
+    exists = false;
+  }
+
+  if (exists) {
+    const finalUri = normalizedUri;
+    console.log(
+      `[CROP_DEBUG]\noriginalUri=${originalUri}\nnormalizedUri=${normalizedUri}\nexists=${exists}\nfinalUri=${finalUri}`
+    );
+    return { originalUri, normalizedUri, exists, finalUri };
+  }
+
+  // 2. If primary doesn't exist, test candidate alternatives and path variations
+  const pool = new Set<string>();
+  candidateFallbacks.forEach((u) => {
+    if (u && typeof u === 'string') pool.add(normalizeLocalFileUri(u));
+  });
+
+  const addVariations = (base: string) => {
+    if (!base) return;
+    // Android Expo Go ExperienceData variations
+    if (base.includes('@anonymous')) {
+      pool.add(base.replace(/@anonymous/g, '%40anonymous').replace(/\/hand-ai/g, '%2Fhand-ai'));
+      pool.add(base.replace(/@anonymous/g, '%2540anonymous').replace(/\/hand-ai/g, '%252Fhand-ai'));
+    }
+    if (base.includes('%40')) {
+      pool.add(base.replace(/%40/g, '%2540').replace(/%2F/g, '%252F'));
+      pool.add(base.replace(/%40/g, '@'));
+    }
+    if (base.includes('%2540')) {
+      pool.add(base.replace(/%2540/g, '%40').replace(/%252F/g, '%2F'));
+      pool.add(base.replace(/%2540/g, '@'));
+    }
+  };
+
+  addVariations(normalizedUri);
+  candidateFallbacks.forEach((u) => u && addVariations(u));
+
+  let workingSourceUri: string | null = null;
+  for (const candidate of pool) {
+    if (!candidate || candidate === normalizedUri) continue;
+    try {
+      const info = await FileSystem.getInfoAsync(candidate);
+      if (info.exists) {
+        workingSourceUri = candidate;
+        break;
+      }
+    } catch {
+      // continue scanning
+    }
+  }
+
+  // 3. If image path does not exist (or alternate source was found), copy to FileSystem.cacheDirectory
+  let finalUri = normalizedUri;
+  const sourceToCopy = workingSourceUri || (normalizedUri.startsWith('content://') ? normalizedUri : null);
+
+  if (sourceToCopy) {
+    try {
+      const destFilename = `handai_crop_${Date.now()}.jpg`;
+      const cacheDir = FileSystem.cacheDirectory || '';
+      const destUri = `${cacheDir}${destFilename}`;
+      await FileSystem.copyAsync({ from: sourceToCopy, to: destUri });
+      const verify = await FileSystem.getInfoAsync(destUri);
+      if (verify.exists) {
+        exists = true;
+        finalUri = destUri;
+      }
+    } catch (copyErr) {
+      console.warn('[CROP_DEBUG] Failed to copy image to cacheDirectory:', copyErr);
+      if (workingSourceUri) {
+        exists = true;
+        finalUri = workingSourceUri;
+      }
+    }
+  }
+
+  console.log(
+    `[CROP_DEBUG]\noriginalUri=${originalUri}\nnormalizedUri=${normalizedUri}\nexists=${exists}\nfinalUri=${finalUri}`
+  );
+  return { originalUri, normalizedUri, exists, finalUri };
 }
 
 export function logStageDiagnostic(

@@ -66,7 +66,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: isHandAI ? 'History' : 'Của em',
+          title: isHandAI ? 'Recognition History' : 'Của em',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={isHandAI ? (focused ? 'time' : 'time-outline') : (focused ? 'person' : 'person-outline')}

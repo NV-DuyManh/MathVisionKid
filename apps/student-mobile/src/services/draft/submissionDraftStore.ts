@@ -1,3 +1,5 @@
+import { isHandAIMode } from '../../config/appMode';
+
 export type FlowDomain = 'HANDWRITING_TEXT' | 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
 
 export function isHandwritingDomain(mode?: string | null): boolean {
@@ -10,11 +12,6 @@ export function isValidFlowDomain(mode: any): mode is FlowDomain {
 
 /**
  * Single source of truth for flow domain resolution.
- * Rules:
- * 1. Explicit valid mode wins.
- * 2. Persisted valid draft mode next.
- * 3. Generic Student flow default = HANDWRITING_TEXT.
- * 4. Never default to ARITHMETIC.
  */
 export function resolveFlowDomain(explicitMode?: string | null, draftMode?: string | null): FlowDomain {
   if (explicitMode && isValidFlowDomain(explicitMode)) {
@@ -37,6 +34,8 @@ export function logFlowDomain(stage: 'ACQUIRE' | 'PRIVACY' | 'POST_PRIVACY' | 'R
 
 export interface ImageDraft {
   imageSessionId?: string;
+  originalImageUri?: string; // IMMUTABLE source of truth from camera/gallery
+  originalUri?: string;
   sourceImageUri?: string;
   privacyImageUri?: string;
   croppedImageUri?: string;
@@ -50,32 +49,121 @@ export interface ImageDraft {
   mode?: FlowDomain;
   masks?: { id: number; x: number; y: number; width: number; height: number }[];
   isMasked?: boolean;
-  originalUri?: string;
   retrySubmissionId?: string;
   createdAt?: number;
+}
+
+export function logImageFlow(context: {
+  originalUri?: string;
+  privacyUri?: string;
+  cropInputUri?: string;
+  activeRecognitionUri?: string;
+}): void {
+  console.log(`[IMAGE_FLOW]
+originalUri=${context.originalUri || 'undefined'}
+privacyUri=${context.privacyUri || 'undefined'}
+cropInputUri=${context.cropInputUri || 'undefined'}
+activeRecognitionUri=${context.activeRecognitionUri || 'undefined'}
+`);
+}
+
+function normalizeDraftFileUri(uri?: string): string {
+  if (!uri || typeof uri !== 'string') return '';
+  let clean = uri.trim();
+  if (
+    !clean.startsWith('file://') &&
+    !clean.startsWith('content://') &&
+    !clean.startsWith('http://') &&
+    !clean.startsWith('https://')
+  ) {
+    clean = clean.startsWith('/') ? `file://${clean}` : `file:///${clean}`;
+  }
+  return clean;
 }
 
 class SubmissionDraftStore {
   private currentDraft: ImageDraft | null = null;
 
   setDraft(draft: Omit<ImageDraft, 'createdAt'>): ImageDraft {
-    this.currentDraft = {
+    const isHandAI = isHandAIMode();
+    const isPrivacyArtifact = (u?: string) => !!u && (u.includes('privacy') || u.includes('viewshot') || u.includes('masked') || u.includes('ViewShot'));
+    
+    // Resolve true original URI from camera or gallery
+    let pristineUri = draft.originalImageUri || draft.originalUri;
+    if (!pristineUri || isPrivacyArtifact(pristineUri)) {
+      pristineUri = !isPrivacyArtifact(draft.sourceImageUri)
+        ? draft.sourceImageUri
+        : (!isPrivacyArtifact(draft.rawUri) ? draft.rawUri : draft.uri);
+    }
+
+    const sourceUri = normalizeDraftFileUri(pristineUri || draft.uri);
+
+    const finalDraft: ImageDraft = {
       ...draft,
+      originalImageUri: sourceUri,
+      originalUri: sourceUri,
+      sourceImageUri: sourceUri,
+      privacyImageUri: isHandAI ? undefined : draft.privacyImageUri,
+      isMasked: isHandAI ? false : (draft.isMasked ?? false),
+      uri: isHandAI ? (draft.croppedImageUri || sourceUri) : draft.uri,
       createdAt: Date.now(),
     };
+
+    this.currentDraft = finalDraft;
+
+    logImageFlow({
+      originalUri: sourceUri,
+      privacyUri: isHandAI ? undefined : draft.privacyImageUri,
+      cropInputUri: sourceUri,
+      activeRecognitionUri: draft.croppedImageUri || sourceUri,
+    });
+
     return this.currentDraft;
   }
 
   getDraft(): ImageDraft | null {
+    if (!this.currentDraft) return null;
+    const isHandAI = isHandAIMode();
+    if (isHandAI) {
+      // In HandAI mode: guarantee privacyImageUri is never exposed or returned
+      const cleanOriginal = this.currentDraft.originalImageUri || this.currentDraft.originalUri || this.currentDraft.sourceImageUri || this.currentDraft.rawUri;
+      return {
+        ...this.currentDraft,
+        originalImageUri: cleanOriginal,
+        originalUri: cleanOriginal,
+        sourceImageUri: cleanOriginal,
+        privacyImageUri: undefined,
+        isMasked: false,
+        uri: this.currentDraft.croppedImageUri || cleanOriginal,
+      };
+    }
     return this.currentDraft;
   }
 
   updateDraft(patch: Partial<ImageDraft>): ImageDraft | null {
     if (!this.currentDraft) return null;
+    const isHandAI = isHandAIMode();
+    
+    // Safeguard: Never let a privacy/screenshot URI overwrite the pristine originalImageUri
+    const isPrivacyArtifact = (u?: string) => !!u && (u.includes('privacy') || u.includes('viewshot') || u.includes('masked') || u.includes('ViewShot'));
+    
+    let safeOriginalImageUri = this.currentDraft.originalImageUri;
+    if (patch.originalImageUri && !isPrivacyArtifact(patch.originalImageUri)) {
+      safeOriginalImageUri = normalizeDraftFileUri(patch.originalImageUri);
+    }
+
     this.currentDraft = {
       ...this.currentDraft,
       ...patch,
+      originalImageUri: safeOriginalImageUri,
+      originalUri: safeOriginalImageUri,
+      sourceImageUri: safeOriginalImageUri,
+      ...(isHandAI ? {
+        privacyImageUri: undefined,
+        isMasked: false,
+      } : {}),
     };
+
     return this.currentDraft;
   }
 

@@ -33,19 +33,20 @@ export const MATHVISION_COLORS = {
 };
 
 export const HAND_AI_COLORS = {
-  primary: '#4F46E5', // Tech Indigo AI
-  primaryDark: '#3730A3',
-  primaryLight: '#EEF2FF',
-  secondary: '#0891B2', // Cyan
-  secondaryDark: '#0E7490',
-  secondaryLight: '#E0F2FE',
-  accent: '#10B981', // Emerald
-  background: '#F8FAFC',
+  primary: '#1E40AF', // Deep Blue / Indigo
+  primaryDark: '#0F172A', // Slate 900
+  primaryLight: '#EFF6FF', // Blue 50
+  secondary: '#0891B2', // Cyan 600
+  secondaryDark: '#0E7490', // Cyan 700
+  secondaryLight: '#E0F2FE', // Cyan 50
+  accent: '#059669', // Emerald 600
+  accentLight: '#ECFDF5', // Emerald 50
+  background: '#F8FAFC', // Slate 50
   surface: '#FFFFFF',
-  surfaceSubdued: '#F5F3FF',
+  surfaceSubdued: '#F1F5F9', // Slate 100
   textPrimary: '#0F172A',
-  textSecondary: '#475569',
-  textMuted: '#64748B',
+  textSecondary: '#334155', // Slate 700
+  textMuted: '#64748B', // Slate 500
   success: '#16A34A',
   successLight: '#DCFCE7',
   warning: '#D97706',
@@ -53,15 +54,32 @@ export const HAND_AI_COLORS = {
   error: '#DC2626',
   errorLight: '#FEE2E2',
   errorText: '#B91C1C',
-  review: '#7C3AED',
-  reviewLight: '#EDE9FE',
-  border: '#E2E8F0',
-  borderFocus: '#4F46E5',
-  pastelBlue: '#EEF2FF',
+  review: '#2563EB',
+  reviewLight: '#EFF6FF',
+  border: '#E2E8F0', // Slate 200
+  borderFocus: '#1E40AF',
+  pastelBlue: '#EFF6FF',
   pastelGreen: '#F0FDF4',
   pastelPeach: '#FFF7ED',
-  pastelPurple: '#FAF5FF',
+  pastelPurple: '#F8FAFC',
   pastelAmber: '#FEFCE8',
+  // Specific HandAI Research Arbitration Semantic Colors (Phase 4)
+  rawOcrBg: '#F1F5F9',
+  rawOcrBorder: '#CBD5E1',
+  rawOcrText: '#334155',
+  rawOcrLabel: '#64748B',
+  aiSuggestionBg: '#FEF3C7',
+  aiSuggestionBorder: '#FCD34D',
+  aiSuggestionText: '#92400E',
+  aiSuggestionLabel: '#D97706',
+  finalResultBg: '#EFF6FF',
+  finalResultBorder: '#3B82F6',
+  finalResultText: '#1E3A8A',
+  finalResultLabel: '#1D4ED8',
+  reasonBg: '#F8FAFC',
+  reasonBorder: '#E2E8F0',
+  reasonText: '#475569',
+  reasonLabel: '#0F172A',
 };
 
 export function getThemeColors(mode?: AppMode) {

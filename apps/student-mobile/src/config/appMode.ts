@@ -22,13 +22,20 @@ export interface AppFeatureFlags {
   showCaptureTips: boolean;
 }
 
+import Constants from 'expo-constants';
+
 /**
  * Resolves active application mode from environment configuration.
  * Default is 'MATHVISION_KIDS' preserving 100% of existing functionality.
  * 'HAND_AI' activates temporary Big Data handwriting recognition demo mode.
  */
 export function getAppMode(): AppMode {
-  const envMode = process.env.EXPO_PUBLIC_APP_MODE;
+  const envMode =
+    process.env.EXPO_PUBLIC_APP_MODE ||
+    (Constants.expoConfig?.extra as any)?.appMode ||
+    (Constants.manifest as any)?.extra?.appMode ||
+    ((Constants as any).manifest2?.extra?.expoClient?.extra as any)?.appMode;
+
   if (envMode === 'HAND_AI') {
     return 'HAND_AI';
   }

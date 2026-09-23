@@ -16,6 +16,7 @@ import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { OcrPilotService, LineBox, normalizeOcrError } from '../../services/api/OcrPilotService';
 import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
 import { isHandAIMode } from '../../config/appMode';
+import { normalizeLocalFileUri } from '../../services/image/imagePipeline';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -26,8 +27,18 @@ export default function MultilineReviewScreen() {
   const isHandAI = isHandAIMode();
   const params = useLocalSearchParams();
   const draft = submissionDraftStore.getDraft();
-  const imageUri = draft?.croppedImageUri || draft?.uri || (params.uri as string) || '';
+  const rawImageUri = draft?.croppedImageUri || draft?.uri || (params.uri as string) || '';
+  const imageUri = normalizeLocalFileUri(rawImageUri);
+  const originalUri = isHandAI
+    ? (draft?.originalImageUri || draft?.originalUri || draft?.sourceImageUri || (params.originalImageUri as string) || '')
+    : ((params.originalImageUri as string) || draft?.originalImageUri || draft?.originalUri || draft?.sourceImageUri || '');
+  const cropInputUri = originalUri;
+  const activeRecognitionUri = imageUri;
   const imageSessionId = draft?.imageSessionId || imageUri;
+
+  useEffect(() => {
+    console.log(`[IMAGE_FLOW]\noriginalUri=${originalUri}\nprivacyUri=${draft?.privacyImageUri || 'undefined'}\ncropInputUri=${cropInputUri}\nactiveRecognitionUri=${activeRecognitionUri}\n`);
+  }, [originalUri, draft?.privacyImageUri, cropInputUri, activeRecognitionUri]);
 
   const [loading, setLoading] = useState(true);
   const [requestStatus, setRequestStatus] = useState<RequestStatus>('IDLE');
@@ -71,6 +82,15 @@ export default function MultilineReviewScreen() {
   };
 
   useEffect(() => {
+    if (isHandAI) {
+      console.log('HAND_AI IMAGE SOURCE: ORIGINAL');
+      console.log('HAND_AI IMAGE SOURCE = ORIGINAL', {
+        imageUri,
+        sourceImageUri: draft?.sourceImageUri,
+        croppedImageUri: draft?.croppedImageUri,
+        isMasked: draft?.isMasked,
+      });
+    }
     console.log('[MULTILINE_PAGE_SOURCE] MULTILINE_PAGE_SOURCE=POST_CROP_ACTIVE_URI', {
       uri: imageUri,
       isMasked: draft?.isMasked,
@@ -79,7 +99,7 @@ export default function MultilineReviewScreen() {
       draftHeight: draft?.height,
       timestamp: new Date().toISOString(),
     });
-  }, [imageUri, draft?.isMasked, draft?.rawUri, draft?.width, draft?.height]);
+  }, [imageUri, draft?.isMasked, draft?.rawUri, draft?.width, draft?.height, draft?.sourceImageUri, draft?.croppedImageUri, isHandAI]);
 
   const loadAutoDetection = useCallback(async (uri: string, force: boolean = false) => {
     const currentReqId = ++detectRequestIdRef.current;
@@ -115,6 +135,14 @@ export default function MultilineReviewScreen() {
       }
 
       const incomingLines = res.lines || [];
+      console.log(`[LINE_DETECTION_DEBUG]
+Detected Lines: ${incomingLines.length}
+image dimensions: ${res.width}x${res.height}
+crop path: ${uri}
+preprocessing result: detectorVersion=${(res as any).detector_version || (res as any).detectorVersion || 'default'}, lines=${incomingLines.length}
+server response: status=200, lineCount=${incomingLines.length}
+`);
+
       setBoxes((prev) => {
         // Prevent accidental overwrite of valid boxes with 0 on background retry
         if (!force && prev.length > 0 && incomingLines.length === 0) {
@@ -131,18 +159,44 @@ export default function MultilineReviewScreen() {
       }
     } catch (err: any) {
       if (currentReqId !== detectRequestIdRef.current) return;
-      console.warn('[MULTILINE] Detection warning:', err?.message || err);
+      console.warn(`[LINE_DETECTION_DEBUG] FAILURE
+image dimensions: ${origWidth}x${origHeight}
+crop path: ${uri}
+preprocessing result: N/A (detection failed)
+server response: status=${err?.response?.status || 'No response'}, error=${err?.message || 'unknown'}
+`);
 
       const status = err?.response?.status;
       if (status === 401 || status === 403) {
-        Alert.alert('Phiên đăng nhập đã hết hạn', 'Vui lòng đăng nhập lại để tiếp tục.', [
-          { text: 'Đăng nhập', onPress: () => router.replace('/login') }
-        ]);
+        if (isHandAI) {
+          Alert.alert(
+            'Recognition Service Unavailable',
+            'The handwriting recognition service is currently unavailable. Would you like to retry?',
+            [
+              { text: 'Retry', onPress: () => loadAutoDetection(uri, true) },
+              { text: 'Cancel', style: 'cancel' }
+            ]
+          );
+        } else {
+          Alert.alert(
+            'Phiên đăng nhập đã hết hạn',
+            'Vui lòng đăng nhập lại để tiếp tục.',
+            [
+              { text: 'Đăng nhập', onPress: () => router.replace('/login') }
+            ]
+          );
+        }
       } else if (!err?.response && (err?.message?.includes('Network Error') || err?.message?.includes('Network request failed') || err?.message?.toLowerCase().includes('failed to fetch'))) {
         setIsNetworkError(true);
-        Alert.alert('Lỗi kết nối', 'Không thể kết nối đến máy chủ nhận diện. Vui lòng kiểm tra lại mạng.');
+        Alert.alert(
+          isHandAI ? 'Connection Error' : 'Lỗi kết nối',
+          isHandAI ? 'Unable to connect to the recognition server. Please check your network.' : 'Không thể kết nối đến máy chủ nhận diện. Vui lòng kiểm tra lại mạng.'
+        );
       } else {
-        Alert.alert('Lỗi nhận diện', 'Không thể tự động phát hiện dòng chữ. Vui lòng thử lại hoặc thêm thủ công.');
+        Alert.alert(
+          isHandAI ? 'Detection Warning' : 'Lỗi nhận diện',
+          isHandAI ? 'Could not automatically detect text lines. Please retry or add manually.' : 'Không thể tự động phát hiện dòng chữ. Vui lòng thử lại hoặc thêm thủ công.'
+        );
       }
 
       // Empty lines on detection failure only if user explicitly forced refresh or no boxes exist
@@ -153,13 +207,17 @@ export default function MultilineReviewScreen() {
         setLoading(false);
       }
     }
-  }, [displayWidth, router]);
+  }, [displayWidth, router, isHandAI]);
 
   useEffect(() => {
     if (!imageUri) {
-      Alert.alert('Lỗi', 'Không tìm thấy ảnh để nhận diện.', [
-        { text: 'Quay lại', onPress: () => router.back() },
-      ]);
+      Alert.alert(
+        isHandAI ? 'Error' : 'Lỗi',
+        isHandAI ? 'Image not found for recognition.' : 'Không tìm thấy ảnh để nhận diện.',
+        [
+          { text: isHandAI ? 'Back' : 'Quay lại', onPress: () => router.back() },
+        ]
+      );
       return;
     }
 
@@ -268,7 +326,10 @@ export default function MultilineReviewScreen() {
     if (requestStatus === 'SUBMITTING') return;
 
     if (boxes.length === 0) {
-      Alert.alert('Chưa có dòng nào', 'Vui lòng thêm ít nhất 1 dòng chữ trước khi nhận diện.');
+      Alert.alert(
+        isHandAI ? 'No Lines Detected' : 'Chưa có dòng nào',
+        isHandAI ? 'Please add at least 1 line box before running recognition.' : 'Vui lòng thêm ít nhất 1 dòng chữ trước khi nhận diện.'
+      );
       return;
     }
 
@@ -315,7 +376,18 @@ export default function MultilineReviewScreen() {
       if (!e?.name?.includes('Abort') && !e?.message?.includes('canceled') && !e?.message?.includes('aborted')) {
         const errInfo = normalizeOcrError(e);
         console.error('[MULTILINE] Submit error details:', errInfo.technical);
-        Alert.alert(errInfo.title, errInfo.message);
+        Alert.alert(
+          errInfo.title,
+          errInfo.message,
+          isHandAI
+            ? [
+                { text: 'Retry', onPress: () => handleConfirmLines() },
+                { text: 'Cancel', style: 'cancel' },
+              ]
+            : [
+                { text: 'Đóng', style: 'cancel' },
+              ]
+        );
       }
     } finally {
       if (currentGen === operationGenerationRef.current) {
@@ -329,7 +401,9 @@ export default function MultilineReviewScreen() {
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text style={styles.loadingText}>Đang tự động phát hiện các dòng chữ...</Text>
+        <Text style={styles.loadingText}>
+          {isHandAI ? 'Automatically detecting text lines...' : 'Đang tự động phát hiện các dòng chữ...'}
+        </Text>
       </View>
     );
   }
@@ -342,7 +416,7 @@ export default function MultilineReviewScreen() {
           onPress={handleBack}
           style={styles.backButton}
           accessibilityRole="button"
-          accessibilityLabel="Quay lại"
+          accessibilityLabel={isHandAI ? 'Back' : 'Quay lại'}
         >
           <Ionicons name="arrow-back" size={22} color={COLORS.textPrimary} />
         </TouchableOpacity>
@@ -428,9 +502,13 @@ export default function MultilineReviewScreen() {
       {isNetworkError && boxes.length === 0 ? (
         <View style={styles.emptyCard}>
           <Ionicons name="wifi-outline" size={36} color="#DC2626" style={{ marginBottom: 8 }} />
-          <Text style={styles.emptyTitle}>Lỗi kết nối máy chủ</Text>
+          <Text style={styles.emptyTitle}>
+            {isHandAI ? 'Server Connection Error' : 'Lỗi kết nối máy chủ'}
+          </Text>
           <Text style={styles.emptySubtitle}>
-            Không thể kết nối đến hệ thống nhận diện. Hãy đảm bảo máy chủ đang hoạt động và kết nối mạng ổn định.
+            {isHandAI
+              ? 'Unable to connect to the recognition system. Ensure backend is running and network is active.'
+              : 'Không thể kết nối đến hệ thống nhận diện. Hãy đảm bảo máy chủ đang hoạt động và kết nối mạng ổn định.'}
           </Text>
           <View style={styles.emptyActions}>
             <TouchableOpacity
@@ -439,7 +517,9 @@ export default function MultilineReviewScreen() {
               accessibilityRole="button"
             >
               <Ionicons name="refresh" size={18} color={COLORS.primary} />
-              <Text style={[styles.emptyBtnText, { color: COLORS.primary }]}>Thử kết nối lại</Text>
+              <Text style={[styles.emptyBtnText, { color: COLORS.primary }]}>
+                {isHandAI ? 'Retry Connection' : 'Thử kết nối lại'}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.emptyBtn, styles.emptyBtnOutline]}
@@ -447,46 +527,58 @@ export default function MultilineReviewScreen() {
               accessibilityRole="button"
             >
               <Ionicons name="arrow-back" size={18} color={COLORS.textSecondary} />
-              <Text style={[styles.emptyBtnText, { color: COLORS.textSecondary }]}>Quay lại</Text>
+              <Text style={[styles.emptyBtnText, { color: COLORS.textSecondary }]}>
+                {isHandAI ? 'Go Back' : 'Quay lại'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : boxes.length === 0 ? (
         <View style={styles.emptyCard}>
           <Ionicons name="alert-circle-outline" size={36} color={COLORS.textSecondary} style={{ marginBottom: 8 }} />
-          <Text style={styles.emptyTitle}>Chưa phát hiện được dòng chữ nào.</Text>
+          <Text style={styles.emptyTitle}>
+            {isHandAI ? 'No text lines detected' : 'Chưa phát hiện được dòng chữ nào.'}
+          </Text>
           <Text style={styles.emptySubtitle}>
-            Không tìm thấy văn bản trên ảnh, hoặc chữ viết quá mờ/nhỏ. Bạn có thể tự thêm dòng, thử phát hiện lại hoặc chụp/chọn ảnh khác.
+            {isHandAI
+              ? 'No handwriting detected on image, or text is faint/small. You can add lines manually, re-detect, or pick a different image.'
+              : 'Không tìm thấy văn bản trên ảnh, hoặc chữ viết quá mờ/nhỏ. Bạn có thể tự thêm dòng, thử phát hiện lại hoặc chụp/chọn ảnh khác.'}
           </Text>
           <View style={styles.emptyActions}>
             <TouchableOpacity
               style={styles.emptyBtn}
               onPress={handleAddLine}
               accessibilityRole="button"
-              accessibilityLabel="Thêm dòng thủ công"
+              accessibilityLabel={isHandAI ? 'Add line manually' : 'Thêm dòng thủ công'}
             >
               <Ionicons name="add-circle" size={18} color="#FFFFFF" />
-              <Text style={styles.emptyBtnText}>Thêm dòng thủ công</Text>
+              <Text style={styles.emptyBtnText}>
+                {isHandAI ? 'Add Line Manually' : 'Thêm dòng thủ công'}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.emptyBtn, styles.emptyBtnOutline]}
               onPress={() => loadAutoDetection(imageUri, true)}
               accessibilityRole="button"
-              accessibilityLabel="Phát hiện lại"
+              accessibilityLabel={isHandAI ? 'Re-detect lines' : 'Phát hiện lại'}
             >
               <Ionicons name="refresh" size={18} color={COLORS.primary} />
-              <Text style={[styles.emptyBtnText, { color: COLORS.primary }]}>Phát hiện lại</Text>
+              <Text style={[styles.emptyBtnText, { color: COLORS.primary }]}>
+                {isHandAI ? 'Re-detect Lines' : 'Phát hiện lại'}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.emptyBtn, styles.emptyBtnOutline]}
               onPress={() => router.back()}
               accessibilityRole="button"
-              accessibilityLabel="Chụp hoặc chọn ảnh khác"
+              accessibilityLabel={isHandAI ? 'Pick another image' : 'Chụp hoặc chọn ảnh khác'}
             >
               <Ionicons name="camera-outline" size={18} color={COLORS.textSecondary} />
-              <Text style={[styles.emptyBtnText, { color: COLORS.textSecondary }]}>Chụp/chọn ảnh khác</Text>
+              <Text style={[styles.emptyBtnText, { color: COLORS.textSecondary }]}>
+                {isHandAI ? 'Pick Another Image' : 'Chụp/chọn ảnh khác'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

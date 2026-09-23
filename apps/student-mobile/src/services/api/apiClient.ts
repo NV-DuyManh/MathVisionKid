@@ -3,6 +3,8 @@ import { ENV } from '../../config/env';
 import { tokenStorage } from '../auth/tokenStorage';
 
 
+import { isHandAIMode } from '../../config/appMode';
+
 // eslint-disable-next-line import/no-named-as-default-member
 const apiClient = axios.create({
   baseURL: ENV.API_BASE_URL,
@@ -68,7 +70,13 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401) {
+      if (isHandAIMode()) {
+        console.warn('[HAND_AI][API] 401 received in HAND_AI mode. Bypassing token refresh and login redirect; remaining in current flow.');
+        return Promise.reject(error);
+      }
+
+      if (!originalRequest._retry) {
       if (isRefreshing) {
         return new Promise(function(resolve, reject) {
           failedQueue.push({ resolve, reject });
@@ -112,6 +120,7 @@ apiClient.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
+  }
 
     return Promise.reject(error);
   }

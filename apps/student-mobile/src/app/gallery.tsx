@@ -253,10 +253,25 @@ export default function CustomGalleryScreen() {
       );
       draft.mode = resolveFlowDomain(null, null); // Defaults to HANDWRITING_TEXT
       logFlowDomain('ACQUIRE', draft.mode);
+      draft.originalImageUri = finalUri;
+      draft.originalUri = finalUri;
+      draft.sourceImageUri = finalUri;
+      draft.rawUri = finalUri;
+      draft.uri = finalUri;
+      if (isHandAIMode()) {
+        submissionDraftStore.clearDraft();
+        draft.privacyImageUri = undefined;
+        draft.isMasked = false;
+      }
       submissionDraftStore.setDraft(draft);
 
       const nextTarget = isHandAIMode() ? '/crop' : '/privacy';
-      router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
+      router.push({
+        pathname: nextTarget as any,
+        params: isHandAIMode()
+          ? { uri: finalUri }
+          : { uri: draft.uri },
+      });
     } catch {
       Alert.alert(
         'Không thể mở ảnh',
@@ -289,10 +304,26 @@ export default function CustomGalleryScreen() {
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
         draft.mode = resolveFlowDomain(null, null);
         logFlowDomain('ACQUIRE', draft.mode);
+        draft.originalImageUri = asset.uri;
+        draft.originalUri = asset.uri;
+        draft.sourceImageUri = asset.uri;
+        draft.rawUri = asset.uri;
+        draft.uri = asset.uri;
+        if (isHandAIMode()) {
+          submissionDraftStore.clearDraft();
+          draft.privacyImageUri = undefined;
+          draft.isMasked = false;
+        }
         submissionDraftStore.setDraft(draft);
 
         const nextTarget = isHandAIMode() ? '/crop' : '/privacy';
-        router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
+        router.push({
+          pathname: nextTarget as any,
+          params: {
+            uri: isHandAIMode() ? asset.uri : draft.uri,
+            originalImageUri: asset.uri,
+          },
+        });
       }
     } catch (e: any) {
       console.warn('[CustomGallery] System picker fallback failed:', e?.message);

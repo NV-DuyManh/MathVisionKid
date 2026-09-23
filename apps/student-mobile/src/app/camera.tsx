@@ -65,9 +65,17 @@ export default function CameraScreen() {
         logFlowDomain('ACQUIRE', activeMode);
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
         draft.mode = activeMode;
+        if (isHandAI) {
+          submissionDraftStore.clearDraft();
+          draft.privacyImageUri = undefined;
+          draft.isMasked = false;
+          draft.sourceImageUri = asset.uri;
+          draft.uri = asset.uri;
+          console.log(`[HAND_AI DEBUG]\nCurrent mode:\nHAND_AI\n\nIncoming image URI:\n${asset.uri}\n\nSelected crop URI:\n${asset.uri}\n\nPrivacy URI:\nundefined\n`);
+        }
         submissionDraftStore.setDraft(draft);
         const nextTarget = isHandAI ? '/crop' : '/privacy';
-        router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
+        router.push({ pathname: nextTarget as any, params: { uri: isHandAI ? asset.uri : draft.uri } });
       }
     } catch {
       Alert.alert(
@@ -127,9 +135,24 @@ export default function CameraScreen() {
           logFlowDomain('ACQUIRE', activeMode);
           const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
           draft.mode = activeMode;
+          draft.originalImageUri = photo.uri;
+          draft.originalUri = photo.uri;
+          draft.sourceImageUri = photo.uri;
+          draft.rawUri = photo.uri;
+          draft.uri = photo.uri;
+          if (isHandAI) {
+            submissionDraftStore.clearDraft();
+            draft.privacyImageUri = undefined;
+            draft.isMasked = false;
+          }
           submissionDraftStore.setDraft(draft);
           const nextTarget = isHandAI ? '/crop' : '/privacy';
-          router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
+          router.push({
+            pathname: nextTarget as any,
+            params: isHandAI
+              ? { uri: photo.uri }
+              : { uri: draft.uri },
+          });
         }
       } catch {
         Alert.alert('Lỗi', 'Không thể chụp ảnh, vui lòng thử lại.');

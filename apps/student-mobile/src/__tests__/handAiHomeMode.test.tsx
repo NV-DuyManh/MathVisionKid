@@ -64,39 +64,34 @@ describe('HAND_AI Mode Integration & Presentation Tests', () => {
       const allText = textNodes.join(' ');
 
       // HandAI Identity & Research Subtitle
-      expect(allText).toContain('HandAI');
+      expect(allText).toContain('HAND_AI');
       expect(allText).toContain('Vietnamese Handwriting Recognition System');
       expect(allText).toContain('Primary Students Grade 1-5');
-      expect(allText).toContain('Grade 1-5 Student Handwriting Dataset');
 
-      // AI Pipeline Checklist (Requirement 5)
+      // Primary Action Buttons
+      expect(allText).toContain('Upload Image');
+      expect(allText).toContain('Capture Image');
+
+      // AI Pipeline Checklist (5 Stages)
+      expect(allText).toContain('AI Pipeline');
       expect(allText).toContain('Image Acquisition');
       expect(allText).toContain('Preprocessing');
       expect(allText).toContain('Line Segmentation');
       expect(allText).toContain('Handwriting Recognition');
       expect(allText).toContain('Result Analysis');
 
-      // Primary Action Buttons (Requirement 5)
-      expect(allText).toContain('Upload Image');
-      expect(allText).toContain('Capture Image');
+      // Research Scope Card
+      expect(allText).toContain('Research Scope');
+      expect(allText).toContain('Vietnamese');
+      expect(allText).toContain('Primary Student Handwriting');
+      expect(allText).toContain('CRNN + CTC');
 
-      // AI Architecture Flowchart (Requirement 10)
-      expect(allText).toContain('High-resolution notebook image acquisition');
-      expect(allText).toContain('Aspect normalization, adaptive binarization & boundary crop');
-      expect(allText).toContain('Projection profiling & bounding box segmentation');
-      expect(allText).toContain('CRNN sequence prediction for Vietnamese characters & tone marks');
-      expect(allText).toContain('Multiline transcription with per-line confidence & AI analysis');
-
-      // Math-specific calculation card is hidden (Requirement 6)
+      // Math-specific calculation card is hidden
       expect(allText).not.toContain('Đọc phép tính');
       expect(allText).not.toContain('Cộng, trừ, nhân, chia đặt tính rồi tính');
 
-      // Privacy masking workflow is hidden in HandAI mode (Requirement 8)
+      // Privacy masking workflow is hidden in HandAI mode
       expect(allText).not.toContain('Bảo vệ riêng tư');
-
-      // Preserved general cards
-      expect(allText).toContain('Recognition History');
-      expect(allText).toContain('Capture Tips');
     });
 
     it('CameraScreen locks to handwriting and hides arithmetic tab in HAND_AI mode', () => {

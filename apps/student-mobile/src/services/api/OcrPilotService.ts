@@ -1,6 +1,8 @@
 import { Platform } from 'react-native';
 import apiClient from './apiClient';
 import { ensureFileUri } from '../image/imagePipeline';
+import { isHandAIMode } from '../../config/appMode';
+import { tokenStorage } from '../auth/tokenStorage';
 
 /**
  * Send a multipart POST request with file + string params.
@@ -44,24 +46,22 @@ async function postMultipart<T>(
 
   const url = path;
 
-  console.log('[MULTIPART_TRANSPORT]', {
-    baseURL: apiClient.defaults.baseURL,
-    endpoint: url,
-    fullTarget: `${apiClient.defaults.baseURL || ''}${url}`,
-    fileName: fileField.name,
-    fileUri: fileField.uri,
-    fileType: fileField.type,
-    paramKeys: Object.keys(stringParams),
-    timestamp: new Date().toISOString()
-  });
+  const token = await tokenStorage.getAccessToken();
+  const authHeaderStatus = token ? 'present' : 'absent';
+  console.log(`[HAND_AI DEBUG]\nBefore OCR request log:\n\nEndpoint:\n${endpoint}\n\nAuth header:\n${authHeaderStatus}\n`);
 
-  // apiClient handles Authorization header and token refresh automatically
-  // React Native's Axios adapter uses XMLHttpRequest natively and handles {uri,name,type}
-  const response = await apiClient.post<T>(url, formData, {
-    transformRequest: [(data) => data],
-    signal,
-  });
-  return response.data;
+  try {
+    const response = await apiClient.post<T>(url, formData, {
+      transformRequest: [(data) => data],
+      signal,
+    });
+    console.log(`[HAND_AI DEBUG]\nResponse:\nstatus: ${response.status}\n`);
+    return response.data;
+  } catch (err: any) {
+    const status = err?.response?.status;
+    console.log(`[HAND_AI DEBUG]\nResponse:\nstatus: ${status || 'network error / no response'}\n`);
+    throw err;
+  }
 }
 
 export interface OcrTrialResult {
@@ -246,6 +246,10 @@ export class OcrPilotService {
     return this.cachedTrials.get(trialId);
   }
 
+  static getAllCachedTrials(): MultilineTrialResult[] {
+    return Array.from(this.cachedTrials.values());
+  }
+
   // Helper to extract file info from a URI
   private static fileInfoFromUri(rawUri: string, fallbackName: string) {
     const cleanUri = ensureFileUri(Array.isArray(rawUri) ? rawUri[0] : rawUri);
@@ -300,6 +304,13 @@ export class OcrPilotService {
     return response.data;
   }
 
+  private static getEndpoint(path: string): string {
+    if (isHandAIMode()) {
+      return `/handai${path}`;
+    }
+    return path;
+  }
+
   // Multi-line Pilot 2 methods
   static async detectLines(
     uri: string,
@@ -307,10 +318,11 @@ export class OcrPilotService {
     forceRedetect: boolean = false
   ): Promise<MultilineDetectResult> {
     const file = this.fileInfoFromUri(uri, 'page.jpg');
-    console.log('[OCR_PILOT] Requesting detectLines for URI:', uri, '| BaseURL:', apiClient.defaults.baseURL);
+    const endpoint = this.getEndpoint('/ocr/multiline/detect');
+    console.log('[OCR_PILOT] Requesting detectLines for URI:', uri, '| Endpoint:', endpoint, '| BaseURL:', apiClient.defaults.baseURL);
     try {
       const result = await postMultipart<MultilineDetectResult>(
-        '/ocr/multiline/detect',
+        endpoint,
         { key: 'image', ...file },
         { 
           privacyConfirmed: String(privacyConfirmed),
@@ -390,8 +402,9 @@ export class OcrPilotService {
   ): Promise<MultilineTrialResult> {
     const file = this.fileInfoFromUri(uri, 'page.jpg');
     const minimizedLines = confirmedLines.map((l) => this.minimizeLineForTransport(l));
+    const endpoint = this.getEndpoint('/ocr/multiline/trials');
     const res = await postMultipart<MultilineTrialResult>(
-      '/ocr/multiline/trials',
+      endpoint,
       { key: 'image', ...file },
       {
         source,
@@ -407,7 +420,8 @@ export class OcrPilotService {
   }
 
   static async getMultilineTrial(trialId: string): Promise<MultilineTrialResult> {
-    const response = await apiClient.get<MultilineTrialResult>(`/ocr/multiline/trials/${trialId}`);
+    const endpoint = this.getEndpoint(`/ocr/multiline/trials/${trialId}`);
+    const response = await apiClient.get<MultilineTrialResult>(endpoint);
     return response.data;
   }
 
@@ -417,8 +431,9 @@ export class OcrPilotService {
     verdict: 'CORRECT' | 'CORRECTED' | 'SKIPPED',
     verifiedText?: string
   ): Promise<MultilineLineResult> {
+    const endpoint = this.getEndpoint(`/ocr/multiline/trials/${trialId}/lines/${lineId}/feedback`);
     const response = await apiClient.post<MultilineLineResult>(
-      `/ocr/multiline/trials/${trialId}/lines/${lineId}/feedback`,
+      endpoint,
       {
         verdict,
         verifiedText,
@@ -446,6 +461,13 @@ export function normalizeOcrError(err: any): { title: string; message: string; t
     };
   }
   if (status === 401 || status === 403) {
+    if (isHandAIMode()) {
+      return {
+        title: 'Recognition Service Unavailable',
+        message: 'The handwriting recognition service is currently unavailable. Please retry.',
+        technical,
+      };
+    }
     return {
       title: 'Phiên đăng nhập hết hạn',
       message: 'Phiên đăng nhập của em đã hết hạn. Vui lòng đăng nhập lại để tiếp tục.',

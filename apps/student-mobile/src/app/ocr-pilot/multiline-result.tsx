@@ -23,6 +23,7 @@ import {
 } from '../../utils/suggestionDedupe';
 import { isAdvisorPending, mergeTrialWithAdvisorUpdate } from '../../utils/mobileAsyncAdvisor';
 import { isHandAIMode } from '../../config/appMode';
+import { handAiAnalyticsStore } from '../../services/analytics/handAiAnalyticsStore';
 
 export function getDecisionExplanation(
   state: ReturnType<typeof resolveLineDisplayState>,
@@ -199,6 +200,9 @@ export default function MultilineResultScreen() {
           requestId: res.requestId,
         });
         setTrial(res);
+        if (isHandAI) {
+          handAiAnalyticsStore.recordTrial(res);
+        }
       } catch (e: any) {
         if (!active) return;
         Alert.alert('Lỗi', e?.message || 'Không thể tải kết quả nhận diện.');
@@ -445,6 +449,22 @@ export default function MultilineResultScreen() {
         const rawOcrConf = displayState.rawOcrConfidence ?? line.rawOcrConfidence ?? line.confidence;
         const rawOcrConfText = rawOcrConf != null ? `${(rawOcrConf * 100).toFixed(0)}%` : null;
 
+        // Smart Suggestion Logic for HandAI (Phase 4):
+        const firstCandidate = aiSuggestions[0];
+        const normRaw = normalizeForComparison(ocrText);
+        const hasCandidateText = Boolean(firstCandidate && firstCandidate.text && firstCandidate.text.trim().length > 0);
+        const normCandidate = hasCandidateText ? normalizeForComparison(firstCandidate.text) : '';
+        const isCandidateIdenticalToRaw = hasCandidateText && normCandidate === normRaw;
+        const isCandidateDistinct = hasCandidateText && !isCandidateIdenticalToRaw;
+        const hasAiConfirmedOcr = isAiConfirmed || isCandidateIdenticalToRaw;
+
+        const sourceLabel =
+          selectedSource === 'MANUAL_EDIT' || selectedSource === 'manual_edit'
+            ? 'MANUAL'
+            : selectedSource === 'SUGGESTION_1' || selectedSource === 'suggestion_1'
+            ? 'AI'
+            : 'OCR';
+
         // Required internal debug log (never toasted to student UI):
         console.log(
           `[LINE_RENDER_DEBUG] lineId=${line.lineId} lineOrder=${line.lineOrder} rawText="${rawText}" ` +
@@ -454,15 +474,22 @@ export default function MultilineResultScreen() {
 
         return (
           <View key={line.lineId} style={[styles.lineCard, SHADOWS.small]}>
-            {/* Row Order and Verdict Badge */}
+            {/* Row Order, Confidence, and Verdict Badge */}
             <View style={styles.lineHeaderRow}>
               <View style={styles.lineOrderBadge}>
                 <Text style={styles.lineOrderText}>
-                  {isHandAI ? `Line ${line.lineOrder}` : `Dòng ${line.lineOrder}`}
+                  {isHandAI ? `LINE ${line.lineOrder}` : `Dòng ${line.lineOrder}`}
                 </Text>
               </View>
-              <View style={[styles.badge, { backgroundColor: badgeBg }]}>
-                <Text style={[styles.badgeLabel, { color: badgeColor }]}>{badgeText}</Text>
+              <View style={styles.lineHeaderRight}>
+                {isHandAI && rawOcrConfText && (
+                  <View style={styles.confidencePill}>
+                    <Text style={styles.confidencePillText}>Confidence: {rawOcrConfText}</Text>
+                  </View>
+                )}
+                <View style={[styles.badge, { backgroundColor: badgeBg }]}>
+                  <Text style={[styles.badgeLabel, { color: badgeColor }]}>{badgeText}</Text>
+                </View>
               </View>
             </View>
 
@@ -471,78 +498,77 @@ export default function MultilineResultScreen() {
                  HAND_AI RESEARCH DEMO: TRANSPARENT OCR & AI ARBITRATION CARD
                  ============================================================ */
               <View style={styles.researchLineCardContent}>
-                {/* 1. Raw OCR */}
-                <View style={styles.researchFieldGroup}>
+                {/* 1. MODEL OUTPUT (Neutral Gray) */}
+                <View style={styles.researchOcrBlock}>
                   <View style={styles.researchFieldHeaderRow}>
-                    <Text style={styles.researchFieldLabel}>Raw OCR:</Text>
-                    {rawOcrConfText ? (
-                      <View style={styles.researchConfChip}>
-                        <Text style={styles.researchConfChipText}>Confidence: {rawOcrConfText}</Text>
+                    <Text style={styles.researchOcrLabel}>Model Output</Text>
+                    {hasAiConfirmedOcr && (
+                      <View style={styles.aiConfirmedBadge}>
+                        <Ionicons name="checkmark-circle" size={13} color="#166534" />
+                        <Text style={styles.aiConfirmedBadgeText}>AI confirmed OCR</Text>
                       </View>
-                    ) : null}
+                    )}
                   </View>
-                  <Text style={styles.researchFieldText}>{ocrText || '(No character predicted)'}</Text>
-                </View>
-
-                {/* 2. AI Suggestion */}
-                <View style={styles.researchFieldGroup}>
-                  <Text style={styles.researchFieldLabel}>AI Suggestion:</Text>
-                  <Text style={styles.researchFieldText}>
-                    {aiSuggestions[0]?.text
-                      ? aiSuggestions[0].text
-                      : (isAiConfirmed ? '(AI confirmed raw OCR without modifications)' : '(No candidate suggestion)')}
+                  <Text style={styles.researchOcrText}>
+                    {ocrText ? `"${ocrText}"` : '(No character predicted)'}
                   </Text>
                 </View>
 
-                {/* 3. Current Result */}
-                <View style={styles.researchFieldGroupHighlight}>
+                {/* 2. AI CORRECTION CANDIDATE (Soft Amber — Rendered ONLY if candidate text exists) */}
+                {isCandidateDistinct && firstCandidate?.text && firstCandidate.text.trim().length > 0 ? (
+                  <View style={styles.researchSuggBlock}>
+                    <View style={styles.researchFieldHeaderRow}>
+                      <Text style={styles.researchSuggLabel}>AI Correction Candidate</Text>
+                    </View>
+                    <Text style={styles.researchSuggText}>
+                      "{firstCandidate.text}"
+                    </Text>
+                  </View>
+                ) : null}
+
+                {/* 3. CONFIRMED RESULT (Strong Blue) */}
+                <View style={styles.researchResultBlock}>
                   <View style={styles.researchFieldHeaderRow}>
-                    <Text style={styles.researchFieldLabelHighlight}>Current Result:</Text>
+                    <Text style={styles.researchResultLabel}>Confirmed Result</Text>
                     <View style={styles.researchSourceChip}>
-                      <Text style={styles.researchSourceChipText}>
-                        {selectedSource === 'MANUAL_EDIT' || selectedSource === 'manual_edit'
-                          ? 'Manual Edit'
-                          : selectedSource === 'SUGGESTION_1' || selectedSource === 'suggestion_1'
-                          ? 'AI Suggestion'
-                          : 'Raw OCR'}
-                      </Text>
+                      <Text style={styles.researchSourceChipText}>SOURCE: {sourceLabel}</Text>
                     </View>
                   </View>
-                  <Text style={styles.researchFieldTextHighlight}>
+                  <Text style={styles.researchResultText}>
                     {currentText ? `"${currentText}"` : '(Empty)'}
                   </Text>
                 </View>
 
-                {/* 4. Selection Reason */}
-                <View style={styles.researchReasonGroup}>
-                  <Text style={styles.researchReasonLabel}>Reason:</Text>
+                {/* 4. DECISION REASON */}
+                <View style={styles.researchReasonBlock}>
+                  <Text style={styles.researchReasonLabel}>DECISION REASON:</Text>
                   <Text style={styles.researchReasonText}>
-                    {getDecisionExplanation(displayState, line, true)}
+                    "{getDecisionExplanation(displayState, line, true)}"
                   </Text>
                 </View>
 
-                {/* Actions: [Keep Raw OCR] [Use AI Suggestion] [Edit] */}
+                {/* Actions: [Keep Model Output] [Use AI Candidate] [Edit] */}
                 {!isEditing && (
                   <View style={styles.researchActionRow}>
                     <TouchableOpacity
                       style={[styles.researchActionBtn, styles.researchKeepOcrBtn]}
                       onPress={() => handleFeedback(line, 'CORRECT', ocrText)}
                       accessibilityRole="button"
-                      accessibilityLabel="Keep Raw OCR"
+                      accessibilityLabel="Keep Model Output"
                     >
-                      <Ionicons name="shield-checkmark-outline" size={15} color="#475569" />
-                      <Text style={styles.researchKeepOcrBtnText}>Keep Raw OCR</Text>
+                      <Ionicons name="shield-checkmark-outline" size={15} color="#334155" />
+                      <Text style={styles.researchKeepOcrBtnText}>Keep Model Output</Text>
                     </TouchableOpacity>
 
-                    {aiSuggestions.length > 0 && !isAiConfirmed && (
+                    {isCandidateDistinct && firstCandidate?.text && firstCandidate.text.trim().length > 0 && (
                       <TouchableOpacity
                         style={[styles.researchActionBtn, styles.researchUseAiBtn]}
-                        onPress={() => handleFeedback(line, 'CORRECTED', aiSuggestions[0].text)}
+                        onPress={() => handleFeedback(line, 'CORRECTED', firstCandidate.text)}
                         accessibilityRole="button"
-                        accessibilityLabel="Use AI Suggestion"
+                        accessibilityLabel="Use AI Candidate"
                       >
                         <Ionicons name="sparkles" size={15} color="#FFFFFF" />
-                        <Text style={styles.researchUseAiBtnText}>Use AI Suggestion</Text>
+                        <Text style={styles.researchUseAiBtnText}>Use AI Candidate</Text>
                       </TouchableOpacity>
                     )}
 
@@ -552,7 +578,7 @@ export default function MultilineResultScreen() {
                       accessibilityRole="button"
                       accessibilityLabel="Manual Edit"
                     >
-                      <Ionicons name="pencil" size={15} color="#2563EB" />
+                      <Ionicons name="pencil" size={15} color="#1E40AF" />
                       <Text style={styles.researchEditBtnText}>Edit</Text>
                     </TouchableOpacity>
                   </View>
@@ -871,6 +897,18 @@ export default function MultilineResultScreen() {
 
       {/* Confident Bottom Actions */}
       <View style={styles.bottomContainer}>
+        {isHandAI && (
+          <TouchableOpacity
+            style={styles.analyticsBtn}
+            onPress={() => router.push('/handai-analytics' as any)}
+            accessibilityRole="button"
+            accessibilityLabel="View Accuracy Analytics"
+          >
+            <Ionicons name="stats-chart" size={18} color="#FFFFFF" />
+            <Text style={styles.analyticsBtnText}>View Accuracy Analytics</Text>
+          </TouchableOpacity>
+        )}
+
         <TouchableOpacity
           style={styles.doneBtn}
           onPress={() => {
@@ -1398,6 +1436,21 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     gap: 10,
   },
+  analyticsBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    height: 48,
+    borderRadius: 8,
+    backgroundColor: '#123B7A',
+    ...SHADOWS.small,
+  },
+  analyticsBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
   doneBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1517,17 +1570,121 @@ const styles = StyleSheet.create({
     color: '#15803D',
     fontWeight: '500',
   },
-  // HandAI Research Demo V3 line card styles
+  // HandAI Research Demo V4 line card styles
   researchLineCardContent: {
     gap: 10,
     marginTop: 6,
   },
-  researchFieldGroup: {
+  confidencePill: {
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  confidencePillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1E40AF',
+  },
+  lineHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  researchFieldHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  // 1. Raw OCR Block (Neutral Gray)
+  researchOcrBlock: {
+    backgroundColor: '#F1F5F9',
+    borderRadius: 8,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+  },
+  researchOcrLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#64748B',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  researchOcrText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#334155',
+  },
+  // 2. AI Suggestion Block (Soft Amber)
+  researchSuggBlock: {
+    backgroundColor: '#FEF3C7',
+    borderRadius: 8,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#FCD34D',
+  },
+  researchSuggLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#B45309',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  researchSuggText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#78350F',
+  },
+  // 3. Final Result Block (Strong Blue)
+  researchResultBlock: {
+    backgroundColor: '#EFF6FF',
+    borderRadius: 8,
+    padding: 10,
+    borderWidth: 1.5,
+    borderColor: '#3B82F6',
+  },
+  researchResultLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1D4ED8',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  researchResultText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#1E3A8A',
+  },
+  // 4. Decision Reason Block (Small Explanation Block)
+  researchReasonBlock: {
     backgroundColor: '#F8FAFC',
     borderRadius: 8,
     padding: 10,
     borderWidth: 1,
     borderColor: '#E2E8F0',
+  },
+  researchReasonLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#475569',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  researchReasonText: {
+    fontSize: 12,
+    color: '#334155',
+    lineHeight: 18,
+  },
+  // Legacy mappings for backwards-compatibility
+  researchFieldGroup: {
+    backgroundColor: '#F1F5F9',
+    borderRadius: 8,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
   },
   researchFieldHeaderRow: {
     flexDirection: 'row',
@@ -1545,26 +1702,7 @@ const styles = StyleSheet.create({
   researchFieldText: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#1E293B',
-  },
-  researchFieldGroupHighlight: {
-    backgroundColor: '#EFF6FF',
-    borderRadius: 8,
-    padding: 10,
-    borderWidth: 1.5,
-    borderColor: '#3B82F6',
-  },
-  researchFieldLabelHighlight: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#1D4ED8',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  researchFieldTextHighlight: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#1D4ED8',
+    color: '#334155',
   },
   researchSourceChip: {
     backgroundColor: '#DBEAFE',
@@ -1578,39 +1716,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
     color: '#1D4ED8',
-  },
-  researchConfChip: {
-    backgroundColor: '#F1F5F9',
-    paddingHorizontal: 6,
-    paddingVertical: 1,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#CBD5E1',
-  },
-  researchConfChipText: {
-    fontSize: 10,
-    fontWeight: '600',
-    color: '#475569',
-  },
-  researchReasonGroup: {
-    backgroundColor: '#F0FDF4',
-    borderRadius: 8,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#BBF7D0',
-  },
-  researchReasonLabel: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#15803D',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 2,
-  },
-  researchReasonText: {
-    fontSize: 12,
-    color: '#166534',
-    lineHeight: 18,
   },
   researchActionRow: {
     flexDirection: 'row',
@@ -1639,7 +1744,7 @@ const styles = StyleSheet.create({
     color: '#334155',
   },
   researchUseAiBtn: {
-    backgroundColor: '#2563EB',
+    backgroundColor: '#1E40AF',
     borderWidth: 1,
     borderColor: '#1D4ED8',
   },
@@ -1649,14 +1754,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   researchEditBtn: {
-    backgroundColor: '#EFF6FF',
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#BFDBFE',
+    borderColor: '#CBD5E1',
     flex: 0.7,
   },
   researchEditBtnText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#2563EB',
+    color: '#1E40AF',
   },
 });

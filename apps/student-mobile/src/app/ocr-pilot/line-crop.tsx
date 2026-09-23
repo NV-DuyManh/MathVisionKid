@@ -9,14 +9,28 @@ import { AppButton } from '../../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
 import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../../services/image/imagePipeline';
-import { getAppBranding } from '../../config/appMode';
+import { getAppBranding, isHandAIMode } from '../../config/appMode';
 
 export default function LineCropScreen() {
   const router = useRouter();
+  const isHandAI = isHandAIMode();
   const branding = getAppBranding();
   const draft = submissionDraftStore.getDraft();
-  const rawUri = draft?.privacyImageUri || draft?.uri;
+  const rawUri = isHandAI
+    ? (draft?.sourceImageUri || draft?.rawUri || draft?.uri)
+    : (draft?.privacyImageUri || draft?.uri);
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
+
+  React.useEffect(() => {
+    if (isHandAI) {
+      console.log('HAND_AI IMAGE SOURCE: ORIGINAL');
+      console.log('HAND_AI IMAGE SOURCE = ORIGINAL', {
+        sourceImageUri: draft?.sourceImageUri,
+        rawUri: draft?.rawUri,
+        activeUri,
+      });
+    }
+  }, [isHandAI, draft?.sourceImageUri, draft?.rawUri, activeUri]);
 
   const [cropRect, setCropRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
   const [imageLayout, setImageLayout] = useState({ width: 0, height: 0, x: 0, y: 0 });
@@ -61,7 +75,10 @@ export default function LineCropScreen() {
 
   const handlePerformCrop = async () => {
     if (!cropRect || cropRect.width < 30 || cropRect.height < 15) {
-      Alert.alert('Chưa chọn dòng chữ', 'Em hãy dùng ngón tay kéo một khung bao quanh một dòng chữ viết tay nhé.');
+      Alert.alert(
+        isHandAI ? 'No Line Selected' : 'Chưa chọn dòng chữ',
+        isHandAI ? 'Please drag a rectangle around a single handwriting line.' : 'Em hãy dùng ngón tay kéo một khung bao quanh một dòng chữ viết tay nhé.'
+      );
       return;
     }
 
@@ -102,7 +119,10 @@ export default function LineCropScreen() {
 
       if (realWidth < 20 || realHeight < 10) {
         setIsProcessing(false);
-        Alert.alert('Vùng chọn quá nhỏ', 'Em hãy vẽ lại khung lớn hơn quanh dòng chữ nhé.');
+        Alert.alert(
+          isHandAI ? 'Selection Box Too Small' : 'Vùng chọn quá nhỏ',
+          isHandAI ? 'Please drag a larger box around the handwriting line.' : 'Em hãy vẽ lại khung lớn hơn quanh dòng chữ nhé.'
+        );
         return;
       }
 
@@ -138,35 +158,46 @@ export default function LineCropScreen() {
     } catch (err) {
       setIsProcessing(false);
       console.error('[OCR_LINE_CROP] Error cropping line:', err);
-      Alert.alert('Lỗi cắt ảnh', 'Không thể cắt dòng chữ. Vui lòng thử lại.');
+      Alert.alert(
+        isHandAI ? 'Crop Error' : 'Lỗi cắt ảnh',
+        isHandAI ? 'Could not crop the handwriting line. Please try again.' : 'Không thể cắt dòng chữ. Vui lòng thử lại.'
+      );
     }
   };
 
   if (!activeUri) {
     return (
       <SafeAreaView style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>Chưa có ảnh bài tập</Text>
-        <AppButton title="Quay lại" onPress={() => router.back()} />
+        <Text style={styles.emptyText}>{isHandAI ? 'No image available' : 'Chưa có ảnh bài tập'}</Text>
+        <AppButton title={isHandAI ? 'Back' : 'Quay lại'} onPress={() => router.back()} />
       </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader title="Chọn dòng chữ viết tay" showBack />
+      <AppHeader title={isHandAI ? 'Select Handwriting Line' : 'Chọn dòng chữ viết tay'} showBack />
 
       {/* Instruction Card */}
       <View style={styles.instructionCard}>
         <View style={styles.instructionHeader}>
           <Ionicons name="scan-outline" size={20} color={COLORS.primary} />
-          <Text style={styles.instructionTitle}>Chọn 1 dòng chữ viết tay</Text>
+          <Text style={styles.instructionTitle}>
+            {isHandAI ? 'Select 1 handwriting line' : 'Chọn 1 dòng chữ viết tay'}
+          </Text>
         </View>
         <Text style={styles.instructionText}>
-          Dùng ngón tay kéo một khung chữ nhật bao quanh DUY NHẤT một dòng chữ tiếng Việt để {branding.name} nhận diện nhé.
+          {isHandAI
+            ? `Drag a rectangular box around a single Vietnamese handwriting line for ${branding.name} to recognize.`
+            : `Dùng ngón tay kéo một khung chữ nhật bao quanh DUY NHẤT một dòng chữ tiếng Việt để ${branding.name} nhận diện nhé.`}
         </Text>
         <View style={styles.pillContainer}>
-          <View style={styles.pill}><Text style={styles.pillText}>Ví dụ: &quot;hôm nay trời nắng&quot;</Text></View>
-          <View style={styles.pill}><Text style={styles.pillText}>&quot;Em yêu trường em&quot;</Text></View>
+          <View style={styles.pill}>
+            <Text style={styles.pillText}>{isHandAI ? 'Example: Single line' : 'Ví dụ: "hôm nay trời nắng"'}</Text>
+          </View>
+          <View style={styles.pill}>
+            <Text style={styles.pillText}>{isHandAI ? 'Grade 1-5 Handwriting' : '"Em yêu trường em"'}</Text>
+          </View>
         </View>
       </View>
 
@@ -199,7 +230,7 @@ export default function LineCropScreen() {
               <View style={[styles.corner, styles.bl]} />
               <View style={[styles.corner, styles.br]} />
               <View style={styles.lineLabel}>
-                <Text style={styles.lineLabelText}>1 dòng chữ</Text>
+                <Text style={styles.lineLabelText}>{isHandAI ? 'Line 1' : '1 dòng chữ'}</Text>
               </View>
             </View>
           )}
@@ -207,7 +238,9 @@ export default function LineCropScreen() {
           {isProcessing && (
             <View style={styles.loadingOverlay}>
               <ActivityIndicator size="large" color={COLORS.primary} />
-              <Text style={styles.loadingText}>Đang cắt dòng chữ...</Text>
+              <Text style={styles.loadingText}>
+                {isHandAI ? 'Cropping line...' : 'Đang cắt dòng chữ...'}
+              </Text>
             </View>
           )}
         </View>
@@ -216,13 +249,19 @@ export default function LineCropScreen() {
       {/* Footer Controls */}
       <View style={styles.footer}>
         <AppButton
-          title={cropRect ? "CẮT & NHẬN DIỆN DÒNG NÀY" : "KÉO KHUNG ĐỂ CHỌN DÒNG"}
+          title={
+            cropRect
+              ? (isHandAI ? "CROP & RECOGNIZE THIS LINE" : "CẮT & NHẬN DIỆN DÒNG NÀY")
+              : (isHandAI ? "DRAG BOX TO SELECT LINE" : "KÉO KHUNG ĐỂ CHỌN DÒNG")
+          }
           onPress={handlePerformCrop}
           disabled={!cropRect || isProcessing}
           variant="primary"
         />
         <TouchableOpacity style={styles.secondaryButton} onPress={() => router.back()}>
-          <Text style={styles.secondaryButtonText}>Chụp lại / Chọn ảnh khác</Text>
+          <Text style={styles.secondaryButtonText}>
+            {isHandAI ? 'Recapture / Pick Another' : 'Chụp lại / Chọn ảnh khác'}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

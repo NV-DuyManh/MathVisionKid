@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppCard } from '../../components/ui/AppCard';
 import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
-
+import { OcrPilotService } from '../../services/api/OcrPilotService';
 import { isHandAIMode } from '../../config/appMode';
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const isHandAI = isHandAIMode();
   const auth = useContext(AuthContext);
   const user = auth?.user;
@@ -25,77 +27,154 @@ export default function ProfileScreen() {
   };
 
   if (isHandAI) {
+    const trials = OcrPilotService.getAllCachedTrials();
+
+    // Compute metrics
+    const totalSessions = trials.length;
+    const totalLines = trials.reduce((sum, t) => sum + (t.lines?.length || 0), 0);
+    const totalCorrections = trials.reduce(
+      (sum, t) =>
+        sum +
+        (t.lines?.filter(
+          (l) =>
+            l.verdict === 'CORRECTED' ||
+            l.correctionApplied ||
+            (l.correctedText && l.correctedText !== l.rawOcrText)
+        ).length || 0),
+      0
+    );
+
+    let avgConfText = 'N/A';
+    if (totalLines > 0) {
+      const confSum = trials.reduce(
+        (sum, t) =>
+          sum +
+          (t.lines?.reduce((lSum, l) => lSum + (l.rawOcrConfidence ?? l.confidence ?? 0.85), 0) || 0),
+        0
+      );
+      avgConfText = `${Math.round((confSum / totalLines) * 100)}%`;
+    }
+
     return (
       <View style={styles.container}>
         <AppHeader title="Recognition History" />
-        <ScrollView contentContainerStyle={styles.content}>
-          {/* Research Dataset & System Specification Card */}
-          <AppCard style={styles.researchCard} variant="elevated">
-            <View style={styles.researchHeaderRow}>
-              <View style={styles.researchIconContainer}>
-                <Ionicons name="analytics" size={28} color="#2563EB" />
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          {/* Research Sessions Summary Stats */}
+          <View style={[styles.historyStatsCard, SHADOWS.small]}>
+            <View style={styles.historyStatsHeader}>
+              <Ionicons name="analytics" size={18} color={COLORS.primary} />
+              <Text style={styles.historyStatsTitle}>Research Metrics</Text>
+            </View>
+            <View style={styles.statsGrid}>
+              <View style={styles.statBox}>
+                <Text style={styles.statBoxValue}>{totalSessions}</Text>
+                <Text style={styles.statBoxLabel}>Sessions</Text>
               </View>
-              <View style={styles.researchTitleContainer}>
-                <Text style={styles.researchTitle}>HandAI Research System</Text>
-                <Text style={styles.researchSubtitle}>Grade 1-5 Student Handwriting Dataset</Text>
+              <View style={styles.statBox}>
+                <Text style={styles.statBoxValue}>{totalLines}</Text>
+                <Text style={styles.statBoxLabel}>Detected Lines</Text>
+              </View>
+              <View style={styles.statBox}>
+                <Text style={styles.statBoxValue}>{avgConfText}</Text>
+                <Text style={styles.statBoxLabel}>Avg Confidence</Text>
+              </View>
+              <View style={styles.statBox}>
+                <Text style={styles.statBoxValue}>{totalCorrections}</Text>
+                <Text style={styles.statBoxLabel}>AI Corrections</Text>
               </View>
             </View>
+          </View>
 
-            <View style={styles.researchMetaGrid}>
-              <View style={styles.researchMetaItem}>
-                <Text style={styles.researchMetaLabel}>Domain</Text>
-                <Text style={styles.researchMetaValue}>Primary Handwriting</Text>
-              </View>
-              <View style={styles.researchMetaItem}>
-                <Text style={styles.researchMetaLabel}>Scope</Text>
-                <Text style={styles.researchMetaValue}>Grade 1-5 Vietnamese</Text>
-              </View>
-              <View style={styles.researchMetaItem}>
-                <Text style={styles.researchMetaLabel}>Model</Text>
-                <Text style={styles.researchMetaValue}>CRNN + CTC Softmax</Text>
-              </View>
-              <View style={styles.researchMetaItem}>
-                <Text style={styles.researchMetaLabel}>Arbitration</Text>
-                <Text style={styles.researchMetaValue}>Multi-Provider Consensus</Text>
-              </View>
-            </View>
-          </AppCard>
+          {/* Section: Recent Recognition */}
+          <View style={styles.sectionHeaderRow}>
+            <Text style={styles.sectionHeadingTitle}>Recent Recognition</Text>
+            <Text style={styles.sessionCountTag}>{trials.length} trials</Text>
+          </View>
 
-          {/* Pipeline Specifications */}
-          <AppCard style={styles.researchCard} variant="outlined">
-            <Text style={styles.researchSectionTitle}>Processing Pipeline</Text>
-            <View style={styles.pipelineList}>
-              {[
-                { step: '1', title: 'Image Acquisition', desc: 'Direct camera / photo library acquisition' },
-                { step: '2', title: 'Preprocessing', desc: 'Perspective notebook crop and orientation normalization' },
-                { step: '3', title: 'Line Segmentation', desc: 'Multi-line bounding box detection and ordering' },
-                { step: '4', title: 'Handwriting Recognition', desc: 'CRNN sequence predictor with CTC softmax' },
-                { step: '5', title: 'Result Analysis', desc: 'Candidate arbitration and transparent decision display' },
-              ].map((item) => (
-                <View key={item.step} style={styles.pipelineStepRow}>
-                  <View style={styles.pipelineStepBadge}>
-                    <Text style={styles.pipelineStepBadgeText}>{item.step}</Text>
-                  </View>
-                  <View style={styles.pipelineStepContent}>
-                    <Text style={styles.pipelineStepTitle}>{item.title}</Text>
-                    <Text style={styles.pipelineStepDesc}>{item.desc}</Text>
-                  </View>
-                </View>
-              ))}
-            </View>
-          </AppCard>
-
-          {/* Session Trial Status */}
-          <AppCard style={styles.researchCard} variant="outlined">
-            <Text style={styles.researchSectionTitle}>Session Benchmark Trials</Text>
-            <View style={styles.emptyTrialsContainer}>
-              <Ionicons name="time-outline" size={36} color="#94A3B8" />
-              <Text style={styles.emptyTrialsTitle}>Ready for Evaluation</Text>
-              <Text style={styles.emptyTrialsDesc}>
-                Acquire or upload notebook images from Home or Scan to execute the handwriting recognition pipeline.
+          {trials.length === 0 ? (
+            /* Professional Research Empty State */
+            <View style={[styles.emptyResearchCard, SHADOWS.small]}>
+              <View style={styles.emptyIconWrapper}>
+                <Ionicons name="document-text-outline" size={38} color="#64748B" />
+              </View>
+              <Text style={styles.emptyResearchTitle}>No Recognition Sessions Yet</Text>
+              <Text style={styles.emptyResearchSubtitle}>
+                Acquire or upload notebook handwriting images from Home or Scan. Processed trials with line metrics, confidence scores, and AI correction analytics will appear here.
               </Text>
+              <TouchableOpacity
+                style={[styles.emptyStartBtn, SHADOWS.small]}
+                onPress={() => router.push('/camera' as any)}
+                activeOpacity={0.88}
+                accessibilityRole="button"
+                accessibilityLabel="Start New Scan"
+              >
+                <Ionicons name="camera-outline" size={18} color="#FFFFFF" />
+                <Text style={styles.emptyStartBtnText}>Start New Scan</Text>
+              </TouchableOpacity>
             </View>
-          </AppCard>
+          ) : (
+            <View style={styles.trialsList}>
+              {trials.map((trial, index) => {
+                const linesCount = trial.lines?.length || 0;
+                const correctionCount =
+                  trial.lines?.filter(
+                    (l) =>
+                      l.verdict === 'CORRECTED' ||
+                      l.correctionApplied ||
+                      (l.correctedText && l.correctedText !== l.rawOcrText)
+                  ).length || 0;
+                const confSum =
+                  trial.lines?.reduce((s, l) => s + (l.rawOcrConfidence ?? l.confidence ?? 0.85), 0) || 0;
+                const meanConf = linesCount > 0 ? `${Math.round((confSum / linesCount) * 100)}%` : 'N/A';
+
+                return (
+                  <TouchableOpacity
+                    key={trial.trialId || index}
+                    style={[styles.sessionCard, SHADOWS.small]}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/ocr-pilot/multiline-result' as any,
+                        params: { trialId: trial.trialId },
+                      })
+                    }
+                    activeOpacity={0.88}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Session ${index + 1}: ${linesCount} lines`}
+                  >
+                    <View style={styles.sessionCardTop}>
+                      <View style={styles.sessionBadge}>
+                        <Ionicons name="document-text" size={14} color="#1E40AF" />
+                        <Text style={styles.sessionBadgeText}>Session #{index + 1}</Text>
+                      </View>
+                      <View style={styles.confidenceChip}>
+                        <Text style={styles.confidenceChipText}>Confidence: {meanConf}</Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.sessionMetricsRow}>
+                      <View style={styles.sessionMetricItem}>
+                        <Text style={styles.sessionMetricLabel}>Images</Text>
+                        <Text style={styles.sessionMetricValue}>1 image</Text>
+                      </View>
+                      <View style={styles.sessionMetricItem}>
+                        <Text style={styles.sessionMetricLabel}>Detected Lines</Text>
+                        <Text style={styles.sessionMetricValue}>{linesCount} lines</Text>
+                      </View>
+                      <View style={styles.sessionMetricItem}>
+                        <Text style={styles.sessionMetricLabel}>AI Corrections</Text>
+                        <Text style={styles.sessionMetricValue}>{correctionCount}</Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.sessionCardFooter}>
+                      <Text style={styles.viewResultText}>View Recognition Details</Text>
+                      <Ionicons name="chevron-forward" size={16} color="#1E40AF" />
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
         </ScrollView>
       </View>
     );
@@ -275,126 +354,200 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: COLORS.error,
   },
-  // HandAI Research Demo V3 styles
-  researchCard: {
-    marginBottom: SIZES.large,
-    padding: SIZES.large,
+  // HandAI Research Demo V4 styles
+  historyStatsCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    padding: 16,
+    marginBottom: 20,
   },
-  researchHeaderRow: {
+  historyStatsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SIZES.medium,
-    gap: 12,
+    gap: 8,
+    marginBottom: 12,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
   },
-  researchIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#EFF6FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#BFDBFE',
-  },
-  researchTitleContainer: {
-    flex: 1,
-  },
-  researchTitle: {
-    fontSize: 18,
+  historyStatsTitle: {
+    fontSize: 14,
     fontWeight: '800',
     color: '#0F172A',
+    letterSpacing: 0.2,
   },
-  researchSubtitle: {
-    fontSize: 12,
+  statsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  statBox: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 10,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    alignItems: 'center',
+  },
+  statBoxValue: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#1E40AF',
+  },
+  statBoxLabel: {
+    fontSize: 11,
     fontWeight: '600',
     color: '#64748B',
     marginTop: 2,
   },
-  researchMetaGrid: {
+  sectionHeaderRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginTop: 4,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
   },
-  researchMetaItem: {
-    flex: 1,
-    minWidth: '45%',
-    backgroundColor: '#F8FAFC',
-    borderRadius: 8,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  researchMetaLabel: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#64748B',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 2,
-  },
-  researchMetaValue: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#1E293B',
-  },
-  researchSectionTitle: {
+  sectionHeadingTitle: {
     fontSize: 15,
     fontWeight: '800',
     color: '#0F172A',
-    marginBottom: SIZES.medium,
   },
-  pipelineList: {
-    gap: 12,
+  sessionCountTag: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#64748B',
   },
-  pipelineStepRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
+  emptyResearchCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    padding: 24,
+    alignItems: 'center',
   },
-  pipelineStepBadge: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: '#2563EB',
+  emptyIconWrapper: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 2,
+    marginBottom: 14,
   },
-  pipelineStepBadgeText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '700',
+  emptyResearchTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#0F172A',
+    marginBottom: 6,
+    textAlign: 'center',
   },
-  pipelineStepContent: {
-    flex: 1,
-  },
-  pipelineStepTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#1E293B',
-  },
-  pipelineStepDesc: {
-    fontSize: 12,
-    color: '#64748B',
-    marginTop: 2,
-    lineHeight: 16,
-  },
-  emptyTrialsContainer: {
-    alignItems: 'center',
-    paddingVertical: SIZES.large,
-    gap: 8,
-  },
-  emptyTrialsTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#334155',
-  },
-  emptyTrialsDesc: {
-    fontSize: 12,
+  emptyResearchSubtitle: {
+    fontSize: 13,
     color: '#64748B',
     textAlign: 'center',
     lineHeight: 18,
+    marginBottom: 18,
     maxWidth: 320,
+  },
+  emptyStartBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#1E40AF',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+  },
+  emptyStartBtnText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  trialsList: {
+    gap: 12,
+  },
+  sessionCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  sessionCardTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  sessionBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  sessionBadgeText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1E40AF',
+  },
+  confidenceChip: {
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  confidenceChipText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1E40AF',
+  },
+  sessionMetricsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
+  },
+  sessionMetricItem: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
+    padding: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  sessionMetricLabel: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#64748B',
+    textTransform: 'uppercase',
+  },
+  sessionMetricValue: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#0F172A',
+    marginTop: 2,
+  },
+  sessionCardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#F1F5F9',
+  },
+  viewResultText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1E40AF',
+  },
+  // Legacy styles preserved for safe fallback
+  researchCard: {
+    marginBottom: SIZES.large,
+    padding: SIZES.large,
   },
 });

@@ -17,6 +17,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SchoolIcon from '@mui/icons-material/School';
 import HistoryIcon from '@mui/icons-material/History';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import HomeIcon from '@mui/icons-material/Home';
@@ -27,6 +28,7 @@ const DRAWER_WIDTH = 260;
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Tổng quan', icon: <DashboardIcon /> },
+  { path: '/handai-analytics', label: 'HandAI Analytics', icon: <AnalyticsIcon /> },
   { path: '/users', label: 'Người dùng', icon: <PeopleAltIcon /> },
   { path: '/classes', label: 'Lớp học', icon: <SchoolIcon /> },
   { path: '/audit', label: 'Nhật ký hệ thống', icon: <HistoryIcon /> },

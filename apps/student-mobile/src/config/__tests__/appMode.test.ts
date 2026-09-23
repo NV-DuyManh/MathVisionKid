@@ -79,8 +79,8 @@ describe('AppMode Configuration & Theme Switching', () => {
     it('applies the temporary HandAI theme without overwriting MathVision theme tokens', () => {
       const activeTheme = getThemeColors();
       expect(activeTheme.primary).toBe(HAND_AI_COLORS.primary);
-      expect(activeTheme.primary).toBe('#4F46E5');
-      expect(COLORS.primary).toBe('#4F46E5');
+      expect(activeTheme.primary).toBe('#1E40AF');
+      expect(COLORS.primary).toBe('#1E40AF');
 
       // Verify MathVision colors remain intact
       expect(MATHVISION_COLORS.primary).toBe('#2563EB');

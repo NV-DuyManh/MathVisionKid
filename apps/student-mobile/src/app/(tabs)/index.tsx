@@ -55,9 +55,24 @@ export default function HomeScreen() {
         logFlowDomain('ACQUIRE', activeMode);
         const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
         draft.mode = activeMode;
+        draft.originalImageUri = asset.uri;
+        draft.originalUri = asset.uri;
+        draft.sourceImageUri = asset.uri;
+        draft.rawUri = asset.uri;
+        draft.uri = asset.uri;
+        if (isHandAI) {
+          submissionDraftStore.clearDraft();
+          draft.privacyImageUri = undefined;
+          draft.isMasked = false;
+        }
         submissionDraftStore.setDraft(draft);
         const nextTarget = isHandAI ? '/crop' : '/privacy';
-        router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
+        router.push({
+          pathname: nextTarget as any,
+          params: isHandAI
+            ? { uri: asset.uri }
+            : { uri: draft.uri },
+        });
       }
     } catch {
       Alert.alert('Lỗi', `${branding.name} không mở được thư viện ảnh.`);
@@ -86,193 +101,112 @@ export default function HomeScreen() {
             <View style={styles.researchBadgeRow}>
               <View style={styles.researchLabBadge}>
                 <View style={styles.researchPillDot} />
-                <Text style={styles.researchLabBadgeText}>{branding.badgeText}</Text>
+                <Text style={styles.researchLabBadgeText}>AI RESEARCH SYSTEM</Text>
               </View>
               <View style={styles.researchScopePill}>
                 <Text style={styles.researchScopePillText}>{branding.detailedSubtitle}</Text>
               </View>
             </View>
-            <Text style={styles.researchTitle}>{branding.name}</Text>
+            <Text style={styles.researchTitle}>HAND_AI</Text>
             <Text style={styles.researchSubtitle}>{branding.subtitle}</Text>
             <Text style={styles.researchDatasetScope}>
               {branding.datasetScope || 'Grade 1-5 Student Handwriting Dataset'}
             </Text>
           </View>
 
-          {/* Main Research Card: AI Pipeline & CTAs */}
-          <View style={[styles.researchMainCard, SHADOWS.medium]}>
-            <View style={styles.researchCardTop}>
-              <View style={styles.pipelineTitleBadge}>
-                <Ionicons name="hardware-chip-outline" size={16} color="#A5B4FC" />
-                <Text style={styles.pipelineTitleBadgeText}>AI Pipeline:</Text>
-              </View>
-              <Text style={styles.pipelineVersionText}>CRNN • Grade 1-5</Text>
-            </View>
+          {/* Action Execution Buttons */}
+          <View style={styles.researchActionRow}>
+            <TouchableOpacity
+              style={[styles.researchBtnPrimary, SHADOWS.small]}
+              onPress={handlePickImage}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Upload Image"
+            >
+              <Ionicons name="cloud-upload-outline" size={20} color="#FFFFFF" />
+              <Text style={styles.researchBtnPrimaryText}>Upload Image</Text>
+            </TouchableOpacity>
 
-            <View style={styles.pipelineChecklist}>
+            <TouchableOpacity
+              style={[styles.researchBtnSecondary, SHADOWS.small]}
+              onPress={() => navigateToCamera('HANDWRITING_TEXT')}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Capture Image"
+            >
+              <Ionicons name="camera-outline" size={20} color={COLORS.primary} />
+              <Text style={styles.researchBtnSecondaryText}>Capture Image</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Accuracy Analytics Dashboard Access */}
+          <TouchableOpacity
+            style={[styles.researchBtnAnalytics, SHADOWS.small]}
+            onPress={() => router.push('/handai-analytics' as any)}
+            activeOpacity={0.88}
+            accessibilityRole="button"
+            accessibilityLabel="Accuracy Analytics Dashboard"
+          >
+            <Ionicons name="stats-chart" size={18} color="#FFFFFF" />
+            <Text style={styles.researchBtnAnalyticsText}>Recognition Accuracy Analytics</Text>
+          </TouchableOpacity>
+
+          {/* AI Pipeline Card (5 Stages) */}
+          <View style={[styles.researchCard, SHADOWS.small]}>
+            <View style={styles.researchCardHeader}>
+              <Ionicons name="hardware-chip-outline" size={18} color={COLORS.primary} />
+              <Text style={styles.researchCardTitle}>AI Pipeline</Text>
+            </View>
+            <View style={styles.pipelineStepsList}>
               {branding.features.map((step, idx) => (
-                <View key={idx} style={styles.pipelineStepRow}>
-                  <View style={styles.pipelineStepIconWrapper}>
-                    <Ionicons name="checkmark-circle" size={18} color="#34D399" />
+                <View key={idx} style={styles.pipelineStepItem}>
+                  <View style={styles.pipelineStepNumBadge}>
+                    <Text style={styles.pipelineStepNumText}>{idx + 1}</Text>
                   </View>
-                  <Text style={styles.pipelineStepTitle}>✓ {step}</Text>
+                  <Text style={styles.pipelineStepName}>{step}</Text>
                 </View>
               ))}
             </View>
-
-            {/* Direct Action Execution Buttons */}
-            <View style={styles.researchActionRow}>
-              <TouchableOpacity
-                style={[styles.researchBtnPrimary, SHADOWS.small]}
-                onPress={handlePickImage}
-                activeOpacity={0.88}
-                accessibilityRole="button"
-                accessibilityLabel="Upload Image"
-              >
-                <Ionicons name="cloud-upload-outline" size={20} color="#FFFFFF" />
-                <Text style={styles.researchBtnPrimaryText}>Upload Image</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.researchBtnSecondary}
-                onPress={() => navigateToCamera('HANDWRITING_TEXT')}
-                activeOpacity={0.88}
-                accessibilityRole="button"
-                accessibilityLabel="Capture Image"
-              >
-                <Ionicons name="camera-outline" size={20} color="#FFFFFF" />
-                <Text style={styles.researchBtnSecondaryText}>Capture Image</Text>
-              </TouchableOpacity>
-            </View>
           </View>
 
-          {/* AI Pipeline Architecture Flowchart Section (Requirement 10) */}
-          <View style={[styles.researchSectionCard, SHADOWS.small]}>
-            <View style={styles.researchSectionHeader}>
-              <Ionicons name="git-network-outline" size={18} color={COLORS.primary} />
-              <Text style={styles.researchSectionTitle}>AI Pipeline Architecture</Text>
-            </View>
-
-            <View style={styles.flowchartContainer}>
-              <View style={styles.flowStepNode}>
-                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>1</Text></View>
-                <View style={styles.flowStepInfo}>
-                  <Text style={styles.flowStepTitle}>Image Acquisition</Text>
-                  <Text style={styles.flowStepDesc}>High-resolution notebook image acquisition</Text>
-                </View>
-              </View>
-
-              <View style={styles.flowConnector}>
-                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
-              </View>
-
-              <View style={styles.flowStepNode}>
-                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>2</Text></View>
-                <View style={styles.flowStepInfo}>
-                  <Text style={styles.flowStepTitle}>Preprocessing</Text>
-                  <Text style={styles.flowStepDesc}>Aspect normalization, adaptive binarization & boundary crop</Text>
-                </View>
-              </View>
-
-              <View style={styles.flowConnector}>
-                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
-              </View>
-
-              <View style={styles.flowStepNode}>
-                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>3</Text></View>
-                <View style={styles.flowStepInfo}>
-                  <Text style={styles.flowStepTitle}>Line Segmentation</Text>
-                  <Text style={styles.flowStepDesc}>Projection profiling & bounding box segmentation</Text>
-                </View>
-              </View>
-
-              <View style={styles.flowConnector}>
-                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
-              </View>
-
-              <View style={styles.flowStepNode}>
-                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>4</Text></View>
-                <View style={styles.flowStepInfo}>
-                  <Text style={styles.flowStepTitle}>Handwriting Recognition</Text>
-                  <Text style={styles.flowStepDesc}>CRNN sequence prediction for Vietnamese characters & tone marks</Text>
-                </View>
-              </View>
-
-              <View style={styles.flowConnector}>
-                <Ionicons name="arrow-down" size={14} color={COLORS.primary} />
-              </View>
-
-              <View style={styles.flowStepNode}>
-                <View style={styles.flowStepBadge}><Text style={styles.flowStepNum}>5</Text></View>
-                <View style={styles.flowStepInfo}>
-                  <Text style={styles.flowStepTitle}>Result Analysis</Text>
-                  <Text style={styles.flowStepDesc}>Multiline transcription with per-line confidence & AI analysis</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          {/* Research Specifications & Dataset Scope Card */}
-          <View style={[styles.researchSectionCard, SHADOWS.small]}>
-            <View style={styles.researchSectionHeader}>
+          {/* Research Scope Card */}
+          <View style={[styles.researchCard, SHADOWS.small]}>
+            <View style={styles.researchCardHeader}>
               <Ionicons name="school-outline" size={18} color={COLORS.primary} />
-              <Text style={styles.researchSectionTitle}>Scope & Dataset Specifications</Text>
+              <Text style={styles.researchCardTitle}>Research Scope</Text>
             </View>
-
-            <View style={styles.specGrid}>
-              <View style={styles.specItem}>
-                <Text style={styles.specLabel}>Language</Text>
-                <Text style={styles.specValue}>Vietnamese (89 diacritic chars)</Text>
+            <View style={styles.researchScopeList}>
+              <View style={styles.scopeItemRow}>
+                <Text style={styles.scopeItemLabel}>Language:</Text>
+                <Text style={styles.scopeItemValue}>Vietnamese</Text>
               </View>
-              <View style={styles.specItem}>
-                <Text style={styles.specLabel}>Target Cohort</Text>
-                <Text style={styles.specValue}>Primary Students (Grade 1–5)</Text>
+              <View style={styles.scopeItemRow}>
+                <Text style={styles.scopeItemLabel}>Dataset:</Text>
+                <Text style={styles.scopeItemValue}>Primary Student Handwriting</Text>
               </View>
-              <View style={styles.specItem}>
-                <Text style={styles.specLabel}>Medium</Text>
-                <Text style={styles.specValue}>Grid Notebooks (Vở ô ly)</Text>
-              </View>
-              <View style={styles.specItem}>
-                <Text style={styles.specLabel}>Analysis</Text>
-                <Text style={styles.specValue}>Line & Character Confidence</Text>
+              <View style={styles.scopeItemRow}>
+                <Text style={styles.scopeItemLabel}>Model:</Text>
+                <Text style={styles.scopeItemValue}>CRNN + CTC</Text>
               </View>
             </View>
           </View>
 
-          {/* Secondary Quick Links */}
-          <View style={styles.researchLinksRow}>
-            <TouchableOpacity
-              style={[styles.researchLinkCard, SHADOWS.small]}
-              onPress={() => router.push('/(tabs)/profile')}
-              activeOpacity={0.88}
-              accessibilityRole="button"
-              accessibilityLabel="Recognition History"
-            >
-              <View style={[styles.researchLinkIconBadge, { backgroundColor: '#EEF2FF' }]}>
-                <Ionicons name="time-outline" size={20} color="#4F46E5" />
+          {/* Recognition History Quick Link */}
+          <TouchableOpacity
+            style={[styles.historyLinkCard, SHADOWS.small]}
+            onPress={() => router.push('/(tabs)/profile')}
+            activeOpacity={0.88}
+            accessibilityRole="button"
+            accessibilityLabel="Recognition History"
+          >
+            <View style={styles.historyLinkLeft}>
+              <View style={styles.historyIconBadge}>
+                <Ionicons name="time-outline" size={18} color={COLORS.primary} />
               </View>
-              <View style={styles.researchLinkTextCol}>
-                <Text style={styles.researchLinkTitle}>Recognition History</Text>
-                <Text style={styles.researchLinkDesc}>Review processed trials</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.researchLinkCard, SHADOWS.small]}
-              onPress={() => setShowTipsModal(true)}
-              activeOpacity={0.88}
-              accessibilityRole="button"
-              accessibilityLabel="Capture Tips"
-            >
-              <View style={[styles.researchLinkIconBadge, { backgroundColor: '#ECFDF5' }]}>
-                <Ionicons name="bulb-outline" size={20} color="#059669" />
-              </View>
-              <View style={styles.researchLinkTextCol}>
-                <Text style={styles.researchLinkTitle}>Capture Tips</Text>
-                <Text style={styles.researchLinkDesc}>Guidelines for best results</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+              <Text style={styles.historyLinkTitle}>Recognition History</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={COLORS.textMuted} />
+          </TouchableOpacity>
         </View>
       ) : (
         /* ============================================================
@@ -1014,6 +948,7 @@ const styles = StyleSheet.create({
   researchActionRow: {
     flexDirection: 'row',
     gap: 12,
+    marginBottom: 20,
   },
   researchBtnPrimary: {
     flex: 1,
@@ -1021,7 +956,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: '#4F46E5',
+    backgroundColor: '#1E40AF',
     paddingVertical: 14,
     borderRadius: 14,
   },
@@ -1036,18 +971,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    backgroundColor: '#FFFFFF',
     paddingVertical: 14,
     borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.25)',
+    borderWidth: 1.5,
+    borderColor: '#CBD5E1',
   },
   researchBtnSecondaryText: {
+    color: '#1E40AF',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  researchBtnAnalytics: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#123B7A',
+    paddingVertical: 14,
+    borderRadius: 14,
+    marginBottom: 20,
+  },
+  researchBtnAnalyticsText: {
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '700',
   },
-  researchSectionCard: {
+  researchCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: SIZES.radiusLg,
     padding: 18,
@@ -1055,125 +1005,106 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E2E8F0',
   },
-  researchSectionHeader: {
+  researchCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 14,
-    paddingBottom: 10,
+    marginBottom: 12,
+    paddingBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#F1F5F9',
   },
-  researchSectionTitle: {
+  researchCardTitle: {
     fontSize: 14,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: 0.2,
   },
-  flowchartContainer: {
-    paddingVertical: 4,
+  pipelineStepsList: {
+    gap: 8,
   },
-  flowStepNode: {
+  pipelineStepItem: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     backgroundColor: '#F8FAFC',
-    padding: 12,
-    borderRadius: 12,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: '#F1F5F9',
   },
-  flowStepBadge: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    backgroundColor: '#4F46E5',
+  pipelineStepNumBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#EFF6FF',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
   },
-  flowStepNum: {
-    color: '#FFFFFF',
+  pipelineStepNumText: {
     fontSize: 12,
     fontWeight: '800',
+    color: '#1E40AF',
   },
-  flowStepInfo: {
-    flex: 1,
+  pipelineStepName: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#1E293B',
   },
-  flowStepTitle: {
+  researchScopeList: {
+    gap: 8,
+  },
+  scopeItemRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  scopeItemLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#64748B',
+  },
+  scopeItemValue: {
     fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
-    marginBottom: 2,
   },
-  flowStepDesc: {
-    fontSize: 12,
-    color: '#64748B',
-    lineHeight: 16,
-  },
-  flowConnector: {
+  historyLinkCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 4,
-  },
-  specGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  specItem: {
-    flex: 1,
-    minWidth: '45%',
-    backgroundColor: '#F8FAFC',
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  specLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#64748B',
-    marginBottom: 2,
-    textTransform: 'uppercase',
-  },
-  specValue: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#0F172A',
-  },
-  researchLinksRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 20,
-  },
-  researchLinkCard: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
     backgroundColor: '#FFFFFF',
-    padding: 12,
+    padding: 14,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: '#E2E8F0',
+    marginBottom: 24,
   },
-  researchLinkIconBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+  historyLinkLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  historyIconBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#EFF6FF',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  researchLinkTextCol: {
-    flex: 1,
-  },
-  researchLinkTitle: {
-    fontSize: 12,
+  historyLinkTitle: {
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
-  },
-  researchLinkDesc: {
-    fontSize: 11,
-    color: '#64748B',
-    marginTop: 1,
   },
 });

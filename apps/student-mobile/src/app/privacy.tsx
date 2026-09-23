@@ -75,8 +75,16 @@ export default function PrivacyGateScreen() {
 
   useEffect(() => {
     if (isHandAIMode()) {
-      submissionDraftStore.updateDraft({ privacyImageUri: activeUri, isMasked: false, mode: 'HANDWRITING_TEXT' });
-      router.replace({ pathname: '/crop' as any, params: { retrySubmissionId } });
+      console.log('[HAND_AI DEBUG] Privacy screen bypassed completely. Redirecting to /crop');
+      const origUri = draft?.sourceImageUri || draft?.rawUri || activeUri;
+      submissionDraftStore.updateDraft({
+        privacyImageUri: undefined,
+        isMasked: false,
+        sourceImageUri: origUri,
+        uri: origUri,
+        mode: 'HANDWRITING_TEXT',
+      });
+      router.replace({ pathname: '/crop' as any, params: { retrySubmissionId, uri: origUri } });
       return;
     }
     logFlowDomain('PRIVACY', effectiveMode);
@@ -91,6 +99,10 @@ export default function PrivacyGateScreen() {
       });
     }
   }, [activeUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode]);
+
+  if (isHandAIMode()) {
+    return null; // HAND_AI must NEVER mount privacy screen or render ViewShot
+  }
 
   // =========================================================================
   // Reanimated Shared Values for Native UI-Thread Worklet Gesture Recognition
@@ -488,6 +500,14 @@ export default function PrivacyGateScreen() {
       Alert.alert('Lỗi', 'Không thể lưu ảnh đã che.');
     }
   };
+
+  if (isHandAIMode()) {
+    return (
+      <View style={{ flex: 1, backgroundColor: '#F8FAFC', justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+    );
+  }
 
   if (!activeUri) {
     return (
