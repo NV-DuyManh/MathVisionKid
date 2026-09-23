@@ -130,6 +130,9 @@ public class OcrMultilineLine {
     @Column(name = "feedback_at")
     private Instant feedbackAt;
 
+    @OneToMany(mappedBy = "line", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private java.util.List<OcrErrorRecord> errorRecords = new java.util.ArrayList<>();
+
     @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();
 }

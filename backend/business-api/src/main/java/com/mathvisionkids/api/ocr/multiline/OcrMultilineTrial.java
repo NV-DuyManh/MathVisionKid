@@ -65,6 +65,26 @@ public class OcrMultilineTrial {
     @OrderBy("lineOrder ASC")
     private List<OcrMultilineLine> lines = new ArrayList<>();
 
+    @OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<OcrErrorRecord> errorRecords = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "experiment_id")
+    private OcrModelExperiment modelExperiment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dataset_version_id")
+    private OcrDatasetVersion datasetVersion;
+
+    @Column(name = "model_version_str")
+    private String modelVersionStr;
+
+    @Column(name = "dataset_version_str")
+    private String datasetVersionStr;
+
+    @Column(name = "engine_version_str")
+    private String engineVersionStr;
+
     @Column(name = "canonical_matched")
     private Boolean canonicalMatched;
 

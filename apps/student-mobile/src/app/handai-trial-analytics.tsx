@@ -20,6 +20,7 @@ import {
   TrialAnalytics,
   exportTrialToJson,
   exportTrialToCsv,
+  exportResearchEvaluationReport,
   BENCHMARK_EXPERIMENTS,
 } from '../services/analytics/handAiAnalyticsStore';
 import { OcrPilotService } from '../services/api/OcrPilotService';
@@ -37,7 +38,7 @@ export default function HandAiTrialAnalyticsScreen() {
   const [trialData, setTrialData] = useState<TrialAnalytics | null>(null);
   const [exportModalVisible, setExportModalVisible] = useState(false);
   const [exportContent, setExportContent] = useState('');
-  const [exportType, setExportType] = useState<'JSON' | 'CSV'>('JSON');
+  const [exportType, setExportType] = useState<'JSON' | 'CSV' | 'REPORT'>('JSON');
 
   useEffect(() => {
     let active = true;
@@ -71,10 +72,13 @@ export default function HandAiTrialAnalyticsScreen() {
     };
   }, [trialId]);
 
-  const handleExport = async (type: 'JSON' | 'CSV') => {
+  const handleExport = async (type: 'JSON' | 'CSV' | 'REPORT') => {
     if (!trialData) return;
     try {
-      const content = type === 'JSON' ? exportTrialToJson(trialData) : exportTrialToCsv(trialData);
+      let content = '';
+      if (type === 'JSON') content = exportTrialToJson(trialData);
+      else if (type === 'CSV') content = exportTrialToCsv(trialData);
+      else content = exportResearchEvaluationReport(handAiAnalyticsStore.getGlobalAnalytics(), trialData);
       setExportType(type);
       setExportContent(content);
       setExportModalVisible(true);
@@ -97,7 +101,7 @@ export default function HandAiTrialAnalyticsScreen() {
   if (loading) {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <AppHeader title="HandAI Trial Analytics" showBack />
+        <AppHeader title="Current Recognition Evaluation" showBack />
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color={PRIMARY_COLOR} />
           <Text style={styles.loadingText}>Calculating trial performance metrics...</Text>
@@ -109,7 +113,7 @@ export default function HandAiTrialAnalyticsScreen() {
   if (!trialData || trialData.totalLines === 0) {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <AppHeader title="HandAI Trial Analytics" showBack />
+        <AppHeader title="Current Recognition Evaluation" showBack />
         <View style={styles.emptyContainer}>
           <Ionicons name="document-text-outline" size={48} color="#94A3B8" />
           <Text style={styles.emptyTitle}>No Trial Data Available</Text>
@@ -173,7 +177,7 @@ export default function HandAiTrialAnalyticsScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <AppHeader title="HandAI Trial Analytics" showBack />
+      <AppHeader title="Current Recognition Evaluation" showBack />
 
       <ScrollView
         style={styles.container}
@@ -248,6 +252,12 @@ export default function HandAiTrialAnalyticsScreen() {
               <Text style={styles.metadataLabel}>ENGINE VERSION</Text>
               <Text style={styles.metadataValue}>
                 {metadata?.engineVersion || 'HandAI v2.4 (Groq/Gemini-4B)'}
+              </Text>
+            </View>
+            <View style={styles.metadataItem}>
+              <Text style={styles.metadataLabel}>NUMBER OF LINES</Text>
+              <Text style={[styles.metadataValue, { color: PRIMARY_COLOR }]}>
+                {trialData?.totalLines ?? metadata?.numberOfLines ?? 0} lines
               </Text>
             </View>
           </View>
@@ -900,10 +910,42 @@ export default function HandAiTrialAnalyticsScreen() {
                 <View key={lm.lineId} style={styles.lineItemCard}>
                   <View style={styles.lineItemHeader}>
                     <View style={styles.lineOrderChip}>
-                      <Text style={styles.lineOrderChipText}>Line {lm.lineIndex}</Text>
+                      <Text style={styles.lineOrderChipText}>Line {lm.lineIndex} ({lm.line_id || lm.lineId})</Text>
                     </View>
 
                     <View style={styles.lineBadgesGroup}>
+                      {/* Decision Source */}
+                      <View
+                        style={[
+                          styles.pillBadge,
+                          {
+                            backgroundColor:
+                              (lm.decisionSource || lm.sourceDecision) === 'AI_CORRECTION'
+                                ? '#FEF3C7'
+                                : (lm.decisionSource || lm.sourceDecision) === 'MANUAL_EDIT'
+                                ? '#DCFCE7'
+                                : '#EFF6FF',
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.pillBadgeText,
+                            {
+                              color:
+                                (lm.decisionSource || lm.sourceDecision) === 'AI_CORRECTION'
+                                  ? '#D97706'
+                                  : (lm.decisionSource || lm.sourceDecision) === 'MANUAL_EDIT'
+                                  ? '#16A34A'
+                                  : '#2563EB',
+                              fontWeight: '700',
+                            },
+                          ]}
+                        >
+                          {lm.decisionSource || lm.sourceDecision || (lm.source === 'AI_CORRECTION' ? 'AI_CORRECTION' : lm.source === 'MANUAL' ? 'MANUAL_EDIT' : 'CRNN_RAW')}
+                        </Text>
+                      </View>
+
                       {/* Evaluation Status */}
                       <View style={[styles.pillBadge, { backgroundColor: evalStatusBg }]}>
                         <Text style={[styles.pillBadgeText, { color: evalStatusColor }]}>
@@ -1052,6 +1094,16 @@ export default function HandAiTrialAnalyticsScreen() {
             >
               <Ionicons name="document-text-outline" size={16} color={PRIMARY_COLOR} />
               <Text style={styles.exportBtnText}>Export CSV</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.exportBtn, { backgroundColor: '#EFF6FF', borderColor: '#BFDBFE' }]}
+              onPress={() => handleExport('REPORT')}
+              accessibilityRole="button"
+              accessibilityLabel="Export Research Report"
+            >
+              <Ionicons name="newspaper-outline" size={16} color={SECONDARY_COLOR} />
+              <Text style={[styles.exportBtnText, { color: SECONDARY_COLOR }]}>Research Report</Text>
             </TouchableOpacity>
           </View>
         </View>
