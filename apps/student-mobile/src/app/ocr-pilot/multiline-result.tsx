@@ -201,7 +201,8 @@ export default function MultilineResultScreen() {
         });
         setTrial(res);
         if (isHandAI) {
-          handAiAnalyticsStore.recordTrial(res);
+          const analytics = handAiAnalyticsStore.computeTrialAnalytics(res, false);
+          handAiAnalyticsStore.setCurrentTrialAnalytics(analytics);
         }
       } catch (e: any) {
         if (!active) return;
@@ -505,7 +506,7 @@ export default function MultilineResultScreen() {
                     {hasAiConfirmedOcr && (
                       <View style={styles.aiConfirmedBadge}>
                         <Ionicons name="checkmark-circle" size={13} color="#166534" />
-                        <Text style={styles.aiConfirmedBadgeText}>AI confirmed OCR</Text>
+                        <Text style={styles.aiConfirmedBadgeText}>AI Validation Passed</Text>
                       </View>
                     )}
                   </View>
@@ -899,23 +900,51 @@ export default function MultilineResultScreen() {
       <View style={styles.bottomContainer}>
         {isHandAI && (
           <TouchableOpacity
-            style={styles.analyticsBtn}
-            onPress={() => router.push('/handai-analytics' as any)}
+            style={styles.trialAnalyticsBtn}
+            onPress={async () => {
+              if (trial) {
+                await handAiAnalyticsStore.completeTrial(trial);
+                router.push({
+                  pathname: '/handai-trial-analytics' as any,
+                  params: { trialId: trial.trialId },
+                });
+              }
+            }}
             accessibilityRole="button"
-            accessibilityLabel="View Accuracy Analytics"
+            accessibilityLabel="View Trial Analytics"
           >
-            <Ionicons name="stats-chart" size={18} color="#FFFFFF" />
-            <Text style={styles.analyticsBtnText}>View Accuracy Analytics</Text>
+            <Ionicons name="analytics" size={18} color="#FFFFFF" />
+            <Text style={styles.trialAnalyticsBtnText}>View Trial Analytics</Text>
           </TouchableOpacity>
         )}
 
         <TouchableOpacity
           style={styles.doneBtn}
-          onPress={() => {
+          onPress={async () => {
+            if (isHandAI && trial) {
+              await handAiAnalyticsStore.completeTrial(trial);
+            }
             Alert.alert(
-              isHandAI ? 'Success' : 'Thành công',
-              isHandAI ? 'All handwriting lines confirmed!' : 'Đã xác nhận toàn bộ các dòng chữ!',
-              [{ text: isHandAI ? 'Done' : 'Xong', onPress: () => router.replace('/(tabs)' as any) }]
+              isHandAI ? 'Evaluation Complete' : 'Thành công',
+              isHandAI
+                ? 'All handwriting lines confirmed! View session analytics or finish.'
+                : 'Đã xác nhận toàn bộ các dòng chữ!',
+              isHandAI
+                ? [
+                    {
+                      text: 'View Trial Analytics',
+                      onPress: () =>
+                        router.push({
+                          pathname: '/handai-trial-analytics' as any,
+                          params: { trialId: trial?.trialId },
+                        }),
+                    },
+                    {
+                      text: 'Done',
+                      onPress: () => router.replace('/(tabs)' as any),
+                    },
+                  ]
+                : [{ text: 'Xong', onPress: () => router.replace('/(tabs)' as any) }]
             );
           }}
           accessibilityRole="button"
@@ -926,6 +955,18 @@ export default function MultilineResultScreen() {
             {isHandAI ? 'Confirm All' : 'Xác nhận toàn bộ'}
           </Text>
         </TouchableOpacity>
+
+        {isHandAI && (
+          <TouchableOpacity
+            style={styles.analyticsBtn}
+            onPress={() => router.push('/handai-analytics' as any)}
+            accessibilityRole="button"
+            accessibilityLabel="View Global Analytics"
+          >
+            <Ionicons name="stats-chart" size={18} color="#FFFFFF" />
+            <Text style={styles.analyticsBtnText}>View Global Analytics</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity
           style={styles.secondaryDoneBtn}
@@ -1435,6 +1476,21 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 32,
     gap: 10,
+  },
+  trialAnalyticsBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    height: 48,
+    borderRadius: 8,
+    backgroundColor: '#2563EB',
+    ...SHADOWS.small,
+  },
+  trialAnalyticsBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
   analyticsBtn: {
     flexDirection: 'row',

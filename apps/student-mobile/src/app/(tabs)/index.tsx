@@ -8,6 +8,7 @@ import {
   Modal,
   Pressable,
   Alert,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -107,8 +108,17 @@ export default function HomeScreen() {
                 <Text style={styles.researchScopePillText}>{branding.detailedSubtitle}</Text>
               </View>
             </View>
-            <Text style={styles.researchTitle}>HAND_AI</Text>
-            <Text style={styles.researchSubtitle}>{branding.subtitle}</Text>
+            <View style={styles.researchBrandTitleRow}>
+              <Image
+                source={require('../../../assets/images/handai-icon.png')}
+                style={styles.researchHeaderLogo}
+                resizeMode="cover"
+              />
+              <View style={styles.researchTitleCol}>
+                <Text style={styles.researchTitle}>HAND_AI</Text>
+                <Text style={styles.researchSubtitle}>{branding.subtitle}</Text>
+              </View>
+            </View>
             <Text style={styles.researchDatasetScope}>
               {branding.datasetScope || 'Grade 1-5 Student Handwriting Dataset'}
             </Text>
@@ -867,12 +877,30 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#475569',
   },
+  researchBrandTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  researchHeaderLogo: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: '#38BDF8',
+    backgroundColor: '#0B192C',
+  },
+  researchTitleCol: {
+    flex: 1,
+  },
   researchTitle: {
     fontSize: 34,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.5,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   researchSubtitle: {
     fontSize: 15,
