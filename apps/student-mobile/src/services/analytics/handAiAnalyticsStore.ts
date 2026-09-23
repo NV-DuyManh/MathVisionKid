@@ -2,6 +2,8 @@ import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 import { MultilineTrialResult } from '../api/OcrPilotService';
 
+export type { MultilineTrialResult };
+
 export type CorrectionType = 'OCR_CORRECT' | 'AI_CORRECTED' | 'MANUAL_CORRECTED' | 'FAILED';
 
 export type ErrorType =

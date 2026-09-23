@@ -1,6 +1,7 @@
 import { submissionDraftStore, logImageFlow } from '../services/draft/submissionDraftStore';
 import {
   handAiAnalyticsStore,
+  MultilineTrialResult,
   exportTrialToJson,
   exportTrialToCsv,
   calculateCer,
