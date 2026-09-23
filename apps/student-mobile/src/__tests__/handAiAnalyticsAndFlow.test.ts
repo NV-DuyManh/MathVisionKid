@@ -251,7 +251,7 @@ describe('HandAI Flow, Image Lifecycle & Analytics Suite', () => {
         status: 'IN_PROGRESS',
         createdAt: new Date().toISOString(),
         lines: [
-          { lineId: '1', predictedText: 'Line 1', confidence: 0.5, verdict: '', selectedSource: '', trainingEligible: true },
+          { lineId: '1', predictedText: 'Line 1', confidence: 0.5, verdict: '', selectedSource: 'OCR', trainingEligible: true },
         ],
       };
 

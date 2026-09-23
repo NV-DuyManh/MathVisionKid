@@ -202,7 +202,7 @@ export interface MultilineLineResult {
   /** Canonical current text strictly from resolveLineDisplayState (PROD.4A.1) */
   currentText?: string;
   /** Selected source: OCR | SUGGESTION_1 | SUGGESTION_2 | MANUAL_EDIT */
-  selectedSource?: 'OCR' | 'SUGGESTION_1' | 'SUGGESTION_2' | 'MANUAL_EDIT' | 'ocr' | 'suggestion_1' | 'suggestion_2' | 'manual_edit';
+  selectedSource?: 'OCR' | 'SUGGESTION_1' | 'SUGGESTION_2' | 'MANUAL_EDIT' | 'ocr' | 'suggestion_1' | 'suggestion_2' | 'manual_edit' | string;
   /** Selection reason explaining the decision */
   selectionReason?: string;
   decisionReason?: string;
