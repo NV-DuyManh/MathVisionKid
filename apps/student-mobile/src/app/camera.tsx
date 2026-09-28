@@ -205,7 +205,7 @@ export default function CameraScreen() {
                 accessibilityLabel="Chế độ chữ viết tay tiếng Việt"
               >
                 <Ionicons
-                  name="create-outline"
+                  name="book-outline"
                   size={16}
                   color={isHandwriting ? '#FFFFFF' : '#CBD5E1'}
                 />
@@ -215,7 +215,7 @@ export default function CameraScreen() {
                     isHandwriting && styles.modeTabTextActive,
                   ]}
                 >
-                  Chữ viết tay
+                  Chữ viết tay & Bài giải
                 </Text>
               </TouchableOpacity>
 

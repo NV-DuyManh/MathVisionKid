@@ -9,6 +9,7 @@ import {
   Pressable,
   Alert,
   Image,
+  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,6 +23,7 @@ import {
 } from '../../services/draft/submissionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../../services/image/imagePipeline';
 import { getAppBranding, isHandAIMode, getFeatureFlags } from '../../config/appMode';
+import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -29,6 +31,9 @@ export default function HomeScreen() {
   const userName = auth?.user?.name || 'em';
   const [showTipsModal, setShowTipsModal] = useState(false);
   const [showPrivacyInfoModal, setShowPrivacyInfoModal] = useState(false);
+  const [showCurriculumModal, setShowCurriculumModal] = useState(false);
+  const [selectedGrade, setSelectedGrade] = useState<1 | 2 | 3 | 4 | 5>(3);
+  const [expandedProblemId, setExpandedProblemId] = useState<string | null>(null);
   const isHandAI = isHandAIMode();
   const branding = getAppBranding();
   const featureFlags = getFeatureFlags();
@@ -301,6 +306,31 @@ export default function HomeScreen() {
             </View>
           </View>
 
+          {/* Curriculum Practice Card - Kho bài tập SGK Cánh Diều & Kết Nối Tri Thức */}
+          <TouchableOpacity
+            style={[styles.curriculumBannerCard, SHADOWS.small]}
+            onPress={() => setShowCurriculumModal(true)}
+            activeOpacity={0.88}
+            accessibilityRole="button"
+            accessibilityLabel="Kho đề toán SGK Lớp 1 đến 5"
+          >
+            <View style={styles.curriculumBannerLeft}>
+              <View style={styles.curriculumIconBadge}>
+                <Ionicons name="book" size={24} color="#D97706" />
+              </View>
+              <View style={{ flex: 1 }}>
+                <View style={styles.curriculumBadgeRow}>
+                  <Text style={styles.curriculumBadgeText}>SGK Cánh Diều & Kết Nối</Text>
+                </View>
+                <Text style={styles.curriculumBannerTitle}>Kho đề toán tiểu học (Lớp 1 - 5)</Text>
+                <Text style={styles.curriculumBannerSubtitle}>
+                  Luyện tập bài toán 2 bước tính, đặt tính rồi tính và bài toán có lời văn chuẩn SGK.
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#D97706" />
+            </View>
+          </TouchableOpacity>
+
           {/* Secondary Features Section */}
           <View style={styles.sectionHeaderRow}>
             <Text style={styles.sectionHeading}>Tính năng học tập</Text>
@@ -506,6 +536,126 @@ export default function HomeScreen() {
             >
               <Text style={styles.modalPrimaryBtnText}>Đã hiểu rồi</Text>
             </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      {/* Modal: Primary Math Curriculum Library */}
+      <Modal
+        visible={showCurriculumModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowCurriculumModal(false)}
+      >
+        <Pressable style={styles.modalBackdrop} onPress={() => setShowCurriculumModal(false)}>
+          <Pressable style={[styles.curriculumModalCard, SHADOWS.large]} onPress={() => {}}>
+            <View style={styles.modalHeaderRow}>
+              <View style={[styles.modalHeaderIconBadge, { backgroundColor: '#FEF3C7' }]}>
+                <Ionicons name="school" size={22} color="#D97706" />
+              </View>
+              <Text style={styles.modalTitle}>Kho đề toán SGK (Lớp 1 - 5)</Text>
+              <TouchableOpacity
+                onPress={() => setShowCurriculumModal(false)}
+                style={styles.modalCloseBtn}
+                accessibilityRole="button"
+                accessibilityLabel="Đóng kho đề"
+              >
+                <Ionicons name="close" size={20} color="#64748B" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Grade Tabs: Lớp 1 to Lớp 5 */}
+            <View style={styles.gradeTabRow}>
+              {([1, 2, 3, 4, 5] as const).map((grade) => (
+                <TouchableOpacity
+                  key={grade}
+                  style={[
+                    styles.gradeTabBtn,
+                    selectedGrade === grade && styles.gradeTabBtnActive,
+                  ]}
+                  onPress={() => setSelectedGrade(grade)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Chọn Lớp ${grade}`}
+                >
+                  <Text
+                    style={[
+                      styles.gradeTabBtnText,
+                      selectedGrade === grade && styles.gradeTabBtnTextActive,
+                    ]}
+                  >
+                    Lớp {grade}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <ScrollView
+              style={styles.problemListScroll}
+              showsVerticalScrollIndicator={false}
+            >
+              {getProblemsByGrade(selectedGrade).map((p) => {
+                const isExpanded = expandedProblemId === p.id;
+                return (
+                  <View key={p.id} style={styles.curriculumProblemCard}>
+                    <View style={styles.problemTagRow}>
+                      <View style={styles.bookTag}>
+                        <Text style={styles.bookTagText}>{p.bookSeries}</Text>
+                      </View>
+                      <View style={styles.difficultyTag}>
+                        <Text style={styles.difficultyTagText}>{p.difficulty}</Text>
+                      </View>
+                    </View>
+
+                    <Text style={styles.problemTopicText}>{p.topic}</Text>
+                    <Text style={styles.problemTitleText}>{p.title}</Text>
+                    <Text style={styles.problemBodyText}>{p.problemText}</Text>
+
+                    {/* Guidance / Sample Solution Accordion */}
+                    <TouchableOpacity
+                      style={styles.guidanceToggleBtn}
+                      onPress={() => setExpandedProblemId(isExpanded ? null : p.id)}
+                      accessibilityRole="button"
+                    >
+                      <Ionicons
+                        name={isExpanded ? 'chevron-up' : 'bulb-outline'}
+                        size={16}
+                        color="#2563EB"
+                      />
+                      <Text style={styles.guidanceToggleText}>
+                        {isExpanded ? 'Ẩn gợi ý cách giải' : 'Xem gợi ý cách giải'}
+                      </Text>
+                    </TouchableOpacity>
+
+                    {isExpanded && (
+                      <View style={styles.guidanceContentBox}>
+                        <Text style={styles.guidanceIntro}>{p.guidance}</Text>
+                        <Text style={styles.guidanceStepsTitle}>Bài giải tham khảo:</Text>
+                        {p.sampleSolution.lines.map((line, lIdx) => (
+                          <Text key={lIdx} style={styles.guidanceStepLine}>
+                            {line}
+                          </Text>
+                        ))}
+                      </View>
+                    )}
+
+                    {/* Action: Snap photo of written solution */}
+                    <TouchableOpacity
+                      style={styles.solveNowBtn}
+                      onPress={() => {
+                        setShowCurriculumModal(false);
+                        navigateToCamera('HANDWRITING_TEXT');
+                      }}
+                      activeOpacity={0.88}
+                      accessibilityRole="button"
+                      accessibilityLabel="Chụp bài giải của em"
+                    >
+                      <Ionicons name="camera" size={16} color="#FFFFFF" />
+                      <Text style={styles.solveNowBtnText}>Chụp bài làm của em để chấm</Text>
+                    </TouchableOpacity>
+                  </View>
+                );
+              })}
+            </ScrollView>
           </Pressable>
         </Pressable>
       </Modal>
@@ -1134,5 +1284,196 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
+  },
+  curriculumBannerCard: {
+    backgroundColor: '#FFFBEB',
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#FDE68A',
+  },
+  curriculumBannerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  curriculumIconBadge: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    backgroundColor: '#FEF3C7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  curriculumBadgeRow: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#FDE68A',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+    marginBottom: 4,
+  },
+  curriculumBadgeText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#92400E',
+  },
+  curriculumBannerTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#92400E',
+    marginBottom: 2,
+  },
+  curriculumBannerSubtitle: {
+    fontSize: 12,
+    color: '#B45309',
+    lineHeight: 16,
+  },
+  curriculumModalCard: {
+    width: '92%',
+    maxWidth: 520,
+    maxHeight: '82%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
+    padding: 20,
+  },
+  gradeTabRow: {
+    flexDirection: 'row',
+    backgroundColor: '#F1F5F9',
+    borderRadius: 12,
+    padding: 4,
+    marginBottom: 14,
+    gap: 4,
+  },
+  gradeTabBtn: {
+    flex: 1,
+    paddingVertical: 8,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  gradeTabBtnActive: {
+    backgroundColor: '#FFFFFF',
+    ...SHADOWS.small,
+  },
+  gradeTabBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#64748B',
+  },
+  gradeTabBtnTextActive: {
+    fontWeight: '800',
+    color: '#D97706',
+  },
+  problemListScroll: {
+    maxHeight: 460,
+  },
+  curriculumProblemCard: {
+    backgroundColor: '#F8FAFC',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  problemTagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 6,
+  },
+  bookTag: {
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  bookTagText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#2563EB',
+  },
+  difficultyTag: {
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  difficultyTagText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#D97706',
+  },
+  problemTopicText: {
+    fontSize: 11,
+    color: '#64748B',
+    marginBottom: 2,
+    fontWeight: '600',
+  },
+  problemTitleText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#0F172A',
+    marginBottom: 6,
+  },
+  problemBodyText: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: '#334155',
+    marginBottom: 10,
+  },
+  guidanceToggleBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 8,
+    alignSelf: 'flex-start',
+  },
+  guidanceToggleText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#2563EB',
+  },
+  guidanceContentBox: {
+    backgroundColor: '#EFF6FF',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: '#2563EB',
+  },
+  guidanceIntro: {
+    fontSize: 12,
+    lineHeight: 17,
+    color: '#1E40AF',
+    marginBottom: 6,
+  },
+  guidanceStepsTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1E40AF',
+    marginBottom: 4,
+  },
+  guidanceStepLine: {
+    fontSize: 12,
+    lineHeight: 17,
+    color: '#1E3A8A',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  solveNowBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#D97706',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginTop: 4,
+  },
+  solveNowBtnText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
   },
 });

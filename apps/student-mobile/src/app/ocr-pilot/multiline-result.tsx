@@ -24,6 +24,7 @@ import {
 import { isAdvisorPending, mergeTrialWithAdvisorUpdate } from '../../utils/mobileAsyncAdvisor';
 import { isHandAIMode } from '../../config/appMode';
 import { handAiAnalyticsStore } from '../../services/analytics/handAiAnalyticsStore';
+import { evaluateMathSolution, MathSolutionEvaluationResult } from '../../utils/mathSolutionEvaluator';
 
 export function getDecisionExplanation(
   state: ReturnType<typeof resolveLineDisplayState>,
@@ -221,6 +222,11 @@ export default function MultilineResultScreen() {
 
   const advisorPending = isAdvisorPending(trial);
 
+  const mathSolutionEval: MathSolutionEvaluationResult | null = React.useMemo(() => {
+    if (!trial?.lines || trial.lines.length === 0) return null;
+    return evaluateMathSolution(trial.lines);
+  }, [trial?.lines]);
+
   // Section 7: Async background advisor polling
   // Polls every 1000ms while advisors are pending, stops when complete/failed or after 8 polls.
   // Safely merges suggestions without overwriting user selections or manual edits.
@@ -392,6 +398,118 @@ export default function MultilineResultScreen() {
         </Text>
       </View>
 
+      {/* Math Solution Holistic Evaluation Card */}
+      {mathSolutionEval && mathSolutionEval.summary.totalLines > 0 && (
+        <View style={[styles.mathSolutionCard, SHADOWS.small]}>
+          <View style={styles.mathSolutionHeader}>
+            <View style={styles.mathSolutionTitleRow}>
+              <View style={[styles.mathVerdictIconBadge, { backgroundColor: mathSolutionEval.summary.badgeColor }]}>
+                <Ionicons
+                  name={
+                    mathSolutionEval.summary.verdict === 'ALL_CORRECT'
+                      ? 'checkmark-done-circle'
+                      : mathSolutionEval.summary.verdict === 'HAS_CALCULATION_ERROR'
+                      ? 'alert-circle'
+                      : 'school'
+                  }
+                  size={22}
+                  color="#FFFFFF"
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.mathSolutionTitleText}>{mathSolutionEval.summary.title}</Text>
+                <Text style={styles.mathSolutionHintText}>{mathSolutionEval.summary.hint}</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Quick Metrics Bar: Lời giải | Phép tính | Đáp số */}
+          <View style={styles.mathMetricsBar}>
+            <View style={styles.mathMetricItem}>
+              <Text style={styles.mathMetricValue}>{mathSolutionEval.summary.explanationCount}</Text>
+              <Text style={styles.mathMetricLabel}>Dòng lời giải</Text>
+            </View>
+            <View style={styles.mathMetricDivider} />
+            <View style={styles.mathMetricItem}>
+              <Text
+                style={[
+                  styles.mathMetricValue,
+                  {
+                    color:
+                      mathSolutionEval.summary.incorrectEquations > 0
+                        ? '#DC2626'
+                        : mathSolutionEval.summary.equationCount > 0
+                        ? '#16A34A'
+                        : COLORS.textPrimary,
+                  },
+                ]}
+              >
+                {mathSolutionEval.summary.equationCount > 0
+                  ? `${mathSolutionEval.summary.correctEquations}/${mathSolutionEval.summary.equationCount}`
+                  : '0'}
+              </Text>
+              <Text style={styles.mathMetricLabel}>Phép tính đúng</Text>
+            </View>
+            <View style={styles.mathMetricDivider} />
+            <View style={styles.mathMetricItem}>
+              <Text style={[styles.mathMetricValue, { color: mathSolutionEval.summary.hasAnswer ? '#7C3AED' : '#94A3B8' }]}>
+                {mathSolutionEval.summary.hasAnswer ? 'Có ✓' : 'Chưa'}
+              </Text>
+              <Text style={styles.mathMetricLabel}>Đáp số</Text>
+            </View>
+          </View>
+
+          {/* Multi-step logic chaining banner */}
+          {mathSolutionEval.summary.multiStepChain?.isChained && (
+            <View style={styles.mathChainBanner}>
+              <Ionicons name="git-commit-outline" size={15} color="#2563EB" />
+              <Text style={styles.mathChainText}>
+                {mathSolutionEval.summary.multiStepChain.chainDescription}
+              </Text>
+            </View>
+          )}
+
+          {/* Answer line validation feedback */}
+          {mathSolutionEval.summary.answerValidation && mathSolutionEval.summary.hasAnswer && (
+            <View
+              style={[
+                styles.mathAnswerStatusRow,
+                mathSolutionEval.summary.answerValidation.status === 'PERFECT'
+                  ? styles.mathAnswerStatusValid
+                  : styles.mathAnswerStatusWarning,
+              ]}
+            >
+              <Ionicons
+                name={
+                  mathSolutionEval.summary.answerValidation.status === 'PERFECT'
+                    ? 'checkmark-circle'
+                    : 'alert-circle'
+                }
+                size={15}
+                color={
+                  mathSolutionEval.summary.answerValidation.status === 'PERFECT'
+                    ? '#15803D'
+                    : '#D97706'
+                }
+              />
+              <Text
+                style={[
+                  styles.mathAnswerStatusText,
+                  {
+                    color:
+                      mathSolutionEval.summary.answerValidation.status === 'PERFECT'
+                        ? '#15803D'
+                        : '#B45309',
+                  },
+                ]}
+              >
+                {mathSolutionEval.summary.answerValidation.message}
+              </Text>
+            </View>
+          )}
+        </View>
+      )}
+
       {/* Top Combined Text Card (Requirement D: Toàn bộ văn bản hiện tại (N dòng)) */}
       <View style={[styles.card, SHADOWS.small]}>
         <View style={styles.cardHeader}>
@@ -421,7 +539,8 @@ export default function MultilineResultScreen() {
         </Text>
       </View>
 
-      {trial.lines.map((line) => {
+      {trial.lines.map((line, lineIndex) => {
+        const analyzedLine = mathSolutionEval?.lines[lineIndex];
         const isEditing = editingLineId === line.lineId;
         const isSubmitting = submittingLineId === line.lineId;
 
@@ -493,6 +612,62 @@ export default function MultilineResultScreen() {
                 </View>
               </View>
             </View>
+
+            {/* Math Solution Line Role Badge */}
+            {analyzedLine && (
+              <View style={styles.mathRoleRow}>
+                <View style={[styles.mathRoleBadge, { backgroundColor: analyzedLine.roleBadgeColor + '15', borderColor: analyzedLine.roleBadgeColor }]}>
+                  <Text style={[styles.mathRoleBadgeText, { color: analyzedLine.roleBadgeColor }]}>
+                    {analyzedLine.roleBadgeText}
+                  </Text>
+                </View>
+              </View>
+            )}
+
+            {/* Arithmetic Calculation Assessment Box (If line is an equation) */}
+            {analyzedLine?.equationValidation && (
+              <View
+                style={[
+                  styles.mathEquationBox,
+                  analyzedLine.equationValidation.isValid ? styles.mathEquationBoxValid : styles.mathEquationBoxInvalid,
+                ]}
+              >
+                <View style={styles.mathEquationHeader}>
+                  <Ionicons
+                    name={analyzedLine.equationValidation.isValid ? 'checkmark-circle' : 'close-circle'}
+                    size={16}
+                    color={analyzedLine.equationValidation.isValid ? '#15803D' : '#DC2626'}
+                  />
+                  <Text
+                    style={[
+                      styles.mathEquationTitle,
+                      { color: analyzedLine.equationValidation.isValid ? '#15803D' : '#DC2626' },
+                    ]}
+                  >
+                    {analyzedLine.equationValidation.isValid
+                      ? 'Phép tính chính xác'
+                      : 'Phép tính chưa chính xác'}
+                  </Text>
+                </View>
+                {analyzedLine.equationValidation.isValid ? (
+                  <Text style={styles.mathEquationValidText}>
+                    {analyzedLine.equationValidation.leftExpr} = {analyzedLine.equationValidation.expectedResult}
+                    {analyzedLine.equationValidation.unit ? ` (${analyzedLine.equationValidation.unit})` : ''}
+                  </Text>
+                ) : (
+                  <View style={styles.mathEquationErrorContainer}>
+                    <Text style={styles.mathEquationErrorDetail}>
+                      {analyzedLine.equationValidation.errorDetail}
+                    </Text>
+                    {analyzedLine.equationValidation.hint && (
+                      <Text style={styles.mathEquationHintText}>
+                        💡 {analyzedLine.equationValidation.hint}
+                      </Text>
+                    )}
+                  </View>
+                )}
+              </View>
+            )}
 
             {isHandAI ? (
               /* ============================================================
@@ -1819,5 +1994,174 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     color: '#1E40AF',
+  },
+  // Math Solution Grading Styles
+  mathSolutionCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: SIZES.medium,
+    marginBottom: SIZES.medium,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  mathSolutionHeader: {
+    marginBottom: SIZES.small,
+  },
+  mathSolutionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  mathVerdictIconBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mathSolutionTitleText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: COLORS.textPrimary,
+  },
+  mathSolutionHintText: {
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    marginTop: 2,
+    lineHeight: 18,
+  },
+  mathMetricsBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 10,
+    paddingVertical: 10,
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  mathMetricItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  mathMetricValue: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: COLORS.textPrimary,
+  },
+  mathMetricLabel: {
+    fontSize: 11,
+    color: '#64748B',
+    marginTop: 2,
+    fontWeight: '600',
+  },
+  mathMetricDivider: {
+    width: 1,
+    height: 24,
+    backgroundColor: '#CBD5E1',
+  },
+  mathRoleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  mathRoleBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    borderWidth: 1,
+  },
+  mathRoleBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  mathEquationBox: {
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+  },
+  mathEquationBoxValid: {
+    backgroundColor: '#F0FDF4',
+    borderColor: '#86EFAC',
+  },
+  mathEquationBoxInvalid: {
+    backgroundColor: '#FEF2F2',
+    borderColor: '#FECACA',
+  },
+  mathEquationHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 4,
+  },
+  mathEquationTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  mathEquationValidText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#166534',
+    paddingLeft: 22,
+  },
+  mathEquationErrorContainer: {
+    paddingLeft: 22,
+    gap: 3,
+  },
+  mathEquationErrorDetail: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#991B1B',
+  },
+  mathEquationHintText: {
+    fontSize: 12,
+    color: '#B45309',
+    lineHeight: 16,
+    fontWeight: '500',
+  },
+  mathChainBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  mathChainText: {
+    flex: 1,
+    fontSize: 12,
+    color: '#1D4ED8',
+    fontWeight: '600',
+    lineHeight: 16,
+  },
+  mathAnswerStatusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginTop: 8,
+    borderWidth: 1,
+  },
+  mathAnswerStatusValid: {
+    backgroundColor: '#F0FDF4',
+    borderColor: '#86EFAC',
+  },
+  mathAnswerStatusWarning: {
+    backgroundColor: '#FFFBEB',
+    borderColor: '#FDE68A',
+  },
+  mathAnswerStatusText: {
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '600',
+    lineHeight: 16,
   },
 });

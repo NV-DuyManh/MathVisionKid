@@ -9,11 +9,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { OcrPilotService } from '../../services/api/OcrPilotService';
 import { isHandAIMode } from '../../config/appMode';
 
+import { evaluateMathSolution } from '../../utils/mathSolutionEvaluator';
+
 export default function ProfileScreen() {
   const router = useRouter();
   const isHandAI = isHandAIMode();
   const auth = useContext(AuthContext);
   const user = auth?.user;
+  const trials = OcrPilotService.getAllCachedTrials();
 
   const handleLogout = () => {
     Alert.alert(
@@ -27,8 +30,6 @@ export default function ProfileScreen() {
   };
 
   if (isHandAI) {
-    const trials = OcrPilotService.getAllCachedTrials();
-
     // Compute metrics
     const totalSessions = trials.length;
     const totalLines = trials.reduce((sum, t) => sum + (t.lines?.length || 0), 0);
@@ -219,6 +220,118 @@ export default function ProfileScreen() {
             </Text>
           </View>
         </AppCard>
+
+        {/* Section: Recent Graded Math Worksheets */}
+        <View style={styles.sectionHeaderRow}>
+          <Text style={styles.sectionHeadingTitle}>Bài giải toán đã chấm</Text>
+          <Text style={styles.sessionCountTag}>{trials.length} bài làm</Text>
+        </View>
+
+        {trials.length === 0 ? (
+          <View style={[styles.emptyResearchCard, SHADOWS.small, { marginBottom: SIZES.large }]}>
+            <View style={styles.emptyIconWrapper}>
+              <Ionicons name="school-outline" size={34} color={COLORS.primary} />
+            </View>
+            <Text style={styles.emptyResearchTitle}>Chưa có bài giải nào</Text>
+            <Text style={styles.emptyResearchSubtitle}>
+              Hãy chụp bài giải toán viết tay để MathVision chấm điểm, kiểm tra phép tính và gợi ý cách giải nhé!
+            </Text>
+            <TouchableOpacity
+              style={[styles.emptyStartBtn, SHADOWS.small]}
+              onPress={() => router.push('/camera' as any)}
+              activeOpacity={0.88}
+              accessibilityRole="button"
+              accessibilityLabel="Chụp bài giải ngay"
+            >
+              <Ionicons name="camera-outline" size={18} color="#FFFFFF" />
+              <Text style={styles.emptyStartBtnText}>Chụp bài giải ngay</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={[styles.trialsList, { marginBottom: SIZES.large }]}>
+            {trials.map((trial, index) => {
+              const evalRes = trial.lines ? evaluateMathSolution(trial.lines) : null;
+              const summary = evalRes?.summary;
+              const isAllCorrect = summary?.verdict === 'ALL_CORRECT';
+              const hasCalcError = summary?.verdict === 'HAS_CALCULATION_ERROR';
+              const badgeBg = isAllCorrect ? '#DCFCE7' : hasCalcError ? '#FEF3C7' : '#EFF6FF';
+              const badgeColor = isAllCorrect ? '#15803D' : hasCalcError ? '#B45309' : '#1E40AF';
+              const badgeText = isAllCorrect
+                ? 'Đúng toàn bộ 🎉'
+                : hasCalcError
+                ? 'Cần sửa lại 💡'
+                : 'Chữ viết tay 📝';
+
+              return (
+                <TouchableOpacity
+                  key={trial.trialId || index}
+                  style={[styles.sessionCard, SHADOWS.small]}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/ocr-pilot/multiline-result' as any,
+                      params: { trialId: trial.trialId },
+                    })
+                  }
+                  activeOpacity={0.88}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Bài làm ${index + 1}`}
+                >
+                  <View style={styles.sessionCardTop}>
+                    <View style={styles.sessionBadge}>
+                      <Ionicons name="document-text" size={14} color="#1E40AF" />
+                      <Text style={styles.sessionBadgeText}>Bài làm #{index + 1}</Text>
+                    </View>
+                    <View style={[styles.confidenceChip, { backgroundColor: badgeBg }]}>
+                      <Text style={[styles.confidenceChipText, { color: badgeColor }]}>{badgeText}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.sessionMetricsRow}>
+                    <View style={styles.sessionMetricItem}>
+                      <Text style={styles.sessionMetricLabel}>Dòng chữ</Text>
+                      <Text style={styles.sessionMetricValue}>{trial.lines?.length || 0} dòng</Text>
+                    </View>
+                    <View style={styles.sessionMetricItem}>
+                      <Text style={styles.sessionMetricLabel}>Phép tính</Text>
+                      <Text
+                        style={[
+                          styles.sessionMetricValue,
+                          {
+                            color: isAllCorrect
+                              ? '#15803D'
+                              : hasCalcError
+                              ? '#DC2626'
+                              : COLORS.textPrimary,
+                          },
+                        ]}
+                      >
+                        {summary?.equationCount
+                          ? `${summary.correctEquations}/${summary.equationCount} đúng`
+                          : 'Không có'}
+                      </Text>
+                    </View>
+                    <View style={styles.sessionMetricItem}>
+                      <Text style={styles.sessionMetricLabel}>Đáp số</Text>
+                      <Text
+                        style={[
+                          styles.sessionMetricValue,
+                          { color: summary?.hasAnswer ? '#7C3AED' : '#94A3B8' },
+                        ]}
+                      >
+                        {summary?.hasAnswer ? 'Có ✓' : 'Chưa'}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.sessionCardFooter}>
+                    <Text style={styles.viewResultText}>Xem chi tiết bài giải & lời phê</Text>
+                    <Ionicons name="chevron-forward" size={16} color="#1E40AF" />
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
 
         {/* Menu items card */}
         <AppCard style={styles.menuCard} variant="outlined">
