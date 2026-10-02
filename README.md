@@ -1,65 +1,72 @@
 # MathVision Kids
 
-MathVision Kids is an AI-assisted handwritten arithmetic grading and tutoring platform for Vietnamese primary-school students (Grades 1–5).
+MathVision Kids hỗ trợ học sinh tiểu học nhận dạng chữ viết tay trong bài giải, đọc phép tính, kiểm tra từng bước và tự sửa bài.
 
-## Run Locally (Unified Local Stack)
+## Cấu trúc dự án
 
-To run the complete MathVision Kids local development environment (PostgreSQL, MinIO, Redis, Spring Boot Business API, FastAPI AI Runtime, Celery Worker, and Teacher Web Portal):
-
-```cmd
-# 1. Start complete stack
-scripts\start-all.bat
-
-# 2. Check system health
-scripts\health-check.bat
-
-# 3. Stop stack
-scripts\stop-all.bat
+```text
+apps/
+  student-mobile/src/
+    app/recognition/           # Các màn nhận dạng của MathVision
+    features/recognition/     # API, ảnh, bản nháp, gợi ý AI, lịch sử, đo lường
+  teacher-web/
+  admin-web/                  # Phân tích nhận dạng nằm trong khu vực quản trị
+  portal-web/
+backend/business-api/        # Tài khoản, quyền, bài làm và phản hồi OCR
+ai/runtime/
+  app/ocr/                   # Nhận chữ viết tay
+  app/api/                   # Phân dòng, nhận dạng, gợi ý và xử lý toán
+  app/schemas/ocr.py          # Hợp đồng OCR nội bộ
+  models/                    # Checkpoint OCR và mô hình toán
+packages/                    # Các phần dùng chung
+contracts/                   # Hợp đồng giữa các dịch vụ
+infra/                       # Hạ tầng phát triển
+scripts/                     # Khởi chạy và kiểm thử
+docs/                        # Hướng dẫn dự án
+report/                      # Báo cáo kiểm chứng; tài liệu cũ tại archive/
+reports/                     # Các kết quả nghiên cứu và bằng chứng trước đây
 ```
 
-For comprehensive guides, see:
-- [Developer Local Setup Guide](docs/LOCAL_SETUP.md) -- Prerequisites, installation, and environment configuration.
-- [Local Demonstration Guide](docs/DEMO_GUIDE.md) -- Step-by-step teacher batch and student demo flows.
-- [Local Troubleshooting Guide](docs/TROUBLESHOOTING.md) -- Actionable solutions for common issues.
-- [Local Runtime Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) -- Architecture diagrams and async correlation.
-- [Local Maintenance Guide](docs/MAINTENANCE_GUIDE.md) -- Configuration, log inspection, and model handoff.
+Nhận chữ và nhận phép tính là hai chức năng trong cùng sản phẩm. OCR sử dụng `/api/v1/ocr/**` của backend và `/internal/v1/ocr/**` của AI runtime. Backend kiểm tra đăng nhập, vai trò và chủ sở hữu bài nhận dạng.
 
----
+Xem [mô-đun nhận dạng](apps/student-mobile/src/features/recognition/README.md) và [báo cáo tái cấu trúc](report/RECOGNITION_UNIFICATION_20261002.md).
 
-## Student Mobile App (Expo / React Native)
+## Chạy trên máy phát triển
 
+Tại thư mục gốc:
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+```powershell
+./RUN_MATHVISION.bat
+```
 
-2. Start the Expo development server:
-   ```bash
-   npm start
-   ```
+Các lệnh điều khiển môi trường sẵn có:
 
-3. Scan the QR code with the Expo Go app on your Android device or run it on an Android Emulator.
+```powershell
+./scripts/start-all.bat
+./scripts/health-check.bat
+./scripts/stop-all.bat
+```
 
-## Demo Flows (Mock API)
+Frontend dùng workspace npm của dự án. Cấu hình nhận dạng thương hiệu mobile có một nguồn ở `apps/student-mobile/app.json`; các cờ chuyển chế độ ứng dụng cũ không còn tác dụng.
 
-The current version uses a robust `MockSubmissionService` to simulate the AI and Backend processing.
-On the **Home Screen**, scroll to the bottom to find the **"Demo Mocks (For Testing)"** section. Tapping any of these options will simulate selecting an image from the gallery and bypass the camera to trigger specific scenarios:
+Không mặc định coi dữ liệu mô phỏng hoặc benchmark mẫu là chất lượng mô hình thật. Dashboard học sinh chỉ tính tỷ lệ trên dữ liệu có bản chuẩn độc lập.
 
-- **mock-correct**: Simulates a correct math exercise. (FLOW A)
-- **mock-earliest-error**: Simulates an arithmetic mistake in the tens column and provides a hint without revealing the full answer. (FLOW B)
-- **mock-confirm**: Simulates an ambiguous recognition where the system asks the student to confirm a token. (FLOW C)
-- **mock-blur**: Simulates a bad photo quality and asks to retake. (FLOW D)
-- **mock-out-of-scope**: Simulates capturing fractions/geometry. (FLOW E)
-- **mock-review**: Simulates a case where AI confidence is too low. (FLOW F)
+## Kiểm thử
 
-## Switching from Mock API to Spring Boot API
+```powershell
+npm run --workspace student-mobile test -- --runInBand
+./node_modules/.bin/tsc.cmd --noEmit -p apps/student-mobile/tsconfig.json
+npm run build:admin
+```
 
-Currently, the app relies on `src/services/api/MockSubmissionService.ts`. 
-To switch to the real Spring Boot API in the future:
-1. Create a new service (e.g., `SpringSubmissionService.ts`) implementing the exact same method signatures as `MockSubmissionService`.
-2. Implement network calls (e.g., via `axios` or `fetch`) to the corresponding endpoints:
-   - `POST /api/v1/student/submissions` (multipart upload)
-   - `GET /api/v1/student/submissions/:id` (polling)
-   - `POST /api/v1/student/submissions/:id/confirm-token`
-3. Update the imports in `app/processing.tsx` and `app/results/token-confirmation.tsx` to use the real service.
+Kiểm thử backend dùng profile `test` để chạy cơ sở dữ liệu kiểm thử:
+
+```powershell
+cd backend/business-api
+$env:SPRING_PROFILES_ACTIVE='test'
+./gradlew.bat test --console=plain
+```
+
+Các hướng dẫn môi trường: [thiết lập](docs/LOCAL_SETUP.md), [kiến trúc](docs/ARCHITECTURE_LOCAL_RUNTIME.md), [xử lý lỗi](docs/TROUBLESHOOTING.md), [bảo trì](docs/MAINTENANCE_GUIDE.md).
+
+Migration đã áp dụng và bằng chứng lịch sử được giữ nguyên để bảo toàn checksum cơ sở dữ liệu và nguồn gốc kết quả. Không dùng tài liệu lịch sử để bật lại chế độ hoặc API riêng.

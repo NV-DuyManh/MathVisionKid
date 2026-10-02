@@ -2,7 +2,7 @@ import {
   resolveLineDisplayState,
   buildVisibleSuggestions,
   isVietnameseSyllableValid,
-} from '../suggestionDedupe';
+} from '../../features/recognition/utils/lineReview';
 
 describe('PROD.4B.2R3 Section 3 — Current Owner Physical OCR Line-2 Regression', () => {
   const lineInput = {

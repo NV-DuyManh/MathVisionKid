@@ -1,0 +1,284 @@
+{
+  "initialIdenticalFiles": {
+    "ai-service": 172,
+    "backend/src": 150,
+    "apps/mobile/src": 52
+  },
+  "decisions": [
+    {
+      "group": "ai-service",
+      "file": "app/api/ocr.py",
+      "decision": "MathVision delta kept"
+    },
+    {
+      "group": "ai-service",
+      "file": "scripts/generate_capstone_figures.py",
+      "decision": "Excluded: capstone figure-generation tool, no inference capability or new trained weights"
+    },
+    {
+      "group": "ai-service",
+      "file": "tests/test_confidence_integrity.py",
+      "decision": "MathVision delta kept"
+    },
+    {
+      "group": "backend/src",
+      "file": "main/java/com/mathvisionkids/api/ocr/multiline/OcrMultilineService.java",
+      "decision": "MathVision verified-image/raw-score delta kept"
+    },
+    {
+      "group": "backend/src",
+      "file": "main/java/com/mathvisionkids/api/ocr/OcrPilotService.java",
+      "decision": "Ported score provenance or added source regression cases; existing MathVision cases kept"
+    },
+    {
+      "group": "backend/src",
+      "file": "main/java/com/mathvisionkids/api/ocr/OcrTrial.java",
+      "decision": "Ported score provenance or added source regression cases; existing MathVision cases kept"
+    },
+    {
+      "group": "backend/src",
+      "file": "main/java/com/mathvisionkids/api/ocr/OcrTrialResponse.java",
+      "decision": "Ported score provenance or added source regression cases; existing MathVision cases kept"
+    },
+    {
+      "group": "backend/src",
+      "file": "test/java/com/mathvisionkids/api/ocr/multiline/OcrMultilineServiceTest.java",
+      "decision": "Ported score provenance or added source regression cases; existing MathVision cases kept"
+    },
+    {
+      "group": "backend/src",
+      "file": "test/java/com/mathvisionkids/api/ocr/OcrConfidenceTest.java",
+      "decision": "Ported score provenance or added source regression cases; existing MathVision cases kept"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "__tests__/gallery.test.tsx",
+      "decision": "Standalone UI/history-specific tests not applicable without that UI; MathVision existing flow tests retained and selected measured-confidence fixture clarified"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "__tests__/handAiAnalyticsAndFlow.test.ts",
+      "decision": "Standalone UI/history-specific tests not applicable without that UI; MathVision existing flow tests retained and selected measured-confidence fixture clarified"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "__tests__/handaiAnalyticsCompact.test.tsx",
+      "decision": "Standalone UI/history-specific tests not applicable without that UI; MathVision existing flow tests retained and selected measured-confidence fixture clarified"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "__tests__/handAiDashboardMetrics.test.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "__tests__/handAiFlowFixV5.test.ts",
+      "decision": "Standalone UI/history-specific tests not applicable without that UI; MathVision existing flow tests retained and selected measured-confidence fixture clarified"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "__tests__/handAiGuestRouting.test.ts",
+      "decision": "Standalone UI/history-specific tests not applicable without that UI; MathVision existing flow tests retained and selected measured-confidence fixture clarified"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "__tests__/handAiHistoryManagement.test.tsx",
+      "decision": "Standalone UI/history-specific tests not applicable without that UI; MathVision existing flow tests retained and selected measured-confidence fixture clarified"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/(tabs)/index.tsx",
+      "decision": "Excluded standalone rebranding and removal of MathVision curriculum/grading features"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/(tabs)/profile.tsx",
+      "decision": "Excluded standalone rebranding and removal of MathVision curriculum/grading features"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/_layout.tsx",
+      "decision": "Excluded standalone error screen exposing technical error messages; existing MathVision runtime retained"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/camera.tsx",
+      "decision": "Excluded standalone rebranding and removal of MathVision curriculum/grading features"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/evaluation-history.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/handai-analytics.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/handai-trial-analytics.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/index.tsx",
+      "decision": "Excluded navigation failure fallback that bypasses intended authenticated startup routing"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/ocr-pilot/multiline-result.tsx",
+      "decision": "Partial: shared advisor helper replaces unsafe duplicate, tagged raw scores, accurate feedback verdict when keeping different OCR. MathVision grading retained"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "app/ocr-pilot/multiline-review.tsx",
+      "decision": "Partial: same image/box canvas fixes portrait geometry. Excluded fabricated progress, direct-service health checks, URI-only skip/cache, shortened request timeout"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/ocr/OCRProgressLoader.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/ComparisonCard.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/DatasetCard.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/ErrorInsightCard.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/HistoryCard.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/index.ts",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/MetricCard.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/PerformanceCard.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/ReportCard.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/SectionHeader.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/StatusBadge.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/StoredLineReview.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/report/TrendSparkline.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "components/ui/AppHeader.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "config/apiResolver.ts",
+      "decision": "Excluded: standalone HandAI/local/direct AI service routing; MathVision backend remains auth/RBAC authority"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "config/env.ts",
+      "decision": "Excluded: standalone HandAI/local/direct AI service routing; MathVision backend remains auth/RBAC authority"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "screens/HandAiTrialAnalyticsScreen.tsx",
+      "decision": "Excluded standalone report/history/loader UI: no additional OCR model or decoder. Full research dashboard/history migration is a separate UI/storage change; portable measurement logic reused"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "services/analytics/handAiAnalyticsStore.ts",
+      "decision": "Partial: independent-reference/paired-AI measured metrics, score source, image hash, sample markers, JSON export. Existing legacy dashboards/formulas and storage retained; their example/default metrics are not evaluated evidence"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "services/analytics/handAiDashboardMetrics.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "services/api/apiClient.ts",
+      "decision": "Kept 60s backend timeout; source 20s may terminate working OCR/advisor requests"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "services/api/OcrPilotService.ts",
+      "decision": "Partial: web image bytes, null/provenance contract. Kept authenticated backend; excluded URI cache, unconditional resize and short/broken timeout, progress-only APIs"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "services/draft/submissionDraftStore.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "services/image/__tests__/imagePipeline.test.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "services/image/imagePipeline.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "utils/__tests__/suggestionConfidenceIntegrity.test.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "utils/metricFormat.ts",
+      "decision": "Adapted: finite-only formatting; reused for unknown line confidence"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "utils/mobileAsyncAdvisor.ts",
+      "decision": "Adapted: preserve user edits, include provenance, clear explicit null instead of retaining stale scores"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "utils/ocrConfidence.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    },
+    {
+      "group": "apps/mobile/src",
+      "file": "utils/suggestionDedupe.ts",
+      "decision": "Ported; behavior verified, paired-session lookup uses a Set"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ VERIFIED_TSV = os.path.join(DATA_DIR, "verified_text_lines.tsv")
 PROGRESS_FILE = os.path.join(DATA_DIR, "annotation_progress.json")
 QA_REPORT = os.path.join(DATA_DIR, "verified_label_qa.json")
 VOCAB_REPORT = os.path.join(DATA_DIR, "vocab_coverage_report.txt")
-VOCAB_FILE = "E:/MathVisionKid/services/ai-service/app/ocr/vocab.json"
+VOCAB_FILE = "E:/MathVisionKid/ai/runtime/app/ocr/vocab.json"
 
 def main():
     if not os.path.exists(PROGRESS_FILE):

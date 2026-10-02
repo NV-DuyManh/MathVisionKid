@@ -74,8 +74,8 @@ public class OcrMultilineController {
     }
 
     @GetMapping("/trials/{trialId}")
-    public ResponseEntity<MultilineTrialResponse> getTrial(@PathVariable UUID trialId) {
-        MultilineTrialResponse response = multilineService.getTrial(trialId);
+    public ResponseEntity<MultilineTrialResponse> getTrial(@PathVariable UUID trialId, Principal principal) {
+        MultilineTrialResponse response = multilineService.getTrial(trialId, principal.getName());
         return ResponseEntity.ok(response);
     }
 

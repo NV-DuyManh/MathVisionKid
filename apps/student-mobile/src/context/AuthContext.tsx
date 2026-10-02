@@ -3,6 +3,9 @@ import { tokenStorage } from '../services/auth/tokenStorage';
 import { authApi, getMockStudentUser } from '../services/api/authApi';
 import apiClient from '../services/api/apiClient';
 import { useRouter } from 'expo-router';
+import { RecognitionService } from '../features/recognition/api/RecognitionService';
+import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
+import { recognitionAnalyticsStore } from '../features/recognition/analytics/recognitionAnalyticsStore';
 
 interface AuthContextType {
   user: any;
@@ -19,6 +22,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
+  const setSessionUser = (userData: any) => {
+    RecognitionService.clearCache();
+    recognitionAnalyticsStore.setUserScope(userData?.id || userData?.userId || userData?.email);
+    setUser(userData);
+  };
 
   useEffect(() => {
     const restoreSession = async () => {
@@ -30,12 +38,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           try {
             const userData = await authApi.getMe();
-            setUser(userData);
+            setSessionUser(userData);
             await tokenStorage.saveUser(userData);
             setIsAuthenticated(true);
           } catch (apiErr) {
             if (savedUser) {
-              setUser(savedUser);
+              setSessionUser(savedUser);
               setIsAuthenticated(true);
             } else {
               throw apiErr;
@@ -47,12 +55,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           if (refreshToken) {
             try {
               const userData = await authApi.getMe();
-              setUser(userData);
+              setSessionUser(userData);
               await tokenStorage.saveUser(userData);
               setIsAuthenticated(true);
             } catch {
               if (savedUser) {
-                setUser(savedUser);
+                setSessionUser(savedUser);
                 setIsAuthenticated(true);
               }
             }
@@ -85,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
     await tokenStorage.saveUser(userData);
-    setUser(userData);
+    setSessionUser(userData);
     setIsAuthenticated(true);
     router.replace('/(tabs)' as any);
   };
@@ -97,8 +105,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log('Backend logout failed, proceeding with local logout', e);
     }
     await tokenStorage.clearTokens();
+    RecognitionService.clearCache();
+    recognitionDraftStore.clearDraft();
     delete apiClient.defaults.headers.common['Authorization'];
-    setUser(null);
+    setSessionUser(null);
     setIsAuthenticated(false);
     router.replace('/login');
   };

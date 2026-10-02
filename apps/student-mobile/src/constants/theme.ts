@@ -1,5 +1,3 @@
-import { isHandAIMode, AppMode } from '../config/appMode';
-
 export const MATHVISION_COLORS = {
   primary: '#2563EB',
   primaryDark: '#1D4ED8',
@@ -30,40 +28,6 @@ export const MATHVISION_COLORS = {
   pastelPeach: '#FFF7ED',
   pastelPurple: '#FAF5FF',
   pastelAmber: '#FEFCE8',
-};
-
-export const HAND_AI_COLORS = {
-  primary: '#1E40AF', // Deep Blue / Indigo
-  primaryDark: '#0F172A', // Slate 900
-  primaryLight: '#EFF6FF', // Blue 50
-  secondary: '#0891B2', // Cyan 600
-  secondaryDark: '#0E7490', // Cyan 700
-  secondaryLight: '#E0F2FE', // Cyan 50
-  accent: '#059669', // Emerald 600
-  accentLight: '#ECFDF5', // Emerald 50
-  background: '#F8FAFC', // Slate 50
-  surface: '#FFFFFF',
-  surfaceSubdued: '#F1F5F9', // Slate 100
-  textPrimary: '#0F172A',
-  textSecondary: '#334155', // Slate 700
-  textMuted: '#64748B', // Slate 500
-  success: '#16A34A',
-  successLight: '#DCFCE7',
-  warning: '#D97706',
-  warningLight: '#FEF3C7',
-  error: '#DC2626',
-  errorLight: '#FEE2E2',
-  errorText: '#B91C1C',
-  review: '#2563EB',
-  reviewLight: '#EFF6FF',
-  border: '#E2E8F0', // Slate 200
-  borderFocus: '#1E40AF',
-  pastelBlue: '#EFF6FF',
-  pastelGreen: '#F0FDF4',
-  pastelPeach: '#FFF7ED',
-  pastelPurple: '#F8FAFC',
-  pastelAmber: '#FEFCE8',
-  // Specific HandAI Research Arbitration Semantic Colors (Phase 4)
   rawOcrBg: '#F1F5F9',
   rawOcrBorder: '#CBD5E1',
   rawOcrText: '#334155',
@@ -82,20 +46,8 @@ export const HAND_AI_COLORS = {
   reasonLabel: '#0F172A',
 };
 
-export function getThemeColors(mode?: AppMode) {
-  if (mode === 'HAND_AI' || (!mode && isHandAIMode())) {
-    return HAND_AI_COLORS;
-  }
-  return MATHVISION_COLORS;
-}
-
-export const COLORS: typeof MATHVISION_COLORS = new Proxy(MATHVISION_COLORS, {
-  get(target, prop: string) {
-    const active = isHandAIMode() ? HAND_AI_COLORS : MATHVISION_COLORS;
-    return (active as any)[prop] ?? (target as any)[prop];
-  },
-});
-
+export const COLORS = MATHVISION_COLORS;
+export function getThemeColors() { return COLORS; }
 
 export const SIZES = {
   xs: 4,

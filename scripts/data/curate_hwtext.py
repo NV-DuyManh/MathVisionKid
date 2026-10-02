@@ -8,7 +8,7 @@ import csv
 from pathlib import Path
 import sys
 
-sys.path.append("E:/MathVisionKid/services/ai-service")
+sys.path.append("E:/MathVisionKid/ai/runtime")
 from app.api.ocr import run_classical_line_detection, correct_skew
 from app.ocr.crnn_provider import CrnnOcrProvider
 from PIL import Image

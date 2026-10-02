@@ -101,7 +101,7 @@ Review the output table to pinpoint which specific service is in `FAIL` or `WARN
 - **Note on Windows:** Celery on Windows requires `--pool=solo` to prevent billiard multiprocessing deadlocks.
 - **Actionable Fix:**
   ```powershell
-  cd services\ai-service
+  cd ai\runtime
   .\.venv\Scripts\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo
   ```
   Inspect logs: `runtime\logs\celery.log`.
@@ -126,7 +126,7 @@ Review the output table to pinpoint which specific service is in `FAIL` or `WARN
   1. Verify FastAPI is running: `Invoke-RestMethod http://localhost:8000/health`.
   2. If down, start FastAPI:
      ```powershell
-     cd services\ai-service
+     cd ai\runtime
      .\.venv\Scripts\uvicorn.exe app.main:app --host 0.0.0.0 --port 8000
      ```
 
@@ -153,7 +153,7 @@ Review the output table to pinpoint which specific service is in `FAIL` or `WARN
 - **Symptom:** Submissions return status `MODEL_NOT_AVAILABLE`.
 - **Cause:** `RUNTIME_MODE=MODEL` is set in environment, but trained model artifact has not been provided.
 - **Actionable Fix:**
-  Ensure `RUNTIME_MODE=FIXTURE` in `services/ai-service/.env`.
+  Ensure `RUNTIME_MODE=FIXTURE` in `ai/runtime/.env`.
 
 ---
 
@@ -161,7 +161,7 @@ Review the output table to pinpoint which specific service is in `FAIL` or `WARN
 
 ### Issue 7.1: Callback authentication error (HTTP 401 / 403)
 - **Symptom:** Celery worker log displays `HTTP 401 Unauthorized` or `HTTP 403 Forbidden` when posting to `http://localhost:8080/internal/v1/ai/jobs/.../callback`.
-- **Cause:** `INTERNAL_API_KEY` in `services/ai-service/.env` does not match `app.ai.callback.api-key` in Spring Boot `application.yml`.
+- **Cause:** `INTERNAL_API_KEY` in `ai/runtime/.env` does not match `app.ai.callback.api-key` in Spring Boot `application.yml`.
 - **Actionable Fix:**
   Ensure both environments use the same key:
   - Spring: `INTERNAL_API_KEY=secret-key-default`

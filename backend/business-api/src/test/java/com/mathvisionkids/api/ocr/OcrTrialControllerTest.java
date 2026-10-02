@@ -29,6 +29,8 @@ public class OcrTrialControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private com.mathvisionkids.api.user.UserRepository users;
 
     @Autowired
     private OcrTrialRepository ocrTrialRepository;
@@ -41,6 +43,12 @@ public class OcrTrialControllerTest {
     @BeforeEach
     void setUp() {
         testTrial = new OcrTrial();
+        com.mathvisionkids.api.user.User owner = new com.mathvisionkids.api.user.User();
+        owner.setEmail("student@test.com");
+        owner.setPasswordHash("test-hash");
+        owner.setRole("STUDENT");
+        owner.setDisplayName("Student");
+        testTrial.setUser(users.findByEmail(owner.getEmail()).orElseGet(() -> users.save(owner)));
         testTrial.setSource("CAMERA");
         testTrial.setLineImageObjectKey("ocr-trials/test.jpg");
         testTrial.setLineImageSha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");

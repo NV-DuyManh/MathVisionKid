@@ -1,0 +1,78 @@
+{
+  "service": "E:\\MathVisionKid\\ai\\runtime",
+  "imageSha256": "310ec47f900be24e375d37a57080bcf09498ff3a7c90d595945286a0532b3746",
+  "lineCount": 7,
+  "chromaticProjection": false,
+  "lines": [
+    {
+      "box": [
+        0,
+        0,
+        588,
+        122
+      ],
+      "text": "CƠyà mia h",
+      "confidence": 0.6369
+    },
+    {
+      "box": [
+        60,
+        128,
+        394,
+        68
+      ],
+      "text": "Sung rng bướm lượn",
+      "confidence": 0.8865
+    },
+    {
+      "box": [
+        181,
+        220,
+        269,
+        65
+      ],
+      "text": "Thong thả dất tâu",
+      "confidence": 0.899
+    },
+    {
+      "box": [
+        66,
+        282,
+        340,
+        44
+      ],
+      "text": "Em hái sim ăn",
+      "confidence": 0.874
+    },
+    {
+      "box": [
+        172,
+        317,
+        235,
+        60
+      ],
+      "text": "Tời, sao ngọt thế!",
+      "confidence": 0.924
+    },
+    {
+      "box": [
+        173,
+        398,
+        239,
+        98
+      ],
+      "text": " git l3tời",
+      "confidence": 0.5751
+    },
+    {
+      "box": [
+        170,
+        496,
+        418,
+        55
+      ],
+      "text": "ĐDiều ai vừa thả.",
+      "confidence": 0.8158
+    }
+  ]
+}

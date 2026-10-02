@@ -5,7 +5,7 @@ import { COLORS, SIZES } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { TokenConfirmationCard } from '../../components/domain/TokenConfirmationCard';
 import { getSubmissionService } from '../../services/api/SubmissionServiceFactory';
-import { submissionDraftStore, isHandwritingDomain } from '../../services/draft/submissionDraftStore';
+import { recognitionDraftStore, isHandwritingDomain } from '../../features/recognition/state/recognitionDraftStore';
 
 export default function TokenConfirmationScreen() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function TokenConfirmationScreen() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const draft = submissionDraftStore.getDraft();
+    const draft = recognitionDraftStore.getDraft();
     if (isHandwritingDomain(draft?.mode) || (id && id.startsWith('trial_'))) {
       console.warn('[TOKEN_CONFIRMATION] Blocked: Handwriting text flow must never enter digit confirmation.');
       router.replace('/(tabs)');

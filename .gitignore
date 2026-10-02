@@ -45,7 +45,31 @@ example
 # MathVision Kids local runtime
 runtime/logs/
 runtime/pids/
-runtime/
+/runtime/
+
+# Keep AI service source reviewable; exclude local artifacts, datasets and model weights.
+ai/runtime/*
+!ai/runtime/app/
+!ai/runtime/tests/
+ai/runtime/tests/**
+!ai/runtime/tests/**/
+!ai/runtime/tests/**/*.py
+!ai/runtime/tests/fixtures/**/*.json
+!ai/runtime/tests/fixtures/real_hw/OWNER_POEM_12_LINES.png
+!ai/runtime/models/
+ai/runtime/models/**
+!ai/runtime/models/**/
+!ai/runtime/models/**/*.json
+!ai/runtime/models/**/*.yaml
+!ai/runtime/evaluation/
+!ai/runtime/scripts/
+!ai/runtime/.env.example
+!ai/runtime/Dockerfile
+!ai/runtime/README.md
+!ai/runtime/pyproject.toml
+!ai/runtime/requirements.txt
+!ai/runtime/requirements-lock.txt
+!ai/runtime/uv.lock
 
 # Environment files (preserve .env.example)
 .env
@@ -88,5 +112,4 @@ services/ai-service/models/*.pth
 audit_handoff_fresh/
 build/
 .gradle/
-
 

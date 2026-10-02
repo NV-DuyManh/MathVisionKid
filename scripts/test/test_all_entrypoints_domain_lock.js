@@ -14,7 +14,7 @@
 
 const assert = require('assert');
 
-// --- 1. Canonical Domain Resolver (Mirrors src/services/draft/submissionDraftStore.ts) ---
+// --- 1. Canonical Domain Resolver (Mirrors src/features/recognition/state/recognitionDraftStore.ts) ---
 const VALID_DOMAINS = new Set(['HANDWRITING_TEXT', 'ARITHMETIC', 'OCR_PILOT', 'OCR_PILOT_MULTILINE']);
 
 function isValidFlowDomain(mode) {
@@ -103,13 +103,13 @@ class MockPipelineSession {
     this.log(formatFlowDomainLog('POST_PRIVACY', effectiveMode));
     this.draft.mode = effectiveMode;
 
-    let targetPath = '/ocr-pilot/multiline-review';
+    let targetPath = '/recognition/multiline-review';
     if (effectiveMode === 'ARITHMETIC') {
       targetPath = '/preview';
     } else if (effectiveMode === 'OCR_PILOT') {
-      targetPath = '/ocr-pilot/line-crop';
+      targetPath = '/recognition/line-crop';
     } else {
-      targetPath = '/ocr-pilot/multiline-review';
+      targetPath = '/recognition/multiline-review';
     }
     this.navigate(targetPath, { uri: this.draft.uri });
     return targetPath;
@@ -120,7 +120,7 @@ class MockPipelineSession {
     const effectiveMode = resolveFlowDomain(null, this.draft?.mode, this.warnings);
     if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
       this.warn('[HANDWRITING_PREVIEW_GUARD_TRIGGERED] Non-arithmetic mode reached /preview. Redirecting.');
-      const redirect = effectiveMode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/ocr-pilot/multiline-review';
+      const redirect = effectiveMode === 'OCR_PILOT' ? '/recognition/line-crop' : '/recognition/multiline-review';
       this.navigate(redirect);
       return { blocked: true, redirect };
     }
@@ -131,7 +131,7 @@ class MockPipelineSession {
     const effectiveMode = resolveFlowDomain(null, this.draft?.mode, this.warnings);
     if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
       this.warn('[HANDWRITING_PREVIEW_GUARD_TRIGGERED] Non-arithmetic mode in handleContinue. Blocking /processing.');
-      this.navigate('/ocr-pilot/multiline-review');
+      this.navigate('/recognition/multiline-review');
       return { blocked: true };
     }
     this.navigate('/processing');
@@ -143,7 +143,7 @@ class MockPipelineSession {
     const effectiveMode = resolveFlowDomain(null, this.draft?.mode, this.warnings);
     if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
       this.warn('[HANDWRITING_PROCESSING_GUARD_TRIGGERED] Non-arithmetic domain reached /processing. Blocking arithmetic submission.');
-      const redirect = effectiveMode === 'OCR_PILOT' ? '/ocr-pilot/line-crop' : '/ocr-pilot/multiline-review';
+      const redirect = effectiveMode === 'OCR_PILOT' ? '/recognition/line-crop' : '/recognition/multiline-review';
       this.navigate(redirect);
       return { uploadBlocked: true, redirect };
     }
@@ -174,7 +174,7 @@ console.log('============================================================\n');
   assert(session.logs.includes('[FLOW_DOMAIN][ACQUIRE] HANDWRITING_TEXT'));
 
   const dest = session.privacyGate();
-  assert.strictEqual(dest, '/ocr-pilot/multiline-review');
+  assert.strictEqual(dest, '/recognition/multiline-review');
   assert.notStrictEqual(dest, '/preview');
   assert(session.logs.includes('[FLOW_DOMAIN][PRIVACY] HANDWRITING_TEXT'));
   assert(session.logs.includes('[FLOW_DOMAIN][POST_PRIVACY] HANDWRITING_TEXT'));
@@ -198,7 +198,7 @@ console.log('============================================================\n');
   assert(session.logs.includes('[FLOW_DOMAIN][ACQUIRE] HANDWRITING_TEXT'));
 
   const dest = session.privacyGate();
-  assert.strictEqual(dest, '/ocr-pilot/multiline-review');
+  assert.strictEqual(dest, '/recognition/multiline-review');
   assert.strictEqual(session.submissionUploaded, false);
   console.log('✓ TEST B PASS: Home -> Camera defaults to HANDWRITING_TEXT, post-privacy routes to multiline review.');
 }
@@ -215,7 +215,7 @@ console.log('============================================================\n');
   session.cameraCapture(tabMode);
   assert.strictEqual(session.draft.mode, 'HANDWRITING_TEXT');
   const dest = session.privacyGate();
-  assert.strictEqual(dest, '/ocr-pilot/multiline-review');
+  assert.strictEqual(dest, '/recognition/multiline-review');
   console.log('✓ TEST C PASS: Bottom tab capture action routes to HANDWRITING_TEXT.');
 }
 
@@ -301,7 +301,7 @@ console.log('============================================================\n');
   session1.draft = { uri: 'file:///sample.jpg', mode: 'HANDWRITING_TEXT' };
   const previewGuard = session1.previewMount();
   assert.strictEqual(previewGuard.blocked, true);
-  assert.strictEqual(previewGuard.redirect, '/ocr-pilot/multiline-review');
+  assert.strictEqual(previewGuard.redirect, '/recognition/multiline-review');
   assert(session1.warnings.some(w => w.includes('HANDWRITING_PREVIEW_GUARD_TRIGGERED')));
 
   // Guard G2: Missing mode reaching /preview directly

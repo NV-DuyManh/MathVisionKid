@@ -1,0 +1,32 @@
+{
+  "backupDirectory": "E:\\MathVisionKidBackups\\recognition-unification-20261002",
+  "movedWorkfiles": [
+    "app_(tabs)_index.tsx-handai.diff",
+    "app_(tabs)_profile.tsx-handai.diff",
+    "app_camera.tsx-handai.diff",
+    "app_index.tsx-handai.diff",
+    "app_ocr-pilot_multiline-result.tsx-handai.diff",
+    "app_ocr-pilot_multiline-review.tsx-handai.diff",
+    "app__layout.tsx-handai.diff",
+    "components_ui_AppHeader.tsx-handai.diff",
+    "config_env.ts-handai.diff",
+    "handai-after.json",
+    "handai-before.json",
+    "handai-decision-table.md",
+    "handai-deep-before",
+    "handai-reuse-inventory.json",
+    "handai-sync-before",
+    "handai-sync-python-results.xml",
+    "handAiAnalyticsStore-source-diff.txt",
+    "new-image-handai-raw.json",
+    "services_api_apiClient.ts-handai.diff",
+    "unify-recognition.cjs",
+    "clean-recognition.cjs",
+    "repair-jsx.cjs",
+    "update-layout.py",
+    "restore-unrelated-imports.cjs",
+    "restore-whitespace.cjs",
+    "verify-recognition.py",
+    "finish-recognition-layout.py"
+  ]
+}

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
+import { AuthContext } from '../context/AuthContext';
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { ENV } from '../config/env';
@@ -11,6 +12,10 @@ export default function DevDemoScreen() {
   const router = useRouter();
   const [connStatus, setConnStatus] = useState<'IDLE' | 'TESTING' | 'SUCCESS' | 'ERROR'>('IDLE');
   const [connDetail, setConnDetail] = useState<string>('');
+  const auth = useContext(AuthContext);
+  if (!__DEV__ || !auth?.isAuthenticated || auth.user?.role !== 'ADMIN') {
+    return <Redirect href="/(tabs)" />;
+  }
 
   const handleMock = (mockName: string) => {
     router.push({ pathname: '/preview', params: { uri: `file://${mockName}.jpg` } });

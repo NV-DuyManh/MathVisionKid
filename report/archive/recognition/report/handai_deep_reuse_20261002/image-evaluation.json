@@ -1,0 +1,144 @@
+{
+  "imageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+  "rawOutputsIdentical": true,
+  "metrics": {
+    "MathVision raw": {
+      "lines": 9,
+      "exactLines": 2,
+      "characterEdits": 18,
+      "referenceCharacters": 324,
+      "cerPercent": 5.555555555555555
+    },
+    "HandAI raw": {
+      "lines": 9,
+      "exactLines": 2,
+      "characterEdits": 18,
+      "referenceCharacters": 324,
+      "cerPercent": 5.555555555555555
+    },
+    "Groq proposal": {
+      "lines": 9,
+      "exactLines": 3,
+      "characterEdits": 13,
+      "referenceCharacters": 324,
+      "cerPercent": 4.012345679012346
+    },
+    "MathVision final": {
+      "lines": 9,
+      "exactLines": 2,
+      "characterEdits": 18,
+      "referenceCharacters": 324,
+      "cerPercent": 5.555555555555555
+    },
+    "source_resize_800_jpeg80": {
+      "lines": 9,
+      "exactLines": 3,
+      "characterEdits": 13,
+      "referenceCharacters": 324,
+      "cerPercent": 4.012345679012346
+    },
+    "manual_margin_crop_x92": {
+      "lines": 9,
+      "exactLines": 5,
+      "characterEdits": 6,
+      "referenceCharacters": 324,
+      "cerPercent": 1.8518518518518516
+    }
+  },
+  "lines": [
+    {
+      "line": 1,
+      "manualReference": "Khi tiếng chuông từ chiếc đồng hồ",
+      "rawOcr": ": KChi tiếng chuông tì chiếc đồng hồ",
+      "rawConfidence": 0.886,
+      "groqProposal": "Khi tiếng chuông tích tắc chiếc đồng hồ",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": ": KChi tiếng chuông tì chiếc đồng hồ"
+    },
+    {
+      "line": 2,
+      "manualReference": "báo thức reo lên, em vui vẻ thức dậy.",
+      "rawOcr": "-\" báo thức reo lên, em vui vẻ thức đậny.",
+      "rawConfidence": 0.9376,
+      "groqProposal": "báo thức reo lên, em vui vẻ thức dậy.",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "-\" báo thức reo lên, em vui vẻ thức đậny."
+    },
+    {
+      "line": 3,
+      "manualReference": "Đầu tiên, em đánh răng, rửa mặt cho",
+      "rawOcr": "Đầu tiên, em đánh răng, rửa mặt cho",
+      "rawConfidence": 0.9712,
+      "groqProposal": "Đầu tiên, em đánh răng, rửa mặt cho",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "Đầu tiên, em đánh răng, rửa mặt cho"
+    },
+    {
+      "line": 4,
+      "manualReference": "thật sạch. tiếp theo, em vui vẻ ăn sáng",
+      "rawOcr": "thật sạch. tiếp theo,em vui vẻ ăn sáng",
+      "rawConfidence": 0.9733,
+      "groqProposal": "thật sạch. Tiếp theo, em vui vẻ ăn sáng",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "thật sạch. tiếp theo,em vui vẻ ăn sáng"
+    },
+    {
+      "line": 5,
+      "manualReference": "cùng gia đình. sau đó em nhanh nhẹn",
+      "rawOcr": "cùng gia đình. sau đó em nhanh nhẹn",
+      "rawConfidence": 0.9805,
+      "groqProposal": "cùng gia đình. Sau đó, em nhanh nhẹn",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "cùng gia đình. sau đó em nhanh nhẹn"
+    },
+    {
+      "line": 6,
+      "manualReference": "thay quần áo đồng phục cho gọn gàng.",
+      "rawOcr": "thay quần áo đồng phục cho gọn gàng",
+      "rawConfidence": 0.9749,
+      "groqProposal": "thay quần áo đồng phục cho gọn gàng",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "thay quần áo đồng phục cho gọn gàng"
+    },
+    {
+      "line": 7,
+      "manualReference": "Cuối cùng, em đeo cặp lên vai rồi để",
+      "rawOcr": "Cuối cùng, em đeo cắp lên vai rồi để",
+      "rawConfidence": 0.9408,
+      "groqProposal": "Cuối cùng, em đeo cặp lên vai rồi để",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "Cuối cùng, em đeo cắp lên vai rồi để"
+    },
+    {
+      "line": 8,
+      "manualReference": "mẹ chở em đi học. em cảm thấy rất",
+      "rawOcr": "mẹ chởem đi học em cảm thấy rất",
+      "rawConfidence": 0.9745,
+      "groqProposal": "mẹ chở em đi học. Em cảm thấy rất",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "mẹ chởem đi học em cảm thấy rất"
+    },
+    {
+      "line": 9,
+      "manualReference": "háo hức đến trường để gặp cô và các bạn.",
+      "rawOcr": "háo hức đến trường để găắp cô và cắc bạn",
+      "rawConfidence": 0.9451,
+      "groqProposal": "háo hức đến trường để gặp cô và các bạn",
+      "geminiStatus": "UNAVAILABLE",
+      "finalText": "háo hức đến trường để găắp cô và cắc bạn"
+    }
+  ],
+  "cloudRun": {
+    "seconds": 7.1782196999993175,
+    "groqHttpRequests": 1,
+    "geminiHttpRequests": 1,
+    "geminiTimeoutSeconds": 45,
+    "geminiMaxAttempts": 1,
+    "errors": [
+      {
+        "errorClass": "SERVER_ERROR_5XX",
+        "httpStatus": 503
+      }
+    ]
+  }
+}

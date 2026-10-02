@@ -10,8 +10,8 @@ param (
     [string]$BridgeMode = "shadow"
 )
 
-$PythonExe = "services\ai-service\.venv\Scripts\python.exe"
-$ScriptPath = "services\ai-service\scripts\test_ocr_bridge.py"
+$PythonExe = "ai\runtime\.venv\Scripts\python.exe"
+$ScriptPath = "ai\runtime\scripts\test_ocr_bridge.py"
 
 if (-not (Test-Path $PythonExe)) {
     Write-Error "Python virtual environment not found at '$PythonExe'."

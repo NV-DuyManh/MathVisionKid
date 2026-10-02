@@ -1,0 +1,165 @@
+{
+  "mobile": {
+    "suites": 23,
+    "tests": 244,
+    "failures": 0
+  },
+  "ai": {
+    "tests": 224,
+    "passed": 215,
+    "failed": [
+      "tests.test_generalized_segmentation::test_gen_25_low_confidence_ambiguity_flagged",
+      "tests.test_geometry_r2_contracts::test_g2_giant_two_row_parent_plus_valid_children",
+      "tests.test_geometry_r2_contracts::test_g3_adjacent_close_real_lines",
+      "tests.test_geometry_r2_contracts::test_g5_padded_crop_boundaries",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[3]",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[5]",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[7]",
+      "tests.test_segmentation_contracts::test_seg_09_adjacent_real_rows_remain_separate",
+      "tests.test_segmentation_contracts::test_seg_14_full_page_duplicate_row_reduction"
+    ],
+    "sameFailedSetAsPreviousTurn": true
+  },
+  "typescript": "passed",
+  "modelSha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "sourceModelSha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "sourceHead": "12b8659e0e726cc63463f9a31b1ece42f241214f",
+  "mathvisionHead": "9c2834efaef9cb428ae33024defde00fb36a5c25",
+  "backendFull": {
+    "suites": 20,
+    "tests": 148,
+    "failures": 0,
+    "errors": 0,
+    "profile": "test / H2",
+    "suitesDetail": [
+      {
+        "suite": "com.mathvisionkids.api.admin.AdminControllerTest",
+        "tests": 20,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.analysis.HttpAiAnalysisGatewayTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.analysis.InternalAiCallbackControllerTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.auth.AuthControllerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.auth.sso.SsoHandoffServiceTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.batch.BatchControllerTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.BusinessApiApplicationTests",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.classroom.TeacherClassControllerTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.config.GlobalExceptionHandlerSecurityTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.dashboard.TeacherDashboardControllerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.FeedbackEligibilityEdgeTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.multiline.HandAiOcrControllerTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.multiline.OcrMultilineControllerTest",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.multiline.OcrMultilineSerializationTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.multiline.OcrMultilineServiceTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.OcrConfidenceTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.OcrStorageVerifierTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.ocr.OcrTrialControllerTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.submission.StateTransitionTest",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "suite": "com.mathvisionkids.api.submission.SubmissionControllerTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0
+      }
+    ]
+  },
+  "measuredMetricsAfterSetOptimization": {
+    "tests": 7,
+    "failures": 0
+  },
+  "gitDiffCheck": "passed",
+  "sourceTrainedWeightInventory": [
+    "ai-service/models/ocr/crnn_vi_handwriting_v1/best_cer.pth"
+  ]
+}

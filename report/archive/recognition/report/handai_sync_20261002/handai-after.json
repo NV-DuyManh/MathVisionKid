@@ -1,0 +1,86 @@
+{
+  "imageSha256": "310ec47f900be24e375d37a57080bcf09498ff3a7c90d595945286a0532b3746",
+  "lineCount": 12,
+  "exactLines": 4,
+  "characterErrors": 8,
+  "referenceCharacters": 194,
+  "cerPct": 4.123711340206185,
+  "modelCheckpointSha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "scope": "One existing HandAI regression image; not a held-out benchmark",
+  "canonicalOverride": false,
+  "cloudEnabled": false,
+  "lines": [
+    {
+      "raw": "m yêu mùa hè",
+      "reference": "Em yêu mùa hè",
+      "confidence": 0.9751,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Có hoa sim tím",
+      "reference": "Có hoa sim tím",
+      "confidence": 0.9525,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Mọc trên đôi quê",
+      "reference": "Mọc trên đồi quê",
+      "confidence": 0.9608,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Rung ring bướm lượn.",
+      "reference": "Rung rinh bướm lượn.",
+      "confidence": 0.9509,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Chong thả dắt trâu",
+      "reference": "Thong thả dắt trâu",
+      "confidence": 0.958,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Trong chiều nắng xế",
+      "reference": "Trong chiều nắng xế",
+      "confidence": 0.9466,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Em hài sim ăn",
+      "reference": "Em hái sim ăn",
+      "confidence": 0.8742,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "GTrời, sao ngọt thế!",
+      "reference": "Trời, sao ngọt thế!",
+      "confidence": 0.9152,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Gió mát lưng đôi",
+      "reference": "Gió mát lưng đồi",
+      "confidence": 0.9306,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Ve ngân ra ra",
+      "reference": "Ve ngân ra rả",
+      "confidence": 0.7839,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Trên cao lưng đồi",
+      "reference": "Trên cao lưng đồi",
+      "confidence": 0.9699,
+      "source": "CRNN_CTC_SOFTMAX"
+    },
+    {
+      "raw": "Diều ai vừa thả.",
+      "reference": "Diều ai vừa thả.",
+      "confidence": 0.9551,
+      "source": "CRNN_CTC_SOFTMAX"
+    }
+  ]
+}

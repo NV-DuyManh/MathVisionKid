@@ -10,7 +10,7 @@ This document explains configuration management, log inspection, service tuning,
 | :--- | :--- | :--- | :--- |
 | **System Overview** | `.env.example` | Repository root | Single reference for all environment variables |
 | **Spring Boot** | `services/business-api/src/main/resources/application.yml` | `.env.example` | Database, JWT, storage, AI gateway settings |
-| **FastAPI & Celery** | `services/ai-service/.env` | `services/ai-service/.env.example` | Runtime mode, Redis broker, MinIO keys |
+| **FastAPI & Celery** | `ai/runtime/.env` | `ai/runtime/.env.example` | Runtime mode, Redis broker, MinIO keys |
 | **Docker Compose** | `services/business-api/docker-compose.yml` | N/A | PostgreSQL, MinIO, Redis container declarations |
 | **Teacher Web** | `teacher-web/.env` | N/A | Vite API target and mock toggles |
 | **Student Mobile** | `app.json` | N/A | Expo app configuration |
@@ -25,17 +25,17 @@ This document explains configuration management, log inspection, service tuning,
 3. Document the variable in `.env.example`.
 
 ### Adding a New Variable to FastAPI:
-1. Open `services/ai-service/app/config.py`.
+1. Open `ai/runtime/app/config.py`.
 2. Add the field to the `Settings` class (using Pydantic BaseSettings).
-3. Document the variable in `services/ai-service/.env.example` and root `.env.example`.
+3. Document the variable in `ai/runtime/.env.example` and root `.env.example`.
 
 ---
 
 ## 3. Changing Local Ports
 
 If a port conflict occurs on your workstation:
-- **FastAPI (8000 -> 8001):** Update `PORT=8001` in `services/ai-service/.env` and `AI_SERVICE_URL=http://localhost:8001/internal/v1/jobs` in Spring's `application.yml`.
-- **Spring Boot (8080 -> 8085):** Update `server.port: 8085` in `application.yml`, `SPRING_CALLBACK_BASE_URL` in `services/ai-service/.env`, and `VITE_API_BASE_URL` in `teacher-web/.env`.
+- **FastAPI (8000 -> 8001):** Update `PORT=8001` in `ai/runtime/.env` and `AI_SERVICE_URL=http://localhost:8001/internal/v1/jobs` in Spring's `application.yml`.
+- **Spring Boot (8080 -> 8085):** Update `server.port: 8085` in `application.yml`, `SPRING_CALLBACK_BASE_URL` in `ai/runtime/.env`, and `VITE_API_BASE_URL` in `teacher-web/.env`.
 - **Teacher Web (5173 -> 3000):** Add `server: { port: 3000 }` in `teacher-web/vite.config.ts`. Update `CORS_ALLOWED_ORIGINS` in Spring's `application.yml`.
 
 ---
@@ -76,7 +76,7 @@ KEYS *
 
 ### Inspect Celery Workers:
 ```powershell
-cd services\ai-service
+cd ai\runtime
 .\.venv\Scripts\celery.exe -A app.jobs.celery_app inspect active
 .\.venv\Scripts\celery.exe -A app.jobs.celery_app inspect stats
 ```
@@ -110,7 +110,7 @@ SELECT * FROM ai_jobs;          -- View AI analysis jobs
 
 ## 8. Switching Between FIXTURE and MODEL Modes
 
-In `services/ai-service/.env`:
+In `ai/runtime/.env`:
 
 ```ini
 # Current default mode (deterministic demo, no weights required)
@@ -125,8 +125,8 @@ RUNTIME_MODE=FIXTURE
 ## 9. Future Model Handoff Integration Procedure
 
 When the AI/ML training teammate delivers the trained model artifact:
-1. Copy model artifact (e.g. `best_model.onnx` or `.pt`) and `model_manifest.json` into `services/ai-service/models/`.
-2. Configure paths in `services/ai-service/.env`:
+1. Copy model artifact (e.g. `best_model.onnx` or `.pt`) and `model_manifest.json` into `ai/runtime/models/`.
+2. Configure paths in `ai/runtime/.env`:
    ```ini
    RUNTIME_MODE=MODEL
    MODEL_MANIFEST_PATH=models/model_manifest.json

@@ -1,0 +1,83 @@
+{
+  "transport": [],
+  "result": [
+    {
+      "corrected_text": ": KChi tiếng chuông tì chiếc đồng hồ",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "-\" báo thức reo lên, em vui vẻ thức đậny.",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "Đầu tiên, em đánh răng, rửa mặt cho",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "thật sạch. tiếp theo,em vui vẻ ăn sáng",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "cùng gia đình. sau đó em nhanh nhẹn",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "thay quần áo đồng phục cho gọn gàng",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "Cuối cùng, em đeo cắp lên vai rồi để",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "mẹ chởem đi học em cảm thấy rất",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    },
+    {
+      "corrected_text": "háo hức đến trường để găắp cô và cắc bạn",
+      "confidence": null,
+      "confidenceSource": null,
+      "decision": "KEEP_RAW",
+      "status": "UNAVAILABLE",
+      "model": "gemini-3.6-flash"
+    }
+  ],
+  "meta": {
+    "key_attempt_count": 1,
+    "key_failover_ms": 18328.18,
+    "provider_wait_ms": 0.0,
+    "success": false
+  }
+}

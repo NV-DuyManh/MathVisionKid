@@ -45,7 +45,7 @@ git rev-parse --show-toplevel
 Set up the Python virtual environment and install dependencies:
 
 ```powershell
-cd services\ai-service
+cd ai\runtime
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\pip.exe install -r requirements.txt
@@ -80,7 +80,7 @@ Copy and inspect local environment files:
 
 ```powershell
 # AI Service
-copy services\ai-service\.env.example services\ai-service\.env
+copy ai\runtime\.env.example ai\runtime\.env
 
 # Teacher Web (pre-configured)
 # Verify teacher-web\.env contains:

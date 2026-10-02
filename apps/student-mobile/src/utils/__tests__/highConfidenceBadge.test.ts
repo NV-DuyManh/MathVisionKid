@@ -1,8 +1,8 @@
 import {
   buildVisibleSuggestions,
   resolveLineDisplayState,
-} from '../suggestionDedupe';
-import { MultilineLineResult } from '../../services/api/OcrPilotService';
+} from '../../features/recognition/utils/lineReview';
+import { MultilineLineResult } from '../../features/recognition/api/RecognitionService';
 
 describe('PROD.4B.2R3 Section 8 — High-Confidence Badge Global Semantics', () => {
   const baseLine: MultilineLineResult = {

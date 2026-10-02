@@ -32,7 +32,7 @@ public class FeedbackEligibilityEdgeTest {
     @Mock private OcrMultilineTrialRepository ocrMultilineTrialRepository;
     @Mock private OcrMultilineLineRepository ocrMultilineLineRepository;
 
-    private OcrPilotService pilotService;
+    private OcrService ocrService;
     private OcrMultilineService multilineService;
 
     private static final String VALID_HEX_SHA = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
@@ -40,7 +40,7 @@ public class FeedbackEligibilityEdgeTest {
 
     @BeforeEach
     void setup() {
-        pilotService = new OcrPilotService(ocrTrialRepository, null, ocrStorageVerifier, null, "http://dummy", "dummy");
+        ocrService = new OcrService(ocrTrialRepository, null, ocrStorageVerifier, null, "http://dummy", "dummy");
         multilineService = new OcrMultilineService(ocrMultilineTrialRepository, ocrMultilineLineRepository, null, ocrStorageVerifier, null, null, "http://dummy", "dummy", "TEST");
         
         lenient().when(ocrTrialRepository.save(any(OcrTrial.class))).thenAnswer(i -> i.getArgument(0));
@@ -65,8 +65,11 @@ public class FeedbackEligibilityEdgeTest {
         assertEquals(expected, actual, "Test failed: " + name + " (" + path + ")");
     }
 
-    private OcrTrial buildPilotTrial() {
+    private OcrTrial buildOcrTrial() {
         OcrTrial trial = new OcrTrial();
+        com.mathvisionkids.api.user.User owner = new com.mathvisionkids.api.user.User();
+        owner.setEmail(EMAIL);
+        trial.setUser(owner);
         trial.setTrialId(UUID.randomUUID());
         trial.setPrivacyConfirmed(true);
         trial.setTestData(false);
@@ -80,6 +83,9 @@ public class FeedbackEligibilityEdgeTest {
 
     private OcrMultilineLine buildMultilineLine() {
         OcrMultilineTrial trial = new OcrMultilineTrial();
+        com.mathvisionkids.api.user.User owner = new com.mathvisionkids.api.user.User();
+        owner.setEmail(EMAIL);
+        trial.setUser(owner);
         trial.setTrialId(UUID.randomUUID());
         trial.setPrivacyConfirmed(true);
         trial.setTestData(false);
@@ -102,10 +108,10 @@ public class FeedbackEligibilityEdgeTest {
 
         // A. CORRECT exact equality
         runTest("A. CORRECT exact equality", "Single-Line", true, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
             when(ocrStorageVerifier.verifyStorageIntegrity(anyString(), anyString())).thenReturn(true);
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECT", "abc", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECT", "abc", false));
             return res.isTrainingEligible();
         });
 
@@ -120,9 +126,9 @@ public class FeedbackEligibilityEdgeTest {
 
         // B. CORRECT whitespace mismatch
         runTest("B. CORRECT whitespace mismatch", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECT", "abc ", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECT", "abc ", false));
             return res.isTrainingEligible();
         });
 
@@ -136,10 +142,10 @@ public class FeedbackEligibilityEdgeTest {
 
         // C. invalid 64-character non-hex SHA
         runTest("C. invalid 64-character non-hex SHA", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             trial.setLineImageSha256("z".repeat(64));
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
             return res.isTrainingEligible();
         });
 
@@ -154,10 +160,10 @@ public class FeedbackEligibilityEdgeTest {
 
         // D. valid-format SHA but MinIO object missing
         runTest("D. valid-format SHA but MinIO object missing", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
             when(ocrStorageVerifier.verifyStorageIntegrity(anyString(), anyString())).thenReturn(false);
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
             return res.isTrainingEligible();
         });
 
@@ -172,10 +178,10 @@ public class FeedbackEligibilityEdgeTest {
 
         // E. MinIO object exists but recomputed SHA mismatches DB SHA
         runTest("E. MinIO object exists but recomputed SHA mismatches", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
             when(ocrStorageVerifier.verifyStorageIntegrity(anyString(), anyString())).thenReturn(false);
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
             return res.isTrainingEligible();
         });
 
@@ -190,9 +196,9 @@ public class FeedbackEligibilityEdgeTest {
 
         // F. verdict = SKIPPED
         runTest("F. verdict = SKIPPED", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("SKIPPED", "", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("SKIPPED", "", false));
             return res.isTrainingEligible();
         });
 
@@ -206,9 +212,9 @@ public class FeedbackEligibilityEdgeTest {
 
         // G. verdict = UNVERIFIED
         runTest("G. verdict = UNVERIFIED", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("UNVERIFIED", "def", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("UNVERIFIED", "def", false));
             return res.isTrainingEligible();
         });
 
@@ -222,10 +228,10 @@ public class FeedbackEligibilityEdgeTest {
 
         // H. is_test_data = true
         runTest("H. is_test_data = true", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             trial.setTestData(true);
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
             return res.isTrainingEligible();
         });
 
@@ -240,10 +246,10 @@ public class FeedbackEligibilityEdgeTest {
 
         // I. privacy_confirmed = false
         runTest("I. privacy_confirmed = false", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             trial.setPrivacyConfirmed(false);
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
             return res.isTrainingEligible();
         });
 
@@ -258,10 +264,10 @@ public class FeedbackEligibilityEdgeTest {
 
         // J. domain != HANDWRITING_TEXT
         runTest("J. domain != HANDWRITING_TEXT", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             trial.setDomain("ARITHMETIC_EXPLICIT");
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "def", false));
             return res.isTrainingEligible();
         });
 
@@ -287,9 +293,9 @@ public class FeedbackEligibilityEdgeTest {
 
         // L. verified_text_raw empty / whitespace-only
         runTest("L. verified_text_raw empty", "Single-Line", false, () -> {
-            OcrTrial trial = buildPilotTrial();
+            OcrTrial trial = buildOcrTrial();
             when(ocrTrialRepository.findById(trial.getTrialId())).thenReturn(Optional.of(trial));
-            OcrTrialResponse res = pilotService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "   ", false));
+            OcrTrialResponse res = ocrService.recordFeedback(trial.getTrialId(), EMAIL, new OcrFeedbackRequest("CORRECTED", "   ", false));
             return res.isTrainingEligible();
         });
 

@@ -1,0 +1,55 @@
+{
+  "backendFocused": [
+    {
+      "suite": "com.mathvisionkids.api.ocr.multiline.OcrMultilineSerializationTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.mathvisionkids.api.ocr.multiline.OcrMultilineServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.mathvisionkids.api.ocr.OcrConfidenceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "backendFocusedTotal": 13,
+  "backendFullSuiteBeforeAdditionalTwoTests": {
+    "tests": 142,
+    "failures": 0,
+    "profile": "test (isolated H2)"
+  },
+  "mobile": {
+    "suites": 18,
+    "tests": 199,
+    "failures": 0
+  },
+  "typescript": "passed",
+  "newOcrTests": {
+    "tests": 30,
+    "failures": 0
+  },
+  "pythonFinal": {
+    "tests": 191,
+    "failures": 9,
+    "errors": 0,
+    "failuresPresentBeforeUpdate": 9,
+    "failedCases": [
+      "tests.test_generalized_segmentation::test_gen_25_low_confidence_ambiguity_flagged",
+      "tests.test_segmentation_contracts::test_seg_09_adjacent_real_rows_remain_separate",
+      "tests.test_segmentation_contracts::test_seg_14_full_page_duplicate_row_reduction",
+      "tests.test_geometry_r2_contracts::test_g2_giant_two_row_parent_plus_valid_children",
+      "tests.test_geometry_r2_contracts::test_g3_adjacent_close_real_lines",
+      "tests.test_geometry_r2_contracts::test_g5_padded_crop_boundaries",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[3]",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[5]",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[7]"
+    ]
+  }
+}

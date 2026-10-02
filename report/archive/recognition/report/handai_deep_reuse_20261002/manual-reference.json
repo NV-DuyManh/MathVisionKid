@@ -1,0 +1,15 @@
+{
+  "source": "Human visual transcription for this owner-provided regression image; not independent held-out ground truth and never sent to any model.",
+  "normalization": "Unicode NFC, trim, collapse whitespace; preserve case/punctuation.",
+  "lines": [
+    "Khi tiếng chuông từ chiếc đồng hồ",
+    "báo thức reo lên, em vui vẻ thức dậy.",
+    "Đầu tiên, em đánh răng, rửa mặt cho",
+    "thật sạch. tiếp theo, em vui vẻ ăn sáng",
+    "cùng gia đình. sau đó em nhanh nhẹn",
+    "thay quần áo đồng phục cho gọn gàng.",
+    "Cuối cùng, em đeo cặp lên vai rồi để",
+    "mẹ chở em đi học. em cảm thấy rất",
+    "háo hức đến trường để gặp cô và các bạn."
+  ]
+}

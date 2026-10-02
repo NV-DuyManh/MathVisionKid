@@ -118,16 +118,16 @@ console.log('Running OCR.RUNTIME.1.2 Verification Test Matrix...\n');
 {
   function resolveZeroMaskRoute(mode) {
     if (mode === 'OCR_PILOT_MULTILINE' || mode === 'HANDWRITING_TEXT') {
-      return '/ocr-pilot/multiline-review';
+      return '/recognition/multiline-review';
     }
     if (mode === 'OCR_PILOT') {
-      return '/ocr-pilot/line-crop';
+      return '/recognition/line-crop';
     }
     return '/preview';
   }
 
   const zeroMaskTarget = resolveZeroMaskRoute('HANDWRITING_TEXT');
-  assert.strictEqual(zeroMaskTarget, '/ocr-pilot/multiline-review');
+  assert.strictEqual(zeroMaskTarget, '/recognition/multiline-review');
   assert.notStrictEqual(zeroMaskTarget, '/preview');
   assert.notStrictEqual(zeroMaskTarget, '/results/review-required');
   console.log('✓ Test D PASS: HANDWRITING_TEXT in zero-mask privacy gate routes to multiline review, never to arithmetic preview.');
@@ -185,8 +185,8 @@ console.log('Running OCR.RUNTIME.1.2 Verification Test Matrix...\n');
     'src/app/camera.tsx',
     'src/app/privacy.tsx',
     'src/app/crop.tsx',
-    'src/app/ocr-pilot/line-crop.tsx',
-    'src/app/ocr-pilot/result.tsx',
+    'src/app/recognition/line-crop.tsx',
+    'src/app/recognition/result.tsx',
     'src/app/results/review-required.tsx'
   ];
 

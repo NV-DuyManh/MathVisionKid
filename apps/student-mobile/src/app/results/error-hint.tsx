@@ -7,7 +7,7 @@ import { AppButton } from '../../components/ui/AppButton';
 import { HintCard } from '../../components/domain/HintCard';
 import { MathExpression } from '../../components/domain/MathExpression';
 import { SubmissionResult } from '../../types';
-import { logFlowDomain } from '../../services/draft/submissionDraftStore';
+import { logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 
 export default function ErrorHintScreen() {
   const router = useRouter();

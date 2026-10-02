@@ -1,0 +1,974 @@
+--- a/ai/runtime/app/config.py
++++ b/ai/runtime/app/config.py
+@@ -4,7 +4,16 @@
+ from typing import Optional
+ 
+ _SERVICE_DIR = Path(__file__).resolve().parent.parent
+-_ENV_FILES = [str(_SERVICE_DIR / ".env"), ".env"]
++
++
++def _ordered_env_files(service_dir: Path, working_dir: Path) -> list[str]:
++    # Pydantic gives later files priority: local keys must override blank base defaults.
++    paths = [directory / name for name in (".env", ".env.local")
++             for directory in (service_dir, working_dir)]
++    return list(dict.fromkeys(str(path.resolve()) for path in paths))
++
++
++_ENV_FILES = _ordered_env_files(_SERVICE_DIR, Path.cwd())
+ 
+ class Settings(BaseSettings):
+     app_env: str = "development"
+--- a/ai/runtime/app/api/generalized_pipeline.py
++++ b/ai/runtime/app/api/generalized_pipeline.py
+@@ -644,6 +644,78 @@
+ def clear_detection_cache():
+     _DETECTION_RUN_CACHE.clear()
+ 
++
++def _detect_chromatic_projection_rows(
++    bgr_image: np.ndarray,
++    median_h: float,
++    max_lines: int,
++) -> List[LineBox]:
++    """Recover densely spaced blue/violet-ink rows from horizontal projection peaks."""
++    height, width = bgr_image.shape[:2]
++    hsv = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2HSV)
++    hue, saturation, value = cv2.split(hsv)
++    saturated = (saturation > 25) & (value < 235)
++    candidate_hues = hue[saturated]
++    if candidate_hues.size < 100:
++        return []
++
++    histogram = cv2.calcHist([candidate_hues], [0], None, [180], [0, 180]).ravel()
++    dominant_hue = int(np.argmax(histogram))
++    if not 80 <= dominant_hue <= 155:
++        return []
++    delta = np.minimum((hue.astype(np.int16) - dominant_hue) % 180, (dominant_hue - hue.astype(np.int16)) % 180)
++    chromatic_mask = ((delta <= 25) & saturated).astype(np.uint8)
++
++    row_projection = chromatic_mask.sum(axis=1).astype(np.float64)
++    smooth_window = max(5, int(round(median_h * 0.5)))
++    if smooth_window % 2 == 0:
++        smooth_window += 1
++    smoothed = np.convolve(row_projection, np.ones(smooth_window) / smooth_window, mode="same")
++    peak_floor = max(width * 0.015, float(np.percentile(smoothed, 90)) * 0.25)
++    radius = max(2, int(round(median_h * 0.25)))
++    candidates = [
++        y for y in range(radius, height - radius)
++        if smoothed[y] >= peak_floor and smoothed[y] == np.max(smoothed[y - radius:y + radius + 1])
++    ]
++
++    min_distance = max(18, int(round(median_h * 1.7)))
++    peaks: List[int] = []
++    for y in sorted(candidates, key=lambda item: smoothed[item], reverse=True):
++        if all(abs(y - selected) >= min_distance for selected in peaks):
++            peaks.append(y)
++        if len(peaks) >= max_lines:
++            break
++    peaks.sort()
++    if len(peaks) < 2:
++        return []
++
++    gaps = np.diff(peaks)
++    typical_gap = float(np.median(gaps))
++    if typical_gap < max(12.0, median_h * 1.1) or float(np.max(gaps)) > typical_gap * 2.5:
++        return []
++
++    half_height = max(int(round(median_h * 1.4)), int(round(typical_gap * 0.62)))
++    rows: List[LineBox] = []
++    for peak in peaks:
++        y1, y2 = max(0, peak - half_height), min(height, peak + half_height + 1)
++        ink_columns = np.flatnonzero(np.any(chromatic_mask[y1:y2] > 0, axis=0))
++        if ink_columns.size == 0:
++            continue
++        x1 = max(0, int(ink_columns[0]) - 8)
++        x2 = min(width, int(ink_columns[-1]) + 9)
++        if x2 - x1 < max(30, int(median_h * 2.0)):
++            continue
++        rows.append(LineBox(
++            line_id=f"line_{len(rows) + 1}",
++            x=x1,
++            y=y1,
++            width=x2 - x1,
++            height=y2 - y1,
++            order=len(rows) + 1,
++        ))
++    return rows
++
++
+ def run_generalized_line_detection(
+     bgr_image: np.ndarray,
+     max_lines: int = 30,
+@@ -733,6 +805,13 @@
+                 best_median_h = f_median_h
+                 best_profile = fallback_profile
+ 
++    projection_lines = _detect_chromatic_projection_rows(bgr_image, best_median_h, max_lines)
++    if len(projection_lines) > len(best_lines):
++        best_lines = projection_lines
++        best_score = max(best_score, 95.0)
++        best_diag["chromatic_projection_used"] = True
++        best_diag["chromatic_projection_count"] = len(projection_lines)
++
+     # 4. Final Formatting (Midpoint-Bounded Safe Padding)
+     # Sort strictly by vertical center of mass (centerY) to guarantee correct reading order
+     sorted_candidates = sorted(best_lines, key=lambda b: (b.y + b.height / 2.0))
+--- a/ai/runtime/app/api/ocr.py
++++ b/ai/runtime/app/api/ocr.py
+@@ -1,4 +1,5 @@
+ import io
++import base64
+ import os
+ import json
+ import hashlib
+@@ -834,7 +835,8 @@
+             for line, (raw_text, unc_data) in zip(lines, batch_results):
+                 setattr(line, "_crnn_ms", crnn_total_ms / len(lines)) # approximate per-line avg
+                 line.rawOcrText = raw_text
+-                line.rawOcrConfidence = unc_data.get("rawCrnnConfidence", 0.0)
++                line.rawOcrConfidence = unc_data.get("rawCrnnConfidence")
++                line.rawOcrConfidenceSource = "CRNN_CTC_SOFTMAX" if line.rawOcrConfidence is not None else None
+                 line.minTokenConfidence = unc_data.get("minTokenConfidence")
+                 line.p10TokenConfidence = unc_data.get("p10TokenConfidence")
+                 line.meanTokenConfidence = unc_data.get("meanTokenConfidence")
+@@ -872,11 +874,13 @@
+                 line.suggestions = []
+                 line.groqSuggestion = None
+                 line.groqConfidence = None
++                line.groqConfidenceSource = None
+                 line.groqDecision = None
+                 line.groqStatus = None
+                 line.groqModel = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
+                 line.geminiSuggestion = None
+                 line.geminiConfidence = None
++                line.geminiConfidenceSource = None
+                 line.geminiDecision = None
+                 line.geminiStatus = None
+                 line.geminiModel = getattr(settings, "gemini_model", "gemini-3.6-flash")
+@@ -1003,6 +1007,7 @@
+                             line.correctionDecision = canonical_groq_dec
+                             line.groqSuggestion = corr_obj.suggested_text
+                             line.groqConfidence = corr_obj.confidence
++                            line.groqConfidenceSource = "AI_SELF_REPORTED" if corr_obj.confidence is not None else None
+                             line.groqDecision = canonical_groq_dec
+                             line.groqStatus = "SUCCESS"
+                             line.correctionApplied = False
+@@ -1029,6 +1034,7 @@
+                             canonical_gem_dec = normalize_canonical_advisor_decision(gem_dec)
+                             line.geminiSuggestion = gem_obj.suggested_text
+                             line.geminiConfidence = gem_obj.confidence
++                            line.geminiConfidenceSource = "AI_SELF_REPORTED" if gem_obj.confidence is not None else None
+                             line.geminiDecision = canonical_gem_dec
+                             line.geminiStatus = "SUCCESS"
+                         elif gemini_active:
+@@ -1044,7 +1050,8 @@
+                                 "provider": "GROQ",
+                                 "model": settings.groq_primary_vision_model,
+                                 "text": line.groqSuggestion,
+-                                "confidence": line.groqConfidence or 0.0,
++                                "confidence": line.groqConfidence,
++                                "confidenceSource": line.groqConfidenceSource,
+                                 "visualSupport": getattr(corr_obj, "visual_support", "STRONG"),
+                                 "decision": normalize_canonical_advisor_decision(line.groqDecision),
+                                 "status": "SUCCESS"
+@@ -1054,7 +1061,8 @@
+                                 "provider": "GROQ",
+                                 "model": settings.groq_primary_vision_model,
+                                 "text": "",
+-                                "confidence": 0.0,
++                                "confidence": None,
++                                "confidenceSource": None,
+                                 "visualSupport": "NONE",
+                                 "decision": "KEEP_RAW",
+                                 "status": line.groqStatus
+@@ -1065,7 +1073,8 @@
+                                 "provider": "GEMINI",
+                                 "model": line.geminiModel or getattr(settings, "gemini_model", "gemini-3.6-flash"),
+                                 "text": line.geminiSuggestion,
+-                                "confidence": line.geminiConfidence or 0.0,
++                                "confidence": line.geminiConfidence,
++                                "confidenceSource": line.geminiConfidenceSource,
+                                 "visualSupport": getattr(gem_obj, "visual_support", "STRONG"),
+                                 "decision": normalize_canonical_advisor_decision(line.geminiDecision),
+                                 "status": "SUCCESS"
+@@ -1075,7 +1084,8 @@
+                                 "provider": "GEMINI",
+                                 "model": line.geminiModel or getattr(settings, "gemini_model", "gemini-3.6-flash"),
+                                 "text": "",
+-                                "confidence": 0.0,
++                                "confidence": None,
++                                "confidenceSource": None,
+                                 "visualSupport": "NONE",
+                                 "decision": "KEEP_RAW",
+                                 "status": line.geminiStatus
+@@ -1126,11 +1136,13 @@
+                 line.suggestions = []
+                 line.groqSuggestion = None
+                 line.groqConfidence = None
++                line.groqConfidenceSource = None
+                 line.groqDecision = None
+                 line.groqStatus = None
+                 line.groqModel = getattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
+                 line.geminiSuggestion = None
+                 line.geminiConfidence = None
++                line.geminiConfidenceSource = None
+                 line.geminiDecision = None
+                 line.geminiStatus = None
+                 line.geminiModel = getattr(settings, "gemini_model", "gemini-3.6-flash")
+@@ -1350,6 +1362,7 @@
+             vocab_sha256=VOCAB_SHA256,
+             preprocessing_version="v1_resize_64x1024_imagenet",
+             confidence=confidence,
++            confidence_source="CRNN_CTC_SOFTMAX",
+             latency_ms=round(latency_ms, 2),
+         )
+     except Exception as e:
+@@ -1360,7 +1373,9 @@
+ from pydantic import BaseModel
+ class AdviseLinesRequest(BaseModel):
+     lines: List[LineBox]
+-    
++    imageBase64: Optional[str] = None
++
++
+ @router.post("/advise-lines")
+ @router.post("/internal/v1/ocr/advise-lines")
+ async def advise_lines_endpoint(request: Request):
+@@ -1368,9 +1383,12 @@
+     BACKGROUND ADVISOR PATH.
+     Accepts raw CRNN lines, runs Groq and Gemini sequentially or asynchronously in a document batch,
+     applies the Safe Arbitration Rule, and returns the AI suggestions.
++    Missing image or unavailable providers preserve raw OCR with null advisor scores.
+     """
+     from app.integrations.groq.document_corrector import request_groq_document_correction
+     from app.integrations.gemini.document_corrector import request_gemini_document_correction
++    from app.integrations.groq.corrector import evaluate_correction_safety
++    from app.integrations.gemini.corrector import evaluate_gemini_safety
+     import time
+     
+     body = await request.json()
+@@ -1378,21 +1396,38 @@
+     if not lines_data:
+         return {"lines": []}
+         
++    # Spring Boot sends minimal fields (x, y, width, height, rawOcrText).
++    # Synthesize line_id and order if missing so LineBox pydantic validation passes.
++    for i, ld in enumerate(lines_data):
++        if "line_id" not in ld:
++            ld["line_id"] = f"advise-{i}"
++        if "order" not in ld:
++            ld["order"] = i + 1
+     lines = [LineBox(**l) for l in lines_data]
++
++    bgr_image = None
++    if body.get("imageBase64"):
++        try:
++            image_bytes = base64.b64decode(body["imageBase64"], validate=True)
++            if len(image_bytes) > MAX_PAYLOAD_BYTES:
++                raise HTTPException(status_code=413, detail="Image payload exceeds maximum size")
++            pil_image = ImageOps.exif_transpose(Image.open(io.BytesIO(image_bytes))).convert("RGB")
++            bgr_image = cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
++        except HTTPException:
++            raise
++        except Exception:
++            raise HTTPException(status_code=400, detail="Invalid advisor image")
+     
+     groq_active = bool(settings.groq_enabled and getattr(settings, "groq_post_correction_enabled", True))
+     gemini_active = bool(getattr(settings, "gemini_enabled", False) and getattr(settings, "gemini_post_correction_enabled", True))
+     
+-    if not groq_active and not gemini_active:
+-        return {"lines": [l.dict() for l in lines]}
+-        
+     import asyncio
+     
+     # Run Groq Document Corrector
+-    groq_task = asyncio.create_task(request_groq_document_correction(lines)) if groq_active else None
++    groq_task = asyncio.create_task(request_groq_document_correction(lines, bgr_image)) if groq_active and bgr_image is not None else None
+     
+     # Run Gemini Document Corrector
+-    gemini_task = asyncio.create_task(request_gemini_document_correction(lines)) if gemini_active else None
++    gemini_task = asyncio.create_task(request_gemini_document_correction(lines, bgr_image)) if gemini_active and bgr_image is not None else None
+     
+     groq_results = []
+     gemini_results = []
+@@ -1418,52 +1453,71 @@
+         gem_sugg = gemini_corr["corrected_text"] if gemini_corr and gemini_corr["status"] == "SUCCESS" else None
+         
+         line.groqSuggestion = g_sugg
+-        line.groqConfidence = groq_corr.get("confidence", 0.0) if groq_corr else 0.0
+-        line.groqDecision = groq_corr.get("decision", "ERROR") if groq_corr else "ERROR"
+-        line.groqStatus = groq_corr.get("status", "ERROR") if groq_corr else "ERROR"
+-        line.groqModel = groq_corr.get("model", "") if groq_corr else ""
+-        
++        line.groqConfidence = groq_corr.get("confidence") if g_sugg else None
++        line.groqConfidenceSource = "AI_SELF_REPORTED" if line.groqConfidence is not None else None
++        line.groqDecision = normalize_canonical_advisor_decision(groq_corr.get("decision") if groq_corr else None)
++        line.groqStatus = groq_corr.get("status", "UNAVAILABLE") if groq_corr else ("UNAVAILABLE" if groq_active else "DISABLED")
++        line.groqModel = groq_corr.get("model") if groq_corr else None
++
+         line.geminiSuggestion = gem_sugg
+-        line.geminiConfidence = gemini_corr.get("confidence", 0.0) if gemini_corr else 0.0
+-        line.geminiDecision = gemini_corr.get("decision", "ERROR") if gemini_corr else "ERROR"
+-        line.geminiStatus = gemini_corr.get("status", "ERROR") if gemini_corr else "ERROR"
+-        line.geminiModel = gemini_corr.get("model", "") if gemini_corr else ""
+-        
+-        # Arbitration
+-        raw = line.rawOcrText
+-        if not g_sugg and not gem_sugg:
+-            continue
+-            
+-        # Consensus
+-        if g_sugg and gem_sugg and g_sugg == gem_sugg and g_sugg != raw:
+-            line.finalText = g_sugg
+-            line.correctedText = g_sugg
+-            line.correctionApplied = True
+-            line.correctionDecision = "CONSENSUS_APPLY"
+-            continue
+-            
+-        # Deterministic Changed-Span Evidence (Trailing duplicate removal)
+-        if g_sugg and g_sugg != raw:
+-            # Example: tímm -> tím
+-            if len(raw) > len(g_sugg) and raw.startswith(g_sugg) and raw[-1] == raw[-2]:
++        line.geminiConfidence = gemini_corr.get("confidence") if gem_sugg else None
++        line.geminiConfidenceSource = "AI_SELF_REPORTED" if line.geminiConfidence is not None else None
++        line.geminiDecision = normalize_canonical_advisor_decision(gemini_corr.get("decision") if gemini_corr else None)
++        line.geminiStatus = gemini_corr.get("status", "UNAVAILABLE") if gemini_corr else ("UNAVAILABLE" if gemini_active else "DISABLED")
++        line.geminiModel = gemini_corr.get("model") if gemini_corr else None
++        line.suggestions = [
++            {"provider": "GROQ", "model": line.groqModel, "text": g_sugg or "", "confidence": line.groqConfidence,
++             "confidenceSource": line.groqConfidenceSource, "decision": line.groqDecision, "status": line.groqStatus},
++            {"provider": "GEMINI", "model": line.geminiModel, "text": gem_sugg or "", "confidence": line.geminiConfidence,
++             "confidenceSource": line.geminiConfidenceSource, "decision": line.geminiDecision, "status": line.geminiStatus},
++        ]
++        line.finalText = line.rawOcrText or line.text or ""
++        line.text = line.finalText
++        line.predictedText = line.finalText
++        line.correctedText = None
++        line.correctionConfidence = None
++        line.correctionApplied = False
++        line.correctionDecision = "KEEP_RAW"
++
++        if g_sugg or gem_sugg:
++            raw = line.rawOcrText or ""
++            # HandAI language advice must preserve the student's mathematical evidence.
++            groq_safe = g_sugg and line.groqDecision == "AUTO_APPLY" and evaluate_correction_safety(
++                raw, g_sugg, line.groqConfidence, domain="ARITHMETIC",
++                auto_apply_confidence=settings.groq_post_correction_auto_apply_confidence,
++                max_edit_ratio=settings.groq_post_correction_max_edit_ratio,
++            )[0] == "AUTO_APPLY"
++            gemini_safe = gem_sugg and line.geminiDecision == "AUTO_APPLY" and evaluate_gemini_safety(
++                raw, gem_sugg, line.geminiConfidence, domain="ARITHMETIC",
++            )[0] == "AUTO_APPLY_SAFE"
++            if groq_safe and gemini_safe and g_sugg == gem_sugg and g_sugg != raw:
+                 line.finalText = g_sugg
+                 line.correctedText = g_sugg
+                 line.correctionApplied = True
+-                line.correctionDecision = "DETERMINISTIC_APPLY"
++                line.correctionDecision = "CONSENSUS_APPLY"
+                 continue
+                 
+-        if gem_sugg and gem_sugg != raw:
+-            if len(raw) > len(gem_sugg) and raw.startswith(gem_sugg) and raw[-1] == raw[-2]:
+-                line.finalText = gem_sugg
+-                line.correctedText = gem_sugg
+-                line.correctionApplied = True
+-                line.correctionDecision = "DETERMINISTIC_APPLY"
+-                continue
+-                
+-        # Default: NEEDS_REVIEW
+-        line.finalText = raw
+-        line.correctedText = None
+-        line.correctionApplied = False
+-        line.correctionDecision = "NEEDS_REVIEW"
+-        
+-    return {"lines": [l.dict() for l in lines]}
++            if groq_safe and g_sugg != raw:
++                if len(raw) >= 2 and len(raw) > len(g_sugg) and raw.startswith(g_sugg) and raw[-1] == raw[-2]:
++                    line.finalText = g_sugg
++                    line.correctedText = g_sugg
++                    line.correctionApplied = True
++                    line.correctionDecision = "DETERMINISTIC_APPLY"
++                    continue
++                    
++            if gemini_safe and gem_sugg != raw:
++                if len(raw) >= 2 and len(raw) > len(gem_sugg) and raw.startswith(gem_sugg) and raw[-1] == raw[-2]:
++                    line.finalText = gem_sugg
++                    line.correctedText = gem_sugg
++                    line.correctionApplied = True
++                    line.correctionDecision = "DETERMINISTIC_APPLY"
++                    continue
++
++            if (g_sugg and g_sugg != raw) or (gem_sugg and gem_sugg != raw):
++                line.correctionDecision = "NEEDS_REVIEW"
++
++    for line in lines:
++        line.text = line.finalText
++        line.predictedText = line.finalText
++
++    return {"lines": [l.model_dump() for l in lines]}
+--- a/ai/runtime/app/ocr/crnn_provider.py
++++ b/ai/runtime/app/ocr/crnn_provider.py
+@@ -205,9 +205,10 @@
+ 
+     def _decode_logits_with_uncertainty(self, logits: torch.Tensor) -> List[Tuple[str, Dict[str, Any]]]:
+         """
+-        CTC decode with mathematically grounded sequence confidence, uncertainty features,
++        CTC decode with uncalibrated model scores, uncertainty features,
+         character-level visual evidence, and beam-search top-k hypotheses:
+-        - rawCrnnConfidence: arithmetic mean of emitted non-blank character probabilities
++        - rawCrnnConfidence: arithmetic mean of peak softmax scores per emitted non-blank character
++          (not a calibrated probability that the whole line is correct)
+         - minTokenConfidence: minimum non-blank emitted token probability
+         - p10TokenConfidence: 10th percentile token probability
+         - meanTokenConfidence: same as rawCrnnConfidence
+@@ -337,6 +338,7 @@
+ 
+             uncertainty_data = {
+                 "rawCrnnConfidence": round(raw_conf, 4),
++                "rawOcrConfidenceSource": "CRNN_CTC_SOFTMAX",
+                 "minTokenConfidence": round(min_conf, 4),
+                 "p10TokenConfidence": round(p10_conf, 4),
+                 "meanTokenConfidence": round(raw_conf, 4),
+--- a/ai/runtime/app/schemas/ocr_pilot.py
++++ b/ai/runtime/app/schemas/ocr_pilot.py
+@@ -36,9 +36,10 @@
+     text: Optional[str] = None
+     rawOcrText: Optional[str] = None
+     predictedText: Optional[str] = None
+-    rawOcrConfidence: Optional[float] = None
++    rawOcrConfidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
++    rawOcrConfidenceSource: Optional[str] = None
+     correctedText: Optional[str] = None
+-    correctionConfidence: Optional[float] = None
++    correctionConfidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
+     correctionApplied: bool = False
+     correctionDecision: Optional[str] = None
+     finalText: Optional[str] = None
+@@ -52,14 +53,16 @@
+ 
+     # Groq Advisor 1 explicit fields (mirrored from correctedText for clarity)
+     groqSuggestion: Optional[str] = None
+-    groqConfidence: Optional[float] = None
++    groqConfidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
++    groqConfidenceSource: Optional[str] = None
+     groqDecision: Optional[str] = None
+     groqStatus: Optional[str] = None
+     groqModel: Optional[str] = None
+ 
+     # Gemini Advisor 2 explicit fields
+     geminiSuggestion: Optional[str] = None
+-    geminiConfidence: Optional[float] = None
++    geminiConfidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
++    geminiConfidenceSource: Optional[str] = None
+     geminiDecision: Optional[str] = None
+     geminiStatus: Optional[str] = None
+     geminiModel: Optional[str] = None
+@@ -82,5 +85,6 @@
+     checkpoint_sha256: str
+     vocab_sha256: str
+     preprocessing_version: str = "v1_resize_64x1024_imagenet"
+-    confidence: Optional[float] = Field(None, description="Calibrated confidence score if available; otherwise null (no fake 1.0)")
++    confidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False, description="Uncalibrated mean of CRNN emitted-character peak softmax scores; not line accuracy")
++    confidence_source: Optional[str] = None
+     latency_ms: float
+--- a/ai/runtime/app/integrations/gemini/corrector.py
++++ b/ai/runtime/app/integrations/gemini/corrector.py
+@@ -131,7 +131,7 @@
+ def evaluate_gemini_safety(
+     raw_text: str,
+     suggested_text: str,
+-    gemini_confidence: float,
++    gemini_confidence: Optional[float],
+     domain: str = "HANDWRITING_TEXT",
+     auto_apply_confidence: float = 0.94,
+     max_edit_ratio: float = 0.35,
+@@ -156,6 +156,9 @@
+ 
+     if raw_clean == sugg_clean:
+         return "KEEP_RAW", 0.0, "no_change"
++
++    if gemini_confidence is None:
++        return "KEEP_RAW", 0.0, "missing_provider_confidence"
+ 
+     # Arithmetic protection
+     if domain == "ARITHMETIC":
+--- a/ai/runtime/app/integrations/gemini/document_corrector.py
++++ b/ai/runtime/app/integrations/gemini/document_corrector.py
+@@ -190,7 +190,9 @@
+ 
+     user_text = "Please analyze the following lines which are highlighted in the overlay:\n\n"
+     for line_id, ldata in triggered_lines.items():
+-        user_text += f"[{line_id}]\nRaw OCR: {ldata['raw_text']}\nOCR Confidence: {ldata['confidence']:.2f}\n\n"
++        confidence = ldata.get("confidence")
++        confidence_text = f"{confidence:.2f}" if confidence is not None else "unavailable"
++        user_text += f"[{line_id}]\nRaw OCR: {ldata['raw_text']}\nOCR Confidence: {confidence_text}\n\n"
+     user_text += "Return structured JSON correction for all listed lines."
+ 
+     max_attempts_cfg = getattr(settings, "gemini_max_key_attempts_per_request", 3)
+@@ -303,7 +305,7 @@
+     triggered = {}
+     for idx, l in enumerate(lines):
+         raw_text = getattr(l, "rawOcrText", None) or (l.get("rawOcrText") if isinstance(l, dict) else "") or ""
+-        conf = getattr(l, "rawOcrConfidence", None) or (l.get("rawOcrConfidence") if isinstance(l, dict) else 0.8) or 0.8
++        conf = l.get("rawOcrConfidence") if isinstance(l, dict) else getattr(l, "rawOcrConfidence", None)
+         bx = getattr(l, "x", 0) if not isinstance(l, dict) else l.get("x", 0)
+         by = getattr(l, "y", 0) if not isinstance(l, dict) else l.get("y", 0)
+         bw = getattr(l, "width", 100) if not isinstance(l, dict) else l.get("width", 100)
+@@ -314,10 +316,7 @@
+             "bbox": [bx, by, bw, bh]
+         }
+         
+-    if bgr_image is None:
+-        bgr_image = np.full((max(400, len(lines) * 60), 800, 3), 255, dtype=np.uint8)
+-        
+-    doc_results = await request_document_gemini_correction(bgr_image, triggered)
++    doc_results = await request_document_gemini_correction(bgr_image, triggered) if bgr_image is not None else None
+     
+     out = []
+     for idx, l in enumerate(lines):
+@@ -328,6 +327,7 @@
+             out.append({
+                 "corrected_text": r.suggested_text,
+                 "confidence": r.confidence,
++                "confidenceSource": "AI_SELF_REPORTED" if r.confidence is not None else None,
+                 "decision": dec,
+                 "status": "SUCCESS",
+                 "model": "gemini-3.6-flash"
+@@ -335,7 +335,8 @@
+         else:
+             out.append({
+                 "corrected_text": raw_text,
+-                "confidence": getattr(l, "rawOcrConfidence", 0.8) if not isinstance(l, dict) else l.get("rawOcrConfidence", 0.8),
++                "confidence": None,
++                "confidenceSource": None,
+                 "decision": "KEEP_RAW",
+                 "status": "NOT_TRIGGERED" if doc_results is not None else "UNAVAILABLE",
+                 "model": "gemini-3.6-flash"
+--- a/ai/runtime/app/integrations/gemini/schemas.py
++++ b/ai/runtime/app/integrations/gemini/schemas.py
+@@ -10,7 +10,7 @@
+     raw_span: str
+     suggested_span: str
+     reason: str
+-    confidence: float = 1.0
++    confidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
+ 
+ 
+ class GeminiOcrCorrectionResponse(BaseModel):
+@@ -18,7 +18,7 @@
+     raw_text: str
+     suggested_text: str
+     correction_needed: bool = True
+-    confidence: float = Field(default=0.9, ge=0.0, le=1.0)
++    confidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
+     visual_support: str = "STRONG"  # "STRONG" | "MODERATE" | "WEAK"
+     changes: List[GeminiSpanChange] = []
+     alternative_suggestions: List[str] = Field(default_factory=list, description="Optional secondary candidates")
+@@ -36,21 +36,12 @@
+             return "STRONG"
+         return "STRONG"
+ 
+-    @field_validator("confidence", mode="before")
+-    @classmethod
+-    def validate_confidence(cls, v) -> float:
+-        try:
+-            val = float(v)
+-            return max(0.0, min(1.0, val))
+-        except (ValueError, TypeError):
+-            return 0.9
+-
+-
+ 
+ class AdvisorSuggestion(BaseModel):
+     provider: str  # "GROQ" | "GEMINI"
+     text: str
+-    confidence: float = 0.0
++    confidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
++    confidenceSource: Optional[str] = None
+     visualSupport: str = "STRONG"
+     decision: str = "SUGGEST_ONLY"  # "AUTO_APPLY" | "SUGGEST_ONLY" | "KEEP_RAW"
+     status: str = "SUCCESS"  # "SUCCESS" | "UNAVAILABLE" | "SKIPPED"
+--- a/ai/runtime/app/integrations/groq/corrector.py
++++ b/ai/runtime/app/integrations/groq/corrector.py
+@@ -87,14 +87,14 @@
+     raw_span: str = ""
+     suggested_span: str = ""
+     reason: str = ""
+-    confidence: float = 0.0
++    confidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
+ 
+ 
+ class GroqOcrCorrectionResponse(BaseModel):
+     raw_text: str
+     suggested_text: str
+     correction_needed: bool = False
+-    confidence: float = 0.0
++    confidence: Optional[float] = Field(None, ge=0.0, le=1.0, allow_inf_nan=False)
+     visual_support: str = Field(default="STRONG", description="Visual evidence: STRONG | MODERATE | WEAK")
+     evidence_summary: str = Field(default="", description="Short machine-readable reason")
+     edit_type: List[str] = Field(default_factory=list)
+@@ -215,7 +215,7 @@
+ def evaluate_correction_safety(
+     raw_text: str,
+     suggested_text: str,
+-    groq_confidence: float,
++    groq_confidence: Optional[float],
+     visual_support: str = "STRONG",
+     is_uncertain: bool = False,
+     domain: str = "HANDWRITING_TEXT",
+@@ -238,6 +238,9 @@
+ 
+     if raw_clean == sug_clean:
+         return "KEEP_RAW", 0.0, "no_change"
++
++    if groq_confidence is None:
++        return "KEEP_RAW", 0.0, "missing_provider_confidence"
+ 
+     v_supp = visual_support.upper().strip()
+     if is_uncertain or v_supp == "WEAK" or groq_confidence < 0.50:
+@@ -416,7 +419,7 @@
+ 
+         logger.info(
+             f"[GroqCorrector] raw={raw_text!r} -> suggested={correction_resp.suggested_text!r} "
+-            f"conf={correction_resp.confidence:.2f} decision={decision} reason={reason} "
++            f"conf={correction_resp.confidence} decision={decision} reason={reason} "
+             f"elapsed={time.time() - t0:.2f}s"
+         )
+         return correction_resp, decision, edit_ratio, reason
+--- a/ai/runtime/app/integrations/groq/document_corrector.py
++++ b/ai/runtime/app/integrations/groq/document_corrector.py
+@@ -141,7 +141,9 @@
+ 
+     user_text = "Please analyze the following lines which are highlighted in the overlay:\n\n"
+     for line_id, ldata in triggered_lines.items():
+-        user_text += f"[{line_id}]\nRaw OCR: {ldata['raw_text']}\nOCR Confidence: {ldata['confidence']:.2f}\n\n"
++        confidence = ldata.get("confidence")
++        confidence_text = f"{confidence:.2f}" if confidence is not None else "unavailable"
++        user_text += f"[{line_id}]\nRaw OCR: {ldata['raw_text']}\nOCR Confidence: {confidence_text}\n\n"
+     user_text += "Return structured JSON correction for all listed lines."
+ 
+     max_attempts = getattr(settings, "groq_max_request_attempts", 3)
+@@ -226,7 +228,7 @@
+     triggered = {}
+     for idx, l in enumerate(lines):
+         raw_text = getattr(l, "rawOcrText", None) or (l.get("rawOcrText") if isinstance(l, dict) else "") or ""
+-        conf = getattr(l, "rawOcrConfidence", None) or (l.get("rawOcrConfidence") if isinstance(l, dict) else 0.8) or 0.8
++        conf = l.get("rawOcrConfidence") if isinstance(l, dict) else getattr(l, "rawOcrConfidence", None)
+         bx = getattr(l, "x", 0) if not isinstance(l, dict) else l.get("x", 0)
+         by = getattr(l, "y", 0) if not isinstance(l, dict) else l.get("y", 0)
+         bw = getattr(l, "width", 100) if not isinstance(l, dict) else l.get("width", 100)
+@@ -237,10 +239,7 @@
+             "bbox": [bx, by, bw, bh]
+         }
+         
+-    if bgr_image is None:
+-        bgr_image = np.full((max(400, len(lines) * 60), 800, 3), 255, dtype=np.uint8)
+-        
+-    doc_results = await request_document_groq_correction(bgr_image, triggered)
++    doc_results = await request_document_groq_correction(bgr_image, triggered) if bgr_image is not None else None
+     
+     out = []
+     for idx, l in enumerate(lines):
+@@ -251,6 +250,7 @@
+             out.append({
+                 "corrected_text": r.suggested_text,
+                 "confidence": r.confidence,
++                "confidenceSource": "AI_SELF_REPORTED" if r.confidence is not None else None,
+                 "decision": dec,
+                 "status": "SUCCESS",
+                 "model": "qwen/qwen3.8-27b"
+@@ -258,7 +258,8 @@
+         else:
+             out.append({
+                 "corrected_text": raw_text,
+-                "confidence": getattr(l, "rawOcrConfidence", 0.8) if not isinstance(l, dict) else l.get("rawOcrConfidence", 0.8),
++                "confidence": None,
++                "confidenceSource": None,
+                 "decision": "KEEP_RAW",
+                 "status": "NOT_TRIGGERED" if doc_results is not None else "UNAVAILABLE",
+                 "model": "qwen/qwen3.8-27b"
+--- /dev/null
++++ b/ai/runtime/tests/test_confidence_integrity.py
+@@ -0,0 +1,171 @@
++"""Offline regressions: numeric confidence must have an actual model/provider source."""
++import base64
++import importlib
++import io
++from unittest.mock import AsyncMock
++
++import numpy as np
++import pytest
++import torch
++from PIL import Image
++from pydantic import ValidationError
++
++from app.api.ocr import advise_lines_endpoint
++from app.config import settings
++from app.integrations.gemini.corrector import evaluate_gemini_safety
++from app.integrations.gemini.schemas import GeminiOcrCorrectionResponse, GeminiSpanChange
++from app.integrations.groq.corrector import GroqOcrCorrectionResponse, SpanChange, evaluate_correction_safety
++from app.ocr.crnn_provider import CrnnOcrProvider
++
++
++def test_crnn_confidence_is_derived_from_real_logits():
++    provider = object.__new__(CrnnOcrProvider)
++    provider._inv_vocab = {1: "a", 2: "b"}
++    probabilities = torch.tensor([[[0.1, 0.8, 0.1], [0.05, 0.9, 0.05],
++                                   [0.8, 0.1, 0.1], [0.2, 0.2, 0.6]]])
++    text, metrics = provider._decode_logits_with_uncertainty(probabilities.log())[0]
++    assert text == "ab"
++    assert metrics["rawCrnnConfidence"] == pytest.approx(0.75)
++    assert metrics["minTokenConfidence"] == pytest.approx(0.6)
++    assert metrics["p10TokenConfidence"] == pytest.approx(0.63)
++    assert metrics["rawOcrConfidenceSource"] == "CRNN_CTC_SOFTMAX"
++    assert [char["prob"] for char in metrics["charVisualEvidence"]] == [0.9, 0.6]
++    weaker = probabilities.clone()
++    weaker[0, 3] = torch.tensor([0.275, 0.275, 0.45])
++    weaker_text, weaker_metrics = provider._decode_logits_with_uncertainty(weaker.log())[0]
++    assert weaker_text == text
++    assert weaker_metrics["rawCrnnConfidence"] < metrics["rawCrnnConfidence"]
++
++
++@pytest.mark.parametrize("schema", [GroqOcrCorrectionResponse, GeminiOcrCorrectionResponse])
++def test_missing_provider_confidence_remains_unknown(schema):
++    response = schema(raw_text="Cm yêu mùa hè", suggested_text="Em yêu mùa hè")
++    assert response.confidence is None
++    assert schema(raw_text="x", suggested_text="x", confidence=0.0).confidence == 0.0
++
++
++@pytest.mark.parametrize("schema", [SpanChange, GeminiSpanChange])
++def test_missing_span_confidence_remains_unknown(schema):
++    assert schema(raw_span="Cm", suggested_span="Em", reason="letter").confidence is None
++
++
++@pytest.mark.parametrize("schema", [GroqOcrCorrectionResponse, GeminiOcrCorrectionResponse])
++@pytest.mark.parametrize("value", [1.5, -0.1, float("nan"), float("inf"), "invalid"])
++def test_invalid_provider_score_cannot_become_high_confidence(schema, value):
++    with pytest.raises(ValidationError):
++        schema(raw_text="a", suggested_text="b", confidence=value)
++
++
++def test_missing_provider_score_cannot_auto_apply():
++    assert evaluate_correction_safety("Cm", "Em", None)[0] == "KEEP_RAW"
++    assert evaluate_gemini_safety("Cm", "Em", None)[0] == "KEEP_RAW"
++
++
++class _Request:
++    def __init__(self, body):
++        self.body = body
++
++    async def json(self):
++        return self.body
++
++
++def _line(**extra):
++    return {"x": 0, "y": 0, "width": 50, "height": 30,
++            "rawOcrText": "Cm yêu mùa hè", "rawOcrConfidence": 0.0,
++            "rawOcrConfidenceSource": "CRNN_CTC_SOFTMAX", **extra}
++
++
++def _image_base64():
++    buffer = io.BytesIO()
++    Image.new("RGB", (50, 30), color=(12, 34, 56)).save(buffer, format="PNG")
++    return base64.b64encode(buffer.getvalue()).decode("ascii")
++
++
++@pytest.mark.asyncio
++@pytest.mark.parametrize("enabled", [True, False])
++async def test_advisor_without_image_never_fakes_provider_success(monkeypatch, enabled):
++    monkeypatch.setattr(settings, "groq_enabled", enabled)
++    monkeypatch.setattr(settings, "gemini_enabled", enabled)
++    for provider in ("groq", "gemini"):
++        module = importlib.import_module(f"app.integrations.{provider}.document_corrector")
++        mock = AsyncMock()
++        monkeypatch.setattr(module, f"request_{provider}_document_correction", mock)
++    result = await advise_lines_endpoint(_Request({"lines": [_line()]}))
++    line = result["lines"][0]
++    for provider in ("groq", "gemini"):
++        assert line[f"{provider}Status"] == ("UNAVAILABLE" if enabled else "DISABLED")
++        assert line[f"{provider}Confidence"] is None
++        assert line[f"{provider}ConfidenceSource"] is None
++        assert line[f"{provider}Suggestion"] is None
++        module = importlib.import_module(f"app.integrations.{provider}.document_corrector")
++        getattr(module, f"request_{provider}_document_correction").assert_not_called()
++    assert line["finalText"] == "Cm yêu mùa hè"
++    assert line["correctionApplied"] is False
++
++
++@pytest.mark.asyncio
++async def test_actual_advisor_image_and_score_are_preserved_without_fallback(monkeypatch):
++    monkeypatch.setattr(settings, "groq_enabled", True)
++    monkeypatch.setattr(settings, "gemini_enabled", True)
++    groq_module = importlib.import_module("app.integrations.groq.document_corrector")
++    gemini_module = importlib.import_module("app.integrations.gemini.document_corrector")
++    groq = AsyncMock(return_value=[{"corrected_text": "Em yêu mùa hè", "confidence": 0.0,
++                                   "decision": "SUGGEST_ONLY", "status": "SUCCESS", "model": "actual"}])
++    gemini = AsyncMock(side_effect=RuntimeError("offline provider failure"))
++    monkeypatch.setattr(groq_module, "request_groq_document_correction", groq)
++    monkeypatch.setattr(gemini_module, "request_gemini_document_correction", gemini)
++    result = await advise_lines_endpoint(_Request({"lines": [_line()], "imageBase64": _image_base64()}))
++    image = groq.call_args.args[1]
++    assert image.shape == (30, 50, 3)
++    assert image[0, 0].tolist() == [56, 34, 12]
++    line = result["lines"][0]
++    assert line["rawOcrConfidence"] == 0.0
++    assert line["groqConfidence"] == 0.0
++    assert line["groqConfidenceSource"] == "AI_SELF_REPORTED"
++    assert line["suggestions"][0]["confidenceSource"] == "AI_SELF_REPORTED"
++    assert line["geminiStatus"] == "UNAVAILABLE"
++    assert line["geminiConfidence"] is None
++    assert line["geminiSuggestion"] is None
++    assert line["finalText"] == "Cm yêu mùa hè"
++
++
++@pytest.mark.asyncio
++@pytest.mark.parametrize("provider", ["groq", "gemini"])
++async def test_document_advisor_needs_real_image_and_never_borrows_ocr_score(monkeypatch, provider):
++    module = importlib.import_module(f"app.integrations.{provider}.document_corrector")
++    request = getattr(module, f"request_{provider}_document_correction")
++    transport = AsyncMock(return_value=None)
++    monkeypatch.setattr(module, f"request_document_{provider}_correction", transport)
++    lines = [_line(), _line(rawOcrConfidence=None)]
++    result = await request(lines)
++    transport.assert_not_called()
++    assert all(line["confidence"] is None and line["status"] == "UNAVAILABLE" for line in result)
++    await request(lines, np.zeros((30, 50, 3), dtype=np.uint8))
++    triggered = transport.call_args.args[1]
++    assert triggered["0"]["confidence"] == 0.0
++    assert triggered["1"]["confidence"] is None
++
++
++@pytest.mark.asyncio
++@pytest.mark.parametrize("raw,suggested,score,decision,applied", [
++    ("25 - 8 = 18", "25 - 8 = 17", 0.99, "AUTO_APPLY", False),
++    ("111", "11", 0.99, "AUTO_APPLY", False),
++    ("Cm yeu mua he", "Em yeu mua he", None, "AUTO_APPLY", False),
++    ("Cm yeu mua he", "Em yeu mua he", 0.5, "SUGGEST_ONLY", False),
++    ("Cm yeu mua he", "Em yeu mua he", 0.99, "AUTO_APPLY", True),
++])
++async def test_consensus_requires_safe_evidence_and_preserves_math(monkeypatch, raw, suggested, score, decision, applied):
++    monkeypatch.setattr(settings, "groq_enabled", True)
++    monkeypatch.setattr(settings, "gemini_enabled", True)
++    for provider in ("groq", "gemini"):
++        module = importlib.import_module(f"app.integrations.{provider}.document_corrector")
++        response = [{"corrected_text": suggested, "confidence": score,
++                     "decision": decision, "status": "SUCCESS", "model": "mock"}]
++        monkeypatch.setattr(module, f"request_{provider}_document_correction", AsyncMock(return_value=response))
++    result = await advise_lines_endpoint(_Request({"lines": [_line(rawOcrText=raw)], "imageBase64": _image_base64()}))
++    line = result["lines"][0]
++    assert line["rawOcrText"] == raw
++    assert line["correctionApplied"] is applied
++    assert line["finalText"] == (suggested if applied else raw)
++    assert line["text"] == line["predictedText"] == line["finalText"]
++    assert line["correctionDecision"] == ("CONSENSUS_APPLY" if applied else "NEEDS_REVIEW")
+--- /dev/null
++++ b/ai/runtime/tests/test_settings_env_precedence.py
+@@ -0,0 +1,32 @@
++"""Local provider configuration overrides base defaults; process env still wins."""
++from pathlib import Path
++
++from app.config import Settings, _ordered_env_files
++
++
++def test_local_provider_keys_override_blank_base_file(tmp_path, monkeypatch):
++    for key in ("GROQ_API_KEYS", "GEMINI_API_KEYS"):
++        monkeypatch.delenv(key, raising=False)
++    (tmp_path / ".env").write_text('GROQ_API_KEYS=""\nGEMINI_API_KEYS=""\n', encoding="utf-8")
++    (tmp_path / ".env.local").write_text(
++        'GROQ_API_KEYS="dummy-groq"\nGEMINI_API_KEYS="dummy-gemini"\n', encoding="utf-8")
++    paths = _ordered_env_files(tmp_path, tmp_path)
++    assert paths == [str((tmp_path / ".env").resolve()), str((tmp_path / ".env.local").resolve())]
++    configured = Settings(_env_file=paths)
++    assert configured.groq_api_keys == "dummy-groq"
++    assert configured.gemini_api_keys == "dummy-gemini"
++    monkeypatch.setenv("GROQ_API_KEYS", "process-override")
++    assert Settings(_env_file=paths).groq_api_keys == "process-override"
++
++
++def test_working_directory_local_file_has_last_priority(tmp_path):
++    service_dir = tmp_path / "service"
++    working_dir = tmp_path / "working"
++    service_dir.mkdir()
++    working_dir.mkdir()
++    assert _ordered_env_files(service_dir, working_dir) == [
++        str((service_dir / ".env").resolve()),
++        str((working_dir / ".env").resolve()),
++        str((service_dir / ".env.local").resolve()),
++        str((working_dir / ".env.local").resolve()),
++    ]
+--- /dev/null
++++ b/ai/runtime/tests/test_owner_poem_12_lines.py
+@@ -0,0 +1,20 @@
++from pathlib import Path
++
++import cv2
++
++from app.api.generalized_pipeline import clear_detection_cache
++from app.api.ocr import detect_text_lines
++
++
++def test_owner_poem_detects_all_twelve_lines():
++    image_path = Path(__file__).parent / "fixtures" / "real_hw" / "OWNER_POEM_12_LINES.png"
++    image = cv2.imread(str(image_path))
++    assert image is not None
++
++    clear_detection_cache()
++    lines, diagnostics = detect_text_lines(image, max_lines=30, force_redetect=True)
++
++    assert len(lines) == 12
++    assert diagnostics["chromatic_projection_used"] is True
++    assert [line.order for line in lines] == list(range(1, 13))
++    assert all(first.y < second.y for first, second in zip(lines, lines[1:]))
+--- a/ai/runtime/tests/test_document_request_counters.py
++++ b/ai/runtime/tests/test_document_request_counters.py
+@@ -6,7 +6,8 @@
+ import asyncio
+ import time
+ import pytest
+-from unittest.mock import patch, AsyncMock
++import numpy as np
++from unittest.mock import patch, AsyncMock, Mock
+ from app.integrations.groq.document_corrector import (
+     request_groq_document_correction,
+     reset_groq_http_counter,
+@@ -70,7 +71,7 @@
+             # Setup pool mocks
+             m_gkey = AsyncMock()
+             mock_groq_pool.return_value.acquire.return_value = m_gkey
+-            mock_groq_pool.return_value.report_success = AsyncMock()
++            mock_groq_pool.return_value.report_success = Mock()
+             
+             m_gemkey = AsyncMock()
+             m_gemkey.safe_id = "test-gem-key"
+@@ -85,16 +86,17 @@
+             
+             t0 = time.perf_counter()
+             # Run in parallel
+-            groq_task = asyncio.create_task(request_groq_document_correction(lines))
+-            gemini_task = asyncio.create_task(request_gemini_document_correction(lines))
++            image = np.full((800, 800, 3), 255, dtype=np.uint8)
++            groq_task = asyncio.create_task(request_groq_document_correction(lines, image))
++            gemini_task = asyncio.create_task(request_gemini_document_correction(lines, image))
+             groq_res, gem_res = await asyncio.gather(groq_task, gemini_task)
+             elapsed = time.perf_counter() - t0
+             
+             groq_calls = get_groq_http_counter()
+             gemini_calls = get_gemini_http_counter()
+             
+-            assert groq_calls <= 1, f"Groq calls exceeded 1 for N={n}: {groq_calls}"
+-            assert gemini_calls <= 1, f"Gemini calls exceeded 1 for N={n}: {gemini_calls}"
++            assert groq_calls == 1, f"Groq should make one mocked request for N={n}: {groq_calls}"
++            assert gemini_calls == 1, f"Gemini should make one mocked request for N={n}: {gemini_calls}"
+             assert len(groq_res) == n
+             assert len(gem_res) == n
+             
+--- a/ai/runtime/tests/test_ocr_pilot_endpoint.py
++++ b/ai/runtime/tests/test_ocr_pilot_endpoint.py
+@@ -86,6 +86,7 @@
+     # Real CRNN confidence metric (0.0 to 1.0), not None and no fake 1.0
+     assert data.get("confidence") is not None
+     assert 0.0 <= data["confidence"] <= 1.0
++    assert data["confidence_source"] == "CRNN_CTC_SOFTMAX"
+ 
+ def test_ocr_pilot_empty_image_rejected():
+     response = client.post(

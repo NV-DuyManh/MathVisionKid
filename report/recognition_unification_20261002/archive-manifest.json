@@ -1,0 +1,427 @@
+[
+  {
+    "previous": "report/HANDAI_DEEP_REUSE_20261002.md",
+    "archive": "report/archive/recognition/report/HANDAI_DEEP_REUSE_20261002.md",
+    "sha256": "a4baa0bd6c19495e77f1924977922511acf295e9772adb404e52220e717d5e23"
+  },
+  {
+    "previous": "report/HANDAI_SYNC_20261002.md",
+    "archive": "report/archive/recognition/report/HANDAI_SYNC_20261002.md",
+    "sha256": "0484ab120b40f8ac4dfa374a67009379b5919a28ac210ff7925f39687935ab4a"
+  },
+  {
+    "previous": "report/doc/HAND_AI_AI_PIPELINE.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_AI_PIPELINE.md",
+    "sha256": "3119f1420e55b0454d45113b7b2f39aa38fd38b2a73a5d8ce053ea564c69e813"
+  },
+  {
+    "previous": "report/doc/HAND_AI_ANALYTICS_BIGDATA.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_ANALYTICS_BIGDATA.md",
+    "sha256": "8d09e6e65b1d29f30b3957dcafe4e94e07b55bbf8bbf7a9652a97c8728abb833"
+  },
+  {
+    "previous": "report/doc/HAND_AI_COMPLETE_TECHNICAL_SUMMARY.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_COMPLETE_TECHNICAL_SUMMARY.md",
+    "sha256": "e91e0d4cebff5d8b739b15ab23a66abb22be6186c230631eb20589fea00c9eea"
+  },
+  {
+    "previous": "report/doc/HAND_AI_DATASET_DOCUMENTATION.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_DATASET_DOCUMENTATION.md",
+    "sha256": "ecebdda2fd81ba526b251c58c76e58281a1f4914e0855f3ffe094ef525a79e9b"
+  },
+  {
+    "previous": "report/doc/HAND_AI_ERROR_ANALYSIS.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_ERROR_ANALYSIS.md",
+    "sha256": "a0699c1d49baaf2f13771fed4324377f1453b86740a1a11fc6b11642521f169f"
+  },
+  {
+    "previous": "report/doc/HAND_AI_EXPERIMENT_TRACKING.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_EXPERIMENT_TRACKING.md",
+    "sha256": "cf7c4cb8630e7f4d4a678de2903964493a634a37dfe0ab6f279ffe707cbf2333"
+  },
+  {
+    "previous": "report/doc/HAND_AI_LIMITATIONS_FUTURE.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_LIMITATIONS_FUTURE.md",
+    "sha256": "ffb492125f71ffd107fb73795933223b6924e2089777c82bdb4489034d86e05e"
+  },
+  {
+    "previous": "report/doc/HAND_AI_MODEL_DOCUMENTATION.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_MODEL_DOCUMENTATION.md",
+    "sha256": "f4c255c21ecd969967d96eadb3ba291b183fb3873af1e5a68245aed7072238a4"
+  },
+  {
+    "previous": "report/doc/HAND_AI_PROJECT_OVERVIEW.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_PROJECT_OVERVIEW.md",
+    "sha256": "0d889798b54515a25c947439eee5bd72df9f6456fa19a20122b881fbedcd97bf"
+  },
+  {
+    "previous": "report/doc/HAND_AI_REPOSITORY_MAP.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_REPOSITORY_MAP.md",
+    "sha256": "14d49d9f0b46013b594d950e32b85417fea81b4a1f7789d18374891a13358925"
+  },
+  {
+    "previous": "report/doc/HAND_AI_RUNNING_GUIDE.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_RUNNING_GUIDE.md",
+    "sha256": "adf9c473d241b82ad4019e94c76cdba6fe4a2f4ef0bd50b3c3e5f095fb36102f"
+  },
+  {
+    "previous": "report/doc/HAND_AI_SYSTEM_ARCHITECTURE.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_SYSTEM_ARCHITECTURE.md",
+    "sha256": "36a08733b68eebe8f1fdd87ec6c49a4c4731b1746aeb3f78d638b5e587b325d3"
+  },
+  {
+    "previous": "report/doc/HAND_AI_TECH_STACK.md",
+    "archive": "report/archive/recognition/report/doc/HAND_AI_TECH_STACK.md",
+    "sha256": "2f126315022a7430b963f658ef05a51ac5d98bc089209378cbb536201a6063d4"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/ai-tests.xml",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/ai-tests.xml",
+    "sha256": "80020865e685b9ba78ae5313656f071a78709821f8764c733dd81524d6f435f0"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/image-evaluation.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/image-evaluation.json",
+    "sha256": "9875998791687af81c507034ad7406584c864289020b7f714a8b03c334352dee"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/manual-reference.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/manual-reference.json",
+    "sha256": "8a70002d549c6b4192cb5684f722604ad6e77d4daeac5ae67ff65fc47c32e263"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/manual_margin_crop_x92.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/manual_margin_crop_x92.json",
+    "sha256": "3ab6b7ac68e919997368dcd615114557bcb7f00602f4f3b76ddf242e9342aacb"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/mobile-tests.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/mobile-tests.json",
+    "sha256": "96d67b1768ed2e64648ab0f0e81209c3dedd11c46de03e106ef322a202c16ef9"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-gemini-diagnostic.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-gemini-diagnostic.json",
+    "sha256": "bf412767d0d2a0ce46bce6da6edb279426311ea2fea9f5139f9b8d8935db59d4"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-gemini-document-diagnostic.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-gemini-document-diagnostic.json",
+    "sha256": "3759ffe80ea36004041ef89bf0838e4ee1ca54536175ee7ab20540562b34cc9b"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-handai-raw.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-handai-raw.json",
+    "sha256": "289ab790b437d472a2f33a58abef0d450b3959201d6392980b4a9f0918bfad91"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-mathvision-advised-45s.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-mathvision-advised-45s.json",
+    "sha256": "f532883f27af5b225380f8e7858da9796810a691bd2c6c09976417adc248a127"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-mathvision-advised-final.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-mathvision-advised-final.json",
+    "sha256": "6553ef601dd4894107fe8fc0860c99397e2ed8e74334c8ce3c5e4e6ad5645888"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-mathvision-advised-poolfix.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-mathvision-advised-poolfix.json",
+    "sha256": "75c7f6f97629c8036c19a597e1ff39308ca4bdd62426338202aec4aaec438aea"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-mathvision-advised.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-mathvision-advised.json",
+    "sha256": "b0df1314e2a0fa17263ba3a6a36c0b764b576c6c948a29e3157e8a2c827c8549"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/new-image-mathvision-raw.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/new-image-mathvision-raw.json",
+    "sha256": "90d8a23314e700cd05c9c632d2fd88e08560ac90317acb58f21c9983c28b3a50"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/owner-handwriting-9-lines.png",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/owner-handwriting-9-lines.png",
+    "sha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/reuse-inventory.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/reuse-inventory.json",
+    "sha256": "6a7a25b4512c20a13ef5de38fa2f8da69c23d4d9f884c2ebb132b0f842b44527"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/source_resize_800_jpeg80.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/source_resize_800_jpeg80.json",
+    "sha256": "28d4a85883c7f17d7e4de1b40b1be1569d298b925ede0d6b13679a8de842ba09"
+  },
+  {
+    "previous": "report/handai_deep_reuse_20261002/verification.json",
+    "archive": "report/archive/recognition/report/handai_deep_reuse_20261002/verification.json",
+    "sha256": "aee1b3c8963eaf1b64b3354cbb50a03fa2906ec461bcf0c9f1df90223bab4676"
+  },
+  {
+    "previous": "report/handai_sync_20261002/ai-runtime-changes.patch",
+    "archive": "report/archive/recognition/report/handai_sync_20261002/ai-runtime-changes.patch",
+    "sha256": "fdc7a2d030614b6be3dc8d944c4cee967f0297f38e0294deed50d4562b2357b6"
+  },
+  {
+    "previous": "report/handai_sync_20261002/handai-after.json",
+    "archive": "report/archive/recognition/report/handai_sync_20261002/handai-after.json",
+    "sha256": "218ff6a944b1a50c7979029ba03cdd0dbaae9a2bfe37242a4a1894c34a294f20"
+  },
+  {
+    "previous": "report/handai_sync_20261002/handai-before.json",
+    "archive": "report/archive/recognition/report/handai_sync_20261002/handai-before.json",
+    "sha256": "4b4ea4f38e183242b1cb292099bbb76d4ca6e2deb8878a87f12a294b79012703"
+  },
+  {
+    "previous": "report/handai_sync_20261002/verification.json",
+    "archive": "report/archive/recognition/report/handai_sync_20261002/verification.json",
+    "sha256": "64a92b6cffc0e8b807e888afbf855d2ea32212b2e5db323701867e26893716c2"
+  },
+  {
+    "previous": "reports/artifacts/HAND_AI_CAPSTONE_PACKAGE.zip",
+    "archive": "report/archive/recognition/reports/artifacts/HAND_AI_CAPSTONE_PACKAGE.zip",
+    "sha256": "5b6af6afa4f03e5fdf008a44805b785a17a3bb4a18889bb7374cf78f2ffc2c73"
+  },
+  {
+    "previous": "reports/current/HAND_AI_BENCHMARK_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_BENCHMARK_REPORT.md",
+    "sha256": "f8e7cab397ac4f4e91fa5a8ed447f0b16b68444fc72344081fc51d80eecd12fe"
+  },
+  {
+    "previous": "reports/current/HAND_AI_DATASET_CARD.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_DATASET_CARD.md",
+    "sha256": "2bca3aa60689aa436bfb08c54a9ab629b7fa3ff06a49b27bd390e622257181fb"
+  },
+  {
+    "previous": "reports/current/HAND_AI_DATASET_EXPERIMENT_TRACKING_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_DATASET_EXPERIMENT_TRACKING_REPORT.md",
+    "sha256": "ea3b20b1201844de908626d7619cccebc3900bde7b769d987667f101cfef01dd"
+  },
+  {
+    "previous": "reports/current/HAND_AI_DEFENSE_QA.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_DEFENSE_QA.md",
+    "sha256": "4af0cdfbf862b5d1774821692445a306bf2b2fabe77c1e05881c80ec9c0e6305"
+  },
+  {
+    "previous": "reports/current/HAND_AI_DEMO_SCRIPT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_DEMO_SCRIPT.md",
+    "sha256": "91c8ec720d6b28f27e74c152c679e520dc3bf57b7fac9f10374f52b68a4293e7"
+  },
+  {
+    "previous": "reports/current/HAND_AI_DOCUMENTATION_VALIDATION_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_DOCUMENTATION_VALIDATION_REPORT.md",
+    "sha256": "057e5cc8aec46c93b639d9a95303224fbdf0fb7a66f7cc4bdfa3484ad7f1c372"
+  },
+  {
+    "previous": "reports/current/HAND_AI_ERROR_ANALYSIS_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_ERROR_ANALYSIS_REPORT.md",
+    "sha256": "d1c4617be6c5e99139dabd793e0dedec6deb3a897bf31295626ae5d32eabb0e2"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FINAL_DEFENSE_READINESS_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FINAL_DEFENSE_READINESS_REPORT.md",
+    "sha256": "026f644b7100ac6b381b69cba0d2b169df50d90bdc94768a326037f2225726b6"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FINAL_PATCH_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FINAL_PATCH_REPORT.md",
+    "sha256": "90948640b29ef6457423cac6765396ab06f237aa0e1982796a41c2b11ee4a962"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FINAL_SYSTEM_AUDIT_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FINAL_SYSTEM_AUDIT_REPORT.md",
+    "sha256": "3f3b4a8282aa7113041de11fceb81ba79bcb83114bd6f389c935cf241abf6df1"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FLOW_FIX_V5_ANALYTICS_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FLOW_FIX_V5_ANALYTICS_FINAL_REPORT.md",
+    "sha256": "4ebbb9f836e07149b56d411b380dbcd352dcd26aaa7540ab8b84718997724519"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FLOW_FIX_V6_REAL_DEVICE_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FLOW_FIX_V6_REAL_DEVICE_FINAL_REPORT.md",
+    "sha256": "b1cb4cf0c6812464293a469b5e41464f712cf31e1a6adb924ff1123cb9e10d40"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FLOW_FIX_V7_GUEST_API_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FLOW_FIX_V7_GUEST_API_FINAL_REPORT.md",
+    "sha256": "4878d652d063e02feba2821c41a937edf7923e76b3103f6ab349943813cd23b8"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FLOW_FIX_V8_BACKEND_RUNTIME_SECURITY_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FLOW_FIX_V8_BACKEND_RUNTIME_SECURITY_FINAL_REPORT.md",
+    "sha256": "dd604f7bb75c1d6ef4d6e8fb0e79200a340711f48b4030bb9355e5bae0df1a28"
+  },
+  {
+    "previous": "reports/current/HAND_AI_FLOW_FIX_V9_ACCURACY_AND_BRANDING_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_FLOW_FIX_V9_ACCURACY_AND_BRANDING_REPORT.md",
+    "sha256": "b3ec392865c3d03524eb5cd307e732dac13844a535e4054be055b7f6419e6efc"
+  },
+  {
+    "previous": "reports/current/HAND_AI_MODEL_CARD.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_MODEL_CARD.md",
+    "sha256": "65edda79206f82304dfe8b6d74291f5d5cde2828099de511058f563e0cec20ec"
+  },
+  {
+    "previous": "reports/current/HAND_AI_PHASE_2_1_REPRODUCIBILITY_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_PHASE_2_1_REPRODUCIBILITY_REPORT.md",
+    "sha256": "c6367423256986d5cbb4b8a38754e42d4f0337e63648cf979a98ed8276ec632b"
+  },
+  {
+    "previous": "reports/current/HAND_AI_PHASE_2_ANALYTICS_SEPARATION_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_PHASE_2_ANALYTICS_SEPARATION_REPORT.md",
+    "sha256": "c71a112d244dc65e2ddc16f45573e01ccbcbc63acb3caac61919827f4046a5f8"
+  },
+  {
+    "previous": "reports/current/HAND_AI_PHASE_3_1_ABLATION_BENCHMARK_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_PHASE_3_1_ABLATION_BENCHMARK_REPORT.md",
+    "sha256": "859aa8e2fc1e26a0741b2137925d4e57c95fb7e0505195a3ad5ffd3ff4b140b6"
+  },
+  {
+    "previous": "reports/current/HAND_AI_PHASE_3_RESEARCH_VALIDATION_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_PHASE_3_RESEARCH_VALIDATION_REPORT.md",
+    "sha256": "984957161537c8b0efffa54af965ea25292ba8149e3c08cdbcfaa40b28ebfd48"
+  },
+  {
+    "previous": "reports/current/HAND_AI_RESEARCH_ANALYTICS_PHASE_1_AND_2_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_RESEARCH_ANALYTICS_PHASE_1_AND_2_REPORT.md",
+    "sha256": "c71a112d244dc65e2ddc16f45573e01ccbcbc63acb3caac61919827f4046a5f8"
+  },
+  {
+    "previous": "reports/current/HAND_AI_SYSTEM_ARCHITECTURE.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_SYSTEM_ARCHITECTURE.md",
+    "sha256": "00271fd4a9cb98b05d07fa3d1f7f36a4f01e9e3a83c67c09a550d15f3c370997"
+  },
+  {
+    "previous": "reports/current/HAND_AI_WER_IMPLEMENTATION_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/HAND_AI_WER_IMPLEMENTATION_REPORT.md",
+    "sha256": "4eeef144fbca8f6fe34ea2011cf133adfd23be3f9743c4c0018208cc54e7bdc9"
+  },
+  {
+    "previous": "reports/current/MATHVISION_HAND_AI_DEMO_MODE_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/MATHVISION_HAND_AI_DEMO_MODE_FINAL_REPORT.md",
+    "sha256": "73bb0b001d19eb175a01c217bfca4a6d68074dd130712747de574ba703bf1036"
+  },
+  {
+    "previous": "reports/current/MATHVISION_HAND_AI_RESEARCH_DEMO_V2_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/MATHVISION_HAND_AI_RESEARCH_DEMO_V2_FINAL_REPORT.md",
+    "sha256": "f316c330b81dd78b0017dafb678a0ce635226d5dba36f82780f94a48696cf0ef"
+  },
+  {
+    "previous": "reports/current/MATHVISION_HAND_AI_RESEARCH_DEMO_V3_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/MATHVISION_HAND_AI_RESEARCH_DEMO_V3_FINAL_REPORT.md",
+    "sha256": "46113793e21a4e8e819ed7c8bf8d467b721ee88c29ae9bf94f7aa0c0b521712e"
+  },
+  {
+    "previous": "reports/current/MATHVISION_HAND_AI_RESEARCH_DEMO_V4_FINAL_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/MATHVISION_HAND_AI_RESEARCH_DEMO_V4_FINAL_REPORT.md",
+    "sha256": "fc040b0389e446855e7bf228abc73e9ee175d3148d4fb5d671e683c7a85c1a49"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_AI_PIPELINE.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_AI_PIPELINE.md",
+    "sha256": "3119f1420e55b0454d45113b7b2f39aa38fd38b2a73a5d8ce053ea564c69e813"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_ANALYTICS_BIGDATA.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_ANALYTICS_BIGDATA.md",
+    "sha256": "8d09e6e65b1d29f30b3957dcafe4e94e07b55bbf8bbf7a9652a97c8728abb833"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_COMPLETE_TECHNICAL_SUMMARY.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_COMPLETE_TECHNICAL_SUMMARY.md",
+    "sha256": "e91e0d4cebff5d8b739b15ab23a66abb22be6186c230631eb20589fea00c9eea"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_DATASET_DOCUMENTATION.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_DATASET_DOCUMENTATION.md",
+    "sha256": "ecebdda2fd81ba526b251c58c76e58281a1f4914e0855f3ffe094ef525a79e9b"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_ERROR_ANALYSIS.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_ERROR_ANALYSIS.md",
+    "sha256": "a0699c1d49baaf2f13771fed4324377f1453b86740a1a11fc6b11642521f169f"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_EXPERIMENT_TRACKING.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_EXPERIMENT_TRACKING.md",
+    "sha256": "cf7c4cb8630e7f4d4a678de2903964493a634a37dfe0ab6f279ffe707cbf2333"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_LIMITATIONS_FUTURE.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_LIMITATIONS_FUTURE.md",
+    "sha256": "ffb492125f71ffd107fb73795933223b6924e2089777c82bdb4489034d86e05e"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_MODEL_DOCUMENTATION.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_MODEL_DOCUMENTATION.md",
+    "sha256": "f4c255c21ecd969967d96eadb3ba291b183fb3873af1e5a68245aed7072238a4"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_PROJECT_OVERVIEW.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_PROJECT_OVERVIEW.md",
+    "sha256": "0d889798b54515a25c947439eee5bd72df9f6456fa19a20122b881fbedcd97bf"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_REPOSITORY_MAP.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_REPOSITORY_MAP.md",
+    "sha256": "14d49d9f0b46013b594d950e32b85417fea81b4a1f7789d18374891a13358925"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_RUNNING_GUIDE.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_RUNNING_GUIDE.md",
+    "sha256": "adf9c473d241b82ad4019e94c76cdba6fe4a2f4ef0bd50b3c3e5f095fb36102f"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_SYSTEM_ARCHITECTURE.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_SYSTEM_ARCHITECTURE.md",
+    "sha256": "36a08733b68eebe8f1fdd87ec6c49a4c4731b1746aeb3f78d638b5e587b325d3"
+  },
+  {
+    "previous": "reports/doc/HAND_AI_TECH_STACK.md",
+    "archive": "report/archive/recognition/reports/doc/HAND_AI_TECH_STACK.md",
+    "sha256": "2f126315022a7430b963f658ef05a51ac5d98bc089209378cbb536201a6063d4"
+  },
+  {
+    "previous": "reports/evidence/handai_error_dashboard.jpg",
+    "archive": "report/archive/recognition/reports/evidence/handai_error_dashboard.jpg",
+    "sha256": "650a4c846a27d699edabcfd453556e662fbb7db6f7600a2f7c0617a24e7b7f16"
+  },
+  {
+    "previous": "reports/artifacts/HandAI_UI_Mockups/HandAI_BigData_Analytics_Dashboard.jpg",
+    "archive": "report/archive/recognition/reports/artifacts/HandAI_UI_Mockups/HandAI_BigData_Analytics_Dashboard.jpg",
+    "sha256": "ff49456ecb89145226d594e69c1f77942c3a03bdad892f9734ca025ca87701ba"
+  },
+  {
+    "previous": "reports/artifacts/HandAI_UI_Mockups/HandAI_Mobile_Scanner_UI.jpg",
+    "archive": "report/archive/recognition/reports/artifacts/HandAI_UI_Mockups/HandAI_Mobile_Scanner_UI.jpg",
+    "sha256": "3dfeb8953c9469f5c14c6a8349f46f5d1b7bbdfbc5e4598bc9472fc01926c179"
+  },
+  {
+    "previous": "report/doc/README.md",
+    "archive": "report/archive/recognition/report/doc/README.md",
+    "sha256": "a9e0128dd02ff79db9e2068a227393834df7143dbb2b5ca867255e4b189ff0a7"
+  },
+  {
+    "previous": "reports/doc/README.md",
+    "archive": "report/archive/recognition/reports/doc/README.md",
+    "sha256": "a9e0128dd02ff79db9e2068a227393834df7143dbb2b5ca867255e4b189ff0a7"
+  },
+  {
+    "previous": "reports/current/ANALYTICS_METRIC_INTEGRITY_FIX_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/ANALYTICS_METRIC_INTEGRITY_FIX_REPORT.md",
+    "sha256": "22906c38ba7952205d0393016697ef8e936a25c065a1659b8c5f17c659ce00c8"
+  },
+  {
+    "previous": "reports/current/ANALYTICS_UPDATE_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/ANALYTICS_UPDATE_REPORT.md",
+    "sha256": "6a5e10b0f5209743723ff4c7a02b900deed6c61b14b8dcedeee5ee0216260f4d"
+  },
+  {
+    "previous": "reports/current/DECISION_SOURCE_ATTRIBUTION_FIX_REPORT.md",
+    "archive": "report/archive/recognition/reports/current/DECISION_SOURCE_ATTRIBUTION_FIX_REPORT.md",
+    "sha256": "ade42806947cb876bbc6564a72155b2c871d1bc5d27be1abe3078a114cf7fc7b"
+  }
+]

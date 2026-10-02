@@ -1,4 +1,4 @@
-import { submissionDraftStore } from '../../services/draft/submissionDraftStore';
+import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 import { SpringSubmissionServiceClass } from '../../services/api/SpringSubmissionService';
 import apiClient from '../../services/api/apiClient';
 
@@ -6,7 +6,7 @@ jest.mock('../../services/api/apiClient');
 
 describe('Privacy Upload Boundary Proof', () => {
   beforeEach(() => {
-    submissionDraftStore.clearDraft();
+    recognitionDraftStore.clearDraft();
     jest.clearAllMocks();
   });
 
@@ -16,7 +16,7 @@ describe('Privacy Upload Boundary Proof', () => {
     const CROPPED_FINAL_URI = 'file:///data/user/0/host.exp.exponent/cache/cropped_processed_final_003.jpg';
 
     // 1. ACQUISITION STAGE: Camera or Gallery captures raw unmasked image
-    submissionDraftStore.setDraft({
+    recognitionDraftStore.setDraft({
       imageSessionId: 'session-boundary-test',
       rawUri: RAW_CAMERA_URI,
       sourceImageUri: RAW_CAMERA_URI,
@@ -29,33 +29,33 @@ describe('Privacy Upload Boundary Proof', () => {
       mode: 'ARITHMETIC',
     });
 
-    const acquisitionDraft = submissionDraftStore.getDraft();
+    const acquisitionDraft = recognitionDraftStore.getDraft();
     expect(acquisitionDraft?.rawUri).toBe(RAW_CAMERA_URI);
     expect(acquisitionDraft?.uri).toBe(RAW_CAMERA_URI);
 
     // 2. PRIVACY MASKING STAGE: User draws masks, ViewShot rasterizes to new URI
-    submissionDraftStore.updateDraft({
+    recognitionDraftStore.updateDraft({
       privacyImageUri: MASKED_VIEWSHOT_URI,
       uri: MASKED_VIEWSHOT_URI,
       masks: [{ id: 1, x: 50, y: 50, width: 200, height: 100 }],
       isMasked: true,
     });
 
-    const privacyDraft = submissionDraftStore.getDraft();
+    const privacyDraft = recognitionDraftStore.getDraft();
     expect(privacyDraft?.privacyImageUri).toBe(MASKED_VIEWSHOT_URI);
     expect(privacyDraft?.uri).toBe(MASKED_VIEWSHOT_URI);
     // Raw URI preserved ONLY as historical source reference, not submission URI
     expect(privacyDraft?.rawUri).toBe(RAW_CAMERA_URI);
 
     // 3. CROP STAGE: User crops the masked image, ImageManipulator outputs cropped URI
-    submissionDraftStore.updateDraft({
+    recognitionDraftStore.updateDraft({
       croppedImageUri: CROPPED_FINAL_URI,
       uri: CROPPED_FINAL_URI,
       width: 640,
       height: 640,
     });
 
-    const cropDraft = submissionDraftStore.getDraft();
+    const cropDraft = recognitionDraftStore.getDraft();
     expect(cropDraft?.croppedImageUri).toBe(CROPPED_FINAL_URI);
     expect(cropDraft?.uri).toBe(CROPPED_FINAL_URI);
     expect(cropDraft?.rawUri).toBe(RAW_CAMERA_URI);
@@ -103,7 +103,7 @@ describe('Privacy Upload Boundary Proof', () => {
     appendSpy.mockRestore();
 
     // 6. SESSION BOUNDARY VERIFICATION
-    submissionDraftStore.clearDraft();
-    expect(submissionDraftStore.getDraft()).toBeNull();
+    recognitionDraftStore.clearDraft();
+    expect(recognitionDraftStore.getDraft()).toBeNull();
   });
 });

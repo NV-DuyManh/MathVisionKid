@@ -4,7 +4,7 @@ import * as MediaLibrary from 'expo-media-library/legacy';
 import { useRouter } from 'expo-router';
 import CustomGalleryScreen from '../app/gallery';
 import HomeScreen from '../app/(tabs)/index';
-import { submissionDraftStore } from '../services/draft/submissionDraftStore';
+import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
 
 // Mock dependencies
 jest.mock('expo-router', () => ({
@@ -31,7 +31,7 @@ jest.mock('expo-media-library/legacy', () => ({
   SortBy: { creationTime: 'creationTime' },
 }));
 
-jest.mock('../services/image/imagePipeline', () => ({
+jest.mock('../features/recognition/image/imagePipeline', () => ({
   normalizeImageDraft: jest.fn().mockImplementation((uri, w, h) =>
     Promise.resolve({
       uri,
@@ -55,7 +55,7 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       back: mockBack,
       replace: mockReplace,
     });
-    submissionDraftStore.clearDraft();
+    recognitionDraftStore.clearDraft();
   });
 
   const mockAssets: MediaLibrary.Asset[] = [
@@ -235,7 +235,7 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       await ctaBtn.props.onPress();
     });
 
-    const draft = submissionDraftStore.getDraft();
+    const draft = recognitionDraftStore.getDraft();
     expect(draft).not.toBeNull();
     expect(draft?.uri).toBe('file:///data/photos/local_math1.jpg');
     expect(mockPush).toHaveBeenCalledWith({

@@ -12,10 +12,10 @@ import java.util.UUID;
 @RequestMapping("/api/v1/ocr/trials")
 public class OcrTrialController {
 
-    private final OcrPilotService ocrPilotService;
+    private final OcrService ocrService;
 
-    public OcrTrialController(OcrPilotService ocrPilotService) {
-        this.ocrPilotService = ocrPilotService;
+    public OcrTrialController(OcrService ocrService) {
+        this.ocrService = ocrService;
     }
 
     @PostMapping
@@ -26,13 +26,13 @@ public class OcrTrialController {
             @RequestParam(value = "privacyConfirmed", required = false, defaultValue = "false") Boolean privacyConfirmed,
             Principal principal) {
         String email = principal != null ? principal.getName() : null;
-        OcrTrialResponse response = ocrPilotService.createTrial(image, email, source, isTestData, privacyConfirmed);
+        OcrTrialResponse response = ocrService.createTrial(image, email, source, isTestData, privacyConfirmed);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{trialId}")
-    public ResponseEntity<OcrTrialResponse> getTrial(@PathVariable UUID trialId) {
-        OcrTrialResponse response = ocrPilotService.getTrial(trialId);
+    public ResponseEntity<OcrTrialResponse> getTrial(@PathVariable UUID trialId, Principal principal) {
+        OcrTrialResponse response = ocrService.getTrial(trialId, principal.getName());
         return ResponseEntity.ok(response);
     }
 
@@ -42,13 +42,13 @@ public class OcrTrialController {
             @RequestBody OcrFeedbackRequest request,
             Principal principal) {
         String email = principal != null ? principal.getName() : null;
-        OcrTrialResponse response = ocrPilotService.recordFeedback(trialId, email, request);
+        OcrTrialResponse response = ocrService.recordFeedback(trialId, email, request);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/metrics")
     public ResponseEntity<OcrMetricsResponse> getMetrics() {
-        OcrMetricsResponse metrics = ocrPilotService.getMetrics();
+        OcrMetricsResponse metrics = ocrService.getMetrics();
         return ResponseEntity.ok(metrics);
     }
 }

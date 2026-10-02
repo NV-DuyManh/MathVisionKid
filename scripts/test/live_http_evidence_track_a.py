@@ -210,21 +210,21 @@ def test_full_live_pipeline():
     # 3. Scenario A: Vertical Addition (Correct: 45 + 27 = 72)
     scen_a = run_submission(
         "SCENARIO A: 2-Digit Vertical Addition (45 + 27 = 72, Correct)",
-        "services/ai-service/tests/fixtures/synthetic_addition.jpg",
+        "ai/runtime/tests/fixtures/synthetic_addition.jpg",
         "/results/correct"
     )
 
     # 4. Scenario B: Vertical Subtraction with Tens/Borrow Error (52 - 18 = 44)
     scen_b = run_submission(
         "SCENARIO B: 2-Digit Vertical Subtraction (52 - 18 = 44, Calculation Error)",
-        "services/ai-service/tests/fixtures/synthetic_subtraction_incorrect.jpg",
+        "ai/runtime/tests/fixtures/synthetic_subtraction_incorrect.jpg",
         "/results/error-hint"
     )
 
     # 5. Scenario C: Vertical Subtraction (52 - 18 = 34, Correct with Borrow)
     scen_c = run_submission(
         "SCENARIO C: 2-Digit Vertical Subtraction (52 - 18 = 34, Correct)",
-        "services/ai-service/tests/fixtures/synthetic_subtraction.jpg",
+        "ai/runtime/tests/fixtures/synthetic_subtraction.jpg",
         "/results/correct"
     )
 
@@ -288,7 +288,7 @@ def test_full_live_pipeline():
     # 7. Scenario E: Ambiguous / Uncertain Structure
     scen_e = run_submission(
         "SCENARIO E: Ambiguous Structure / Needs Confirmation",
-        "services/ai-service/tests/fixtures/sample_input_synthetic.jpg",
+        "ai/runtime/tests/fixtures/sample_input_synthetic.jpg",
         "/results/needs-confirmation"
     )
 

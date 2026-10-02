@@ -18,9 +18,8 @@ import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
-import { submissionDraftStore, resolveFlowDomain, logFlowDomain } from '../services/draft/submissionDraftStore';
-import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
-import { isHandAIMode } from '../config/appMode';
+import { recognitionDraftStore, resolveFlowDomain, logFlowDomain } from '../features/recognition/state/recognitionDraftStore';
+import { ensureFileUri, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
 import * as ImageManipulator from 'expo-image-manipulator';
 import {
   calculateMaskMove,
@@ -43,7 +42,7 @@ interface Mask {
 export default function PrivacyGateScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
-  const draft = submissionDraftStore.getDraft();
+  const draft = recognitionDraftStore.getDraft();
 
   const rawUri = draft?.sourceImageUri || draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
@@ -74,19 +73,6 @@ export default function PrivacyGateScreen() {
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
 
   useEffect(() => {
-    if (isHandAIMode()) {
-      console.log('[HAND_AI DEBUG] Privacy screen bypassed completely. Redirecting to /crop');
-      const origUri = draft?.sourceImageUri || draft?.rawUri || activeUri;
-      submissionDraftStore.updateDraft({
-        privacyImageUri: undefined,
-        isMasked: false,
-        sourceImageUri: origUri,
-        uri: origUri,
-        mode: 'HANDWRITING_TEXT',
-      });
-      router.replace({ pathname: '/crop' as any, params: { retrySubmissionId, uri: origUri } });
-      return;
-    }
     logFlowDomain('PRIVACY', effectiveMode);
     if (activeUri) {
       logStageDiagnostic('PRIVACY_INPUT', {
@@ -99,10 +85,6 @@ export default function PrivacyGateScreen() {
       });
     }
   }, [activeUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode]);
-
-  if (isHandAIMode()) {
-    return null; // HAND_AI must NEVER mount privacy screen or render ViewShot
-  }
 
   // =========================================================================
   // Reanimated Shared Values for Native UI-Thread Worklet Gesture Recognition
@@ -437,7 +419,7 @@ export default function PrivacyGateScreen() {
 
       // If no masks were drawn, do NOT rasterize via ViewShot!
       if (masks.length === 0) {
-        submissionDraftStore.updateDraft({ privacyImageUri: activeUri, isMasked: false, mode: postPrivacyMode });
+        recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, isMasked: false, mode: postPrivacyMode });
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: activeUri,
           width: draft?.width,
@@ -471,7 +453,7 @@ export default function PrivacyGateScreen() {
           console.warn('[PRIVACY] Could not inspect ViewShot dimensions:', inspectErr);
         }
 
-        submissionDraftStore.updateDraft({
+        recognitionDraftStore.updateDraft({
           privacyImageUri: finalMaskedUri,
           uri: finalMaskedUri,
           width: outputWidth,
@@ -500,14 +482,6 @@ export default function PrivacyGateScreen() {
       Alert.alert('Lỗi', 'Không thể lưu ảnh đã che.');
     }
   };
-
-  if (isHandAIMode()) {
-    return (
-      <View style={{ flex: 1, backgroundColor: '#F8FAFC', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-      </View>
-    );
-  }
 
   if (!activeUri) {
     return (
@@ -543,7 +517,7 @@ export default function PrivacyGateScreen() {
         </View>
 
         {/* Interactive Mask Canvas */}
-        <View 
+        <View
           style={styles.imageContainer}
           onLayout={(e) => setContainerSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
         >
@@ -556,8 +530,7 @@ export default function PrivacyGateScreen() {
               <GestureDetector gesture={panGesture}>
                 <View
                   style={styles.imageWrapper}
-                  collapsable={false}
-                >
+                  collapsable={false} >
                   <Image
                     source={{ uri: activeUri }}
                     style={styles.image}

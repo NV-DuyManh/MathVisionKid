@@ -31,6 +31,8 @@ public class OcrMultilineControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private com.mathvisionkids.api.user.UserRepository users;
 
     @Autowired
     private OcrMultilineTrialRepository trialRepository;
@@ -48,6 +50,12 @@ public class OcrMultilineControllerTest {
     @BeforeEach
     void setUp() {
         testTrial = new OcrMultilineTrial();
+        com.mathvisionkids.api.user.User owner = new com.mathvisionkids.api.user.User();
+        owner.setEmail("student@test.com");
+        owner.setPasswordHash("test-hash");
+        owner.setRole("STUDENT");
+        owner.setDisplayName("Student");
+        testTrial.setUser(users.findByEmail(owner.getEmail()).orElseGet(() -> users.save(owner)));
         testTrial.setSource("CAMERA");
         testTrial.setPageImageObjectKey("ocr-trials/multiline/test_page.jpg");
         testTrial.setPageImageSha256("74378a86c7d3813ff3abf0bc7f93caa4fbdba5c2db4dbf13fefb5d77d0f7870b");

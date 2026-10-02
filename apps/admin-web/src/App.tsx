@@ -6,29 +6,14 @@ import { UserDetailPage } from './pages/UserDetailPage';
 import { ClassesPage } from './pages/ClassesPage';
 import { ClassDetailPage } from './pages/ClassDetailPage';
 import { AuditPage } from './pages/AuditPage';
-import { HandAiAnalyticsPage } from './pages/HandAiAnalyticsPage';
+import { RecognitionAnalyticsPage } from './pages/RecognitionAnalyticsPage';
 import { AdminLayout } from './components/layout/AdminLayout';
-import { AdminSidebar } from './components/layout/AdminSidebar';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
-import { Box } from '@mui/material';
 
 export const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-
-      {/* Direct standalone access to HandAI Research Analytics without auth barrier */}
-      <Route
-        path="/handai-analytics"
-        element={
-          <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#F8FAFC' }}>
-            <AdminSidebar />
-            <Box component="main" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-              <HandAiAnalyticsPage />
-            </Box>
-          </Box>
-        }
-      />
 
       <Route
         path="/"
@@ -45,6 +30,7 @@ export const App: React.FC = () => {
         <Route path="classes" element={<ClassesPage />} />
         <Route path="classes/:classId" element={<ClassDetailPage />} />
         <Route path="audit" element={<AuditPage />} />
+        <Route path="recognition/analytics" element={<RecognitionAnalyticsPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

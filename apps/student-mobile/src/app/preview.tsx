@@ -7,8 +7,8 @@ import { AppButton } from '../components/ui/AppButton';
 import { QualityBadge } from '../components/domain/QualityBadge';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImageManipulator from 'expo-image-manipulator';
-import { submissionDraftStore, resolveFlowDomain, isHandwritingDomain } from '../services/draft/submissionDraftStore';
-import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
+import { recognitionDraftStore, resolveFlowDomain, isHandwritingDomain } from '../features/recognition/state/recognitionDraftStore';
+import { ensureFileUri, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
 
 export default function PreviewScreen() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function PreviewScreen() {
     retrySubmissionId?: string;
   }>();
 
-  const draft = submissionDraftStore.getDraft();
+  const draft = recognitionDraftStore.getDraft();
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
   const rawUri = draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const initialUri = rawUri ? ensureFileUri(rawUri) : '';
@@ -32,9 +32,9 @@ export default function PreviewScreen() {
         console.warn('[HANDWRITING_PREVIEW_GUARD_TRIGGERED] Non-arithmetic mode reached /preview. Redirecting to handwriting review.');
       }
       if (effectiveMode === 'OCR_PILOT') {
-        router.replace('/ocr-pilot/line-crop' as any);
+        router.replace('/recognition/line-crop' as any);
       } else {
-        router.replace('/ocr-pilot/multiline-review' as any);
+        router.replace('/recognition/multiline-review' as any);
       }
       return;
     }
@@ -60,12 +60,12 @@ export default function PreviewScreen() {
       if (__DEV__) {
         console.warn('[HANDWRITING_PREVIEW_GUARD_TRIGGERED] Non-arithmetic mode in handleContinue. Blocking /processing.');
       }
-      router.replace('/ocr-pilot/multiline-review' as any);
+      router.replace('/recognition/multiline-review' as any);
       return;
     }
 
     const activeUri = ensureFileUri(imageUri);
-    submissionDraftStore.updateDraft({ uri: activeUri, mode: 'ARITHMETIC' });
+    recognitionDraftStore.updateDraft({ uri: activeUri, mode: 'ARITHMETIC' });
 
     router.replace({
       pathname: '/processing' as any,
@@ -87,7 +87,7 @@ export default function PreviewScreen() {
       );
       const rotatedUri = ensureFileUri(manipResult.uri);
       setImageUri(rotatedUri);
-      submissionDraftStore.updateDraft({
+      recognitionDraftStore.updateDraft({
         uri: rotatedUri,
         width: manipResult.width,
         height: manipResult.height,

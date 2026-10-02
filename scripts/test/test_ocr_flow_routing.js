@@ -19,10 +19,10 @@ function isHandwritingDomain(mode) {
 
 function resolvePostPrivacyRoute(mode) {
   if (mode === 'OCR_PILOT_MULTILINE' || mode === 'HANDWRITING_TEXT') {
-    return '/ocr-pilot/multiline-review';
+    return '/recognition/multiline-review';
   }
   if (mode === 'OCR_PILOT') {
-    return '/ocr-pilot/line-crop';
+    return '/recognition/line-crop';
   }
   return '/preview';
 }
@@ -30,7 +30,7 @@ function resolvePostPrivacyRoute(mode) {
 function resolveProcessingStatusRoute(status, mode, ambiguousToken) {
   if (status === 'NEEDS_CONFIRMATION') {
     if (isHandwritingDomain(mode)) {
-      return { route: '/ocr-pilot/result', allowedTokenConfirmation: false };
+      return { route: '/recognition/result', allowedTokenConfirmation: false };
     }
     return {
       route: '/results/token-confirmation',
@@ -73,7 +73,7 @@ console.log('Running OCR.FLOW.1 Test Matrix...\n');
 {
   const mode = 'HANDWRITING_TEXT';
   const privacyTarget = resolvePostPrivacyRoute(mode);
-  assert.strictEqual(privacyTarget, '/ocr-pilot/multiline-review');
+  assert.strictEqual(privacyTarget, '/recognition/multiline-review');
   assert.notStrictEqual(privacyTarget, '/results/token-confirmation');
   
   const processingResult = resolveProcessingStatusRoute('FEEDBACK_READY', mode, null);
@@ -87,9 +87,9 @@ console.log('Running OCR.FLOW.1 Test Matrix...\n');
   const mode = 'HANDWRITING_TEXT';
   const processingResult = resolveProcessingStatusRoute('NEEDS_CONFIRMATION', mode, '7');
   assert.strictEqual(processingResult.allowedTokenConfirmation, false);
-  assert.strictEqual(processingResult.route, '/ocr-pilot/result');
+  assert.strictEqual(processingResult.route, '/recognition/result');
   assert.notStrictEqual(processingResult.route, '/results/token-confirmation');
-  console.log('✓ Test B PASS: HANDWRITING_TEXT with uncertain confidence routes to /ocr-pilot/result, NOT token confirmation.');
+  console.log('✓ Test B PASS: HANDWRITING_TEXT with uncertain confidence routes to /recognition/result, NOT token confirmation.');
 }
 
 // Test C: HANDWRITING_TEXT + empty OCR -> retry/manual text entry -> digit confirmation NOT reached

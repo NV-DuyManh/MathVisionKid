@@ -19,7 +19,7 @@ flowchart TD
         MINIO[("MinIO S3 Storage<br/>(Port: 9000/9001)<br/>bucket: mathvision")]
     end
 
-    subgraph AISubsystem["AI Runtime Subsystem (services/ai-service)"]
+    subgraph AISubsystem["AI Runtime Subsystem (ai/runtime)"]
         FASTAPI["FastAPI 0.115<br/>(Python 3.12)<br/>Port: 8000"]
         REDIS[("Redis 7<br/>Broker & State<br/>Port: 6379")]
         CELERY["Celery 5.4.0 Worker<br/>(Solo Pool on Windows)"]
@@ -61,7 +61,7 @@ flowchart TD
 - **PostgreSQL 16:** Relational database storing relational entities, audit logs, and JSONB diagnostic artifacts.
 - **MinIO S3:** Object storage storing raw and privacy-sanitized student submission images in private bucket `mathvision`.
 
-### AI Runtime Subsystem (`services/ai-service`)
+### AI Runtime Subsystem (`ai/runtime`)
 - **FastAPI 0.115:** Lightweight, high-performance async job ingestion gateway. Requires `jobId: UUID` and validates contracts.
 - **Redis 7:** Celery broker maintaining task queues and correlation states.
 - **Celery 5.4.0:** Background worker executing computer vision and validation tasks. Runs with `--pool=solo` on Windows.
@@ -72,7 +72,7 @@ flowchart TD
 ### External AI Training Boundary (`ai-training/`)
 - **Ownership:** Exclusively owned by the AI/ML teammate.
 - **Isolation:** Contains training scripts, synthetic datasets, YOLO/CRNN training experiments, and checkpoints.
-- **Model Ingestion Contract:** When ready, the trained model artifact and its manifest will be consumed by `ModelRecognitionEngine` in `services/ai-service` without requiring redesign of Spring Boot or frontend clients.
+- **Model Ingestion Contract:** When ready, the trained model artifact and its manifest will be consumed by `ModelRecognitionEngine` in `ai/runtime` without requiring redesign of Spring Boot or frontend clients.
 
 ---
 

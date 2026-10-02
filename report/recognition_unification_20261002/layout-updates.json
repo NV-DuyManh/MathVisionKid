@@ -1,0 +1,14 @@
+[
+  "scripts\\data\\curate_hwtext.py",
+  "scripts\\data\\qa_hwtext_verified_labels.py",
+  "scripts\\test\\live_http_evidence_track_a.py",
+  "scripts\\test\\live_provenance_and_out_of_scope_closure.py",
+  "scripts\\test\\test-ocr-bridge.ps1",
+  "scripts\\test\\test_all_entrypoints_domain_lock.js",
+  "docs\\ARCHITECTURE_LOCAL_RUNTIME.md",
+  "docs\\LOCAL_SETUP.md",
+  "docs\\MAINTENANCE_GUIDE.md",
+  "docs\\TROUBLESHOOTING.md",
+  "apps\\student-mobile\\src\\app\\recognition\\line-crop.tsx",
+  "ai\\runtime\\scripts\\verify_prod2d_live.py"
+]

@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-02",
+  "mobile": {
+    "suites": 25,
+    "tests": 253,
+    "passed": 253,
+    "success": true
+  },
+  "backend": {
+    "tests": 153,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "typescript": "passed",
+  "adminBuild": "passed (existing bundle-size warning)",
+  "mobileWebExport": {
+    "status": "passed",
+    "routes": 27
+  },
+  "aiRegression": {
+    "tests": 224,
+    "passed": 215,
+    "failed": 9,
+    "sameFailuresAsBefore": true,
+    "failures": [
+      "tests.test_generalized_segmentation::test_gen_25_low_confidence_ambiguity_flagged",
+      "tests.test_geometry_r2_contracts::test_g2_giant_two_row_parent_plus_valid_children",
+      "tests.test_geometry_r2_contracts::test_g3_adjacent_close_real_lines",
+      "tests.test_geometry_r2_contracts::test_g5_padded_crop_boundaries",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[3]",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[5]",
+      "tests.test_geometry_r2_contracts::test_g8_unknown_line_count[7]",
+      "tests.test_segmentation_contracts::test_seg_09_adjacent_real_rows_remain_separate",
+      "tests.test_segmentation_contracts::test_seg_14_full_page_duplicate_row_reduction"
+    ]
+  },
+  "ownerImage": {
+    "imageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+    "lineCount": 9,
+    "sameRecognitionAsBefore": true,
+    "checkpointSha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941"
+  },
+  "archivedEvidenceFiles": 85,
+  "limitations": [
+    "Nine pre-existing AI segmentation failures remain",
+    "No physical-device evidence",
+    "No live external-advisor or full production-stack verification",
+    "Admin analytics uses clearly labelled fixture data"
+  ],
+  "noTraining": true,
+  "noCommitOrPush": true
+}

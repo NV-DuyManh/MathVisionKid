@@ -5,8 +5,8 @@ import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { getSubmissionService } from '../services/api/SubmissionServiceFactory';
 import { SubmissionStatus } from '../types';
 import { Ionicons } from '@expo/vector-icons';
-import { submissionDraftStore, isHandwritingDomain, resolveFlowDomain } from '../services/draft/submissionDraftStore';
-import { ensureFileUri, logStageDiagnostic } from '../services/image/imagePipeline';
+import { recognitionDraftStore, isHandwritingDomain, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
+import { ensureFileUri, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
 
 export default function ProcessingScreen() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function ProcessingScreen() {
     const runProcess = async () => {
       try {
         setStep(0);
-        const draft = submissionDraftStore.getDraft();
+        const draft = recognitionDraftStore.getDraft();
         const effectiveMode = resolveFlowDomain(null, draft?.mode);
 
         if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
@@ -32,9 +32,9 @@ export default function ProcessingScreen() {
             console.warn('[HANDWRITING_PROCESSING_GUARD_TRIGGERED] Non-arithmetic domain reached /processing. Blocking arithmetic submission.');
           }
           if (effectiveMode === 'OCR_PILOT') {
-            router.replace('/ocr-pilot/line-crop' as any);
+            router.replace('/recognition/line-crop' as any);
           } else {
-            router.replace('/ocr-pilot/multiline-review' as any);
+            router.replace('/recognition/multiline-review' as any);
           }
           return;
         }
@@ -153,7 +153,7 @@ export default function ProcessingScreen() {
 
         if (polled.status === SubmissionStatus.NEEDS_CONFIRMATION) {
           if (isHandwritingDomain(draft?.mode)) {
-            router.replace('/ocr-pilot/result' as any);
+            router.replace('/recognition/result' as any);
             return;
           }
           router.replace({
@@ -259,7 +259,7 @@ export default function ProcessingScreen() {
 
         <View style={[styles.imagePreview, SHADOWS.small]}>
           {(() => {
-            const draftUri = submissionDraftStore.getDraft()?.uri;
+            const draftUri = recognitionDraftStore.getDraft()?.uri;
             const fallbackUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
             const displayUri = draftUri || (fallbackUri ? ensureFileUri(fallbackUri) : '');
             return displayUri ? (

@@ -1,7 +1,7 @@
 /**
  * MathVision Kids — Primary School Math Solution Evaluator & Semantic Classifier
  *
- * Analyzes handwritten lines recognized by HandAI CRNN to classify:
+ * Analyzes handwritten lines recognized by MathVision OCR CRNN to classify:
  * 1. HEADER: "Bài 1", "Bài giải", "Câu 2:"
  * 2. EXPLANATION: Vietnamese word problem explanations ("Số kg gạo là:", "Mỗi hộp có:")
  * 3. EQUATION: Arithmetic calculations ("15 + 7 = 22 (kg)", "25 x 4 = 100")
@@ -210,7 +210,7 @@ function parseAndValidateEquation(text: string): EquationValidation | null {
 
     if (!isValid) {
       errorDetail = `Phép tính cho kết quả ${expectedResult}, nhưng bài làm ghi ${observedResult}.`;
-      
+
       // Diagnose common elementary math errors:
       const diff = Math.abs(expectedResult - observedResult);
       if (diff === 10 || diff === 1 || diff === 100) {
@@ -518,7 +518,7 @@ export function evaluateMathSolution(
       if (usesObserved || usesExpected) {
         currEq.chainedFromStep = i;
         const chainedVal = usesObserved ? prevEq.observedResult : prevEq.expectedResult;
-        
+
         if (prevEq.isValid) {
           multiStepChain = {
             isChained: true,

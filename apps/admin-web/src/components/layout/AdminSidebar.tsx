@@ -28,7 +28,7 @@ const DRAWER_WIDTH = 260;
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Tổng quan', icon: <DashboardIcon /> },
-  { path: '/handai-analytics', label: 'HandAI Analytics', icon: <AnalyticsIcon /> },
+  { path: '/recognition/analytics', label: 'Phân tích nhận dạng', icon: <AnalyticsIcon /> },
   { path: '/users', label: 'Người dùng', icon: <PeopleAltIcon /> },
   { path: '/classes', label: 'Lớp học', icon: <SchoolIcon /> },
   { path: '/audit', label: 'Nhật ký hệ thống', icon: <HistoryIcon /> },

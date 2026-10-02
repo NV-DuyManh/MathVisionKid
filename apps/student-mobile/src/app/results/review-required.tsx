@@ -8,7 +8,7 @@ import { AppButton } from '../../components/ui/AppButton';
 import { StatusCard } from '../../components/domain/StatusCard';
 import { getSubmissionService } from '../../services/api/SubmissionServiceFactory';
 import { SubmissionResult } from '../../types';
-import { logFlowDomain } from '../../services/draft/submissionDraftStore';
+import { logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 
 interface ReasonContent {
   title: string;
@@ -146,25 +146,7 @@ export default function ReviewRequiredScreen() {
           subtitle={content.subtitle}
         />
 
-        {__DEV__ && (
-          <View style={styles.devBox} testID="dev-diagnostic-panel">
-            <Text style={styles.devTitle}>DEV Diagnostic (Stage Proof)</Text>
-            <Text style={styles.devText}>flowDomain: {effectiveFlowDomain}</Text>
-            <Text style={styles.devText}>status: {effectiveStatus}</Text>
-            <Text style={styles.devText}>reasonCode: {effectiveReasonCode || 'UNAVAILABLE'}</Text>
-            <Text style={styles.devText}>detectorInvoked: {formatDiag(effectiveDiagnostics?.detectorInvoked)}</Text>
-            <Text style={styles.devText}>detectorTokenCount: {formatDiag(effectiveDiagnostics?.detectorTokenCount)}</Text>
-            <Text style={styles.devText}>ocrInvoked: {formatDiag(effectiveDiagnostics?.ocrInvoked, effectiveDiagnostics?.ocrInvoked === 'not_applicable')}</Text>
-            <Text style={styles.devText}>ocrTextLength: {formatDiag(effectiveDiagnostics?.ocrTextLength, effectiveDiagnostics?.ocrInvoked === false)}</Text>
-            <Text style={styles.devText}>parserStatus: {formatDiag(effectiveDiagnostics?.parserStatus)}</Text>
-            <Text style={styles.devText}>validatorStatus: {formatDiag(effectiveDiagnostics?.validatorStatus)}</Text>
-            <Text style={styles.devText}>qualityFlags: {formatDiag(effectiveDiagnostics?.qualityFlags)}</Text>
-            <Text style={styles.devText}>
-              serverFetchStatus: {serverFetchStatus}{serverFetchStatus === 'RESULT_FETCH_FAILED' && serverFetchError ? ` (${serverFetchError})` : ''}
-            </Text>
-            {submissionId ? <Text style={styles.devText}>submissionId: {submissionId}</Text> : null}
-          </View>
-        )}
+
 
         <View style={styles.spacer} />
 
@@ -204,27 +186,6 @@ const styles = StyleSheet.create({
   spacer: {
     flex: 1,
     minHeight: SIZES.xlarge,
-  },
-  devBox: {
-    marginTop: SIZES.medium,
-    padding: SIZES.medium,
-    backgroundColor: '#F3F4F6',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-  },
-  devTitle: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#374151',
-    marginBottom: 4,
-    textTransform: 'uppercase',
-  },
-  devText: {
-    fontSize: 12,
-    color: '#4B5563',
-    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
-    marginBottom: 2,
   },
   actions: {
     paddingBottom: SIZES.medium,

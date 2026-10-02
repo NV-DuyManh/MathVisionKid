@@ -133,7 +133,7 @@ def main():
     print("\n" + "=" * 80)
     print("SCENARIO 1: LIVE MODEL ARITHMETIC SUBMISSION (PROVENANCE VERIFICATION)")
     print("=" * 80)
-    fixture_path = "services/ai-service/tests/fixtures/synthetic_addition.jpg"
+    fixture_path = "ai/runtime/tests/fixtures/synthetic_addition.jpg"
     assert os.path.exists(fixture_path), f"Fixture missing: {fixture_path}"
     with open(fixture_path, "rb") as f:
         img_bytes = f.read()
@@ -190,7 +190,7 @@ def main():
     print("\n" + "=" * 80)
     print("SCENARIO 2: LIVE OUT_OF_SCOPE HTTP SUBMISSION")
     print("=" * 80)
-    oos_fixture_path = "services/ai-service/tests/fixtures/synthetic_subtraction_detected.jpg"
+    oos_fixture_path = "ai/runtime/tests/fixtures/synthetic_subtraction_detected.jpg"
     assert os.path.exists(oos_fixture_path), f"Fixture missing: {oos_fixture_path}"
     with open(oos_fixture_path, "rb") as f:
         oos_img_bytes = f.read()
