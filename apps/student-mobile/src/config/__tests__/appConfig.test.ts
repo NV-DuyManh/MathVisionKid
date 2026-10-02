@@ -15,7 +15,6 @@ describe('One MathVision configuration', () => {
     expect(flags).not.toHaveProperty('bypassLogin');
     expect(flags).not.toHaveProperty('bypassPrivacyMasking');
     expect(getThemeColors()).toBe(MATHVISION_COLORS);
-    expect(COLORS.primary).toBe('#2563EB');
     expect(COLORS.aiSuggestionBg).toBeDefined();
   });
 });

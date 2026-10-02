@@ -23,6 +23,7 @@ public class MultilineTrialResponse {
     private Integer pageWidth;
     private Integer pageHeight;
     private boolean privacyConfirmed;
+    @com.fasterxml.jackson.annotation.JsonProperty("isTestData")
     private boolean isTestData;
     private String dataOrigin;
     private String domain;
@@ -70,4 +71,3 @@ public class MultilineTrialResponse {
                 .build();
     }
 }
-

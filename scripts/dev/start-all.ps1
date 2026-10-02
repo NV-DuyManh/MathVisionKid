@@ -366,6 +366,20 @@ try {
 $TrackedProcesses = [System.Collections.Generic.List[PSCustomObject]]::new()
 
 # Helper function to start background process safely with tracking
+function Test-ServiceCommandIdentity {
+    param([string]$CommandLine, [string]$WorkingDirectory, [string]$IdentityKind)
+    $normalizedCommand = $CommandLine.Replace('\', '/').ToLowerInvariant()
+    $expectedPath = $WorkingDirectory.Replace('\', '/').TrimEnd('/').ToLowerInvariant()
+    $pathMatches = $normalizedCommand -match ('(?:^|[\s";])' + [regex]::Escape($expectedPath) + '(?:/|[\s";]|$)')
+    if ($IdentityKind -eq 'spring') {
+        return $pathMatches -and $normalizedCommand -match 'com\.mathvisionkids\.api\.businessapiapplication|business-api[^\s"]*\.jar'
+    }
+    if ($IdentityKind -eq 'fastapi') {
+        return $pathMatches -and $normalizedCommand -match 'uvicorn' -and $normalizedCommand -match 'app\.main:app'
+    }
+    return $false
+}
+
 function Start-TrackedService {
     param(
         [string]$Name,
@@ -374,7 +388,8 @@ function Start-TrackedService {
         [string]$WorkingDirectory,
         [string]$LogFile,
         [string]$PidFile,
-        [int]$PortCheck = 0
+        [int]$PortCheck = 0,
+        [string]$IdentityKind = ''
     )
     if ($PortCheck -gt 0) {
         $portOpen = $false
@@ -385,6 +400,19 @@ function Start-TrackedService {
             $tcp.Close()
         } catch {}
         if ($portOpen) {
+            if ($IdentityKind) {
+                $ownerIds = @(Get-NetTCPConnection -LocalPort $PortCheck -State Listen -ErrorAction Stop |
+                    Select-Object -ExpandProperty OwningProcess -Unique)
+                foreach ($ownerId in $ownerIds) {
+                    $owner = Get-CimInstance Win32_Process -Filter "ProcessId = $ownerId"
+                    if (-not $owner -or -not (Test-ServiceCommandIdentity -CommandLine $owner.CommandLine -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind)) {
+                        throw "PORT_CONFLICT: $Name port $PortCheck belongs to another runtime (PID $ownerId). Stop that runtime before launching MathVision; no unrelated process was stopped."
+                    }
+                }
+                if ($ownerIds.Count -eq 0) {
+                    throw "PORT_CONFLICT: Could not verify the runtime on port $PortCheck."
+                }
+            }
             Write-Host "  $Name is already running on port $PortCheck." -ForegroundColor Green
             return
         }
@@ -440,7 +468,8 @@ Start-TrackedService -Name "Spring Boot" `
     -WorkingDirectory $SpringDir `
     -LogFile $SpringLog `
     -PidFile $SpringPid `
-    -PortCheck 8080
+    -PortCheck 8080 `
+    -IdentityKind 'spring'
 
 # B. FastAPI
 $AiDir = Join-Path $RepoRoot "ai\runtime"
@@ -454,7 +483,8 @@ Start-TrackedService -Name "FastAPI AI Runtime" `
     -WorkingDirectory $AiDir `
     -LogFile $FastApiLog `
     -PidFile $FastApiPid `
-    -PortCheck 8000
+    -PortCheck 8000 `
+    -IdentityKind 'fastapi'
 
 # C. Celery Worker
 $CeleryPid = Join-Path $PidDir "celery.pid"

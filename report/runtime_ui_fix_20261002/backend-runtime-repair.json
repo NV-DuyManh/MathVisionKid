@@ -1,0 +1,27 @@
+{
+  "Before": {
+    "BackendPID": 8308,
+    "BackendProject": "E:/HandAI/backend",
+    "DatabaseSchemaVersion": 15,
+    "DatabaseError": "column gemini_confidence_source of relation ocr_multiline_lines does not exist",
+    "DatabaseErrorTimesUTC": [
+      "2026-10-02 15:39:24.086",
+      "2026-10-02 15:39:28.414",
+      "2026-10-02 15:39:34.051"
+    ]
+  },
+  "After": {
+    "BackendPID": 6060,
+    "HealthStatus": "UP",
+    "BackendWorkingDirectory": "E:\\MathVisionKid\\backend\\business-api\\.",
+    "ClasspathMatchesMathVision": true,
+    "FastApiPID": 39692,
+    "FastApiUnchanged": true,
+    "MigrationAction": "Existing V16 applied by normal MathVision startup; no repair or migration edits",
+    "Tests": {
+      "RuntimeIdentityCases": 8,
+      "RealForeignTCPListenerRejectedAndLeftRunning": true,
+      "HealthIdentityCases": 3
+    }
+  }
+}

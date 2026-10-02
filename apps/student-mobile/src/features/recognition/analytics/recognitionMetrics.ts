@@ -1,7 +1,5 @@
+import { computeLevenshteinDistance, computeWordLevenshteinDistance, tokenizeWords } from './textMetrics';
 import {
-  computeLevenshteinDistance,
-  computeWordLevenshteinDistance,
-  tokenizeWords,
   type ErrorType,
   type LineMetric,
   type RecognitionSession,

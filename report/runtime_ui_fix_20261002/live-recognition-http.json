@@ -1,0 +1,22 @@
+{
+  "method": "real HTTP through local business API, PostgreSQL, MinIO and AI runtime",
+  "physicalDeviceTest": false,
+  "requestId": "verification_bfb323d57f6a477fbf7fe793ff913e41",
+  "imageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+  "lineCount": 9,
+  "trialId": "35513431-bdda-46c8-a300-c71a24d7b5bc",
+  "domain": "HANDWRITING_TEXT",
+  "isTestData": true,
+  "trainingEligible": false,
+  "status": {
+    "detect": 200,
+    "create": 201,
+    "read": 200,
+    "feedback": 200,
+    "anonymousRead": 401,
+    "otherStudentRead": 404,
+    "privacyRejected": 400
+  },
+  "elapsedSeconds": 3.72,
+  "result": "PASS"
+}

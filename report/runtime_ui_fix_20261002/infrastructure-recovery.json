@@ -1,0 +1,92 @@
+{
+  "Result": "PASS",
+  "ObservedShutdownRequestedUTC": "2026-10-02T16:20:44.5197465Z",
+  "ObservedShutdownRequestedLocal": "2026-10-02T23:20:44+07:00",
+  "ShutdownActor": "Unknown; not inferred",
+  "RemovedForwardingPorts": [
+    5432,
+    6379,
+    9000,
+    9001
+  ],
+  "BackendOutageCause": "PostgreSQL port disappeared during Docker Desktop graceful shutdown; backend Hikari reported connection refused",
+  "SeparateStartupFailure": "Docker Desktop could not remove inaccessible zero-byte AF_UNIX runtime reparse endpoint Docker/run/dockerInference (Windows ERROR_CANT_ACCESS_FILE 1920)",
+  "HostWindowsBuild": "26200",
+  "RecoveryActions": [
+    "Terminated only docker-desktop WSL instance to recover stuck engine shutdown; no unregister",
+    "Restarted only verified Docker Desktop installation",
+    "Quarantined verified transient Docker/run directory without overwriting destination; retained all three zero-byte runtime sockets",
+    "Created fresh Docker/run and started Docker Desktop normally in hidden process"
+  ],
+  "Quarantine": {
+    "Source": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run",
+    "Destination": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run-stale-20261002",
+    "SourceExactMatch": true,
+    "SourceDirectoryReparsePoint": false,
+    "BothPathsWithinAuthorizedDockerDirectory": true,
+    "DestinationNeverOverwritten": true,
+    "RetainedEntries": [
+      {
+        "Name": "dockerEthernetVfkit",
+        "Length": 0,
+        "Attributes": 1056
+      },
+      {
+        "Name": "dockerInference",
+        "Length": 0,
+        "Attributes": 1056
+      },
+      {
+        "Name": "userAnalyticsOtlpHttp.sock",
+        "Length": 0,
+        "Attributes": 1056
+      }
+    ],
+    "NewRuntimeDirectoryCreated": true,
+    "VolumeOrSettingsOrVHDReset": false
+  },
+  "DockerEngineVersion": "29.6.1",
+  "Containers": [
+    {
+      "Name": "mathvision-postgres",
+      "Status": "running",
+      "Health": "healthy",
+      "OOMKilled": false
+    },
+    {
+      "Name": "mathvision-redis",
+      "Status": "running",
+      "Health": "healthy",
+      "OOMKilled": false
+    },
+    {
+      "Name": "mathvision-minio",
+      "Status": "running",
+      "Health": "healthy",
+      "OOMKilled": false
+    }
+  ],
+  "FinalBackendHealth": "UP",
+  "FinalDatabaseHealth": "UP",
+  "FinalFastApiStatus": "ready",
+  "BackendWorkingDirectory": "E:\\MathVisionKid\\backend\\business-api\\.",
+  "SameBackendPID": 6060,
+  "Preservation": {
+    "existingTrialReadableAfterRecovery": true,
+    "trialId": "35513431-bdda-46c8-a300-c71a24d7b5bc",
+    "httpStatus": 200,
+    "lineCount": 9,
+    "existingSkippedFeedbackPreserved": true,
+    "storedImageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+    "storedImageMatchesPreInterruptionEvidence": true,
+    "newRecordsCreated": false,
+    "trainingEligible": false
+  },
+  "VolumeDeletion": false,
+  "DatabaseReset": false,
+  "MigrationOrSettingsOrVHDReset": false,
+  "DatabaseSchemaVersion": 16,
+  "PostgresShutdownEvidence": "PostgreSQL log records clean shutdown at16:20:45UTC and starts existing database at16:32:47UTC",
+  "PublicMatchingIssue": "https://github.com/docker/desktop-feedback/issues/527",
+  "PhysicalDeviceEvidence": false
+}

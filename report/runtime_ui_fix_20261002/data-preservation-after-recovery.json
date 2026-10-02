@@ -1,0 +1,11 @@
+{
+  "existingTrialReadableAfterRecovery": true,
+  "trialId": "35513431-bdda-46c8-a300-c71a24d7b5bc",
+  "httpStatus": 200,
+  "lineCount": 9,
+  "existingSkippedFeedbackPreserved": true,
+  "storedImageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+  "storedImageMatchesPreInterruptionEvidence": true,
+  "newRecordsCreated": false,
+  "trainingEligible": false
+}

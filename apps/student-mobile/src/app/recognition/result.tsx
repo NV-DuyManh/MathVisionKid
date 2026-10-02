@@ -21,6 +21,7 @@ import { recognitionDraftStore, logFlowDomain } from '../../features/recognition
 import { ensureFileUri } from '../../features/recognition/image/imagePipeline';
 import { RecognitionService, OcrTrialResult } from '../../features/recognition/api/RecognitionService';
 import { getAppBranding } from '../../config/appConfig';
+import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
 
 export default function OcrResultScreen() {
   const router = useRouter();
@@ -61,7 +62,7 @@ export default function OcrResultScreen() {
         setIsLoading(false);
       } catch (err: any) {
         if (!active) return;
-        console.error('[OCR_PILOT] Recognition error:', err);
+        if (__DEV__) console.log('[RECOGNITION] Line recognition failed');
         setErrorMsg('Không thể nhận diện dòng chữ lúc này. Vui lòng kiểm tra kết nối.');
         setIsLoading(false);
       }
@@ -145,11 +146,7 @@ export default function OcrResultScreen() {
 
         {/* Recognition Content */}
         {isLoading ? (
-          <View style={styles.loadingBox}>
-            <ActivityIndicator size="large" color={COLORS.primary} />
-            <Text style={styles.loadingTitle}>{branding.name} đang đọc chữ viết tay...</Text>
-            <Text style={styles.loadingSub}>Mô hình AI CRNN đang xử lý dòng chữ tiếng Việt</Text>
-          </View>
+          <RecognitionProgress title="Đang đọc dòng chữ" description="MathVision đang nhận dạng chữ trong ảnh em đã chọn." onCancel={() => router.back()} />
         ) : errorMsg ? (
           <View style={styles.errorBox}>
             <Ionicons name="alert-circle-outline" size={44} color={COLORS.error} />

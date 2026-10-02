@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable, Alert, Image, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable, Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { COLORS, SHADOWS } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
 import * as ImagePicker from 'expo-image-picker';
 import { recognitionDraftStore, logFlowDomain, FlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../../features/recognition/image/imagePipeline';
-import { getAppBranding, getFeatureFlags } from '../../config/appConfig';
+import { getAppBranding } from '../../config/appConfig';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { HomeDashboard } from '../../components/home/HomeDashboard';
 import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 export default function HomeScreen() {
     const router = useRouter();
@@ -19,7 +21,7 @@ export default function HomeScreen() {
     const [selectedGrade, setSelectedGrade] = useState<1 | 2 | 3 | 4 | 5>(3);
     const [expandedProblemId, setExpandedProblemId] = useState<string | null>(null);
     const branding = getAppBranding();
-    const featureFlags = getFeatureFlags();
+    const insets = useSafeAreaInsets();
     // Direct Native/System Image Picker — launches system library directly without intermediate custom /gallery
     const handlePickImage = async () => {
         try {
@@ -64,143 +66,20 @@ export default function HomeScreen() {
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
     };
-    return (<ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false} >
-      {(
-        /* ============================================================
-           MATHVISION_KIDS MODE: 100% PRESERVED ORIGINAL INTERFACE
-           ============================================================ */
-        <View>
-          {/* Brand & Greeting Header */}
-          <View style={styles.header}>
-            <View style={styles.greetingContainer}>
-              <View style={styles.brandRow}>
-                <View style={styles.brandBadge}>
-                  <Ionicons name="sparkles" size={13} color={COLORS.primary}/>
-                  <Text style={styles.brandText}>MATHVISION KIDS</Text>
-                </View>
-              </View>
-              <Text style={styles.greeting}>Xin chào, {userName}! 👋</Text>
-              <Text style={styles.subtitle}>
-                Cùng em nhận diện và rèn luyện chữ viết tay mỗi ngày
-              </Text>
-            </View>
-            <TouchableOpacity style={[styles.avatar, SHADOWS.small]} onPress={() => router.push('/(tabs)/profile')} accessibilityRole="button" accessibilityLabel="Trang cá nhân của em">
-              <Ionicons name="person" size={20} color={COLORS.primary}/>
-            </TouchableOpacity>
-          </View>
-
-          {/* Main Unified Handwriting Entry Point - Hero Card */}
-          <View style={[styles.mainHeroCard, SHADOWS.medium]}>
-            {/* Decorative Mascot Art Element */}
-            <View style={styles.heroTopBar}>
-              <View style={styles.heroBadgePill}>
-                <Ionicons name="create" size={14} color="#FFFFFF"/>
-                <Text style={styles.heroBadgePillText}>Nhận diện bài viết</Text>
-              </View>
-              <View style={styles.mascotArtContainer}>
-                <View style={styles.mascotCircleOuter}>
-                  <View style={styles.mascotCircleInner}>
-                    <Ionicons name="school" size={24} color="#2563EB"/>
-                  </View>
-                </View>
-                <View style={styles.mascotSparkle1}>
-                  <Ionicons name="star" size={10} color="#FBBF24"/>
-                </View>
-                <View style={styles.mascotSparkle2}>
-                  <Ionicons name="star" size={8} color="#FDE68A"/>
-                </View>
-              </View>
-            </View>
-
-            <Text style={styles.heroTitle}>Đọc chữ viết tay</Text>
-            <Text style={styles.heroDescription}>
-              Chụp hoặc chọn ảnh bài viết tiếng Việt. Hệ thống tự động phân tích từng dòng, nhận diện chữ chuẩn xác và gợi ý sửa lỗi trực quan.
-            </Text>
-
-            {/* 2 Primary Direct CTAs — 1-Tap Execution */}
-            <View style={styles.heroActionRow}>
-              <TouchableOpacity style={[styles.ctaPrimaryBtn, SHADOWS.small]} onPress={() => navigateToCamera('HANDWRITING_TEXT')} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Chụp ảnh mới">
-                <Ionicons name="camera" size={20} color={COLORS.primaryDark}/>
-                <Text style={styles.ctaPrimaryBtnText}>Chụp ảnh mới</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.ctaSecondaryBtn} onPress={handlePickImage} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Chọn từ thư viện">
-                <Ionicons name="images-outline" size={19} color="#FFFFFF"/>
-                <Text style={styles.ctaSecondaryBtnText}>Chọn từ thư viện</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* Curriculum Practice Card - Kho bài tập SGK Cánh Diều & Kết Nối Tri Thức */}
-          <TouchableOpacity style={[styles.curriculumBannerCard, SHADOWS.small]} onPress={() => setShowCurriculumModal(true)} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Kho đề toán SGK Lớp 1 đến 5">
-            <View style={styles.curriculumBannerLeft}>
-              <View style={styles.curriculumIconBadge}>
-                <Ionicons name="book" size={24} color="#D97706"/>
-              </View>
-              <View style={{ flex: 1 }}>
-                <View style={styles.curriculumBadgeRow}>
-                  <Text style={styles.curriculumBadgeText}>SGK Cánh Diều & Kết Nối</Text>
-                </View>
-                <Text style={styles.curriculumBannerTitle}>Kho đề toán tiểu học (Lớp 1 - 5)</Text>
-                <Text style={styles.curriculumBannerSubtitle}>
-                  Luyện tập bài toán 2 bước tính, đặt tính rồi tính và bài toán có lời văn chuẩn SGK.
-                </Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color="#D97706"/>
-            </View>
-          </TouchableOpacity>
-
-          {/* Secondary Features Section */}
-          <View style={styles.sectionHeaderRow}>
-            <Text style={styles.sectionHeading}>Tính năng học tập</Text>
-          </View>
-
-          <View style={styles.featureGrid}>
-            {/* Feature 1: Arithmetic */}
-            <TouchableOpacity style={[styles.gridCard, { backgroundColor: '#EFF6FF' }, SHADOWS.small]} onPress={() => navigateToCamera('ARITHMETIC')} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Đọc phép tính đặt dọc">
-              <View style={[styles.gridIconBadge, { backgroundColor: '#DBEAFE' }]}>
-                <Ionicons name="calculator" size={22} color="#2563EB"/>
-              </View>
-              <Text style={styles.gridCardTitle}>Đọc phép tính</Text>
-              <Text style={styles.gridCardSubtitle}>
-                Cộng, trừ, nhân, chia đặt tính rồi tính
-              </Text>
-            </TouchableOpacity>
-
-            {/* Feature 2: Privacy Protection Info */}
-            <TouchableOpacity style={[styles.gridCard, { backgroundColor: '#F0FDF4' }, SHADOWS.small]} onPress={() => setShowPrivacyInfoModal(true)} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Bảo vệ riêng tư">
-              <View style={[styles.gridIconBadge, { backgroundColor: '#DCFCE7' }]}>
-                <Ionicons name="shield-checkmark" size={22} color="#16A34A"/>
-              </View>
-              <Text style={styles.gridCardTitle}>Bảo vệ riêng tư</Text>
-              <Text style={styles.gridCardSubtitle}>
-                Tự động che tên và thông tin học sinh
-              </Text>
-            </TouchableOpacity>
-
-            {/* Feature 3: Exercise History */}
-            <TouchableOpacity style={[styles.gridCard, { backgroundColor: '#FAF5FF' }, SHADOWS.small]} onPress={() => router.push('/(tabs)/profile')} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Lịch sử bài tập">
-              <View style={[styles.gridIconBadge, { backgroundColor: '#F3E8FF' }]}>
-                <Ionicons name="time" size={22} color="#7C3AED"/>
-              </View>
-              <Text style={styles.gridCardTitle}>Lịch sử bài tập</Text>
-              <Text style={styles.gridCardSubtitle}>
-                Xem lại các bài viết và kết quả đã lưu
-              </Text>
-            </TouchableOpacity>
-
-            {/* Feature 4: Photo Capture Tips */}
-            <TouchableOpacity style={[styles.gridCard, { backgroundColor: '#FFF7ED' }, SHADOWS.small]} onPress={() => setShowTipsModal(true)} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Mẹo chụp ảnh nét">
-              <View style={[styles.gridIconBadge, { backgroundColor: '#FFEDD5' }]}>
-                <Ionicons name="bulb" size={22} color="#EA580C"/>
-              </View>
-              <Text style={styles.gridCardTitle}>Mẹo chụp rõ nét</Text>
-              <Text style={styles.gridCardSubtitle}>
-                Bí quyết chụp ảnh để AI nhận diện tốt nhất
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>)}
+    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]} showsVerticalScrollIndicator={false}>
+      <HomeDashboard
+        userName={userName}
+        userKey={auth?.user?.id || auth?.user?.userId || auth?.user?.email}
+        onCamera={() => navigateToCamera('HANDWRITING_TEXT')}
+        onArithmetic={() => navigateToCamera('ARITHMETIC')}
+        onGallery={handlePickImage}
+        onPractice={(grade) => {
+            if (grade) setSelectedGrade(grade);
+            setShowCurriculumModal(true);
+        }}
+        onTips={() => setShowTipsModal(true)}
+        onPrivacy={() => setShowPrivacyInfoModal(true)}
+      />
 
       {/* Modal: Helpful Photo Tips */}
       <Modal visible={showTipsModal} transparent animationType="fade" onRequestClose={() => setShowTipsModal(false)}>
@@ -327,7 +206,7 @@ export default function HomeScreen() {
               {([1, 2, 3, 4, 5] as const).map((grade) => (<TouchableOpacity key={grade} style={[
                 styles.gradeTabBtn,
                 selectedGrade === grade && styles.gradeTabBtnActive
-            ]} onPress={() => setSelectedGrade(grade)} accessibilityRole="button" accessibilityLabel={`Chọn Lớp ${grade}`}>
+            ]} onPress={() => setSelectedGrade(grade)} accessibilityRole="button" accessibilityLabel={`Chọn Lớp ${grade}`} accessibilityState={{ selected: selectedGrade === grade }}>
                   <Text style={[
                 styles.gradeTabBtnText,
                 selectedGrade === grade && styles.gradeTabBtnTextActive
@@ -355,7 +234,7 @@ export default function HomeScreen() {
                     <Text style={styles.problemBodyText}>{p.problemText}</Text>
 
                     {/* Guidance / Sample Solution Accordion */}
-                    <TouchableOpacity style={styles.guidanceToggleBtn} onPress={() => setExpandedProblemId(isExpanded ? null : p.id)} accessibilityRole="button">
+                    <TouchableOpacity style={styles.guidanceToggleBtn} onPress={() => setExpandedProblemId(isExpanded ? null : p.id)} accessibilityRole="button" accessibilityState={{ expanded: isExpanded }}>
                       <Ionicons name={isExpanded ? 'chevron-up' : 'bulb-outline'} size={16} color="#2563EB"/>
                       <Text style={styles.guidanceToggleText}>
                         {isExpanded ? 'Ẩn gợi ý cách giải' : 'Xem gợi ý cách giải'}
@@ -387,231 +266,8 @@ export default function HomeScreen() {
     </ScrollView>);
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F8FAFC',
-    },
-    content: {
-        paddingHorizontal: 20,
-        paddingTop: 52,
-        paddingBottom: 40,
-        maxWidth: 600,
-        width: '100%',
-        alignSelf: 'center',
-    },
-    /* Header */
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    greetingContainer: {
-        flex: 1,
-        paddingRight: 12,
-    },
-    brandRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 6,
-    },
-    brandBadge: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 5,
-        backgroundColor: '#EFF6FF',
-        paddingHorizontal: 9,
-        paddingVertical: 3,
-        borderRadius: 999,
-    },
-    brandText: {
-        fontSize: 11,
-        fontWeight: '800',
-        color: '#2563EB',
-        letterSpacing: 0.8,
-    },
-    greeting: {
-        fontSize: 24,
-        fontWeight: '800',
-        color: '#0F172A',
-        letterSpacing: -0.4,
-        marginBottom: 3,
-    },
-    subtitle: {
-        fontSize: 13,
-        color: '#64748B',
-        lineHeight: 18,
-    },
-    avatar: {
-        width: 44,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#FFFFFF',
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    /* Hero Card */
-    mainHeroCard: {
-        backgroundColor: '#1D4ED8',
-        borderRadius: SIZES.radiusXl,
-        padding: 22,
-        marginBottom: 24,
-        borderWidth: 1,
-        borderColor: '#2563EB',
-        overflow: 'hidden',
-    },
-    heroTopBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 14,
-    },
-    heroBadgePill: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        backgroundColor: 'rgba(255, 255, 255, 0.18)',
-        paddingHorizontal: 12,
-        paddingVertical: 5,
-        borderRadius: 999,
-    },
-    heroBadgePillText: {
-        color: '#FFFFFF',
-        fontSize: 12,
-        fontWeight: '700',
-    },
-    mascotArtContainer: {
-        position: 'relative',
-        width: 44,
-        height: 44,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mascotCircleOuter: {
-        width: 42,
-        height: 42,
-        borderRadius: 21,
-        backgroundColor: 'rgba(255, 255, 255, 0.25)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mascotCircleInner: {
-        width: 34,
-        height: 34,
-        borderRadius: 17,
-        backgroundColor: '#FFFFFF',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mascotSparkle1: {
-        position: 'absolute',
-        top: -2,
-        right: -2,
-    },
-    mascotSparkle2: {
-        position: 'absolute',
-        bottom: 0,
-        left: -2,
-    },
-    heroTitle: {
-        fontSize: 26,
-        fontWeight: '900',
-        color: '#FFFFFF',
-        letterSpacing: -0.5,
-        marginBottom: 8,
-    },
-    heroDescription: {
-        fontSize: 14,
-        color: 'rgba(255, 255, 255, 0.90)',
-        lineHeight: 20,
-        marginBottom: 20,
-    },
-    heroActionRow: {
-        flexDirection: 'row',
-        gap: 12,
-    },
-    ctaPrimaryBtn: {
-        flex: 1.15,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        backgroundColor: '#FFFFFF',
-        paddingVertical: 14,
-        paddingHorizontal: 16,
-        borderRadius: 16,
-        minHeight: SIZES.minTouchTarget,
-    },
-    ctaPrimaryBtnText: {
-        fontSize: 15,
-        fontWeight: '800',
-        color: '#1D4ED8',
-    },
-    ctaSecondaryBtn: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        backgroundColor: 'rgba(255, 255, 255, 0.16)',
-        paddingVertical: 14,
-        paddingHorizontal: 12,
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.35)',
-        minHeight: SIZES.minTouchTarget,
-    },
-    ctaSecondaryBtnText: {
-        fontSize: 14,
-        fontWeight: '700',
-        color: '#FFFFFF',
-    },
-    /* Feature Grid */
-    sectionHeaderRow: {
-        marginBottom: 14,
-    },
-    sectionHeading: {
-        fontSize: 18,
-        fontWeight: '800',
-        color: '#0F172A',
-        letterSpacing: -0.3,
-    },
-    featureGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 12,
-    },
-    gridCard: {
-        width: '48%',
-        flexGrow: 1,
-        borderRadius: SIZES.radiusLg,
-        padding: 16,
-        minHeight: 136,
-        justifyContent: 'space-between',
-        borderWidth: 1,
-        borderColor: 'rgba(226, 232, 240, 0.8)',
-    },
-    gridIconBadge: {
-        width: 44,
-        height: 44,
-        borderRadius: 14,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    gridCardTitle: {
-        fontSize: 15,
-        fontWeight: '800',
-        color: '#0F172A',
-        marginBottom: 4,
-    },
-    gridCardSubtitle: {
-        fontSize: 12,
-        color: '#64748B',
-        lineHeight: 16,
-    },
+    container: { flex: 1, backgroundColor: COLORS.background },
+    content: { paddingHorizontal: 20, paddingBottom: 32, maxWidth: 620, width: '100%', alignSelf: 'center' },
     /* Modals */
     modalBackdrop: {
         flex: 1,
@@ -644,10 +300,10 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 18,
         fontWeight: '800',
-        color: '#0F172A',
+        color: COLORS.textPrimary,
     },
     modalCloseBtn: {
-        padding: 6,
+        minWidth: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center',
     },
     tipRow: {
         flexDirection: 'row',
@@ -669,12 +325,12 @@ const styles = StyleSheet.create({
     tipTitle: {
         fontSize: 14,
         fontWeight: '700',
-        color: '#0F172A',
+        color: COLORS.textPrimary,
         marginBottom: 2,
     },
     tipDesc: {
         fontSize: 13,
-        color: '#64748B',
+        color: COLORS.textSecondary,
         lineHeight: 18,
     },
     privacyModalIntro: {
@@ -684,7 +340,7 @@ const styles = StyleSheet.create({
         marginBottom: 14,
     },
     modalPrimaryBtn: {
-        backgroundColor: '#2563EB',
+        backgroundColor: COLORS.primary,
         borderRadius: 16,
         paddingVertical: 14,
         alignItems: 'center',
@@ -695,51 +351,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: '700',
         color: '#FFFFFF',
-    },
-    curriculumBannerCard: {
-        backgroundColor: '#FFFBEB',
-        borderRadius: 18,
-        padding: 16,
-        marginBottom: 20,
-        borderWidth: 1,
-        borderColor: '#FDE68A',
-    },
-    curriculumBannerLeft: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 12,
-    },
-    curriculumIconBadge: {
-        width: 46,
-        height: 46,
-        borderRadius: 23,
-        backgroundColor: '#FEF3C7',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    curriculumBadgeRow: {
-        alignSelf: 'flex-start',
-        backgroundColor: '#FDE68A',
-        paddingHorizontal: 8,
-        paddingVertical: 2,
-        borderRadius: 6,
-        marginBottom: 4,
-    },
-    curriculumBadgeText: {
-        fontSize: 10,
-        fontWeight: '800',
-        color: '#92400E',
-    },
-    curriculumBannerTitle: {
-        fontSize: 15,
-        fontWeight: '800',
-        color: '#92400E',
-        marginBottom: 2,
-    },
-    curriculumBannerSubtitle: {
-        fontSize: 12,
-        color: '#B45309',
-        lineHeight: 16,
     },
     curriculumModalCard: {
         width: '92%',
@@ -758,6 +369,7 @@ const styles = StyleSheet.create({
         gap: 4,
     },
     gradeTabBtn: {
+        minHeight: 48, justifyContent: 'center',
         flex: 1,
         paddingVertical: 8,
         alignItems: 'center',
@@ -770,7 +382,7 @@ const styles = StyleSheet.create({
     gradeTabBtnText: {
         fontSize: 13,
         fontWeight: '600',
-        color: '#64748B',
+        color: COLORS.textSecondary,
     },
     gradeTabBtnTextActive: {
         fontWeight: '800',
@@ -802,7 +414,7 @@ const styles = StyleSheet.create({
     bookTagText: {
         fontSize: 11,
         fontWeight: '700',
-        color: '#2563EB',
+        color: COLORS.primaryDark,
     },
     difficultyTag: {
         backgroundColor: '#FEF3C7',
@@ -817,14 +429,14 @@ const styles = StyleSheet.create({
     },
     problemTopicText: {
         fontSize: 11,
-        color: '#64748B',
+        color: COLORS.textSecondary,
         marginBottom: 2,
         fontWeight: '600',
     },
     problemTitleText: {
         fontSize: 14,
         fontWeight: '800',
-        color: '#0F172A',
+        color: COLORS.textPrimary,
         marginBottom: 6,
     },
     problemBodyText: {
@@ -834,6 +446,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     guidanceToggleBtn: {
+        minHeight: 48,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 6,
@@ -843,7 +456,7 @@ const styles = StyleSheet.create({
     guidanceToggleText: {
         fontSize: 12,
         fontWeight: '700',
-        color: '#2563EB',
+        color: COLORS.primaryDark,
     },
     guidanceContentBox: {
         backgroundColor: '#EFF6FF',
@@ -872,6 +485,7 @@ const styles = StyleSheet.create({
         fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     },
     solveNowBtn: {
+        minHeight: 48,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',

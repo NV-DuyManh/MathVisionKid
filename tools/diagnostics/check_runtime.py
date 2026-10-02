@@ -159,7 +159,16 @@ def check_spring():
         with urllib.request.urlopen(req, timeout=3.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             if data.get("status") == "UP":
-                record_result("Spring Boot", "PASS")
+                runtime_path = data.get("components", {}).get("diskSpace", {}).get("details", {}).get("path")
+                expected_path = REPO_ROOT / "backend" / "business-api"
+                if runtime_path and Path(runtime_path).resolve() == expected_path.resolve():
+                    record_result("Spring Boot", "PASS")
+                else:
+                    record_result(
+                        "Spring Boot", "FAIL",
+                        detail="Port 8080 responds, but its backend working directory is not this MathVision checkout.",
+                        fix="Stop the other backend, then run RUN_MATHVISION.bat to start this checkout and apply its migrations."
+                    )
             else:
                 record_result(
                     "Spring Boot", "WARN",

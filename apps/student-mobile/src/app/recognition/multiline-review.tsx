@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, Image, useWindowDimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { RecognitionService, LineBox, normalizeOcrError } from '../../features/recognition/api/RecognitionService';
 import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 import { normalizeLocalFileUri } from '../../features/recognition/image/imagePipeline';
-const SCREEN_WIDTH = Dimensions.get('window').width;
+import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
 type RequestStatus = 'IDLE' | 'SUBMITTING' | 'SUCCESS' | 'ERROR' | 'CANCELLED';
 export default function MultilineReviewScreen() {
     const router = useRouter();
     const params = useLocalSearchParams();
+    const { width: screenWidth } = useWindowDimensions();
     const draft = recognitionDraftStore.getDraft();
     const rawImageUri = draft?.croppedImageUri || draft?.uri || (params.uri as string) || '';
     const imageUri = normalizeLocalFileUri(rawImageUri);
@@ -25,12 +27,11 @@ export default function MultilineReviewScreen() {
     const [requestStatus, setRequestStatus] = useState<RequestStatus>('IDLE');
     const [origWidth, setOrigWidth] = useState(draft?.width || 800);
     const [origHeight, setOrigHeight] = useState(draft?.height || 600);
-    const [displayHeight, setDisplayHeight] = useState(300);
     const [boxes, setBoxes] = useState<LineBox[]>([]);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [isNetworkError, setIsNetworkError] = useState(false);
     const [editMode, setEditMode] = useState<'MOVE' | 'RESIZE'>('MOVE');
-    const displayWidth = SCREEN_WIDTH - 32;
+    const displayWidth = Math.min(screenWidth, 600) - 32;
     const detectRequestIdRef = useRef(0);
     const initialLoadDoneRef = useRef<string | null>(null);
     const operationGenerationRef = useRef(0);
@@ -44,6 +45,7 @@ export default function MultilineReviewScreen() {
         return () => {
             // On screen blur or navigation away: cancel in-flight request and bump generation
             operationGenerationRef.current += 1;
+            detectRequestIdRef.current += 1;
             activeAbortControllerRef.current?.abort();
             activeAbortControllerRef.current = null;
             setRequestStatus('IDLE');
@@ -51,6 +53,7 @@ export default function MultilineReviewScreen() {
     }, []));
     const handleBack = () => {
         operationGenerationRef.current += 1;
+        detectRequestIdRef.current += 1;
         activeAbortControllerRef.current?.abort();
         activeAbortControllerRef.current = null;
         setRequestStatus('IDLE');
@@ -68,6 +71,9 @@ export default function MultilineReviewScreen() {
     }, [imageUri, draft?.isMasked, draft?.rawUri, draft?.width, draft?.height, draft?.sourceImageUri, draft?.croppedImageUri]);
     const loadAutoDetection = useCallback(async (uri: string, force: boolean = false) => {
         const currentReqId = ++detectRequestIdRef.current;
+        activeAbortControllerRef.current?.abort();
+        const abortController = new AbortController();
+        activeAbortControllerRef.current = abortController;
         console.log(`[MULTILINE] Starting loadAutoDetection (reqId=${currentReqId})`, {
             uri,
             force,
@@ -76,7 +82,7 @@ export default function MultilineReviewScreen() {
         try {
             setLoading(true);
             setIsNetworkError(false);
-            const res = await RecognitionService.detectLines(uri, true, force);
+            const res = await RecognitionService.detectLines(uri, true, force, abortController.signal);
             // Stale response guard: ignore if a newer request was dispatched
             if (currentReqId !== detectRequestIdRef.current) {
                 console.warn(`[MULTILINE] Discarding stale detection response (reqId=${currentReqId}, active=${detectRequestIdRef.current})`);
@@ -93,8 +99,6 @@ export default function MultilineReviewScreen() {
                 setOrigWidth(res.width);
             if (res.height) {
                 setOrigHeight(res.height);
-                const calculatedH = (res.height / res.width) * displayWidth;
-                setDisplayHeight(Math.min(calculatedH, 450));
             }
             const incomingLines = res.lines || [];
             console.log(`[LINE_DETECTION_DEBUG]
@@ -122,7 +126,7 @@ server response: status=200, lineCount=${incomingLines.length}
         catch (err: any) {
             if (currentReqId !== detectRequestIdRef.current)
                 return;
-            console.warn(`[LINE_DETECTION_DEBUG] FAILURE
+            if (__DEV__) console.log(`[LINE_DETECTION_DEBUG] FAILURE
 image dimensions: ${origWidth}x${origHeight}
 crop path: ${uri}
 preprocessing result: N/A (detection failed)
@@ -153,7 +157,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
                 setLoading(false);
             }
         }
-    }, [displayWidth, router]);
+    }, [router]);
     useEffect(() => {
         if (!imageUri) {
             Alert.alert('Lỗi', 'Không tìm thấy ảnh để nhận diện.', [
@@ -173,14 +177,13 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
         Image.getSize(imageUri, (w, h) => {
             setOrigWidth(w);
             setOrigHeight(h);
-            const calculatedH = (h / w) * displayWidth;
-            setDisplayHeight(Math.min(calculatedH, 450));
             loadAutoDetection(imageUri, true);
         }, () => {
             loadAutoDetection(imageUri, true);
         });
     }, [imageUri, displayWidth, router, loadAutoDetection, imageSessionId]);
     // Keep the image and its boxes on the same canvas when a portrait page hits the height cap.
+    const displayHeight = Math.min((origHeight / (origWidth || 1)) * displayWidth, 450);
     const imageDisplayWidth = Math.min(displayWidth, displayHeight * origWidth / (origHeight || 1));
     const scaleX = imageDisplayWidth / (origWidth || 1);
     const scaleY = displayHeight / (origHeight || 1);
@@ -290,7 +293,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
             setRequestStatus('ERROR');
             if (!e?.name?.includes('Abort') && !e?.message?.includes('canceled') && !e?.message?.includes('aborted')) {
                 const errInfo = normalizeOcrError(e);
-                console.error('[MULTILINE] Submit error details:', errInfo.technical);
+                if (__DEV__) console.log('[RECOGNITION] Submission failed:', errInfo.technical);
                 Alert.alert(errInfo.title, errInfo.message, [
                     { text: 'Đóng', style: 'cancel' }
                 ]);
@@ -304,14 +307,22 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
         }
     };
     if (loading) {
-        return (<View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary}/>
-        <Text style={styles.loadingText}>
-          {'Đang tự động phát hiện các dòng chữ...'}
-        </Text>
-      </View>);
+        return <SafeAreaView style={styles.centerContainer}>
+          <RecognitionProgress title="Đang tìm các dòng chữ" description="MathVision đang đọc ảnh và xác định từng dòng để em kiểm tra." imageUri={imageUri} onCancel={handleBack} />
+        </SafeAreaView>;
     }
-    return (<ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    if (requestStatus === 'SUBMITTING') {
+        return <SafeAreaView style={styles.centerContainer}>
+          <RecognitionProgress title="Đang đọc bài của em" description={`Đang nhận dạng ${boxes.length} dòng em đã chọn. Kết quả sẽ hiện khi đọc xong.`} imageUri={imageUri}
+            cancelLabel="Quay lại kiểm tra" onCancel={() => {
+                operationGenerationRef.current += 1;
+                activeAbortControllerRef.current?.abort();
+                activeAbortControllerRef.current = null;
+                setRequestStatus('IDLE');
+            }} />
+        </SafeAreaView>;
+    }
+    return (<SafeAreaView style={styles.container}><ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Sleek App Bar */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBack} style={styles.backButton} accessibilityRole="button" accessibilityLabel={'Quay lại'}>
@@ -342,7 +353,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
       {/* Dominant Image Canvas Area */}
       <View style={[styles.imageContainer, SHADOWS.small, { width: imageDisplayWidth, height: displayHeight, alignSelf: 'center' }]}>
         <Image source={{ uri: imageUri }} style={{ width: imageDisplayWidth, height: displayHeight, alignSelf: 'center' }} resizeMode="contain" onError={(e) => {
-            console.error('[MULTILINE] Image load failed:', e.nativeEvent.error);
+            if (__DEV__) console.log('[RECOGNITION] Image unavailable:', e.nativeEvent.error);
         }}/>
 
         {boxes.map((box) => {
@@ -374,10 +385,10 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
       {isNetworkError && boxes.length === 0 ? (<View style={styles.emptyCard}>
           <Ionicons name="wifi-outline" size={36} color="#DC2626" style={{ marginBottom: 8 }}/>
           <Text style={styles.emptyTitle}>
-            {'Lỗi kết nối máy chủ'}
+            {'Chưa kết nối được'}
           </Text>
           <Text style={styles.emptySubtitle}>
-            {'Không thể kết nối đến hệ thống nhận diện. Hãy đảm bảo máy chủ đang hoạt động và kết nối mạng ổn định.'}
+            {'Em kiểm tra kết nối Internet rồi thử lại, hoặc chọn ảnh khác nhé.'}
           </Text>
           <View style={styles.emptyActions}>
             <TouchableOpacity style={[styles.emptyBtn, styles.emptyBtnOutline]} onPress={() => loadAutoDetection(imageUri, true)} accessibilityRole="button">
@@ -511,13 +522,8 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
           <Text style={styles.secondaryBtnText}>{'Thêm dòng'}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.primaryBtn, (requestStatus === 'SUBMITTING' || boxes.length === 0) && { opacity: 0.5 }]} onPress={handleConfirmLines} disabled={requestStatus === 'SUBMITTING' || boxes.length === 0} accessibilityRole="button" accessibilityLabel={'Nhận diện chữ'}>
-          {requestStatus === 'SUBMITTING' ? (<View style={styles.ctaLoadingRow}>
-              <ActivityIndicator size="small" color="#FFFFFF"/>
-              <Text style={styles.primaryBtnText}>
-                {'Đang xử lý...'}
-              </Text>
-            </View>) : (<View style={styles.ctaColumn}>
+        <TouchableOpacity style={[styles.primaryBtn, boxes.length === 0 && { opacity: 0.5 }]} onPress={handleConfirmLines} disabled={boxes.length === 0} accessibilityRole="button" accessibilityLabel={'Nhận diện chữ'}>
+          <View style={styles.ctaColumn}>
               <View style={styles.ctaTextRow}>
                 <Text style={styles.primaryBtnText}>
                   {'Nhận diện chữ'}
@@ -527,19 +533,19 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
               <Text style={styles.ctaSupportText}>
                 {`${boxes.length} dòng đã sẵn sàng`}
               </Text>
-            </View>)}
+            </View>
         </TouchableOpacity>
       </View>
-    </ScrollView>);
+    </ScrollView></SafeAreaView>);
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8FAFC',
+        backgroundColor: COLORS.background,
     },
     content: {
         padding: SIZES.medium,
-        paddingTop: 52,
+        paddingTop: 16,
         paddingBottom: 40,
         maxWidth: 600,
         width: '100%',
@@ -550,7 +556,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 24,
-        backgroundColor: '#F8FAFC',
+        backgroundColor: COLORS.background,
     },
     loadingText: {
         marginTop: 16,
@@ -565,16 +571,16 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     backButton: {
-        width: 40,
-        height: 40,
+        width: 48,
+        height: 48,
         borderRadius: 12,
         backgroundColor: '#F1F5F9',
         justifyContent: 'center',
         alignItems: 'center',
     },
     resetButton: {
-        width: 40,
-        height: 40,
+        width: 48,
+        height: 48,
         borderRadius: 12,
         backgroundColor: '#F1F5F9',
         justifyContent: 'center',

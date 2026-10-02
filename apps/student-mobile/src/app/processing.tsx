@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { getSubmissionService } from '../services/api/SubmissionServiceFactory';
@@ -7,6 +8,7 @@ import { SubmissionStatus } from '../types';
 import { Ionicons } from '@expo/vector-icons';
 import { recognitionDraftStore, isHandwritingDomain, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
+import { RecognitionProgress } from '../features/recognition/components/RecognitionProgress';
 
 export default function ProcessingScreen() {
   const router = useRouter();
@@ -202,9 +204,6 @@ export default function ProcessingScreen() {
         }
 
         setStep(2);
-        await new Promise(r => setTimeout(r, 800));
-        if (!active) return;
-
         if (polled.validation?.decision === 'VALID') {
           router.replace({
             pathname: '/results/correct',
@@ -226,7 +225,7 @@ export default function ProcessingScreen() {
         } else if (error?.code === 'ERR_NETWORK') {
           stageCode = 'UPLOAD_NETWORK_ERROR';
         }
-        console.error(`[PROCESSING][${stageCode}] Submission error:`, error?.message || error);
+        if (__DEV__) console.log(`[PROCESSING][${stageCode}] Submission failed`);
 
         if (active) {
           Alert.alert(
@@ -252,24 +251,11 @@ export default function ProcessingScreen() {
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.title}>MathVision đang xem bài...</Text>
-        <Text style={styles.subtitle}>Em chờ một lát để trợ lý kiểm tra từng chữ số nhé.</Text>
-
-        <View style={[styles.imagePreview, SHADOWS.small]}>
-          {(() => {
-            const draftUri = recognitionDraftStore.getDraft()?.uri;
-            const fallbackUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
-            const displayUri = draftUri || (fallbackUri ? ensureFileUri(fallbackUri) : '');
-            return displayUri ? (
-              <Image source={{ uri: displayUri }} style={styles.image} resizeMode="contain" />
-            ) : null;
-          })()}
-          <View style={styles.overlay}>
-            <ActivityIndicator size="large" color={COLORS.primary} />
-          </View>
-        </View>
+        <RecognitionProgress title="MathVision đang xem bài" description={stages[step].desc}
+          imageUri={recognitionDraftStore.getDraft()?.uri || (params.uri ? ensureFileUri(Array.isArray(params.uri) ? params.uri[0] : params.uri) : undefined)}
+          onCancel={() => router.back()} />
 
         {/* Stepper progress indicator */}
         <View style={styles.progressContainer}>
@@ -315,7 +301,7 @@ export default function ProcessingScreen() {
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -328,14 +314,10 @@ const styles = StyleSheet.create({
     padding: SIZES.large,
   },
   card: {
-    backgroundColor: COLORS.surface,
-    borderRadius: SIZES.cardRadius,
-    padding: SIZES.xlarge,
+    backgroundColor: COLORS.background,
     alignItems: 'center',
     width: '100%',
     maxWidth: 440,
-    borderWidth: 1,
-    borderColor: COLORS.border,
   },
   title: {
     fontSize: 22,
@@ -371,7 +353,7 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     width: '100%',
-    paddingTop: SIZES.small,
+    paddingTop: SIZES.xlarge,
   },
   stepRow: {
     flexDirection: 'row',

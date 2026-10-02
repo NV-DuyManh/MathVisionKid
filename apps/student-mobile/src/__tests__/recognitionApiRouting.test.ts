@@ -18,6 +18,12 @@ describe('Recognition uses the canonical authenticated client', () => {
     await RecognitionService.createMultilineTrial('file:///notebook.jpg', []);
     expect((apiClient.post as jest.Mock).mock.calls[0][0]).toBe('/ocr/multiline/trials');
   });
+  it('passes detection cancellation to the authenticated upload', async () => {
+    const controller = new AbortController();
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { width: 800, height: 600, lines: [] } });
+    await RecognitionService.detectLines('file:///notebook.jpg', true, true, controller.signal);
+    expect((apiClient.post as jest.Mock).mock.calls[0][2].signal).toBe(controller.signal);
+  });
   it('fetches trials and clears cached page data between users', async () => {
     (apiClient.get as jest.Mock).mockResolvedValue({ data: { trialId: 'trial-1', lines: [] } });
     await RecognitionService.getMultilineTrial('trial-1');

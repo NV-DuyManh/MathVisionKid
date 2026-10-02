@@ -13,6 +13,14 @@ public class OcrMultilineSerializationTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
+    void multilineTestFlagMatchesMobileContract() throws Exception {
+        MultilineTrialResponse response = MultilineTrialResponse.builder().isTestData(true).build();
+        var json = objectMapper.readTree(objectMapper.writeValueAsString(response));
+        assertTrue(json.path("isTestData").asBoolean());
+        assertFalse(json.has("testData"));
+    }
+
+    @Test
     void localSubstitutionCannotMasqueradeAsCloudAdviceButStoredSelectionRemains() {
         OcrMultilineLine entity = new OcrMultilineLine();
         entity.setRawOcrText("CCm yêu mùa hề");

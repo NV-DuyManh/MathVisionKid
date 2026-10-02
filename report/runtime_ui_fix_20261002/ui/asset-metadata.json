@@ -1,0 +1,86 @@
+[
+  {
+    "file": "encouragement-crown.png",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "mathvision-star.png",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "practice-notebook.png",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "progress-bars.png",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "reward-star.png",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "saved-folder.png",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "streak-flame.png",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  }
+]

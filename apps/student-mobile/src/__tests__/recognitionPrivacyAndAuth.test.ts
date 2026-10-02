@@ -18,4 +18,11 @@ describe('Recognition uses MathVision privacy and authentication', () => {
     expect(error.title).toContain('Phiên đăng nhập hết hạn');
     expect(error.message).toContain('đăng nhập lại');
   });
+  it('explains a failed request without exposing backend details or calling every failure busy', () => {
+    const error = normalizeOcrError({ response: { status: 500, data: { error: { message: 'SQL error gemini_confidence_source' } } } });
+    expect(error.message).toContain('vẫn được giữ');
+    expect(error.message).not.toMatch(/SQL|gemini|500/);
+    expect(error.title).not.toContain('đang bận');
+    expect(normalizeOcrError({ response: { status: 503 } }).title).toContain('đang bận');
+  });
 });

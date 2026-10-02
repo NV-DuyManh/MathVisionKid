@@ -1,0 +1,230 @@
+{
+  "recordedAtUtc": "2026-10-02T16:35:08.3184636Z",
+  "scope": "Student mobile runtime repair, recognition progress, home UI",
+  "mobile": {
+    "suites": 27,
+    "failures": 0,
+    "tests": 262,
+    "evidence": "mobile-tests.json",
+    "success": true
+  },
+  "backend": {
+    "Command": "SPRING_PROFILES_ACTIVE=test ./gradlew.bat test --console=plain",
+    "Profile": "test (H2; isolated from live PostgreSQL)",
+    "Suites": 22,
+    "Tests": 154,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0,
+    "Result": "PASS",
+    "NewRegression": "multilineTestFlagMatchesMobileContract",
+    "TargetedMultilineTests": 37
+  },
+  "typeScript": {
+    "command": "npx tsc --noEmit",
+    "result": "PASS",
+    "exitCode": 0
+  },
+  "webExport": {
+    "routes": 27,
+    "physicalDeviceEvidence": false,
+    "result": "PASS"
+  },
+  "androidExport": {
+    "assets": 53,
+    "exitCode": 0,
+    "result": "PASS",
+    "physicalDeviceEvidence": false,
+    "bundle": "entry-16660fbec38322b8b91331cc2d8ea147.hbc",
+    "command": "npx expo export --platform android --output-dir ../../scratch/mobile-native-export-20261002"
+  },
+  "runtime": {
+    "finalStatus": "UP",
+    "backendHealth": "UP",
+    "databaseHealth": "UP",
+    "workingDirectory": "E:\\MathVisionKid\\backend\\business-api\\.",
+    "studentMobileServer": "packager-status:running",
+    "launcherIdentityCases": 8,
+    "diagnosticIdentityCases": 3,
+    "separateDockerInterruptionRecovered": true,
+    "dockerRuntimeQuarantine": {
+      "Source": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run",
+      "Destination": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run-stale-20261002",
+      "SourceExactMatch": true,
+      "SourceDirectoryReparsePoint": false,
+      "BothPathsWithinAuthorizedDockerDirectory": true,
+      "DestinationNeverOverwritten": true,
+      "RetainedEntries": [
+        {
+          "Name": "dockerEthernetVfkit",
+          "Length": 0,
+          "Attributes": 1056
+        },
+        {
+          "Name": "dockerInference",
+          "Length": 0,
+          "Attributes": 1056
+        },
+        {
+          "Name": "userAnalyticsOtlpHttp.sock",
+          "Length": 0,
+          "Attributes": 1056
+        }
+      ],
+      "NewRuntimeDirectoryCreated": true,
+      "VolumeOrSettingsOrVHDReset": false
+    },
+    "dataPreservation": {
+      "existingTrialReadableAfterRecovery": true,
+      "trialId": "35513431-bdda-46c8-a300-c71a24d7b5bc",
+      "httpStatus": 200,
+      "lineCount": 9,
+      "existingSkippedFeedbackPreserved": true,
+      "storedImageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+      "storedImageMatchesPreInterruptionEvidence": true,
+      "newRecordsCreated": false,
+      "trainingEligible": false
+    },
+    "infrastructureRecovery": {
+      "Result": "PASS",
+      "ObservedShutdownRequestedUTC": "2026-10-02T16:20:44.5197465Z",
+      "ObservedShutdownRequestedLocal": "2026-10-02T23:20:44+07:00",
+      "ShutdownActor": "Unknown; not inferred",
+      "RemovedForwardingPorts": [
+        5432,
+        6379,
+        9000,
+        9001
+      ],
+      "BackendOutageCause": "PostgreSQL port disappeared during Docker Desktop graceful shutdown; backend Hikari reported connection refused",
+      "SeparateStartupFailure": "Docker Desktop could not remove inaccessible zero-byte AF_UNIX runtime reparse endpoint Docker/run/dockerInference (Windows ERROR_CANT_ACCESS_FILE 1920)",
+      "HostWindowsBuild": "26200",
+      "RecoveryActions": [
+        "Terminated only docker-desktop WSL instance to recover stuck engine shutdown; no unregister",
+        "Restarted only verified Docker Desktop installation",
+        "Quarantined verified transient Docker/run directory without overwriting destination; retained all three zero-byte runtime sockets",
+        "Created fresh Docker/run and started Docker Desktop normally in hidden process"
+      ],
+      "Quarantine": {
+        "Source": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run",
+        "Destination": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run-stale-20261002",
+        "SourceExactMatch": true,
+        "SourceDirectoryReparsePoint": false,
+        "BothPathsWithinAuthorizedDockerDirectory": true,
+        "DestinationNeverOverwritten": true,
+        "RetainedEntries": [
+          {
+            "Name": "dockerEthernetVfkit",
+            "Length": 0,
+            "Attributes": 1056
+          },
+          {
+            "Name": "dockerInference",
+            "Length": 0,
+            "Attributes": 1056
+          },
+          {
+            "Name": "userAnalyticsOtlpHttp.sock",
+            "Length": 0,
+            "Attributes": 1056
+          }
+        ],
+        "NewRuntimeDirectoryCreated": true,
+        "VolumeOrSettingsOrVHDReset": false
+      },
+      "DockerEngineVersion": "29.6.1",
+      "Containers": [
+        {
+          "Name": "mathvision-postgres",
+          "Status": "running",
+          "Health": "healthy",
+          "OOMKilled": false
+        },
+        {
+          "Name": "mathvision-redis",
+          "Status": "running",
+          "Health": "healthy",
+          "OOMKilled": false
+        },
+        {
+          "Name": "mathvision-minio",
+          "Status": "running",
+          "Health": "healthy",
+          "OOMKilled": false
+        }
+      ],
+      "FinalBackendHealth": "UP",
+      "FinalDatabaseHealth": "UP",
+      "FinalFastApiStatus": "ready",
+      "BackendWorkingDirectory": "E:\\MathVisionKid\\backend\\business-api\\.",
+      "SameBackendPID": 6060,
+      "Preservation": {
+        "existingTrialReadableAfterRecovery": true,
+        "trialId": "35513431-bdda-46c8-a300-c71a24d7b5bc",
+        "httpStatus": 200,
+        "lineCount": 9,
+        "existingSkippedFeedbackPreserved": true,
+        "storedImageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+        "storedImageMatchesPreInterruptionEvidence": true,
+        "newRecordsCreated": false,
+        "trainingEligible": false
+      },
+      "VolumeDeletion": false,
+      "DatabaseReset": false,
+      "MigrationOrSettingsOrVHDReset": false,
+      "DatabaseSchemaVersion": 16,
+      "PostgresShutdownEvidence": "PostgreSQL log records clean shutdown at16:20:45UTC and starts existing database at16:32:47UTC",
+      "PublicMatchingIssue": "https://github.com/docker/desktop-feedback/issues/527",
+      "PhysicalDeviceEvidence": false
+    }
+  },
+  "liveHttp": {
+    "method": "real HTTP through local business API, PostgreSQL, MinIO and AI runtime",
+    "physicalDeviceTest": false,
+    "requestId": "verification_bfb323d57f6a477fbf7fe793ff913e41",
+    "imageSha256": "56e218a182ff1bcd111b8a9a0615288dcb85439585844d1f3852fd610b8ca285",
+    "lineCount": 9,
+    "trialId": "35513431-bdda-46c8-a300-c71a24d7b5bc",
+    "domain": "HANDWRITING_TEXT",
+    "isTestData": true,
+    "trainingEligible": false,
+    "status": {
+      "detect": 200,
+      "create": 201,
+      "read": 200,
+      "feedback": 200,
+      "anonymousRead": 401,
+      "otherStudentRead": 404,
+      "privacyRejected": 400
+    },
+    "elapsedSeconds": 3.72,
+    "result": "PASS"
+  },
+  "browserQa": {
+    "pageErrors": [],
+    "fixtures": "Only /me, OCR detection, and OCR submit are intercepted with synthetic responses. Home state uses its real client code and empty local device history.",
+    "environment": "Chromium desktop browser, Expo web development preview; no physical phone evidence",
+    "status": "COMPLETED",
+    "evidence": "ui/browser-checks.json"
+  },
+  "assets": {
+    "allCurrentHashesMatchEvidence": true,
+    "count": 7,
+    "evidence": "asset-manifest.json",
+    "allEvidenceMatchesOwnerAttachments": true
+  },
+  "constraints": {
+    "modelTraining": false,
+    "modelWeightsChanged": false,
+    "commitOrPush": false,
+    "handAiSourceChanged": false,
+    "physicalPhoneVerified": false,
+    "nativeFontScaleVerified": false
+  },
+  "limitations": [
+    "Browser QA uses synthetic OCR/auth fixtures; successful real HTTP verification is separate.",
+    "Android export is packaging validation, not a device test.",
+    "Last live verification used a warm detection cache.",
+    "Nine previously known AI segmentation test failures were not re-evaluated in this runtime/UI task."
+  ]
+}

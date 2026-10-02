@@ -1,0 +1,12 @@
+{
+  "Command": "SPRING_PROFILES_ACTIVE=test ./gradlew.bat test --console=plain",
+  "Profile": "test (H2; isolated from live PostgreSQL)",
+  "Suites": 22,
+  "Tests": 154,
+  "Failures": 0,
+  "Errors": 0,
+  "Skipped": 0,
+  "Result": "PASS",
+  "NewRegression": "multilineTestFlagMatchesMobileContract",
+  "TargetedMultilineTests": 37
+}

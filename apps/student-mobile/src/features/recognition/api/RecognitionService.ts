@@ -284,17 +284,17 @@ export class RecognitionService {
         return response.data;
     }
     // Page recognition uses the same authenticated client as the rest of MathVision.
-    static async detectLines(uri: string, privacyConfirmed: boolean = true, forceRedetect: boolean = false): Promise<MultilineDetectResult> {
+    static async detectLines(uri: string, privacyConfirmed: boolean = true, forceRedetect: boolean = false, signal?: AbortSignal): Promise<MultilineDetectResult> {
         const file = this.fileInfoFromUri(uri, 'page.jpg');
         const endpoint = '/ocr/multiline/detect';
-        console.log('[OCR_PILOT] Requesting detectLines for URI:', uri, '| Endpoint:', endpoint, '| BaseURL:', apiClient.defaults.baseURL);
+        if (__DEV__) console.log('[RECOGNITION] Requesting line detection');
         try {
             const result = await postMultipart<MultilineDetectResult>(endpoint, { key: 'image', ...file }, {
                 privacyConfirmed: String(privacyConfirmed),
                 forceRedetect: String(forceRedetect),
                 _t: Date.now().toString()
-            });
-            console.log('[OCR_PILOT] detectLines success:', {
+            }, signal);
+            console.log('[RECOGNITION] detectLines success:', {
                 width: result.width,
                 height: result.height,
                 linesCount: result.lines?.length || 0,
@@ -318,7 +318,7 @@ export class RecognitionService {
             return result;
         }
         catch (err: any) {
-            console.error('[OCR_PILOT] detectLines network/server error:', err?.message || err, err?.response?.data);
+            if (__DEV__) console.log('[RECOGNITION] Line detection failed:', normalizeOcrError(err).technical);
             throw err;
         }
     }
@@ -424,10 +424,17 @@ export function normalizeOcrError(err: any): {
             technical,
         };
     }
-    if (status && status >= 500) {
+    if (status === 503) {
         return {
             title: 'Hệ thống đang bận',
             message: 'Hệ thống đang bận. Vui lòng thử lại sau ít phút.',
+            technical,
+        };
+    }
+    if (status && status >= 500) {
+        return {
+            title: 'Chưa thể xử lý bài',
+            message: 'MathVision chưa xử lý được bài lúc này. Ảnh và các khung chữ vẫn được giữ để em thử lại.',
             technical,
         };
     }

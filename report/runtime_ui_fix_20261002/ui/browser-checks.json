@@ -1,0 +1,365 @@
+{
+  "environment": "Chromium desktop browser, Expo web development preview; no physical phone evidence",
+  "fixtures": "Only /me, OCR detection, and OCR submit are intercepted with synthetic responses. Home state uses its real client code and empty local device history.",
+  "checks": [
+    {
+      "name": "home-375x812-overflow",
+      "result": {
+        "width": 375,
+        "height": 812,
+        "documentWidth": 375,
+        "overflow": []
+      }
+    },
+    {
+      "name": "home-375-images",
+      "result": [
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "tips-375-modal-fit",
+      "result": {
+        "close": {
+          "x": 285,
+          "y": 225.5,
+          "width": 48,
+          "height": 48
+        },
+        "bottom": {
+          "x": 148.84375,
+          "y": 552.5,
+          "width": 77.296875,
+          "height": 20
+        },
+        "fits": true
+      }
+    },
+    {
+      "name": "practice-375-grade-selection",
+      "result": {
+        "ariaSelected": null,
+        "dataSelected": null,
+        "background": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "name": "home-375-saved-navigation",
+      "result": "/recognition/analytics"
+    },
+    {
+      "name": "home-430x932-overflow",
+      "result": {
+        "width": 430,
+        "height": 932,
+        "documentWidth": 430,
+        "overflow": []
+      }
+    },
+    {
+      "name": "home-430-images",
+      "result": [
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "tips-430-modal-fit",
+      "result": {
+        "close": {
+          "x": 340,
+          "y": 294.5,
+          "width": 48,
+          "height": 48
+        },
+        "bottom": {
+          "x": 176.34375,
+          "y": 603.5,
+          "width": 77.296875,
+          "height": 20
+        },
+        "fits": true
+      }
+    },
+    {
+      "name": "practice-430-grade-selection",
+      "result": {
+        "ariaSelected": null,
+        "dataSelected": null,
+        "background": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "name": "home-430-saved-navigation",
+      "result": "/recognition/analytics"
+    },
+    {
+      "name": "home-844x390-overflow",
+      "result": {
+        "width": 844,
+        "height": 390,
+        "documentWidth": 844,
+        "overflow": []
+      }
+    },
+    {
+      "name": "home-844-images",
+      "result": [
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "tips-844-modal-fit",
+      "result": {
+        "close": {
+          "x": 592,
+          "y": 23.5,
+          "width": 48,
+          "height": 48
+        },
+        "bottom": {
+          "x": 383.34375,
+          "y": 332.5,
+          "width": 77.296875,
+          "height": 20
+        },
+        "fits": true
+      }
+    },
+    {
+      "name": "practice-844-grade-selection",
+      "result": {
+        "ariaSelected": null,
+        "dataSelected": null,
+        "background": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "name": "home-844-saved-navigation",
+      "result": "/recognition/analytics"
+    },
+    {
+      "name": "recognition-indeterminate-progress-reduced-motion",
+      "result": {
+        "present": true,
+        "numericPercentage": false,
+        "dimension": {
+          "width": 375,
+          "height": 812,
+          "documentWidth": 375,
+          "overflow": []
+        }
+      }
+    },
+    {
+      "name": "recognition-cancel-submission-preserves-boxes",
+      "result": {
+        "boxes": 3,
+        "pathname": "/recognition/multiline-review"
+      }
+    },
+    {
+      "name": "recognition-submit-error-retry-preserves-boxes",
+      "result": {
+        "detectCalls": 1,
+        "submitCalls": 3,
+        "firstSubmittedLines": [
+          {
+            "line_id": "line_1",
+            "x": 35,
+            "y": 116,
+            "width": 500,
+            "height": 42,
+            "order": 1,
+            "text": "",
+            "rawOcrText": "",
+            "finalText": "",
+            "predictedText": ""
+          },
+          {
+            "line_id": "line_2",
+            "x": 35,
+            "y": 220,
+            "width": 500,
+            "height": 42,
+            "order": 2,
+            "text": "",
+            "rawOcrText": "",
+            "finalText": "",
+            "predictedText": ""
+          },
+          {
+            "line_id": "line_3",
+            "x": 35,
+            "y": 340,
+            "width": 500,
+            "height": 42,
+            "order": 3,
+            "text": "",
+            "rawOcrText": "",
+            "finalText": "",
+            "predictedText": ""
+          }
+        ],
+        "consoleErrorCount": 2,
+        "visibleLogBox": false
+      }
+    },
+    {
+      "name": "recognition-landscape-cancel-reachable",
+      "result": {
+        "initialButton": {
+          "x": 369.328125,
+          "y": 438,
+          "width": 105.328125,
+          "height": 48
+        },
+        "buttonAfterScroll": {
+          "x": 369.328125,
+          "y": 287,
+          "width": 105.328125,
+          "height": 48
+        },
+        "fitsAfterScroll": true,
+        "dimension": {
+          "width": 844,
+          "height": 390,
+          "documentWidth": 844,
+          "overflow": []
+        }
+      }
+    },
+    {
+      "name": "home-css-text-expansion-200-percent",
+      "result": {
+        "nativeFontScaleEmulated": false,
+        "dimension": {
+          "width": 375,
+          "height": 812,
+          "documentWidth": 375,
+          "overflow": []
+        }
+      }
+    }
+  ],
+  "screens": [
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/home-375x812.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/tips-375x812.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/practice-375x812.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/home-430x932.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/tips-430x932.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/practice-430x932.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/home-844x390.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/tips-844x390.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/practice-844x390.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/recognition-detection-bar-375.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/recognition-review-375.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/recognition-submit-bar-375.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/recognition-error-retry-375.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/recognition-detection-bar-844x390.png",
+    "E:/MathVisionKid/report/runtime_ui_fix_20261002/ui/home-css-text-expansion-200-percent-375.png"
+  ],
+  "errors": [],
+  "status": "COMPLETED"
+}

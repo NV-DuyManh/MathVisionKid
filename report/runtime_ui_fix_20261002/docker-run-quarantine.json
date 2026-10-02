@@ -1,0 +1,27 @@
+{
+  "Source": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run",
+  "Destination": "C:\\Users\\Admin\\AppData\\Local\\Docker\\run-stale-20261002",
+  "SourceExactMatch": true,
+  "SourceDirectoryReparsePoint": false,
+  "BothPathsWithinAuthorizedDockerDirectory": true,
+  "DestinationNeverOverwritten": true,
+  "RetainedEntries": [
+    {
+      "Name": "dockerEthernetVfkit",
+      "Length": 0,
+      "Attributes": 1056
+    },
+    {
+      "Name": "dockerInference",
+      "Length": 0,
+      "Attributes": 1056
+    },
+    {
+      "Name": "userAnalyticsOtlpHttp.sock",
+      "Length": 0,
+      "Attributes": 1056
+    }
+  ],
+  "NewRuntimeDirectoryCreated": true,
+  "VolumeOrSettingsOrVHDReset": false
+}

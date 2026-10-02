@@ -10,6 +10,7 @@ import { isAdvisorPending, mergeTrialWithAdvisorUpdate } from '../../features/re
 import { getRawOcrConfidence } from '../../features/recognition/utils/ocrConfidence';
 import { recognitionAnalyticsStore } from '../../features/recognition/analytics/recognitionAnalyticsStore';
 import { evaluateMathSolution, MathSolutionEvaluationResult } from '../../utils/mathSolutionEvaluator';
+import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
 export function getDecisionExplanation(state: ReturnType<typeof resolveLineDisplayState>, line: MultilineLineResult): string {
     const src = (state.selectedSource || '').toUpperCase();
     const reason = state.selectionReason;
@@ -224,8 +225,7 @@ export default function MultilineResultScreen() {
     };
     if (loading) {
         return (<View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary}/>
-        <Text style={styles.loadingText}>Đang tải kết quả các dòng...</Text>
+        <RecognitionProgress title="Đang mở kết quả" description="Bài nhận dạng của em sẽ hiện ngay khi tải xong." onCancel={() => router.back()} />
       </View>);
     }
     if (!trial) {

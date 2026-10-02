@@ -9,6 +9,7 @@ import { recognitionDraftStore } from '../features/recognition/state/recognition
 // Mock dependencies
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(),
+  useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]),
 }));
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -277,7 +278,7 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
     });
 
     // Camera CTA
-    const cameraBtn = renderer.root.findByProps({ accessibilityLabel: 'Chụp ảnh mới' });
+    const cameraBtn = renderer.root.findByProps({ accessibilityLabel: 'Chụp bài toán hoặc bài viết tay' });
     await act(async () => {
       cameraBtn.props.onPress();
     });
@@ -287,7 +288,7 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
     });
 
     // Gallery CTA — MUST directly invoke native ImagePicker and route to /privacy without /gallery
-    const galleryBtn = renderer.root.findByProps({ accessibilityLabel: 'Chọn từ thư viện' });
+    const galleryBtn = renderer.root.findByProps({ accessibilityLabel: 'Chọn ảnh bài làm từ thư viện' });
     await act(async () => {
       await galleryBtn.props.onPress();
     });
