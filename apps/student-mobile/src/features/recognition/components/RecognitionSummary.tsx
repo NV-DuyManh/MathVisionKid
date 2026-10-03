@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
+import { FONTS, COLORS, SIZES } from '../../../constants/theme';
 import type { RecognitionMetrics } from '../analytics/recognitionMetrics';
 import { formatMetricPercent } from '../utils/metricFormat';
 
@@ -27,9 +27,9 @@ export function RecognitionSummary({ metrics }: { metrics: RecognitionMetrics })
 
 const styles = StyleSheet.create({
   card: { backgroundColor: COLORS.surface, padding: SIZES.medium, borderRadius: SIZES.cardRadius, gap: SIZES.small, marginBottom: SIZES.medium },
-  title: { color: COLORS.textPrimary, fontSize: 18, fontWeight: '700' },
+  title: { color: COLORS.textPrimary, fontSize: 18, fontFamily: FONTS.bold },
   row: { flexDirection: 'row', flexWrap: 'wrap', gap: SIZES.small, alignItems: 'baseline' },
-  label: { flexGrow: 1, flexShrink: 1, color: COLORS.textSecondary, fontSize: 15 },
-  value: { color: COLORS.primaryDark, fontWeight: '700', fontSize: 16 },
-  note: { color: COLORS.textSecondary, fontSize: 14, lineHeight: 21 },
+  label: { flexGrow: 1, flexShrink: 1, color: COLORS.textSecondary, fontFamily: FONTS.regular, fontSize: 15 },
+  value: { color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 16 },
+  note: { color: COLORS.textSecondary, fontFamily: FONTS.regular, fontSize: 14, lineHeight: 21 },
 });

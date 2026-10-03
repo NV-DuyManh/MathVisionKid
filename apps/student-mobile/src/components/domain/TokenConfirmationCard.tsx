@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppCard } from '../ui/AppCard';
 import { AppButton } from '../ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,7 +24,7 @@ export const TokenConfirmationCard: React.FC<TokenConfirmationCardProps> = ({ in
     return () => backHandler.remove();
   }, [isEditing]);
 
-  const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+  const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-'];
 
   return (
     <AppCard style={styles.container}>
@@ -33,8 +33,8 @@ export const TokenConfirmationCard: React.FC<TokenConfirmationCardProps> = ({ in
         <Text style={styles.badgeText}>Xác nhận chữ viết</Text>
       </View>
 
-      <Text style={styles.title}>MathVision chưa chắc chắn số này:</Text>
-      <Text style={styles.subtitle}>Em hãy nhìn lại bài viết và chọn số chính xác nhé.</Text>
+      <Text style={styles.title}>Em xem lại ký hiệu này nhé:</Text>
+      <Text style={styles.subtitle}>Nhìn vào vị trí trong ảnh và chọn đúng ký hiệu em đã viết.</Text>
 
       <View style={[styles.tokenBox, SHADOWS.small]}>
         <Text style={styles.tokenText}>{token}</Text>
@@ -45,12 +45,13 @@ export const TokenConfirmationCard: React.FC<TokenConfirmationCardProps> = ({ in
           <AppButton
             title="Đúng rồi"
             onPress={() => onConfirm(token)}
+            disabled={!/^[0-9+-]$/.test(token)}
             style={styles.halfButton}
             variant="primary"
           />
           <View style={{ width: SIZES.medium }} />
           <AppButton
-            title="Chọn số khác"
+            title="Chọn ký hiệu khác"
             onPress={() => setIsEditing(true)}
             variant="outlined"
             style={styles.halfButton}
@@ -58,7 +59,7 @@ export const TokenConfirmationCard: React.FC<TokenConfirmationCardProps> = ({ in
         </View>
       ) : (
         <View style={styles.keypad}>
-          <Text style={styles.instruction}>Chạm vào số đúng trong bài của em:</Text>
+          <Text style={styles.instruction}>Chạm vào ký hiệu đúng trong bài của em:</Text>
           <View style={styles.grid}>
             {digits.map(d => (
               <TouchableOpacity
@@ -72,7 +73,7 @@ export const TokenConfirmationCard: React.FC<TokenConfirmationCardProps> = ({ in
                   setIsEditing(false);
                 }}
                 accessibilityRole="button"
-                accessibilityLabel={`Số ${d}`}
+                accessibilityLabel={`Ký hiệu ${d}`}
               >
                 <Text
                   style={[
@@ -118,17 +119,18 @@ const styles = StyleSheet.create({
   badgeText: {
     marginLeft: 6,
     fontSize: 14,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.primaryDark,
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     textAlign: 'center',
     marginBottom: 4,
   },
   subtitle: {
+    fontFamily: FONTS.regular,
     fontSize: 14,
     color: COLORS.textSecondary,
     textAlign: 'center',
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
   },
   tokenText: {
     fontSize: 52,
-    fontWeight: '800',
+    fontFamily: FONTS.extraBold,
     color: COLORS.primaryDark,
     fontVariant: ['tabular-nums'],
   },
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.textSecondary,
     marginBottom: SIZES.medium,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
   },
   grid: {
     flexDirection: 'row',
@@ -192,7 +194,7 @@ const styles = StyleSheet.create({
   },
   digitButtonText: {
     fontSize: 24,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
   },
   digitButtonTextSelected: {
@@ -205,6 +207,6 @@ const styles = StyleSheet.create({
   cancelEditText: {
     color: COLORS.textSecondary,
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
   },
 });

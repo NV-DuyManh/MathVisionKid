@@ -52,7 +52,7 @@ class ModelManifestLoader:
         )
         return manifest
 
-    def load_and_verify_artifact(self) -> ModelManifest:
+    def load_and_verify_artifact(self, artifact_path: str = "") -> ModelManifest:
         """
         Load manifest AND verify artifact checksum.
         Raises ChecksumMismatchError if sha256 does not match.
@@ -60,7 +60,7 @@ class ModelManifestLoader:
         """
         manifest = self.load()
 
-        artifact_path = os.path.join(self.artifact_base_dir, manifest.artifactFilename)
+        artifact_path = artifact_path or os.path.join(self.artifact_base_dir, manifest.artifactFilename)
         if not os.path.exists(artifact_path):
             raise FileNotFoundError(
                 f"Artifact file not found at '{artifact_path}'. "

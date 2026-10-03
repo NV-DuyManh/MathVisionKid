@@ -15,6 +15,10 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +47,7 @@ public class OcrMultilineService {
     private final String aiServiceBaseUrl;
     private final String internalApiKey;
     private final String collectionMode;
+    private final TransactionTemplate advisorTransaction;
 
     public OcrMultilineService(
             OcrMultilineTrialRepository trialRepository,
@@ -51,6 +56,7 @@ public class OcrMultilineService {
             OcrStorageVerifier ocrStorageVerifier,
             UserRepository userRepository,
             ObjectMapper objectMapper,
+            PlatformTransactionManager transactionManager,
             @Value("${ai.service.base-url:${AI_SERVICE_BASE_URL:http://localhost:8000}}") String aiServiceBaseUrl,
             @Value("${ai.callback.api-key:${INTERNAL_API_KEY:secret-key-default}}") String internalApiKey,
             @Value("${app.ocr.pilot.collection-mode:${OCR_PILOT_COLLECTION_MODE:TEST}}") String collectionMode) {
@@ -60,6 +66,7 @@ public class OcrMultilineService {
         this.ocrStorageVerifier = ocrStorageVerifier;
         this.userRepository = userRepository;
         this.objectMapper = objectMapper;
+        this.advisorTransaction = new TransactionTemplate(transactionManager);
         this.aiServiceBaseUrl = aiServiceBaseUrl.replaceAll("/+$", "");
         this.internalApiKey = internalApiKey;
         this.collectionMode = collectionMode != null ? collectionMode.trim() : "TEST";
@@ -99,6 +106,8 @@ public class OcrMultilineService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType(contentType.startsWith("image/") ? contentType : "image/jpeg"));
             headers.set("X-Internal-API-Key", internalApiKey);
+            // Return segmentation + CRNN first; document advisors run after the trial is saved.
+            headers.set("X-Fast-Path", "true");
             if (requestId != null && !requestId.isBlank()) {
                 headers.set("X-Request-ID", requestId);
                 log.info("[OCR-PHYSICAL] Spring Boot forwarding requestId: {} to AI service", requestId);
@@ -394,9 +403,18 @@ public class OcrMultilineService {
             // BACKGROUND ADVISOR PATH
             final UUID finalTrialId = savedTrial.getTrialId();
             final String finalRequestId = requestId;
-            java.util.concurrent.CompletableFuture.runAsync(() -> {
-                runBackgroundAdvisors(finalTrialId, finalRequestId);
-            });
+            Runnable startAdvisors = () -> java.util.concurrent.CompletableFuture.runAsync(
+                    () -> runBackgroundAdvisors(finalTrialId, finalRequestId));
+            if (TransactionSynchronizationManager.isSynchronizationActive()) {
+                TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                    @Override
+                    public void afterCommit() {
+                        startAdvisors.run();
+                    }
+                });
+            } else {
+                startAdvisors.run();
+            }
 
             return MultilineTrialResponse.fromEntity(savedTrial);
 
@@ -522,9 +540,6 @@ public class OcrMultilineService {
 
     private void runBackgroundAdvisors(UUID trialId, String requestId) {
         try {
-            // Wait slightly for transaction to commit
-            Thread.sleep(500);
-            
             OcrMultilineTrial trial = trialRepository.findById(trialId).orElse(null);
             if (trial == null) return;
             
@@ -568,60 +583,111 @@ public class OcrMultilineService {
                     requestEntity,
                     new ParameterizedTypeReference<Map<String, Object>>() {}
             );
-            
+
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                throw new IllegalStateException("Background advisor returned no successful response");
+            }
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> respLines = (List<Map<String, Object>>) response.getBody().get("lines");
+                if (respLines == null || respLines.size() != lines.size()) {
+                    throw new IllegalStateException("Background advisor returned an invalid line count");
+                }
                 if (respLines != null && respLines.size() == lines.size()) {
-                    boolean anyCorrected = false;
-                    for (int i = 0; i < lines.size(); i++) {
-                        OcrMultilineLine line = lines.get(i);
-                        Map<String, Object> respLine = respLines.get(i);
-                        
-                        line.setGroqSuggestion((String) respLine.get("groqSuggestion"));
-                        Double groqScore = OcrConfidence.advisorScore(respLine.get("groqConfidence"),
-                                respLine.get("groqStatus"), respLine.get("groqConfidenceSource"));
-                        line.setGroqConfidence(groqScore);
-                        line.setGroqConfidenceSource(groqScore != null ? OcrConfidence.AI_SELF_REPORTED : null);
-                        line.setGroqDecision((String) respLine.get("groqDecision"));
-                        line.setGroqStatus((String) respLine.get("groqStatus"));
-                        line.setGroqModel((String) respLine.get("groqModel"));
-                        
-                        line.setGeminiSuggestion((String) respLine.get("geminiSuggestion"));
-                        Double geminiScore = OcrConfidence.advisorScore(respLine.get("geminiConfidence"),
-                                respLine.get("geminiStatus"), respLine.get("geminiConfidenceSource"));
-                        line.setGeminiConfidence(geminiScore);
-                        line.setGeminiConfidenceSource(geminiScore != null ? OcrConfidence.AI_SELF_REPORTED : null);
-                        line.setGeminiDecision((String) respLine.get("geminiDecision"));
-                        line.setGeminiStatus((String) respLine.get("geminiStatus"));
-                        line.setGeminiModel((String) respLine.get("geminiModel"));
-                        if (respLine.get("suggestions") instanceof List<?>) {
-                            @SuppressWarnings("unchecked")
-                            List<Map<String, Object>> suggestions = (List<Map<String, Object>>) respLine.get("suggestions");
-                            line.setSuggestionsJson(objectMapper.writeValueAsString(OcrConfidence.suggestions(suggestions)));
-                        } else {
-                            line.setSuggestionsJson(null);
+                    // Cloud waiting stays outside the transaction. Reload under the same row lock
+                    // used by feedback so a late advisor cannot merge stale student corrections.
+                    advisorTransaction.executeWithoutResult(status -> {
+                        boolean anyCorrected = false;
+                        for (int i = 0; i < lines.size(); i++) {
+                            OcrMultilineLine line = lineRepository.findByLineIdAndTrial(lines.get(i).getLineId(), trial)
+                                    .orElse(null);
+                            if (line == null) continue;
+                            Map<String, Object> respLine = respLines.get(i);
+
+                            line.setGroqSuggestion((String) respLine.get("groqSuggestion"));
+                            Double groqScore = OcrConfidence.advisorScore(respLine.get("groqConfidence"),
+                                    respLine.get("groqStatus"), respLine.get("groqConfidenceSource"));
+                            line.setGroqConfidence(groqScore);
+                            line.setGroqConfidenceSource(groqScore != null ? OcrConfidence.AI_SELF_REPORTED : null);
+                            line.setGroqDecision((String) respLine.get("groqDecision"));
+                            line.setGroqStatus((String) respLine.get("groqStatus"));
+                            line.setGroqModel((String) respLine.get("groqModel"));
+
+                            line.setGeminiSuggestion((String) respLine.get("geminiSuggestion"));
+                            Double geminiScore = OcrConfidence.advisorScore(respLine.get("geminiConfidence"),
+                                    respLine.get("geminiStatus"), respLine.get("geminiConfidenceSource"));
+                            line.setGeminiConfidence(geminiScore);
+                            line.setGeminiConfidenceSource(geminiScore != null ? OcrConfidence.AI_SELF_REPORTED : null);
+                            line.setGeminiDecision((String) respLine.get("geminiDecision"));
+                            line.setGeminiStatus((String) respLine.get("geminiStatus"));
+                            line.setGeminiModel((String) respLine.get("geminiModel"));
+                            if (respLine.get("suggestions") instanceof List<?>) {
+                                @SuppressWarnings("unchecked")
+                                List<Map<String, Object>> suggestions = (List<Map<String, Object>>) respLine.get("suggestions");
+                                try {
+                                    line.setSuggestionsJson(objectMapper.writeValueAsString(OcrConfidence.suggestions(suggestions)));
+                                } catch (IOException e) {
+                                    throw new java.io.UncheckedIOException(e);
+                                }
+                            } else {
+                                line.setSuggestionsJson(null);
+                            }
+                            line.setCorrectionConfidence(null);
+
+                            if ("UNVERIFIED".equals(line.getVerdict())
+                                    && Boolean.TRUE.equals(respLine.get("correctionApplied"))) {
+                                line.setPredictedText((String) respLine.get("finalText"));
+                                line.setCorrectedText((String) respLine.get("correctedText"));
+                                line.setCorrectionApplied(true);
+                                line.setCorrectionDecision((String) respLine.get("correctionDecision"));
+                                anyCorrected = true;
+                            }
+                            lineRepository.save(line);
                         }
-                        line.setCorrectionConfidence(null);
-                        
-                        if (Boolean.TRUE.equals(respLine.get("correctionApplied"))) {
-                            line.setPredictedText((String) respLine.get("finalText"));
-                            line.setCorrectedText((String) respLine.get("correctedText"));
-                            line.setCorrectionApplied(true);
-                            line.setCorrectionDecision((String) respLine.get("correctionDecision"));
-                            anyCorrected = true;
+                        if (anyCorrected) {
+                            OcrMultilineTrial currentTrial = trialRepository.findById(trialId).orElseThrow();
+                            currentTrial.setCorrectionSource("GROQ_POST_CORRECTION");
+                            currentTrial.setFinalTextSource("CRNN_PLUS_GROQ_CORRECTION");
+                            trialRepository.save(currentTrial);
                         }
-                        lineRepository.save(line);
-                    }
-                    if (anyCorrected) {
-                        trial.setCorrectionSource("GROQ_POST_CORRECTION");
-                        trial.setFinalTextSource("CRNN_PLUS_GROQ_CORRECTION");
-                        trialRepository.save(trial);
-                    }
+                    });
                 }
             }
         } catch (Exception e) {
             log.error("[OCR_MULTILINE_ADVISOR] Background advisor failed for trial {}: {}", trialId, e.getMessage(), e);
+            try {
+                OcrMultilineTrial trial = trialRepository.findById(trialId).orElse(null);
+                if (trial == null) return;
+                List<UUID> lineIds = lineRepository.findByTrialOrderByLineOrderAsc(trial).stream()
+                        .map(OcrMultilineLine::getLineId).toList();
+                advisorTransaction.executeWithoutResult(status -> {
+                    for (UUID lineId : lineIds) {
+                        OcrMultilineLine current = lineRepository.findByLineIdAndTrial(lineId, trial).orElse(null);
+                        if (current == null) continue;
+                        boolean changed = false;
+                        if (current.getGroqStatus() == null || current.getGroqStatus().isBlank()) {
+                            current.setGroqStatus("UNAVAILABLE");
+                            current.setGroqSuggestion(null);
+                            current.setGroqConfidence(null);
+                            current.setGroqConfidenceSource(null);
+                            current.setGroqDecision("KEEP_RAW");
+                            changed = true;
+                        }
+                        if (current.getGeminiStatus() == null || current.getGeminiStatus().isBlank()) {
+                            current.setGeminiStatus("UNAVAILABLE");
+                            current.setGeminiSuggestion(null);
+                            current.setGeminiConfidence(null);
+                            current.setGeminiConfidenceSource(null);
+                            current.setGeminiDecision("KEEP_RAW");
+                            changed = true;
+                        }
+                        if (changed) lineRepository.save(current);
+                    }
+                });
+            } catch (Exception stateError) {
+                log.error("[OCR_MULTILINE_ADVISOR] Failed to persist unavailable status for trial {}: {}",
+                        trialId, stateError.getMessage(), stateError);
+            }
         }
     }
 

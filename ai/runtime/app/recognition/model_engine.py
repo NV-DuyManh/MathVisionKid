@@ -8,7 +8,7 @@ from typing import Optional, Dict, Any, Union
 import os
 import io
 import logging
-from PIL import Image
+from PIL import Image, ImageOps
 
 from app.recognition.engine import RecognitionEngine
 from app.recognition.manifest import ModelManifestLoader
@@ -108,9 +108,9 @@ class ModelRecognitionEngine(RecognitionEngine):
         
         if os.path.exists(manifest_path):
             try:
-                loader = ModelManifestLoader(manifest_path, artifact_base_dir=default_dir)
-                manifest = loader.load()
-                art_path = settings.model_artifact_path or os.path.join(default_dir, manifest.artifactFilename)
+                loader = ModelManifestLoader(manifest_path, artifact_base_dir=os.path.dirname(manifest_path))
+                manifest = loader.load_and_verify_artifact(settings.model_artifact_path or "")
+                art_path = settings.model_artifact_path or os.path.join(os.path.dirname(manifest_path), manifest.artifactFilename)
                 if os.path.exists(art_path):
                     self.manifest = manifest
                     self.artifact_path = art_path
@@ -146,7 +146,6 @@ class ModelRecognitionEngine(RecognitionEngine):
             )
 
         if self.artifact_path:
-            self._is_ready = True
             if os.path.exists(self.artifact_path):
                 self._load_yolo()
         else:
@@ -158,10 +157,12 @@ class ModelRecognitionEngine(RecognitionEngine):
             from ultralytics import YOLO
             logger.info(f"Loading YOLO model from {self.artifact_path}...")
             self._yolo_model = YOLO(self.artifact_path)
+            self._is_ready = True
             logger.info("YOLO model loaded successfully.")
         except Exception as e:
             logger.error(f"Failed to load YOLO model: {e}")
             self._yolo_model = None
+            self._is_ready = False
 
     @property
     def is_ready(self) -> bool:
@@ -202,11 +203,11 @@ class ModelRecognitionEngine(RecognitionEngine):
 
         # 2. Decode image with PIL
         try:
-            pil_image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+            pil_image = ImageOps.exif_transpose(Image.open(io.BytesIO(image_bytes))).convert("RGB")
             img_w, img_h = pil_image.size
         except Exception as e:
             logger.error(f"Failed to decode image bytes: {e}")
-            return ImageRecognitionResult(tokens=[], status="OUT_OF_SCOPE")
+            raise ValueError("IMAGE_DECODE_FAILED") from e
 
         # 3. Run YOLO inference
         imgsz = self.manifest.inputWidth if (self.manifest and self.manifest.inputWidth) else 640
@@ -215,7 +216,7 @@ class ModelRecognitionEngine(RecognitionEngine):
             raw_boxes = results[0].boxes
         except Exception as e:
             logger.error(f"YOLO inference error: {e}")
-            return ImageRecognitionResult(tokens=[], status="OUT_OF_SCOPE")
+            raise ModelNotAvailableError("AI_INFERENCE_FAILED") from e
 
         # 4. Convert YOLO detections to canonical tokens
         recognition_result = self.adapter.process_detections(raw_boxes, img_w, img_h)

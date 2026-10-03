@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppCard } from '../../components/ui/AppCard';
 import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { RecognitionService } from '../../features/recognition/api/RecognitionService';
 import { evaluateMathSolution } from '../../utils/mathSolutionEvaluator';
+import { resolveLineDisplayState } from '../../features/recognition/utils/lineReview';
 export default function ProfileScreen() {
     const router = useRouter();
     const auth = useContext(AuthContext);
@@ -51,9 +52,9 @@ export default function ProfileScreen() {
         {/* Student identity card */}
         <AppCard style={styles.card} variant="elevated">
           <View style={[styles.avatarBadge, SHADOWS.small]}>
-            <Ionicons name="school" size={36} color={COLORS.primary}/>
+            <Image source={require('../../../assets/illustrations/student-avatar.png')} style={styles.avatarImage} resizeMode="contain" accessible={false}/>
           </View>
-          <Text style={styles.name}>{user?.name || user?.email || 'Học sinh'}</Text>
+          <Text style={styles.name}>{user?.name || 'Học sinh'}</Text>
           <View style={styles.gradePill}>
             <Text style={styles.gradeText}>
               {user?.grade ? `Học sinh Lớp ${user.grade}` : 'Học sinh Tiểu học'}
@@ -63,7 +64,7 @@ export default function ProfileScreen() {
 
         {/* Section: Recent Graded Math Worksheets */}
         <View style={styles.sectionHeaderRow}>
-          <Text style={styles.sectionHeadingTitle}>Bài giải toán đã chấm</Text>
+          <Text style={styles.sectionHeadingTitle}>Bài giải toán đã kiểm tra</Text>
           <Text style={styles.sessionCountTag}>{trials.length} bài làm</Text>
         </View>
 
@@ -73,7 +74,7 @@ export default function ProfileScreen() {
             </View>
             <Text style={styles.emptyResearchTitle}>Chưa có bài giải nào</Text>
             <Text style={styles.emptyResearchSubtitle}>
-              Hãy chụp bài giải toán viết tay để MathVision chấm điểm, kiểm tra phép tính và gợi ý cách giải nhé!
+              Chụp bài giải toán viết tay để đọc lời giải, kiểm tra phép tính và đáp số nhé!
             </Text>
             <TouchableOpacity style={[styles.emptyStartBtn, SHADOWS.small]} onPress={() => router.push('/camera' as any)} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Chụp bài giải ngay">
               <Ionicons name="camera-outline" size={18} color="#FFFFFF"/>
@@ -81,17 +82,17 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>) : (<View style={[styles.trialsList, { marginBottom: SIZES.large }]}>
             {trials.map((trial, index) => {
-                const evalRes = trial.lines ? evaluateMathSolution(trial.lines) : null;
+                const evalRes = trial.lines ? evaluateMathSolution(trial.lines.map(line => ({ ...line, currentText: resolveLineDisplayState(line).currentText })), { requireConfirmation: true }) : null;
                 const summary = evalRes?.summary;
                 const isAllCorrect = summary?.verdict === 'ALL_CORRECT';
-                const hasCalcError = summary?.verdict === 'HAS_CALCULATION_ERROR';
+                const hasCalcError = summary && ['HAS_CALCULATION_ERROR', 'HAS_ANSWER_ERROR', 'NEEDS_REVIEW'].includes(summary.verdict);
                 const badgeBg = isAllCorrect ? '#DCFCE7' : hasCalcError ? '#FEF3C7' : '#EFF6FF';
                 const badgeColor = isAllCorrect ? '#15803D' : hasCalcError ? '#B45309' : '#1E40AF';
                 const badgeText = isAllCorrect
-                    ? 'Đúng toàn bộ 🎉'
+                    ? 'Phép tính đúng'
                     : hasCalcError
                         ? 'Cần sửa lại 💡'
-                        : 'Chữ viết tay 📝';
+                        : summary?.verdict === 'NEEDS_CONFIRMATION' ? 'Chờ xác nhận' : 'Đã đọc lời giải';
                 return (<TouchableOpacity key={trial.trialId || index} style={[styles.sessionCard, SHADOWS.small]} onPress={() => router.push({
                         pathname: '/recognition/multiline-result' as any,
                         params: { trialId: trial.trialId },
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     },
     content: {
         padding: SIZES.medium,
-        paddingBottom: SIZES.xxlarge,
+        paddingBottom: 116,
         maxWidth: 600,
         width: '100%',
         alignSelf: 'center',
@@ -195,14 +196,18 @@ const styles = StyleSheet.create({
         borderRadius: 36,
         backgroundColor: COLORS.surfaceSubdued,
         borderWidth: 2,
-        borderColor: '#BFDBFE',
+        borderColor: '#E8E1FC',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: SIZES.medium,
     },
+    avatarImage: {
+        width: 70,
+        height: 70,
+    },
     name: {
         fontSize: 22,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.primaryDark,
         marginBottom: 6,
     },
@@ -214,7 +219,7 @@ const styles = StyleSheet.create({
     },
     gradeText: {
         fontSize: 13,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.primary,
     },
     menuCard: {
@@ -242,11 +247,12 @@ const styles = StyleSheet.create({
     },
     menuLabel: {
         fontSize: 15,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
         marginBottom: 2,
     },
     menuSublabel: {
+        fontFamily: FONTS.regular,
         fontSize: 12,
         color: COLORS.textSecondary,
     },
@@ -269,7 +275,7 @@ const styles = StyleSheet.create({
     logoutText: {
         marginLeft: SIZES.small,
         fontSize: 15,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.error,
     },
     sectionHeaderRow: {
@@ -280,12 +286,12 @@ const styles = StyleSheet.create({
     },
     sectionHeadingTitle: {
         fontSize: 15,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: '#0F172A',
     },
     sessionCountTag: {
         fontSize: 12,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#64748B',
     },
     emptyResearchCard: {
@@ -309,12 +315,13 @@ const styles = StyleSheet.create({
     },
     emptyResearchTitle: {
         fontSize: 16,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: '#0F172A',
         marginBottom: 6,
         textAlign: 'center',
     },
     emptyResearchSubtitle: {
+        fontFamily: FONTS.regular,
         fontSize: 13,
         color: '#64748B',
         textAlign: 'center',
@@ -326,7 +333,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
-        backgroundColor: '#1E40AF',
+        backgroundColor: COLORS.primary,
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 12,
@@ -334,7 +341,7 @@ const styles = StyleSheet.create({
     emptyStartBtnText: {
         color: '#FFFFFF',
         fontSize: 14,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
     trialsList: {
         gap: 12,
@@ -359,7 +366,7 @@ const styles = StyleSheet.create({
     },
     sessionBadgeText: {
         fontSize: 13,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#1E40AF',
     },
     confidenceChip: {
@@ -372,7 +379,7 @@ const styles = StyleSheet.create({
     },
     confidenceChipText: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#1E40AF',
     },
     sessionMetricsRow: {
@@ -390,13 +397,13 @@ const styles = StyleSheet.create({
     },
     sessionMetricLabel: {
         fontSize: 10,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#64748B',
         textTransform: 'uppercase',
     },
     sessionMetricValue: {
         fontSize: 13,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#0F172A',
         marginTop: 2,
     },
@@ -410,7 +417,7 @@ const styles = StyleSheet.create({
     },
     viewResultText: {
         fontSize: 12,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#1E40AF',
     },
 });

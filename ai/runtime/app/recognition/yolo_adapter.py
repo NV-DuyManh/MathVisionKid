@@ -234,7 +234,7 @@ class YoloDetectionAdapter:
         # Vertical math worksheet standard:
         # If 3 rows: row 0 = top, row 1 = bottom, row 2 = result
         # If 2 rows: row 0 = top, row 1 = bottom
-        for row_idx, row_dets in enumerate(rows[:3]):
+        for row_idx, row_dets in enumerate(rows):
             # Sort digits in row descending by x_center (right-to-left)
             # Rightmost = column 0 (units), next = column 1 (tens), etc.
             row_dets_sorted = sorted(row_dets, key=lambda d: d.x_center, reverse=True)
@@ -258,7 +258,7 @@ class YoloDetectionAdapter:
             op_row = 1
             if rows:
                 # Find closest row by y_center
-                row_dists = [abs(op.y_center - (sum(d.y_center for d in r) / len(r))) for r in rows[:3]]
+                row_dists = [abs(op.y_center - (sum(d.y_center for d in r) / len(r))) for r in rows]
                 op_row = int(row_dists.index(min(row_dists)))
 
             ambig = op.confidence < self.ambiguity_threshold

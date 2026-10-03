@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppCard } from '../ui/AppCard';
-import { COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS, SIZES } from '../../constants/theme';
 
 interface HintCardProps {
   hint: string;
@@ -52,13 +52,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: '#92400E',
   },
   hintText: {
     fontSize: 15,
     color: COLORS.textPrimary,
     lineHeight: 24,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
   },
 });

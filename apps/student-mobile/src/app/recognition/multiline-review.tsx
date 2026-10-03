@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, Image, use
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { RecognitionService, LineBox, normalizeOcrError } from '../../features/recognition/api/RecognitionService';
 import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 import { normalizeLocalFileUri } from '../../features/recognition/image/imagePipeline';
@@ -308,12 +308,12 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
     };
     if (loading) {
         return <SafeAreaView style={styles.centerContainer}>
-          <RecognitionProgress title="Đang tìm các dòng chữ" description="MathVision đang đọc ảnh và xác định từng dòng để em kiểm tra." imageUri={imageUri} onCancel={handleBack} />
+          <RecognitionProgress title="Đang tìm các dòng chữ" description="Tìm các dòng trong ảnh để em kiểm tra." imageUri={imageUri} onCancel={handleBack} />
         </SafeAreaView>;
     }
     if (requestStatus === 'SUBMITTING') {
         return <SafeAreaView style={styles.centerContainer}>
-          <RecognitionProgress title="Đang đọc bài của em" description={`Đang nhận dạng ${boxes.length} dòng em đã chọn. Kết quả sẽ hiện khi đọc xong.`} imageUri={imageUri}
+          <RecognitionProgress title="Đang đọc bài của em" description={`Đọc ${boxes.length} dòng em đã chọn.`} imageUri={imageUri}
             cancelLabel="Quay lại kiểm tra" onCancel={() => {
                 operationGenerationRef.current += 1;
                 activeAbortControllerRef.current?.abort();
@@ -440,7 +440,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
             <View style={styles.selectedLinePill}>
               <Text style={styles.controlTitle}>
                 {'Dòng đang chọn: '}
-                <Text style={{ color: COLORS.primary, fontWeight: '800' }}>
+                <Text style={{ color: COLORS.primary, fontFamily: FONTS.extraBold }}>
                   {selectedBox.order}
                 </Text>
               </Text>
@@ -454,14 +454,14 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
           {/* Gauth-Inspired Segmented Tool Switcher */}
           <View style={styles.segmentContainer}>
             <TouchableOpacity style={[styles.segmentBtn, editMode === 'MOVE' && styles.segmentBtnActive]} onPress={() => setEditMode('MOVE')} activeOpacity={0.8} accessibilityRole="button" accessibilityLabel={'Chế độ di chuyển'}>
-              <Ionicons name="move-outline" size={15} color={editMode === 'MOVE' ? '#1D4ED8' : '#64748B'}/>
+              <Ionicons name="move-outline" size={15} color={editMode === 'MOVE' ? COLORS.primaryDark : COLORS.textSecondary}/>
               <Text style={[styles.segmentBtnText, editMode === 'MOVE' && styles.segmentBtnTextActive]}>
                 {'Di chuyển'}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={[styles.segmentBtn, editMode === 'RESIZE' && styles.segmentBtnActive]} onPress={() => setEditMode('RESIZE')} activeOpacity={0.8} accessibilityRole="button" accessibilityLabel={'Chế độ kích thước'}>
-              <Ionicons name="expand-outline" size={15} color={editMode === 'RESIZE' ? '#1D4ED8' : '#64748B'}/>
+              <Ionicons name="expand-outline" size={15} color={editMode === 'RESIZE' ? COLORS.primaryDark : COLORS.textSecondary}/>
               <Text style={[styles.segmentBtnText, editMode === 'RESIZE' && styles.segmentBtnTextActive]}>
                 {'Kích thước'}
               </Text>
@@ -561,6 +561,7 @@ const styles = StyleSheet.create({
     loadingText: {
         marginTop: 16,
         fontSize: 15,
+        fontFamily: FONTS.regular,
         color: COLORS.textSecondary,
         textAlign: 'center',
     },
@@ -574,7 +575,7 @@ const styles = StyleSheet.create({
         width: 48,
         height: 48,
         borderRadius: 12,
-        backgroundColor: '#F1F5F9',
+        backgroundColor: COLORS.surfaceSubdued,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -582,18 +583,22 @@ const styles = StyleSheet.create({
         width: 48,
         height: 48,
         borderRadius: 12,
-        backgroundColor: '#F1F5F9',
+        backgroundColor: COLORS.surfaceSubdued,
         justifyContent: 'center',
         alignItems: 'center',
     },
     title: {
-        fontSize: 18,
-        fontWeight: '800',
-        color: '#0F172A',
+        fontSize: 20,
+        flex: 1,
+        textAlign: 'center',
+        marginHorizontal: 8,
+        fontFamily: FONTS.extraBold,
+        color: COLORS.textPrimary,
         letterSpacing: -0.3,
     },
     instruction: {
         fontSize: 13,
+        fontFamily: FONTS.regular,
         color: '#64748B',
         marginBottom: 14,
         lineHeight: 18,
@@ -625,7 +630,7 @@ const styles = StyleSheet.create({
     orderTagText: {
         color: '#FFFFFF',
         fontSize: 11,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
     },
     /* Control Card */
     controlCard: {
@@ -643,17 +648,18 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     selectedLinePill: {
-        backgroundColor: '#EFF6FF',
+        backgroundColor: COLORS.primaryLight,
         paddingHorizontal: 12,
         paddingVertical: 5,
         borderRadius: 999,
     },
     controlTitle: {
         fontSize: 13,
-        fontWeight: '600',
-        color: '#1E40AF',
+        fontFamily: FONTS.semiBold,
+        color: COLORS.primaryDark,
     },
     deleteButton: {
+        minHeight: 48,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
@@ -665,12 +671,12 @@ const styles = StyleSheet.create({
     deleteButtonText: {
         fontSize: 12,
         color: '#DC2626',
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     /* Segmented Tool Switcher */
     segmentContainer: {
         flexDirection: 'row',
-        backgroundColor: '#F1F5F9',
+        backgroundColor: COLORS.surfaceSubdued,
         borderRadius: 12,
         padding: 3,
         marginBottom: 14,
@@ -681,7 +687,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 6,
-        height: 36,
+        minHeight: 48,
         borderRadius: 10,
     },
     segmentBtnActive: {
@@ -690,12 +696,12 @@ const styles = StyleSheet.create({
     },
     segmentBtnText: {
         fontSize: 13,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#64748B',
     },
     segmentBtnTextActive: {
-        color: '#1D4ED8',
-        fontWeight: '700',
+        color: COLORS.primaryDark,
+        fontFamily: FONTS.bold,
     },
     controlsRow: {
         flexDirection: 'row',
@@ -707,7 +713,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#64748B',
         marginBottom: 8,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     btnRow: {
         flexDirection: 'row',
@@ -715,7 +721,7 @@ const styles = StyleSheet.create({
     },
     ctrlBtn: {
         flex: 1,
-        height: 44,
+        minHeight: 48,
         borderRadius: 12,
         backgroundColor: '#F8FAFC',
         borderWidth: 1,
@@ -725,7 +731,7 @@ const styles = StyleSheet.create({
     },
     resizeBtn: {
         flex: 1,
-        height: 44,
+        minHeight: 48,
         borderRadius: 12,
         backgroundColor: '#F8FAFC',
         borderWidth: 1,
@@ -735,8 +741,8 @@ const styles = StyleSheet.create({
     },
     resizeBtnText: {
         fontSize: 13,
-        fontWeight: '700',
-        color: '#1E293B',
+        fontFamily: FONTS.bold,
+        color: COLORS.textPrimary,
     },
     noSelectCard: {
         padding: 18,
@@ -750,7 +756,7 @@ const styles = StyleSheet.create({
     noSelectText: {
         fontSize: 13,
         color: '#64748B',
-        fontWeight: '500',
+        fontFamily: FONTS.medium,
     },
     /* Action Row */
     actionRow: {
@@ -766,27 +772,28 @@ const styles = StyleSheet.create({
         gap: 6,
         height: 50,
         borderRadius: 16,
-        backgroundColor: '#F1F5F9',
+        backgroundColor: COLORS.surfaceSubdued,
     },
     secondaryBtnText: {
         fontSize: 14,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.primary,
     },
     primaryBtn: {
+        minHeight: 58,
         flex: 2,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
-        height: 50,
-        borderRadius: 16,
-        backgroundColor: '#2563EB',
+        paddingVertical: 8,
+        borderRadius: 22,
+        backgroundColor: COLORS.primary,
         ...SHADOWS.small,
     },
     primaryBtnText: {
         fontSize: 15,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#FFFFFF',
     },
     emptyCard: {
@@ -801,13 +808,14 @@ const styles = StyleSheet.create({
     },
     emptyTitle: {
         fontSize: 16,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
         marginBottom: 6,
         textAlign: 'center',
     },
     emptySubtitle: {
         fontSize: 13,
+        fontFamily: FONTS.regular,
         color: COLORS.textSecondary,
         textAlign: 'center',
         lineHeight: 18,
@@ -828,13 +836,13 @@ const styles = StyleSheet.create({
         borderRadius: 12,
     },
     emptyBtnOutline: {
-        backgroundColor: '#F1F5F9',
+        backgroundColor: COLORS.surfaceSubdued,
         borderWidth: 1,
         borderColor: '#CBD5E1',
     },
     emptyBtnText: {
         fontSize: 14,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#FFFFFF',
     },
     ctaLoadingRow: {
@@ -854,8 +862,8 @@ const styles = StyleSheet.create({
     },
     ctaSupportText: {
         fontSize: 11,
-        color: '#BFDBFE',
-        fontWeight: '500',
+        color: '#ECE5FF',
+        fontFamily: FONTS.medium,
         marginTop: 1,
     },
 });

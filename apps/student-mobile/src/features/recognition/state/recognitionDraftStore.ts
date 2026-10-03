@@ -49,6 +49,7 @@ export interface ImageDraft {
     }[];
     isMasked?: boolean;
     retrySubmissionId?: string;
+    arithmeticSubmissionId?: string;
     createdAt?: number;
 }
 export function logImageFlow(context: {

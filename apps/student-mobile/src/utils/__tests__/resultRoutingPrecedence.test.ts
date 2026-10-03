@@ -54,12 +54,13 @@ describe('CORE-MVP Result Routing Precedence Regression Tests', () => {
     const payload = {
       id: 'sub-ambig-1',
       status: SubmissionStatus.NEEDS_CONFIRMATION,
-      ambiguousToken: { value: '3' },
+      jobId: 'job-1',
+      recognizedExercise: { tokens: [{ tokenId: 'token-3', value: '3', ambiguity: true }] },
     };
 
     const target = resolveResultRoute(payload);
     expect(target.pathname).toBe('/results/token-confirmation');
-    expect(target.params?.token).toBe('3');
+    expect(target.params?.submissionId).toBe('sub-ambig-1');
   });
 
   test('FEEDBACK_READY with VALID decision routes to /results/correct', () => {
@@ -83,4 +84,37 @@ describe('CORE-MVP Result Routing Precedence Regression Tests', () => {
     const target = resolveResultRoute(payload);
     expect(target.pathname).toBe('/results/error-hint');
   });
+});
+
+test.each([
+  { isValid: true, diagnosisState: 'VALID' },
+])('canonical valid response routes to correct', validation => {
+  expect(resolveResultRoute({ status: SubmissionStatus.FEEDBACK_READY, validation }).pathname).toBe('/results/correct');
+});
+
+test('canonical invalid response routes to error, including immediately returned feedback', () => {
+  expect(resolveResultRoute({ status: SubmissionStatus.FEEDBACK_READY, validation: { isValid: false, diagnosisState: 'INVALID' } }).pathname).toBe('/results/error-hint');
+});
+
+test.each([
+  undefined, { decision: Decision.UNCERTAIN }, { isValid: false, diagnosisState: 'UNCERTAIN' },
+  { isValid: true, diagnosisState: 'INVALID' }, { isValid: false, diagnosisState: 'VALID' },
+])('missing or conflicting evidence never claims correct or incorrect', validation => {
+  expect(resolveResultRoute({ status: SubmissionStatus.FEEDBACK_READY, validation }).pathname).toBe('/results/review-required');
+});
+
+test('confirmation requires actual token identity and the current job', () => {
+  expect(resolveResultRoute({ status: SubmissionStatus.NEEDS_CONFIRMATION, ambiguousToken: { value: '7' } }).pathname).toBe('/results/review-required');
+});
+
+test('unfinished or unknown status cannot produce a grading result', () => {
+  expect(resolveResultRoute({ id: 'real', status: SubmissionStatus.PROCESSING, validation: { decision: Decision.VALID } }).pathname).toBe('/processing');
+  expect(resolveResultRoute({}).pathname).toBe('/results/review-required');
+});
+
+test('result links contain identity rather than copied result or diagnostics', () => {
+  const target = resolveResultRoute({ id: 'real', status: SubmissionStatus.FEEDBACK_READY,
+    diagnostics: { modelProvenance: { modelName: 'internal' } },
+    validation: { isValid: true, diagnosisState: 'VALID' } });
+  expect(target.params).toEqual({ id: 'real', submissionId: 'real' });
 });

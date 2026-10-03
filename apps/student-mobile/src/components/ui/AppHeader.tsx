@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS, SIZES } from '../../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     flex: 1,
     textAlign: 'center',

@@ -1,0 +1,277 @@
+{
+  "submissionId": "27c8a0cf-1ce7-4445-8c31-c17f6ce0284d",
+  "jobId": "27ac4aca-834d-46bd-a708-a9367375e5a9",
+  "status": "FEEDBACK_READY",
+  "reasonCode": null,
+  "diagnostics": {
+    "ocrInvoked": false,
+    "reasonCode": null,
+    "parserStatus": "VALID_STRUCTURE",
+    "qualityFlags": [],
+    "ocrTextLength": 0,
+    "parserInvoked": true,
+    "detectorInvoked": true,
+    "modelProvenance": {
+      "modelName": "MathVision-Kids-Detection",
+      "modelSha256": "e78f8fa5a2fc8be581b8624fa510cd2c429c40cdbd0930dbb2f1c2d870338985",
+      "modelVersion": "1.0.0",
+      "recognitionMode": "MODEL"
+    },
+    "validatorStatus": "VALID",
+    "confidenceMethod": "YOLO_TOKEN_MEAN_AND_POLICY_HEURISTICS",
+    "validatorInvoked": true,
+    "detectorTokenCount": 7
+  },
+  "flowDomain": "ARITHMETIC",
+  "createdAt": "2026-10-03T06:54:53.350850Z",
+  "recognizedExercise": {
+    "tokens": [
+      {
+        "row": 0,
+        "value": "5",
+        "column": 0,
+        "tokenId": "tok_0_0_5_53de",
+        "ambiguity": false,
+        "confidence": 0.5044,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.51,
+          0.2254,
+          0.105,
+          0.1203
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 0,
+        "value": "4",
+        "column": 1,
+        "tokenId": "tok_0_1_4_dd0b",
+        "ambiguity": false,
+        "confidence": 0.9824,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3891,
+          0.2251,
+          0.0991,
+          0.1193
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "7",
+        "column": 0,
+        "tokenId": "tok_1_0_7_cd3c",
+        "ambiguity": false,
+        "confidence": 0.9666,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5111,
+          0.3787,
+          0.0997,
+          0.1202
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "2",
+        "column": 1,
+        "tokenId": "tok_1_1_2_6f00",
+        "ambiguity": false,
+        "confidence": 0.665,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3866,
+          0.3784,
+          0.1041,
+          0.1225
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "2",
+        "column": 0,
+        "tokenId": "tok_2_0_2_edc3",
+        "ambiguity": false,
+        "confidence": 0.655,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5116,
+          0.5834,
+          0.1016,
+          0.1222
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "7",
+        "column": 1,
+        "tokenId": "tok_2_1_7_a490",
+        "ambiguity": false,
+        "confidence": 0.9045,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3858,
+          0.582,
+          0.0999,
+          0.124
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "+",
+        "column": 99,
+        "tokenId": "tok_op_0_cdb3",
+        "ambiguity": false,
+        "confidence": 0.7685,
+        "tokenClass": "operator",
+        "boundingBox": [
+          0.2594,
+          0.3681,
+          0.1115,
+          0.1286
+        ],
+        "alternatives": []
+      }
+    ],
+    "rawTokens": [
+      {
+        "row": 0,
+        "value": "5",
+        "column": 0,
+        "tokenId": "tok_0_0_5_53de",
+        "ambiguity": false,
+        "confidence": 0.5044,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.51,
+          0.2254,
+          0.105,
+          0.1203
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 0,
+        "value": "4",
+        "column": 1,
+        "tokenId": "tok_0_1_4_dd0b",
+        "ambiguity": false,
+        "confidence": 0.9824,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3891,
+          0.2251,
+          0.0991,
+          0.1193
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "7",
+        "column": 0,
+        "tokenId": "tok_1_0_7_cd3c",
+        "ambiguity": false,
+        "confidence": 0.9666,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5111,
+          0.3787,
+          0.0997,
+          0.1202
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "2",
+        "column": 1,
+        "tokenId": "tok_1_1_2_6f00",
+        "ambiguity": false,
+        "confidence": 0.665,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3866,
+          0.3784,
+          0.1041,
+          0.1225
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "2",
+        "column": 0,
+        "tokenId": "tok_2_0_2_edc3",
+        "ambiguity": false,
+        "confidence": 0.655,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5116,
+          0.5834,
+          0.1016,
+          0.1222
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "7",
+        "column": 1,
+        "tokenId": "tok_2_1_7_a490",
+        "ambiguity": false,
+        "confidence": 0.9045,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3858,
+          0.582,
+          0.0999,
+          0.124
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "+",
+        "column": 99,
+        "tokenId": "tok_op_0_cdb3",
+        "ambiguity": false,
+        "confidence": 0.7685,
+        "tokenClass": "operator",
+        "boundingBox": [
+          0.2594,
+          0.3681,
+          0.1115,
+          0.1286
+        ],
+        "alternatives": []
+      }
+    ],
+    "expression": "45 + 27 = 72",
+    "rawExpression": "45 + 27 = 72"
+  },
+  "validation": {
+    "isValid": true,
+    "evidence": [],
+    "diagnosisState": "VALID"
+  },
+  "evidence": null,
+  "studentFeedback": {
+    "hint": "Bài làm hoàn toàn chính xác! Làm tốt lắm!",
+    "title": "Bài làm chính xác!",
+    "revealAnswer": false
+  },
+  "confidenceBundle": {
+    "recognition": 0.78,
+    "diagnosis": 0.97,
+    "structure": 0.97
+  },
+  "modelVersion": "MODEL:MathVision-Kids-Detection:1.0.0:e78f8fa5",
+  "uncertainTokenIds": []
+}

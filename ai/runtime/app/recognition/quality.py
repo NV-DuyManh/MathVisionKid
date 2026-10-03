@@ -19,22 +19,23 @@ class QualityGate:
             quality_flags (List[str]): Advisory heuristics (e.g. ['BLUR'], ['DARK'], ['INCOMPLETE_CROP']).
         """
         flags: List[str] = []
+        fixture_reference = image_reference if image_reference.startswith("fixture://") else ""
 
         # 1. Controlled fixture tags for test predictability
-        if "corrupt" in image_reference:
+        if "corrupt" in fixture_reference:
             return False, "IMAGE_DECODE_FAILED", ["CORRUPT_PAYLOAD"]
 
-        if "empty-image" in image_reference or "blank" in image_reference:
+        if "empty-image" in fixture_reference or "blank" in fixture_reference:
             return False, "IMAGE_EFFECTIVELY_EMPTY", ["EMPTY_IMAGE"]
 
         # Advisory tags — recognition STILL continues!
-        if "quality-dark" in image_reference or "dark" in image_reference:
+        if "quality-dark" in fixture_reference or "dark" in fixture_reference:
             flags.append("DARK")
-        if "quality-blur" in image_reference or "blur" in image_reference:
+        if "quality-blur" in fixture_reference or "blur" in fixture_reference:
             flags.append("BLUR")
-        if "quality-incomplete-crop" in image_reference or "incomplete-crop" in image_reference:
+        if "quality-incomplete-crop" in fixture_reference or "incomplete-crop" in fixture_reference:
             flags.append("INCOMPLETE_CROP")
-        if "uneven-lighting" in image_reference:
+        if "uneven-lighting" in fixture_reference:
             flags.append("UNEVEN_LIGHTING")
 
         # 2. Real image checks if image_reference is a local file path

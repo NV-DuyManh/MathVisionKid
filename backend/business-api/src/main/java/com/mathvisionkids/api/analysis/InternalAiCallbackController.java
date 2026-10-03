@@ -44,14 +44,27 @@ public class InternalAiCallbackController {
         }
 
         // ── Job lookup ─────────────────────────────────────────────────────
-        AiJob job = aiJobRepository.findById(jobId)
+        UUID submissionId = aiJobRepository.findSubmissionIdByJobId(jobId)
                 .orElseThrow(() -> new com.mathvisionkids.api.common.ApiException(
                         "NOT_FOUND", "Job not found", HttpStatus.NOT_FOUND));
+        // Retry, correction and callbacks serialize on the submission before loading a job/result.
+        Submission submission = submissionRepository.findForUpdate(submissionId).orElseThrow();
+        AiJob job = aiJobRepository.findById(jobId).orElseThrow();
 
         try {
             // ── Idempotency: ignore repeat callbacks for completed jobs ─────────
-            if ("COMPLETED".equals(job.getStatus())) {
+            if ("COMPLETED".equals(job.getStatus()) || "SUPERSEDED".equals(job.getStatus())) {
                 return ResponseEntity.ok().build();
+            }
+            AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submissionId)
+                    .orElseThrow();
+            if (!latest.getJobId().equals(jobId)) {
+                job.setStatus("SUPERSEDED");
+                aiJobRepository.save(job);
+                return ResponseEntity.ok().build();
+            }
+            if (!"PROCESSING".equals(submission.getStatus())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
 
             // ── Mark job complete ──────────────────────────────────────────────
@@ -59,27 +72,18 @@ public class InternalAiCallbackController {
             job.setCompletedAt(Instant.now());
             aiJobRepository.save(job);
 
-            Submission submission = job.getSubmission();
-
-            if (!"PROCESSING".equals(submission.getStatus())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-
             // ── Persist AnalysisResult ─────────────────────────────────────────
-            if (!analysisResultRepository.existsBySubmission_SubmissionId(submission.getSubmissionId())) {
-                AnalysisResult result = new AnalysisResult();
+            {
+                AnalysisResult result = analysisResultRepository.findBySubmission_SubmissionId(submissionId)
+                        .orElseGet(AnalysisResult::new);
                 result.setSubmission(submission);
                 result.setStatus(request.getStatus());
-
-                if (request.getGradeProposal() != null) {
-                    result.setGradeProposal(request.getGradeProposal());
-                }
-                if (request.getEvidence() != null && !request.getEvidence().isEmpty()) {
-                    result.setEvidence(java.util.Collections.singletonMap("items", request.getEvidence()));
-                }
-                if (request.getStudentFeedback() != null) {
-                    result.setStudentFeedback(request.getStudentFeedback());
-                }
+                result.setGradeProposal(request.getGradeProposal());
+                result.setEvidence(request.getEvidence() == null ? null
+                        : java.util.Collections.singletonMap("items", request.getEvidence()));
+                result.setStudentFeedback(request.getStudentFeedback());
+                result.setValidation(request.getValidation());
+                result.setConfidence(null);
                 Map<String, Object> reviewReasons = request.getConfidenceBundle() != null
                         ? new java.util.HashMap<>(request.getConfidenceBundle())
                         : new java.util.HashMap<>();
@@ -89,17 +93,22 @@ public class InternalAiCallbackController {
                 if (request.getDiagnostics() != null) {
                     reviewReasons.put("diagnostics", request.getDiagnostics());
                 }
-                if (!reviewReasons.isEmpty()) {
-                    result.setReviewReasons(reviewReasons);
-                }
+                reviewReasons.put("jobId", jobId.toString());
+                result.setReviewReasons(reviewReasons);
+                Map<String, Object> recognized = new java.util.HashMap<>();
                 if (request.getRecognizedExercise() != null) {
-                    result.setRecognizedExercise(
-                            java.util.Collections.singletonMap("expression", request.getRecognizedExercise()));
+                    recognized.put("expression", request.getRecognizedExercise());
+                    recognized.put("rawExpression", request.getRecognizedExercise());
                 }
+                if (request.getRecognizedTokens() != null) {
+                    recognized.put("tokens", request.getRecognizedTokens());
+                    recognized.put("rawTokens", request.getRecognizedTokens());
+                }
+                result.setRecognizedExercise(recognized.isEmpty() ? null : recognized);
                 if (request.getModelVersion() != null && !request.getModelVersion().isBlank()) {
                     result.setModelVersion(request.getModelVersion());
                 } else {
-                    result.setModelVersion("fixture-v1");
+                    result.setModelVersion(null);
                 }
 
                 analysisResultRepository.save(result);

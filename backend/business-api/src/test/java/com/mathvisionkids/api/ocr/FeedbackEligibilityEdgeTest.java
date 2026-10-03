@@ -41,7 +41,8 @@ public class FeedbackEligibilityEdgeTest {
     @BeforeEach
     void setup() {
         ocrService = new OcrService(ocrTrialRepository, null, ocrStorageVerifier, null, "http://dummy", "dummy");
-        multilineService = new OcrMultilineService(ocrMultilineTrialRepository, ocrMultilineLineRepository, null, ocrStorageVerifier, null, null, "http://dummy", "dummy", "TEST");
+        multilineService = new OcrMultilineService(ocrMultilineTrialRepository, ocrMultilineLineRepository, null, ocrStorageVerifier, null, null,
+                org.mockito.Mockito.mock(org.springframework.transaction.PlatformTransactionManager.class), "http://dummy", "dummy", "TEST");
         
         lenient().when(ocrTrialRepository.save(any(OcrTrial.class))).thenAnswer(i -> i.getArgument(0));
         lenient().when(ocrMultilineLineRepository.save(any(OcrMultilineLine.class))).thenAnswer(i -> i.getArgument(0));

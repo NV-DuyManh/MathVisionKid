@@ -1,0 +1,129 @@
+{
+  "summary": {
+    "totalLines": 6,
+    "headerCount": 1,
+    "explanationCount": 2,
+    "equationCount": 2,
+    "correctEquations": 1,
+    "incorrectEquations": 1,
+    "unresolvedEquations": 0,
+    "unconfirmedLineCount": 0,
+    "hasAnswer": true,
+    "verdict": "HAS_CALCULATION_ERROR",
+    "title": "Có 1 phép tính cần sửa",
+    "hint": "Em xem gợi ý ở từng dòng. Nếu dùng kết quả của bước trước, hãy sửa bước đó trước nhé.",
+    "badgeColor": "#B45309",
+    "multiStepChain": {
+      "isChained": true,
+      "sourceStepIndex": 1,
+      "targetStepIndex": 2,
+      "chainedValue": 10,
+      "chainDescription": "Bước 2 có dùng kết quả 10 của bước trước đang tính sai, nên có thể sai dây chuyền. Em sửa bước trước rồi tính lại nhé."
+    },
+    "answerValidation": {
+      "hasAnswer": true,
+      "answerText": "Đáp số: 180 cm2",
+      "lineId": "586067d3-9ca0-4211-a398-2c0a8f2b176c",
+      "declaredNumbers": [
+        180
+      ],
+      "matchesLastEquation": true,
+      "status": "PERFECT",
+      "message": "Đáp số khớp với phép tính cuối của bài này."
+    },
+    "answerValidations": [
+      {
+        "hasAnswer": true,
+        "answerText": "Đáp số: 180 cm2",
+        "lineId": "586067d3-9ca0-4211-a398-2c0a8f2b176c",
+        "declaredNumbers": [
+          180
+        ],
+        "matchesLastEquation": true,
+        "status": "PERFECT",
+        "message": "Đáp số khớp với phép tính cuối của bài này."
+      }
+    ]
+  },
+  "lines": [
+    {
+      "lineId": "1c0a0ccf-421b-443b-8978-9b17ca654fac",
+      "text": "Bài giải",
+      "role": "HEADER",
+      "roleBadgeText": "Tiêu đề",
+      "roleBadgeColor": "#475569",
+      "confirmed": true,
+      "section": 0
+    },
+    {
+      "lineId": "cb795f77-65df-408e-b3a0-7ee305f8e339",
+      "text": "Chiều rộng hình chữ nhật là:",
+      "role": "EXPLANATION",
+      "roleBadgeText": "Lời giải",
+      "roleBadgeColor": "#1D4ED8",
+      "confirmed": true,
+      "section": 0
+    },
+    {
+      "lineId": "b062699a-f56f-4062-b120-441e58eb525c",
+      "text": "18 - 6 = 10 (cm)",
+      "role": "EQUATION",
+      "roleBadgeText": "Phép tính cần sửa",
+      "roleBadgeColor": "#DC2626",
+      "equationValidation": {
+        "isValid": false,
+        "leftExpr": "18 - 6",
+        "expectedResult": 12,
+        "observedResult": 10,
+        "unit": "cm",
+        "operands": [
+          18,
+          6
+        ],
+        "errorDetail": "Phép tính cho kết quả 12, nhưng bài làm ghi 10.",
+        "hint": "Em hãy tính lại theo thứ tự: trong ngoặc, nhân chia, rồi cộng trừ nhé."
+      },
+      "confirmed": true,
+      "section": 0
+    },
+    {
+      "lineId": "6580a321-5d09-4ae3-8307-6e667dc0097a",
+      "text": "Diện tích hình chữ nhật là:",
+      "role": "EXPLANATION",
+      "roleBadgeText": "Lời giải",
+      "roleBadgeColor": "#1D4ED8",
+      "confirmed": true,
+      "section": 0
+    },
+    {
+      "lineId": "fa6ca38f-6595-4046-9e6f-1acb18872704",
+      "text": "18 x 10 = 180 (cm2)",
+      "role": "EQUATION",
+      "roleBadgeText": "Phép tính đúng",
+      "roleBadgeColor": "#15803D",
+      "equationValidation": {
+        "isValid": true,
+        "leftExpr": "18 x 10",
+        "expectedResult": 180,
+        "observedResult": 180,
+        "unit": "cm2",
+        "operands": [
+          18,
+          10
+        ],
+        "chainedFromStep": 1
+      },
+      "confirmed": true,
+      "section": 0
+    },
+    {
+      "lineId": "586067d3-9ca0-4211-a398-2c0a8f2b176c",
+      "text": "Đáp số: 180 cm2",
+      "role": "ANSWER",
+      "roleBadgeText": "Đáp số",
+      "roleBadgeColor": "#7C3AED",
+      "confirmed": true,
+      "section": 0
+    }
+  ]
+}

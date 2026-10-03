@@ -49,8 +49,43 @@ export function mergeTrialWithAdvisorUpdate(
       return incoming;
     }
 
+    // A delayed pre-advisor GET or feedback response must not undo a settled result.
+    if (currentTrial.trialId === incomingTrial.trialId &&
+      isAdvisorPending({ ...incomingTrial, lines: [incoming] }) &&
+      !isAdvisorPending({ ...currentTrial, lines: [existing] })) {
+      const incomingReviewed = Boolean(incoming.verdict &&
+        !['UNVERIFIED', 'UNREVIEWED'].includes(incoming.verdict));
+      incoming = {
+        ...incoming,
+        groqStatus: existing.groqStatus,
+        groqSuggestion: existing.groqSuggestion,
+        groqConfidence: existing.groqConfidence,
+        groqConfidenceSource: existing.groqConfidenceSource,
+        groqDecision: existing.groqDecision,
+        groqModel: existing.groqModel,
+        geminiStatus: existing.geminiStatus,
+        geminiSuggestion: existing.geminiSuggestion,
+        geminiConfidence: existing.geminiConfidence,
+        geminiConfidenceSource: existing.geminiConfidenceSource,
+        geminiDecision: existing.geminiDecision,
+        geminiModel: existing.geminiModel,
+        suggestions: existing.suggestions,
+        correctedText: existing.correctedText,
+        correctionConfidence: existing.correctionConfidence,
+        correctionApplied: existing.correctionApplied,
+        correctionDecision: existing.correctionDecision,
+        ...(!incomingReviewed ? {
+          predictedText: existing.predictedText,
+          finalText: existing.finalText,
+          currentText: existing.currentText,
+          selectedSource: existing.selectedSource,
+          selectionReason: existing.selectionReason,
+        } : {}),
+      };
+    }
+
     const isUserTouched = Boolean(
-      (existing.verdict && existing.verdict !== 'UNREVIEWED') ||
+      (existing.verdict && existing.verdict !== 'UNREVIEWED' && existing.verdict !== 'UNVERIFIED') ||
       existing.selectedSource === 'MANUAL_EDIT' ||
       existing.selectedSource === 'manual_edit' ||
       existing.lineId === activeEditingLineId

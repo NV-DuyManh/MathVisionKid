@@ -1,0 +1,277 @@
+{
+  "submissionId": "6f02d4fb-b956-44be-90ff-fc8ed61c495a",
+  "jobId": "e30776ab-a1ee-4602-b62c-a086537bf4fd",
+  "status": "NEEDS_CONFIRMATION",
+  "reasonCode": "OCR_LOW_CONFIDENCE",
+  "diagnostics": {
+    "ocrInvoked": false,
+    "reasonCode": "OCR_LOW_CONFIDENCE",
+    "parserStatus": "UNCERTAIN_STRUCTURE",
+    "qualityFlags": [],
+    "ocrTextLength": 0,
+    "parserInvoked": true,
+    "detectorInvoked": true,
+    "modelProvenance": {
+      "modelName": "MathVision-Kids-Detection",
+      "modelSha256": "e78f8fa5a2fc8be581b8624fa510cd2c429c40cdbd0930dbb2f1c2d870338985",
+      "modelVersion": "1.0.0",
+      "recognitionMode": "MODEL"
+    },
+    "validatorStatus": null,
+    "confidenceMethod": "YOLO_TOKEN_MEAN_AND_POLICY_HEURISTICS",
+    "validatorInvoked": false,
+    "detectorTokenCount": 7
+  },
+  "flowDomain": "ARITHMETIC",
+  "createdAt": "2026-10-03T06:54:54.412216Z",
+  "recognizedExercise": {
+    "tokens": [
+      {
+        "row": 0,
+        "value": "5",
+        "column": 0,
+        "tokenId": "tok_0_0_5_71b6",
+        "ambiguity": true,
+        "confidence": 0.4912,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.51,
+          0.2254,
+          0.1049,
+          0.1202
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 0,
+        "value": "4",
+        "column": 1,
+        "tokenId": "tok_0_1_4_74c9",
+        "ambiguity": false,
+        "confidence": 0.9821,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3891,
+          0.2251,
+          0.0991,
+          0.1193
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "7",
+        "column": 0,
+        "tokenId": "tok_1_0_7_5431",
+        "ambiguity": false,
+        "confidence": 0.953,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5112,
+          0.3787,
+          0.0994,
+          0.12
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "2",
+        "column": 1,
+        "tokenId": "tok_1_1_2_4178",
+        "ambiguity": false,
+        "confidence": 0.6704,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3865,
+          0.3784,
+          0.1041,
+          0.1225
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "8",
+        "column": 0,
+        "tokenId": "tok_2_0_8_c47d",
+        "ambiguity": false,
+        "confidence": 0.9909,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5081,
+          0.5798,
+          0.1089,
+          0.1255
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "7",
+        "column": 1,
+        "tokenId": "tok_2_1_7_24ba",
+        "ambiguity": false,
+        "confidence": 0.831,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3856,
+          0.5818,
+          0.1,
+          0.1241
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "+",
+        "column": 99,
+        "tokenId": "tok_op_0_100b",
+        "ambiguity": false,
+        "confidence": 0.7666,
+        "tokenClass": "operator",
+        "boundingBox": [
+          0.2595,
+          0.3679,
+          0.1115,
+          0.1289
+        ],
+        "alternatives": []
+      }
+    ],
+    "rawTokens": [
+      {
+        "row": 0,
+        "value": "5",
+        "column": 0,
+        "tokenId": "tok_0_0_5_71b6",
+        "ambiguity": true,
+        "confidence": 0.4912,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.51,
+          0.2254,
+          0.1049,
+          0.1202
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 0,
+        "value": "4",
+        "column": 1,
+        "tokenId": "tok_0_1_4_74c9",
+        "ambiguity": false,
+        "confidence": 0.9821,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3891,
+          0.2251,
+          0.0991,
+          0.1193
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "7",
+        "column": 0,
+        "tokenId": "tok_1_0_7_5431",
+        "ambiguity": false,
+        "confidence": 0.953,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5112,
+          0.3787,
+          0.0994,
+          0.12
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "2",
+        "column": 1,
+        "tokenId": "tok_1_1_2_4178",
+        "ambiguity": false,
+        "confidence": 0.6704,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3865,
+          0.3784,
+          0.1041,
+          0.1225
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "8",
+        "column": 0,
+        "tokenId": "tok_2_0_8_c47d",
+        "ambiguity": false,
+        "confidence": 0.9909,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5081,
+          0.5798,
+          0.1089,
+          0.1255
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "7",
+        "column": 1,
+        "tokenId": "tok_2_1_7_24ba",
+        "ambiguity": false,
+        "confidence": 0.831,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3856,
+          0.5818,
+          0.1,
+          0.1241
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "+",
+        "column": 99,
+        "tokenId": "tok_op_0_100b",
+        "ambiguity": false,
+        "confidence": 0.7666,
+        "tokenClass": "operator",
+        "boundingBox": [
+          0.2595,
+          0.3679,
+          0.1115,
+          0.1289
+        ],
+        "alternatives": []
+      }
+    ]
+  },
+  "validation": {
+    "isValid": null,
+    "evidence": [],
+    "diagnosisState": "UNCERTAIN"
+  },
+  "evidence": null,
+  "studentFeedback": {
+    "hint": "MathVision đã thử đọc bài của em nhưng chưa đủ chắc chắn để kết luận. Em có thể kiểm tra hoặc chụp lại nhé!",
+    "title": "MathVision chưa chắc chắn kết quả",
+    "revealAnswer": false
+  },
+  "confidenceBundle": {
+    "recognition": 0.4,
+    "diagnosis": 0.0,
+    "structure": 0.3
+  },
+  "modelVersion": "MODEL:MathVision-Kids-Detection:1.0.0:e78f8fa5",
+  "uncertainTokenIds": [
+    "tok_0_0_5_71b6"
+  ]
+}

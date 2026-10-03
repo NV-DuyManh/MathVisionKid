@@ -62,6 +62,8 @@ public class SubmissionControllerTest {
 
     @Autowired
     private AnalysisResultRepository analysisResultRepository;
+    @Autowired
+    private com.mathvisionkids.api.analysis.TeacherDecisionRepository decisions;
 
     private Teacher teacherA;
     private Teacher teacherB;
@@ -129,6 +131,11 @@ public class SubmissionControllerTest {
         submissionA.setStudent(studentA);
         submissionA.setStatus("PROPOSED_GRADE");
         submissionA = submissionRepository.save(submissionA);
+        AnalysisResult proposed = new AnalysisResult();
+        proposed.setSubmission(submissionA);
+        proposed.setStatus("PROPOSED_GRADE");
+        proposed.setGradeProposal(Map.of("suggestedScore", 0, "maxScore", 10, "isOfficial", false));
+        analysisResultRepository.save(proposed);
     }
 
     @Test
@@ -137,6 +144,8 @@ public class SubmissionControllerTest {
         mockMvc.perform(post("/api/v1/teacher/submissions/" + submissionA.getSubmissionId() + "/approve")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+        org.junit.jupiter.api.Assertions.assertEquals(0,
+                decisions.findBySubmission_SubmissionId(submissionA.getSubmissionId()).orElseThrow().getFinalScore());
     }
 
     @Test
@@ -195,7 +204,7 @@ public class SubmissionControllerTest {
         submissionA.setStatus("REVIEW_REQUIRED");
         submissionRepository.save(submissionA);
 
-        AnalysisResult ar = new AnalysisResult();
+        AnalysisResult ar = analysisResultRepository.findBySubmission_SubmissionId(submissionA.getSubmissionId()).orElseThrow();
         ar.setSubmission(submissionA);
         ar.setStatus("REVIEW_REQUIRED");
         Map<String, Object> reasons = new HashMap<>();
@@ -216,7 +225,7 @@ public class SubmissionControllerTest {
         submissionA.setStatus("REVIEW_REQUIRED");
         submissionRepository.save(submissionA);
 
-        AnalysisResult ar = new AnalysisResult();
+        AnalysisResult ar = analysisResultRepository.findBySubmission_SubmissionId(submissionA.getSubmissionId()).orElseThrow();
         ar.setSubmission(submissionA);
         ar.setStatus("REVIEW_REQUIRED");
         Map<String, Object> reasons = new HashMap<>();

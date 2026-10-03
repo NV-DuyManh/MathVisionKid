@@ -1,0 +1,33 @@
+{
+  "surface": "Codex in-app browser, current source, real backend and real model",
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "physicalDeviceTest": false,
+  "status": "ARITHMETIC_UPLOAD_CONFIRMATION_COMPLETE_ADDITIONAL_NAVIGATION_INCOMPLETE",
+  "actualUploadSubmissionId": "d3db4063-0a28-44b6-ab6d-2bcf72f8e761",
+  "checks": {
+    "galleryDevicePickerAvailable": true,
+    "cameraPendingPermissionGalleryAvailable": true,
+    "privacyImageStableAfterFix": true,
+    "privacyConfirmationEnabledContinue": true,
+    "fullImageCropReachedArithmeticPreview": true,
+    "horizontalProgressWithoutStopwatch": true,
+    "actualTokenHighlightedOnSubmittedPhoto": true,
+    "actualTokenConfirmedViaUi": true,
+    "authoritativeFinalExpression": "45 + 27 = 72",
+    "resultLinkHasNoCopiedDiagnostics": true,
+    "finalResultScrollWidth": 375,
+    "finalResultClientWidth": 375
+  },
+  "screenshots": [
+    "privacy-loaded.png",
+    "arithmetic-preview-real.png",
+    "arithmetic-progress-real.png",
+    "arithmetic-token-real.png",
+    "arithmetic-confirmed-real.png"
+  ],
+  "additionalNavigationLimitation": "CDP Emulation.setFocusEmulationEnabled / Page.navigate timeouts after the completed upload/confirmation flow. No fabricated additional screenshots or physical-device claims.",
+  "viewportRestored": true
+}

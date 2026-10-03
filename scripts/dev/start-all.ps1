@@ -164,7 +164,7 @@ if ($dockerCmd) {
         if (-not $ddProc -and $ddPath) {
             Write-Host "  [3/5] Docker Engine ........ STARTING (Launching Docker Desktop from: $ddPath)..." -ForegroundColor Yellow
             try {
-                Start-Process -FilePath $ddPath
+                Start-Process -FilePath $ddPath -WindowStyle Hidden
             } catch {
                 Write-Host "  [3/5] Docker Engine ........ Failed to launch Docker Desktop: $($_.Exception.Message)" -ForegroundColor Red
             }
@@ -377,6 +377,9 @@ function Test-ServiceCommandIdentity {
     if ($IdentityKind -eq 'fastapi') {
         return $pathMatches -and $normalizedCommand -match 'uvicorn' -and $normalizedCommand -match 'app\.main:app'
     }
+    if ($IdentityKind -eq 'celery') {
+        return $pathMatches -and $normalizedCommand -match 'app\.jobs\.celery_app' -and $normalizedCommand -match '\bworker\b'
+    }
     return $false
 }
 
@@ -492,17 +495,29 @@ $CeleryLog = Join-Path $LogDir "celery.log"
 $CeleryExe = Join-Path $AiDir ".venv\Scripts\celery.exe"
 if (-not (Test-Path $CeleryExe)) { $CeleryExe = "celery" }
 $celeryActive = $false
+$celeryResponding = $false
+Push-Location $AiDir
 try {
-    $res = & $PyVenvExe -c "from app.jobs.celery_app import celery_app; print(bool(celery_app.control.ping(timeout=1.0)))" 2>$null
-    if ($res -match "True") { $celeryActive = $true }
+    $res = & $PyVenvExe -c "from app.jobs.celery_app import active_mathvision_workers; print(bool(active_mathvision_workers()))" 2>$null
+    if ($LASTEXITCODE -eq 0 -and $res -match "True") { $celeryResponding = $true }
 } catch {}
+finally { Pop-Location }
+
+# A solo worker can be busy and not answer ping. Verify its command before starting a duplicate.
+$celeryOwners = @(Get-CimInstance Win32_Process | Where-Object {
+    $_.CommandLine -and (Test-ServiceCommandIdentity -CommandLine $_.CommandLine -WorkingDirectory $AiDir -IdentityKind 'celery')
+})
+if ($celeryOwners.Count -gt 0) { $celeryActive = $true }
+if ($celeryResponding -and -not $celeryActive) {
+    throw "WORKER_CONFLICT: A MathVision-named worker replied, but its local project identity could not be verified. Inspect the existing worker before launching; no unrelated process was stopped."
+}
 
 if ($celeryActive) {
     Write-Host "  Celery Worker is already active." -ForegroundColor Green
 } else {
     Start-TrackedService -Name "Celery Worker" `
         -FilePath $CeleryExe `
-        -ArgumentList "-A app.jobs.celery_app worker --loglevel=info --pool=solo -n worker1@$env:COMPUTERNAME" `
+        -ArgumentList "-A app.jobs.celery_app worker --loglevel=info --pool=solo --concurrency=1 --hostname=mathvision@%h" `
         -WorkingDirectory $AiDir `
         -LogFile $CeleryLog `
         -PidFile $CeleryPid
@@ -580,7 +595,7 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
         if ($resp.status -eq "UP") { $springUp = $true }
     } catch {}
     try {
-        $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8000/ready" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8000/ready" -TimeoutSec 5 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.status -eq "ready") { $fastapiUp = $true }
     } catch {}
     try {

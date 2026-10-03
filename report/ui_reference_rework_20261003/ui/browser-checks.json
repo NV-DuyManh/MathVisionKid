@@ -1,0 +1,646 @@
+{
+  "environment": "Chromium desktop browser, Expo web development preview; no physical phone evidence",
+  "fixtures": "Only /me, OCR detection, and OCR submit HTTP responses are intercepted. Empty history and an explicitly synthetic saved-history counter fixture exercise the real client store. This is not real OCR scoring, phone testing or live authentication.",
+  "checks": [
+    {
+      "name": "home-375-loaded-nunito-and-four-tabs",
+      "result": {
+        "beforeExplicitLoad": [
+          {
+            "family": "NunitoRegular",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoMedium",
+            "status": "unloaded"
+          },
+          {
+            "family": "NunitoSemiBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBold",
+            "status": "unloaded"
+          },
+          {
+            "family": "NunitoExtraBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBlack",
+            "status": "loaded"
+          }
+        ],
+        "fonts": [
+          {
+            "family": "NunitoRegular",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoMedium",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoSemiBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoExtraBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBlack",
+            "status": "loaded"
+          }
+        ],
+        "selected": "Trang chủ",
+        "headingFamily": "NunitoBlack"
+      }
+    },
+    {
+      "name": "home-375x812-overflow",
+      "result": {
+        "width": 375,
+        "height": 812,
+        "documentWidth": 375,
+        "overflow": []
+      }
+    },
+    {
+      "name": "home-375-images",
+      "result": [
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "home-375-acquisition-choices",
+      "result": [
+        "HANDWRITING_TEXT",
+        "GALLERY",
+        "ARITHMETIC"
+      ]
+    },
+    {
+      "name": "tips-375-modal-fit",
+      "result": {
+        "close": {
+          "x": 285,
+          "y": 225.5,
+          "width": 48,
+          "height": 48
+        },
+        "bottom": {
+          "x": 149.796875,
+          "y": 552.5,
+          "width": 75.40625,
+          "height": 20
+        },
+        "fits": true
+      }
+    },
+    {
+      "name": "home-375-lessons-navigation",
+      "result": {
+        "pathname": "/lessons",
+        "gradeTwo": true,
+        "guidanceExpanded": true
+      }
+    },
+    {
+      "name": "lessons-375-capture-routing",
+      "result": {
+        "pathname": "/camera",
+        "mode": "HANDWRITING_TEXT"
+      }
+    },
+    {
+      "name": "home-375-achievement-navigation",
+      "result": "/achievements"
+    },
+    {
+      "name": "home-375-saved-navigation",
+      "result": "/profile"
+    },
+    {
+      "name": "home-430-loaded-nunito-and-four-tabs",
+      "result": {
+        "beforeExplicitLoad": [
+          {
+            "family": "NunitoRegular",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoMedium",
+            "status": "unloaded"
+          },
+          {
+            "family": "NunitoSemiBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBold",
+            "status": "unloaded"
+          },
+          {
+            "family": "NunitoExtraBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBlack",
+            "status": "loaded"
+          }
+        ],
+        "fonts": [
+          {
+            "family": "NunitoRegular",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoMedium",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoSemiBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoExtraBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBlack",
+            "status": "loaded"
+          }
+        ],
+        "selected": "Trang chủ",
+        "headingFamily": "NunitoBlack"
+      }
+    },
+    {
+      "name": "home-430x932-overflow",
+      "result": {
+        "width": 430,
+        "height": 932,
+        "documentWidth": 430,
+        "overflow": []
+      }
+    },
+    {
+      "name": "home-430-images",
+      "result": [
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "home-430-acquisition-choices",
+      "result": [
+        "HANDWRITING_TEXT",
+        "GALLERY",
+        "ARITHMETIC"
+      ]
+    },
+    {
+      "name": "tips-430-modal-fit",
+      "result": {
+        "close": {
+          "x": 340,
+          "y": 294.5,
+          "width": 48,
+          "height": 48
+        },
+        "bottom": {
+          "x": 177.296875,
+          "y": 603.5,
+          "width": 75.40625,
+          "height": 20
+        },
+        "fits": true
+      }
+    },
+    {
+      "name": "home-430-lessons-navigation",
+      "result": {
+        "pathname": "/lessons",
+        "gradeTwo": true,
+        "guidanceExpanded": true
+      }
+    },
+    {
+      "name": "lessons-430-capture-routing",
+      "result": {
+        "pathname": "/camera",
+        "mode": "HANDWRITING_TEXT"
+      }
+    },
+    {
+      "name": "home-430-achievement-navigation",
+      "result": "/achievements"
+    },
+    {
+      "name": "home-430-saved-navigation",
+      "result": "/profile"
+    },
+    {
+      "name": "home-844-loaded-nunito-and-four-tabs",
+      "result": {
+        "beforeExplicitLoad": [
+          {
+            "family": "NunitoRegular",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoMedium",
+            "status": "unloaded"
+          },
+          {
+            "family": "NunitoSemiBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBold",
+            "status": "unloaded"
+          },
+          {
+            "family": "NunitoExtraBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBlack",
+            "status": "loaded"
+          }
+        ],
+        "fonts": [
+          {
+            "family": "NunitoRegular",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoMedium",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoSemiBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoExtraBold",
+            "status": "loaded"
+          },
+          {
+            "family": "NunitoBlack",
+            "status": "loaded"
+          }
+        ],
+        "selected": "Trang chủ",
+        "headingFamily": "NunitoBlack"
+      }
+    },
+    {
+      "name": "home-844x390-overflow",
+      "result": {
+        "width": 844,
+        "height": 390,
+        "documentWidth": 844,
+        "overflow": []
+      }
+    },
+    {
+      "name": "home-844-images",
+      "result": [
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        },
+        {
+          "width": 1254,
+          "height": 1254,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "home-844-acquisition-choices",
+      "result": [
+        "HANDWRITING_TEXT",
+        "GALLERY",
+        "ARITHMETIC"
+      ]
+    },
+    {
+      "name": "tips-844-modal-fit",
+      "result": {
+        "close": {
+          "x": 592,
+          "y": 68.25,
+          "width": 48,
+          "height": 48
+        },
+        "bottom": {
+          "x": 384.296875,
+          "y": 287.75,
+          "width": 75.40625,
+          "height": 20
+        },
+        "fits": true
+      }
+    },
+    {
+      "name": "home-844-lessons-navigation",
+      "result": {
+        "pathname": "/lessons",
+        "gradeTwo": true,
+        "guidanceExpanded": true
+      }
+    },
+    {
+      "name": "lessons-844-capture-routing",
+      "result": {
+        "pathname": "/camera",
+        "mode": "HANDWRITING_TEXT"
+      }
+    },
+    {
+      "name": "home-844-achievement-navigation",
+      "result": "/achievements"
+    },
+    {
+      "name": "home-844-saved-navigation",
+      "result": "/profile"
+    },
+    {
+      "name": "recognition-indeterminate-progress-reduced-motion",
+      "result": {
+        "present": true,
+        "numericPercentage": false,
+        "dimension": {
+          "width": 375,
+          "height": 812,
+          "documentWidth": 375,
+          "overflow": []
+        }
+      }
+    },
+    {
+      "name": "recognition-cancel-submission-preserves-boxes",
+      "result": {
+        "boxes": 3,
+        "pathname": "/recognition/multiline-review"
+      }
+    },
+    {
+      "name": "recognition-submit-error-retry-preserves-boxes",
+      "result": {
+        "detectCalls": 1,
+        "submitCalls": 3,
+        "firstSubmittedLines": [
+          {
+            "line_id": "line_1",
+            "x": 35,
+            "y": 116,
+            "width": 500,
+            "height": 42,
+            "order": 1,
+            "text": "",
+            "rawOcrText": "",
+            "finalText": "",
+            "predictedText": ""
+          },
+          {
+            "line_id": "line_2",
+            "x": 35,
+            "y": 220,
+            "width": 500,
+            "height": 42,
+            "order": 2,
+            "text": "",
+            "rawOcrText": "",
+            "finalText": "",
+            "predictedText": ""
+          },
+          {
+            "line_id": "line_3",
+            "x": 35,
+            "y": 340,
+            "width": 500,
+            "height": 42,
+            "order": 3,
+            "text": "",
+            "rawOcrText": "",
+            "finalText": "",
+            "predictedText": ""
+          }
+        ],
+        "consoleErrorCount": 2,
+        "visibleLogBox": false
+      }
+    },
+    {
+      "name": "recognition-430x932-cancel-reachable",
+      "result": {
+        "initialButton": {
+          "x": 158.46875,
+          "y": 628,
+          "width": 113.0625,
+          "height": 48
+        },
+        "buttonAfterScroll": {
+          "x": 158.46875,
+          "y": 628,
+          "width": 113.0625,
+          "height": 48
+        },
+        "fitsAfterScroll": true,
+        "dimension": {
+          "width": 430,
+          "height": 932,
+          "documentWidth": 430,
+          "overflow": []
+        }
+      }
+    },
+    {
+      "name": "recognition-844x390-cancel-reachable",
+      "result": {
+        "initialButton": {
+          "x": 365.46875,
+          "y": 330,
+          "width": 113.0625,
+          "height": 48
+        },
+        "buttonAfterScroll": {
+          "x": 365.46875,
+          "y": 318,
+          "width": 113.0625,
+          "height": 48
+        },
+        "fitsAfterScroll": true,
+        "dimension": {
+          "width": 844,
+          "height": 390,
+          "documentWidth": 844,
+          "overflow": []
+        }
+      }
+    },
+    {
+      "name": "achievements-real-store-controlled-counter-fixture",
+      "result": {
+        "worksheets": 2,
+        "checkedLines": 5,
+        "streakDays": 2,
+        "excludesSampleAndFutureSessions": true,
+        "syntheticInputs": true
+      }
+    }
+  ],
+  "screens": [
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/home-375x812.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/acquisition-375x812.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/tips-375x812.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/lessons-375x812.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/achievements-375x812.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/profile-375x812.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/home-430x932.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/acquisition-430x932.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/tips-430x932.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/lessons-430x932.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/achievements-430x932.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/profile-430x932.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/home-844x390.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/acquisition-844x390.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/tips-844x390.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/lessons-844x390.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/achievements-844x390.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/profile-844x390.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/recognition-detection-bar-375.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/recognition-review-375.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/recognition-submit-bar-375.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/recognition-error-retry-375.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/recognition-detection-bar-430x932.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/recognition-detection-bar-844x390.png",
+    "E:/MathVisionKid/report/ui_reference_rework_20261003/ui/achievements-synthetic-history-counters-375.png"
+  ],
+  "errors": [],
+  "status": "COMPLETED"
+}

@@ -1,0 +1,316 @@
+{
+  "submissionId": "27c8a0cf-1ce7-4445-8c31-c17f6ce0284d",
+  "jobId": "ace624e1-d081-4c7f-8f99-ed33708491d8",
+  "status": "FEEDBACK_READY",
+  "reasonCode": null,
+  "diagnostics": {
+    "ocrInvoked": false,
+    "reasonCode": null,
+    "parserStatus": "VALID_STRUCTURE",
+    "qualityFlags": [],
+    "ocrTextLength": 0,
+    "parserInvoked": true,
+    "detectorInvoked": true,
+    "modelProvenance": {
+      "modelName": "MathVision-Kids-Detection",
+      "modelSha256": "e78f8fa5a2fc8be581b8624fa510cd2c429c40cdbd0930dbb2f1c2d870338985",
+      "modelVersion": "1.0.0",
+      "recognitionMode": "MODEL"
+    },
+    "validatorStatus": "INVALID",
+    "confidenceMethod": "YOLO_TOKEN_MEAN_AND_POLICY_HEURISTICS",
+    "validatorInvoked": true,
+    "detectorTokenCount": 7
+  },
+  "flowDomain": "ARITHMETIC",
+  "createdAt": "2026-10-03T06:54:53.350850Z",
+  "recognizedExercise": {
+    "tokens": [
+      {
+        "row": 0,
+        "value": "2",
+        "column": 0,
+        "tokenId": "tok_0_0_2_5675",
+        "ambiguity": false,
+        "confidence": 0.7876,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.51,
+          0.2226,
+          0.1066,
+          0.1262
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 0,
+        "value": "5",
+        "column": 1,
+        "tokenId": "tok_0_1_5_e6ff",
+        "ambiguity": false,
+        "confidence": 0.5761,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3859,
+          0.2254,
+          0.1045,
+          0.1202
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "8",
+        "column": 0,
+        "tokenId": "tok_1_0_8_38f5",
+        "ambiguity": false,
+        "confidence": 0.9859,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5084,
+          0.3786,
+          0.109,
+          0.125
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "1",
+        "column": 1,
+        "tokenId": "tok_1_1_1_a66d",
+        "ambiguity": false,
+        "confidence": 0.9234,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.389,
+          0.376,
+          0.1069,
+          0.1257
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "4",
+        "column": 0,
+        "tokenId": "tok_2_0_4_21a5",
+        "ambiguity": false,
+        "confidence": 0.9628,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.511,
+          0.5858,
+          0.1022,
+          0.1203
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "4",
+        "column": 1,
+        "tokenId": "tok_2_1_4_6156",
+        "ambiguity": false,
+        "confidence": 0.9745,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.394,
+          0.5869,
+          0.0994,
+          0.1201
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "-",
+        "column": 99,
+        "tokenId": "tok_op_0_bbee",
+        "ambiguity": false,
+        "confidence": 0.7176,
+        "tokenClass": "operator",
+        "boundingBox": [
+          0.2468,
+          0.3907,
+          0.1038,
+          0.1046
+        ],
+        "alternatives": []
+      }
+    ],
+    "rawTokens": [
+      {
+        "row": 0,
+        "value": "2",
+        "column": 0,
+        "tokenId": "tok_0_0_2_5675",
+        "ambiguity": false,
+        "confidence": 0.7876,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.51,
+          0.2226,
+          0.1066,
+          0.1262
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 0,
+        "value": "5",
+        "column": 1,
+        "tokenId": "tok_0_1_5_e6ff",
+        "ambiguity": false,
+        "confidence": 0.5761,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.3859,
+          0.2254,
+          0.1045,
+          0.1202
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "8",
+        "column": 0,
+        "tokenId": "tok_1_0_8_38f5",
+        "ambiguity": false,
+        "confidence": 0.9859,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.5084,
+          0.3786,
+          0.109,
+          0.125
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "1",
+        "column": 1,
+        "tokenId": "tok_1_1_1_a66d",
+        "ambiguity": false,
+        "confidence": 0.9234,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.389,
+          0.376,
+          0.1069,
+          0.1257
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "4",
+        "column": 0,
+        "tokenId": "tok_2_0_4_21a5",
+        "ambiguity": false,
+        "confidence": 0.9628,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.511,
+          0.5858,
+          0.1022,
+          0.1203
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 2,
+        "value": "4",
+        "column": 1,
+        "tokenId": "tok_2_1_4_6156",
+        "ambiguity": false,
+        "confidence": 0.9745,
+        "tokenClass": "digit",
+        "boundingBox": [
+          0.394,
+          0.5869,
+          0.0994,
+          0.1201
+        ],
+        "alternatives": []
+      },
+      {
+        "row": 1,
+        "value": "-",
+        "column": 99,
+        "tokenId": "tok_op_0_bbee",
+        "ambiguity": false,
+        "confidence": 0.7176,
+        "tokenClass": "operator",
+        "boundingBox": [
+          0.2468,
+          0.3907,
+          0.1038,
+          0.1046
+        ],
+        "alternatives": []
+      }
+    ],
+    "expression": "52 - 18 = 44",
+    "rawExpression": "52 - 18 = 44"
+  },
+  "validation": {
+    "isValid": false,
+    "evidence": [
+      {
+        "type": "CARRY_BORROW_ERROR",
+        "ruleId": "SUB_COL_MISMATCH",
+        "tokenId": "tok_2_1_4_6156",
+        "confidence": 0.95,
+        "evidenceId": "err_sub_1",
+        "placeValue": "Hàng chục",
+        "boundingBox": [
+          0.394,
+          0.5869,
+          0.0994,
+          0.1201
+        ],
+        "columnIndex": 1,
+        "description": "Phép trừ hàng chục không khớp.",
+        "observedText": "4"
+      }
+    ],
+    "diagnosisState": "INVALID"
+  },
+  "evidence": {
+    "items": [
+      {
+        "type": "CARRY_BORROW_ERROR",
+        "ruleId": "SUB_COL_MISMATCH",
+        "tokenId": "tok_2_1_4_6156",
+        "confidence": 0.95,
+        "evidenceId": "err_sub_1",
+        "placeValue": "Hàng chục",
+        "boundingBox": [
+          0.394,
+          0.5869,
+          0.0994,
+          0.1201
+        ],
+        "columnIndex": 1,
+        "description": "Phép trừ hàng chục không khớp.",
+        "observedText": "4"
+      }
+    ]
+  },
+  "studentFeedback": {
+    "hint": "Hãy kiểm tra lại Hàng chục nhé. Phép tính này có nhớ/mượn không em?",
+    "title": "Bài làm cần xem lại",
+    "revealAnswer": false,
+    "focusEvidenceId": "err_sub_1"
+  },
+  "confidenceBundle": {
+    "recognition": 0.85,
+    "diagnosis": 0.93,
+    "structure": 0.97
+  },
+  "modelVersion": "MODEL:MathVision-Kids-Detection:1.0.0:e78f8fa5",
+  "uncertainTokenIds": []
+}

@@ -1,0 +1,19 @@
+{
+  "backendHealth": "UP",
+  "databaseHealth": "UP",
+  "existingTrialReadStatus": 200,
+  "existingTrialId": "7f884a22-0ef7-43a5-adc6-e46e2e898dc4",
+  "existingFeedbackAndAdvicePreserved": true,
+  "storedImageReferenceHashPreserved": true,
+  "physicalDeviceTest": false,
+  "newCloudBenchmarkRun": false,
+  "failureRegressionScenarios": [
+    "HTTP timeout",
+    "storage exception",
+    "bad HTTP response",
+    "wrong line count"
+  ],
+  "failureUpdatesOnlyPendingProviderFields": true,
+  "settledSuccessAndHumanFieldsPreserved": true,
+  "failureValidationMethod": "Mockito service regressions; real healthy trial read after backend reload"
+}

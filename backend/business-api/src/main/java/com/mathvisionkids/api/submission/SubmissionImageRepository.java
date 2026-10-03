@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface SubmissionImageRepository extends JpaRepository<SubmissionImage, UUID> {
     Optional<SubmissionImage> findBySubmission_SubmissionId(UUID submissionId);
+    Optional<SubmissionImage> findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(UUID submissionId);
 }

@@ -1,0 +1,76 @@
+{
+  "checkedAt": "2026-10-03T13:20:25.3069213+07:00",
+  "mobile": {
+    "suites": 29,
+    "tests": 278,
+    "failed": 0,
+    "command": "npm.cmd test -- --runInBand --silent",
+    "typeScript": "PASS",
+    "newNavigationRegressions": 3,
+    "pollingRegressions": 7,
+    "advisorMergeRegressions": 11
+  },
+  "backend": {
+    "failures": 0,
+    "errors": 0,
+    "suites": 22,
+    "newFailureRegressions": 4,
+    "targetedBackendTests": 30,
+    "tests": 164,
+    "profile": "test (H2)",
+    "newAiContractTests": 2,
+    "skipped": 0
+  },
+  "exports": {
+    "web": {
+      "status": "PASS",
+      "staticRoutes": 31,
+      "output": "scratch/ui_reference_20261003/web-final",
+      "maxWorkers": 2
+    },
+    "android": {
+      "status": "PASS",
+      "output": "scratch/ui_reference_20261003/android-final",
+      "maxWorkers": 2,
+      "assets": 60,
+      "bundledFonts": 6,
+      "bundledIllustrations": 8
+    }
+  },
+  "browser": {
+    "status": "PASS",
+    "report": "ui/browser-checks.json",
+    "viewports": [
+      [
+        375,
+        812
+      ],
+      [
+        430,
+        932
+      ],
+      [
+        844,
+        390
+      ]
+    ],
+    "physicalDeviceTest": false,
+    "checks": 33,
+    "screenshots": 25,
+    "pageErrors": 0
+  },
+  "runtimeReport": "runtime.json",
+  "latencyReport": "ocr-latency.json",
+  "git": {
+    "commitPerformed": false,
+    "pushPerformed": false,
+    "baseCommit": "76c4276f58276248bbee1a6e3e961ab68c80db6a"
+  },
+  "trainingPerformed": false,
+  "skills": [
+    "ui-ux-pro-max",
+    "vercel-react-best-practices",
+    "ponytail",
+    "imagegen"
+  ]
+}

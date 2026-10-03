@@ -1,0 +1,25 @@
+{
+  "ai": {
+    "ready": "ready",
+    "correctEntryPoint": true,
+    "pid": 24476,
+    "correctProjectPath": true,
+    "modelLoaded": true,
+    "expectedDirectory": "E:\\MathVisionKid\\ai\\runtime",
+    "port": 8000
+  },
+  "backend": {
+    "correctEntryPoint": true,
+    "pid": 24448,
+    "database": "UP",
+    "currentClassesDirectory": true,
+    "correctProjectPath": true,
+    "workingDirectory": "E:\\MathVisionKid\\backend\\business-api\\.",
+    "serviceClassSha256": "fea2d20755685dbd5fbddf9bc7e2d94bd9ada1c0e37b619fbee1ab618ade7103",
+    "serviceSourceSha256": "bb5a418e23b3e48b88a048f204e37e6673a69cbd9dac92172868ae482718e5ed",
+    "expectedDirectory": "E:\\MathVisionKid\\backend\\business-api",
+    "health": "UP",
+    "port": 8080
+  },
+  "checkedAt": "2026-10-03T12:45:18.6591220+07:00"
+}

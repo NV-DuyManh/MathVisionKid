@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -127,6 +127,15 @@ export default function OcrResultScreen() {
 
   const hasRecognizedText = !!(trialResult && trialResult.recognizedText && trialResult.recognizedText.trim().length > 0);
 
+  if (isLoading) {
+    return <SafeAreaView style={styles.container}>
+      <AppHeader title="Nhận dạng dòng chữ" showBack />
+      <View style={styles.progressContainer}>
+        <RecognitionProgress title="Đang đọc dòng chữ" description="Nhận dạng chữ trong ảnh em đã chọn." imageUri={lineCropUri} onCancel={() => router.back()} />
+      </View>
+    </SafeAreaView>;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader title={hasRecognizedText ? "Kết quả nhận diện" : `${branding.name} chưa đọc chắc chắn`} showBack />
@@ -145,9 +154,7 @@ export default function OcrResultScreen() {
         </View>
 
         {/* Recognition Content */}
-        {isLoading ? (
-          <RecognitionProgress title="Đang đọc dòng chữ" description="MathVision đang nhận dạng chữ trong ảnh em đã chọn." onCancel={() => router.back()} />
-        ) : errorMsg ? (
+        {errorMsg ? (
           <View style={styles.errorBox}>
             <Ionicons name="alert-circle-outline" size={44} color={COLORS.error} />
             <Text style={styles.errorTitle}>Lỗi nhận diện</Text>
@@ -274,7 +281,7 @@ export default function OcrResultScreen() {
                     {feedbackVerdict === 'CORRECT' ? 'Cảm ơn em! Đã ghi nhận kết quả đúng.' : 'Đã lưu kết quả em đã sửa!'}
                   </Text>
                   <Text style={styles.savedSub}>
-                    Dữ liệu đã được lưu để hỗ trợ đội ngũ AI huấn luyện cải thiện mô hình sau này.
+                    Đã lưu phản hồi của em. Cảm ơn em đã giúp kiểm tra bài.
                   </Text>
                 </View>
 
@@ -294,6 +301,7 @@ export default function OcrResultScreen() {
 }
 
 const styles = StyleSheet.create({
+  progressContainer: { flex: 1, padding: 20, justifyContent: 'center' },
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
@@ -311,7 +319,7 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     fontSize: 13,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textMuted,
     marginBottom: 8,
     textTransform: 'uppercase',
@@ -331,6 +339,7 @@ const styles = StyleSheet.create({
   },
   missingImageText: {
     color: COLORS.textMuted,
+    fontFamily: FONTS.regular,
     fontSize: 14,
     textAlign: 'center',
     paddingVertical: 20,
@@ -343,11 +352,12 @@ const styles = StyleSheet.create({
   },
   loadingTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     marginTop: 14,
   },
   loadingSub: {
+    fontFamily: FONTS.regular,
     fontSize: 13,
     color: COLORS.textMuted,
     marginTop: 4,
@@ -360,11 +370,12 @@ const styles = StyleSheet.create({
   },
   errorTitle: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.error,
     marginTop: 10,
   },
   errorSub: {
+    fontFamily: FONTS.regular,
     fontSize: 14,
     color: COLORS.textMuted,
     textAlign: 'center',
@@ -385,13 +396,14 @@ const styles = StyleSheet.create({
   },
   emptyNoticeTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: '#92400E',
     marginTop: 6,
     marginBottom: 4,
     textAlign: 'center',
   },
   emptyNoticeSub: {
+    fontFamily: FONTS.regular,
     fontSize: 14,
     color: '#B45309',
     textAlign: 'center',
@@ -402,7 +414,7 @@ const styles = StyleSheet.create({
   },
   sectionHeading: {
     fontSize: 15,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
@@ -416,7 +428,7 @@ const styles = StyleSheet.create({
   },
   recognizedText: {
     fontSize: 22,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     textAlign: 'center',
     lineHeight: 30,
@@ -426,7 +438,7 @@ const styles = StyleSheet.create({
   },
   feedbackPrompt: {
     fontSize: 15,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
     color: COLORS.textPrimary,
     textAlign: 'center',
     marginBottom: SIZES.medium,
@@ -442,7 +454,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginLeft: 8,
   },
   correctButton: {
@@ -460,7 +472,7 @@ const styles = StyleSheet.create({
   skipButtonText: {
     color: COLORS.textMuted,
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
   },
   editSection: {
     backgroundColor: COLORS.surface,
@@ -471,7 +483,7 @@ const styles = StyleSheet.create({
   },
   editLabel: {
     fontSize: 14,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
@@ -480,6 +492,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     borderRadius: 8,
     padding: SIZES.medium,
+    fontFamily: FONTS.regular,
     fontSize: 18,
     color: COLORS.textPrimary,
     minHeight: 50,
@@ -504,7 +517,7 @@ const styles = StyleSheet.create({
   cancelBtnText: {
     color: COLORS.textMuted,
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
   },
   saveBtn: {
     backgroundColor: COLORS.primary,
@@ -512,7 +525,7 @@ const styles = StyleSheet.create({
   saveBtnText: {
     color: '#FFFFFF',
     fontSize: 14,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
   savedSection: {
     alignItems: 'center',
@@ -529,12 +542,13 @@ const styles = StyleSheet.create({
   },
   savedTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: '#065F46',
     marginTop: 8,
     textAlign: 'center',
   },
   savedSub: {
+    fontFamily: FONTS.regular,
     fontSize: 13,
     color: '#047857',
     textAlign: 'center',

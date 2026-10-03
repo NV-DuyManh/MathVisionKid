@@ -150,7 +150,7 @@ def test_model_engine_consumes_configuration():
         artifact_path="/path/to/model.pt",
         label_map=label_map,
     )
-    assert engine.is_ready is True
+    assert engine.is_ready is False  # Configuration alone does not prove the artifact exists or loaded.
     assert engine.preprocessing_config["strategy"] == "normalize_imagenet"
     assert engine.preprocessing_config["input_shape"] == (256, 256, 3)
     assert engine.label_map["+"] == "+"

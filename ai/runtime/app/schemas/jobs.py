@@ -1,6 +1,7 @@
 from uuid import UUID
 from pydantic import BaseModel, Field
 from typing import List, Optional, Any, Dict
+from app.schemas.core import Token
 
 
 class JobRequest(BaseModel):
@@ -8,7 +9,7 @@ class JobRequest(BaseModel):
     submissionId: str
     imageReference: str
     allowedOperations: List[str]
-    maxDigits: int = 3
+    maxDigits: int = Field(default=3, ge=1, le=6)
     oneExerciseOnly: bool = True
     policyVersion: str = "v1.2"
     policyMode: str = "STUDENT"          # STUDENT | TEACHER — always explicit from Spring
@@ -30,6 +31,8 @@ class GradeProposal(BaseModel):
 class Evidence(BaseModel):
     evidenceId: str
     type: str
+    tokenId: Optional[str] = None
+    columnIndex: Optional[int] = None  # 0 = units, counted from the right
     boundingBox: Optional[List[float]] = None   # [x, y, w, h] normalized 0–1, origin top-left
     placeValue: Optional[str] = None
     ruleId: Optional[str] = None
@@ -55,6 +58,8 @@ class AiCallbackRequest(BaseModel):
     status: str
     recognizedScore: Optional[int] = None
     recognizedExercise: Optional[str] = None
+    recognizedTokens: Optional[List[Token]] = None
+    validation: Optional[Dict[str, Any]] = None
     gradeProposal: Optional[GradeProposal] = None
     evidence: Optional[List[Evidence]] = None
     studentFeedback: Optional[StudentFeedback] = None   # structured object (not plain string)

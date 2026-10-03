@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { RecognitionService, MultilineTrialResult, MultilineLineResult, normalizeOcrError } from '../../features/recognition/api/RecognitionService';
 import { logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 import { buildVisibleSuggestions, buildAdvisorView, VisibleSuggestion, normalizeForComparison, getLineReviewStatus, resolveLineDisplayState } from '../../features/recognition/utils/lineReview';
@@ -54,6 +54,8 @@ export default function MultilineResultScreen() {
         return trialId ? !RecognitionService.getCachedTrial(trialId) : true;
     });
     const [editingLineId, setEditingLineId] = useState<string | null>(null);
+    const editingLineIdRef = useRef(editingLineId);
+    editingLineIdRef.current = editingLineId;
     const [editText, setEditText] = useState('');
     const [submittingLineId, setSubmittingLineId] = useState<string | null>(null);
     useEffect(() => {
@@ -79,7 +81,9 @@ export default function MultilineResultScreen() {
                     linesCount: res.lines?.length,
                     requestId: res.requestId,
                 });
-                setTrial(res);
+                setTrial(prev => prev?.trialId === res.trialId
+                    ? mergeTrialWithAdvisorUpdate(prev, res, editingLineIdRef.current)
+                    : res);
                 {
                     const analytics = recognitionAnalyticsStore.computeTrialAnalytics(res, false);
                     recognitionAnalyticsStore.setCurrentTrialAnalytics(analytics);
@@ -104,71 +108,70 @@ export default function MultilineResultScreen() {
     const mathSolutionEval: MathSolutionEvaluationResult | null = React.useMemo(() => {
         if (!trial?.lines || trial.lines.length === 0)
             return null;
-        return evaluateMathSolution(trial.lines);
+        return evaluateMathSolution(trial.lines.map(line => ({
+            ...line,
+            currentText: resolveLineDisplayState(line).currentText,
+        })), { requireConfirmation: true });
     }, [trial?.lines]);
-    // Section 7: Async background advisor polling
-    // Polls every 1000ms while advisors are pending, stops when complete/failed or after 8 polls.
-    // Safely merges suggestions without overwriting user selections or manual edits.
+    const loadedTrialId = trial?.trialId;
+    // Sequential, bounded refreshes leave enough time for document-level advisors.
+    // A new payload or an edit must not restart the budget for the same trial.
     useEffect(() => {
-        let mounted = true;
-        if (!trialId || !trial)
+        if (!trialId || loadedTrialId !== trialId || !advisorPending)
             return;
-        if (!advisorPending)
-            return;
+        let active = true;
         let pollCount = 0;
-        const maxPolls = 8;
-        const pollIntervalMs = 1000;
-        const timer = setInterval(async () => {
-            if (!mounted)
-                return;
+        let timer: ReturnType<typeof setTimeout>;
+        const maxPolls = 24;
+        const pollIntervalMs = 3000;
+        const poll = async () => {
+            if (!active) return;
             pollCount++;
-            if (pollCount > maxPolls) {
-                clearInterval(timer);
-                return;
-            }
             try {
                 const fresh = await RecognitionService.getMultilineTrial(trialId);
-                if (!mounted)
-                    return;
+                if (!active || fresh.trialId !== trialId) return;
                 setTrial((prev) => {
-                    if (!prev)
-                        return fresh;
-                    return mergeTrialWithAdvisorUpdate(prev, fresh, editingLineId);
+                    if (!active || !prev || prev.trialId !== trialId) return prev;
+                    return mergeTrialWithAdvisorUpdate(prev, fresh, editingLineIdRef.current);
                 });
-                if (!isAdvisorPending(fresh)) {
-                    clearInterval(timer);
-                }
+                if (!isAdvisorPending(fresh)) return;
             }
             catch (e) {
-                console.warn('[MULTILINE_ASYNC_POLL] Background advisor poll check error:', e);
-                if (pollCount >= maxPolls)
-                    clearInterval(timer);
+                if (!active) return;
+                if (__DEV__) console.log('[RECOGNITION] Background suggestions are not available yet.');
             }
-        }, pollIntervalMs);
-        return () => {
-            mounted = false;
-            clearInterval(timer);
+            if (active && pollCount < maxPolls) timer = setTimeout(poll, pollIntervalMs);
         };
-    }, [trialId, trial, advisorPending, editingLineId]);
+        timer = setTimeout(poll, pollIntervalMs);
+        return () => {
+            active = false;
+            clearTimeout(timer);
+        };
+    }, [trialId, loadedTrialId, advisorPending]);
     const handleFeedback = async (line: MultilineLineResult, verdict: 'CORRECT' | 'CORRECTED' | 'SKIPPED', verifiedText?: string) => {
+        const feedbackTrialId = trialId;
+        const targetText = verifiedText !== undefined
+            ? verifiedText
+            : resolveLineDisplayState(line).currentText;
+        if (verdict === 'CORRECT' && !targetText.trim()) {
+            Alert.alert('Chưa có nội dung', 'Em hãy tự sửa dòng chữ trước khi xác nhận nhé.');
+            return;
+        }
         try {
             setSubmittingLineId(line.lineId);
-            const targetText = verifiedText !== undefined
-                ? verifiedText
-                : (verdict === 'CORRECT' ? (line.finalText || line.rawOcrText || line.predictedText) : line.predictedText);
-            const isTextDifferent = verifiedText !== undefined && verifiedText !== line.predictedText;
+            const isTextDifferent = (verdict === 'CORRECT' || verifiedText !== undefined) && targetText !== line.predictedText;
             const effectiveVerdict: 'CORRECT' | 'CORRECTED' | 'SKIPPED' = isTextDifferent ? 'CORRECTED' : verdict;
-            const effectiveVerifiedText = effectiveVerdict === 'CORRECTED' ? (verifiedText || targetText) : undefined;
+            const effectiveVerifiedText = effectiveVerdict === 'SKIPPED' ? undefined : targetText;
             // Immediate optimistic update of local state
             setTrial((prev) => {
-                if (!prev)
+                if (!prev || prev.trialId !== feedbackTrialId)
                     return prev;
                 const updatedLines = prev.lines.map((l) => {
                     if (l.lineId === line.lineId) {
                         return {
                             ...l,
                             verdict: effectiveVerdict,
-                            verifiedTextRaw: verifiedText !== undefined ? verifiedText : (effectiveVerdict === 'CORRECT' ? (l.rawOcrText || l.predictedText) : l.verifiedTextRaw),
+                            verifiedTextRaw: effectiveVerdict === 'SKIPPED' ? l.verifiedTextRaw : targetText,
                             finalText: targetText,
                             predictedText: targetText,
                         };
@@ -177,20 +180,15 @@ export default function MultilineResultScreen() {
                 });
                 return { ...prev, lines: updatedLines };
             });
-            const updatedLine = await RecognitionService.submitLineFeedback(trialId, line.lineId, effectiveVerdict, effectiveVerifiedText);
+            const updatedLine = await RecognitionService.submitLineFeedback(feedbackTrialId, line.lineId, effectiveVerdict, effectiveVerifiedText);
             // Reconcile with server response
             setTrial((prev) => {
-                if (!prev)
+                if (!prev || prev.trialId !== feedbackTrialId)
                     return prev;
                 const updatedLines = prev.lines.map((l) => l.lineId === line.lineId
-                    ? {
-                        ...l,
-                        ...updatedLine,
-                        finalText: targetText,
-                        predictedText: targetText,
-                    }
+                    ? updatedLine
                     : l);
-                return { ...prev, lines: updatedLines };
+                return mergeTrialWithAdvisorUpdate(prev, { ...prev, lines: updatedLines }, editingLineIdRef.current);
             });
             if (effectiveVerdict === 'CORRECTED') {
                 setEditingLineId(null);
@@ -198,8 +196,16 @@ export default function MultilineResultScreen() {
             }
         }
         catch (e: any) {
-            setTrial(prev => prev ? { ...prev, lines: prev.lines.map(current => current.lineId === line.lineId ? line : current) } : prev);
-            Alert.alert('Chưa thể lưu phản hồi', normalizeOcrError(e).message);
+            setTrial(prev => {
+                if (!prev || prev.trialId !== feedbackTrialId) return prev;
+                const rollback = { ...prev, lines: prev.lines.map(current => current.lineId === line.lineId ? line : current) };
+                // Restore the pre-click human state while carrying the latest advisor payload.
+                return mergeTrialWithAdvisorUpdate(rollback, prev, line.lineId);
+            });
+            const errorCode = e?.response?.data?.error?.code || e?.response?.data?.code;
+            Alert.alert('Chưa thể lưu phản hồi', errorCode === 'DATA_INTEGRITY_ERROR'
+                ? 'Dòng chữ vừa có gợi ý mới. Em hãy chọn nội dung đúng hoặc tự sửa rồi xác nhận.'
+                : normalizeOcrError(e).message);
         }
         finally {
             setSubmittingLineId(null);
@@ -225,7 +231,7 @@ export default function MultilineResultScreen() {
     };
     if (loading) {
         return (<View style={styles.centerContainer}>
-        <RecognitionProgress title="Đang mở kết quả" description="Bài nhận dạng của em sẽ hiện ngay khi tải xong." onCancel={() => router.back()} />
+        <RecognitionProgress title="Đang mở kết quả" description="Tải các dòng chữ đã nhận dạng." onCancel={() => router.back()} />
       </View>);
     }
     if (!trial) {
@@ -256,7 +262,9 @@ export default function MultilineResultScreen() {
       <View style={styles.summaryCard}>
         <Ionicons name="sparkles" size={18} color="#2563EB"/>
         <Text style={styles.summaryText}>
-          {`Đã nhận diện ${trial.lines.length} dòng. Em có thể chọn gợi ý hoặc tự sửa từng dòng.`}
+          {advisorPending
+              ? `Đã nhận diện ${trial.lines.length} dòng. Gợi ý bổ sung sẽ hiện khi sẵn sàng; em vẫn có thể tự kiểm tra.`
+              : `Đã nhận diện ${trial.lines.length} dòng. Em có thể chọn gợi ý hoặc tự sửa từng dòng.`}
         </Text>
       </View>
 
@@ -267,7 +275,7 @@ export default function MultilineResultScreen() {
               <View style={[styles.mathVerdictIconBadge, { backgroundColor: mathSolutionEval.summary.badgeColor }]}>
                 <Ionicons name={mathSolutionEval.summary.verdict === 'ALL_CORRECT'
                 ? 'checkmark-done-circle'
-                : mathSolutionEval.summary.verdict === 'HAS_CALCULATION_ERROR'
+                : ['HAS_CALCULATION_ERROR', 'HAS_ANSWER_ERROR', 'NEEDS_REVIEW', 'NEEDS_CONFIRMATION'].includes(mathSolutionEval.summary.verdict)
                     ? 'alert-circle'
                     : 'school'} size={22} color="#FFFFFF"/>
               </View>
@@ -296,11 +304,13 @@ export default function MultilineResultScreen() {
                             : COLORS.textPrimary,
                 }
             ]}>
-                {mathSolutionEval.summary.equationCount > 0
+                {mathSolutionEval.summary.verdict === 'NEEDS_CONFIRMATION'
+                ? mathSolutionEval.summary.equationCount
+                : mathSolutionEval.summary.equationCount > 0
                 ? `${mathSolutionEval.summary.correctEquations}/${mathSolutionEval.summary.equationCount}`
                 : '0'}
               </Text>
-              <Text style={styles.mathMetricLabel}>Phép tính đúng</Text>
+              <Text style={styles.mathMetricLabel}>{mathSolutionEval.summary.verdict === 'NEEDS_CONFIRMATION' ? 'Phép tính đã đọc' : 'Phép tính đúng'}</Text>
             </View>
             <View style={styles.mathMetricDivider}/>
             <View style={styles.mathMetricItem}>
@@ -312,7 +322,7 @@ export default function MultilineResultScreen() {
           </View>
 
           {/* Multi-step logic chaining banner */}
-          {mathSolutionEval.summary.multiStepChain?.isChained && (<View style={styles.mathChainBanner}>
+          {mathSolutionEval.summary.verdict !== 'NEEDS_CONFIRMATION' && mathSolutionEval.summary.multiStepChain?.isChained && (<View style={styles.mathChainBanner}>
               <Ionicons name="git-commit-outline" size={15} color="#2563EB"/>
               <Text style={styles.mathChainText}>
                 {mathSolutionEval.summary.multiStepChain.chainDescription}
@@ -320,7 +330,7 @@ export default function MultilineResultScreen() {
             </View>)}
 
           {/* Answer line validation feedback */}
-          {mathSolutionEval.summary.answerValidation && mathSolutionEval.summary.hasAnswer && (<View style={[
+          {mathSolutionEval.summary.verdict !== 'NEEDS_CONFIRMATION' && mathSolutionEval.summary.answerValidation && mathSolutionEval.summary.hasAnswer && (<View style={[
                     styles.mathAnswerStatusRow,
                     mathSolutionEval.summary.answerValidation.status === 'PERFECT'
                         ? styles.mathAnswerStatusValid
@@ -370,7 +380,7 @@ export default function MultilineResultScreen() {
       </View>
 
       {trial.lines.map((line, lineIndex) => {
-            const analyzedLine = mathSolutionEval?.lines[lineIndex];
+            const analyzedLine = mathSolutionEval?.lines.find(item => item.lineId === line.lineId);
             const isEditing = editingLineId === line.lineId;
             const isSubmitting = submittingLineId === line.lineId;
             let badgeBg = '#FEF3C7';
@@ -379,7 +389,7 @@ export default function MultilineResultScreen() {
             if (line.verdict === 'CORRECT') {
                 badgeBg = '#DCFCE7';
                 badgeColor = '#16A34A';
-                badgeText = 'Đúng ✓';
+                badgeText = 'Đã xác nhận';
             }
             else if (line.verdict === 'CORRECTED') {
                 badgeBg = '#DBEAFE';
@@ -395,6 +405,7 @@ export default function MultilineResultScreen() {
             const { ocrText, aiSuggestions, currentText, selectedSource, isAiConfirmed } = displayState;
             const rawText = line.rawOcrText || line.predictedText;
             const reviewStatus = getLineReviewStatus(line);
+            const lineAdvisorPending = isAdvisorPending({ ...trial, lines: [line] });
             const rawOcrConf = getRawOcrConfidence(line);
             const rawOcrConfText = rawOcrConf != null ? `${(rawOcrConf * 100).toFixed(0)}%` : null;
             // Smart Suggestion Logic for MathVision OCR (Phase 4):
@@ -431,7 +442,7 @@ export default function MultilineResultScreen() {
             </View>
 
             {/* Math Solution Line Role Badge */}
-            {analyzedLine && (<View style={styles.mathRoleRow}>
+            {analyzedLine?.text && (<View style={styles.mathRoleRow}>
                 <View style={[styles.mathRoleBadge, { backgroundColor: analyzedLine.roleBadgeColor + '15', borderColor: analyzedLine.roleBadgeColor }]}>
                   <Text style={[styles.mathRoleBadgeText, { color: analyzedLine.roleBadgeColor }]}>
                     {analyzedLine.roleBadgeText}
@@ -442,15 +453,17 @@ export default function MultilineResultScreen() {
             {/* Arithmetic Calculation Assessment Box (If line is an equation) */}
             {analyzedLine?.equationValidation && (<View style={[
                         styles.mathEquationBox,
-                        analyzedLine.equationValidation.isValid ? styles.mathEquationBoxValid : styles.mathEquationBoxInvalid
+                        analyzedLine.confirmed && analyzedLine.equationValidation.isValid ? styles.mathEquationBoxValid : styles.mathEquationBoxInvalid
                     ]}>
                 <View style={styles.mathEquationHeader}>
-                  <Ionicons name={analyzedLine.equationValidation.isValid ? 'checkmark-circle' : 'close-circle'} size={16} color={analyzedLine.equationValidation.isValid ? '#15803D' : '#DC2626'}/>
+                  <Ionicons name={!analyzedLine.confirmed ? 'help-circle' : analyzedLine.equationValidation.isValid ? 'checkmark-circle' : 'close-circle'} size={16} color={!analyzedLine.confirmed ? '#B45309' : analyzedLine.equationValidation.isValid ? '#15803D' : '#DC2626'}/>
                   <Text style={[
                         styles.mathEquationTitle,
-                        { color: analyzedLine.equationValidation.isValid ? '#15803D' : '#DC2626' }
+                        { color: !analyzedLine.confirmed ? '#B45309' : analyzedLine.equationValidation.isValid ? '#15803D' : '#DC2626' }
                     ]}>
-                    {analyzedLine.equationValidation.isValid
+                    {!analyzedLine.confirmed
+                        ? 'Theo nội dung vừa đọc — cần xác nhận'
+                        : analyzedLine.equationValidation.isValid
                         ? 'Phép tính chính xác'
                         : 'Phép tính chưa chính xác'}
                   </Text>
@@ -497,7 +510,7 @@ export default function MultilineResultScreen() {
                         </View>) : (<View style={styles.aiConfirmedRow}>
                           <Ionicons name="document-text-outline" size={16} color="#64748B"/>
                           <Text style={[styles.aiConfirmedText, { color: '#64748B' }]}>
-                            Bản hiện tại (Chưa thể kiểm tra thêm lúc này.)
+                            {lineAdvisorPending ? 'Em có thể kiểm tra bản đọc trong khi chờ gợi ý.' : 'Bản hiện tại (Chưa thể kiểm tra thêm lúc này.)'}
                           </Text>
                         </View>)) : (aiSuggestions.map((sugg, idx) => (<View key={sugg.id} style={idx === 0 ? styles.sectionBBox : styles.sectionGeminiBox}>
                           <View style={styles.sectionSubHeader}>
@@ -654,7 +667,7 @@ export default function MultilineResultScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8FAFC',
+        backgroundColor: COLORS.background,
     },
     content: {
         padding: SIZES.medium,
@@ -673,11 +686,13 @@ const styles = StyleSheet.create({
     },
     loadingText: {
         marginTop: 16,
+        fontFamily: FONTS.regular,
         fontSize: 15,
         color: COLORS.textSecondary,
         textAlign: 'center',
     },
     errorText: {
+        fontFamily: FONTS.regular,
         fontSize: 15,
         color: COLORS.errorText,
         textAlign: 'center',
@@ -691,7 +706,7 @@ const styles = StyleSheet.create({
     },
     retryBtnText: {
         color: '#FFFFFF',
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         fontSize: 14,
     },
     header: {
@@ -710,7 +725,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 18,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: '#0F172A',
         letterSpacing: -0.3,
     },
@@ -730,7 +745,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         lineHeight: 18,
         color: '#1E40AF',
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     card: {
         backgroundColor: '#FFFFFF',
@@ -748,7 +763,7 @@ const styles = StyleSheet.create({
     },
     cardTitle: {
         fontSize: 14,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#0F172A',
     },
     joinedTextBox: {
@@ -759,6 +774,7 @@ const styles = StyleSheet.create({
         borderLeftColor: '#2563EB',
     },
     joinedText: {
+        fontFamily: FONTS.regular,
         fontSize: 15,
         lineHeight: 22,
         color: '#1E293B',
@@ -769,12 +785,13 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         fontSize: 15,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: '#0F172A',
         letterSpacing: -0.3,
         marginBottom: 2,
     },
     sectionSubtitle: {
+        fontFamily: FONTS.regular,
         fontSize: 12,
         color: '#64748B',
         lineHeight: 17,
@@ -802,7 +819,7 @@ const styles = StyleSheet.create({
     },
     lineOrderText: {
         fontSize: 12,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: '#1D4ED8',
     },
     badge: {
@@ -812,7 +829,7 @@ const styles = StyleSheet.create({
     },
     badgeLabel: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
     sectionSubHeader: {
         flexDirection: 'row',
@@ -831,18 +848,18 @@ const styles = StyleSheet.create({
     },
     sectionALabel: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#64748B',
         letterSpacing: 0.5,
     },
     confidenceBadge: {
         fontSize: 11,
         color: '#64748B',
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     sectionAText: {
         fontSize: 15,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#1E293B',
     },
     /* Section B: Deduplicated Suggestions */
@@ -856,13 +873,13 @@ const styles = StyleSheet.create({
     },
     sectionBLabel: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#92400E',
         letterSpacing: 0.5,
     },
     sectionBText: {
         fontSize: 15,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#78350F',
         marginBottom: 8,
     },
@@ -876,13 +893,13 @@ const styles = StyleSheet.create({
     },
     sectionGeminiLabel: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#6D28D9',
         letterSpacing: 0.5,
     },
     sectionGeminiText: {
         fontSize: 15,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#581C87',
         marginBottom: 6,
     },
@@ -898,7 +915,7 @@ const styles = StyleSheet.create({
     },
     chooseGroqBtnText: {
         fontSize: 12,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#FFFFFF',
     },
     chooseGeminiBtn: {
@@ -913,7 +930,7 @@ const styles = StyleSheet.create({
     },
     chooseGeminiBtnText: {
         fontSize: 12,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#FFFFFF',
     },
     advisorTitleRow: {
@@ -935,7 +952,7 @@ const styles = StyleSheet.create({
     },
     aiConfirmedText: {
         fontSize: 13,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#15803D',
     },
     autoApplyBadge: {
@@ -946,7 +963,7 @@ const styles = StyleSheet.create({
     },
     autoApplyBadgeText: {
         fontSize: 10,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#16A34A',
     },
     suggestionActionRow: {
@@ -970,7 +987,7 @@ const styles = StyleSheet.create({
     },
     revertToRawText: {
         fontSize: 11,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#065F46',
     },
     /* Section C: Current Result (Prominent & Clear) */
@@ -990,7 +1007,7 @@ const styles = StyleSheet.create({
     },
     sectionCLabel: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#1D4ED8',
         letterSpacing: 0.5,
     },
@@ -1011,12 +1028,12 @@ const styles = StyleSheet.create({
     },
     sourceBadgeText: {
         fontSize: 10,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#1E40AF',
     },
     sectionCText: {
         fontSize: 16,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#1E3A8A',
     },
     /* Inline Editing Form */
@@ -1030,7 +1047,7 @@ const styles = StyleSheet.create({
     },
     editFormLabel: {
         fontSize: 12,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: COLORS.textPrimary,
         marginBottom: 6,
     },
@@ -1041,6 +1058,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderColor: COLORS.primary,
         paddingHorizontal: 12,
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: COLORS.textPrimary,
         marginBottom: 10,
@@ -1059,7 +1077,7 @@ const styles = StyleSheet.create({
     cancelEditBtnText: {
         fontSize: 13,
         color: COLORS.textSecondary,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     saveEditBtn: {
         paddingVertical: 9,
@@ -1070,7 +1088,7 @@ const styles = StyleSheet.create({
     saveEditBtnText: {
         fontSize: 13,
         color: '#FFFFFF',
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
     /* Action Row */
     actionContainer: {
@@ -1113,7 +1131,7 @@ const styles = StyleSheet.create({
     },
     fbBtnText: {
         fontSize: 12,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
     /* Bottom Actions */
     bottomContainer: {
@@ -1133,7 +1151,7 @@ const styles = StyleSheet.create({
     },
     analyticsBtnText: {
         fontSize: 14,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#FFFFFF',
     },
     doneBtn: {
@@ -1148,7 +1166,7 @@ const styles = StyleSheet.create({
     },
     doneBtnText: {
         fontSize: 15,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#FFFFFF',
     },
     secondaryDoneBtn: {
@@ -1164,7 +1182,7 @@ const styles = StyleSheet.create({
     },
     secondaryDoneBtnText: {
         fontSize: 14,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.primary,
     },
     aiConfirmedBadge: {
@@ -1180,7 +1198,7 @@ const styles = StyleSheet.create({
     },
     aiConfirmedBadgeText: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#15803D',
     },
     confirmedNoticeRow: {
@@ -1193,7 +1211,7 @@ const styles = StyleSheet.create({
     confirmedNoticeText: {
         fontSize: 12,
         color: '#15803D',
-        fontWeight: '500',
+        fontFamily: FONTS.medium,
     },
     lineHeaderRight: {
         flexDirection: 'row',
@@ -1226,10 +1244,11 @@ const styles = StyleSheet.create({
     },
     mathSolutionTitleText: {
         fontSize: 16,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
     },
     mathSolutionHintText: {
+        fontFamily: FONTS.regular,
         fontSize: 13,
         color: COLORS.textSecondary,
         marginTop: 2,
@@ -1252,14 +1271,14 @@ const styles = StyleSheet.create({
     },
     mathMetricValue: {
         fontSize: 16,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.textPrimary,
     },
     mathMetricLabel: {
         fontSize: 11,
         color: '#64748B',
         marginTop: 2,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     mathMetricDivider: {
         width: 1,
@@ -1279,7 +1298,7 @@ const styles = StyleSheet.create({
     },
     mathRoleBadgeText: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
     mathEquationBox: {
         borderRadius: 8,
@@ -1303,11 +1322,11 @@ const styles = StyleSheet.create({
     },
     mathEquationTitle: {
         fontSize: 13,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
     mathEquationValidText: {
         fontSize: 14,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#166534',
         paddingLeft: 22,
     },
@@ -1317,14 +1336,14 @@ const styles = StyleSheet.create({
     },
     mathEquationErrorDetail: {
         fontSize: 13,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#991B1B',
     },
     mathEquationHintText: {
         fontSize: 12,
         color: '#B45309',
         lineHeight: 16,
-        fontWeight: '500',
+        fontFamily: FONTS.medium,
     },
     mathChainBanner: {
         flexDirection: 'row',
@@ -1342,7 +1361,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 12,
         color: '#1D4ED8',
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         lineHeight: 16,
     },
     mathAnswerStatusRow: {
@@ -1366,7 +1385,7 @@ const styles = StyleSheet.create({
     mathAnswerStatusText: {
         flex: 1,
         fontSize: 12,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         lineHeight: 16,
     },
 });

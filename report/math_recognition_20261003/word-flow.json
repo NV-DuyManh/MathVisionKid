@@ -1,0 +1,21 @@
+{
+  "input": "synthetic typed Vietnamese solution page",
+  "physicalDeviceTest": false,
+  "modelRecognitionActuallyInvoked": true,
+  "confirmedBoxesManuallySpecified": true,
+  "recognitionAccuracyClaimed": false,
+  "formalWordProblemGrading": false,
+  "trialId": "c5f363d1-e1e9-422c-bcea-95de60d42b0a",
+  "isTestData": true,
+  "trainingEligible": false,
+  "rawOcrPreserved": true,
+  "imageSha256": "d42f0cf1900ab616e197d44c13aec9c75e2e02eef77246e46da41a8f3dd00764",
+  "creationSeconds": 0.759,
+  "cases": {
+    "unconfirmed": "NEEDS_CONFIRMATION",
+    "confirmed": "ALL_CORRECT",
+    "unitMismatch": "HAS_ANSWER_ERROR",
+    "cascadeError": "HAS_CALCULATION_ERROR",
+    "restored": "ALL_CORRECT"
+  }
+}

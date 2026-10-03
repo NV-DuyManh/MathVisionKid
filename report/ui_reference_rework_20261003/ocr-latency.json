@@ -1,0 +1,478 @@
+{
+  "historicalOwnerTrace": {
+    "requestId": "req_fh5s4b5m_mur6xe59",
+    "final_box_count": 12,
+    "totalLatencyMs": 30653.14,
+    "cacheHit": false,
+    "forceRedetect": true,
+    "recognitionEngine": "CRNN",
+    "finalTextSource": "CRNN_RAW",
+    "groqCalls": 6,
+    "geminiCalls": 6,
+    "parallelWallClockMs": 27374.06
+  },
+  "internalHttp": {
+    "imageSha256": "5586280c8865ca1cf52fb399984632f3ba157ec87f58278de7b3891c37f79fbe",
+    "imageBytes": 253206,
+    "physicalDeviceTest": false,
+    "requests": [
+      {
+        "label": "ordinary-forced-cold-model",
+        "httpStatus": 200,
+        "elapsedSeconds": 25.461,
+        "lineCount": 12,
+        "diagnostics": {
+          "cacheHit": false,
+          "forceRedetect": true,
+          "totalLatencyMs": 25419.17,
+          "recognitionEngine": "CRNN",
+          "crnnExecuted": true,
+          "segmentationSource": "LOCAL_CV",
+          "groqLineAssistUsed": false,
+          "groqCalls": 6,
+          "geminiCalls": 6,
+          "parallelWallClockMs": 19935.04,
+          "totalCorrectionLatencyMs": 19979.38,
+          "finalTextSource": "CRNN_RAW"
+        }
+      },
+      {
+        "label": "fast-forced-warm-model",
+        "httpStatus": 200,
+        "elapsedSeconds": 5.754,
+        "lineCount": 12,
+        "diagnostics": {
+          "cacheHit": false,
+          "forceRedetect": true,
+          "totalLatencyMs": 5740.03,
+          "recognitionEngine": "CRNN",
+          "crnnExecuted": true,
+          "segmentationSource": "LOCAL_CV",
+          "groqLineAssistUsed": false,
+          "groqCalls": 0,
+          "geminiCalls": 0,
+          "parallelWallClockMs": 0.0,
+          "totalCorrectionLatencyMs": 0.0,
+          "finalTextSource": "CRNN_RAW"
+        }
+      },
+      {
+        "label": "fast-forced-warm-model-repeat",
+        "httpStatus": 200,
+        "elapsedSeconds": 6.627,
+        "lineCount": 12,
+        "diagnostics": {
+          "cacheHit": false,
+          "forceRedetect": true,
+          "totalLatencyMs": 6619.94,
+          "recognitionEngine": "CRNN",
+          "crnnExecuted": true,
+          "segmentationSource": "LOCAL_CV",
+          "groqLineAssistUsed": false,
+          "groqCalls": 0,
+          "geminiCalls": 0,
+          "parallelWallClockMs": 0.0,
+          "totalCorrectionLatencyMs": 0.0,
+          "finalTextSource": "CRNN_RAW"
+        }
+      },
+      {
+        "label": "ordinary-forced-warm-model",
+        "httpStatus": 200,
+        "elapsedSeconds": 7.244,
+        "lineCount": 12,
+        "diagnostics": {
+          "cacheHit": false,
+          "forceRedetect": true,
+          "totalLatencyMs": 7207.95,
+          "recognitionEngine": "CRNN",
+          "crnnExecuted": true,
+          "segmentationSource": "LOCAL_CV",
+          "groqLineAssistUsed": false,
+          "groqCalls": 6,
+          "geminiCalls": 6,
+          "parallelWallClockMs": 11.19,
+          "totalCorrectionLatencyMs": 11.47,
+          "finalTextSource": "CRNN_RAW"
+        }
+      }
+    ],
+    "coreFieldsEqual": true,
+    "finalTextEqual": true,
+    "fastAdvisorsPending": true
+  },
+  "publicHttp": {
+    "physicalDeviceTest": false,
+    "trialId": "7f884a22-0ef7-43a5-adc6-e46e2e898dc4",
+    "isTestData": true,
+    "imageSha256": "5586280c8865ca1cf52fb399984632f3ba157ec87f58278de7b3891c37f79fbe",
+    "lineCount": 12,
+    "httpStatuses": {
+      "detect": 200,
+      "create": 201,
+      "feedback": 200,
+      "read": 200
+    },
+    "detectSeconds": 4.9,
+    "createSeconds": 1.32,
+    "backgroundSecondsFromFirstRead": 32.88,
+    "initialAdvisorsPending": true,
+    "coreFieldsEqualToOrdinaryBaseline": true,
+    "rawOcrPreservedAfterAdvisors": true,
+    "humanFeedbackPreservedAfterAdvisors": true,
+    "trainingEligible": false,
+    "detectorDiagnostics": {
+      "cacheHit": false,
+      "forceRedetect": true,
+      "totalLatencyMs": 4567.58,
+      "crnnExecuted": true,
+      "segmentationSource": "LOCAL_CV",
+      "groqCalls": 0,
+      "geminiCalls": 0,
+      "totalCorrectionLatencyMs": 0.0
+    },
+    "advisorStatuses": [
+      {
+        "lineOrder": 1,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.98,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": false
+      },
+      {
+        "lineOrder": 2,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.95,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": true
+      },
+      {
+        "lineOrder": 3,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.95,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": true
+      },
+      {
+        "lineOrder": 4,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.95,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": false
+      },
+      {
+        "lineOrder": 5,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.98,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": true
+      },
+      {
+        "lineOrder": 6,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.95,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": true
+      },
+      {
+        "lineOrder": 7,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.95,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": true
+      },
+      {
+        "lineOrder": 8,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.98,
+        "geminiConfidence": 0.99,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": false
+      },
+      {
+        "lineOrder": 9,
+        "groqStatus": "SUCCESS",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": 0.95,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": true,
+        "geminiHasSuggestion": true,
+        "correctionApplied": true
+      },
+      {
+        "lineOrder": 10,
+        "groqStatus": "UNAVAILABLE",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": null,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": false,
+        "geminiHasSuggestion": true,
+        "correctionApplied": false
+      },
+      {
+        "lineOrder": 11,
+        "groqStatus": "UNAVAILABLE",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": null,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": false,
+        "geminiHasSuggestion": true,
+        "correctionApplied": false
+      },
+      {
+        "lineOrder": 12,
+        "groqStatus": "UNAVAILABLE",
+        "geminiStatus": "SUCCESS",
+        "groqModel": "qwen/qwen3.8-27b",
+        "geminiModel": "gemini-3.6-flash",
+        "groqConfidence": null,
+        "geminiConfidence": 0.98,
+        "groqHasSuggestion": false,
+        "geminiHasSuggestion": true,
+        "correctionApplied": false
+      }
+    ],
+    "polls": [
+      {
+        "seconds": 0.075,
+        "pending": true
+      },
+      {
+        "seconds": 1.195,
+        "pending": true
+      },
+      {
+        "seconds": 2.268,
+        "pending": true
+      },
+      {
+        "seconds": 3.319,
+        "pending": true
+      },
+      {
+        "seconds": 4.389,
+        "pending": true
+      },
+      {
+        "seconds": 5.465,
+        "pending": true
+      },
+      {
+        "seconds": 6.539,
+        "pending": true
+      },
+      {
+        "seconds": 7.624,
+        "pending": true
+      },
+      {
+        "seconds": 8.682,
+        "pending": true
+      },
+      {
+        "seconds": 9.751,
+        "pending": true
+      },
+      {
+        "seconds": 10.804,
+        "pending": true
+      },
+      {
+        "seconds": 11.901,
+        "pending": true
+      },
+      {
+        "seconds": 12.967,
+        "pending": true
+      },
+      {
+        "seconds": 14.018,
+        "pending": true
+      },
+      {
+        "seconds": 15.061,
+        "pending": true
+      },
+      {
+        "seconds": 16.11,
+        "pending": true
+      },
+      {
+        "seconds": 17.167,
+        "pending": true
+      },
+      {
+        "seconds": 18.231,
+        "pending": true
+      },
+      {
+        "seconds": 19.268,
+        "pending": true
+      },
+      {
+        "seconds": 20.306,
+        "pending": true
+      },
+      {
+        "seconds": 21.353,
+        "pending": true
+      },
+      {
+        "seconds": 22.416,
+        "pending": true
+      },
+      {
+        "seconds": 23.464,
+        "pending": true
+      },
+      {
+        "seconds": 24.505,
+        "pending": true
+      },
+      {
+        "seconds": 25.543,
+        "pending": true
+      },
+      {
+        "seconds": 26.583,
+        "pending": true
+      },
+      {
+        "seconds": 27.646,
+        "pending": true
+      },
+      {
+        "seconds": 28.698,
+        "pending": true
+      },
+      {
+        "seconds": 29.752,
+        "pending": true
+      },
+      {
+        "seconds": 30.794,
+        "pending": true
+      },
+      {
+        "seconds": 31.824,
+        "pending": true
+      },
+      {
+        "seconds": 32.879,
+        "pending": false
+      }
+    ],
+    "backendHealth": "UP",
+    "storedImageMatchesExactUpload": true
+  },
+  "providerComparison": {
+    "groq": {
+      "warmOrdinaryStatuses": {
+        "null": 6,
+        "SUCCESS": 6
+      },
+      "warmOrdinaryKeyAttempts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "backgroundStatuses": {
+        "SUCCESS": 9,
+        "UNAVAILABLE": 3
+      },
+      "ordinarySuccessfulSuggestions": 6,
+      "sameLaterSuggestions": 4
+    },
+    "gemini": {
+      "warmOrdinaryStatuses": {
+        "null": 6,
+        "SUCCESS": 6
+      },
+      "warmOrdinaryKeyAttempts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "backgroundStatuses": {
+        "SUCCESS": 12
+      },
+      "ordinarySuccessfulSuggestions": 6,
+      "sameLaterSuggestions": 6
+    }
+  },
+  "backgroundAutoCorrections": 6,
+  "claims": {
+    "sameCoreOcrForMeasuredImage": true,
+    "generalAccuracyBenchmark": false,
+    "universalLatencyGuarantee": false,
+    "physicalDeviceTest": false,
+    "modelWeightsChanged": false,
+    "trainingPerformed": false
+  },
+  "notes": [
+    "All measured requests force segmentation; detection cacheHit=false.",
+    "The first ordinary run lazily loads CRNN; other runs use the warmed model.",
+    "First internal measurements overlap backend build/tests and are observational.",
+    "Warm ordinary provider responses are cached successful results, with zero key attempts.",
+    "Public forced detection occurs after builds; background document advisors finish later.",
+    "Batch and per-line advisor suggestions are compared, not asserted universally equivalent.",
+    "Private input/full OCR responses remain in ignored scratch; report contains hashes and status metadata."
+  ],
+  "terminalFailureGuard": {
+    "failureRegressionsPassed": 4,
+    "updatedOnlyPendingProviders": true,
+    "settledSuccessAndHumanFeedbackPreserved": true,
+    "separateRealReadAfterReload": true
+  }
+}

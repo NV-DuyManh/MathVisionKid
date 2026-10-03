@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppCard } from '../ui/AppCard';
-import { COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS, SIZES } from '../../constants/theme';
 
 interface StatusCardProps {
   title: string;
@@ -96,12 +96,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 17,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     marginBottom: 4,
     lineHeight: 22,
   },
   subtitle: {
+    fontFamily: FONTS.regular,
     fontSize: 14,
     color: COLORS.textSecondary,
     lineHeight: 20,

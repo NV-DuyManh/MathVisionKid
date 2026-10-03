@@ -1,5 +1,6 @@
 import logging
 from fastapi import FastAPI, HTTPException, Depends
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 from app.config import settings
@@ -53,10 +54,20 @@ async def readiness_check():
             logger.warning(f"Model readiness check failed: {e}")
             model_ok = False
 
-    is_ready = redis_ok and model_ok
-    return {
+    workers = []
+    if redis_ok:
+        from app.jobs.celery_app import active_mathvision_workers
+        try:
+            workers = active_mathvision_workers()
+        except Exception as e:
+            logger.warning(f"Worker readiness check failed: {type(e).__name__}")
+
+    is_ready = redis_ok and model_ok and bool(workers)
+    return JSONResponse(status_code=200 if is_ready else 503, content={
         "status": "ready" if is_ready else "NOT_READY",
         "redis_connected": redis_ok,
         "model_loaded": model_ok,
-        "mode": settings.runtime_mode
-    }
+        "worker_available": bool(workers),
+        "arithmetic_ready": is_ready,
+        "mode": settings.runtime_mode,
+    })

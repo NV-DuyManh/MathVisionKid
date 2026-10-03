@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, Alert, ActivityIndicator, TouchableOpaci
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ImageManipulator from 'expo-image-manipulator';
-import { COLORS, SIZES } from '../constants/theme';
+import { FONTS, COLORS, SIZES } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -444,6 +444,7 @@ const styles = StyleSheet.create({
         padding: SIZES.large,
     },
     emptyText: {
+        fontFamily: FONTS.regular,
         fontSize: 16,
         color: COLORS.textSecondary,
         marginBottom: SIZES.large,
@@ -465,7 +466,7 @@ const styles = StyleSheet.create({
         color: COLORS.textPrimary,
         lineHeight: 18,
         flex: 1,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     imageContainer: {
         flex: 1,
@@ -562,7 +563,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         marginTop: 12,
         fontSize: 16,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     errorOverlay: {
         ...StyleSheet.absoluteFill as object,
@@ -574,7 +575,7 @@ const styles = StyleSheet.create({
         color: COLORS.error,
         marginTop: 10,
         fontSize: 14,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     footer: {
         padding: SIZES.large,
@@ -599,7 +600,7 @@ const styles = StyleSheet.create({
     iconBtnText: {
         marginLeft: 6,
         color: COLORS.primary,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         fontSize: 14,
     },
 });

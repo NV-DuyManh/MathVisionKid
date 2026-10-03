@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-03",
+  "skillsApplied": [
+    "ponytail"
+  ],
+  "runs": [
+    {
+      "scope": "parser adapter validation fixture model callback manifest quality bridge boundaries readiness",
+      "passed": 77,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 7.36
+    },
+    {
+      "scope": "API Celery callback retry private MinIO resolver row bridge confidence model preprocessing readiness",
+      "passed": 77,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 5.08
+    },
+    {
+      "scope": "final broker isolation API boundaries readiness callback retry Celery",
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 3.58
+    }
+  ],
+  "testSetsOverlap": true,
+  "launcherPowerShellSyntax": "PASS",
+  "scopedGitDiffCheck": "PASS",
+  "trainingPerformed": false,
+  "modelDownloadPerformed": false,
+  "runtimeRestartPerformedByComponent": false,
+  "liveQueuedJobsConsumedByComponent": false,
+  "liveStudentApiVerification": "PASS_ROOT_RUNTIME_PHASE: arithmetic-flow.json",
+  "rootFinalFocusedRun": {
+    "passed": 88,
+    "modules": 15,
+    "seconds": 7.22,
+    "evidence": "ai-current-tests.xml"
+  }
+}

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.security.Principal;
 import java.util.UUID;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/student/submissions")
@@ -33,51 +34,22 @@ public class StudentSubmissionController {
 
     @GetMapping("/{submissionId}")
     public ResponseEntity<SubmissionResponse> getSubmission(@PathVariable UUID submissionId, Principal principal) {
-        Submission submission = submissionService.getStudentSubmission(principal.getName(), submissionId);
-        SubmissionResponse response = new SubmissionResponse();
-        response.setSubmissionId(submission.getSubmissionId());
-        response.setStatus(submission.getStatus());
-        response.setCreatedAt(submission.getCreatedAt());
-        response.setFlowDomain("ARITHMETIC");
-
-        analysisResultRepository.findBySubmission_SubmissionId(submission.getSubmissionId())
-                .ifPresent(ar -> {
-                    if (ar.getReviewReasons() != null) {
-                        if (ar.getReviewReasons().containsKey("reasonCode")) {
-                            Object rc = ar.getReviewReasons().get("reasonCode");
-                            if (rc != null) {
-                                response.setReasonCode(String.valueOf(rc));
-                            }
-                        }
-                        if (ar.getReviewReasons().containsKey("diagnostics")) {
-                            Object diag = ar.getReviewReasons().get("diagnostics");
-                            if (diag instanceof java.util.Map<?, ?> map) {
-                                @SuppressWarnings("unchecked")
-                                java.util.Map<String, Object> castMap = (java.util.Map<String, Object>) map;
-                                response.setDiagnostics(castMap);
-                            }
-                        }
-                    }
-                });
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(submissionService.getStudentSubmissionResponse(principal.getName(), submissionId));
     }
 
     @PostMapping("/{submissionId}/confirm-token")
-    public ResponseEntity<Void> confirmToken(@PathVariable UUID submissionId, 
-                                             @RequestParam String tokenClass, 
-                                             @RequestParam String newClass, 
+    public ResponseEntity<SubmissionResponse> confirmToken(@PathVariable UUID submissionId,
+                                             @Valid @RequestBody TokenConfirmationRequest request,
                                              Principal principal) {
-        submissionService.confirmToken(principal.getName(), submissionId, tokenClass, newClass);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(submissionService.confirmToken(principal.getName(), submissionId, request));
     }
 
     @PostMapping("/{submissionId}/retry")
-    public ResponseEntity<Void> retrySubmission(@PathVariable UUID submissionId, 
+    public ResponseEntity<SubmissionResponse> retrySubmission(@PathVariable UUID submissionId,
                                                 @RequestParam("image") MultipartFile image,
                                                 @RequestParam(value = "source", required = false) String source,
                                                 Principal principal) {
         submissionService.retrySubmission(principal.getName(), submissionId, image, source);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(submissionService.getStudentSubmissionResponse(principal.getName(), submissionId));
     }
 }

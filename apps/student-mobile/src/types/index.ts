@@ -40,15 +40,27 @@ export interface BoundingBox {
 
 export interface RecognizedToken {
   value: string;
+  tokenId?: string;
+  tokenClass?: string;
+  boundingBox?: [number, number, number, number];
+  row?: number;
+  column?: number;
+  ambiguity?: boolean;
+  alternatives?: string[];
   box?: BoundingBox;
   confidence?: number;
   isAmbiguous?: boolean;
 }
 
 export interface RecognizedExercise {
-  operator: string;
-  operands: RecognizedToken[];
-  observedResult: RecognizedToken[];
+  expression?: string;
+  rawExpression?: string;
+  tokens?: RecognizedToken[];
+  rawTokens?: RecognizedToken[];
+  corrections?: unknown[];
+  operator?: string;
+  operands?: RecognizedToken[] | string[];
+  observedResult?: RecognizedToken[] | string;
   carryMarks?: RecognizedToken[];
 }
 
@@ -61,7 +73,9 @@ export interface ColumnValidation {
 }
 
 export interface Validation {
-  decision: Decision;
+  decision?: Decision;
+  isValid?: boolean | null;
+  diagnosisState?: string;
   columns?: ColumnValidation[];
   firstInvalidIndex?: number;
   errorType?: ErrorType;
@@ -71,6 +85,7 @@ export interface StudentFeedback {
   title: string;
   hint: string;
   revealAnswer: boolean;
+  focusEvidenceId?: string;
 }
 
 export interface RecognitionAttemptDiagnostics {
@@ -88,6 +103,7 @@ export interface RecognitionAttemptDiagnostics {
 
 export interface SubmissionResult {
   id: string;
+  jobId?: string;
   status: SubmissionStatus;
   recognizedExercise?: RecognizedExercise;
   validation?: Validation;
@@ -97,11 +113,21 @@ export interface SubmissionResult {
   reasonCode?: string;
   diagnostics?: RecognitionAttemptDiagnostics;
   flowDomain?: FlowDomain;
+  uncertainTokenIds?: string[];
+  evidence?: { items?: Array<{ evidenceId?: string; columnIndex?: number; description?: string }> };
+  modelVersion?: string;
+  createdAt?: string;
+}
+
+export interface TokenCorrection {
+  jobId: string;
+  tokenId: string;
+  newClass: string;
 }
 
 export interface SubmissionService {
-  uploadImage(uri: string): Promise<SubmissionResult>;
-  getSubmission(id: string, scenarioHint?: string): Promise<SubmissionResult>;
-  confirmToken(id: string, token: string): Promise<SubmissionResult>;
-  retrySubmission(id: string, uri: string): Promise<SubmissionResult>;
+  uploadImage(uri: string, signal?: AbortSignal): Promise<SubmissionResult>;
+  getSubmission(id: string, scenarioHint?: string, signal?: AbortSignal): Promise<SubmissionResult>;
+  confirmToken(id: string, correction: TokenCorrection, signal?: AbortSignal): Promise<SubmissionResult>;
+  retrySubmission(id: string, uri: string, signal?: AbortSignal): Promise<SubmissionResult>;
 }

@@ -1,0 +1,52 @@
+{
+  "environment": "Chromium desktop, live Expo web source, reduced motion; no physical device",
+  "fixtures": "Auth /me, arithmetic submission/result/confirmation and OCR trial GET responses are controlled fixtures. Actual browser file selection/privacy/crop/Blob multipart, actual UI/routing/evaluator code execute. Synthetic photo is not model accuracy evidence.",
+  "checks": [
+    {
+      "name": "arithmetic-real-browser-multipart-and-horizontal-progress-375",
+      "result": {
+        "multipart": {
+          "bytes": 20263,
+          "boundary": "multipart/form-data; boundary=----WebKitFormBoundary3KxQEBO8PA5C9rmZ",
+          "sourceGallery": true,
+          "hasRealJpegBytes": true,
+          "hasStringifiedObject": false
+        },
+        "cancelBounds": {
+          "x": 126.21875,
+          "y": 568,
+          "width": 122.546875,
+          "height": 48
+        },
+        "overflow": {
+          "viewportWidth": 375,
+          "documentWidth": 375
+        }
+      }
+    },
+    {
+      "name": "identified-token-revalidation-invalid-375",
+      "result": {
+        "confirmation": {
+          "jobId": "job-synthetic",
+          "tokenId": "second-seven",
+          "newClass": "3"
+        },
+        "result": "error-hint",
+        "overflow": {
+          "viewportWidth": 375,
+          "documentWidth": 375
+        }
+      }
+    }
+  ],
+  "screens": [
+    "E:/MathVisionKid/report/math_recognition_20261003/mobile/arithmetic-preview-375x812.png",
+    "E:/MathVisionKid/report/math_recognition_20261003/mobile/arithmetic-progress-375x812.png",
+    "E:/MathVisionKid/report/math_recognition_20261003/mobile/arithmetic-token-photo-375x812.png",
+    "E:/MathVisionKid/report/math_recognition_20261003/mobile/arithmetic-invalid-hint-375x812.png"
+  ],
+  "errors": [],
+  "failure": "page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:8087/results/correct\", waiting until \"domcontentloaded\"\u001b[22m\n\n    at arithmetic (E:\\MathVisionKid\\scratch\\arithmetic-browser-qa.cjs:90:16)\n    at async E:\\MathVisionKid\\scratch\\arithmetic-browser-qa.cjs:130:53",
+  "status": "FAILED"
+}

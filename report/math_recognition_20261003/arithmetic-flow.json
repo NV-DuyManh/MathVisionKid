@@ -1,0 +1,42 @@
+{
+  "input": "existing synthetic arithmetic images",
+  "physicalDeviceTest": false,
+  "actualModelMode": "MODEL",
+  "actualQueueWorkerCallback": true,
+  "trainingPerformed": false,
+  "cases": {
+    "addition": {
+      "id": "3b9abf15-a52e-4a95-a0a7-82d8c467edfe",
+      "seconds": 3.037,
+      "valid": true
+    },
+    "subtraction": {
+      "id": "58116669-75ac-4586-b059-e5e5c734e934",
+      "seconds": 0.594,
+      "valid": true
+    },
+    "wrongSubtraction": {
+      "id": "27c8a0cf-1ce7-4445-8c31-c17f6ce0284d",
+      "seconds": 0.596,
+      "valid": false,
+      "errorColumnFromRight": 1
+    },
+    "humanCorrection": {
+      "rawPreserved": true,
+      "correctedValid": true
+    },
+    "retry": {
+      "newJob": true,
+      "newImageResult": "45 + 27 = 72",
+      "seconds": 0.364,
+      "staleConfirmationStatus": 409
+    },
+    "uncertain": {
+      "id": "6f02d4fb-b956-44be-90ff-fc8ed61c495a",
+      "seconds": 0.324,
+      "noGrade": true
+    },
+    "teacherSelfSubmissionReadStatus": 403,
+    "anonymousReadStatus": 401
+  }
+}

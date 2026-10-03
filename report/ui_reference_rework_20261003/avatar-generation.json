@@ -1,0 +1,19 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "intent": "new generated avatar; original seven owner PNGs unchanged",
+  "skill": "imagegen",
+  "skillPath": "C:/Users/Admin/.codex/skills/.system/imagegen/SKILL.md",
+  "asset": "apps/student-mobile/assets/illustrations/student-avatar.png",
+  "source": "C:/Users/Admin/.codex/generated_images/01a0fd52-22e5-77d0-b455-e033a7bd3d20/exec-c836ad5a-321a-431b-87c3-fb1fbcf3d9d4.png",
+  "sha256": "b883177d744237a41c0f4a59064851ac105ca1ef0d77347c3bbf7db444c34e76",
+  "mode": "RGBA",
+  "size": [
+    1254,
+    1254
+  ],
+  "alphaRange": [
+    0,
+    255
+  ],
+  "prompt": "Use case: stylized-concept. Asset type: small circular student avatar for a children's mathematics app. Create a single cheerful fictional primary-school boy, head and upper shoulders, short softly swept brown hair, huge friendly dark brown eyes, warm smile, peach skin, and a turquoise-blue crew-neck shirt. Soft polished 3D toy-like illustration, round expressive face, gentle studio lighting, clean edge, no realism. Center face at a large scale, no props. Place him inside a subtle pastel-lavender circular medallion; outside the circular medallion must be genuinely transparent. Square composition with enough safe space for a 48px circular crop. Color palette brown hair, turquoise blue shirt, light lavender backdrop; no text, no logos, no watermark, no extra people."
+}

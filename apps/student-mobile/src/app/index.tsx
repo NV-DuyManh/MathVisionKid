@@ -1,8 +1,7 @@
 import React, { useEffect, useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { COLORS } from '../constants/theme';
-import { Ionicons } from '@expo/vector-icons';
+import { COLORS, FONTS } from '../constants/theme';
 import { AuthContext } from '../context/AuthContext';
 import { getAppBranding } from '../config/appConfig';
 export default function SplashScreen() {
@@ -11,19 +10,10 @@ export default function SplashScreen() {
     const branding = getAppBranding();
     useEffect(() => {
         if (auth?.isLoading) return;
-        // S00 - SPLASH logic
-        const timer = setTimeout(() => {
-            if (auth?.isAuthenticated) {
-                router.replace('/(tabs)' as any);
-            }
-            else {
-                router.replace('/login');
-            }
-        }, 1200);
-        return () => clearTimeout(timer);
+        router.replace(auth?.isAuthenticated ? '/(tabs)' : '/login');
     }, [router, auth?.isAuthenticated, auth?.isLoading]);
     return (<View style={styles.container}>
-      <Ionicons name={'scan-circle'} size={80} color={COLORS.primary} style={styles.icon}/>
+      <Image source={require('../../assets/illustrations/mathvision-star.png')} style={styles.icon} resizeMode="contain" accessible={false}/>
       <Text style={styles.title}>{branding.name}</Text>
       <Text style={styles.subtitle}>{branding.subtitle}</Text>
 
@@ -33,28 +23,30 @@ export default function SplashScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.surface,
+        backgroundColor: COLORS.background,
         alignItems: 'center',
         justifyContent: 'center',
     },
     icon: {
+        width: 160,
+        height: 160,
         marginBottom: 16,
     },
     title: {
         fontSize: 32,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.primaryDark,
         marginBottom: 8,
     },
     tagline: {
         fontSize: 16,
         color: COLORS.textSecondary,
-        fontWeight: '500',
+        fontFamily: FONTS.medium,
     },
     subtitle: {
         fontSize: 16,
         color: COLORS.textPrimary,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         textAlign: 'center',
         marginBottom: 8,
         paddingHorizontal: 24,

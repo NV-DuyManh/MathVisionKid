@@ -24,6 +24,7 @@ class OcrMultilineOwnershipTest {
     @BeforeEach void setup() {
         service = new OcrMultilineService(trials, lines, mock(ObjectStorageService.class),
                 mock(OcrStorageVerifier.class), mock(UserRepository.class), new ObjectMapper(),
+                mock(org.springframework.transaction.PlatformTransactionManager.class),
                 "http://test.invalid", "test-key", "REAL_FEEDBACK");
         User owner = new User();
         owner.setEmail("owner@example.test");

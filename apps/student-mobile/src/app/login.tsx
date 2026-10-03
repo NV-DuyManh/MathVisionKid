@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES, SHADOWS } from '../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppButton } from '../components/ui/AppButton';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -68,7 +68,7 @@ export default function LoginScreen() {
             setEmail(text);
             if (errorMessage)
                 setErrorMessage('');
-        }} placeholder="Ví dụ: student1@school.edu.vn" placeholderTextColor={COLORS.textMuted} autoCapitalize="none" keyboardType="email-address" autoComplete="username" textContentType="username" accessibilityLabel="Tài khoản email hoặc mã học sinh"/>
+        }} placeholder="Nhập tài khoản của em" placeholderTextColor={COLORS.textMuted} autoCapitalize="none" keyboardType="email-address" autoComplete="username" textContentType="username" accessibilityLabel="Tài khoản email hoặc mã học sinh"/>
               </View>
             </View>
 
@@ -132,11 +132,12 @@ const styles = StyleSheet.create({
     },
     appName: {
         fontSize: 26,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.primaryDark,
         letterSpacing: 0.2,
     },
     appTagline: {
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: COLORS.textSecondary,
         marginTop: 4,
@@ -150,11 +151,12 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 22,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.textPrimary,
         marginBottom: 4,
     },
     subtitle: {
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: COLORS.textSecondary,
         marginBottom: SIZES.large,
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
         marginLeft: SIZES.small,
         color: COLORS.errorText,
         fontSize: 14,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         flex: 1,
     },
     form: {
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 14,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
         marginBottom: 8,
     },
@@ -203,6 +205,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
+        fontFamily: FONTS.regular,
         fontSize: 16,
         color: COLORS.textPrimary,
         height: '100%',
@@ -224,6 +227,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     footerText: {
+        fontFamily: FONTS.regular,
         fontSize: 13,
         color: COLORS.textSecondary,
         textAlign: 'center',

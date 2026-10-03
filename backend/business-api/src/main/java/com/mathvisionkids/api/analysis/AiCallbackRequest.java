@@ -14,6 +14,8 @@ public class AiCallbackRequest {
 
     /** Optionally recognized arithmetic expression (e.g. "12 + 34 = 46"). */
     private String recognizedExercise;
+    private List<Map<String, Object>> recognizedTokens;
+    private Map<String, Object> validation;
 
     /** Grade proposal (present for PROPOSED_GRADE status). */
     private Map<String, Object> gradeProposal;

@@ -8,39 +8,30 @@ import { StatusCard } from '../../components/domain/StatusCard';
 import { MathExpression } from '../../components/domain/MathExpression';
 import { SubmissionResult } from '../../types';
 import { logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
+import { useArithmeticResult } from '../../hooks/useArithmeticResult';
+import { resolveResultRoute } from '../../utils/resultRouting';
+import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
 
 export default function CorrectScreen() {
   const router = useRouter();
-  const { data } = useLocalSearchParams<{ data: string }>();
+  const { data, submissionId } = useLocalSearchParams<{ data?: string; submissionId?: string }>();
+  const { result, loading } = useArithmeticResult(data, submissionId);
+  const target = result ? resolveResultRoute(result) : null;
+
+  useEffect(() => {
+    if (target && target.pathname !== '/results/correct') router.replace(target as any);
+  }, [result, router]);
 
   useEffect(() => {
     logFlowDomain('RESULT', 'ARITHMETIC');
   }, []);
-
-  let result: Partial<SubmissionResult> = {
-    studentFeedback: {
-      title: 'Làm tốt lắm! 🎉',
-      hint: 'MathVision chưa tìm thấy lỗi trong bài em vừa kiểm tra.',
-      revealAnswer: false,
-    },
-    recognizedExercise: {
-      operator: '+',
-      operands: [{ value: '458' }, { value: '276' }],
-      observedResult: [{ value: '734' }],
-    },
-  };
-
-  try {
-    if (data) result = JSON.parse(data);
-  } catch (e) {
-    console.error(e);
-  }
 
   return (
     <View style={styles.container}>
       <AppHeader title="Kết quả bài làm" showBack />
 
       <ScrollView contentContainerStyle={styles.content}>
+        {loading ? <RecognitionProgress title="Đang mở kết quả" description="Lấy lại kết quả bài làm của em." onCancel={() => router.back()} /> : target?.pathname === '/results/correct' && result ? <>
         <StatusCard
           status="success"
           title={result.studentFeedback?.title || 'Làm tốt lắm! 🎉'}
@@ -55,13 +46,14 @@ export default function CorrectScreen() {
             <MathExpression exercise={result.recognizedExercise} />
           )}
         </View>
+        </> : <StatusCard status="warning" title="Chưa có kết quả" subtitle="Chưa lấy được kết quả bài làm. Em hãy mở lại bài hoặc chụp ảnh mới nhé." />}
 
         <View style={styles.spacer} />
 
         <View style={styles.actions}>
           <AppButton
             title="Kiểm tra bài toán khác"
-            onPress={() => router.replace('/camera')}
+            onPress={() => router.replace({ pathname: '/camera', params: { mode: 'ARITHMETIC' } })}
             variant="primary"
           />
           <View style={{ height: SIZES.small }} />

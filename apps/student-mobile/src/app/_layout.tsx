@@ -4,10 +4,25 @@ import { StatusBar } from 'expo-status-bar';
 import { LogBox, Alert } from 'react-native';
 import { useEffect } from 'react';
 import { ENV } from '../config/env';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 LogBox.ignoreLogs(['Cannot connect to Expo CLI']);
 
 export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts({
+    NunitoRegular: require('../../assets/fonts/Nunito-Regular.ttf'),
+    NunitoMedium: require('../../assets/fonts/Nunito-Medium.ttf'),
+    NunitoSemiBold: require('../../assets/fonts/Nunito-SemiBold.ttf'),
+    NunitoBold: require('../../assets/fonts/Nunito-Bold.ttf'),
+    NunitoExtraBold: require('../../assets/fonts/Nunito-ExtraBold.ttf'),
+    NunitoBlack: require('../../assets/fonts/Nunito-Black.ttf'),
+  });
+  useEffect(() => {
+    if (fontsLoaded || fontError) SplashScreen.hideAsync().catch(() => {});
+  }, [fontsLoaded, fontError]);
   useEffect(() => {
     if (__DEV__) {
       const checkHealth = async () => {
@@ -27,6 +42,8 @@ export default function RootLayout() {
       checkHealth();
     }
   }, []);
+
+  if (!fontsLoaded && !fontError) return null;
 
   return (
     <AuthProvider>

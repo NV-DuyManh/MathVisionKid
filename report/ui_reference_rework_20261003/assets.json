@@ -1,0 +1,83 @@
+{
+  "ownerAssets": [
+    {
+      "asset": "apps/student-mobile/assets/illustrations/encouragement-crown.png",
+      "sha256": "d8b7816c02c3c17830f032e48b03fa772f4244fc5ee4ba3669033cd597c64136",
+      "unchangedFromHead": true
+    },
+    {
+      "asset": "apps/student-mobile/assets/illustrations/mathvision-star.png",
+      "sha256": "1e44da8cebe982d4d71c8ada68d373585ad11b5a1434be4030d136e4b0fc0a6c",
+      "unchangedFromHead": true
+    },
+    {
+      "asset": "apps/student-mobile/assets/illustrations/practice-notebook.png",
+      "sha256": "4e40bfec1d2aae3a190479d90ce958e70d236019977d42e4356d016b9a1dec6c",
+      "unchangedFromHead": true
+    },
+    {
+      "asset": "apps/student-mobile/assets/illustrations/progress-bars.png",
+      "sha256": "58f3581ad5e6cb357e688cbc56bf934daad1f3a2e02174a889c851c18f6484a9",
+      "unchangedFromHead": true
+    },
+    {
+      "asset": "apps/student-mobile/assets/illustrations/reward-star.png",
+      "sha256": "edcf7677fed39c98fbc76f49004c53ec28506154d49a35102bee007840aa6f8c",
+      "unchangedFromHead": true
+    },
+    {
+      "asset": "apps/student-mobile/assets/illustrations/saved-folder.png",
+      "sha256": "f82756668a8f20a8e4dcd2e2c35a94bcef7995c711682a46bc1bd29d3b4d07ef",
+      "unchangedFromHead": true
+    },
+    {
+      "asset": "apps/student-mobile/assets/illustrations/streak-flame.png",
+      "sha256": "b0fba1f1ce1e30e84533452d5360e77b159c5d954792e2084fdccf0e6064bfd5",
+      "unchangedFromHead": true
+    }
+  ],
+  "fontAssets": [
+    {
+      "asset": "Nunito-Black.ttf",
+      "bytes": 132164,
+      "sha256": "631872d7a9562c6dc5f181940ef644f80a7cb8c362a0944f3df3f14d0e3b6726"
+    },
+    {
+      "asset": "Nunito-Bold.ttf",
+      "bytes": 132268,
+      "sha256": "a6e9913278c2513708016b570b8eadd13d1f5f697c812934c190598b0be37607"
+    },
+    {
+      "asset": "Nunito-ExtraBold.ttf",
+      "bytes": 132224,
+      "sha256": "204f217fb2022d20d9b42dd7a7af431da9d49470e20797e245e002499a6b82bb"
+    },
+    {
+      "asset": "Nunito-Medium.ttf",
+      "bytes": 132444,
+      "sha256": "d71af0e8eb8ffbb9277ac8dfeacd8550b27d9f11fa96f5dc6707cb93fe098395"
+    },
+    {
+      "asset": "Nunito-Regular.ttf",
+      "bytes": 132328,
+      "sha256": "ec3b51ea4cfaf0626b00ee2faf00a94efc7324917d905862f7acec8b15e8d598"
+    },
+    {
+      "asset": "Nunito-SemiBold.ttf",
+      "bytes": 132300,
+      "sha256": "5c09bbacb1cd29c6c49802a2ba99bfb1c0ec96915aca399c515b68d6d245ad8b"
+    }
+  ],
+  "source": "https://github.com/googlefonts/nunito/blob/main/fonts/variable/Nunito%5Bwght%5D.ttf",
+  "fontLicense": "assets/fonts/OFL.txt",
+  "instancedWeights": [
+    400,
+    500,
+    600,
+    700,
+    800,
+    900
+  ],
+  "vietnameseCmapVerified": true,
+  "dependency": "expo-linear-gradient ~57.0.2"
+}

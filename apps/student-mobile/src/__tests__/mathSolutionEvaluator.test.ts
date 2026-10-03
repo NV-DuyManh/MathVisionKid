@@ -61,7 +61,7 @@ describe('mathSolutionEvaluator', () => {
       expect(res.validation?.isValid).toBe(false);
       expect(res.validation?.expectedResult).toBe(22);
       expect(res.validation?.observedResult).toBe(21);
-      expect(res.validation?.hint).toContain('hàng nhớ');
+      expect(res.validation?.hint).toContain('số nhớ');
     });
 
     it('classifies answer lines', () => {
@@ -71,7 +71,7 @@ describe('mathSolutionEvaluator', () => {
   });
 
   describe('evaluateMathSolution (Full Worksheet & Multi-Step Logic)', () => {
-    it('evaluates a complete 1-step word problem with 100% accuracy', () => {
+    it('checks arithmetic and answer consistency without claiming word-problem correctness', () => {
       const lines = [
         { lineId: '1', text: 'Bài giải' },
         { lineId: '2', text: 'Số học sinh nữ là:' },
@@ -86,6 +86,8 @@ describe('mathSolutionEvaluator', () => {
       expect(result.summary.hasAnswer).toBe(true);
       expect(result.summary.answerValidation?.matchesLastEquation).toBe(true);
       expect(result.summary.answerValidation?.status).toBe('PERFECT');
+      expect(result.summary.hint).toContain('đối chiếu cách giải');
+      expect(result.summary.hint).not.toContain('hoàn toàn chính xác');
     });
 
     it('detects multi-step chained equations (Bài toán 2 phép tính)', () => {
@@ -137,6 +139,7 @@ describe('mathSolutionEvaluator', () => {
       const result = evaluateMathSolution(lines);
       expect(result.summary.answerValidation?.matchesLastEquation).toBe(false);
       expect(result.summary.answerValidation?.status).toBe('MISMATCH');
+      expect(result.summary.verdict).toBe('HAS_ANSWER_ERROR');
       expect(result.summary.hint).toContain('Đáp số ghi 25 nhưng phép tính cuối ra 22');
     });
 
@@ -171,7 +174,7 @@ describe('mathSolutionEvaluator', () => {
       expect(result.summary.incorrectEquations).toBe(1);
       expect(result.lines[2].role).toBe('COLUMN_MATH');
       expect(result.lines[2].equationValidation?.isValid).toBe(false);
-      expect(result.lines[2].equationValidation?.hint).toContain('hàng nhớ');
+      expect(result.lines[2].equationValidation?.hint).toContain('số nhớ');
     });
   });
 });

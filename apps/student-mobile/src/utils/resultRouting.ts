@@ -1,65 +1,51 @@
-import { SubmissionStatus, SubmissionResult } from '../types';
+import { Decision, SubmissionStatus, SubmissionResult, RecognizedToken } from '../types';
 
-export interface RouteTarget {
-  pathname: string;
-  params?: Record<string, any>;
+export interface RouteTarget { pathname: string; params?: Record<string, string> }
+
+/** A completed job is not itself evidence that the student's calculation is correct. */
+export function getArithmeticDecision(result: Partial<SubmissionResult>): Decision {
+  const validation = result.validation;
+  const diagnosis = validation?.diagnosisState;
+  if (diagnosis) {
+    if (diagnosis === 'VALID' && validation?.isValid === true) return Decision.VALID;
+    if (diagnosis === 'INVALID' && validation?.isValid === false) return Decision.INVALID;
+    return Decision.UNCERTAIN;
+  }
+  // Older server responses used the explicit decision enum.
+  return validation?.decision === Decision.VALID && validation.isValid !== false ? Decision.VALID
+    : validation?.decision === Decision.INVALID && validation.isValid !== true ? Decision.INVALID : Decision.UNCERTAIN;
 }
 
-/**
- * Deterministically resolves the student mobile destination route
- * based on backend SubmissionResult payload.
- *
- * Precedence:
- * 1. Quality failures (NEEDS_RETAKE, CROP_REQUIRED) -> /results/quality-failure
- * 2. Out of scope (status == OUT_OF_SCOPE or reasonCode == 'OUT_OF_SCOPE') -> /results/out-of-scope
- * 3. Token ambiguity (NEEDS_CONFIRMATION) -> /results/token-confirmation
- * 4. Human teacher review required (REVIEW_REQUIRED with non-out-of-scope reason) -> /results/review-required
- * 5. Deterministic feedback ready (VALID -> /results/correct, INVALID -> /results/error-hint)
- */
-export function resolveResultRoute(result: Partial<SubmissionResult>): RouteTarget {
-  if (
-    result.status === SubmissionStatus.NEEDS_RETAKE ||
-    result.status === SubmissionStatus.CROP_REQUIRED
-  ) {
-    return {
-      pathname: '/results/quality-failure',
-      params: { issue: result.imageQualityIssue },
-    };
-  }
+export function getUncertainTokens(result: Partial<SubmissionResult>): RecognizedToken[] {
+  return (result.recognizedExercise?.tokens || []).filter(token => token.tokenId &&
+    (token.ambiguity === true || result.uncertainTokenIds?.includes(token.tokenId)));
+}
 
-  if (
-    result.status === SubmissionStatus.OUT_OF_SCOPE ||
-    result.reasonCode === 'OUT_OF_SCOPE'
-  ) {
-    return {
-      pathname: '/results/out-of-scope',
-    };
-  }
-
-  if (result.status === SubmissionStatus.NEEDS_CONFIRMATION) {
-    return {
-      pathname: '/results/token-confirmation',
-      params: { token: result.ambiguousToken?.value || '' },
-    };
-  }
-
-  if (result.status === SubmissionStatus.REVIEW_REQUIRED) {
-    return {
-      pathname: '/results/review-required',
-      params: {
-        reasonCode: result.reasonCode || '',
-        diagnostics: result.diagnostics ? JSON.stringify(result.diagnostics) : '',
-      },
-    };
-  }
-
-  if (result.validation?.decision === 'VALID' || (result.status === SubmissionStatus.FEEDBACK_READY && result.validation?.decision !== 'INVALID')) {
-    return {
-      pathname: '/results/correct',
-    };
-  }
-
-  return {
-    pathname: '/results/error-hint',
+export function resolveResultRoute(result: Partial<SubmissionResult>, originalUri?: string): RouteTarget {
+  const params: Record<string, string> = {
+    submissionId: result.id || '', id: result.id || '',
   };
+  if (result.status === SubmissionStatus.NEEDS_RETAKE || result.status === SubmissionStatus.CROP_REQUIRED) {
+    return { pathname: '/results/quality-failure', params: { ...params, issue: result.imageQualityIssue || '', originalUri: originalUri || '' } };
+  }
+  if (result.status === SubmissionStatus.OUT_OF_SCOPE || result.reasonCode === 'OUT_OF_SCOPE' || result.validation?.diagnosisState === 'OUT_OF_SCOPE') {
+    return { pathname: '/results/out-of-scope', params };
+  }
+  if (result.status === SubmissionStatus.PROCESSING) return { pathname: '/processing', params };
+  if (result.status === SubmissionStatus.NEEDS_CONFIRMATION && result.jobId && getUncertainTokens(result).length) {
+    return { pathname: '/results/token-confirmation', params };
+  }
+  if (result.status === SubmissionStatus.FEEDBACK_READY) {
+    const decision = getArithmeticDecision(result);
+    if (decision === Decision.VALID) return { pathname: '/results/correct', params };
+    if (decision === Decision.INVALID) return { pathname: '/results/error-hint', params };
+  }
+  return { pathname: '/results/review-required', params: { ...params, reasonCode: result.reasonCode || 'RESULT_UNCERTAIN' } };
+}
+
+export function parseSubmissionResult(data?: string | string[]): SubmissionResult | null {
+  try {
+    const result = JSON.parse(Array.isArray(data) ? data[0] : data || 'null');
+    return result && typeof result.id === 'string' && typeof result.status === 'string' ? result : null;
+  } catch { return null; }
 }

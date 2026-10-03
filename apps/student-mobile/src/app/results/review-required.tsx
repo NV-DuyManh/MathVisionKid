@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { COLORS, SIZES } from '../../constants/theme';
@@ -9,6 +9,7 @@ import { StatusCard } from '../../components/domain/StatusCard';
 import { getSubmissionService } from '../../services/api/SubmissionServiceFactory';
 import { SubmissionResult } from '../../types';
 import { logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
+import { resolveResultRoute } from '../../utils/resultRouting';
 
 interface ReasonContent {
   title: string;
@@ -18,6 +19,12 @@ interface ReasonContent {
 
 function getReasonContent(reasonCode?: string): ReasonContent {
   switch (reasonCode) {
+    case 'RESULT_UNCERTAIN':
+      return {
+        title: 'Chưa đủ dữ liệu để kết luận',
+        subtitle: 'MathVision chưa thể kết luận bài đúng hay sai. Em hãy chụp lại ảnh rõ hơn hoặc nhờ thầy cô xem giúp nhé.',
+        actionTitle: 'Chụp lại bài làm',
+      };
     case 'DETECTOR_NO_TOKENS':
     case 'NO_CONTENT_DETECTED':
       return {
@@ -28,19 +35,19 @@ function getReasonContent(reasonCode?: string): ReasonContent {
     case 'INVALID_LAYOUT':
       return {
         title: 'Cần thầy cô xem cách đặt tính',
-        subtitle: 'Các chữ số hoặc dấu phép tính chưa rõ ràng theo hàng dọc. Bài đã được chuyển cho thầy cô hỗ trợ em.',
+        subtitle: 'Các chữ số hoặc dấu phép tính chưa rõ ràng theo hàng dọc. Em hãy chụp lại hoặc nhờ thầy cô xem cách đặt tính nhé.',
         actionTitle: 'Thử lại',
       };
     case 'OCR_LOW_CONFIDENCE':
       return {
         title: 'MathVision chưa chắc chắn kết quả',
-        subtitle: 'MathVision đã thử đọc bài của em nhưng chưa đủ chắc chắn để kết luận. Bài làm đã được giữ lại để xem thêm.',
+        subtitle: 'MathVision đã thử đọc bài của em nhưng chưa đủ chắc chắn để kết luận. Em hãy chụp lại rõ hơn hoặc nhờ thầy cô xem giúp nhé.',
         actionTitle: 'Thử lại',
       };
     case 'IMAGE_QUALITY_FAILED':
       return {
         title: 'Chất lượng ảnh chụp chưa đạt',
-        subtitle: 'Ảnh chụp có thể bị chói sáng, quá tối hoặc bị che khuất. Em có thể chụp lại hoặc chờ thầy cô xem giúp.',
+        subtitle: 'Ảnh chụp có thể bị chói sáng, quá tối hoặc bị che khuất. Em hãy chụp lại hoặc nhờ thầy cô xem giúp nhé.',
         actionTitle: 'Chụp lại ảnh mới',
       };
     case 'IMAGE_EFFECTIVELY_EMPTY':
@@ -52,13 +59,13 @@ function getReasonContent(reasonCode?: string): ReasonContent {
     case 'AI_RUNTIME_ERROR':
       return {
         title: 'Hệ thống đang bận',
-        subtitle: 'Hệ thống nhận diện đang bận hoặc gặp gián đoạn tạm thời. Bài của em đã được lưu an toàn để thầy cô xem lại.',
+        subtitle: 'Hệ thống nhận diện đang bận hoặc gặp gián đoạn tạm thời. Em hãy thử lại sau nhé.',
         actionTitle: 'Thử lại sau',
       };
     default:
       return {
-        title: 'MathVision cần thầy cô xem giúp',
-        subtitle: 'Bài làm của em đã được chuyển cho thầy cô để xem lại cẩn thận.',
+        title: 'Chưa đủ kết quả để kiểm tra bài',
+        subtitle: 'MathVision chưa thể kết luận bài đúng hay sai. Em có thể chụp lại hoặc nhờ thầy cô xem giúp nhé.',
         actionTitle: 'Thử lại',
       };
   }
@@ -66,58 +73,37 @@ function getReasonContent(reasonCode?: string): ReasonContent {
 
 export default function ReviewRequiredScreen() {
   const router = useRouter();
-  const { reasonCode: initialReasonCode, submissionId, diagnostics: initialDiagnostics } = useLocalSearchParams<{
+  const { reasonCode: initialReasonCode, submissionId } = useLocalSearchParams<{
     reasonCode?: string;
     submissionId?: string;
-    diagnostics?: string;
   }>();
 
   const [serverResult, setServerResult] = useState<SubmissionResult | null>(null);
-  const [serverFetchStatus, setServerFetchStatus] = useState<'INITIAL' | 'FETCHING' | 'RESULT_FETCH_OK' | 'RESULT_FETCH_FAILED'>(
-    submissionId ? 'FETCHING' : 'INITIAL'
-  );
-  const [serverFetchError, setServerFetchError] = useState<string | null>(null);
 
   // Authoritative server fetch on mount
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
     if (submissionId) {
       getSubmissionService()
-        .getSubmission(submissionId)
+        .getSubmission(submissionId, undefined, controller.signal)
         .then((res) => {
           if (isMounted) {
             setServerResult(res);
-            setServerFetchStatus('RESULT_FETCH_OK');
+            const target = resolveResultRoute(res);
+            if (target.pathname !== '/results/review-required') router.replace(target as any);
           }
         })
-        .catch((err: any) => {
-          if (isMounted) {
-            console.warn('[REVIEW_REQUIRED] Authoritative server fetch failed for submissionId:', submissionId, err?.message || err);
-            setServerFetchStatus('RESULT_FETCH_FAILED');
-            const errDetail = err?.response?.status ? `HTTP ${err.response.status}` : (err?.message || 'Network Error');
-            setServerFetchError(errDetail);
-          }
-        });
+        .catch(() => { /* Keep an unavailable result ungraded. */ });
     }
     return () => {
       isMounted = false;
+      controller.abort();
     };
-  }, [submissionId]);
+  }, [submissionId, router]);
 
-  let parsedDiags: Record<string, any> | null = null;
-  if (initialDiagnostics) {
-    try {
-      parsedDiags = JSON.parse(initialDiagnostics);
-    } catch {
-      parsedDiags = null;
-    }
-  }
-
-  // Server result overrides fragile route params
-  const effectiveDiagnostics = serverResult?.diagnostics || parsedDiags;
-  const effectiveReasonCode = serverResult?.reasonCode || initialReasonCode || parsedDiags?.reasonCode;
-  const effectiveFlowDomain = serverResult?.flowDomain || (parsedDiags?.flowDomain as any) || 'ARITHMETIC';
-  const effectiveStatus = serverResult?.status || 'REVIEW_REQUIRED';
+  const effectiveReasonCode = serverResult?.reasonCode || initialReasonCode;
+  const effectiveFlowDomain = serverResult?.flowDomain || 'ARITHMETIC';
 
   useEffect(() => {
     logFlowDomain('RESULT', effectiveFlowDomain);
@@ -125,17 +111,9 @@ export default function ReviewRequiredScreen() {
 
   const content = getReasonContent(effectiveReasonCode);
 
-  const formatDiag = (val: any, naCondition: boolean = false): string => {
-    if (naCondition) return 'N/A';
-    if (val === undefined || val === null) return 'UNAVAILABLE';
-    if (Array.isArray(val)) return val.length > 0 ? val.join(', ') : 'none';
-    if (typeof val === 'boolean') return val ? 'true' : 'false';
-    return String(val);
-  };
-
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-      <AppHeader title="Chờ thầy cô xem lại" showBack />
+      <AppHeader title="Kiểm tra lại bài làm" showBack />
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.spacerTop} />

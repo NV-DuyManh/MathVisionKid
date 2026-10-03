@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable, Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SHADOWS } from '../../constants/theme';
+import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
 import * as ImagePicker from 'expo-image-picker';
 import { recognitionDraftStore, logFlowDomain, FlowDomain } from '../../features/recognition/state/recognitionDraftStore';
@@ -18,6 +18,7 @@ export default function HomeScreen() {
     const [showTipsModal, setShowTipsModal] = useState(false);
     const [showPrivacyInfoModal, setShowPrivacyInfoModal] = useState(false);
     const [showCurriculumModal, setShowCurriculumModal] = useState(false);
+    const [showAcquisitionModal, setShowAcquisitionModal] = useState(false);
     const [selectedGrade, setSelectedGrade] = useState<1 | 2 | 3 | 4 | 5>(3);
     const [expandedProblemId, setExpandedProblemId] = useState<string | null>(null);
     const branding = getAppBranding();
@@ -66,13 +67,12 @@ export default function HomeScreen() {
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
     };
-    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]} showsVerticalScrollIndicator={false}>
+    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }]} showsVerticalScrollIndicator={false}>
       <HomeDashboard
         userName={userName}
         userKey={auth?.user?.id || auth?.user?.userId || auth?.user?.email}
-        onCamera={() => navigateToCamera('HANDWRITING_TEXT')}
+        onAcquire={() => setShowAcquisitionModal(true)}
         onArithmetic={() => navigateToCamera('ARITHMETIC')}
-        onGallery={handlePickImage}
         onPractice={(grade) => {
             if (grade) setSelectedGrade(grade);
             setShowCurriculumModal(true);
@@ -80,6 +80,48 @@ export default function HomeScreen() {
         onTips={() => setShowTipsModal(true)}
         onPrivacy={() => setShowPrivacyInfoModal(true)}
       />
+
+      <Modal visible={showAcquisitionModal} transparent animationType="none" onRequestClose={() => setShowAcquisitionModal(false)}>
+        <Pressable style={[styles.acquisitionBackdrop, { paddingBottom: Math.max(insets.bottom, 16) }]} onPress={() => setShowAcquisitionModal(false)}>
+          <Pressable style={styles.acquisitionSheet} onPress={() => { }}>
+            <View style={styles.modalHeaderRow}>
+              <View style={styles.acquisitionHeading}>
+                <Text style={styles.modalTitle}>Bắt đầu bài của em</Text>
+                <Text style={styles.acquisitionSubtitle}>Em muốn chụp bài hay chọn ảnh có sẵn?</Text>
+              </View>
+              <Pressable onPress={() => setShowAcquisitionModal(false)} style={styles.modalCloseBtn} accessibilityRole="button" accessibilityLabel="Đóng lựa chọn bài làm">
+                <Ionicons name="close" size={22} color={COLORS.textSecondary} />
+              </Pressable>
+            </View>
+            <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
+              <Pressable style={({ pressed }) => [styles.acquisitionChoice, pressed && styles.choicePressed]} accessibilityRole="button" accessibilityLabel="Chụp bài viết tay" onPress={() => {
+                setShowAcquisitionModal(false);
+                navigateToCamera('HANDWRITING_TEXT');
+              }}>
+                <View style={styles.acquisitionChoiceIcon}><Ionicons name="camera" size={24} color={COLORS.primaryDark} /></View>
+                <View style={styles.acquisitionChoiceCopy}><Text style={styles.acquisitionChoiceTitle}>Chụp bài viết tay</Text><Text style={styles.acquisitionChoiceDetail}>Đọc chữ và kiểm tra từng dòng bài giải</Text></View>
+                <Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
+              </Pressable>
+              <Pressable style={({ pressed }) => [styles.acquisitionChoice, pressed && styles.choicePressed]} accessibilityRole="button" accessibilityLabel="Chọn ảnh bài làm từ thư viện" onPress={() => {
+                setShowAcquisitionModal(false);
+                void handlePickImage();
+              }}>
+                <View style={[styles.acquisitionChoiceIcon, { backgroundColor: '#E7F4FD' }]}><Ionicons name="images-outline" size={24} color="#3978A3" /></View>
+                <View style={styles.acquisitionChoiceCopy}><Text style={styles.acquisitionChoiceTitle}>Chọn ảnh có sẵn</Text><Text style={styles.acquisitionChoiceDetail}>Mở một bài đã chụp trong thư viện</Text></View>
+                <Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
+              </Pressable>
+              <Pressable style={({ pressed }) => [styles.acquisitionChoice, pressed && styles.choicePressed]} accessibilityRole="button" accessibilityLabel="Chụp phép tính" onPress={() => {
+                setShowAcquisitionModal(false);
+                navigateToCamera('ARITHMETIC');
+              }}>
+                <View style={[styles.acquisitionChoiceIcon, { backgroundColor: '#E8F5E9' }]}><Ionicons name="calculator-outline" size={24} color="#258548" /></View>
+                <View style={styles.acquisitionChoiceCopy}><Text style={styles.acquisitionChoiceTitle}>Chụp phép tính</Text><Text style={styles.acquisitionChoiceDetail}>Cộng, trừ, nhân, chia đặt tính rồi tính</Text></View>
+                <Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
+              </Pressable>
+            </ScrollView>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       {/* Modal: Helpful Photo Tips */}
       <Modal visible={showTipsModal} transparent animationType="fade" onRequestClose={() => setShowTipsModal(false)}>
@@ -95,6 +137,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
 
+            <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
             <View style={styles.tipRow}>
               <View style={[styles.tipBullet, { backgroundColor: '#ECFDF5' }]}>
                 <Ionicons name="sunny" size={16} color="#059669"/>
@@ -131,7 +174,8 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.modalPrimaryBtn} onPress={() => setShowTipsModal(false)}>
+            </ScrollView>
+            <TouchableOpacity style={styles.modalPrimaryBtn} onPress={() => setShowTipsModal(false)} accessibilityRole="button">
               <Text style={styles.modalPrimaryBtnText}>Đã hiểu rồi</Text>
             </TouchableOpacity>
           </Pressable>
@@ -152,6 +196,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
 
+            <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
             <Text style={styles.privacyModalIntro}>
               {branding.name} cam kết giữ an toàn tối đa cho học sinh:
             </Text>
@@ -180,7 +225,8 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.modalPrimaryBtn} onPress={() => setShowPrivacyInfoModal(false)}>
+            </ScrollView>
+            <TouchableOpacity style={styles.modalPrimaryBtn} onPress={() => setShowPrivacyInfoModal(false)} accessibilityRole="button">
               <Text style={styles.modalPrimaryBtnText}>Đã hiểu rồi</Text>
             </TouchableOpacity>
           </Pressable>
@@ -267,7 +313,18 @@ export default function HomeScreen() {
 }
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: COLORS.background },
-    content: { paddingHorizontal: 20, paddingBottom: 32, maxWidth: 620, width: '100%', alignSelf: 'center' },
+    content: { paddingHorizontal: 20, paddingBottom: 112, maxWidth: 620, width: '100%', alignSelf: 'center' },
+    acquisitionBackdrop: { flex: 1, backgroundColor: 'rgba(24, 22, 76, 0.4)', justifyContent: 'flex-end', alignItems: 'center', paddingHorizontal: 16, paddingTop: 24 },
+    acquisitionSheet: { backgroundColor: COLORS.surface, borderRadius: 28, padding: 20, width: '100%', maxWidth: 520, maxHeight: '90%' },
+    acquisitionHeading: { flex: 1 },
+    acquisitionSubtitle: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 13, lineHeight: 19, marginTop: 4 },
+    acquisitionChoice: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 70, paddingVertical: 12 },
+    acquisitionChoiceIcon: { width: 44, height: 44, borderRadius: 15, backgroundColor: COLORS.primaryLight, alignItems: 'center', justifyContent: 'center' },
+    acquisitionChoiceCopy: { flex: 1 },
+    acquisitionChoiceTitle: { fontFamily: FONTS.extraBold, fontSize: 16, color: COLORS.textPrimary },
+    acquisitionChoiceDetail: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 18, color: COLORS.textSecondary, marginTop: 2 },
+    choicePressed: { opacity: 0.7 },
+    modalBody: { flexGrow: 0, flexShrink: 1 },
     /* Modals */
     modalBackdrop: {
         flex: 1,
@@ -282,6 +339,7 @@ const styles = StyleSheet.create({
         padding: 22,
         width: '100%',
         maxWidth: 480,
+        maxHeight: '85%',
     },
     modalHeaderRow: {
         flexDirection: 'row',
@@ -299,7 +357,7 @@ const styles = StyleSheet.create({
     modalTitle: {
         flex: 1,
         fontSize: 18,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.textPrimary,
     },
     modalCloseBtn: {
@@ -324,22 +382,25 @@ const styles = StyleSheet.create({
     },
     tipTitle: {
         fontSize: 14,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
         marginBottom: 2,
     },
     tipDesc: {
+        fontFamily: FONTS.regular,
         fontSize: 13,
         color: COLORS.textSecondary,
         lineHeight: 18,
     },
     privacyModalIntro: {
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: '#334155',
         lineHeight: 20,
         marginBottom: 14,
     },
     modalPrimaryBtn: {
+        minHeight: 48,
         backgroundColor: COLORS.primary,
         borderRadius: 16,
         paddingVertical: 14,
@@ -349,7 +410,7 @@ const styles = StyleSheet.create({
     },
     modalPrimaryBtnText: {
         fontSize: 15,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#FFFFFF',
     },
     curriculumModalCard: {
@@ -381,11 +442,11 @@ const styles = StyleSheet.create({
     },
     gradeTabBtnText: {
         fontSize: 13,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: COLORS.textSecondary,
     },
     gradeTabBtnTextActive: {
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: '#D97706',
     },
     problemListScroll: {
@@ -413,7 +474,7 @@ const styles = StyleSheet.create({
     },
     bookTagText: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.primaryDark,
     },
     difficultyTag: {
@@ -424,22 +485,23 @@ const styles = StyleSheet.create({
     },
     difficultyTagText: {
         fontSize: 11,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#D97706',
     },
     problemTopicText: {
         fontSize: 11,
         color: COLORS.textSecondary,
         marginBottom: 2,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     problemTitleText: {
         fontSize: 14,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.textPrimary,
         marginBottom: 6,
     },
     problemBodyText: {
+        fontFamily: FONTS.regular,
         fontSize: 13,
         lineHeight: 19,
         color: '#334155',
@@ -455,7 +517,7 @@ const styles = StyleSheet.create({
     },
     guidanceToggleText: {
         fontSize: 12,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.primaryDark,
     },
     guidanceContentBox: {
@@ -467,6 +529,7 @@ const styles = StyleSheet.create({
         borderLeftColor: '#2563EB',
     },
     guidanceIntro: {
+        fontFamily: FONTS.regular,
         fontSize: 12,
         lineHeight: 17,
         color: '#1E40AF',
@@ -474,7 +537,7 @@ const styles = StyleSheet.create({
     },
     guidanceStepsTitle: {
         fontSize: 12,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#1E40AF',
         marginBottom: 4,
     },
@@ -499,6 +562,6 @@ const styles = StyleSheet.create({
     solveNowBtnText: {
         color: '#FFFFFF',
         fontSize: 13,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
 });

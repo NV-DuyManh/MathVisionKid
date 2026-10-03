@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { SIZES } from '../../constants/theme';
+import { FONTS, SIZES } from '../../constants/theme';
 
 interface QualityBadgeProps {
   label: string;
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginLeft: 6,
   },
 });

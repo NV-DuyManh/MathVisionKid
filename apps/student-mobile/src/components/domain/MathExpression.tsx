@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { RecognizedExercise } from '../../types';
 
 interface MathExpressionProps {
@@ -9,20 +9,25 @@ interface MathExpressionProps {
 }
 
 export const MathExpression: React.FC<MathExpressionProps> = ({ exercise, highlightIndex }) => {
-  const op1 = exercise.operands[0]?.value || '';
-  const op2 = exercise.operands[1]?.value || '';
-  const resultDigits = exercise.observedResult.map(t => t.value);
+  const parsed = exercise.expression?.match(/^\s*(\d+)\s*([+-])\s*(\d+)\s*=\s*(\d+)\s*$/);
+  const value = (token: { value: string } | string | undefined) => typeof token === 'string' ? token : token?.value || '';
+  const op1 = value(exercise.operands?.[0]) || parsed?.[1] || '';
+  const op2 = value(exercise.operands?.[1]) || parsed?.[3] || '';
+  const operator = exercise.operator || parsed?.[2] || '';
+  const resultText = typeof exercise.observedResult === 'string' ? exercise.observedResult : exercise.observedResult?.map(value).join('') || parsed?.[4] || '';
+  const resultDigits = resultText.split('');
+  if (!op1 || !op2 || !operator || !resultText) return exercise.expression ? <Text style={styles.expression}>{exercise.expression}</Text> : null;
 
   return (
     <View
       style={[styles.container, SHADOWS.small]}
       accessible
-      accessibilityLabel={`Phép tính: ${op1} ${exercise.operator} ${op2} bằng ${resultDigits.join('')}`}
+      accessibilityLabel={`Phép tính: ${op1} ${operator} ${op2} bằng ${resultDigits.join('')}`}
     >
       <Text style={styles.digitRow}>{op1}</Text>
       
       <View style={styles.operatorRow}>
-        <Text style={styles.operator}>{exercise.operator}</Text>
+        <Text style={styles.operator}>{operator}</Text>
         <Text style={styles.digitRow}>{op2}</Text>
       </View>
       
@@ -30,9 +35,8 @@ export const MathExpression: React.FC<MathExpressionProps> = ({ exercise, highli
       
       <View style={styles.resultRow}>
         {resultDigits.map((digit, idx) => {
-          // highlightIndex from backend is 0-indexed or 1-indexed depending on error position
-          // In error-hint.tsx we see: highlightIndex: 1
-          const isError = highlightIndex !== undefined && idx === highlightIndex;
+          // Validator columns start with units at the right edge.
+          const isError = highlightIndex !== undefined && resultDigits.length - 1 - idx === highlightIndex;
           return (
             <View key={idx} style={[styles.digitBox, isError && styles.errorDigitBox]}>
               <Text style={[styles.digit, isError && styles.errorDigitText]}>
@@ -48,6 +52,7 @@ export const MathExpression: React.FC<MathExpressionProps> = ({ exercise, highli
 };
 
 const styles = StyleSheet.create({
+  expression: { fontFamily: FONTS.bold, fontSize: 24, color: COLORS.textPrimary, textAlign: 'center' },
   container: {
     alignItems: 'flex-end',
     paddingVertical: SIZES.large,
@@ -65,14 +70,14 @@ const styles = StyleSheet.create({
   },
   digitRow: {
     fontSize: 44,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     letterSpacing: 6,
     fontVariant: ['tabular-nums'],
   },
   operator: {
     fontSize: 36,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.primaryDark,
     marginRight: 16,
   },
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
   },
   digit: {
     fontSize: 44,
-    fontWeight: '800',
+    fontFamily: FONTS.extraBold,
     color: COLORS.textPrimary,
     fontVariant: ['tabular-nums'],
   },

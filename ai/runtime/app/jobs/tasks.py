@@ -25,6 +25,13 @@ def process_submission(self, job_id: str, request_data: dict):
 
         image_ref = request_data.get('imageReference', '')
         policy_mode = request_data.get('policyMode', 'STUDENT')  # STUDENT | TEACHER
+        tokens = []
+        validation_payload = {"isValid": None, "diagnosisState": "UNCERTAIN", "evidence": []}
+
+        def publish(callback):
+            callback.recognizedTokens = tokens
+            callback.validation = validation_payload
+            send_callback(job_id, callback)
 
         # ── 1. Quality Preflight & Advisory Flags ────────────────────────────
         quality_gate = QualityGate()
@@ -59,6 +66,8 @@ def process_submission(self, job_id: str, request_data: dict):
             "qualityFlags": quality_flags,
             "reasonCode": None,
             "modelProvenance": model_provenance,
+            "confidenceMethod": ("FIXTURE" if settings.runtime_mode == "FIXTURE"
+                                 else "YOLO_TOKEN_MEAN_AND_POLICY_HEURISTICS"),
         }
 
         # Hard stop ONLY for undecodable, corrupt, or proven empty images
@@ -86,7 +95,7 @@ def process_submission(self, job_id: str, request_data: dict):
                 diagnostics=diagnostics,
                 modelVersion=model_version_str
             )
-            send_callback(job_id, callback)
+            publish(callback)
             return status_out
 
         # ── 2. Recognition (ALWAYS ATTEMPTED FOR DECODABLE IMAGES) ─────────────
@@ -110,7 +119,7 @@ def process_submission(self, job_id: str, request_data: dict):
                     diagnostics=diagnostics,
                     modelVersion=model_version_str
                 )
-                send_callback(job_id, callback)
+                publish(callback)
                 return "MODEL_NOT_AVAILABLE"
 
         diagnostics["detectorInvoked"] = True
@@ -118,15 +127,17 @@ def process_submission(self, job_id: str, request_data: dict):
             recognition_result = engine.recognize(image_ref)
         except Exception as e:
             logger.error(f"Recognition failed in mode {settings.runtime_mode}: {e}")
-            diagnostics["reasonCode"] = "AI_RUNTIME_ERROR"
+            reason = "IMAGE_DECODE_FAILED" if str(e) == "IMAGE_DECODE_FAILED" else "AI_RUNTIME_ERROR"
+            status_out = "REVIEW_REQUIRED" if reason == "IMAGE_DECODE_FAILED" else "MODEL_NOT_AVAILABLE"
+            diagnostics["reasonCode"] = reason
             callback = AiCallbackRequest(
-                status="MODEL_NOT_AVAILABLE",
-                reasonCode="AI_RUNTIME_ERROR",
+                status=status_out,
+                reasonCode=reason,
                 diagnostics=diagnostics,
                 modelVersion=model_version_str
             )
-            send_callback(job_id, callback)
-            return "MODEL_NOT_AVAILABLE"
+            publish(callback)
+            return status_out
 
         tokens = recognition_result.tokens or []
         diagnostics["detectorTokenCount"] = len(tokens)
@@ -134,7 +145,7 @@ def process_submission(self, job_id: str, request_data: dict):
         # Log OCR Bridge diagnostics if available
         if getattr(recognition_result, "line_recognitions", None):
             recs = recognition_result.line_recognitions
-            diagnostics["ocrInvoked"] = True
+            diagnostics["ocrInvoked"] = any(r.provider != "none" for r in recs)
             total_ocr_len = sum(len(r.crnn_text or "") for r in recs)
             diagnostics["ocrTextLength"] = total_ocr_len
             logger.info(
@@ -164,8 +175,14 @@ def process_submission(self, job_id: str, request_data: dict):
         # ── 3. Parsing ───────────────────────────────────────────────────────
         diagnostics["parserInvoked"] = True
         parser = StructuredParser()
-        parsed_exercise = parser.parse(recognition_result)
+        parsed_exercise = parser.parse(
+            recognition_result, allowed_operations=request_data.get("allowedOperations", []),
+            max_digits=request_data.get("maxDigits", 3),
+            one_exercise_only=request_data.get("oneExerciseOnly", True),
+        )
         diagnostics["parserStatus"] = parsed_exercise.status
+        if parsed_exercise.status == "OUT_OF_SCOPE":
+            validation_payload["diagnosisState"] = "OUT_OF_SCOPE"
 
         # Update structure confidence from parse result
         if parsed_exercise.status == "VALID_STRUCTURE":
@@ -214,18 +231,19 @@ def process_submission(self, job_id: str, request_data: dict):
                     diagnostics=diagnostics,
                     modelVersion=model_version_str
                 )
-            send_callback(job_id, callback)
+            publish(callback)
             return "NO_CONTENT_DETECTED"
 
         if parsed_exercise.status == "OUT_OF_SCOPE":
-            diagnostics["reasonCode"] = "OUT_OF_SCOPE"
+            reason_code = parsed_exercise.reasonCode or "OUT_OF_SCOPE"
+            diagnostics["reasonCode"] = reason_code
             if policy_mode == "STUDENT":
                 result = generate_student_feedback(parsed_exercise, {})
                 callback = AiCallbackRequest(
                     status=result["status"],
                     studentFeedback=result.get("studentFeedback"),
                     confidenceBundle=conf.model_dump(),
-                    reasonCode="OUT_OF_SCOPE",
+                    reasonCode=reason_code,
                     diagnostics=diagnostics,
                     modelVersion=model_version_str
                 )
@@ -234,15 +252,16 @@ def process_submission(self, job_id: str, request_data: dict):
                 callback = AiCallbackRequest(
                     status=result["status"],
                     confidenceBundle=conf.model_dump(),
-                    reasonCode="OUT_OF_SCOPE",
+                    reasonCode=reason_code,
                     diagnostics=diagnostics,
                     modelVersion=model_version_str
                 )
-            send_callback(job_id, callback)
+            publish(callback)
             return "OUT_OF_SCOPE"
 
         if parsed_exercise.status == "INVALID_LAYOUT":
-            diagnostics["reasonCode"] = "INVALID_LAYOUT"
+            reason_code = parsed_exercise.reasonCode or "INVALID_LAYOUT"
+            diagnostics["reasonCode"] = reason_code
             if policy_mode == "STUDENT":
                 result = generate_student_feedback(parsed_exercise, {})
                 status_out = result["status"]
@@ -250,7 +269,7 @@ def process_submission(self, job_id: str, request_data: dict):
                     status=status_out,
                     studentFeedback=result.get("studentFeedback"),
                     confidenceBundle=conf.model_dump(),
-                    reasonCode="INVALID_LAYOUT",
+                    reasonCode=reason_code,
                     diagnostics=diagnostics,
                     modelVersion=model_version_str
                 )
@@ -261,11 +280,11 @@ def process_submission(self, job_id: str, request_data: dict):
                     status=status_out,
                     evidence=result.get("evidence"),
                     confidenceBundle=conf.model_dump(),
-                    reasonCode="INVALID_LAYOUT",
+                    reasonCode=reason_code,
                     diagnostics=diagnostics,
                     modelVersion=model_version_str
                 )
-            send_callback(job_id, callback)
+            publish(callback)
             return status_out
 
         if parsed_exercise.status == "UNCERTAIN_STRUCTURE":
@@ -292,7 +311,7 @@ def process_submission(self, job_id: str, request_data: dict):
                     diagnostics=diagnostics,
                     modelVersion=model_version_str
                 )
-            send_callback(job_id, callback)
+            publish(callback)
             return status_out
 
         # ── 5. Deterministic Validation ──────────────────────────────────────
@@ -311,10 +330,16 @@ def process_submission(self, job_id: str, request_data: dict):
                 diagnostics=diagnostics,
                 modelVersion=model_version_str
             )
-            send_callback(job_id, callback)
+            validation_payload["diagnosisState"] = "OUT_OF_SCOPE"
+            publish(callback)
             return "OUT_OF_SCOPE"
 
         validation_result = validator.validate(parsed_exercise)
+        validation_payload = {
+            "isValid": validation_result["is_valid"],
+            "diagnosisState": "VALID" if validation_result["is_valid"] else "INVALID",
+            "evidence": validation_result.get("evidence", []),
+        }
         diagnostics["validatorStatus"] = "VALID" if validation_result.get("is_valid") else "INVALID"
 
         # Update diagnosis confidence
@@ -358,7 +383,7 @@ def process_submission(self, job_id: str, request_data: dict):
                 modelVersion=model_version_str
             )
 
-        send_callback(job_id, callback)
+        publish(callback)
         return "COMPLETED"
 
     except httpx.HTTPStatusError as exc:

@@ -202,7 +202,7 @@ def check_fastapi():
                 return
 
         req_ready = urllib.request.Request("http://127.0.0.1:8000/ready", method="GET")
-        with urllib.request.urlopen(req_ready, timeout=2.0) as resp:
+        with urllib.request.urlopen(req_ready, timeout=5.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             FASTAPI_INFO.update(data)
             if data.get("status") == "ready":
@@ -233,7 +233,7 @@ def check_celery():
     cmd = [
         python_bin,
         "-c",
-        "import sys, os; sys.path.insert(0, os.getcwd()); from app.jobs.celery_app import celery_app; res = celery_app.control.ping(timeout=2.5); sys.exit(0 if res and len(res) > 0 else 1)"
+        "import sys; from app.jobs.celery_app import active_mathvision_workers; sys.exit(0 if active_mathvision_workers(timeout=2.5) else 1)"
     ]
     try:
         proc = subprocess.run(
@@ -249,13 +249,13 @@ def check_celery():
             record_result(
                 "Celery Worker", "FAIL",
                 detail="Celery worker did not respond to control ping.",
-                fix="Start Celery worker: cd ai/runtime && .\\.venv\\Scripts\\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo"
+                fix="Start Celery worker: scripts/start-all.bat (named MathVision worker, Windows solo pool)"
             )
     except subprocess.TimeoutExpired:
         record_result(
             "Celery Worker", "FAIL",
             detail="Celery worker ping timed out.",
-            fix="Ensure Redis is running and start worker: cd ai/runtime && .\\.venv\\Scripts\\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo"
+            fix="Ensure Redis is running and start worker: scripts/start-all.bat"
         )
     except Exception as e:
         record_result(

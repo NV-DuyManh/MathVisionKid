@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { COLORS, SIZES, SHADOWS } from '../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
-import { QualityBadge } from '../components/domain/QualityBadge';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { recognitionDraftStore, resolveFlowDomain, isHandwritingDomain } from '../features/recognition/state/recognitionDraftStore';
@@ -24,7 +23,6 @@ export default function PreviewScreen() {
   const initialUri = rawUri ? ensureFileUri(rawUri) : '';
 
   const [imageUri, setImageUri] = useState<string>(initialUri);
-  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
@@ -49,10 +47,6 @@ export default function PreviewScreen() {
         extra: `mode=${effectiveMode}`,
       });
     }
-    const timer = setTimeout(() => {
-      setIsChecking(false);
-    }, 800);
-    return () => clearTimeout(timer);
   }, [initialUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode, router]);
 
   const handleContinue = () => {
@@ -118,18 +112,7 @@ export default function PreviewScreen() {
           <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" />
 
           <View style={styles.qualityOverlay}>
-            {isChecking ? (
-              <View style={styles.checkingRow}>
-                <ActivityIndicator size="small" color={COLORS.primary} />
-                <Text style={styles.checkingText}>Đang kiểm tra chất lượng ảnh...</Text>
-              </View>
-            ) : (
-              <View style={styles.badgeRow}>
-                <QualityBadge label="Ảnh đủ sáng" isGood={true} />
-                <QualityBadge label="Nằm trong khung" isGood={true} />
-                <QualityBadge label="Một bài toán" isGood={true} />
-              </View>
-            )}
+            <Text style={styles.checkingText}>Em kiểm tra ảnh có rõ chữ, đủ bài và đúng chiều trước khi gửi nhé.</Text>
           </View>
         </View>
 
@@ -161,7 +144,6 @@ export default function PreviewScreen() {
           <AppButton
             title="KIỂM TRA BÀI TOÁN"
             onPress={handleContinue}
-            disabled={isChecking}
             variant="primary"
           />
           <View style={{ height: SIZES.small }} />
@@ -220,7 +202,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     color: COLORS.textSecondary,
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
   },
   badgeRow: {
     flexDirection: 'row',
@@ -249,7 +231,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     color: COLORS.primaryDark,
     fontSize: 14,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
   actionSection: {
     paddingBottom: SIZES.medium,

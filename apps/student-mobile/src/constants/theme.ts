@@ -49,6 +49,15 @@ export const MATHVISION_COLORS = {
 export const COLORS = MATHVISION_COLORS;
 export function getThemeColors() { return COLORS; }
 
+export const FONTS = {
+  regular: 'NunitoRegular',
+  medium: 'NunitoMedium',
+  semiBold: 'NunitoSemiBold',
+  bold: 'NunitoBold',
+  extraBold: 'NunitoExtraBold',
+  black: 'NunitoBlack',
+} as const;
+
 export const SIZES = {
   xs: 4,
   base: 8,

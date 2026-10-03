@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle, TextStyle, View } from 'react-native';
-import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
 
 interface AppButtonProps {
   title: string;
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     letterSpacing: 0.2,
   },
   outlined: {

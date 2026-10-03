@@ -26,3 +26,4 @@ class ParsedExercise(BaseModel):
     result: str
     tokens: List[Token]
     status: str # VALID_STRUCTURE, UNCERTAIN_STRUCTURE, OUT_OF_SCOPE, INVALID_LAYOUT, NO_CONTENT_DETECTED
+    reasonCode: Optional[str] = None

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { COLORS, SIZES } from '../constants/theme';
+import { FONTS, COLORS, SIZES } from '../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../components/ui/AppButton';
 import { ScanFrame } from '../components/domain/ScanFrame';
@@ -15,6 +15,7 @@ export default function CameraScreen() {
     const router = useRouter();
     const params = useLocalSearchParams<{
         mode?: string;
+        retrySubmissionId?: string;
     }>();
     const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef<CameraView>(null);
@@ -33,9 +34,6 @@ export default function CameraScreen() {
     const isHandwriting = isHandwritingDomain(mode);
     const facing = 'back';
     const [flash, setFlash] = useState<'off' | 'on'>('off');
-    if (!permission) {
-        return <View style={styles.container}/>;
-    }
     const handlePickImage = async () => {
         try {
             const result = await ImagePicker.launchImageLibraryAsync({
@@ -57,6 +55,7 @@ export default function CameraScreen() {
                 logFlowDomain('ACQUIRE', activeMode);
                 const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
                 draft.mode = activeMode;
+                draft.retrySubmissionId = activeMode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
                 recognitionDraftStore.setDraft(draft);
                 const nextTarget = '/privacy';
                 router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
@@ -66,7 +65,7 @@ export default function CameraScreen() {
             Alert.alert('Lỗi', `${branding.name} không mở được thư viện ảnh.`);
         }
     };
-    if (!permission.granted) {
+    if (!permission?.granted) {
         return (<SafeAreaView style={styles.permissionContainer}>
         <View style={styles.permissionIconBadge}>
           <Ionicons name="camera-outline" size={48} color={COLORS.primary}/>
@@ -102,6 +101,7 @@ export default function CameraScreen() {
                     logFlowDomain('ACQUIRE', activeMode);
                     const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
                     draft.mode = activeMode;
+                    draft.retrySubmissionId = activeMode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
                     draft.originalImageUri = photo.uri;
                     draft.originalUri = photo.uri;
                     draft.sourceImageUri = photo.uri;
@@ -150,7 +150,7 @@ export default function CameraScreen() {
                 styles.modeTabText,
                 isHandwriting && styles.modeTabTextActive
             ]}>
-                  Chữ viết tay & Bài giải
+                  Đọc bài giải
                 </Text>
               </TouchableOpacity>
 
@@ -163,7 +163,7 @@ export default function CameraScreen() {
                 styles.modeTabText,
                 !isHandwriting && styles.modeTabTextActive
             ]}>
-                  Phép tính
+                  Đặt tính + / −
                 </Text>
               </TouchableOpacity>
             </View>) : (<View style={styles.singleModeBadge}>
@@ -243,12 +243,13 @@ const styles = StyleSheet.create({
     },
     permissionTitle: {
         fontSize: 22,
-        fontWeight: '800',
+        fontFamily: FONTS.extraBold,
         color: COLORS.primaryDark,
         marginBottom: SIZES.small,
         textAlign: 'center',
     },
     permissionText: {
+        fontFamily: FONTS.regular,
         fontSize: 15,
         textAlign: 'center',
         marginBottom: SIZES.xxlarge,
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
     backButtonText: {
         fontSize: 15,
         color: COLORS.textSecondary,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     header: {
         flexDirection: 'row',
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
     modeTabText: {
         color: '#94A3B8',
         fontSize: 13,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         marginLeft: 4,
     },
     modeTabTextActive: {
@@ -345,7 +346,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 12,
         marginTop: 6,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
     },
     captureButton: {
         width: 76,
@@ -377,6 +378,6 @@ const styles = StyleSheet.create({
     singleModeBadgeText: {
         color: '#FFFFFF',
         fontSize: 13,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
     },
 });

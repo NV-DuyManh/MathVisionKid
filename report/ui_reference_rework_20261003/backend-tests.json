@@ -1,0 +1,11 @@
+{
+  "failures": 0,
+  "errors": 0,
+  "suites": 22,
+  "newFailureRegressions": 4,
+  "targetedBackendTests": 30,
+  "tests": 164,
+  "profile": "test (H2)",
+  "newAiContractTests": 2,
+  "skipped": 0
+}

@@ -24,7 +24,7 @@ describe('PROD.4B.2R3 Section 7 — Mobile Background Async Update Mechanism', (
         predictedText: 'Bó hoa sim tímm',
         rawOcrText: 'Bó hoa sim tímm',
         rawOcrConfidence: 0.88,
-        verdict: 'UNREVIEWED',
+        verdict: 'UNVERIFIED',
         trainingEligible: false,
         // Advisors pending on fast-path response:
         groqStatus: undefined,
@@ -37,7 +37,7 @@ describe('PROD.4B.2R3 Section 7 — Mobile Background Async Update Mechanism', (
         predictedText: 'Rừng chiều ngút ngàn',
         rawOcrText: 'Rừng chiều ngút ngàn',
         rawOcrConfidence: 0.95,
-        verdict: 'UNREVIEWED',
+        verdict: 'UNVERIFIED',
         trainingEligible: false,
         groqStatus: undefined,
         geminiStatus: undefined,
@@ -49,7 +49,7 @@ describe('PROD.4B.2R3 Section 7 — Mobile Background Async Update Mechanism', (
         predictedText: 'Đồi sim tím biếc',
         rawOcrText: 'Đồi sim tím biếc',
         rawOcrConfidence: 0.92,
-        verdict: 'UNREVIEWED',
+        verdict: 'UNVERIFIED',
         trainingEligible: false,
         groqStatus: undefined,
         geminiStatus: undefined,
@@ -61,6 +61,20 @@ describe('PROD.4B.2R3 Section 7 — Mobile Background Async Update Mechanism', (
   test('1 & 2. Initial state reflects fast-path local OCR and detects advisors as PENDING', () => {
     expect(isAdvisorPending(initialTrial)).toBe(true);
     expect(initialTrial.lines[0].rawOcrText).toBe('Bó hoa sim tímm');
+  });
+
+  test('backend null advisor statuses remain pending until terminal provider statuses arrive', () => {
+    const pending: MultilineTrialResult = JSON.parse(JSON.stringify({
+      ...initialTrial,
+      lines: [{ ...initialTrial.lines[0], groqStatus: null, geminiStatus: null }],
+    }));
+    expect(isAdvisorPending(pending)).toBe(true);
+    const completed = { ...pending, lines: [{ ...pending.lines[0],
+      groqStatus: 'UNAVAILABLE', geminiStatus: 'DISABLED',
+    }] };
+    expect(isAdvisorPending(completed)).toBe(false);
+    expect(mergeTrialWithAdvisorUpdate(pending, completed).lines[0].rawOcrText)
+      .toBe(pending.lines[0].rawOcrText);
   });
 
   test('3, 4 & 5. Delayed advisor completion (e.g. 2500ms): mounted screen receives updates automatically without reload', async () => {
@@ -113,7 +127,7 @@ describe('PROD.4B.2R3 Section 7 — Mobile Background Async Update Mechanism', (
     // Suppose while advisors were in-flight:
     // - Line 1: User explicitly chose OCR ("Giữ OCR gốc", verdict: CORRECT)
     // - Line 2: User manually edited text ("Rừng chiều ngát hương", verdict: CORRECTED, selectedSource: MANUAL_EDIT)
-    // - Line 3: Untouched (UNREVIEWED)
+    // - Line 3: Untouched (backend verdict UNVERIFIED)
     const userModifiedTrial: MultilineTrialResult = {
       ...initialTrial,
       lines: [
@@ -194,9 +208,24 @@ describe('PROD.4B.2R3 Section 7 — Mobile Background Async Update Mechanism', (
     expect(merged.lines[1].groqSuggestion).toBe('Rừng chiều bạt ngàn');
 
     // Verify Line 3: Untouched line received the advisor update!
-    expect(merged.lines[2].verdict).toBe('UNREVIEWED');
+    expect(merged.lines[2].verdict).toBe('UNVERIFIED');
     expect(merged.lines[2].groqSuggestion).toBe('Đồi sim tím ngát');
     expect(merged.lines[2].finalText).toBe('Đồi sim tím ngát');
+  });
+
+  test('a skipped line keeps the student choice when late auto-apply arrives', () => {
+    const current = { ...initialTrial, lines: [{ ...initialTrial.lines[0],
+      verdict: 'SKIPPED', finalText: initialTrial.lines[0].predictedText,
+    }] };
+    const incoming = { ...initialTrial, lines: [{ ...initialTrial.lines[0],
+      finalText: 'Bó hoa sim tím', predictedText: 'Bó hoa sim tím',
+      groqSuggestion: 'Bó hoa sim tím', groqStatus: 'SUCCESS', correctionApplied: true,
+    }] };
+    const line = mergeTrialWithAdvisorUpdate(current, incoming).lines[0];
+    expect(line.verdict).toBe('SKIPPED');
+    expect(line.finalText).toBe(current.lines[0].finalText);
+    expect(line.predictedText).toBe(current.lines[0].predictedText);
+    expect(line.groqSuggestion).toBe('Bó hoa sim tím');
   });
 
   test('Active editing line guard: do not disturb line being typed in activeEditingLineId', () => {
@@ -234,6 +263,72 @@ describe('PROD.4B.2R3 Section 7 — Mobile Background Async Update Mechanism', (
     expect(line.groqConfidence).toBeNull();
     expect(line.groqConfidenceSource).toBeNull();
     expect(line.groqStatus).toBe('UNAVAILABLE');
+  });
+
+  test.each(['UNVERIFIED', 'CORRECTED'])('late null pending response cannot undo settled advisors for %s', (verdict) => {
+    const current = { ...initialTrial, lines: [{ ...initialTrial.lines[0],
+      verdict, finalText: 'Bó hoa sim tím', predictedText: 'Bó hoa sim tím',
+      groqStatus: 'SUCCESS', geminiStatus: 'SUCCESS',
+      groqSuggestion: 'Bó hoa sim tím', geminiSuggestion: 'Bó hoa sim tím',
+      groqConfidence: 0.9, groqConfidenceSource: 'AI_SELF_REPORTED',
+      correctionApplied: true, correctedText: 'Bó hoa sim tím',
+      verifiedTextRaw: verdict === 'CORRECTED' ? 'Nội dung em chọn' : undefined,
+    }] };
+    const latePending: MultilineTrialResult = JSON.parse(JSON.stringify({
+      ...initialTrial, lines: [{ ...initialTrial.lines[0],
+        finalText: initialTrial.lines[0].predictedText,
+        groqStatus: null, geminiStatus: null, groqSuggestion: null, geminiSuggestion: null,
+        groqConfidence: null, geminiConfidence: null, correctionApplied: false,
+      }],
+    }));
+    const merged = mergeTrialWithAdvisorUpdate(current, latePending);
+    expect(isAdvisorPending(merged)).toBe(false);
+    expect(merged.lines[0]).toMatchObject({
+      verdict, finalText: 'Bó hoa sim tím', predictedText: 'Bó hoa sim tím',
+      groqStatus: 'SUCCESS', geminiStatus: 'SUCCESS', groqConfidence: 0.9,
+      groqSuggestion: 'Bó hoa sim tím', correctionApplied: true,
+    });
+    expect(merged.lines[0].verifiedTextRaw).toBe(current.lines[0].verifiedTextRaw);
+  });
+
+  test('late feedback keeps settled advisors while acknowledging the exact human correction', () => {
+    const current = { ...initialTrial, lines: [{ ...initialTrial.lines[0],
+      groqStatus: 'SUCCESS', groqSuggestion: 'Bó hoa sim tím',
+      finalText: 'Bó hoa sim tím', predictedText: 'Bó hoa sim tím',
+    }] };
+    const feedback: MultilineTrialResult = JSON.parse(JSON.stringify({
+      ...initialTrial, lines: [{ ...initialTrial.lines[0],
+        verdict: 'CORRECTED', verifiedTextRaw: 'Bài em tự sửa', finalText: 'Bài em tự sửa',
+        predictedText: 'Bài em tự sửa', trainingEligible: true, feedbackAt: '2026-10-03T00:00:00Z',
+        groqStatus: null, geminiStatus: null,
+      }],
+    }));
+    const line = mergeTrialWithAdvisorUpdate(current, feedback).lines[0];
+    expect(line).toMatchObject({
+      verdict: 'CORRECTED', verifiedTextRaw: 'Bài em tự sửa', finalText: 'Bài em tự sửa',
+      groqStatus: 'SUCCESS', groqSuggestion: 'Bó hoa sim tím', trainingEligible: true,
+      feedbackAt: '2026-10-03T00:00:00Z',
+    });
+    const otherTrial = { ...feedback, trialId: 'other-trial' };
+    expect(mergeTrialWithAdvisorUpdate(current, otherTrial).lines[0].groqStatus).toBeNull();
+  });
+
+  test('a terminal failure can still explicitly clear a settled provider score and text', () => {
+    const current = { ...initialTrial, lines: [{ ...initialTrial.lines[0],
+      groqStatus: 'SUCCESS', groqSuggestion: 'Bó hoa sim tím',
+      groqConfidence: 0.9, groqConfidenceSource: 'AI_SELF_REPORTED',
+    }] };
+    const unavailable: MultilineTrialResult = JSON.parse(JSON.stringify({
+      ...initialTrial, lines: [{ ...initialTrial.lines[0],
+        groqStatus: 'UNAVAILABLE', groqSuggestion: null,
+        groqConfidence: null, groqConfidenceSource: null,
+      }],
+    }));
+    const line = mergeTrialWithAdvisorUpdate(current, unavailable).lines[0];
+    expect(line.groqStatus).toBe('UNAVAILABLE');
+    expect(line.groqSuggestion).toBeNull();
+    expect(line.groqConfidence).toBeNull();
+    expect(line.groqConfidenceSource).toBeNull();
   });
 
 });

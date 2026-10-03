@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS, SIZES } from '../../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 
 interface ProcessingStepsProps {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   stepText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
   },
   textActive: {
     color: COLORS.textPrimary,

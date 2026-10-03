@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/immutability, react-hooks/purity, react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -14,7 +14,7 @@ import Animated, {
   useAnimatedStyle,
   runOnJS,
 } from 'react-native-reanimated';
-import { COLORS, SIZES, SHADOWS } from '../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -54,6 +54,18 @@ export default function PrivacyGateScreen() {
   const [confirmed, setConfirmed] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageLoadError, setImageLoadError] = useState(false);
+  // The web Image loader restarts when its event callbacks change.
+  const handleImageLoadStart = useCallback(() => {
+    setImageLoaded(false);
+    setImageLoadError(false);
+  }, []);
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+    setImageLoadError(false);
+  }, []);
+  const handleImageError = useCallback(() => {
+    setImageLoadError(true);
+  }, []);
   const viewShotRef = useRef<any>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
@@ -519,7 +531,10 @@ export default function PrivacyGateScreen() {
         {/* Interactive Mask Canvas */}
         <View
           style={styles.imageContainer}
-          onLayout={(e) => setContainerSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
+          onLayout={(e) => {
+            const { width, height } = e.nativeEvent.layout;
+            setContainerSize(previous => previous.width === width && previous.height === height ? previous : { width, height });
+          }}
         >
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ViewShot
@@ -535,18 +550,9 @@ export default function PrivacyGateScreen() {
                     source={{ uri: activeUri }}
                     style={styles.image}
                     resizeMode="contain"
-                    onLoadStart={() => {
-                      setImageLoaded(false);
-                      setImageLoadError(false);
-                    }}
-                    onLoad={() => {
-                      setImageLoaded(true);
-                      setImageLoadError(false);
-                    }}
-                    onError={(e) => {
-                      console.error('[PRIVACY] Image render failed:', e.nativeEvent.error);
-                      setImageLoadError(true);
-                    }}
+                    onLoadStart={handleImageLoadStart}
+                    onLoad={handleImageLoad}
+                    onError={handleImageError}
                   />
 
                   {!imageLoaded && !imageLoadError && (
@@ -710,6 +716,7 @@ const styles = StyleSheet.create({
     padding: SIZES.large,
   },
   emptyText: {
+    fontFamily: FONTS.regular,
     fontSize: 16,
     color: COLORS.textSecondary,
     marginBottom: SIZES.large,
@@ -729,10 +736,11 @@ const styles = StyleSheet.create({
   instructionTitle: {
     marginLeft: 6,
     fontSize: 14,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.primaryDark,
   },
   instructionText: {
+    fontFamily: FONTS.regular,
     fontSize: 13,
     color: COLORS.textPrimary,
     lineHeight: 18,
@@ -750,7 +758,7 @@ const styles = StyleSheet.create({
   hintText: {
     color: '#94A3B8',
     fontSize: 11,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     marginLeft: 6,
   },
   imageContainer: {
@@ -779,7 +787,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginTop: 10,
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
   },
   errorOverlay: {
     ...StyleSheet.absoluteFill,
@@ -791,11 +799,12 @@ const styles = StyleSheet.create({
   errorTitle: {
     color: '#FFFFFF',
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginTop: 12,
   },
   errorSub: {
     color: COLORS.textMuted,
+    fontFamily: FONTS.regular,
     fontSize: 13,
     textAlign: 'center',
     marginTop: 6,
@@ -809,7 +818,7 @@ const styles = StyleSheet.create({
   },
   retryButtonText: {
     color: '#FFFFFF',
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     fontSize: 14,
   },
   maskBlock: {
@@ -885,7 +894,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginLeft: 6,
     fontSize: 13,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
   footer: {
     padding: SIZES.large,
@@ -903,7 +912,7 @@ const styles = StyleSheet.create({
   checkboxText: {
     marginLeft: SIZES.small,
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
     color: COLORS.textPrimary,
     flexShrink: 1,
     lineHeight: 20,

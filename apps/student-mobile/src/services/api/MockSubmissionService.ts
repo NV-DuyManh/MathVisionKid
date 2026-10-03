@@ -5,6 +5,7 @@ import {
   ErrorType,
   ImageQualityIssue,
   SubmissionService,
+  TokenCorrection,
 } from '../../types';
 
 // Mock delays to simulate network & AI processing
@@ -172,7 +173,7 @@ export class MockSubmissionServiceClass implements SubmissionService {
   /**
    * Confirm an ambiguous token
    */
-  async confirmToken(id: string, token: string): Promise<SubmissionResult> {
+  async confirmToken(id: string, _correction: TokenCorrection): Promise<SubmissionResult> {
     await delay(600);
     const sub = submissionsStore[id];
     if (!sub) throw new Error('Submission not found');
@@ -198,12 +199,7 @@ export class MockSubmissionServiceClass implements SubmissionService {
    * Retry a submission (e.g. after error)
    */
   async retrySubmission(id: string, uri: string): Promise<SubmissionResult> {
-    // In a real system this might create a new linked submission or update state
-    await delay(500);
-    return {
-      id: `sub_${Date.now()}`,
-      status: SubmissionStatus.PROCESSING,
-    };
+    return this.uploadImage(uri);
   }
 }
 

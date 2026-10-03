@@ -1,0 +1,28 @@
+{
+  "invalidSubmissionId": "66d9fb77-9467-4f33-99fe-8c492a40e4b4",
+  "expression": "52 - 18 = 44",
+  "validation": {
+    "isValid": false,
+    "evidence": [
+      {
+        "type": "CARRY_BORROW_ERROR",
+        "ruleId": "SUB_COL_MISMATCH",
+        "tokenId": "tok_2_1_4_b98f",
+        "confidence": 0.95,
+        "evidenceId": "err_sub_1",
+        "placeValue": "Hàng chục",
+        "boundingBox": [
+          0.394,
+          0.5869,
+          0.0994,
+          0.1201
+        ],
+        "columnIndex": 1,
+        "description": "Phép trừ hàng chục không khớp.",
+        "observedText": "4"
+      }
+    ],
+    "diagnosisState": "INVALID"
+  },
+  "browserUploadSubmissionId": "d3db4063-0a28-44b6-ab6d-2bcf72f8e761"
+}

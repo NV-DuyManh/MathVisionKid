@@ -42,6 +42,8 @@ public class StateTransitionTest {
 
     @Autowired
     private SubmissionImageRepository submissionImageRepository;
+    @Autowired
+    private com.mathvisionkids.api.analysis.AnalysisResultRepository analysisResultRepository;
 
     @Autowired
     private TeacherRepository teacherRepository;
@@ -112,6 +114,11 @@ public class StateTransitionTest {
         testSubmission.setStudent(student);
         testSubmission.setStatus("PROCESSING");
         submissionRepository.save(testSubmission);
+        com.mathvisionkids.api.analysis.AnalysisResult proposal = new com.mathvisionkids.api.analysis.AnalysisResult();
+        proposal.setSubmission(testSubmission);
+        proposal.setStatus("PROPOSED_GRADE");
+        proposal.setGradeProposal(java.util.Map.of("suggestedScore", 10, "maxScore", 10));
+        analysisResultRepository.save(proposal);
     }
 
     @Test
@@ -227,10 +234,8 @@ public class StateTransitionTest {
         submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
 
         Submission updated = submissionRepository.findById(testSubmission.getSubmissionId()).orElseThrow();
-        // Stub gateway runs synchronously (self-invocation bypasses @Async),
-        // so status advances past PROCESSING to PROPOSED_GRADE.
-        // Key assertion: status is no longer NEEDS_RETAKE.
-        assert !"NEEDS_RETAKE".equals(updated.getStatus()) : "Status should have advanced past NEEDS_RETAKE";
+        // Retry is dispatched only after a successful commit, not inside this rollback-only test transaction.
+        assertEquals("PROCESSING", updated.getStatus());
         assertEquals(testSubmission.getSubmissionId(), updated.getSubmissionId()); // Same submission retained
 
         // Verify new SubmissionImage is created

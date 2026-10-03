@@ -56,6 +56,10 @@ public class HttpAiAnalysisGatewayTest {
             }
             return job;
         });
+        com.mathvisionkids.api.submission.SubmissionImage image = new com.mathvisionkids.api.submission.SubmissionImage();
+        image.setFilePath("submissions/latest-image.jpg");
+        when(submissionImageRepository.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(any()))
+                .thenReturn(Optional.of(image));
     }
 
     @Test
@@ -165,6 +169,7 @@ public class HttpAiAnalysisGatewayTest {
         UUID submissionId = UUID.randomUUID();
         Submission submission = new Submission();
         submission.setSubmissionId(submissionId);
+        submission.setStatus("PROCESSING");
         when(submissionRepository.findById(submissionId)).thenReturn(Optional.of(submission));
         when(submissionImageRepository.findBySubmission_SubmissionId(submissionId)).thenReturn(Optional.empty());
 
@@ -177,6 +182,7 @@ public class HttpAiAnalysisGatewayTest {
         verify(aiJobRepository, times(2)).save(jobCaptor.capture());
         AiJob finalSavedJob = jobCaptor.getAllValues().get(1);
         assertEquals("FAILED", finalSavedJob.getStatus(), "Timeout must set AiJob status to FAILED");
+        assertEquals("REVIEW_REQUIRED", submission.getStatus(), "A dispatch failure must not leave mobile polling PROCESSING");
     }
 
     @Test
@@ -184,6 +190,7 @@ public class HttpAiAnalysisGatewayTest {
         UUID submissionId = UUID.randomUUID();
         Submission submission = new Submission();
         submission.setSubmissionId(submissionId);
+        submission.setStatus("PROCESSING");
         when(submissionRepository.findById(submissionId)).thenReturn(Optional.of(submission));
         when(submissionImageRepository.findBySubmission_SubmissionId(submissionId)).thenReturn(Optional.empty());
 
@@ -196,6 +203,32 @@ public class HttpAiAnalysisGatewayTest {
         verify(aiJobRepository, times(2)).save(jobCaptor.capture());
         AiJob finalSavedJob = jobCaptor.getAllValues().get(1);
         assertEquals("FAILED", finalSavedJob.getStatus(), "FastAPI 503 must set AiJob status to FAILED");
+        assertEquals("REVIEW_REQUIRED", submission.getStatus());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void dispatchUsesTheLatestStoredImageAndNeverAFixtureFallback() {
+        UUID id = UUID.randomUUID();
+        Submission submission = new Submission(); submission.setSubmissionId(id); submission.setStatus("PROCESSING");
+        when(submissionRepository.findById(id)).thenReturn(Optional.of(submission));
+        when(restTemplate.postForEntity(anyString(), any(), eq(Map.class))).thenReturn(ResponseEntity.ok(Map.of()));
+        gateway.analyze(id);
+        ArgumentCaptor<HttpEntity<Map<String, Object>>> request = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).postForEntity(eq(AI_SERVICE_URL), request.capture(), eq(Map.class));
+        assertEquals("minio://mathvision/submissions/latest-image.jpg", request.getValue().getBody().get("imageReference"));
+        verify(submissionImageRepository, never()).findBySubmission_SubmissionId(any());
+    }
+
+    @Test
+    void aMissingImageSettlesWithoutDispatchingMadeUpRecognition() {
+        UUID id = UUID.randomUUID();
+        Submission submission = new Submission(); submission.setSubmissionId(id); submission.setStatus("PROCESSING");
+        when(submissionRepository.findById(id)).thenReturn(Optional.of(submission));
+        when(submissionImageRepository.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(id)).thenReturn(Optional.empty());
+        gateway.analyze(id);
+        assertEquals("REVIEW_REQUIRED", submission.getStatus());
+        verifyNoInteractions(restTemplate);
     }
 
     @Test

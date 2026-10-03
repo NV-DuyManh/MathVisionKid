@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import TestRenderer, { act } from 'react-test-renderer';
 import * as MediaLibrary from 'expo-media-library/legacy';
 import { useRouter } from 'expo-router';
@@ -57,6 +58,21 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       replace: mockReplace,
     });
     recognitionDraftStore.clearDraft();
+  });
+
+  it('offers the device picker on web without waiting for native library permissions', async () => {
+    const originalPlatform = Platform.OS;
+    Object.defineProperty(Platform, 'OS', { configurable: true, value: 'web' });
+    let renderer: TestRenderer.ReactTestRenderer | undefined;
+    try {
+      (MediaLibrary.getPermissionsAsync as jest.Mock).mockImplementation(() => new Promise(() => {}));
+      await act(async () => { renderer = TestRenderer.create(<CustomGalleryScreen />); });
+      expect(MediaLibrary.getPermissionsAsync).not.toHaveBeenCalled();
+      expect(renderer!.root.findByProps({ accessibilityLabel: 'Chọn ảnh từ thiết bị' })).toBeTruthy();
+    } finally {
+      act(() => renderer?.unmount());
+      Object.defineProperty(Platform, 'OS', { configurable: true, value: originalPlatform });
+    }
   });
 
   const mockAssets: MediaLibrary.Asset[] = [
@@ -271,21 +287,18 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
     expect(mockBack).toHaveBeenCalled();
   });
 
-  it('GALLERY-08: Home screen gallery CTA opens native ImagePicker directly without intermediate /gallery route', async () => {
+  it('GALLERY-08: Home acquisition sheet opens native ImagePicker and keeps the privacy step', async () => {
     let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<HomeScreen />);
     });
 
-    // Camera CTA
+    // The hero opens the acquisition choices before a source is selected.
     const cameraBtn = renderer.root.findByProps({ accessibilityLabel: 'Chụp bài toán hoặc bài viết tay' });
     await act(async () => {
       cameraBtn.props.onPress();
     });
-    expect(mockPush).toHaveBeenCalledWith({
-      pathname: '/camera',
-      params: { mode: 'HANDWRITING_TEXT' },
-    });
+    expect(mockPush).not.toHaveBeenCalled();
 
     // Gallery CTA — MUST directly invoke native ImagePicker and route to /privacy without /gallery
     const galleryBtn = renderer.root.findByProps({ accessibilityLabel: 'Chọn ảnh bài làm từ thư viện' });
@@ -303,5 +316,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       pathname: '/privacy',
       params: { uri: 'file:///photo.jpg' },
     });
+    act(() => renderer.unmount());
   });
 });

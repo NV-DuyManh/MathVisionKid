@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
-import { COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS, SIZES } from '../../constants/theme';
 import { recognitionAnalyticsStore } from '../../features/recognition/analytics/recognitionAnalyticsStore';
 import { buildRecognitionMetrics, type RecognitionMetrics } from '../../features/recognition/analytics/recognitionMetrics';
 import { RecognitionSummary } from '../../features/recognition/components/RecognitionSummary';
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SIZES.medium, gap: SIZES.medium, width: '100%', maxWidth: 640, alignSelf: 'center' },
   card: { padding: SIZES.medium, gap: SIZES.small, backgroundColor: COLORS.surface, borderRadius: SIZES.cardRadius },
-  title: { fontSize: 17, fontWeight: '700', color: COLORS.textPrimary },
-  message: { color: COLORS.textSecondary, fontSize: 15, lineHeight: 23 },
+  title: { fontSize: 17, fontFamily: FONTS.bold, color: COLORS.textPrimary },
+  message: { color: COLORS.textSecondary, fontFamily: FONTS.regular, fontSize: 15, lineHeight: 23 },
   loading: { margin: SIZES.xxlarge },
 });

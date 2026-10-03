@@ -16,6 +16,7 @@
     "expo-image": "~57.0.4",
     "expo-image-manipulator": "~57.0.15",
     "expo-image-picker": "~57.0.15",
+    "expo-linear-gradient": "~57.0.2",
     "expo-linking": "~57.0.9",
     "expo-media-library": "~57.0.5",
     "expo-router": "~57.0.18",

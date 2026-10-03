@@ -8,7 +8,7 @@ import {
   BackHandler,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SHADOWS } from '../../constants/theme';
+import { FONTS, COLORS, SHADOWS } from '../../constants/theme';
 
 export interface ImageSourceModalProps {
   visible: boolean;
@@ -173,12 +173,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: '#0F172A',
     marginBottom: 4,
     textAlign: 'center',
   },
   subtitle: {
+    fontFamily: FONTS.regular,
     fontSize: 13,
     color: '#64748B',
     marginBottom: 18,
@@ -210,11 +211,12 @@ const styles = StyleSheet.create({
   },
   actionTitle: {
     fontSize: 15,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: '#0F172A',
     marginBottom: 2,
   },
   actionSubtitle: {
+    fontFamily: FONTS.regular,
     fontSize: 12,
     color: '#64748B',
   },
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     fontSize: 15,
-    fontWeight: '600',
+    fontFamily: FONTS.semiBold,
     color: '#475569',
   },
 });

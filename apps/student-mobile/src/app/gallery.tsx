@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SHADOWS } from '../constants/theme';
+import { FONTS, COLORS, SHADOWS } from '../constants/theme';
 import { recognitionDraftStore, resolveFlowDomain, logFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -75,6 +75,11 @@ export default function CustomGalleryScreen() {
     useEffect(() => {
         let isMounted = true;
         const loadInitialAssets = async () => {
+            if (Platform.OS === 'web') {
+                setIsNativeUnavailable(true);
+                setLoading(false);
+                return;
+            }
             try {
                 const ml = getMediaLibrary();
                 if (!ml || typeof ml.getPermissionsAsync !== 'function') {
@@ -297,7 +302,7 @@ export default function CustomGalleryScreen() {
           </Text>
           <Text style={styles.permissionDesc}>
             {isNativeUnavailable
-                ? 'Trên ứng dụng Expo Go Android, MathVision sử dụng bộ chọn ảnh hệ thống để em chọn ảnh bài tập nhanh và an toàn.'
+                ? 'Em hãy chọn ảnh bài làm rõ nét từ thiết bị để MathVision đọc và kiểm tra nhé.'
                 : 'MathVision cần quyền xem thư viện để em có thể chọn ảnh bài tập viết tay để nhận diện và sửa lỗi trực quan.'}
           </Text>
 
@@ -381,11 +386,12 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontSize: 18,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
         letterSpacing: -0.3,
     },
     headerSubtitle: {
+        fontFamily: FONTS.regular,
         fontSize: 13,
         color: COLORS.textMuted,
         marginTop: 2,
@@ -401,6 +407,7 @@ const styles = StyleSheet.create({
     },
     loadingText: {
         marginTop: 12,
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: COLORS.textMuted,
     },
@@ -469,12 +476,13 @@ const styles = StyleSheet.create({
     },
     permissionTitle: {
         fontSize: 20,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
         marginBottom: 10,
         textAlign: 'center',
     },
     permissionDesc: {
+        fontFamily: FONTS.regular,
         fontSize: 14,
         lineHeight: 22,
         color: COLORS.textSecondary,
@@ -494,7 +502,7 @@ const styles = StyleSheet.create({
     },
     primaryActionBtnText: {
         fontSize: 15,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: '#FFFFFF',
         marginLeft: 8,
     },
@@ -509,7 +517,7 @@ const styles = StyleSheet.create({
     },
     fallbackBtnText: {
         fontSize: 13,
-        fontWeight: '500',
+        fontFamily: FONTS.medium,
         color: COLORS.textSecondary,
         marginLeft: 6,
         textDecorationLine: 'underline',
@@ -531,11 +539,12 @@ const styles = StyleSheet.create({
     },
     emptyTitle: {
         fontSize: 18,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: COLORS.textPrimary,
         marginBottom: 8,
     },
     emptyDesc: {
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: COLORS.textMuted,
         textAlign: 'center',
@@ -566,7 +575,7 @@ const styles = StyleSheet.create({
     },
     cancelBtnText: {
         fontSize: 15,
-        fontWeight: '600',
+        fontFamily: FONTS.semiBold,
         color: COLORS.textSecondary,
     },
     confirmBtn: {
@@ -586,7 +595,7 @@ const styles = StyleSheet.create({
     },
     confirmBtnText: {
         fontSize: 15,
-        fontWeight: '700',
+        fontFamily: FONTS.bold,
         color: '#FFFFFF',
     },
 });
