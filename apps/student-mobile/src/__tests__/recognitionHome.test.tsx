@@ -25,36 +25,44 @@ describe('Native MathVision recognition entry points', () => {
     act(() => renderer!.unmount());
     return content;
   }
-  it('offers handwriting, arithmetic and gallery through the home acquisition sheet', () => {
+  it('offers one student learning flow through camera or gallery', () => {
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<HomeScreen />); });
-    const hero = renderer!.root.findAll(node => node.props.accessibilityLabel === 'Chụp bài toán hoặc bài viết tay' && typeof node.props.onPress === 'function')[0];
+    const hero = renderer!.root.findAll(node => node.props.accessibilityLabel === 'Chụp bài toán' && typeof node.props.onPress === 'function')[0];
     act(() => hero.props.onPress());
     const content = renderer!.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
     expect(content).toContain('MathVision');
-    expect(content).toContain('Chụp bài viết tay');
-    expect(content).toContain('Chụp phép tính');
-    expect(content).toContain('Chọn ảnh có sẵn');
+    expect(content).not.toContain('Chụp đề, học cách giải');
+    expect(content).not.toContain('Chọn ảnh có sẵn');
+    expect(content).not.toContain('Chụp bài viết tay');
+    expect(content).not.toContain('Chụp phép tính');
     act(() => renderer!.unmount());
   });
-  it('keeps both capture domains available', () => {
+  it('starts the student camera in the unified learning flow', () => {
     const content = readScreen(CameraScreen);
-    expect(content).toContain('Đọc bài giải');
-    expect(content).toContain('Đặt tính + / −');
+    expect(content).toContain('Chụp bài toán để cùng học');
+    expect(content).not.toContain('Đặt tính + / −');
+  });
+  it('opens the camera directly from the home capture action', () => {
+    let renderer: TestRenderer.ReactTestRenderer;
+    act(() => { renderer = TestRenderer.create(<HomeScreen />); });
+    const press = (label: string) => renderer!.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0].props.onPress();
+    act(() => press('Chụp bài toán'));
+    expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
+    act(() => renderer!.unmount());
   });
   it('keeps gallery acquisition available while camera permission is pending', () => {
     (useCameraPermissions as jest.Mock).mockReturnValue([null, jest.fn()]);
     expect(readScreen(CameraScreen)).toContain('Chọn ảnh từ thư viện');
   });
-  it('routes the new hero and arithmetic lesson to their existing capture domains', () => {
+  it('routes both home capture actions to the unified learning flow', () => {
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<HomeScreen />); });
     const press = (label: string) => renderer!.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0].props.onPress();
-    act(() => press('Chụp bài toán hoặc bài viết tay'));
-    act(() => press('Chụp bài viết tay'));
-    expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith({ pathname: '/camera', params: { mode: 'HANDWRITING_TEXT' } });
+    act(() => press('Chụp bài toán'));
+    expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
     act(() => press('Đọc phép tính. Kiểm tra phép cộng và trừ đặt dọc'));
-    expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith({ pathname: '/camera', params: { mode: 'ARITHMETIC' } });
+    expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
     act(() => renderer!.unmount());
   });
   it('opens saved history and the real grade-one curriculum', () => {
@@ -68,13 +76,11 @@ describe('Native MathVision recognition entry points', () => {
     expect(content).toContain('Bài toán thêm hoa vào lọ');
     act(() => renderer!.unmount());
   });
-  it('keeps the native image picker reachable from the updated home', async () => {
+  it('keeps the native image picker reachable inside the camera', async () => {
     (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({ canceled: true });
     let renderer: TestRenderer.ReactTestRenderer;
-    act(() => { renderer = TestRenderer.create(<HomeScreen />); });
-    const hero = renderer!.root.findAll(node => node.props.accessibilityLabel === 'Chụp bài toán hoặc bài viết tay' && typeof node.props.onPress === 'function')[0];
-    act(() => hero.props.onPress());
-    const button = renderer!.root.findAll(node => node.props.accessibilityLabel === 'Chọn ảnh bài làm từ thư viện' && typeof node.props.onPress === 'function')[0];
+    act(() => { renderer = TestRenderer.create(<CameraScreen />); });
+    const button = renderer!.root.findAll(node => node.props.accessibilityLabel === 'Chọn ảnh từ thư viện' && typeof node.props.onPress === 'function')[0];
     await act(async () => { await button.props.onPress(); });
     expect(ImagePicker.launchImageLibraryAsync).toHaveBeenCalledWith({ mediaTypes: ['images'], allowsEditing: false, quality: 1 });
     act(() => renderer!.unmount());

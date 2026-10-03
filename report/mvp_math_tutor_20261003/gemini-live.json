@@ -1,0 +1,19 @@
+{
+  "provider": "GEMINI",
+  "actualProviderInference": true,
+  "transport": "Tutor service; Groq disabled only in isolated smoke-test process",
+  "runtimeConfigurationUnchanged": true,
+  "read": {
+    "problemText": "Lan có 24 viên bi.\n\nMẹ cho Lan thêm 18 viên bi.\n\nHỏi Lan có tất cả bao nhiêu viên bi?",
+    "needsReview": true,
+    "notes": "Hình ảnh rõ ràng, đọc tốt."
+  },
+  "guide": {
+    "stage": "PLAN",
+    "hint": "Khi muốn gộp số đồ vật ban đầu với phần được nhận thêm, phép tính cộng giúp tìm tổng lượng đồ vật.",
+    "question": "Em sẽ dùng phép tính cộng với phần ban đầu và phần thêm vào như thế nào?",
+    "feedback": "",
+    "guarded": false
+  },
+  "seconds": 8.792
+}

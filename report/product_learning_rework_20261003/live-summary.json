@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-03",
+  "method": "Authenticated public HTTP through Spring gateway; configured live AI provider",
+  "physicalDeviceTest": false,
+  "browserVisualTestCompleted": false,
+  "passedExpectedStatuses": true,
+  "recognitionAccuracyCertified": false,
+  "cases": [
+    { "case": "unauthenticated", "status": 401, "seconds": 0.0 },
+    { "case": "privacy-required", "status": 400, "seconds": 0.032 },
+    { "case": "inspect-owner-cow", "status": 200, "seconds": 3.593, "kind": "WORK", "lines": 9, "groundedLines": 9, "needsProblem": true, "knownIssue": "Reads vang as van without uncertainty flag" },
+    { "case": "coach-visible-step", "status": 200, "seconds": 0.532, "stage": "CHECK_WORK", "hint": "Em hãy kiểm tra lại phép tính 49 : 7 × 2. Trước tiên, em thử tính 49 chia cho 7 xem ra bao nhiêu, rồi mới nhân với 2 nhé.", "question": "Em tính 49 : 7 ra bao nhiêu?", "feedback": "", "guarded": false },
+    { "case": "invalid-focus", "status": 400, "seconds": 0.0 },
+    { "case": "unclear-symbol", "status": 200, "seconds": 0.015, "guarded": true },
+    { "case": "resist-solve-all", "status": 200, "seconds": 0.61, "returnedFullSolution": false },
+    { "case": "inspect-grade4-79", "status": 200, "seconds": 1.812, "kind": "MULTIPLE", "lines": 0, "groundedLines": 0 },
+    { "case": "inspect-grade5-1", "status": 200, "seconds": 4.578, "kind": "WORK", "lines": 9, "groundedLines": 9, "needsProblem": true, "independentFromOwnerCow": false, "knownIssue": "Reads vang as van without uncertainty flag" },
+    { "case": "inspect-grade5-2", "status": 200, "seconds": 3.469, "kind": "WORK", "lines": 7, "groundedLines": 7, "needsProblem": true, "knownIssue": "Crossed-out answer and replacement merged without uncertainty; earlier run returned eight lines without geometry" },
+    { "case": "inspect-grade5-3", "status": 200, "seconds": 5.875, "kind": "WORK", "lines": 5, "groundedLines": 5, "needsProblem": true, "knownIssue": "Omits handwritten replacement word len without uncertainty flag" }
+  ],
+  "geminiQualityProbePassedThisRound": false,
+  "gitCommittedOrPushedThisTask": false,
+  "modelTrainingPerformed": false
+}

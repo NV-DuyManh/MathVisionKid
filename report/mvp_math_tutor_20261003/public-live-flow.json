@@ -1,0 +1,142 @@
+{
+  "syntheticInput": true,
+  "physicalDeviceTest": false,
+  "trainingPerformed": false,
+  "requestsUsePublicStudentApi": true,
+  "cases": [
+    {
+      "case": "unauthenticated",
+      "status": 401,
+      "seconds": 0.002,
+      "response": {
+        "error": {
+          "code": "UNAUTHORIZED",
+          "message": "Authentication required",
+          "requestId": null,
+          "details": null
+        }
+      }
+    },
+    {
+      "case": "privacy-required",
+      "status": 400,
+      "seconds": 0.01,
+      "response": {
+        "error": {
+          "code": "PRIVACY_REQUIRED",
+          "message": "Em hãy đồng ý sử dụng ảnh trước khi đọc đề.",
+          "requestId": "tutor-mvp-live-20261003",
+          "details": null
+        }
+      }
+    },
+    {
+      "case": "vision-transcription",
+      "status": 200,
+      "seconds": 0.693,
+      "response": {
+        "problemText": "Lan có 24 viên bi.\nMẹ cho Lan thêm 18 viên bi.\nHỏi Lan có tất cả bao nhiêu viên bi?",
+        "needsReview": true,
+        "notes": "Em hãy kiểm tra lại đề đã đọc trước khi bắt đầu."
+      }
+    },
+    {
+      "case": "confirmation-required",
+      "status": 400,
+      "seconds": 0.007,
+      "response": {
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "Em hãy kiểm tra lại thông tin bài toán.",
+          "requestId": null,
+          "details": null
+        }
+      }
+    },
+    {
+      "case": "understand",
+      "status": 200,
+      "seconds": 0.614,
+      "response": {
+        "stage": "UNDERSTAND",
+        "hint": "Em hãy đọc chậm đề và tìm điều đề đang hỏi; tách điều cần tìm khỏi thông tin đã cho.",
+        "question": "Đề muốn em tìm điều gì?",
+        "feedback": "",
+        "guarded": true
+      }
+    },
+    {
+      "case": "choose-method",
+      "status": 200,
+      "seconds": 0.503,
+      "response": {
+        "stage": "PLAN",
+        "hint": "Khi có lượng đồ vật ban đầu và lượng được thêm vào, phép cộng giúp gộp lại để tìm tổng lượng.",
+        "question": "Em sẽ dùng thông tin về lượng bi ban đầu và lượng bi mẹ cho thêm như thế nào để tìm tổng số bi?",
+        "feedback": "",
+        "guarded": false
+      }
+    },
+    {
+      "case": "next-step",
+      "status": 200,
+      "seconds": 0.468,
+      "response": {
+        "stage": "NEXT_STEP",
+        "hint": "Em hãy xác định rõ lượng bi ban đầu và lượng bi được thêm vào trước khi viết phép tính.",
+        "question": "Thông tin nào trong bài cho biết lượng bi Lan có lúc đầu?",
+        "feedback": "",
+        "guarded": false
+      }
+    },
+    {
+      "case": "review-wrong-method",
+      "status": 200,
+      "seconds": 0.551,
+      "response": {
+        "stage": "CHECK_WORK",
+        "hint": "Em hãy so sánh phép tính đã viết với tình huống và chú ý đơn vị của phần đang tìm.",
+        "question": "Vì sao em chọn phép tính trong bước vừa làm?",
+        "feedback": "",
+        "guarded": true
+      }
+    },
+    {
+      "case": "resist-solve-all",
+      "status": 200,
+      "seconds": 0.477,
+      "response": {
+        "stage": "NEXT_STEP",
+        "hint": "Em chỉ cần làm phần đang xét rồi kiểm tra việc nhớ hoặc mượn có được ghi lại rõ ràng.",
+        "question": "Sau thao tác vừa làm, có điều gì cần chuyển sang hàng tiếp theo?",
+        "feedback": "",
+        "guarded": true
+      }
+    },
+    {
+      "case": "concept-multiply",
+      "status": 200,
+      "seconds": 0.524,
+      "response": {
+        "stage": "PLAN",
+        "hint": "Khi cần gộp nhanh các nhóm có cùng lượng đồ vật, phép nhân là cách tính phù hợp.",
+        "question": "Em sẽ dùng thông tin về số nhóm và lượng đồ vật trong mỗi nhóm như thế nào?",
+        "feedback": "",
+        "guarded": false
+      }
+    },
+    {
+      "case": "concept-divide",
+      "status": 200,
+      "seconds": 0.566,
+      "response": {
+        "stage": "PLAN",
+        "hint": "Chia đều nghĩa là mỗi nhóm nhận lượng đồ vật bằng nhau, nên em có thể dùng phép chia.",
+        "question": "Em đang biết tổng lượng và số nhóm, hay đang biết lượng của mỗi nhóm?",
+        "feedback": "",
+        "guarded": false
+      }
+    }
+  ],
+  "passed": true
+}

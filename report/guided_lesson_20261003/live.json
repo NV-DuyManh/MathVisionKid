@@ -1,0 +1,370 @@
+{
+  "physicalDeviceTest": false,
+  "geometryWorkSource": "Manual transcription of the owner-provided worked example; no claim of OCR on that worked photo.",
+  "cases": [
+    {
+      "case": "anonymous-lesson",
+      "status": 401,
+      "seconds": 0.015,
+      "response": {
+        "error": {
+          "code": "UNAUTHORIZED",
+          "message": "Authentication required",
+          "requestId": null,
+          "details": null
+        }
+      }
+    },
+    {
+      "case": "missing-original-problem",
+      "status": 400,
+      "seconds": 0.0,
+      "response": {
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "Em hãy kiểm tra lại thông tin bài toán.",
+          "requestId": null,
+          "details": null
+        }
+      }
+    },
+    {
+      "case": "inspect-owner-geometry-problem",
+      "status": 200,
+      "seconds": 6.875,
+      "response": {
+        "kind": "PROBLEM",
+        "problemText": "Cho hình thang ABCD có đáy AB = 8 cm, đáy CD = 15 cm và diện tích hình tam giác ACD là 90 cm². Tính diện tích hình thang ABCD.",
+        "lines": [
+          {
+            "text": "TOÁN LỚP 5",
+            "box": null,
+            "uncertain": false
+          },
+          {
+            "text": "CHUYÊN ĐỀ HÌNH HỌC",
+            "box": null,
+            "uncertain": false
+          },
+          {
+            "text": "ĐỀ BÀI : Cho hình thang ABCD có đáy AB = 8 cm,",
+            "box": null,
+            "uncertain": false
+          },
+          {
+            "text": "đáy CD = 15 cm và diện tích hình tam giác",
+            "box": null,
+            "uncertain": false
+          },
+          {
+            "text": "ACD là 90 cm². Tính diện tích hình thang ABCD.",
+            "box": null,
+            "uncertain": false
+          }
+        ],
+        "needsProblem": false
+      }
+    },
+    {
+      "case": "start-owner-geometry-lesson",
+      "status": 200,
+      "seconds": 0.016,
+      "response": {
+        "revision": 0,
+        "topic": "Diện tích hình thang",
+        "goal": "Dùng diện tích tam giác để tìm chiều cao, rồi tính diện tích hình thang.",
+        "outline": [
+          "Tìm điều còn thiếu",
+          "Tìm chiều cao chung",
+          "Tính diện tích hình thang"
+        ],
+        "stepIndex": 0,
+        "step": {
+          "title": "Tìm điều còn thiếu",
+          "explanation": "Muốn tính diện tích hình thang, cần hai đáy và chiều cao. Đề đã cho hai đáy.",
+          "question": "Em cần tìm đại lượng nào trước?",
+          "choices": [
+            "Chiều cao",
+            "Chu vi",
+            "Đường chéo AC"
+          ],
+          "expression": "",
+          "unit": "",
+          "workExcerpt": ""
+        },
+        "completed": [],
+        "status": "READY",
+        "feedback": ""
+      }
+    },
+    {
+      "case": "geometry-wrong-concept",
+      "status": 200,
+      "seconds": 0.016,
+      "response": {
+        "revision": 0,
+        "topic": "Diện tích hình thang",
+        "goal": "Dùng diện tích tam giác để tìm chiều cao, rồi tính diện tích hình thang.",
+        "outline": [
+          "Tìm điều còn thiếu",
+          "Tìm chiều cao chung",
+          "Tính diện tích hình thang"
+        ],
+        "stepIndex": 0,
+        "step": {
+          "title": "Tìm điều còn thiếu",
+          "explanation": "Muốn tính diện tích hình thang, cần hai đáy và chiều cao. Đề đã cho hai đáy.",
+          "question": "Em cần tìm đại lượng nào trước?",
+          "choices": [
+            "Chiều cao",
+            "Chu vi",
+            "Đường chéo AC"
+          ],
+          "expression": "",
+          "unit": "",
+          "workExcerpt": ""
+        },
+        "completed": [],
+        "status": "TRY_AGAIN",
+        "feedback": "Em xem lại đại lượng cần tìm và thử chọn lại nhé."
+      }
+    },
+    {
+      "case": "geometry-correct-concept",
+      "status": 200,
+      "seconds": 0.015,
+      "response": {
+        "revision": 1,
+        "topic": "Diện tích hình thang",
+        "goal": "Dùng diện tích tam giác để tìm chiều cao, rồi tính diện tích hình thang.",
+        "outline": [
+          "Tìm điều còn thiếu",
+          "Tìm chiều cao chung",
+          "Tính diện tích hình thang"
+        ],
+        "stepIndex": 1,
+        "step": {
+          "title": "Tìm chiều cao chung",
+          "explanation": "Kẻ AH vuông góc với CD. Vì AB song song CD, AH vừa là chiều cao tam giác ACD vừa là chiều cao hình thang. Từ S = đáy × chiều cao ÷ 2, lấy diện tích nhân 2 rồi chia đáy.",
+          "question": "Em tính chiều cao AH được bao nhiêu cm?",
+          "choices": [],
+          "expression": "90 × 2 ÷ 15",
+          "unit": "cm",
+          "workExcerpt": "Độ dài chiều cao AH là:\n90 × 2 : 15 = 12 (cm)"
+        },
+        "completed": [
+          {
+            "title": "Tìm điều còn thiếu",
+            "expression": "",
+            "answer": "Chiều cao",
+            "unit": "",
+            "explanation": "Muốn tính diện tích hình thang, cần hai đáy và chiều cao. Đề đã cho hai đáy."
+          }
+        ],
+        "status": "CORRECT",
+        "feedback": "Đúng bước này rồi! Mình cùng tiếp tục nhé."
+      }
+    },
+    {
+      "case": "reject-stale-step",
+      "status": 409,
+      "seconds": 0.0,
+      "response": {
+        "error": {
+          "code": "LESSON_EXPIRED",
+          "message": "Em mở lại bài học để tiếp tục nhé.",
+          "requestId": "3c8c0a31-57c3-4e19-9ea4-0e5e8410d75d",
+          "details": null
+        }
+      }
+    },
+    {
+      "case": "geometry-wrong-height",
+      "status": 200,
+      "seconds": 0.016,
+      "response": {
+        "revision": 1,
+        "topic": "Diện tích hình thang",
+        "goal": "Dùng diện tích tam giác để tìm chiều cao, rồi tính diện tích hình thang.",
+        "outline": [
+          "Tìm điều còn thiếu",
+          "Tìm chiều cao chung",
+          "Tính diện tích hình thang"
+        ],
+        "stepIndex": 1,
+        "step": {
+          "title": "Tìm chiều cao chung",
+          "explanation": "Kẻ AH vuông góc với CD. Vì AB song song CD, AH vừa là chiều cao tam giác ACD vừa là chiều cao hình thang. Từ S = đáy × chiều cao ÷ 2, lấy diện tích nhân 2 rồi chia đáy.",
+          "question": "Em tính chiều cao AH được bao nhiêu cm?",
+          "choices": [],
+          "expression": "90 × 2 ÷ 15",
+          "unit": "cm",
+          "workExcerpt": "Độ dài chiều cao AH là:\n90 × 2 : 15 = 12 (cm)"
+        },
+        "completed": [
+          {
+            "title": "Tìm điều còn thiếu",
+            "expression": "",
+            "answer": "Chiều cao",
+            "unit": "",
+            "explanation": "Muốn tính diện tích hình thang, cần hai đáy và chiều cao. Đề đã cho hai đáy."
+          }
+        ],
+        "status": "TRY_AGAIN",
+        "feedback": "Chưa khớp phép tính này. Em tính lại theo thứ tự trong biểu thức nhé."
+      }
+    },
+    {
+      "case": "geometry-height-hint",
+      "status": 200,
+      "seconds": 0.016,
+      "response": {
+        "revision": 1,
+        "topic": "Diện tích hình thang",
+        "goal": "Dùng diện tích tam giác để tìm chiều cao, rồi tính diện tích hình thang.",
+        "outline": [
+          "Tìm điều còn thiếu",
+          "Tìm chiều cao chung",
+          "Tính diện tích hình thang"
+        ],
+        "stepIndex": 1,
+        "step": {
+          "title": "Tìm chiều cao chung",
+          "explanation": "Kẻ AH vuông góc với CD. Vì AB song song CD, AH vừa là chiều cao tam giác ACD vừa là chiều cao hình thang. Từ S = đáy × chiều cao ÷ 2, lấy diện tích nhân 2 rồi chia đáy.",
+          "question": "Em tính chiều cao AH được bao nhiêu cm?",
+          "choices": [],
+          "expression": "90 × 2 ÷ 15",
+          "unit": "cm",
+          "workExcerpt": "Độ dài chiều cao AH là:\n90 × 2 : 15 = 12 (cm)"
+        },
+        "completed": [
+          {
+            "title": "Tìm điều còn thiếu",
+            "expression": "",
+            "answer": "Chiều cao",
+            "unit": "",
+            "explanation": "Muốn tính diện tích hình thang, cần hai đáy và chiều cao. Đề đã cho hai đáy."
+          }
+        ],
+        "status": "HINT",
+        "feedback": "Kẻ AH vuông góc với CD. Vì AB song song CD, AH vừa là chiều cao tam giác ACD vừa là chiều cao hình thang. Từ S = đáy × chiều cao ÷ 2, lấy diện tích nhân 2 rồi chia đáy."
+      }
+    },
+    {
+      "case": "geometry-correct-height",
+      "status": 200,
+      "seconds": 0.015,
+      "response": {
+        "revision": 2,
+        "topic": "Diện tích hình thang",
+        "goal": "Dùng diện tích tam giác để tìm chiều cao, rồi tính diện tích hình thang.",
+        "outline": [
+          "Tìm điều còn thiếu",
+          "Tìm chiều cao chung",
+          "Tính diện tích hình thang"
+        ],
+        "stepIndex": 2,
+        "step": {
+          "title": "Tính diện tích hình thang",
+          "explanation": "Diện tích hình thang bằng tổng hai đáy nhân chiều cao rồi chia 2. Dùng chiều cao em vừa tìm.",
+          "question": "Em tính diện tích hình thang ABCD được bao nhiêu cm²?",
+          "choices": [],
+          "expression": "(8 + 15) × 12 ÷ 2",
+          "unit": "cm²",
+          "workExcerpt": "Diện tích hình thang ABCD là:\n(15 + 8) × 12 : 2 = 138 (cm²)"
+        },
+        "completed": [
+          {
+            "title": "Tìm điều còn thiếu",
+            "expression": "",
+            "answer": "Chiều cao",
+            "unit": "",
+            "explanation": "Muốn tính diện tích hình thang, cần hai đáy và chiều cao. Đề đã cho hai đáy."
+          },
+          {
+            "title": "Tìm chiều cao chung",
+            "expression": "90 × 2 ÷ 15",
+            "answer": "12",
+            "unit": "cm",
+            "explanation": "Kẻ AH vuông góc với CD. Vì AB song song CD, AH vừa là chiều cao tam giác ACD vừa là chiều cao hình thang. Từ S = đáy × chiều cao ÷ 2, lấy diện tích nhân 2 rồi chia đáy."
+          }
+        ],
+        "status": "CORRECT",
+        "feedback": "Giá trị ở bước trong ảnh khớp với kết quả em vừa tính. Em nhìn lại tên đại lượng và đơn vị nhé."
+      }
+    },
+    {
+      "case": "geometry-correct-area",
+      "status": 200,
+      "seconds": 0.0,
+      "response": {
+        "revision": 3,
+        "topic": "Diện tích hình thang",
+        "goal": "Dùng diện tích tam giác để tìm chiều cao, rồi tính diện tích hình thang.",
+        "outline": [
+          "Tìm điều còn thiếu",
+          "Tìm chiều cao chung",
+          "Tính diện tích hình thang"
+        ],
+        "stepIndex": 3,
+        "step": null,
+        "completed": [
+          {
+            "title": "Tìm điều còn thiếu",
+            "expression": "",
+            "answer": "Chiều cao",
+            "unit": "",
+            "explanation": "Muốn tính diện tích hình thang, cần hai đáy và chiều cao. Đề đã cho hai đáy."
+          },
+          {
+            "title": "Tìm chiều cao chung",
+            "expression": "90 × 2 ÷ 15",
+            "answer": "12",
+            "unit": "cm",
+            "explanation": "Kẻ AH vuông góc với CD. Vì AB song song CD, AH vừa là chiều cao tam giác ACD vừa là chiều cao hình thang. Từ S = đáy × chiều cao ÷ 2, lấy diện tích nhân 2 rồi chia đáy."
+          },
+          {
+            "title": "Tính diện tích hình thang",
+            "expression": "(8 + 15) × 12 ÷ 2",
+            "answer": "138",
+            "unit": "cm²",
+            "explanation": "Diện tích hình thang bằng tổng hai đáy nhân chiều cao rồi chia 2. Dùng chiều cao em vừa tìm."
+          }
+        ],
+        "status": "COMPLETE",
+        "feedback": "Giá trị ở bước trong ảnh khớp với kết quả em vừa tính. Em nhìn lại tên đại lượng và đơn vị nhé."
+      }
+    },
+    {
+      "case": "cloud-generated-addition-lesson",
+      "status": 200,
+      "seconds": 1.094,
+      "response": {
+        "revision": 0,
+        "topic": "Cộng số tự nhiên",
+        "goal": "Tính tổng số viên bi Lan có sau khi được cho thêm.",
+        "outline": [
+          "Xác định phép tính",
+          "Thực hiện phép cộng"
+        ],
+        "stepIndex": 0,
+        "step": {
+          "title": "Xác định phép tính",
+          "explanation": "Lan có một số viên bi ban đầu và được cho thêm một số viên bi khác. Để tìm tổng số viên bi, ta cần cộng số viên bi ban đầu với số viên bi được cho thêm.",
+          "question": "Phép tính nào phù hợp để tìm tổng số viên bi của Lan?",
+          "choices": [
+            "Cộng số viên bi ban đầu với số viên bi được cho thêm",
+            "Trừ số viên bi được cho thêm khỏi số viên bi ban đầu",
+            "Nhân số viên bi ban đầu với số viên bi được cho thêm"
+          ],
+          "expression": "",
+          "unit": "",
+          "workExcerpt": ""
+        },
+        "completed": [],
+        "status": "READY",
+        "feedback": ""
+      }
+    }
+  ]
+}

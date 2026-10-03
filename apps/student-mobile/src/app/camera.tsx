@@ -15,6 +15,7 @@ export default function CameraScreen() {
     const router = useRouter();
     const params = useLocalSearchParams<{
         mode?: string;
+        problemText?: string;
         retrySubmissionId?: string;
     }>();
     const [permission, requestPermission] = useCameraPermissions();
@@ -23,9 +24,11 @@ export default function CameraScreen() {
     const branding = getAppBranding();
     const featureFlags = getFeatureFlags();
     const resolveInitialMode = (): FlowDomain => {
-        return resolveFlowDomain(params.mode, recognitionDraftStore.getDraft()?.mode);
+        return resolveFlowDomain(params.mode || 'MATH_TUTOR', recognitionDraftStore.getDraft()?.mode);
     };
     const [mode, setModeState] = useState<FlowDomain>(resolveInitialMode);
+    // Keep the first privacy-approved photo while acquiring its companion page.
+    const [lessonContext] = useState(() => recognitionDraftStore.getDraft()?.lessonContext);
     const setMode = (newMode: FlowDomain) => {
         const effectiveMode = newMode;
         setModeState(effectiveMode);
@@ -55,7 +58,9 @@ export default function CameraScreen() {
                 logFlowDomain('ACQUIRE', activeMode);
                 const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
                 draft.mode = activeMode;
+                draft.lessonContext = activeMode === 'MATH_TUTOR' ? lessonContext : undefined;
                 draft.retrySubmissionId = activeMode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
+                draft.problemText = typeof params.problemText === 'string' ? params.problemText.slice(0, 4000) : undefined;
                 recognitionDraftStore.setDraft(draft);
                 const nextTarget = '/privacy';
                 router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
@@ -101,12 +106,14 @@ export default function CameraScreen() {
                     logFlowDomain('ACQUIRE', activeMode);
                     const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
                     draft.mode = activeMode;
+                    draft.lessonContext = activeMode === 'MATH_TUTOR' ? lessonContext : undefined;
                     draft.retrySubmissionId = activeMode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
                     draft.originalImageUri = photo.uri;
                     draft.originalUri = photo.uri;
                     draft.sourceImageUri = photo.uri;
                     draft.rawUri = photo.uri;
                     draft.uri = photo.uri;
+                    draft.problemText = typeof params.problemText === 'string' ? params.problemText.slice(0, 4000) : undefined;
                     recognitionDraftStore.setDraft(draft);
                     const nextTarget = '/privacy';
                     router.push({
@@ -140,7 +147,7 @@ export default function CameraScreen() {
           </TouchableOpacity>
 
           {/* Mode Selector Tab Bar or Single Mode Badge */}
-          {featureFlags.showArithmeticMode ? (<View style={styles.modeTabBar}>
+          {featureFlags.showArithmeticMode && mode !== 'MATH_TUTOR' ? (<View style={styles.modeTabBar}>
               <TouchableOpacity style={[
                 styles.modeTab,
                 isHandwriting && styles.modeTabActive
@@ -167,14 +174,16 @@ export default function CameraScreen() {
                 </Text>
               </TouchableOpacity>
             </View>) : (<View style={styles.singleModeBadge}>
-              <Ionicons name="create-outline" size={16} color="#FFFFFF"/>
+              <Ionicons name={mode === 'MATH_TUTOR' ? 'bulb-outline' : 'create-outline'} size={16} color="#FFFFFF"/>
               <Text style={styles.singleModeBadgeText}>
-                {'Nhận diện chữ viết tay'}
+                {mode === 'MATH_TUTOR' ? lessonContext?.purpose === 'ADD_PROBLEM' ? 'Chụp thêm đề bài' : lessonContext?.purpose === 'ADD_WORK' ? 'Chụp bài em đã làm' : 'Chụp bài toán để cùng học' : 'Nhận diện chữ viết tay'}
               </Text>
             </View>)}
 
           <TouchableOpacity style={styles.iconButton} onPress={() => Alert.alert((isHandwriting ? 'Hướng dẫn chụp chữ viết tay' : 'Hướng dẫn chụp bài toán'), (isHandwriting
             ? '1. Đặt dòng chữ hoặc đoạn văn viết tay vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh rõ nét.'
+            : mode === 'MATH_TUTOR'
+            ? '1. Chụp rõ trọn một đề toán, gồm chữ, số và hình nếu có.\n2. Che thông tin cá nhân ở bước tiếp theo.\n3. Kiểm tra lại đề rồi cùng tìm cách giải.'
             : '1. Đặt trọn vẹn phép tính vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh không bị mờ.'))} accessibilityRole="button" accessibilityLabel={'Xem hướng dẫn chụp ảnh'} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
             <Ionicons name="help-circle-outline" size={26} color="#FFFFFF"/>
           </TouchableOpacity>

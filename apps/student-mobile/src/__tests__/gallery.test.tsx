@@ -287,35 +287,19 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
     expect(mockBack).toHaveBeenCalled();
   });
 
-  it('GALLERY-08: Home acquisition sheet opens native ImagePicker and keeps the privacy step', async () => {
+  it('GALLERY-08: Home opens the camera immediately without a source selection sheet', async () => {
     let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<HomeScreen />);
     });
 
-    // The hero opens the acquisition choices before a source is selected.
-    const cameraBtn = renderer.root.findByProps({ accessibilityLabel: 'Chụp bài toán hoặc bài viết tay' });
+    // A camera action should do exactly what its label promises.
+    const cameraBtn = renderer.root.findByProps({ accessibilityLabel: 'Chụp bài toán' });
     await act(async () => {
       cameraBtn.props.onPress();
     });
-    expect(mockPush).not.toHaveBeenCalled();
-
-    // Gallery CTA — MUST directly invoke native ImagePicker and route to /privacy without /gallery
-    const galleryBtn = renderer.root.findByProps({ accessibilityLabel: 'Chọn ảnh bài làm từ thư viện' });
-    await act(async () => {
-      await galleryBtn.props.onPress();
-    });
-    const ImagePicker = require('expo-image-picker');
-    expect(ImagePicker.launchImageLibraryAsync).toHaveBeenCalledWith({
-      mediaTypes: ['images'],
-      allowsEditing: false,
-      quality: 1,
-    });
-    expect(mockPush).not.toHaveBeenCalledWith('/gallery');
-    expect(mockPush).toHaveBeenCalledWith({
-      pathname: '/privacy',
-      params: { uri: 'file:///photo.jpg' },
-    });
+    expect(mockPush).toHaveBeenCalledWith({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
+    expect(renderer.root.findAllByProps({ accessibilityLabel: 'Chọn ảnh bài làm từ thư viện' })).toHaveLength(0);
     act(() => renderer.unmount());
   });
 });

@@ -4,7 +4,7 @@ import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppButton } from '../components/ui/AppButton';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
-import { getAppBranding } from '../config/appConfig';
+import { BrandLockup } from '../components/ui/BrandLockup';
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,7 +12,6 @@ export default function LoginScreen() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const auth = useContext(AuthContext);
-    const branding = getAppBranding();
     const handleLogin = async () => {
         if (!auth)
             return;
@@ -41,11 +40,7 @@ export default function LoginScreen() {
     return (<KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
         <View style={styles.brandSection}>
-          <View style={[styles.logoBadge, SHADOWS.medium]}>
-            <Ionicons name={'calculator'} size={40} color={COLORS.primary}/>
-          </View>
-          <Text style={styles.appName}>{branding.name}</Text>
-          <Text style={styles.appTagline}>{branding.detailedSubtitle}</Text>
+          <BrandLockup compact />
         </View>
 
         <View style={[styles.card, SHADOWS.small]}>
@@ -118,29 +113,6 @@ const styles = StyleSheet.create({
     brandSection: {
         alignItems: 'center',
         marginBottom: SIZES.xlarge,
-    },
-    logoBadge: {
-        width: 80,
-        height: 80,
-        borderRadius: 24,
-        backgroundColor: COLORS.surface,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: SIZES.medium,
-        borderWidth: 1.5,
-        borderColor: '#E0E7FF',
-    },
-    appName: {
-        fontSize: 26,
-        fontFamily: FONTS.extraBold,
-        color: COLORS.primaryDark,
-        letterSpacing: 0.2,
-    },
-    appTagline: {
-        fontFamily: FONTS.regular,
-        fontSize: 14,
-        color: COLORS.textSecondary,
-        marginTop: 4,
     },
     card: {
         backgroundColor: COLORS.surface,

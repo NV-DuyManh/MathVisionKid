@@ -368,6 +368,7 @@ $TrackedProcesses = [System.Collections.Generic.List[PSCustomObject]]::new()
 # Helper function to start background process safely with tracking
 function Test-ServiceCommandIdentity {
     param([string]$CommandLine, [string]$WorkingDirectory, [string]$IdentityKind)
+    if (-not $CommandLine) { return $false }
     $normalizedCommand = $CommandLine.Replace('\', '/').ToLowerInvariant()
     $expectedPath = $WorkingDirectory.Replace('\', '/').TrimEnd('/').ToLowerInvariant()
     $pathMatches = $normalizedCommand -match ('(?:^|[\s";])' + [regex]::Escape($expectedPath) + '(?:/|[\s";]|$)')
@@ -381,6 +382,31 @@ function Test-ServiceCommandIdentity {
         return $pathMatches -and $normalizedCommand -match 'app\.jobs\.celery_app' -and $normalizedCommand -match '\bworker\b'
     }
     return $false
+}
+
+function Test-ServiceProcessIdentity {
+    param($Process, [string]$WorkingDirectory, [string]$IdentityKind)
+    if (-not $Process) { return $false }
+    if (Test-ServiceCommandIdentity -CommandLine $Process.CommandLine -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind) {
+        return $true
+    }
+    # Windows venv redirectors keep the project path in the immediate Python parent.
+    if ($IdentityKind -notin @('fastapi', 'celery') -or $Process.Name -notmatch '^python(?:w)?\.exe$' -or -not $Process.ExecutablePath) {
+        return $false
+    }
+    if (-not (Test-ServiceCommandIdentity -CommandLine $Process.CommandLine -WorkingDirectory (Split-Path $Process.ExecutablePath -Parent) -IdentityKind $IdentityKind)) {
+        return $false
+    }
+    $parent = Get-CimInstance Win32_Process -Filter "ProcessId = $($Process.ParentProcessId)" -ErrorAction SilentlyContinue
+    if (-not $parent -or -not $parent.CreationDate -or -not $Process.CreationDate -or $parent.CreationDate -gt $Process.CreationDate) {
+        return $false
+    }
+    $venvScripts = (Join-Path $WorkingDirectory '.venv/Scripts').Replace('\', '/').ToLowerInvariant()
+    $parentExecutable = ([string]$parent.ExecutablePath).Replace('\', '/').ToLowerInvariant()
+    if ($parentExecutable -notmatch ('^' + [regex]::Escape($venvScripts) + '/(?:pythonw?|uvicorn|celery)\.exe$')) {
+        return $false
+    }
+    return Test-ServiceCommandIdentity -CommandLine $parent.CommandLine -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind
 }
 
 function Start-TrackedService {
@@ -408,7 +434,7 @@ function Start-TrackedService {
                     Select-Object -ExpandProperty OwningProcess -Unique)
                 foreach ($ownerId in $ownerIds) {
                     $owner = Get-CimInstance Win32_Process -Filter "ProcessId = $ownerId"
-                    if (-not $owner -or -not (Test-ServiceCommandIdentity -CommandLine $owner.CommandLine -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind)) {
+                    if (-not (Test-ServiceProcessIdentity -Process $owner -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind)) {
                         throw "PORT_CONFLICT: $Name port $PortCheck belongs to another runtime (PID $ownerId). Stop that runtime before launching MathVision; no unrelated process was stopped."
                     }
                 }
@@ -505,7 +531,7 @@ finally { Pop-Location }
 
 # A solo worker can be busy and not answer ping. Verify its command before starting a duplicate.
 $celeryOwners = @(Get-CimInstance Win32_Process | Where-Object {
-    $_.CommandLine -and (Test-ServiceCommandIdentity -CommandLine $_.CommandLine -WorkingDirectory $AiDir -IdentityKind 'celery')
+    Test-ServiceProcessIdentity -Process $_ -WorkingDirectory $AiDir -IdentityKind 'celery'
 })
 if ($celeryOwners.Count -gt 0) { $celeryActive = $true }
 if ($celeryResponding -and -not $celeryActive) {

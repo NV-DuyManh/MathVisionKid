@@ -8,6 +8,7 @@ import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
 import { recognitionAnalyticsStore, type RecognitionSession } from '../../features/recognition/analytics/recognitionAnalyticsStore';
 import { buildLearningActivity } from '../../features/home/learningActivity';
+import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
 
 export default function AchievementsScreen() {
   const insets = useSafeAreaInsets();
@@ -16,17 +17,19 @@ export default function AchievementsScreen() {
   const userKey = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
   const [sessions, setSessions] = useState<RecognitionSession[]>([]);
   const [unavailable, setUnavailable] = useState(false);
+  const [lessons, setLessons] = useState<SavedLesson[]>([]);
   useFocusEffect(useCallback(() => {
     let active = true;
-    setSessions([]); setUnavailable(false);
-    recognitionAnalyticsStore.init().then(() => {
+    setSessions([]); setLessons([]); setUnavailable(false);
+    Promise.all([recognitionAnalyticsStore.init(), loadLessons(userKey)]).then(([, saved]) => {
+      if (active) setLessons(saved);
       if (active) setSessions(recognitionAnalyticsStore.getSessions().filter(session => !session.isSampleData
         && !session.sessionId.startsWith('session_benchmark_') && Number.isFinite(session.timestamp) && session.timestamp <= Date.now()));
     }).catch(() => { if (active) setUnavailable(true); });
     return () => { active = false; };
   }, [userKey]));
-  const activity = buildLearningActivity(sessions);
-  const checked = sessions.reduce((sum, session) => sum + session.confirmedLines, 0);
+  const activity = buildLearningActivity([...sessions, ...lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp }))]);
+  const checked = sessions.reduce((sum, session) => sum + session.confirmedLines, 0) + lessons.reduce((sum, lesson) => sum + lesson.reviewedSteps, 0);
   return <ScrollView style={styles.screen} showsVerticalScrollIndicator={false}
     contentContainerStyle={[styles.content, { paddingTop: insets.top + 22 }]}>
     <Text style={styles.title} accessibilityRole="header">Thành tích của em</Text>
@@ -37,8 +40,8 @@ export default function AchievementsScreen() {
       <Image source={require('../../../assets/illustrations/encouragement-crown.png')} style={styles.crown} resizeMode="contain" accessible={false} />
     </LinearGradient>
     <View style={styles.stats}>
-      {[{ value: sessions.length, label: 'Bài đã lưu', color: '#FFF0EB', image: require('../../../assets/illustrations/saved-folder.png') },
-        { value: checked, label: 'Dòng đã kiểm tra', color: '#EAF6FF', image: require('../../../assets/illustrations/practice-notebook.png') }].map(stat =>
+      {[{ value: sessions.length + lessons.length, label: 'Bài đã lưu', color: '#FFF0EB', image: require('../../../assets/illustrations/saved-folder.png') },
+        { value: checked, label: 'Bước đã xem', color: '#EAF6FF', image: require('../../../assets/illustrations/practice-notebook.png') }].map(stat =>
         <View key={stat.label} style={[styles.stat, { backgroundColor: stat.color }]}>
           <Image source={stat.image} style={styles.statArt} resizeMode="contain" accessible={false} />
           <Text style={styles.statValue}>{stat.value}</Text><Text style={styles.statLabel}>{stat.label}</Text>
@@ -53,7 +56,7 @@ export default function AchievementsScreen() {
           : <Ionicons name="star" size={22} color="#C7C4D4" accessible={false} />}</View>
         <Text style={styles.dayLabel}>{day.label}</Text>
       </View>)}</View>
-      <Text style={styles.note}>Theo những bài em đã xác nhận và lưu trên thiết bị này.</Text>
+      <Text style={styles.note}>Theo những bài em đã lưu trên thiết bị này.</Text>
     </View>
     <View style={styles.nextCard}>
       <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.mascot} resizeMode="contain" accessible={false} />

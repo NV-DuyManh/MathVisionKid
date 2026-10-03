@@ -128,8 +128,8 @@ The documentation was synchronized to add `refreshToken` and `/auth/refresh`, an
 HTTP POST request to `http://127.0.0.1:8080/api/v1/auth/login`:
 ```json
 {
-  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5oLnN0dWRlbnRAbWF0aHZpc2lvbi5sb2NhbCIsInJvbGUiOiJTVFVERU5UIiwiaWF0IjoxNzI1OTA1NzUwLCJleHAiOjE3MjU5OTIxNTB9.masked_signature",
-  "refreshToken": "48ef11b7-7dd8-48b0-8bf1-b75bf749111c"
+  "accessToken": "REDACTED_LOCAL_TEST_TOKEN",
+  "refreshToken": "REDACTED_LOCAL_TEST_TOKEN"
 }
 ```
 - Exactly two fields are returned: `accessToken` and `refreshToken`.
@@ -141,8 +141,8 @@ HTTP POST request to `http://127.0.0.1:8080/api/v1/auth/login`:
 
 | Field | OpenAPI (`mathvision-api.yaml`) | Spring (`AuthResponse.java`) | Actual Runtime JSON | Student Client (`authApi.ts` / `AuthContext`) | Teacher Client (`SpringTeacherService`) | Status |
 |---|---|---|---|---|---|---|
-| `accessToken` | Defined (`string`) | Defined (`String accessToken`) | `"accessToken": "..."` | `accessToken: string` | `accessToken: string` | **ALIGNED** |
-| `refreshToken` | Defined (`string`) | Defined (`String refreshToken`) | `"refreshToken": "..."` | `refreshToken: string` | `refreshToken: string` | **ALIGNED** |
+| `accessToken` | Defined (`string`) | Defined (`String accessToken`) | `"accessToken": "REDACTED_LOCAL_TEST_TOKEN"` | `accessToken: string` | `accessToken: string` | **ALIGNED** |
+| `refreshToken` | Defined (`string`) | Defined (`String refreshToken`) | `"refreshToken": "REDACTED_LOCAL_TEST_TOKEN"` | `refreshToken: string` | `refreshToken: string` | **ALIGNED** |
 | `tokenType` | Omitted from contract | Omitted | Omitted | Omitted | Omitted | **ALIGNED** |
 | `expiresIn` | Omitted from contract | Omitted | Omitted | Omitted | Omitted | **ALIGNED** |
 | `user` | Omitted (Served via `/me`) | Omitted (Served via `/me`) | Omitted | Handled via `authApi.getMe()` | Handled via `/me` | **ALIGNED** |

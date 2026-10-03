@@ -26,7 +26,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       {showBack ? (
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => router.back()}
+          onPress={() => router.canGoBack() ? router.back() : router.replace('/')}
           accessibilityRole="button"
           accessibilityLabel="Quay lại"
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -64,18 +64,16 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: 56,
+    minHeight: 64,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: SIZES.small,
-    backgroundColor: COLORS.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    paddingHorizontal: SIZES.medium,
+    backgroundColor: COLORS.background,
   },
   title: {
-    fontSize: 18,
-    fontFamily: FONTS.bold,
+    fontSize: 20,
+    fontFamily: FONTS.extraBold,
     color: COLORS.textPrimary,
     flex: 1,
     textAlign: 'center',
@@ -87,6 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: SIZES.minTouchTarget / 2,
+    backgroundColor: COLORS.primaryLight,
   },
   placeholder: {
     width: SIZES.minTouchTarget,

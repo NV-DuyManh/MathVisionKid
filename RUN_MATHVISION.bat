@@ -1,5 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
+chcp 65001 >nul
+title MathVision Kids - Launcher and Expo Go QR
 
 :: 1. Determine repository root safely
 set "SCRIPT_DIR=%~dp0"
@@ -60,6 +62,10 @@ echo [3/3] Verifying Complete Ecosystem Diagnostics...
 set "PY_EXE=%SCRIPT_DIR%ai\runtime\.venv\Scripts\python.exe"
 if not exist "%PY_EXE%" set "PY_EXE=python"
 "%PY_EXE%" "%SCRIPT_DIR%tools\diagnostics\check_runtime.py"
+if errorlevel 1 (
+    set "FAIL_REASON=Complete ecosystem diagnostics did not pass"
+    goto :launcher_failed
+)
 
 :: 7. Launch Unified Portal Web in default browser
 echo.
@@ -73,11 +79,20 @@ echo ============================================================
 echo  - Unified Portal:  http://localhost:5172  (Main Entry)
 echo  - Teacher Portal:  http://localhost:5173
 echo  - Admin Portal:    http://localhost:5174
-echo  - Student Mobile:  Visible Metro window (Scan QR with Expo Go)
+echo  - Student Mobile:  Scan the Expo Go QR code below
 echo  - Stop All:        scripts\stop-all.bat
 echo ============================================================
 echo.
 
+node "%SCRIPT_DIR%scripts\dev\show-student-qr.cjs"
+if errorlevel 1 (
+    set "FAIL_REASON=Could not read the Student Mobile connection for Expo Go"
+    goto :launcher_failed
+)
+echo.
+echo Keep this window open to scan the QR code above.
+echo Press any key to close this launcher. Services will keep running.
+pause >nul
 exit /b 0
 
 :launcher_failed

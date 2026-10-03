@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { recognitionAnalyticsStore } from '../../features/recognition/analytics/recognitionAnalyticsStore';
 import { buildLearningActivity } from '../../features/home/learningActivity';
+import { loadLessons } from '../../features/tutoring/learningHistory';
 
 const ART = {
   avatar: require('../../../assets/illustrations/student-avatar.png'),
@@ -38,9 +39,9 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
     let active = true;
     setActivity(null);
     setHistoryUnavailable(false);
-    recognitionAnalyticsStore.init().then(() => {
+    Promise.all([recognitionAnalyticsStore.init(), loadLessons(userKey)]).then(([, lessons]) => {
       if (active) {
-        setActivity(buildLearningActivity(recognitionAnalyticsStore.getSessions()));
+        setActivity(buildLearningActivity([...recognitionAnalyticsStore.getSessions(), ...lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp }))]));
         setHistoryUnavailable(false);
       }
     }).catch(() => { if (active) setHistoryUnavailable(true); });
@@ -87,7 +88,7 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
         </View>
       </View>
       <Text style={[styles.heroDescription, roomyText && styles.heroDescriptionRoomy]}>Cùng MathVisionKid khám phá Toán học theo cách thật thú vị nhé!</Text>
-      <Pressable onPress={onAcquire} accessibilityRole="button" accessibilityLabel="Chụp bài toán hoặc bài viết tay" accessibilityHint="Chọn chụp bài viết, chụp phép tính hoặc ảnh có sẵn" style={({ pressed }) => [styles.captureButton, roomyText && styles.captureButtonRoomy, pressed && styles.pressed]}>
+      <Pressable onPress={onAcquire} accessibilityRole="button" accessibilityLabel="Chụp bài toán" accessibilityHint="Mở máy ảnh ngay để chụp đề hoặc bài em đã làm" style={({ pressed }) => [styles.captureButton, roomyText && styles.captureButtonRoomy, pressed && styles.pressed]}>
         <LinearGradient colors={['#7D5AEC', '#6C4AF5', '#5F40ED']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} pointerEvents="none" />
         <Ionicons name="camera" size={21} color={COLORS.surface} accessible={false} />
         <Text style={styles.captureLabel}>Chụp bài toán</Text>

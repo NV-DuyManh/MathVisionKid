@@ -1,12 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable, Alert, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
-import * as ImagePicker from 'expo-image-picker';
 import { recognitionDraftStore, logFlowDomain, FlowDomain } from '../../features/recognition/state/recognitionDraftStore';
-import { normalizeImageDraft, logStageDiagnostic } from '../../features/recognition/image/imagePipeline';
 import { getAppBranding } from '../../config/appConfig';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HomeDashboard } from '../../components/home/HomeDashboard';
@@ -18,51 +16,11 @@ export default function HomeScreen() {
     const [showTipsModal, setShowTipsModal] = useState(false);
     const [showPrivacyInfoModal, setShowPrivacyInfoModal] = useState(false);
     const [showCurriculumModal, setShowCurriculumModal] = useState(false);
-    const [showAcquisitionModal, setShowAcquisitionModal] = useState(false);
     const [selectedGrade, setSelectedGrade] = useState<1 | 2 | 3 | 4 | 5>(3);
     const [expandedProblemId, setExpandedProblemId] = useState<string | null>(null);
     const branding = getAppBranding();
     const insets = useSafeAreaInsets();
-    // Direct Native/System Image Picker — launches system library directly without intermediate custom /gallery
-    const handlePickImage = async () => {
-        try {
-            const result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ['images'],
-                allowsEditing: false,
-                quality: 1,
-            });
-            if (!result.canceled && result.assets && result.assets.length > 0) {
-                const asset = result.assets[0];
-                const activeMode: FlowDomain = 'HANDWRITING_TEXT';
-                logStageDiagnostic('ACQUIRE_GALLERY', {
-                    uri: asset.uri,
-                    width: asset.width,
-                    height: asset.height,
-                    mimeType: asset.mimeType,
-                    source: 'GALLERY',
-                    extra: `mode=${activeMode}`,
-                });
-                logFlowDomain('ACQUIRE', activeMode);
-                const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
-                draft.mode = activeMode;
-                draft.originalImageUri = asset.uri;
-                draft.originalUri = asset.uri;
-                draft.sourceImageUri = asset.uri;
-                draft.rawUri = asset.uri;
-                draft.uri = asset.uri;
-                recognitionDraftStore.setDraft(draft);
-                const nextTarget = '/privacy';
-                router.push({
-                    pathname: nextTarget as any,
-                    params: { uri: draft.uri },
-                });
-            }
-        }
-        catch {
-            Alert.alert('Lỗi', `${branding.name} không mở được thư viện ảnh.`);
-        }
-    };
-    const navigateToCamera = (mode: FlowDomain = 'HANDWRITING_TEXT') => {
+    const navigateToCamera = (mode: FlowDomain = 'MATH_TUTOR') => {
         recognitionDraftStore.clearDraft();
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
@@ -71,8 +29,8 @@ export default function HomeScreen() {
       <HomeDashboard
         userName={userName}
         userKey={auth?.user?.id || auth?.user?.userId || auth?.user?.email}
-        onAcquire={() => setShowAcquisitionModal(true)}
-        onArithmetic={() => navigateToCamera('ARITHMETIC')}
+        onAcquire={() => navigateToCamera('MATH_TUTOR')}
+        onArithmetic={() => navigateToCamera('MATH_TUTOR')}
         onPractice={(grade) => {
             if (grade) setSelectedGrade(grade);
             setShowCurriculumModal(true);
@@ -81,47 +39,6 @@ export default function HomeScreen() {
         onPrivacy={() => setShowPrivacyInfoModal(true)}
       />
 
-      <Modal visible={showAcquisitionModal} transparent animationType="none" onRequestClose={() => setShowAcquisitionModal(false)}>
-        <Pressable style={[styles.acquisitionBackdrop, { paddingBottom: Math.max(insets.bottom, 16) }]} onPress={() => setShowAcquisitionModal(false)}>
-          <Pressable style={styles.acquisitionSheet} onPress={() => { }}>
-            <View style={styles.modalHeaderRow}>
-              <View style={styles.acquisitionHeading}>
-                <Text style={styles.modalTitle}>Bắt đầu bài của em</Text>
-                <Text style={styles.acquisitionSubtitle}>Em muốn chụp bài hay chọn ảnh có sẵn?</Text>
-              </View>
-              <Pressable onPress={() => setShowAcquisitionModal(false)} style={styles.modalCloseBtn} accessibilityRole="button" accessibilityLabel="Đóng lựa chọn bài làm">
-                <Ionicons name="close" size={22} color={COLORS.textSecondary} />
-              </Pressable>
-            </View>
-            <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
-              <Pressable style={({ pressed }) => [styles.acquisitionChoice, pressed && styles.choicePressed]} accessibilityRole="button" accessibilityLabel="Chụp bài viết tay" onPress={() => {
-                setShowAcquisitionModal(false);
-                navigateToCamera('HANDWRITING_TEXT');
-              }}>
-                <View style={styles.acquisitionChoiceIcon}><Ionicons name="camera" size={24} color={COLORS.primaryDark} /></View>
-                <View style={styles.acquisitionChoiceCopy}><Text style={styles.acquisitionChoiceTitle}>Chụp bài viết tay</Text><Text style={styles.acquisitionChoiceDetail}>Đọc chữ và kiểm tra từng dòng bài giải</Text></View>
-                <Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
-              </Pressable>
-              <Pressable style={({ pressed }) => [styles.acquisitionChoice, pressed && styles.choicePressed]} accessibilityRole="button" accessibilityLabel="Chọn ảnh bài làm từ thư viện" onPress={() => {
-                setShowAcquisitionModal(false);
-                void handlePickImage();
-              }}>
-                <View style={[styles.acquisitionChoiceIcon, { backgroundColor: '#E7F4FD' }]}><Ionicons name="images-outline" size={24} color="#3978A3" /></View>
-                <View style={styles.acquisitionChoiceCopy}><Text style={styles.acquisitionChoiceTitle}>Chọn ảnh có sẵn</Text><Text style={styles.acquisitionChoiceDetail}>Mở một bài đã chụp trong thư viện</Text></View>
-                <Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
-              </Pressable>
-              <Pressable style={({ pressed }) => [styles.acquisitionChoice, pressed && styles.choicePressed]} accessibilityRole="button" accessibilityLabel="Chụp phép tính" onPress={() => {
-                setShowAcquisitionModal(false);
-                navigateToCamera('ARITHMETIC');
-              }}>
-                <View style={[styles.acquisitionChoiceIcon, { backgroundColor: '#E8F5E9' }]}><Ionicons name="calculator-outline" size={24} color="#258548" /></View>
-                <View style={styles.acquisitionChoiceCopy}><Text style={styles.acquisitionChoiceTitle}>Chụp phép tính</Text><Text style={styles.acquisitionChoiceDetail}>Cộng, trừ, nhân, chia đặt tính rồi tính</Text></View>
-                <Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
-              </Pressable>
-            </ScrollView>
-          </Pressable>
-        </Pressable>
-      </Modal>
 
       {/* Modal: Helpful Photo Tips */}
       <Modal visible={showTipsModal} transparent animationType="fade" onRequestClose={() => setShowTipsModal(false)}>
@@ -279,7 +196,7 @@ export default function HomeScreen() {
                     <Text style={styles.problemTitleText}>{p.title}</Text>
                     <Text style={styles.problemBodyText}>{p.problemText}</Text>
 
-                    {/* Guidance / Sample Solution Accordion */}
+                    {/* Direction only; the worked answer remains in curriculum data. */}
                     <TouchableOpacity style={styles.guidanceToggleBtn} onPress={() => setExpandedProblemId(isExpanded ? null : p.id)} accessibilityRole="button" accessibilityState={{ expanded: isExpanded }}>
                       <Ionicons name={isExpanded ? 'chevron-up' : 'bulb-outline'} size={16} color="#2563EB"/>
                       <Text style={styles.guidanceToggleText}>
@@ -289,16 +206,19 @@ export default function HomeScreen() {
 
                     {isExpanded && (<View style={styles.guidanceContentBox}>
                         <Text style={styles.guidanceIntro}>{p.guidance}</Text>
-                        <Text style={styles.guidanceStepsTitle}>Bài giải tham khảo:</Text>
-                        {p.sampleSolution.lines.map((line, lIdx) => (<Text key={lIdx} style={styles.guidanceStepLine}>
-                            {line}
-                          </Text>))}
                       </View>)}
 
                     {/* Action: Snap photo of written solution */}
                     <TouchableOpacity style={styles.solveNowBtn} onPress={() => {
                     setShowCurriculumModal(false);
-                    navigateToCamera('HANDWRITING_TEXT');
+                    router.push({ pathname: '/learning/math-guide' as any, params: { problemText: p.problemText } });
+                }} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel={`Học từng bước: ${p.title}`}>
+                      <Ionicons name="bulb-outline" size={18} color="#FFFFFF" accessible={false}/>
+                      <Text style={styles.solveNowBtnText}>Cùng em tìm cách giải</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.solveNowBtn} onPress={() => {
+                    setShowCurriculumModal(false);
+                    navigateToCamera('MATH_TUTOR');
                 }} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Chụp bài giải của em">
                       <Ionicons name="camera" size={16} color="#FFFFFF"/>
                       <Text style={styles.solveNowBtnText}>Chụp bài làm của em để chấm</Text>
@@ -314,16 +234,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: COLORS.background },
     content: { paddingHorizontal: 20, paddingBottom: 112, maxWidth: 620, width: '100%', alignSelf: 'center' },
-    acquisitionBackdrop: { flex: 1, backgroundColor: 'rgba(24, 22, 76, 0.4)', justifyContent: 'flex-end', alignItems: 'center', paddingHorizontal: 16, paddingTop: 24 },
-    acquisitionSheet: { backgroundColor: COLORS.surface, borderRadius: 28, padding: 20, width: '100%', maxWidth: 520, maxHeight: '90%' },
-    acquisitionHeading: { flex: 1 },
-    acquisitionSubtitle: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 13, lineHeight: 19, marginTop: 4 },
-    acquisitionChoice: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 70, paddingVertical: 12 },
-    acquisitionChoiceIcon: { width: 44, height: 44, borderRadius: 15, backgroundColor: COLORS.primaryLight, alignItems: 'center', justifyContent: 'center' },
-    acquisitionChoiceCopy: { flex: 1 },
-    acquisitionChoiceTitle: { fontFamily: FONTS.extraBold, fontSize: 16, color: COLORS.textPrimary },
-    acquisitionChoiceDetail: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 18, color: COLORS.textSecondary, marginTop: 2 },
-    choicePressed: { opacity: 0.7 },
     modalBody: { flexGrow: 0, flexShrink: 1 },
     /* Modals */
     modalBackdrop: {
@@ -534,18 +444,6 @@ const styles = StyleSheet.create({
         lineHeight: 17,
         color: '#1E40AF',
         marginBottom: 6,
-    },
-    guidanceStepsTitle: {
-        fontSize: 12,
-        fontFamily: FONTS.bold,
-        color: '#1E40AF',
-        marginBottom: 4,
-    },
-    guidanceStepLine: {
-        fontSize: 12,
-        lineHeight: 17,
-        color: '#1E3A8A',
-        fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     },
     solveNowBtn: {
         minHeight: 48,

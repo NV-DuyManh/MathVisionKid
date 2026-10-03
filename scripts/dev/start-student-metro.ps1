@@ -1,6 +1,7 @@
 # scripts/dev/start-student-metro.ps1
 # Starts the Student Mobile Metro bundler in LAN mode in a dedicated visible console window
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 
 $RepoRoot = if (Test-Path "$PSScriptRoot\..\..\package.json") {
     (Resolve-Path "$PSScriptRoot\..\..").Path
@@ -37,7 +38,8 @@ if ($portInUse) {
 
         if ($isMetro) {
             Write-Host "  Student Metro is already running on port 8081 (PID: $pidHoldingPort)." -ForegroundColor Green
-            exit 0
+            & node (Join-Path $RepoRoot 'scripts\dev\show-student-qr.cjs')
+            exit $LASTEXITCODE
         } else {
             Write-Host "  PORT_CONFLICT: Port 8081 is occupied by a NON_METRO_PROCESS ($($proc.ProcessName), PID: $pidHoldingPort)." -ForegroundColor Red
             Write-Host "  Student Metro launcher exiting safely without killing the unrelated process." -ForegroundColor Red
@@ -55,7 +57,7 @@ Write-Host "  Launching Student Metro in visible LAN terminal..." -ForegroundCol
 # Launch in a visible cmd window so Expo's REAL LAN QR code is directly visible to the user
 $windowTitle = "MathVision Kids - Student Mobile (Metro LAN)"
 $proc = Start-Process -FilePath "cmd.exe" `
-    -ArgumentList "/c `"title $windowTitle && npm run start:device`"" `
+    -ArgumentList "/k `"title $windowTitle && npm run start:device -- --go --port 8081`"" `
     -WorkingDirectory (Join-Path $RepoRoot "apps\student-mobile") `
     -PassThru
 
@@ -82,7 +84,8 @@ for ($i = 0; $i -lt 45; $i++) {
 
 if ($metroReady) {
     Write-Host "  Student Metro Bundler is READY on port 8081 (LAN mode)." -ForegroundColor Green
-    exit 0
+    & node (Join-Path $RepoRoot 'scripts\dev\show-student-qr.cjs')
+    exit $LASTEXITCODE
 } else {
     Write-Host "  WARN: Student Metro took longer than 45s to open port 8081. Check visible terminal." -ForegroundColor DarkYellow
     exit 0

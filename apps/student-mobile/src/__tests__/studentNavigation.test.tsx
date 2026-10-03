@@ -44,7 +44,7 @@ describe('Student navigation and real saved activity', () => {
     act(() => renderer!.unmount());
   });
 
-  it('selects a different grade, expands its real guidance and starts a clean handwriting capture', () => {
+  it('selects a different grade, expands its real guidance and starts a clean learning capture', () => {
     recognitionDraftStore.setDraft({ uri: 'file:///old.png', rawUri: 'file:///old.png', width: 100, height: 100, filename: 'old.png', mimeType: 'image/png', mode: 'ARITHMETIC' });
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<LessonsScreen />); });
@@ -54,10 +54,15 @@ describe('Student navigation and real saved activity', () => {
     expect(text(renderer!)).not.toContain(getProblemsByGrade(1)[0].title);
     act(() => press(renderer!, `Xem gợi ý: ${problem.title}`));
     expect(text(renderer!)).toContain(problem.guidance);
+    expect(text(renderer!)).not.toContain('Bài giải tham khảo');
+    expect(text(renderer!)).not.toContain(problem.sampleSolution.finalAnswer);
+    act(() => press(renderer!, `Học từng bước: ${problem.title}`));
+    expect((useRouter as jest.Mock).mock.results.at(-1)!.value.push)
+      .toHaveBeenCalledWith({ pathname: '/learning/math-guide', params: { problemText: problem.problemText } });
     act(() => press(renderer!, `Chụp lời giải: ${problem.title}`));
     expect(recognitionDraftStore.getDraft()).toBeNull();
     expect((useRouter as jest.Mock).mock.results.at(-1)!.value.push)
-      .toHaveBeenCalledWith({ pathname: '/camera', params: { mode: 'HANDWRITING_TEXT' } });
+      .toHaveBeenCalledWith({ pathname: '/camera', params: { mode: 'MATH_TUTOR', problemText: problem.problemText } });
     act(() => renderer!.unmount());
   });
 

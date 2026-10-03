@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/immutability, react-hooks/set-state-in-effect, react-hooks/exhaustive-deps, @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Alert, TouchableOpacity } from 'react-native';
+import { ActivityRail } from '../components/ui/ActivityRail';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -324,7 +325,8 @@ export default function CropScreen() {
             });
             setIsProcessing(false);
             const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
-            const targetPath = (postPrivacyMode === 'ARITHMETIC' ? '/preview' : (postPrivacyMode === 'OCR_PILOT' ? '/recognition/line-crop' : '/recognition/multiline-review'));
+            const targetPath = postPrivacyMode === 'MATH_TUTOR' ? '/learning/math-guide'
+                : (postPrivacyMode === 'ARITHMETIC' ? '/preview' : (postPrivacyMode === 'OCR_PILOT' ? '/recognition/line-crop' : '/recognition/multiline-review'));
             router.push({
                 pathname: targetPath as any,
                 params: { retrySubmissionId, originalImageUri: originalUri },
@@ -356,7 +358,7 @@ export default function CropScreen() {
         <View style={styles.imageContainer}>
           <View style={styles.imageWrapper} collapsable={false} onLayout={(e) => setImageLayout(e.nativeEvent.layout)}>
             {isResolvingImage ? (<View style={styles.imageLoadingContainer}>
-                <ActivityIndicator size="large" color="#FFFFFF"/>
+                <ActivityRail label="Đang mở ảnh bài toán" />
               </View>) : (<Image source={{ uri: activeUri }} style={styles.image} resizeMode="contain" onError={(e) => {
                 console.error('[CROP] Image load failed:', e.nativeEvent.error);
                 setImageLoadError(true);
@@ -405,7 +407,7 @@ export default function CropScreen() {
               </Animated.View>)}
 
             {isProcessing && (<View style={styles.processingOverlay}>
-                <ActivityIndicator size="large" color="#FFFFFF"/>
+                <ActivityRail label="Đang chuẩn bị ảnh" />
                 <Text style={styles.processingText}>
                   {'Đang cắt ảnh...'}
                 </Text>

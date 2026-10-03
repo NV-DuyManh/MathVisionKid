@@ -74,8 +74,22 @@ ai/runtime/models/**
 !ai/runtime/uv.lock
 
 # Environment files (preserve .env.example)
-.env
+.env*
+!.env.example
+!.env.*.example
+!.env.sample
+!.env.template
 *.env.local
+
+# Private credentials and local databases
+*.pfx
+*.keystore
+credentials.json
+service-account*.json
+service_account*.json
+*.sqlite
+*.sqlite3
+*.db
 
 # Python caches & virtual environments
 __pycache__/
@@ -104,6 +118,8 @@ services/ai-service/patch_ocr.py
 *.tflite
 *.bin
 *.pth.tar
+*.safetensors
+*.ckpt
 model_handoff.zip
 *.zip
 ai-training/incoming/
@@ -114,3 +130,6 @@ services/ai-service/models/*.pth
 audit_handoff_fresh/
 build/
 .gradle/
+
+# Generated local service state and diagnostic output
+infra/local-runtime/

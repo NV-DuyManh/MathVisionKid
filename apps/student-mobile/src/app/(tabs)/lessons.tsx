@@ -13,10 +13,10 @@ export default function LessonsScreen() {
   const router = useRouter();
   const [grade, setGrade] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [expanded, setExpanded] = useState<string | null>(null);
-  const capture = () => {
+  const capture = (problemText: string) => {
     recognitionDraftStore.clearDraft();
-    logFlowDomain('ACQUIRE', 'HANDWRITING_TEXT');
-    router.push({ pathname: '/camera' as any, params: { mode: 'HANDWRITING_TEXT' } });
+    logFlowDomain('ACQUIRE', 'MATH_TUTOR');
+    router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR', problemText } });
   };
   return <ScrollView style={styles.screen} showsVerticalScrollIndicator={false}
     contentContainerStyle={[styles.content, { paddingTop: insets.top + 22 }]}>
@@ -47,10 +47,14 @@ export default function LessonsScreen() {
         <Ionicons name={expanded === problem.id ? 'chevron-up' : 'chevron-down'} size={17} color={COLORS.primary} accessible={false} />
       </Pressable>
       {expanded === problem.id && <View style={styles.guidance}>
-        <Text style={styles.body}>{problem.guidance}</Text><Text style={styles.solutionTitle}>Bài giải tham khảo</Text>
-        {problem.sampleSolution.lines.map((line, index) => <Text key={index} style={styles.solution}>{line}</Text>)}
+        <Text style={styles.body}>{problem.guidance}</Text>
       </View>}
-      <Pressable onPress={capture} accessibilityRole="button" accessibilityLabel={`Chụp lời giải: ${problem.title}`}
+      <Pressable onPress={() => router.push({ pathname: '/learning/math-guide' as any, params: { problemText: problem.problemText } })}
+        accessibilityRole="button" accessibilityLabel={`Học từng bước: ${problem.title}`}
+        style={({ pressed }) => [styles.capture, pressed && styles.pressed]}>
+        <Ionicons name="bulb-outline" size={21} color={COLORS.surface} accessible={false} /><Text style={styles.captureText}>Cùng em tìm cách giải</Text>
+      </Pressable>
+      <Pressable onPress={() => capture(problem.problemText)} accessibilityRole="button" accessibilityLabel={`Chụp lời giải: ${problem.title}`}
         style={({ pressed }) => [styles.capture, pressed && styles.pressed]}>
         <Ionicons name="camera-outline" size={21} color={COLORS.surface} accessible={false} /><Text style={styles.captureText}>Chụp bài làm của em</Text>
       </Pressable>
@@ -83,8 +87,6 @@ const styles = StyleSheet.create({
   hintButton: { minHeight: 48, flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 },
   hintText: { fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark, flex: 1 },
   guidance: { backgroundColor: '#F7F4FF', padding: 15, borderRadius: 17, marginBottom: 14 },
-  solutionTitle: { fontFamily: FONTS.extraBold, fontSize: 14, color: COLORS.textPrimary, marginTop: 12, marginBottom: 6 },
-  solution: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 22, color: COLORS.textSecondary },
   capture: { backgroundColor: COLORS.primary, borderRadius: 25, minHeight: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 10 },
   captureText: { fontFamily: FONTS.extraBold, fontSize: 15, color: COLORS.surface },
   pressed: { opacity: 0.7 },

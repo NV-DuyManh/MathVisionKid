@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/immutability, react-hooks/purity, react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { ActivityRail } from '../components/ui/ActivityRail';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import ViewShot from 'react-native-view-shot';
@@ -431,7 +432,7 @@ export default function PrivacyGateScreen() {
 
       // If no masks were drawn, do NOT rasterize via ViewShot!
       if (masks.length === 0) {
-        recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, isMasked: false, mode: postPrivacyMode });
+        recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, privacyConfirmed: true, isMasked: false, mode: postPrivacyMode });
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: activeUri,
           width: draft?.width,
@@ -472,6 +473,7 @@ export default function PrivacyGateScreen() {
           height: outputHeight,
           masks,
           isMasked: true,
+          privacyConfirmed: true,
           mode: postPrivacyMode,
         });
 
@@ -557,7 +559,7 @@ export default function PrivacyGateScreen() {
 
                   {!imageLoaded && !imageLoadError && (
                     <View style={styles.loadingOverlay} pointerEvents="none">
-                      <ActivityIndicator size="large" color={COLORS.primary} />
+                      <ActivityRail label="Đang mở ảnh của em" />
                       <Text style={styles.loadingText}>Đang tải ảnh bài tập...</Text>
                     </View>
                   )}

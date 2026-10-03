@@ -1,423 +1,85 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
-import { useRouter } from 'expo-router';
-import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
-import { AppHeader } from '../../components/ui/AppHeader';
-import { AppCard } from '../../components/ui/AppCard';
-import { AuthContext } from '../../context/AuthContext';
+import React, { useCallback, useContext, useState } from 'react';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { RecognitionService } from '../../features/recognition/api/RecognitionService';
-import { evaluateMathSolution } from '../../utils/mathSolutionEvaluator';
-import { resolveLineDisplayState } from '../../features/recognition/utils/lineReview';
+import { LinearGradient } from 'expo-linear-gradient';
+import { AuthContext } from '../../context/AuthContext';
+import { AppHeader } from '../../components/ui/AppHeader';
+import { AppButton } from '../../components/ui/AppButton';
+import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
+import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
+import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
+
 export default function ProfileScreen() {
-    const router = useRouter();
-    const auth = useContext(AuthContext);
-    const user = auth?.user;
-    const trials = RecognitionService.getAllCachedTrials();
-    const handleLogout = () => {
-        Alert.alert('Đăng xuất', 'Em có chắc chắn muốn đăng xuất không?', [
-            { text: 'Hủy', style: 'cancel' },
-            { text: 'Đăng xuất', style: 'destructive', onPress: () => auth?.logout() }
-        ]);
-    };
-    const menuItems = [
-        {
-            icon: 'shield-checkmark-outline' as const,
-            label: 'Bảo mật & Dữ liệu riêng tư',
-            sublabel: 'Ảnh được bảo vệ theo chuẩn riêng tư',
-        },
-        {
-            icon: 'language-outline' as const,
-            label: 'Ngôn ngữ hiển thị',
-            sublabel: 'Tiếng Việt',
-        },
-        {
-            icon: 'help-circle-outline' as const,
-            label: 'Hướng dẫn sử dụng',
-            sublabel: 'Cách chụp bài rõ nét',
-        },
-        {
-            icon: 'information-circle-outline' as const,
-            label: 'Thông tin ứng dụng',
-            sublabel: 'MathVision Kids v1.0.0',
-        }
-    ];
-    return (<View style={styles.container}>
-      <AppHeader title="Hồ sơ của em"/>
-      <ScrollView contentContainerStyle={styles.content}>
-        <TouchableOpacity style={[styles.sessionCard, SHADOWS.small]} onPress={() => router.push('/recognition/analytics')} accessibilityRole="button" accessibilityLabel="Xem lịch sử nhận dạng">
-          <Text style={styles.sectionHeadingTitle}>Lịch sử nhận dạng</Text>
-          <Text style={styles.emptyResearchSubtitle}>Xem các dòng chữ đã xác nhận và xuất kết quả.</Text>
-        </TouchableOpacity>
-        {/* Student identity card */}
-        <AppCard style={styles.card} variant="elevated">
-          <View style={[styles.avatarBadge, SHADOWS.small]}>
-            <Image source={require('../../../assets/illustrations/student-avatar.png')} style={styles.avatarImage} resizeMode="contain" accessible={false}/>
-          </View>
-          <Text style={styles.name}>{user?.name || 'Học sinh'}</Text>
-          <View style={styles.gradePill}>
-            <Text style={styles.gradeText}>
-              {user?.grade ? `Học sinh Lớp ${user.grade}` : 'Học sinh Tiểu học'}
-            </Text>
-          </View>
-        </AppCard>
-
-        {/* Section: Recent Graded Math Worksheets */}
-        <View style={styles.sectionHeaderRow}>
-          <Text style={styles.sectionHeadingTitle}>Bài giải toán đã kiểm tra</Text>
-          <Text style={styles.sessionCountTag}>{trials.length} bài làm</Text>
-        </View>
-
-        {trials.length === 0 ? (<View style={[styles.emptyResearchCard, SHADOWS.small, { marginBottom: SIZES.large }]}>
-            <View style={styles.emptyIconWrapper}>
-              <Ionicons name="school-outline" size={34} color={COLORS.primary}/>
-            </View>
-            <Text style={styles.emptyResearchTitle}>Chưa có bài giải nào</Text>
-            <Text style={styles.emptyResearchSubtitle}>
-              Chụp bài giải toán viết tay để đọc lời giải, kiểm tra phép tính và đáp số nhé!
-            </Text>
-            <TouchableOpacity style={[styles.emptyStartBtn, SHADOWS.small]} onPress={() => router.push('/camera' as any)} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Chụp bài giải ngay">
-              <Ionicons name="camera-outline" size={18} color="#FFFFFF"/>
-              <Text style={styles.emptyStartBtnText}>Chụp bài giải ngay</Text>
-            </TouchableOpacity>
-          </View>) : (<View style={[styles.trialsList, { marginBottom: SIZES.large }]}>
-            {trials.map((trial, index) => {
-                const evalRes = trial.lines ? evaluateMathSolution(trial.lines.map(line => ({ ...line, currentText: resolveLineDisplayState(line).currentText })), { requireConfirmation: true }) : null;
-                const summary = evalRes?.summary;
-                const isAllCorrect = summary?.verdict === 'ALL_CORRECT';
-                const hasCalcError = summary && ['HAS_CALCULATION_ERROR', 'HAS_ANSWER_ERROR', 'NEEDS_REVIEW'].includes(summary.verdict);
-                const badgeBg = isAllCorrect ? '#DCFCE7' : hasCalcError ? '#FEF3C7' : '#EFF6FF';
-                const badgeColor = isAllCorrect ? '#15803D' : hasCalcError ? '#B45309' : '#1E40AF';
-                const badgeText = isAllCorrect
-                    ? 'Phép tính đúng'
-                    : hasCalcError
-                        ? 'Cần sửa lại 💡'
-                        : summary?.verdict === 'NEEDS_CONFIRMATION' ? 'Chờ xác nhận' : 'Đã đọc lời giải';
-                return (<TouchableOpacity key={trial.trialId || index} style={[styles.sessionCard, SHADOWS.small]} onPress={() => router.push({
-                        pathname: '/recognition/multiline-result' as any,
-                        params: { trialId: trial.trialId },
-                    })} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel={`Bài làm ${index + 1}`}>
-                  <View style={styles.sessionCardTop}>
-                    <View style={styles.sessionBadge}>
-                      <Ionicons name="document-text" size={14} color="#1E40AF"/>
-                      <Text style={styles.sessionBadgeText}>Bài làm #{index + 1}</Text>
-                    </View>
-                    <View style={[styles.confidenceChip, { backgroundColor: badgeBg }]}>
-                      <Text style={[styles.confidenceChipText, { color: badgeColor }]}>{badgeText}</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.sessionMetricsRow}>
-                    <View style={styles.sessionMetricItem}>
-                      <Text style={styles.sessionMetricLabel}>Dòng chữ</Text>
-                      <Text style={styles.sessionMetricValue}>{trial.lines?.length || 0} dòng</Text>
-                    </View>
-                    <View style={styles.sessionMetricItem}>
-                      <Text style={styles.sessionMetricLabel}>Phép tính</Text>
-                      <Text style={[
-                        styles.sessionMetricValue,
-                        {
-                            color: isAllCorrect
-                                ? '#15803D'
-                                : hasCalcError
-                                    ? '#DC2626'
-                                    : COLORS.textPrimary,
-                        }
-                    ]}>
-                        {summary?.equationCount
-                        ? `${summary.correctEquations}/${summary.equationCount} đúng`
-                        : 'Không có'}
-                      </Text>
-                    </View>
-                    <View style={styles.sessionMetricItem}>
-                      <Text style={styles.sessionMetricLabel}>Đáp số</Text>
-                      <Text style={[
-                        styles.sessionMetricValue,
-                        { color: summary?.hasAnswer ? '#7C3AED' : '#94A3B8' }
-                    ]}>
-                        {summary?.hasAnswer ? 'Có ✓' : 'Chưa'}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.sessionCardFooter}>
-                    <Text style={styles.viewResultText}>Xem chi tiết bài giải & lời phê</Text>
-                    <Ionicons name="chevron-forward" size={16} color="#1E40AF"/>
-                  </View>
-                </TouchableOpacity>);
-            })}
-          </View>)}
-
-        {/* Menu items card */}
-        <AppCard style={styles.menuCard} variant="outlined">
-          {menuItems.map((item, index) => (<View key={item.label}>
-              <View style={styles.menuItem}>
-                <View style={styles.menuIconContainer}>
-                  <Ionicons name={item.icon} size={22} color={COLORS.primary}/>
-                </View>
-                <View style={styles.menuTextContainer}>
-                  <Text style={styles.menuLabel}>{item.label}</Text>
-                  <Text style={styles.menuSublabel}>{item.sublabel}</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={18} color={COLORS.textMuted}/>
-              </View>
-              {index < menuItems.length - 1 && <View style={styles.divider}/>}
-            </View>))}
-        </AppCard>
-
-        {/* Logout button */}
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} accessibilityRole="button" accessibilityLabel="Đăng xuất khỏi ứng dụng">
-          <Ionicons name="log-out-outline" size={22} color={COLORS.error}/>
-          <Text style={styles.logoutText}>Đăng xuất</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>);
+  const router = useRouter();
+  const auth = useContext(AuthContext);
+  const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
+  const [lessons, setLessons] = useState<SavedLesson[]>([]);
+  const [error, setError] = useState(false);
+  useFocusEffect(useCallback(() => {
+    let active = true;
+    setLessons([]); setError(false);
+    loadLessons(owner).then(items => { if (active) setLessons(items); })
+      .catch(() => { if (active) setError(true); });
+    return () => { active = false; };
+  }, [owner]));
+  const capture = () => {
+    recognitionDraftStore.clearDraft();
+    router.push({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
+  };
+  return <SafeAreaView style={styles.screen} edges={['top']}>
+    <AppHeader title="Góc học tập của em" />
+    <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <LinearGradient colors={['#F0E9FF', '#FAF7FF']} style={styles.identity}>
+        <Image source={require('../../../assets/illustrations/student-avatar.png')} style={styles.avatar} resizeMode="contain" accessible={false} />
+        <View style={styles.copy}><Text style={styles.name}>{auth?.user?.name || 'Chào em!'}</Text>
+          <Text style={styles.body}>{auth?.user?.grade ? `Học sinh lớp ${auth.user.grade}` : 'Mỗi ngày, học thêm một điều mới.'}</Text></View>
+      </LinearGradient>
+      <View style={styles.row}><Text style={styles.heading}>Bài đã lưu</Text><Text style={styles.caption}>{lessons.length} bài</Text></View>
+      <Text style={styles.body}>Giữ lại điều em đã nghĩ, rồi quay lại học tiếp.</Text>
+      {error ? <Text style={styles.error}>Chưa mở được bài đã lưu. Em quay lại màn hình này để thử lại nhé.</Text>
+        : lessons.length ? lessons.map(lesson => <Pressable key={lesson.id} accessibilityRole="button"
+          accessibilityLabel={`Học tiếp: ${(lesson.problemText || lesson.workText).slice(0, 60)}`}
+          onPress={() => router.push({ pathname: '/learning/math-guide', params: { problemText: lesson.problemText, workText: lesson.workText, lessonId: lesson.id, reflection: lesson.reflection } })}
+          style={({ pressed }) => [styles.lesson, pressed && styles.pressed]}>
+          <View style={styles.row}><View style={styles.label}><Ionicons name="book-outline" size={16} color={COLORS.primaryDark} accessible={false} />
+            <Text style={styles.labelText}>CÙNG HỌC TIẾP</Text></View><Text style={styles.caption}>{new Date(lesson.timestamp).toLocaleDateString('vi-VN')}</Text></View>
+          <Text style={styles.lessonTitle} numberOfLines={3}>{lesson.problemText || lesson.workText}</Text>
+          {lesson.reflection ? <Text style={styles.body} numberOfLines={2}>Em đã nghĩ: {lesson.reflection}</Text> : null}
+          <View style={styles.row}><Text style={styles.link}>Mở bài học</Text><Ionicons name="arrow-forward" size={19} color={COLORS.primaryDark} accessible={false} /></View>
+        </Pressable>) : <View style={styles.empty}>
+          <Image source={require('../../../assets/illustrations/saved-folder.png')} style={styles.art} resizeMode="contain" accessible={false} />
+          <Text style={styles.heading}>Bắt đầu bộ sưu tập bài học</Text>
+          <Text style={styles.centerBody}>Chụp bài toán, cùng suy nghĩ từng bước rồi lưu bài để học tiếp nhé.</Text>
+          <AppButton title="Chụp bài toán" onPress={capture} />
+        </View>}
+      <View style={styles.info}><Ionicons name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} accessible={false} />
+        <Text style={styles.infoText}>Bài học được lưu theo tài khoản trên thiết bị này. Góc học tập chỉ giữ nội dung bài và suy nghĩ của em.</Text></View>
+      <AppButton title="Đăng xuất" variant="ghost" onPress={() => Alert.alert('Đăng xuất', 'Em muốn đăng xuất khỏi tài khoản này?', [
+        { text: 'Ở lại', style: 'cancel' }, { text: 'Đăng xuất', onPress: () => auth?.logout() },
+      ])} />
+    </ScrollView>
+  </SafeAreaView>;
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.background,
-    },
-    content: {
-        padding: SIZES.medium,
-        paddingBottom: 116,
-        maxWidth: 600,
-        width: '100%',
-        alignSelf: 'center',
-    },
-    card: {
-        alignItems: 'center',
-        paddingVertical: SIZES.xxlarge,
-        marginBottom: SIZES.large,
-    },
-    avatarBadge: {
-        width: 72,
-        height: 72,
-        borderRadius: 36,
-        backgroundColor: COLORS.surfaceSubdued,
-        borderWidth: 2,
-        borderColor: '#E8E1FC',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: SIZES.medium,
-    },
-    avatarImage: {
-        width: 70,
-        height: 70,
-    },
-    name: {
-        fontSize: 22,
-        fontFamily: FONTS.extraBold,
-        color: COLORS.primaryDark,
-        marginBottom: 6,
-    },
-    gradePill: {
-        backgroundColor: '#EEF2FF',
-        paddingHorizontal: SIZES.medium,
-        paddingVertical: 4,
-        borderRadius: SIZES.pillRadius,
-    },
-    gradeText: {
-        fontSize: 13,
-        fontFamily: FONTS.bold,
-        color: COLORS.primary,
-    },
-    menuCard: {
-        padding: 0,
-        overflow: 'hidden',
-        marginBottom: SIZES.xlarge,
-    },
-    menuItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: SIZES.medium,
-        minHeight: SIZES.minTouchTarget,
-    },
-    menuIconContainer: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        backgroundColor: COLORS.surfaceSubdued,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: SIZES.medium,
-    },
-    menuTextContainer: {
-        flex: 1,
-    },
-    menuLabel: {
-        fontSize: 15,
-        fontFamily: FONTS.bold,
-        color: COLORS.textPrimary,
-        marginBottom: 2,
-    },
-    menuSublabel: {
-        fontFamily: FONTS.regular,
-        fontSize: 12,
-        color: COLORS.textSecondary,
-    },
-    divider: {
-        height: 1,
-        backgroundColor: COLORS.border,
-        marginLeft: 56,
-    },
-    logoutButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: SIZES.minTouchTarget,
-        backgroundColor: '#FEF2F2',
-        borderWidth: 1,
-        borderColor: '#FECACA',
-        borderRadius: SIZES.buttonRadius,
-        paddingHorizontal: SIZES.large,
-    },
-    logoutText: {
-        marginLeft: SIZES.small,
-        fontSize: 15,
-        fontFamily: FONTS.bold,
-        color: COLORS.error,
-    },
-    sectionHeaderRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
-    sectionHeadingTitle: {
-        fontSize: 15,
-        fontFamily: FONTS.extraBold,
-        color: '#0F172A',
-    },
-    sessionCountTag: {
-        fontSize: 12,
-        fontFamily: FONTS.semiBold,
-        color: '#64748B',
-    },
-    emptyResearchCard: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        padding: 24,
-        alignItems: 'center',
-    },
-    emptyIconWrapper: {
-        width: 64,
-        height: 64,
-        borderRadius: 32,
-        backgroundColor: '#F8FAFC',
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 14,
-    },
-    emptyResearchTitle: {
-        fontSize: 16,
-        fontFamily: FONTS.extraBold,
-        color: '#0F172A',
-        marginBottom: 6,
-        textAlign: 'center',
-    },
-    emptyResearchSubtitle: {
-        fontFamily: FONTS.regular,
-        fontSize: 13,
-        color: '#64748B',
-        textAlign: 'center',
-        lineHeight: 18,
-        marginBottom: 18,
-        maxWidth: 320,
-    },
-    emptyStartBtn: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-        backgroundColor: COLORS.primary,
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 12,
-    },
-    emptyStartBtnText: {
-        color: '#FFFFFF',
-        fontSize: 14,
-        fontFamily: FONTS.bold,
-    },
-    trialsList: {
-        gap: 12,
-    },
-    sessionCard: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 14,
-        padding: 16,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-    },
-    sessionCardTop: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
-    sessionBadge: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-    },
-    sessionBadgeText: {
-        fontSize: 13,
-        fontFamily: FONTS.bold,
-        color: '#1E40AF',
-    },
-    confidenceChip: {
-        backgroundColor: '#EFF6FF',
-        paddingHorizontal: 8,
-        paddingVertical: 3,
-        borderRadius: 6,
-        borderWidth: 1,
-        borderColor: '#BFDBFE',
-    },
-    confidenceChipText: {
-        fontSize: 11,
-        fontFamily: FONTS.bold,
-        color: '#1E40AF',
-    },
-    sessionMetricsRow: {
-        flexDirection: 'row',
-        gap: 8,
-        marginBottom: 12,
-    },
-    sessionMetricItem: {
-        flex: 1,
-        backgroundColor: '#F8FAFC',
-        padding: 8,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#F1F5F9',
-    },
-    sessionMetricLabel: {
-        fontSize: 10,
-        fontFamily: FONTS.semiBold,
-        color: '#64748B',
-        textTransform: 'uppercase',
-    },
-    sessionMetricValue: {
-        fontSize: 13,
-        fontFamily: FONTS.bold,
-        color: '#0F172A',
-        marginTop: 2,
-    },
-    sessionCardFooter: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingTop: 10,
-        borderTopWidth: 1,
-        borderTopColor: '#F1F5F9',
-    },
-    viewResultText: {
-        fontSize: 12,
-        fontFamily: FONTS.bold,
-        color: '#1E40AF',
-    },
+  screen: { flex: 1, backgroundColor: COLORS.background },
+  content: { padding: 20, paddingBottom: 116, width: '100%', maxWidth: 620, alignSelf: 'center', gap: 16 },
+  identity: { flexDirection: 'row', alignItems: 'center', gap: 16, padding: 20, borderRadius: 28 },
+  avatar: { width: 76, height: 76 }, copy: { flex: 1 },
+  name: { fontFamily: FONTS.extraBold, fontSize: 24, color: COLORS.textPrimary, marginBottom: 6 },
+  heading: { fontFamily: FONTS.extraBold, fontSize: 21, color: COLORS.textPrimary },
+  body: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 22, color: COLORS.textSecondary },
+  caption: { fontFamily: FONTS.semiBold, fontSize: 12, color: COLORS.textMuted },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
+  lesson: { borderRadius: 25, backgroundColor: COLORS.surface, padding: 20, gap: 15, ...SHADOWS.small },
+  label: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  labelText: { fontFamily: FONTS.extraBold, fontSize: 10, color: COLORS.primaryDark, letterSpacing: .7 },
+  lessonTitle: { fontFamily: FONTS.bold, fontSize: 17, lineHeight: 26, color: COLORS.textPrimary },
+  link: { fontFamily: FONTS.extraBold, fontSize: 14, color: COLORS.primaryDark },
+  empty: { alignItems: 'center', padding: 23, borderRadius: 28, backgroundColor: '#F0EBFC', gap: 15 },
+  art: { width: 106, height: 100 }, centerBody: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 22, color: COLORS.textSecondary, textAlign: 'center' },
+  info: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16, borderRadius: 20, backgroundColor: '#EAF6F0' },
+  infoText: { flex: 1, fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: '#37644E' },
+  error: { fontFamily: FONTS.regular, fontSize: 14, color: COLORS.errorText }, pressed: { opacity: .7 },
 });

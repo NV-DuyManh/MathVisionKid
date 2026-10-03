@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 from app.config import settings
-from app.api import jobs, ocr
+from app.api import jobs, ocr, tutor
 from app.observability.logging import setup_logging
 
 setup_logging()
@@ -23,6 +23,7 @@ async def on_startup():
 
 app.include_router(jobs.router, prefix="/internal/v1/jobs", tags=["Jobs"])
 app.include_router(ocr.router, prefix="/internal/v1/ocr", tags=["OCR"])
+app.include_router(tutor.router, prefix="/internal/v1/tutor", tags=["Tutor"])
 
 @app.get("/health")
 async def health_check():

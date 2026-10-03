@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-03",
+  "mobile": {
+    "passedTests": 374,
+    "passedSuites": 34,
+    "failedTests": 0
+  },
+  "backend": {
+    "suites": 26,
+    "tests": 222,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "aiFocused": {
+    "tests": 168,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "modules": 16,
+    "tutorTestsIncluded": 80,
+    "fullLegacySuiteRun": false
+  },
+  "typeScript": {
+    "passed": true,
+    "command": "npx tsc --noEmit",
+    "evidence": "Successful command in this task"
+  },
+  "exports": {
+    "android": {
+      "passed": true,
+      "path": "scratch/mvp_math_tutor_20261003/android-export",
+      "assets": 60
+    },
+    "web": {
+      "passed": true,
+      "path": "scratch/mvp_math_tutor_20261003/web-export",
+      "routes": 32
+    }
+  },
+  "livePublicFlow": {
+    "passed": true,
+    "cases": 11,
+    "syntheticImage": true,
+    "evidence": "public-live-flow.json",
+    "provider": "Groq primary configuration"
+  },
+  "gemini": {
+    "actualReadAndGuidePassed": true,
+    "isolatedProcessOnly": true,
+    "runtimeConfigUnchanged": true,
+    "evidence": "gemini-live.json",
+    "secondsForBothRequests": 8.792,
+    "earlierAttempt": "Image read succeeded; guide received a provider service error. One separate recheck passed."
+  },
+  "independentReview": {
+    "blockingFindingsRemaining": 0,
+    "fractionAndUnsupportedVerdictRegressionsChecked": true
+  },
+  "completeTutorBrowserJourneyVerified": false,
+  "physicalDeviceVerified": false,
+  "modelTrainingPerformed": false,
+  "modelWeightsChanged": false,
+  "configurationFilesChanged": false,
+  "newRuntimeDependencies": false,
+  "commitOrPushForThisTask": false,
+  "runtime": {
+    "studentPreviewStarted": true,
+    "physicalDeviceVerified": false,
+    "studentPreviewStatusChecked": true,
+    "coreStackReady": true
+  }
+}

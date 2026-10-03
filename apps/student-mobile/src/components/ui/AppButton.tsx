@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle, TextStyle, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, View } from 'react-native';
 import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
 
 interface AppButtonProps {
@@ -69,7 +69,12 @@ export const AppButton: React.FC<AppButtonProps> = ({
       accessibilityState={{ disabled: !isInteractive, busy: loading }}
     >
       {loading ? (
-        <ActivityIndicator size="small" color={getTextColor()} />
+        <View style={styles.loadingContent}>
+          <Text style={[styles.text, { color: getTextColor() }]}>Đang xử lý…</Text>
+          <View style={[styles.loadingTrack, { backgroundColor: getTextColor() + '44' }]}>
+            <View style={[styles.loadingBar, { backgroundColor: getTextColor() }]} />
+          </View>
+        </View>
       ) : (
         <View style={styles.innerContent}>
           {icon && <View style={styles.iconContainer}>{icon}</View>}
@@ -84,12 +89,12 @@ export const AppButton: React.FC<AppButtonProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: SIZES.minTouchTarget,
-    height: 52,
+    minHeight: 52,
     borderRadius: SIZES.buttonRadius,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: SIZES.xlarge,
+    paddingVertical: 12,
   },
   innerContent: {
     flexDirection: 'row',
@@ -103,6 +108,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: FONTS.bold,
     letterSpacing: 0.2,
+    textAlign: 'center',
+    flexShrink: 1,
   },
   outlined: {
     borderWidth: 2,
@@ -110,6 +117,9 @@ const styles = StyleSheet.create({
   },
   secondaryBorder: {
     borderWidth: 1,
-    borderColor: '#BFDBFE',
+    borderColor: '#E1D7F7',
   },
+  loadingContent: { alignItems: 'center', gap: 6 },
+  loadingTrack: { width: 90, height: 4, borderRadius: 2, overflow: 'hidden' },
+  loadingBar: { width: 40, height: 4, marginLeft: 25, borderRadius: 2 },
 });

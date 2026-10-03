@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions, ActivityIndicator, Alert, Linking, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions, Alert, Linking, Platform } from 'react-native';
+import { ActivityRail } from '../components/ui/ActivityRail';
+import { RecognitionProgress } from '../features/recognition/components/RecognitionProgress';
 import { Image } from 'expo-image';
 import type * as MediaLibraryTypes from 'expo-media-library/legacy';
 import * as ImagePicker from 'expo-image-picker';
@@ -210,7 +212,7 @@ export default function CustomGalleryScreen() {
                 source: 'CUSTOM_GALLERY',
             });
             const draft = await normalizeImageDraft(finalUri, selectedAsset.width, selectedAsset.height, 'GALLERY');
-            draft.mode = resolveFlowDomain(null, null); // Defaults to HANDWRITING_TEXT
+            draft.mode = resolveFlowDomain(null, recognitionDraftStore.getDraft()?.mode || 'MATH_TUTOR');
             logFlowDomain('ACQUIRE', draft.mode);
             draft.originalImageUri = finalUri;
             draft.originalUri = finalUri;
@@ -249,7 +251,7 @@ export default function CustomGalleryScreen() {
                     source: 'GALLERY_SYSTEM_FALLBACK',
                 });
                 const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
-                draft.mode = resolveFlowDomain(null, null);
+                draft.mode = resolveFlowDomain(null, recognitionDraftStore.getDraft()?.mode || 'MATH_TUTOR');
                 logFlowDomain('ACQUIRE', draft.mode);
                 draft.originalImageUri = asset.uri;
                 draft.originalUri = asset.uri;
@@ -289,8 +291,7 @@ export default function CustomGalleryScreen() {
 
       {/* Main Content Area */}
       {loading ? (<View style={styles.centerContainer}>
-          <ActivityIndicator size="large" color={COLORS.primary}/>
-          <Text style={styles.loadingText}>Đang tải ảnh từ thư viện...</Text>
+          <RecognitionProgress title="Mở trang vở của em" description="Chọn ảnh rõ nét, giữ trọn bài toán và các bước em đã viết." />
         </View>) : isPermissionDenied ? (
         /* Permission Denied or Expo Go Restriction State */
         <View style={styles.permissionCard}>
@@ -337,7 +338,7 @@ export default function CustomGalleryScreen() {
                 styles.gridContent,
                 { paddingBottom: insets.bottom + 90 }
             ]} showsVerticalScrollIndicator={false} onEndReached={handleLoadMore} onEndReachedThreshold={0.5} ListFooterComponent={loadingMore ? (<View style={styles.footerLoader}>
-                <ActivityIndicator size="small" color={COLORS.primary}/>
+                <ActivityRail label="Đang mở thêm ảnh" />
               </View>) : null}/>)}
 
       {/* Sticky Bottom Action Bar */}
@@ -351,7 +352,7 @@ export default function CustomGalleryScreen() {
                 !selectedAsset && styles.confirmBtnDisabled,
                 SHADOWS.small
             ]} disabled={!selectedAsset || isConfirming} onPress={handleConfirmSelection} accessibilityRole="button" accessibilityLabel="Dùng ảnh này" activeOpacity={0.88}>
-            {isConfirming ? (<ActivityIndicator size="small" color="#FFFFFF"/>) : (<>
+            {isConfirming ? (<ActivityRail label="Đang chuẩn bị ảnh đã chọn" />) : (<>
                 <Text style={styles.confirmBtnText}>Dùng ảnh này</Text>
                 <Ionicons name="arrow-forward" size={18} color="#FFFFFF" style={{ marginLeft: 6 }}/>
               </>)}

@@ -1,9 +1,9 @@
-export type FlowDomain = 'HANDWRITING_TEXT' | 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
+export type FlowDomain = 'MATH_TUTOR' | 'HANDWRITING_TEXT' | 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
 export function isHandwritingDomain(mode?: string | null): boolean {
     return mode === 'HANDWRITING_TEXT' || mode === 'OCR_PILOT' || mode === 'OCR_PILOT_MULTILINE';
 }
 export function isValidFlowDomain(mode: any): mode is FlowDomain {
-    return mode === 'HANDWRITING_TEXT' || mode === 'ARITHMETIC' || mode === 'OCR_PILOT' || mode === 'OCR_PILOT_MULTILINE';
+    return mode === 'MATH_TUTOR' || mode === 'HANDWRITING_TEXT' || mode === 'ARITHMETIC' || mode === 'OCR_PILOT' || mode === 'OCR_PILOT_MULTILINE';
 }
 /**
  * Single source of truth for flow domain resolution.
@@ -26,6 +26,16 @@ export function logFlowDomain(stage: 'ACQUIRE' | 'PRIVACY' | 'POST_PRIVACY' | 'R
     console.log(`[FLOW_DOMAIN][${stage}] ${domain}`);
 }
 export interface ImageDraft {
+    lessonContext?: {
+        purpose: 'ADD_PROBLEM' | 'ADD_WORK';
+        problemText: string;
+        workText: string;
+        workImageUri?: string;
+        problemImageUri?: string;
+        lessonId: string;
+        uncertainWork: boolean;
+    };
+    problemText?: string;
     imageSessionId?: string;
     originalImageUri?: string; // IMMUTABLE source of truth from camera/gallery
     originalUri?: string;
@@ -48,6 +58,7 @@ export interface ImageDraft {
         height: number;
     }[];
     isMasked?: boolean;
+    privacyConfirmed?: boolean;
     retrySubmissionId?: string;
     arithmeticSubmissionId?: string;
     createdAt?: number;

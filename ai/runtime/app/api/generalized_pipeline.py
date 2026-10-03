@@ -599,7 +599,7 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
     needs_review = False
     if ink_coverage < 0.20 or (len(global_bands) > 0 and len(line_results) > len(global_bands) * 2):
         needs_review = True
-    if ink_coverage < 0.5:
+    if ink_coverage < 0.7:
         needs_review = True
     if len(ambiguous) + len(noise) > max(20, len(primary) * 3):
         needs_review = True
@@ -645,75 +645,6 @@ def clear_detection_cache():
     _DETECTION_RUN_CACHE.clear()
 
 
-def _detect_chromatic_projection_rows(
-    bgr_image: np.ndarray,
-    median_h: float,
-    max_lines: int,
-) -> List[LineBox]:
-    """Recover densely spaced blue/violet-ink rows from horizontal projection peaks."""
-    height, width = bgr_image.shape[:2]
-    hsv = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2HSV)
-    hue, saturation, value = cv2.split(hsv)
-    saturated = (saturation > 25) & (value < 235)
-    candidate_hues = hue[saturated]
-    if candidate_hues.size < 100:
-        return []
-
-    histogram = cv2.calcHist([candidate_hues], [0], None, [180], [0, 180]).ravel()
-    dominant_hue = int(np.argmax(histogram))
-    if not 80 <= dominant_hue <= 155:
-        return []
-    delta = np.minimum((hue.astype(np.int16) - dominant_hue) % 180, (dominant_hue - hue.astype(np.int16)) % 180)
-    chromatic_mask = ((delta <= 25) & saturated).astype(np.uint8)
-
-    row_projection = chromatic_mask.sum(axis=1).astype(np.float64)
-    smooth_window = max(5, int(round(median_h * 0.5)))
-    if smooth_window % 2 == 0:
-        smooth_window += 1
-    smoothed = np.convolve(row_projection, np.ones(smooth_window) / smooth_window, mode="same")
-    peak_floor = max(width * 0.015, float(np.percentile(smoothed, 90)) * 0.25)
-    radius = max(2, int(round(median_h * 0.25)))
-    candidates = [
-        y for y in range(radius, height - radius)
-        if smoothed[y] >= peak_floor and smoothed[y] == np.max(smoothed[y - radius:y + radius + 1])
-    ]
-
-    min_distance = max(18, int(round(median_h * 1.7)))
-    peaks: List[int] = []
-    for y in sorted(candidates, key=lambda item: smoothed[item], reverse=True):
-        if all(abs(y - selected) >= min_distance for selected in peaks):
-            peaks.append(y)
-        if len(peaks) >= max_lines:
-            break
-    peaks.sort()
-    if len(peaks) < 2:
-        return []
-
-    gaps = np.diff(peaks)
-    typical_gap = float(np.median(gaps))
-    if typical_gap < max(12.0, median_h * 1.1) or float(np.max(gaps)) > typical_gap * 2.5:
-        return []
-
-    half_height = max(int(round(median_h * 1.4)), int(round(typical_gap * 0.62)))
-    rows: List[LineBox] = []
-    for peak in peaks:
-        y1, y2 = max(0, peak - half_height), min(height, peak + half_height + 1)
-        ink_columns = np.flatnonzero(np.any(chromatic_mask[y1:y2] > 0, axis=0))
-        if ink_columns.size == 0:
-            continue
-        x1 = max(0, int(ink_columns[0]) - 8)
-        x2 = min(width, int(ink_columns[-1]) + 9)
-        if x2 - x1 < max(30, int(median_h * 2.0)):
-            continue
-        rows.append(LineBox(
-            line_id=f"line_{len(rows) + 1}",
-            x=x1,
-            y=y1,
-            width=x2 - x1,
-            height=y2 - y1,
-            order=len(rows) + 1,
-        ))
-    return rows
 
 
 def run_generalized_line_detection(
@@ -752,7 +683,6 @@ def run_generalized_line_detection(
 
     from app.canonical.matcher import CanonicalMatcher
     from app.canonical.row_localizer import localize_rows
-    from app.api.ocr import correct_skew
     from app.config import settings
 
     current_run_id = str(uuid.uuid4())
@@ -783,7 +713,8 @@ def run_generalized_line_detection(
             }
             return boxes, diag
 
-    bgr_image = correct_skew(bgr_image, max_angle=10.0)
+    # Boxes are consumed against the original image. Rotating only the detector
+    # input silently changes that coordinate system and misaligns every crop.
     height, width = bgr_image.shape[:2]
 
     # 1. Run Default Profile (PROFILE_A)
@@ -805,10 +736,12 @@ def run_generalized_line_detection(
                 best_median_h = f_median_h
                 best_profile = fallback_profile
 
-    projection_lines = _detect_chromatic_projection_rows(bgr_image, best_median_h, max_lines)
-    if len(projection_lines) > len(best_lines):
+    from app.tutoring.rows import handwriting_rows
+    physical_rows = handwriting_rows(bgr_image, max_lines)
+    projection_lines = [LineBox(line_id=f"line_{i+1}", x=x1, y=y1, width=x2-x1, height=y2-y1, order=i+1)
+                        for i, (x1, y1, x2, y2) in enumerate(physical_rows)]
+    if projection_lines:
         best_lines = projection_lines
-        best_score = max(best_score, 95.0)
         best_diag["chromatic_projection_used"] = True
         best_diag["chromatic_projection_count"] = len(projection_lines)
 
