@@ -157,7 +157,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
                 setLoading(false);
             }
         }
-    }, [router]);
+    }, [router, origWidth, origHeight]);
     useEffect(() => {
         if (!imageUri) {
             Alert.alert('Lỗi', 'Không tìm thấy ảnh để nhận diện.', [

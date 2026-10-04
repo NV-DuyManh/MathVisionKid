@@ -11,8 +11,8 @@ from pathlib import Path
 
 SPRING_BASE = "http://localhost:8080/api/v1"
 REPO_ROOT = Path(__file__).resolve().parents[3]
-OCR_PILOT_SERVICE_PATH = REPO_ROOT / "apps" / "student-mobile" / "src" / "services" / "api" / "OcrPilotService.ts"
-MULTILINE_REVIEW_PATH = REPO_ROOT / "apps" / "student-mobile" / "src" / "app" / "ocr-pilot" / "multiline-review.tsx"
+OCR_PILOT_SERVICE_PATH = REPO_ROOT / "apps" / "student-mobile" / "src" / "features" / "recognition" / "api" / "RecognitionService.ts"
+MULTILINE_REVIEW_PATH = REPO_ROOT / "apps" / "student-mobile" / "src" / "app" / "recognition" / "multiline-review.tsx"
 FIXTURE_IMAGE_PATH = Path(__file__).resolve().parent / "fixtures" / "real_hw" / "REAL-HW-02.jpg"
 
 
@@ -349,8 +349,9 @@ def test_submit400_14_double_tap_cannot_duplicate_trial():
     with open(MULTILINE_REVIEW_PATH, "r", encoding="utf-8") as f:
         src = f.read()
 
-    assert "if (requestStatus === 'SUBMITTING') return;" in src
-    assert "disabled={requestStatus === 'SUBMITTING' || boxes.length === 0}" in src
+    assert "if (requestStatus === 'SUBMITTING')\n            return;" in src
+    assert "disabled={boxes.length === 0}" in src
+    assert 'RecognitionProgress title="Đang đọc bài của em"' in src
 
 
 def test_submit400_15_retry_after_error_works():

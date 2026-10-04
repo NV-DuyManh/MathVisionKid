@@ -55,7 +55,7 @@ export default function MultilineResultScreen() {
     });
     const [editingLineId, setEditingLineId] = useState<string | null>(null);
     const editingLineIdRef = useRef(editingLineId);
-    editingLineIdRef.current = editingLineId;
+    useEffect(() => { editingLineIdRef.current = editingLineId; }, [editingLineId]);
     const [editText, setEditText] = useState('');
     const [submittingLineId, setSubmittingLineId] = useState<string | null>(null);
     useEffect(() => {
@@ -105,14 +105,15 @@ export default function MultilineResultScreen() {
         };
     }, [trialId, router]);
     const advisorPending = isAdvisorPending(trial);
+    const trialLines = trial?.lines;
     const mathSolutionEval: MathSolutionEvaluationResult | null = React.useMemo(() => {
-        if (!trial?.lines || trial.lines.length === 0)
+        if (!trialLines || trialLines.length === 0)
             return null;
-        return evaluateMathSolution(trial.lines.map(line => ({
+        return evaluateMathSolution(trialLines.map(line => ({
             ...line,
             currentText: resolveLineDisplayState(line).currentText,
         })), { requireConfirmation: true });
-    }, [trial?.lines]);
+    }, [trialLines]);
     const loadedTrialId = trial?.trialId;
     // Sequential, bounded refreshes leave enough time for document-level advisors.
     // A new payload or an edit must not restart the budget for the same trial.
@@ -136,7 +137,7 @@ export default function MultilineResultScreen() {
                 });
                 if (!isAdvisorPending(fresh)) return;
             }
-            catch (e) {
+            catch {
                 if (!active) return;
                 if (__DEV__) console.log('[RECOGNITION] Background suggestions are not available yet.');
             }
@@ -407,20 +408,6 @@ export default function MultilineResultScreen() {
             const reviewStatus = getLineReviewStatus(line);
             const lineAdvisorPending = isAdvisorPending({ ...trial, lines: [line] });
             const rawOcrConf = getRawOcrConfidence(line);
-            const rawOcrConfText = rawOcrConf != null ? `${(rawOcrConf * 100).toFixed(0)}%` : null;
-            // Smart Suggestion Logic for MathVision OCR (Phase 4):
-            const firstCandidate = aiSuggestions[0];
-            const normRaw = normalizeForComparison(ocrText);
-            const hasCandidateText = Boolean(firstCandidate && firstCandidate.text && firstCandidate.text.trim().length > 0);
-            const normCandidate = hasCandidateText ? normalizeForComparison(firstCandidate.text) : '';
-            const isCandidateIdenticalToRaw = hasCandidateText && normCandidate === normRaw;
-            const isCandidateDistinct = hasCandidateText && !isCandidateIdenticalToRaw;
-            const hasAiConfirmedOcr = isAiConfirmed || isCandidateIdenticalToRaw;
-            const sourceLabel = selectedSource === 'MANUAL_EDIT' || selectedSource === 'manual_edit'
-                ? 'MANUAL'
-                : selectedSource === 'SUGGESTION_1' || selectedSource === 'suggestion_1'
-                    ? 'AI'
-                    : 'OCR';
             // Required internal debug log (never toasted to student UI):
             console.log(`[LINE_RENDER_DEBUG] lineId=${line.lineId} lineOrder=${line.lineOrder} rawText="${rawText}" ` +
                 `ocrText="${ocrText}" suggestions=[${aiSuggestions.map((s) => `"${s.text}"`).join(', ')}] ` +

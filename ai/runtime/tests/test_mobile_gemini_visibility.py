@@ -8,6 +8,7 @@ import json
 import pytest
 from app.config import settings
 from app.schemas.ocr import LineBox
+from mobile_contract_support import mobile_helper
 
 
 def test_mobgem_01_spring_json_contains_gemini_fields():
@@ -43,9 +44,9 @@ def test_mobgem_02_fastapi_to_spring_preserves_gemini_fields():
 
 
 def test_mobgem_03_spring_to_ocr_pilot_service_preserves_gemini_fields():
-    """MOBGEM-03: Spring -> OcrPilotService TypeScript types preserve Gemini fields."""
+    """MOBGEM-03: Spring -> RecognitionService TypeScript types preserve Gemini fields."""
     ts_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/services/api/OcrPilotService.ts")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/features/recognition/api/RecognitionService.ts")
     )
     with open(ts_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -57,7 +58,7 @@ def test_mobgem_03_spring_to_ocr_pilot_service_preserves_gemini_fields():
 def test_mobgem_04_api_service_to_navigation_state_preserves_gemini():
     """MOBGEM-04: API service caching and navigation preserves Gemini fields."""
     ts_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/services/api/OcrPilotService.ts")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/features/recognition/api/RecognitionService.ts")
     )
     with open(ts_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -68,18 +69,18 @@ def test_mobgem_04_api_service_to_navigation_state_preserves_gemini():
 def test_mobgem_05_navigation_to_result_screen_preserves_gemini():
     """MOBGEM-05: Result screen initial state hydrates from cached trial."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
-    assert "OcrPilotService.getCachedTrial(trialId)" in src
+    assert "RecognitionService.getCachedTrial(trialId)" in src
     assert "buildAdvisorView" in src
 
 
 def test_mobgem_06_gemini_success_renders_goi_y_2():
     """MOBGEM-06: Gemini SUCCESS renders Gợi ý 2 card."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -91,7 +92,7 @@ def test_mobgem_06_gemini_success_renders_goi_y_2():
 def test_mobgem_07_gemini_unavailable_not_rendered():
     """MOBGEM-07: Per Task D, provider-specific unavailable copy is not rendered on visible card."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -102,7 +103,7 @@ def test_mobgem_07_gemini_unavailable_not_rendered():
 def test_mobgem_08_gemini_render_does_not_depend_on_groq_fields():
     """MOBGEM-08: Gemini render condition does not depend on Groq fields."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -112,18 +113,21 @@ def test_mobgem_08_gemini_render_does_not_depend_on_groq_fields():
 
 def test_mobgem_09_suggestions_fallback_recovers_gemini_safely():
     """MOBGEM-09: suggestions[] fallback recovers Gemini safely."""
-    res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
-    )
-    with open(res_path, "r", encoding="utf-8") as f:
-        src = f.read()
-    assert "line.suggestions.find((s) => s.provider === provider)" in src
+    result = mobile_helper("buildAdvisorView", {
+        "rawOcrText": "em dep gai", "groqStatus": "UNAVAILABLE",
+        "suggestions": [{"provider": "GEMINI", "model": "gemini-3.6-flash", "status": "SUCCESS",
+                         "text": "em đẹp gái", "confidence": 0.93, "confidenceSource": "AI_SELF_REPORTED"}],
+    }, "GEMINI")
+    assert result["provider"] == "GEMINI"
+    assert result["status"] == "SUCCESS"
+    assert result["text"] == "em đẹp gái"
+    assert result["confidence"] == 0.93
 
 
 def test_mobgem_10_raw_ocr_text_remains_immutable():
     """MOBGEM-10: rawOcrText remains immutable when user chooses suggestion or provides feedback."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -136,7 +140,7 @@ def test_mobgem_10_raw_ocr_text_remains_immutable():
 def test_mobgem_11_choose_goi_y_2_changes_final_text_only():
     """MOBGEM-11: Choose Gợi ý 2 invokes handleFeedback with 'CORRECTED' and changes finalText only."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -146,7 +150,7 @@ def test_mobgem_11_choose_goi_y_2_changes_final_text_only():
 def test_mobgem_12_stale_late_response_cannot_overwrite_manual_choice():
     """MOBGEM-12: Server feedback response preserves user targetText and cannot overwrite manual edit."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -156,7 +160,7 @@ def test_mobgem_12_stale_late_response_cannot_overwrite_manual_choice():
 def test_mobgem_13_current_metro_bundle_marker_proven():
     """MOBGEM-13: Development console marker MOBILE_GEMINI_UI_BUILD=GEMINI_4B is present."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -166,7 +170,7 @@ def test_mobgem_13_current_metro_bundle_marker_proven():
 def test_mobgem_14_no_dev_panel_is_added():
     """MOBGEM-14: No visible debug or dev panel is added to the student UI."""
     res_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(res_path, "r", encoding="utf-8") as f:
         src = f.read()

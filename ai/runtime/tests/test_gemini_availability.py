@@ -73,16 +73,17 @@ def test_gemavail_06_gemini_fields_propagate_to_spring_dto():
 
 
 def test_gemavail_07_gemini_fields_survive_to_mobile_contract():
-    """GEMAVAIL-07: Gemini advisor fields survive Spring -> Mobile OcrPilotService interfaces."""
+    """GEMAVAIL-07: Gemini advisor fields survive Spring -> Mobile RecognitionService interfaces."""
     mobile_service_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/services/api/OcrPilotService.ts")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/features/recognition/api/RecognitionService.ts")
     )
     with open(mobile_service_path, "r", encoding="utf-8") as f:
         mobile_src = f.read()
 
     # LineBox interface check
     assert "geminiSuggestion?: string;" in mobile_src
-    assert "geminiConfidence?: number;" in mobile_src
+    assert "geminiConfidence?: number | null;" in mobile_src
+    assert "geminiConfidenceSource?: string | null;" in mobile_src
     assert (
         "geminiDecision?: AdvisorDecision;" in mobile_src
         or "geminiDecision?: string;" in mobile_src

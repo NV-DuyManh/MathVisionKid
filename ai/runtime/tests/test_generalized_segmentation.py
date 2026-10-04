@@ -258,3 +258,90 @@ def test_gen_26_graph_paper_heavy_noise_no_over_segmentation():
     lines, diag = detect_text_lines(img)
     assert len(lines) == 4, f"Expected 4 rows, but got {len(lines)}"
 
+
+def test_padding_preserves_a_whole_fraction_next_to_another_column(monkeypatch):
+    from app.api.generalized_pipeline import run_generalized_line_detection
+    from app.tutoring import rows
+    # The tall left expression and short right expression have similar centres.
+    # Padding must not split the tall numerator/denominator at that centre.
+    regions = [(50, 100, 260, 290), (450, 170, 660, 205), (50, 330, 260, 370)]
+    monkeypatch.setattr(rows, 'handwriting_rows', lambda image, max_lines: regions)
+    lines, _ = run_generalized_line_detection(create_blank_bgr(), force_redetect=True)
+    for x1, y1, x2, y2 in regions:
+        assert any(line.x <= x1 and line.y <= y1
+                   and line.x + line.width >= x2 and line.y + line.height >= y2
+                   for line in lines)
+    assert not any(line.x < 300 < line.x + line.width for line in lines)
+
+
+@pytest.mark.parametrize('profile', ['PROFILE_A', 'PROFILE_B', 'PROFILE_C'])
+def test_ruling_suppression_retains_small_letters_and_removes_dashed_rules(profile):
+    from app.api.generalized import suppress_notebook_rulings
+
+    mask = np.zeros((240, 400), np.uint8)
+    cv2.putText(mask, 'Dong thu nhat o tren', (30, 60),
+                cv2.FONT_HERSHEY_SIMPLEX, .7, 255, 2)
+    cv2.line(mask, (20, 130), (380, 130), 255, 2)
+    for x in range(20, 380, 18):
+        cv2.line(mask, (x, 170), (x + 6, 170), 255, 2)
+    for x in range(20, 380, 28):
+        cv2.line(mask, (x, 200), (x + 20, 200), 255, 2)
+
+    clean, removed = suppress_notebook_rulings(mask, 400, 240, profile)
+    assert np.array_equal(clean[:100], mask[:100])
+    assert np.count_nonzero(removed[:100]) == 0
+    # Morphological opening may leave a few isolated rounded end-cap pixels.
+    assert np.count_nonzero(clean[120:210]) < np.count_nonzero(mask[120:210]) * .01
+
+
+def test_single_sparse_page_edge_is_rejected_but_isolated_boundary_words_survive():
+    from app.api.generalized_pipeline import filter_and_merge_residual_false_lines
+
+    def prune(mask, median):
+        ys, xs = np.nonzero(mask)
+        box = (int(xs.min()), int(ys.min()), int(xs.max()-xs.min()+1),
+               int(ys.max()-ys.min()+1))
+        return filter_and_merge_residual_false_lines([box], mask, median, *mask.shape)
+
+    edge = np.zeros((350,673), np.uint8)
+    cv2.line(edge,(10,330),(15,349),255,3)
+    cv2.line(edge,(28,331),(30,349),255,3)
+    cv2.circle(edge,(585,345),1,255,-1)
+    cv2.circle(edge,(598,346),1,255,-1)
+    assert prune(edge,9) == []
+    for baseline in (23,194):
+        word = np.zeros((200,700), np.uint8)
+        cv2.putText(word,'Bai 12',(30,baseline),cv2.FONT_HERSHEY_SIMPLEX,.7,255,2)
+        assert len(prune(word,20)) == 1
+
+
+def test_tight_strip_retains_one_equation_instead_of_projection_letter_slices(monkeypatch):
+    from app.api import generalized_pipeline as pipeline
+    from app.api.ocr import LineBox
+    from app.tutoring import rows
+
+    image = np.full((55,1329,3),245,np.uint8)
+    equation = LineBox(line_id='line_1',x=190,y=0,width=510,height=55,order=1)
+    monkeypatch.setattr(pipeline,'_run_single_profile',lambda *args:([equation],{},100,None,20))
+    monkeypatch.setattr(rows,'handwriting_rows',lambda *args:pytest.fail('A narrow strip has no page-level row spacing'))
+    lines,_ = pipeline.run_generalized_line_detection(image,force_redetect=True)
+    assert len(lines)==1
+    assert lines[0].y==0 and lines[0].height==55
+
+
+def test_projection_count_disagreement_does_not_inherit_confident_classical_score(monkeypatch):
+    from app.api import generalized_pipeline as pipeline
+    from app.api.ocr import LineBox
+    from app.tutoring import rows
+    from app.recognition import text_detector
+
+    image = np.full((400,800,3),245,np.uint8)
+    classical = LineBox(line_id='line_1',x=30,y=50,width=200,height=30,order=1)
+    monkeypatch.setattr(pipeline,'_run_single_profile',lambda *args:([classical],{'needs_review':False},100,None,20))
+    monkeypatch.setattr(rows,'handwriting_rows',lambda *args:[(30,50,230,80),(30,150,230,180)])
+    monkeypatch.setattr(text_detector,'detect_text_regions',lambda *args:[])
+    lines,diag = pipeline.run_generalized_line_detection(image,force_redetect=True)
+    assert len(lines)==2
+    assert diag['needs_review'] and diag['detector_count_disagreement']
+    assert not diag['geometry_verified']
+

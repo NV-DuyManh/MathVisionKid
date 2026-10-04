@@ -13,21 +13,27 @@ import { resolveResultRoute } from '../utils/resultRouting';
 import { pollSubmission } from '../utils/submissionPolling';
 
 export default function ProcessingScreen() {
-  const router = useRouter();
   const params = useLocalSearchParams<{ uri?: string; originalUri?: string; retrySubmissionId?: string; submissionId?: string }>();
+  const draft = recognitionDraftStore.getDraft();
+  const activeUri = draft?.uri || params.uri || '';
+  return <ProcessingRequest key={`${params.submissionId || params.retrySubmissionId || ''}:${activeUri}`} params={params} activeUri={activeUri} />;
+}
+
+function ProcessingRequest({ params, activeUri }: {
+  params: { uri?: string; originalUri?: string; retrySubmissionId?: string; submissionId?: string };
+  activeUri: string;
+}) {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const [hasSubmission, setHasSubmission] = useState(Boolean(params.submissionId));
   const controllerRef = useRef<AbortController | null>(null);
   const resumeId = useRef(params.submissionId || '');
-  const draft = recognitionDraftStore.getDraft();
-  const activeUri = draft?.uri || params.uri || '';
 
   useEffect(() => {
     const controller = new AbortController();
     controllerRef.current = controller;
-    setError(null);
-    setStep(0);
     const process = async () => {
       try {
         const currentDraft = recognitionDraftStore.getDraft();
@@ -44,6 +50,7 @@ export default function ProcessingScreen() {
           : await service.uploadImage(ensureFileUri(activeUri), controller.signal);
         if (controller.signal.aborted) return;
         resumeId.current = initial.id;
+        setHasSubmission(true);
         if (currentDraft?.mode === 'ARITHMETIC' && !params.submissionId) recognitionDraftStore.updateDraft({ arithmeticSubmissionId: initial.id });
         setStep(1);
         const scenarioHint = activeUri.includes('mock-earliest-error') ? 'mock-earliest-error' : activeUri.includes('mock-confirm') ? 'mock-confirm' : undefined;
@@ -59,13 +66,13 @@ export default function ProcessingScreen() {
     };
     void process();
     return () => controller.abort();
-  }, [params.uri, params.originalUri, params.retrySubmissionId, params.submissionId, attempt, router]);
+  }, [activeUri, params.originalUri, params.retrySubmissionId, params.submissionId, attempt, router]);
 
   const cancel = () => { controllerRef.current?.abort(); router.back(); };
   return <SafeAreaView style={styles.container}>
     {error ? <View style={styles.error}>
       <StatusCard status="warning" title="Chưa có kết quả" subtitle={error} />
-      <AppButton title={resumeId.current ? 'Xem lại kết quả' : 'Thử gửi lại'} onPress={() => setAttempt(value => value + 1)} />
+      <AppButton title={hasSubmission ? 'Xem lại kết quả' : 'Thử gửi lại'} onPress={() => { setError(null); setStep(0); setAttempt(value => value + 1); }} />
       <AppButton title="Về trang chủ" variant="secondary" onPress={() => { controllerRef.current?.abort(); router.replace('/(tabs)'); }} />
     </View> : <RecognitionProgress title={step === 0 ? 'Đang đọc bài toán' : 'Đang kiểm tra bài làm'}
       description={step === 0 ? 'Gửi và nhận dạng các chữ số trong ảnh.' : 'MathVision đang kiểm tra phép tính của em.'}

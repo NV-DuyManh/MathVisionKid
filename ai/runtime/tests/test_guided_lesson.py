@@ -100,7 +100,9 @@ async def test_cloud_plan_keeps_keys_private_and_validates_arithmetic(monkeypatc
     ])
     monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
     response = await start_lesson(LessonRequest(owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
-    assert '17' not in response.model_dump_json()
+    # Opaque random session IDs may contain these digits without revealing an
+    # answer. Check every learning-content field, including completed steps.
+    assert '17' not in response.model_dump_json(exclude={'sessionId'})
     response = turn(response, 'Cộng')
     assert turn(response, '17').status == 'COMPLETE'
     plan['steps'][1]['question'] = 'Kết quả là 17 bút, đúng không?'
@@ -125,3 +127,19 @@ async def test_missing_or_uncertain_original_problem_cannot_start_lesson():
         LessonRequest(owner='student-a', problemText='', workText=WORK)
     with pytest.raises(ValueError):
         await start_lesson(LessonRequest(owner='student-a', problemText=PROBLEM.replace('90', '[?]')))
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('field,value', [('unit', '17 bút'), ('title', 'Bước {s1}'), ('topic', 'groq'), ('goal', 'Xem http://localhost:8000')])
+async def test_every_generated_public_field_is_checked_before_lesson_is_opened(monkeypatch, field, value):
+    plan = dict(topic='Thêm bút', goal='Hiểu việc được cho thêm.', steps=[
+        dict(title='Hiểu đề', explanation='Số bút tăng khi được cho thêm.', question='Em chọn cách nào?', choices=['Gộp', 'Bớt'], correctChoice='Gộp'),
+        dict(title='Tính', explanation='Gộp số bút ban đầu với số bút được thêm.', question='Có tất cả bao nhiêu bút?', expression='12+5', unit='bút'),
+    ])
+    if field in ['topic', 'goal']:
+        plan[field] = value
+    else:
+        plan['steps'][1][field] = value
+    monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
+    with pytest.raises(TutorUnavailable):
+        await start_lesson(LessonRequest(owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))

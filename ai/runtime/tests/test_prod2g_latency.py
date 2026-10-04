@@ -411,12 +411,22 @@ def test_prod2g_14_provider_status_unprobed_before_live_success():
 # ---------------------------------------------------------------------------
 # Test 15: Diagnostics contain lineAdvisorTimings decomposition
 # ---------------------------------------------------------------------------
-def test_prod2g_15_detect_lines_endpoint_contains_line_advisor_timings():
+def test_prod2g_15_detect_lines_endpoint_contains_line_advisor_timings(monkeypatch):
     from fastapi.testclient import TestClient
     from app.main import app
     from app.integrations.groq.corrector import GroqOcrCorrectionResponse
 
     client = TestClient(app)
+    from app.ocr.crnn_provider import CrnnOcrProvider
+    # Trigger exactly three advisors independently of current OCR model quality.
+    def batch(self, crops, batch_size=8):
+        return [(f"Dòng {i+1}", {"rawCrnnConfidence": .5 if i < 3 else .98,
+            "minTokenConfidence": .5 if i < 3 else .95,
+            "p10TokenConfidence": .5 if i < 3 else .96, "meanEntropy": .1,
+            "tokenAnomalyDetected": False, "decoderAnomalyDetected": False})
+            for i in range(len(crops))]
+    monkeypatch.setattr(CrnnOcrProvider, "recognize_batch_with_uncertainty", batch)
+    monkeypatch.setattr("app.api.ocr.should_use_groq_line_analyzer", lambda *args: False)
     assert FIXTURE_8_LINES.is_file()
     with open(str(FIXTURE_8_LINES), "rb") as f:
         img_bytes = f.read()

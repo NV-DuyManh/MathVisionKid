@@ -13,13 +13,18 @@ import { SubmissionResult } from '../../types';
 import { getUncertainTokens, resolveResultRoute } from '../../utils/resultRouting';
 
 export default function TokenConfirmationScreen() {
-  const router = useRouter();
   const { id, submissionId } = useLocalSearchParams<{ id?: string; submissionId?: string }>();
   const currentId = submissionId || id;
+  return <TokenConfirmationRequest key={currentId || ''} currentId={currentId} />;
+}
+
+function TokenConfirmationRequest({ currentId }: { currentId?: string }) {
+  const router = useRouter();
+  const validId = Boolean(currentId && !currentId.startsWith('trial_'));
   const [result, setResult] = useState<SubmissionResult | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
+  const [loading, setLoading] = useState(validId);
+  const [failed, setFailed] = useState(!validId);
   const [reload, setReload] = useState(0);
   const controller = useRef<AbortController | null>(null);
   const draft = recognitionDraftStore.getDraft();
@@ -30,12 +35,9 @@ export default function TokenConfirmationScreen() {
   const validBox = box?.length === 4 && box.every(number => Number.isFinite(number) && number >= 0 && number <= 1) && box[2] > 0 && box[3] > 0 && box[0] + box[2] <= 1.001 && box[1] + box[3] <= 1.001;
 
   useEffect(() => {
+    if (!currentId || !validId) return;
     const request = new AbortController();
     controller.current = request;
-    setLoading(true);
-    setFailed(false);
-    setResult(null);
-    if (!currentId || currentId.startsWith('trial_')) { setLoading(false); setFailed(true); return () => request.abort(); }
     getSubmissionService().getSubmission(currentId, undefined, request.signal).then(current => {
       if (request.signal.aborted) return;
       const target = resolveResultRoute(current);
@@ -44,9 +46,15 @@ export default function TokenConfirmationScreen() {
     }).catch(() => { if (!request.signal.aborted) setFailed(true); })
       .finally(() => { if (!request.signal.aborted) setLoading(false); });
     return () => { request.abort(); controller.current?.abort(); };
-  }, [currentId, reload, router]);
+  }, [currentId, validId, reload, router]);
 
   const cancel = () => { controller.current?.abort(); router.back(); };
+  const reopen = () => {
+    if (!validId) return;
+    controller.current?.abort();
+    setLoading(true); setFailed(false); setResult(null); setSelectedId(null);
+    setReload(value => value + 1);
+  };
   const handleConfirm = async (newClass: string) => {
     if (loading || !currentId || !result?.jobId || !selected?.tokenId || !/^[0-9+-]$/.test(newClass)) return;
     const request = new AbortController();
@@ -61,7 +69,7 @@ export default function TokenConfirmationScreen() {
     } catch (error: any) {
       if (request.signal.aborted) return;
       if (error?.response?.status === 409) {
-        Alert.alert('Bài đã có kết quả mới', 'Em hãy mở lại các ký hiệu cần xác nhận nhé.', [{ text: 'Mở lại', onPress: () => setReload(value => value + 1) }]);
+        Alert.alert('Bài đã có kết quả mới', 'Em hãy mở lại các ký hiệu cần xác nhận nhé.', [{ text: 'Mở lại', onPress: reopen }]);
       } else Alert.alert('Chưa thể xác nhận', 'Chưa cập nhật được ký hiệu này. Em hãy thử lại nhé.');
     } finally { if (!request.signal.aborted) setLoading(false); }
   };
@@ -85,7 +93,7 @@ export default function TokenConfirmationScreen() {
           <TokenConfirmationCard key={selected.tokenId} initialToken={selected.value} onConfirm={handleConfirm} />
         </> : <>
           <StatusCard status="warning" title="Chưa có ký hiệu để xác nhận" subtitle={failed ? 'Chưa lấy được bài làm. Em hãy thử mở lại nhé.' : 'Bài làm chưa đủ dữ liệu để xác nhận ký hiệu. Em hãy chụp lại ảnh rõ hơn nhé.'} />
-          <AppButton title="Mở lại bài làm" onPress={() => setReload(value => value + 1)} />
+          <AppButton title="Mở lại bài làm" onPress={reopen} />
           <AppButton title="Về trang chủ" variant="secondary" onPress={() => router.replace('/(tabs)')} />
         </>}
       </ScrollView>}

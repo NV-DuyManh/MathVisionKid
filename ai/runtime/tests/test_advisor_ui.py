@@ -8,7 +8,7 @@ from app.schemas.ocr import LineBox
 
 
 UI_FILE_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+    os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
 )
 
 
@@ -52,7 +52,7 @@ def test_advisorui_01_title_is_goi_y_1():
 def test_advisorui_02_groq_badge_removed_from_student_ui():
     """ADVISORUI-02: Per PROD.3B, Groq provider badge is removed from student-facing UI."""
     src = _read_ui_source()
-    assert "providerChipGroq" in src
+    assert "Gợi ý 1" in src
     assert "<Text style={styles.providerChipGroqText}>Groq</Text>" not in src
 
 
@@ -66,7 +66,7 @@ def test_advisorui_03_title_is_goi_y_2():
 def test_advisorui_04_gemini_badge_removed_from_student_ui():
     """ADVISORUI-04: Per PROD.3B, Gemini provider badge is removed from student-facing UI."""
     src = _read_ui_source()
-    assert "providerChipGemini" in src
+    assert "Gợi ý 2" in src
     assert "<Text style={styles.providerChipGeminiText}>Gemini</Text>" not in src
 
 

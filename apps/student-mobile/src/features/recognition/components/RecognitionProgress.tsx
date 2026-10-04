@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AccessibilityInfo, Animated, Easing, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +9,7 @@ const MASCOT = require('../../../../assets/illustrations/mathvision-star.png');
 
 // This service reports stages, not a completion percentage. Animate activity only.
 export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại' }: Props) {
-  const motion = useRef(new Animated.Value(0)).current;
+  const [motion] = useState(() => new Animated.Value(0));
   const [width, setWidth] = useState(240);
   const [reduceMotion, setReduceMotion] = useState(true);
   const { height } = useWindowDimensions();

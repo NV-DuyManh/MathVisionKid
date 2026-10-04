@@ -127,19 +127,21 @@ def suppress_notebook_rulings(binary_mask: np.ndarray, width: int, height: int, 
         else:
             is_ruling = rh <= max_ruling_h and (aspect >= 10.0 and rw >= max(50, int(width * 0.25)))
         if is_ruling:
-            ruling_mask[labels == i] = 255
+            # Closing connects letter gaps as well as dashed rules. A rule must
+            # already contain mostly ink; synthetic bridges are not evidence.
+            component = labels == i
+            support = np.count_nonzero(binary_mask[component]) / stats[i, cv2.CC_STAT_AREA]
+            # Sparse dashed rules have gaps but stay uniformly thin. Letter
+            # bodies are taller even when their baselines have been bridged.
+            if support >= 0.70 or rh <= max(3, max_ruling_h // 3):
+                ruling_mask[component] = 255
             
     # 4. Check for crossing strokes: preserve ruling pixels where handwriting crosses
     crossing_mask = np.zeros_like(binary_mask)
     for i in range(1, num_labels):
         rw, rh = stats[i, cv2.CC_STAT_WIDTH], stats[i, cv2.CC_STAT_HEIGHT]
         rx, ry = stats[i, cv2.CC_STAT_LEFT], stats[i, cv2.CC_STAT_TOP]
-        aspect = rw / max(1, rh)
-        if profile == "PROFILE_B" or has_page_rulings:
-            is_ruling = rh <= max_ruling_h and (aspect >= 8.0 or rw >= width * 0.15)
-        else:
-            is_ruling = rh <= max_ruling_h and (aspect >= 10.0 and rw >= max(50, int(width * 0.25)))
-        if is_ruling:
+        if np.any(ruling_mask[labels == i]):
             above_y1, above_y2 = max(0, ry - 6), ry
             below_y1, below_y2 = ry + rh, min(height, ry + rh + 6)
             

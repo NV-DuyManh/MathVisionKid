@@ -1,4 +1,5 @@
-export const MIN_CROP_SIZE = 60;
+export const MIN_CROP_SIZE = 8;
+export type CropHandle = 'tl' | 'tr' | 'bl' | 'br' | 'top' | 'right' | 'bottom' | 'left';
 
 export interface Rect {
   x: number;
@@ -24,72 +25,46 @@ export function calculateDrag(
   return { x: newX, y: newY, w: box.w, h: box.h };
 }
 
-export function calculateResizeTL(
-  changeX: number, changeY: number,
-  box: Rect, bounds: Bounds
-): Rect {
+function resizeSpan(moving: number, anchor: number, min: number, max: number) {
   'worklet';
-  const rightAnchor = box.x + box.w;
-  const bottomAnchor = box.y + box.h;
-
-  let newX = box.x + changeX;
-  let newY = box.y + changeY;
-
-  newX = Math.max(bounds.minX, Math.min(newX, rightAnchor - MIN_CROP_SIZE));
-  newY = Math.max(bounds.minY, Math.min(newY, bottomAnchor - MIN_CROP_SIZE));
-
-  return { x: newX, y: newY, w: rightAnchor - newX, h: bottomAnchor - newY };
+  moving = Math.max(min, Math.min(max, moving));
+  const size = Math.max(Math.min(MIN_CROP_SIZE, max - min), Math.abs(moving - anchor));
+  // A small centered span bridges the crossing without an abrupt jump or zero-sized crop.
+  const position = Math.max(min, Math.min(max - size, (moving + anchor - size) / 2));
+  return { position, size };
 }
 
-export function calculateResizeTR(
-  changeX: number, changeY: number,
-  box: Rect, bounds: Bounds
-): Rect {
+/** Keep the opposite anchor fixed for the whole gesture; crossing it changes sides. */
+export function calculateResize(handle: CropHandle, changeX: number, changeY: number, box: Rect, bounds: Bounds): Rect {
   'worklet';
-  const leftAnchor = box.x;
-  const bottomAnchor = box.y + box.h;
-
-  let newRight = (box.x + box.w) + changeX;
-  let newY = box.y + changeY;
-
-  newRight = Math.min(bounds.maxX, Math.max(newRight, leftAnchor + MIN_CROP_SIZE));
-  newY = Math.max(bounds.minY, Math.min(newY, bottomAnchor - MIN_CROP_SIZE));
-
-  return { x: leftAnchor, y: newY, w: newRight - leftAnchor, h: bottomAnchor - newY };
+  const left = handle === 'left' || handle === 'tl' || handle === 'bl';
+  const right = handle === 'right' || handle === 'tr' || handle === 'br';
+  const top = handle === 'top' || handle === 'tl' || handle === 'tr';
+  const bottom = handle === 'bottom' || handle === 'bl' || handle === 'br';
+  const horizontal = left || right ? resizeSpan((left ? box.x : box.x + box.w) + changeX, left ? box.x + box.w : box.x, bounds.minX, bounds.maxX) : { position: box.x, size: box.w };
+  const vertical = top || bottom ? resizeSpan((top ? box.y : box.y + box.h) + changeY, top ? box.y + box.h : box.y, bounds.minY, bounds.maxY) : { position: box.y, size: box.h };
+  return { x: horizontal.position, y: vertical.position, w: horizontal.size, h: vertical.size };
 }
 
-export function calculateResizeBL(
-  changeX: number, changeY: number,
-  box: Rect, bounds: Bounds
-): Rect {
+export function cropHandlePoint(handle: CropHandle, box: Rect) {
   'worklet';
-  const rightAnchor = box.x + box.w;
-  const topAnchor = box.y;
-
-  let newX = box.x + changeX;
-  let newBottom = (box.y + box.h) + changeY;
-
-  newX = Math.max(bounds.minX, Math.min(newX, rightAnchor - MIN_CROP_SIZE));
-  newBottom = Math.min(bounds.maxY, Math.max(newBottom, topAnchor + MIN_CROP_SIZE));
-
-  return { x: newX, y: topAnchor, w: rightAnchor - newX, h: newBottom - topAnchor };
+  return {
+    x: box.x + (handle === 'left' || handle === 'tl' || handle === 'bl' ? 0 : handle === 'right' || handle === 'tr' || handle === 'br' ? box.w : box.w / 2),
+    y: box.y + (handle === 'top' || handle === 'tl' || handle === 'tr' ? 0 : handle === 'bottom' || handle === 'bl' || handle === 'br' ? box.h : box.h / 2),
+  };
 }
 
-export function calculateResizeBR(
-  changeX: number, changeY: number,
-  box: Rect, bounds: Bounds
-): Rect {
+/** Disambiguate overlapping 48px touch targets when the crop becomes very thin. */
+export function closestCropHandle(x: number, y: number, box: Rect): CropHandle {
   'worklet';
-  const leftAnchor = box.x;
-  const topAnchor = box.y;
-
-  let newRight = (box.x + box.w) + changeX;
-  let newBottom = (box.y + box.h) + changeY;
-
-  newRight = Math.min(bounds.maxX, Math.max(newRight, leftAnchor + MIN_CROP_SIZE));
-  newBottom = Math.min(bounds.maxY, Math.max(newBottom, topAnchor + MIN_CROP_SIZE));
-
-  return { x: leftAnchor, y: topAnchor, w: newRight - leftAnchor, h: newBottom - topAnchor };
+  const handles: CropHandle[] = ['top', 'right', 'bottom', 'left', 'tl', 'tr', 'bl', 'br'];
+  let closest: CropHandle = 'top', distance = Infinity;
+  for (const handle of handles) {
+    const point = cropHandlePoint(handle, box);
+    const candidate = (point.x - x) ** 2 + (point.y - y) ** 2;
+    if (candidate < distance) { closest = handle; distance = candidate; }
+  }
+  return closest;
 }
 
 export function displayRectToSourceRect(

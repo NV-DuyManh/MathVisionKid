@@ -92,7 +92,7 @@ def test_prod2f_05_mobile_union_type_canonical():
     """PROD2F-05: Mobile TypeScript contract declares and uses canonical AdvisorDecision union."""
     root_dir = Path(__file__).resolve().parent.parent.parent.parent
     mobile_dir = root_dir / "apps" / "student-mobile" if (root_dir / "apps" / "student-mobile").exists() else root_dir
-    service_ts = mobile_dir / "src" / "services" / "api" / "OcrPilotService.ts"
+    service_ts = mobile_dir / "src" / "features" / "recognition" / "api" / "RecognitionService.ts"
     assert service_ts.is_file()
     src = service_ts.read_text(encoding="utf-8")
 

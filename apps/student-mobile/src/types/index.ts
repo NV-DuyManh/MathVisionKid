@@ -114,7 +114,7 @@ export interface SubmissionResult {
   diagnostics?: RecognitionAttemptDiagnostics;
   flowDomain?: FlowDomain;
   uncertainTokenIds?: string[];
-  evidence?: { items?: Array<{ evidenceId?: string; columnIndex?: number; description?: string }> };
+  evidence?: { items?: { evidenceId?: string; columnIndex?: number; description?: string }[] };
   modelVersion?: string;
   createdAt?: string;
 }

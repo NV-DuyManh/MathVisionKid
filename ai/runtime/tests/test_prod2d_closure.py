@@ -57,6 +57,37 @@ def _dummy_crop() -> np.ndarray:
     return np.zeros((20, 100, 3), dtype=np.uint8)
 
 
+@pytest.fixture
+def uncertain_ocr_line(monkeypatch):
+    """Exercise metadata policy with explicit OCR ambiguity, not model mistakes.
+
+    This is controlled endpoint evidence, not physical OCR accuracy evidence.
+    """
+    from app.ocr.crnn_provider import CrnnOcrProvider
+    from app.integrations.groq.corrector import GroqOcrCorrectionResponse
+
+    def batch(self, crops, batch_size=8):
+        return [("Mọc trên đổi quề" if i == 2 else f"Dòng {i+1}", {
+            "rawCrnnConfidence": .75 if i == 2 else .98,
+            "minTokenConfidence": .30 if i == 2 else .95,
+            "p10TokenConfidence": .40 if i == 2 else .96,
+            "meanEntropy": .25, "tokenAnomalyDetected": i == 2,
+            "decoderAnomalyDetected": i == 2,
+        }) for i in range(len(crops))]
+
+    correction = GroqOcrCorrectionResponse(provider="GROQ", raw_text="Mọc trên đổi quề",
+        suggested_text="Mọc trên đồi quê", correction_needed=True, confidence=.95,
+        visual_support="STRONG", changes=[], uncertain=False)
+    monkeypatch.setattr(CrnnOcrProvider, "recognize_batch_with_uncertainty", batch)
+    monkeypatch.setattr("app.integrations.groq.corrector.request_groq_correction",
+                        AsyncMock(return_value=(correction, "AUTO_APPLY", .1, "spelling_fix")))
+    monkeypatch.setattr("app.integrations.gemini.corrector.request_gemini_correction", AsyncMock(return_value=None))
+    monkeypatch.setattr("app.api.ocr.should_use_groq_line_analyzer", lambda *args: False)
+    monkeypatch.setattr(settings, "groq_enabled", True)
+    monkeypatch.setattr(settings, "groq_post_correction_enabled", True)
+    monkeypatch.setattr(settings, "gemini_enabled", False)
+
+
 # ==============================================================================
 # LIVEKEY SUITE (LIVEKEY-01 .. LIVEKEY-06)
 # ==============================================================================
@@ -217,7 +248,7 @@ async def test_livekey_06_400_does_not_sweep_key_pool():
 # AUTOLOCK SUITE (AUTOLOCK-01 .. AUTOLOCK-05)
 # ==============================================================================
 
-def test_autolock_01_auto_apply_metadata_cannot_silently_overwrite_final_text():
+def test_autolock_01_auto_apply_metadata_cannot_silently_overwrite_final_text(uncertain_ocr_line):
     """AUTOLOCK-01: AUTO_APPLY decision metadata does not silently overwrite finalText."""
     with open(FIXTURE_8_LINES, "rb") as f:
         img_bytes = f.read()
@@ -355,7 +386,7 @@ def test_phys8_02_top_to_bottom_ordering():
         assert lines[i]["y"] < lines[i + 1]["y"], f"Line {i+1} y={lines[i]['y']} not < Line {i+2} y={lines[i+1]['y']}"
 
 
-def test_phys8_03_line_3_uncertainty_metrics_preserved():
+def test_phys8_03_line_3_uncertainty_metrics_preserved(uncertain_ocr_line):
     """PHYS8-03: Line 3 uncertainty metrics and anomaly signals preserved."""
     with open(FIXTURE_8_LINES, "rb") as f:
         img_bytes = f.read()
@@ -377,7 +408,7 @@ def test_phys8_03_line_3_uncertainty_metrics_preserved():
     assert line3["p10TokenConfidence"] is not None
 
 
-def test_phys8_04_groq_trigger_reason_visible_internally():
+def test_phys8_04_groq_trigger_reason_visible_internally(uncertain_ocr_line):
     """PHYS8-04: Internal telemetry exposes missing-metrics and anomaly counters."""
     with open(FIXTURE_8_LINES, "rb") as f:
         img_bytes = f.read()

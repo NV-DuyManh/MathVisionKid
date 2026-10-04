@@ -198,7 +198,7 @@ def filter_and_merge_residual_false_lines(
     2. Drops thin top/bottom edge noise strips and ruler fragments without character bodies.
     3. Preserves legitimate short rows (such as single words or exercise numbers).
     """
-    if not boxes or len(boxes) <= 1:
+    if not boxes:
         return boxes
 
     # 1. Sort top-to-bottom
@@ -253,6 +253,17 @@ def filter_and_merge_residual_false_lines(
             "near_boundary": near_top or near_bottom,
             "dropped": False
         })
+
+    if len(boxes) == 1:
+        # Relative row/diacritic rules below need neighbouring rows. The existing
+        # sparse-container check still applies to an isolated page-edge strip.
+        p = box_props[0]
+        bw = p["box"][2]
+        if (p["near_boundary"] and bw > max(150, int(eff_median_h * 3.0))
+                and p["comp_count"] / max(1.0, bw / 100.0) < 2.0
+                and p["fill_ratio"] < 0.05):
+            return []
+        return boxes
         
     # Pass 0: Deduplicate / absorb nested boxes (one inside another)
     for i in range(len(box_props)):
@@ -599,7 +610,9 @@ def _run_single_profile(bgr_image: np.ndarray, height: int, width: int, max_line
     needs_review = False
     if ink_coverage < 0.20 or (len(global_bands) > 0 and len(line_results) > len(global_bands) * 2):
         needs_review = True
-    if ink_coverage < 0.7:
+    # Match the structural-quality coverage floor. Nearly a fifth of unexplained
+    # ink is still ambiguous, even when a noisy projection has plausible bands.
+    if ink_coverage < 0.8:
         needs_review = True
     if len(ambiguous) + len(noise) > max(20, len(primary) * 3):
         needs_review = True
@@ -669,7 +682,14 @@ def run_generalized_line_detection(
             "final_box_count": 0
         }
 
-    img_hash = hashlib.sha256(bgr_image.tobytes()).hexdigest()
+    from app.recognition.text_detector import MODEL_PATH, detect_text_regions
+    try:
+        artifact_stamp = str(MODEL_PATH.stat().st_mtime_ns)
+    except OSError:
+        artifact_stamp = "absent"
+    # The limit and optional artifact are part of the result, not just pixels.
+    img_hash = hashlib.sha256(bgr_image.tobytes() +
+                              f"{bgr_image.shape}:text-regions-v3:{max_lines}:{artifact_stamp}".encode()).hexdigest()
 
     if not force_redetect and img_hash in _DETECTION_RUN_CACHE:
         cached = _DETECTION_RUN_CACHE[img_hash]
@@ -717,6 +737,26 @@ def run_generalized_line_detection(
     # input silently changes that coordinate system and misaligns every crop.
     height, width = bgr_image.shape[:2]
 
+    # Full notebook photographs benefit from the learned text evidence before
+    # threshold profiles mistake a dark desk/page boundary for handwriting.
+    # Keep established projection geometry for short landscape exercise crops.
+    if height > width * 1.15:
+        regions = detect_text_regions(bgr_image)
+        if regions:
+            lines = [LineBox(line_id=f"line_{i+1}", x=x1,y=y1,width=x2-x1,
+                             height=y2-y1,order=i+1)
+                     for i,(x1,y1,x2,y2) in enumerate(regions[:max_lines])]
+            diag = {"detector_version":"local-text-regions-v1-20261004",
+                    "selected_profile":"PPOCR_TEXT_REGIONS", "needs_review":True,
+                    "geometry_verified":False, "detected_region_count":len(regions),
+                    "region_limit_exceeded":len(regions)>max_lines,
+                    "final_box_count":len(lines), "cacheHit":False,
+                    "forceRedetect":force_redetect,"detectionRunId":current_run_id,
+                    "requestId":request_id or str(uuid.uuid4())}
+            _DETECTION_RUN_CACHE[img_hash] = {"lines":lines,"diag":diag,"score":0.0,
+                                             "run_id":current_run_id,"requestId":request_id}
+            return lines,diag
+
     # 1. Run Default Profile (PROFILE_A)
     best_lines, best_diag, best_score, best_mask, best_median_h = _run_single_profile(bgr_image, height, width, max_lines, "PROFILE_A")
     best_profile = "PROFILE_A"
@@ -736,46 +776,72 @@ def run_generalized_line_detection(
                 best_median_h = f_median_h
                 best_profile = fallback_profile
 
-    from app.tutoring.rows import handwriting_rows
-    physical_rows = handwriting_rows(bgr_image, max_lines)
+    from app.tutoring.rows import handwriting_rows, short_row_candidates
+    # A clipped line strip has no page-level row spacing; projection peaks can
+    # be individual parts of its letters. Keep the established strip detector.
+    tight_strip = width >= height*8 and height <= 128
+    physical_rows = [] if tight_strip else handwriting_rows(bgr_image, max_lines)
+    if physical_rows and len(physical_rows) < max_lines:
+        recovered = short_row_candidates(bgr_image, physical_rows,
+                                         detect_text_regions(bgr_image) or [])
+        if recovered:
+            available = max_lines-len(physical_rows)
+            physical_rows = sorted(physical_rows + recovered[:available],
+                                   key=lambda box: (box[1]+box[3])/2)
+            best_diag.update(needs_review=True, geometry_verified=False,
+                             short_rows_recovered=min(len(recovered), available),
+                             region_limit_exceeded=len(recovered) > available)
     projection_lines = [LineBox(line_id=f"line_{i+1}", x=x1, y=y1, width=x2-x1, height=y2-y1, order=i+1)
                         for i, (x1, y1, x2, y2) in enumerate(physical_rows)]
     if projection_lines:
+        if len(projection_lines) != len(best_lines):
+            best_diag.update(needs_review=True, geometry_verified=False,
+                             detector_count_disagreement=True)
         best_lines = projection_lines
         best_diag["chromatic_projection_used"] = True
         best_diag["chromatic_projection_count"] = len(projection_lines)
 
-    # 4. Final Formatting (Midpoint-Bounded Safe Padding)
+    # Empty landscape results can still contain legible writing, including
+    # narrow strips and column layouts. Blank context also supports <32px crops.
+    # Preserve every existing nonempty classical/handwriting result.
+    if not best_lines and min(width,height) >= 8:
+        from app.recognition.text_detector import detect_crop_regions
+        regions=detect_crop_regions(bgr_image) or []
+        if regions:
+            best_lines=[LineBox(line_id=f"line_{i+1}",x=x1,y=y1,width=x2-x1,
+                                height=y2-y1,order=i+1)
+                        for i,(x1,y1,x2,y2) in enumerate(regions[:max_lines])]
+            tight_strip = width >= height*8 and height <= 128
+            best_profile="PPOCR_CROP_FALLBACK" if tight_strip else "PPOCR_EMPTY_FALLBACK"
+            best_score=0.0
+            best_diag.update(needs_review=True,geometry_verified=False,
+                             detected_region_count=len(regions),
+                             region_limit_exceeded=len(regions)>max_lines,
+                             source_text_may_be_clipped=min(width,height)<=128)
+
+    # 4. Padding may add whitespace, never remove detected expression ink.
     # Sort strictly by vertical center of mass (centerY) to guarantee correct reading order
     sorted_candidates = sorted(best_lines, key=lambda b: (b.y + b.height / 2.0))
     
     padded_boxes = []
-    for idx, b in enumerate(sorted_candidates):
-        curr_cy = b.y + b.height / 2.0
+    for b in sorted_candidates:
         pad_x = max(5, int(b.width * 0.02))
         pad_y = max(4, int(b.height * 0.08))
         
-        # Upper midpoint bound
-        if idx > 0:
-            prev_cy = sorted_candidates[idx - 1].y + sorted_candidates[idx - 1].height / 2.0
-            mid_prev = (prev_cy + curr_cy) / 2.0
-            safe_top = max(0, int(mid_prev - 6))
-            yp = max(safe_top, b.y - pad_y)
-        else:
-            yp = max(0, b.y - pad_y)
-            
-        # Lower midpoint bound
-        if idx < len(sorted_candidates) - 1:
-            next_cy = sorted_candidates[idx + 1].y + sorted_candidates[idx + 1].height / 2.0
-            mid_next = (curr_cy + next_cy) / 2.0
-            safe_bottom = min(height, int(mid_next + 6))
-            btm_p = min(safe_bottom, b.y + b.height + pad_y)
-        else:
-            btm_p = min(height, b.y + b.height + pad_y)
-            
+        # A neighbouring column must not cut a fraction in half. Bound padding
+        # only by whitespace between non-overlapping boxes in this column.
+        # ponytail: quadratic scan over the bounded line list; no spatial index.
+        neighbours = [other for other in sorted_candidates if other is not b
+                      and max(b.x, other.x) < min(b.x + b.width, other.x + other.width)]
+        above = [other.y + other.height for other in neighbours if other.y + other.height <= b.y]
+        below = [other.y for other in neighbours if other.y >= b.y + b.height]
+        safe_top = (max(above) + b.y) // 2 if above else 0
+        safe_bottom = (b.y + b.height + min(below)) // 2 if below else height
+        yp = max(0, safe_top, b.y - pad_y)
+        btm_p = min(height, safe_bottom, b.y + b.height + pad_y)
         xp = max(0, b.x - pad_x)
-        wp = min(width - xp, b.width + 2 * pad_x)
-        hp = max(10, btm_p - yp)
+        wp = min(width, b.x + b.width + pad_x) - xp
+        hp = btm_p - yp
         padded_boxes.append((xp, yp, wp, hp))
 
     padded_boxes.sort(key=lambda b: (b[1] + b[3] / 2.0))

@@ -24,7 +24,7 @@ from app.schemas.ocr import LineBox
 def test_source_01_ui_raw_ocr_source_is_raw_ocr_text():
     """SOURCE-01: UI raw OCR source is displayed from resolveLineDisplayState.ocrText
     (Refactored PROD.3B/3F: component now uses resolveLineDisplayState() instead of direct line.rawOcrText access)"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     # Verifies raw OCR text is sourced via resolveLineDisplayState() and displayed in Section A
@@ -41,7 +41,7 @@ def test_source_01_ui_raw_ocr_source_is_raw_ocr_text():
 def test_source_02_ui_suggestion_source_is_ai_suggestions():
     """SOURCE-02: UI AI suggestions are rendered from resolveLineDisplayState.aiSuggestions
     (Refactored PROD.3B/3F: component uses aiSuggestions from resolveLineDisplayState, not direct line.correctedText)"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     # Verifies AI suggestions are rendered via aiSuggestions from resolveLineDisplayState
@@ -52,7 +52,7 @@ def test_source_02_ui_suggestion_source_is_ai_suggestions():
 
 def test_source_03_ui_current_final_source_is_final_text():
     """SOURCE-03: UI current final source is line.finalText / current effective final state"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "KẾT QUẢ HIỆN TẠI" in content
@@ -72,7 +72,7 @@ def test_source_04_raw_and_final_separately_visible_when_differ():
     assert box.finalText == "em đẹp gái"
 
     # UI renders sectionABox (raw) and sectionCBox (final) as distinct components
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "styles.sectionABox" in content
@@ -428,7 +428,7 @@ async def test_nav_10_successful_request_navigates_exactly_once():
 
 def test_ui_01_visible_dev_diagnostic_card_removed():
     """UI-01: Visible DEV diagnostic card removed from JSX"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "devPanelCard" not in content
@@ -436,7 +436,7 @@ def test_ui_01_visible_dev_diagnostic_card_removed():
 
 def test_ui_02_dev_diagnostic_string_absent():
     """UI-02: String 'Bảng chẩn đoán kỹ thuật (DEV)' absent from rendered result screen"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "Bảng chẩn đoán kỹ thuật (DEV)" not in content
@@ -444,7 +444,7 @@ def test_ui_02_dev_diagnostic_string_absent():
 def test_ui_03_every_line_shows_ocr_goc_from_resolve_state():
     """UI-03: Every line shows 'OCR gốc' section from resolveLineDisplayState.ocrText
     (Refactored PROD.3B/3F: uses ocrText from resolveLineDisplayState, not direct rawOcrText access)"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "OCR gốc" in content, "Must label raw OCR section as 'OCR gốc'"
@@ -455,7 +455,7 @@ def test_ui_03_every_line_shows_ocr_goc_from_resolve_state():
 def test_ui_04_suggestion_section_appears_when_ai_suggestions_exist():
     """UI-04: Suggestion section appears when aiSuggestions exist
     (Refactored PROD.3B/3F: uses aiSuggestions from resolveLineDisplayState, not line.correctedText guard)"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     # Verifies suggestion section is rendered from aiSuggestions array
@@ -465,7 +465,7 @@ def test_ui_04_suggestion_section_appears_when_ai_suggestions_exist():
 def test_ui_05_no_suggestion_section_when_ai_suggestions_empty():
     """UI-05: No suggestion cards rendered when aiSuggestions is empty
     (Refactored PROD.3B/3F: guard condition uses aiSuggestions.length === 0 instead of line.correctedText)"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     # Guard condition: when aiSuggestions is empty, fallback to AI_CONFIRMED notice or outage notice
@@ -473,7 +473,7 @@ def test_ui_05_no_suggestion_section_when_ai_suggestions_empty():
 
 def test_ui_06_auto_apply_transparently_shows_all_three():
     """UI-06: AUTO_APPLY transparently shows raw CRNN, Groq suggestion, and current final text"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "autoApplyBadge" in content
@@ -542,7 +542,7 @@ def test_ui_09_top_merged_text_recomputes_after_actions():
 
 def test_ui_10_cards_layout_responsive_no_clipping():
     """UI-10: Cards remain readable at normal Android widths; no overlap/clipping/horizontal overflow"""
-    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx"))
+    result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "flex: 1" in content
@@ -586,12 +586,12 @@ def test_dto_03_spring_response_maps_all_seven_fields():
         assert req in content, f"Missing {req} in MultilineLineResponse.java"
 
 def test_dto_04_mobile_service_interface_has_all_seven_fields():
-    """DTO-04: Mobile OcrPilotService.ts MultilineLineResult interface defines all 7 fields"""
-    service_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/services/api/OcrPilotService.ts"))
+    """DTO-04: Mobile RecognitionService.ts MultilineLineResult interface defines all 7 fields"""
+    service_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/features/recognition/api/RecognitionService.ts"))
     with open(service_path, "r", encoding="utf-8") as f:
         content = f.read()
     for req in [
         "rawOcrText", "rawOcrConfidence", "correctedText",
         "correctionConfidence", "correctionApplied", "correctionDecision", "finalText"
     ]:
-        assert req in content, f"Missing {req} in OcrPilotService.ts"
+        assert req in content, f"Missing {req} in RecognitionService.ts"

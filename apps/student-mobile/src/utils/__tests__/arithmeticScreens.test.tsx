@@ -72,6 +72,70 @@ test('cancellation aborts HTTP and suppresses navigation from a late upload resp
   expect(mockRouter.replace).not.toHaveBeenCalled();
 });
 
+test('switching the processing image aborts the old upload and ignores its late result', async () => {
+  let finishFirst!: (value: typeof valid) => void;
+  mockService.uploadImage.mockImplementationOnce(() => new Promise(resolve => { finishFirst = resolve; }))
+    .mockImplementationOnce(() => new Promise(() => {}));
+  await mount(ProcessingScreen);
+  const firstSignal = mockService.uploadImage.mock.calls[0][1];
+  recognitionDraftStore.updateDraft({ uri: 'file:///second-masked-crop.jpg' });
+  await act(async () => renderer!.update(<ProcessingScreen />));
+  expect(firstSignal.aborted).toBe(true);
+  expect(mockService.uploadImage).toHaveBeenLastCalledWith('file:///second-masked-crop.jpg', expect.anything());
+  await act(async () => finishFirst(valid));
+  expect(mockRouter.replace).not.toHaveBeenCalled();
+});
+
+test('changing a result link hides the previous grade while the new submission loads', async () => {
+  mockParams = { submissionId: 'first-submission' };
+  mockService.getSubmission.mockResolvedValue({ ...valid, id: 'first-submission', studentFeedback: { title: 'Kết quả của bài đầu tiên' } });
+  await mount(CorrectScreen);
+  expect(text()).toContain('Kết quả của bài đầu tiên');
+  const firstSignal = mockService.getSubmission.mock.calls[0][2];
+  let finishSecond!: (value: typeof valid) => void;
+  mockService.getSubmission.mockImplementationOnce(() => new Promise(resolve => { finishSecond = resolve; }));
+  mockParams = { submissionId: 'second-submission' };
+  await act(async () => renderer!.update(<CorrectScreen />));
+  expect(firstSignal.aborted).toBe(true);
+  expect(text()).not.toContain('Kết quả của bài đầu tiên');
+  expect(renderer!.root.findAllByType('RecognitionProgress' as any)).toHaveLength(1);
+  await act(async () => finishSecond({ ...valid, id: 'second-submission' }));
+  expect(renderer!.root.findAllByType('RecognitionProgress' as any)).toHaveLength(0);
+});
+
+test('failed result reload settles without displaying a stale or fabricated grade', async () => {
+  mockParams = { submissionId: 'unavailable-submission' };
+  mockService.getSubmission.mockRejectedValue(new Error('Unavailable'));
+  await mount(CorrectScreen);
+  expect(renderer!.root.findAllByType('RecognitionProgress' as any)).toHaveLength(0);
+  expect(text()).toContain('Chưa có kết quả');
+  expect(text()).not.toContain('Làm tốt lắm');
+});
+
+test('returning to an earlier submission during another load waits for a fresh grade', async () => {
+  mockParams = { submissionId: 'submission-a' };
+  mockService.getSubmission.mockResolvedValueOnce({ ...valid, id: 'submission-a', studentFeedback: { title: 'Kết quả A cũ' } });
+  await mount(CorrectScreen);
+  expect(text()).toContain('Kết quả A cũ');
+  let finishB!: (value: typeof valid) => void;
+  mockService.getSubmission.mockImplementationOnce(() => new Promise(resolve => { finishB = resolve; }));
+  mockParams = { submissionId: 'submission-b' };
+  await act(async () => renderer!.update(<CorrectScreen />));
+  const signalB = mockService.getSubmission.mock.calls[1][2];
+  let finishFreshA!: (value: any) => void;
+  mockService.getSubmission.mockImplementationOnce(() => new Promise(resolve => { finishFreshA = resolve; }));
+  mockParams = { submissionId: 'submission-a' };
+  await act(async () => renderer!.update(<CorrectScreen />));
+  expect(signalB.aborted).toBe(true);
+  expect(renderer!.root.findAllByType('RecognitionProgress' as any)).toHaveLength(1);
+  expect(text()).not.toContain('Kết quả A cũ');
+  await act(async () => finishB({ ...valid, id: 'submission-b' }));
+  expect(renderer!.root.findAllByType('RecognitionProgress' as any)).toHaveLength(1);
+  await act(async () => finishFreshA({ ...valid, id: 'submission-a', studentFeedback: { title: 'Kết quả A mới' } }));
+  expect(text()).toContain('Kết quả A mới');
+  expect(renderer!.root.findAllByType('RecognitionProgress' as any)).toHaveLength(0);
+});
+
 test.each([CorrectScreen, ErrorHintScreen])('missing result never fabricates a calculation or grading claim', async Screen => {
   mockParams = { data: '{bad JSON' };
   await mount(Screen);
@@ -98,6 +162,22 @@ test('missing token identity does not display invented seven or offer confirmati
   await mount(TokenConfirmationScreen);
   expect(renderer!.root.findAllByType(TokenConfirmationCard)).toHaveLength(0);
   expect(mockRouter.replace).toHaveBeenCalledWith(expect.objectContaining({ pathname: '/results/review-required' }));
+});
+
+test('switching the token confirmation submission clears previous tokens and aborts its request', async () => {
+  mockParams = { id: 'first-submission' };
+  mockService.getSubmission.mockResolvedValue({ id: 'first-submission', jobId: 'first-job', status: SubmissionStatus.NEEDS_CONFIRMATION,
+    recognizedExercise: { expression: '7 + 1 = 8', tokens: [{ tokenId: 'first-seven', value: '7', ambiguity: true }] } });
+  await mount(TokenConfirmationScreen);
+  const firstSignal = mockService.getSubmission.mock.calls[0][2];
+  expect(renderer!.root.findAllByType(TokenConfirmationCard)).toHaveLength(1);
+  mockParams = { id: 'second-submission' };
+  mockService.getSubmission.mockImplementationOnce(() => new Promise(() => {}));
+  await act(async () => renderer!.update(<TokenConfirmationScreen />));
+  expect(firstSignal.aborted).toBe(true);
+  expect(renderer!.root.findAllByType(TokenConfirmationCard)).toHaveLength(0);
+  expect(renderer!.root.findAllByType('RecognitionProgress' as any)).toHaveLength(1);
+  expect(mockService.getSubmission).toHaveBeenLastCalledWith('second-submission', undefined, expect.anything());
 });
 
 test('validator column zero highlights the rightmost units digit of a full-string result', () => {

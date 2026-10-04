@@ -53,7 +53,7 @@ def test_groqlock_04_spring_dto_preserves_groq_model_exactly():
 def test_groqlock_05_mobile_contract_preserves_groq_model_exactly():
     """GROQLOCK-05: mobile contract preserves Groq model exactly."""
     mobile_service_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/services/api/OcrPilotService.ts")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/features/recognition/api/RecognitionService.ts")
     )
     with open(mobile_service_path, "r", encoding="utf-8") as f:
         mobile_src = f.read()

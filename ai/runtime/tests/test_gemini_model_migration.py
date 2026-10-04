@@ -208,7 +208,7 @@ def test_mig25_11_crnn_remains_primary():
 def test_mig25_12_groq_remains_advisor_1():
     """MIG25-12: Groq is bound to Section B1 (Gợi ý 1); provider chip removed per PROD.3B."""
     ui_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(ui_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -219,7 +219,7 @@ def test_mig25_12_groq_remains_advisor_1():
 def test_mig25_13_gemini_remains_advisor_2():
     """MIG25-13: Gemini is bound to Section B2 (Gợi ý 2); provider chip removed per PROD.3B."""
     ui_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(ui_path, "r", encoding="utf-8") as f:
         src = f.read()
@@ -243,7 +243,7 @@ def test_mig25_14_full_spring_route_preserves_gemini_model():
 def test_mig25_15_mobile_contract_can_render_goi_y_2_from_successful_gemini():
     """MIG25-15: Mobile multiline result renders Gợi ý 2 card and [Chọn gợi ý 2] on success."""
     ui_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(ui_path, "r", encoding="utf-8") as f:
         src = f.read()

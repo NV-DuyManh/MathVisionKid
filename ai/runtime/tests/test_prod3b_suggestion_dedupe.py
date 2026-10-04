@@ -2,16 +2,14 @@
 AI.HWTEXT.PROD.3B: Suggestion Rendering, Deduplication & Student-Facing Cleanup.
 Tests PROD3B-01 through PROD3B-15 covering the full 10-case matrix and UX rules.
 """
-import os
-import subprocess
-import pytest
 from pathlib import Path
+from mobile_contract_support import run_legacy_matrix, run_mobile_node
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MOBILE_ROOT = REPO_ROOT / "apps" / "student-mobile"
-RESULT_PATH = MOBILE_ROOT / "src" / "app" / "ocr-pilot" / "multiline-result.tsx"
-DEDUPE_PATH = MOBILE_ROOT / "src" / "utils" / "suggestionDedupe.ts"
+RESULT_PATH = MOBILE_ROOT / "src" / "app" / "recognition" / "multiline-result.tsx"
+DEDUPE_PATH = MOBILE_ROOT / "src" / "features" / "recognition" / "utils" / "lineReview.ts"
 NODE_TEST_PATH = MOBILE_ROOT / "src" / "utils" / "__tests__" / "suggestionDedupe.test.mjs"
 
 
@@ -28,8 +26,7 @@ def _read_dedupe_file() -> str:
 def test_prod3b_01_all_10_matrix_cases_pass_in_node():
     """PROD3B-01: Run node test suite covering all mandatory matrix cases."""
     assert NODE_TEST_PATH.exists(), f"Node test file not found at {NODE_TEST_PATH}"
-    cmd = ["node", "--experimental-strip-types", str(NODE_TEST_PATH)]
-    res = subprocess.run(cmd, cwd=str(MOBILE_ROOT), capture_output=True, text=True, encoding="utf-8")
+    res = run_legacy_matrix(NODE_TEST_PATH)
     assert res.returncode == 0, f"Node test failed with code {res.returncode}:\n{res.stderr}\n{res.stdout}"
     assert "CASES PASSED SUCCESSFULLY" in res.stdout
 
@@ -118,56 +115,56 @@ def test_prod3b_11_case_1_dedupe_logic():
     """Case 1 / PROD.3F.1 Case C: RAW == AI_A -> distinct=0, PROD.3F.1 confirmed card labeled 'Gợi ý 1'."""
     # Test via node invocation
     script = (
-        "import { buildVisibleSuggestions } from './src/utils/suggestionDedupe.ts';"
+        "import { buildVisibleSuggestions } from './src/features/recognition/utils/lineReview.ts';"
         "const distinct = buildVisibleSuggestions({ rawOcrText: 'Em yêu mùa hè', groqSuggestion: 'Em yêu mùa hè', groqStatus: 'SUCCESS' }, { includeConfirmedCard: false });"
         "const confirmed = buildVisibleSuggestions({ rawOcrText: 'Em yêu mùa hè', groqSuggestion: 'Em yêu mùa hè', groqStatus: 'SUCCESS' });"
         "process.exit(distinct.length === 0 && confirmed.length === 1 && confirmed[0].label === 'Gợi ý 1' && confirmed[0].isAiConfirmed === true ? 0 : 1);"
     )
-    cmd = ["node", "--experimental-strip-types", "-e", script]
-    assert subprocess.run(cmd, cwd=str(MOBILE_ROOT)).returncode == 0
+    result = run_mobile_node(script)
+    assert result.returncode == 0, result.stderr + result.stdout
 
 
 def test_prod3b_12_case_3_dedupe_logic():
     """Case 3: RAW != AI_A, AI_A == AI_B -> Exactly 1 suggestion."""
     script = (
-        "import { buildVisibleSuggestions } from './src/utils/suggestionDedupe.ts';"
+        "import { buildVisibleSuggestions } from './src/features/recognition/utils/lineReview.ts';"
         "const res = buildVisibleSuggestions({ rawOcrText: 'm yêu mùa hè', groqSuggestion: 'Em yêu mùa hè', groqStatus: 'SUCCESS', geminiSuggestion: 'Em yêu mùa hè', geminiStatus: 'SUCCESS' });"
         "process.exit(res.length === 1 && res[0].label === 'Gợi ý 1' ? 0 : 1);"
     )
-    cmd = ["node", "--experimental-strip-types", "-e", script]
-    assert subprocess.run(cmd, cwd=str(MOBILE_ROOT)).returncode == 0
+    result = run_mobile_node(script)
+    assert result.returncode == 0, result.stderr + result.stdout
 
 
 def test_prod3b_13_case_5_dedupe_logic():
     """Case 5: Distinct suggestions -> Exactly 2 suggestions labeled Gợi ý 1 and Gợi ý 2."""
     script = (
-        "import { buildVisibleSuggestions } from './src/utils/suggestionDedupe.ts';"
+        "import { buildVisibleSuggestions } from './src/features/recognition/utils/lineReview.ts';"
         "const res = buildVisibleSuggestions({ rawOcrText: 'Mọc trên đổi quề', groqSuggestion: 'Mọc trên đồi quê', groqStatus: 'SUCCESS', geminiSuggestion: 'Mọc trên đồi quê.', geminiStatus: 'SUCCESS' });"
         "process.exit(res.length === 2 && res[0].label === 'Gợi ý 1' && res[1].label === 'Gợi ý 2' ? 0 : 1);"
     )
-    cmd = ["node", "--experimental-strip-types", "-e", script]
-    assert subprocess.run(cmd, cwd=str(MOBILE_ROOT)).returncode == 0
+    result = run_mobile_node(script)
+    assert result.returncode == 0, result.stderr + result.stdout
 
 
 def test_prod3b_14_case_8_failover_no_numbering_gap():
     """Case 8: Advisor A failed 429, Advisor B succeeded -> Labeled Gợi ý 1 without numbering gap."""
     script = (
-        "import { buildVisibleSuggestions } from './src/utils/suggestionDedupe.ts';"
+        "import { buildVisibleSuggestions } from './src/features/recognition/utils/lineReview.ts';"
         "const res = buildVisibleSuggestions({ rawOcrText: 'Trời, sao ngọt the', groqStatus: 'UNAVAILABLE', geminiSuggestion: 'Trời, sao ngọt thế!', geminiStatus: 'SUCCESS' });"
         "process.exit(res.length === 1 && res[0].label === 'Gợi ý 1' && res[0].buttonLabel === 'Dùng gợi ý 1' ? 0 : 1);"
     )
-    cmd = ["node", "--experimental-strip-types", "-e", script]
-    assert subprocess.run(cmd, cwd=str(MOBILE_ROOT)).returncode == 0
+    result = run_mobile_node(script)
+    assert result.returncode == 0, result.stderr + result.stdout
 
 
 def test_prod3b_15_case_9_unicode_nfc_nfd_dedupe():
     """Case 9: Unicode NFC/NFD variation dedupes correctly and preserves original string."""
     script = (
-        "import { buildVisibleSuggestions } from './src/utils/suggestionDedupe.ts';"
+        "import { buildVisibleSuggestions } from './src/features/recognition/utils/lineReview.ts';"
         "const nfc = 'Tiếng chim reo';"
         "const nfd = nfc.normalize('NFD');"
         "const res = buildVisibleSuggestions({ rawOcrText: 'Tieng chim reo', groqSuggestion: '  Tiếng   chim  reo  ', groqStatus: 'SUCCESS', geminiSuggestion: nfd, geminiStatus: 'SUCCESS' });"
         "process.exit(res.length === 1 && res[0].text === '  Tiếng   chim  reo  ' ? 0 : 1);"
     )
-    cmd = ["node", "--experimental-strip-types", "-e", script]
-    assert subprocess.run(cmd, cwd=str(MOBILE_ROOT)).returncode == 0
+    result = run_mobile_node(script)
+    assert result.returncode == 0, result.stderr + result.stdout

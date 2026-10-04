@@ -7,16 +7,15 @@ Covers Scopes A through F:
 - Scope E: Provider Abstraction & Hidden Names
 - Scope F: Result Screen Visual Cleanliness & AI Confirmed State
 """
-import subprocess
 from pathlib import Path
-import pytest
+from mobile_contract_support import run_legacy_matrix
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MOBILE_ROOT = REPO_ROOT / "apps" / "student-mobile"
 HOME_PATH = MOBILE_ROOT / "src" / "app" / "(tabs)" / "index.tsx"
 PRIVACY_PATH = MOBILE_ROOT / "src" / "app" / "privacy.tsx"
-RESULT_PATH = MOBILE_ROOT / "src" / "app" / "ocr-pilot" / "multiline-result.tsx"
-DEDUPE_PATH = MOBILE_ROOT / "src" / "utils" / "suggestionDedupe.ts"
+RESULT_PATH = MOBILE_ROOT / "src" / "app" / "recognition" / "multiline-result.tsx"
+DEDUPE_PATH = MOBILE_ROOT / "src" / "features" / "recognition" / "utils" / "lineReview.ts"
 NODE_TEST_PATH = MOBILE_ROOT / "src" / "utils" / "__tests__" / "suggestionDedupe.test.mjs"
 
 
@@ -29,9 +28,12 @@ def test_prod3f_01_home_direct_cta_no_redundant_modal():
     """PROD3F-01: Home has direct camera & gallery CTAs and no redundant ImageSourceModal."""
     src = _read_file(HOME_PATH)
     # Direct camera call
-    assert "navigateToCamera('HANDWRITING_TEXT')" in src
-    # Direct gallery call on the secondary CTA
-    assert "onPress={handlePickImage}" in src
+    assert "onAcquire={() => navigateToCamera('MATH_TUTOR')}" in src
+    assert "pathname: '/camera'" in src
+    # The owner moved library access into the camera screen.
+    camera = _read_file(MOBILE_ROOT / "src/app/camera.tsx")
+    assert "onPress={handlePickImage}" in camera
+    assert "Chọn ảnh từ thư viện" in camera
     # No intermediate ImageSourceModal on Home
     assert "<ImageSourceModal" not in src
     assert "showSourceModal" not in src
@@ -50,8 +52,7 @@ def test_prod3f_02_privacy_multi_mask_persists():
 def test_prod3f_03_all_node_matrix_cases_pass():
     """PROD3F-03: All 16 PROD.3B & PROD.3F dedupe matrix cases pass in Node."""
     assert NODE_TEST_PATH.exists()
-    cmd = ["node", "--experimental-strip-types", str(NODE_TEST_PATH)]
-    res = subprocess.run(cmd, cwd=str(REPO_ROOT), capture_output=True, text=True, encoding="utf-8")
+    res = run_legacy_matrix(NODE_TEST_PATH)
     assert res.returncode == 0, f"Node test failed:\n{res.stderr}\n{res.stdout}"
     assert "CASES PASSED SUCCESSFULLY" in res.stdout
 

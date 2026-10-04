@@ -13,10 +13,11 @@ from pathlib import Path
 import pytest
 from app.schemas.ocr import LineBox
 from app.ocr.metrics import evaluate_line_pair, levenshtein_distance
+from mobile_contract_support import mobile_helper
 
-MOBILE_RESULT_PATH = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "app" / "ocr-pilot" / "multiline-result.tsx"
-SCHEMA_PATH = Path(__file__).resolve().parents[1] / "app" / "schemas" / "ocr_pilot.py"
-SERVICE_TS_PATH = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "services" / "api" / "OcrPilotService.ts"
+MOBILE_RESULT_PATH = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "app" / "recognition" / "multiline-result.tsx"
+SCHEMA_PATH = Path(__file__).resolve().parents[1] / "app" / "schemas" / "ocr.py"
+SERVICE_TS_PATH = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "features" / "recognition" / "api" / "RecognitionService.ts"
 
 
 def _sample_line() -> LineBox:
@@ -51,8 +52,14 @@ def test_pred_01_ocr_goc_always_uses_raw_ocr_text():
     with open(MOBILE_RESULT_PATH, "r", encoding="utf-8") as f:
         mobile_src = f.read()
 
-    assert "OCR GỐC (CRNN):" in mobile_src
-    assert "const rawText = line.rawOcrText || line.predictedText;" in mobile_src
+    assert "OCR gốc" in mobile_src
+    assert "resolveLineDisplayState(line)" in mobile_src
+    display = mobile_helper("resolveLineDisplayState", {
+        "rawOcrText": line.rawOcrText, "predictedText": line.predictedText,
+        "finalText": line.finalText, "verifiedTextRaw": line.finalText, "selectedSource": "MANUAL_EDIT", "verdict": "CORRECTED",
+    })
+    assert display["ocrText"] == "em đp gại"
+    assert display["currentText"] == "em đẹp gái"
 
 
 def test_pred_02_choose_groq_does_not_change_raw_ocr_text():
@@ -134,7 +141,7 @@ def test_pred_06_predicted_text_meaning_documented():
     assert "rawOcrText: Immutable raw CRNN prediction" in schema_src
     assert "predictedText: Legacy effective-text alias mirroring finalText" in schema_src
 
-    # Check Mobile OcrPilotService.ts documentation
+    # Check Mobile RecognitionService.ts documentation
     with open(SERVICE_TS_PATH, "r", encoding="utf-8") as f:
         ts_src = f.read()
     assert "Legacy effective-text alias mirroring finalText" in ts_src

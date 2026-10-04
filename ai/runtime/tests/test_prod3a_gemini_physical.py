@@ -308,7 +308,7 @@ def test_gemphys_10_spring_dto_preserves_gemini_fields():
 # ===========================================================================
 def test_gemphys_11_mobile_api_mapping_preserves_gemini():
     ts_file = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/services/api/OcrPilotService.ts")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/features/recognition/api/RecognitionService.ts")
     )
     with open(ts_file, "r", encoding="utf-8") as f:
         ts_src = f.read()
@@ -328,7 +328,7 @@ def test_gemphys_11_mobile_api_mapping_preserves_gemini():
 # ===========================================================================
 def test_gemphys_12_frontend_does_not_hide_valid_distinct_gemini():
     ui_file = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(ui_file, "r", encoding="utf-8") as f:
         ui_src = f.read()
@@ -343,7 +343,7 @@ def test_gemphys_12_frontend_does_not_hide_valid_distinct_gemini():
 # ===========================================================================
 def test_gemphys_13_provider_specific_unavailable_text_not_rendered():
     ui_file = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(ui_file, "r", encoding="utf-8") as f:
         ui_src = f.read()
@@ -357,7 +357,7 @@ def test_gemphys_13_provider_specific_unavailable_text_not_rendered():
 # ===========================================================================
 def test_gemphys_14_raw_ocr_text_immutable():
     ui_file = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/ocr-pilot/multiline-result.tsx")
+        os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx")
     )
     with open(ui_file, "r", encoding="utf-8") as f:
         ui_src = f.read()

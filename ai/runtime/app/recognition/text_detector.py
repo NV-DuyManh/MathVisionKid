@@ -1,0 +1,222 @@
+"""Optional, pinned local text regions. These are geometry, not verified OCR."""
+from functools import lru_cache
+import hashlib
+import logging
+from pathlib import Path
+import threading
+
+import cv2
+import numpy as np
+
+MODEL_PATH = Path(__file__).resolve().parents[2] / "models/ocr/text_detection_cn_ppocrv3_2023may.onnx"
+MODEL_SHA256 = "03f550c6b406fda8bf54bd8327815f6c7e2edd98cea02348c93d879254366587"
+_lock = threading.Lock()
+logger = logging.getLogger(__name__)
+
+
+@lru_cache(maxsize=1)
+def _load_model(path, modified, size):
+    # A replaced artifact is rechecked; never load arbitrary downloaded weights.
+    if hashlib.sha256(Path(path).read_bytes()).hexdigest() != MODEL_SHA256:
+        raise ValueError("Local text detector checksum mismatch")
+    model = cv2.dnn_TextDetectionModel_DB(cv2.dnn.readNet(path))
+    model.setInputMean((123.675, 116.28, 103.53))
+    model.setInputScale(1.0 / 255.0 / np.array([.229, .224, .225]))
+    model.setBinaryThreshold(.3)
+    model.setPolygonThreshold(.5)
+    model.setMaxCandidates(500)
+    model.setUnclipRatio(1.5)
+    return model
+
+
+def merge_fragments(boxes, ink_mask=None, ink_scale=1.0):
+    """Join neighbouring words on the same baseline, keeping distant columns."""
+    if not boxes:
+        return []
+    body = float(np.median([y2-y1 for x1,y1,x2,y2 in boxes]))
+    rows = []
+
+    def written_gap(left, right, top, bottom):
+        if ink_mask is None or left >= right or top >= bottom:
+            return False
+        left, top = int(left*ink_scale), int(top*ink_scale)
+        right, bottom = int(np.ceil(right*ink_scale)), int(np.ceil(bottom*ink_scale))
+        columns = np.any(ink_mask[top:bottom, left:right] > 0, axis=0)
+        if not columns.size:
+            return False
+        if columns.mean() < .3:
+            return False
+        positions = np.r_[-1, np.flatnonzero(columns), len(columns)]
+        return np.max(np.diff(positions) - 1) <= max(6, body * .8) * ink_scale
+
+    # ponytail: bounded O(n²) scan over <=500 text candidates; no spatial index.
+    for box in sorted(boxes, key=lambda b: ((b[1]+b[3])/2, b[0])):
+        x1,y1,x2,y2 = box
+        h = y2-y1
+        matches = []
+        for index, other in enumerate(rows):
+            ox1,oy1,ox2,oy2 = other
+            oh = oy2-oy1
+            overlap = min(y2,oy2)-max(y1,oy1)
+            gap = max(0, max(x1,ox1)-min(x2,ox2))
+            # Tall vertical arithmetic is not a row to join with prose beside it.
+            if (max(h,oh) <= min(h,oh)*2.0
+                    and not (h > (x2-x1)*2 and oh > (ox2-ox1)*2)
+                    and overlap >= min(h,oh)*.65
+                    and abs((y1+y2-oy1-oy2)/2) <= max(h,oh)*.4
+                    and (gap <= body*1.5 or written_gap(
+                        min(x2,ox2),max(x1,ox1),max(y1,oy1),min(y2,oy2)))):
+                matches.append(index)
+        if matches:
+            parts = [box] + [rows[i] for i in matches]
+            merged = (min(b[0] for b in parts), min(b[1] for b in parts),
+                      max(b[2] for b in parts), max(b[3] for b in parts))
+            rows = [b for i,b in enumerate(rows) if i not in matches]
+            rows.append(merged)
+        else:
+            rows.append(tuple(box))
+    # A small duplicate/satellite already enclosed by a complete row is not an
+    # additional line. Do not discard fragments extending outside that row.
+    rows = list(dict.fromkeys(rows))
+    ordered = sorted((box for box in rows if not any(
+        other != box and other[0] <= box[0] and other[1] <= box[1]
+        and other[2] >= box[2] and other[3] >= box[3] for other in rows)),
+        key=lambda b: ((b[1]+b[3])/2,b[0]))
+    bands = []
+    for box in ordered:
+        if (bands and box[3]-box[1] <= body*2
+                and all(b[3]-b[1] <= body*2 for b in bands[-1])
+                and abs((box[1]+box[3])/2 -
+                        np.median([(b[1]+b[3])/2 for b in bands[-1]])) <= body*.4):
+            bands[-1].append(box)
+        else:
+            bands.append([box])
+    return [box for band in bands for box in sorted(band,key=lambda b:b[0])]
+
+
+def split_stacked_writing(bgr,box):
+    """Split a tall text region only at blank gaps in strong coloured ink.
+
+    A fraction bar protects the whole expression. Faint/neutral text or touching
+    rows retain the learned region instead of guessing boundaries.
+    """
+    from app.tutoring.rows import _has_stacked_fraction
+    x1,y1,x2,y2=box
+    crop=bgr[y1:y2,x1:x2]
+    hue,saturation,value=cv2.split(cv2.cvtColor(crop,cv2.COLOR_BGR2HSV))
+    mask=(((hue>=90)&(hue<=178) | (hue<=12)) &
+          (saturation>65)&(value<230)).astype(np.uint8)
+    count,labels,stats,_=cv2.connectedComponentsWithStats(mask,8)
+    parts=stats[1:]
+    bodies=parts[(parts[:,4]>=12)&(parts[:,3]>=5)&(parts[:,3]<(y2-y1)*.5)]
+    if len(bodies)<3:
+        return [box]
+    body=float(np.percentile(bodies[:,3],65))
+    if y2-y1<body*2.5 or _has_stacked_fraction(stats,body):
+        return [box]
+    keep=np.zeros(count,np.uint8)
+    keep[1:]=((parts[:,4]>=8)&(parts[:,3]>=3))
+    mask=keep[labels]
+    occupied=mask.sum(axis=1)>=max(2,(x2-x1)*.025)
+    runs=[]
+    for y in np.flatnonzero(occupied):
+        if runs and y-runs[-1][1]<=max(4,body*.4):
+            runs[-1][1]=int(y)+1
+        else:
+            runs.append([int(y),int(y)+1])
+    if len(runs)<2 or any(bottom-top<body*.45 for top,bottom in runs):
+        return [box]
+    # Retain the original horizontal extent and bound added whitespace by gaps.
+    return [(x1,max(y1,y1+top-3),x2,min(y2,y1+bottom+3)) for top,bottom in runs]
+
+
+def _infer_regions(bgr):
+    if bgr is None or bgr.size == 0:
+        return []
+    height,width = bgr.shape[:2]
+    if min(height,width) < 32:
+        return []
+    if not MODEL_PATH.is_file():
+        return None
+    scale = min(1.0, 1280/max(height,width))
+    nw,nh = max(1,round(width*scale)), max(1,round(height*scale))
+    size = (int(np.ceil(nw/32))*32,int(np.ceil(nh/32))*32)
+    image = np.full((size[1],size[0],3),255,np.uint8)
+    image[:nh,:nw] = cv2.resize(bgr,(nw,nh))
+    try:
+        stat = MODEL_PATH.stat()
+        # ponytail: one locked OpenCV net for CPU requests; worker-local pools
+        # are appropriate only if measured request throughput requires them.
+        with _lock:
+            model = _load_model(str(MODEL_PATH),stat.st_mtime_ns,stat.st_size)
+            model.setInputSize(size)
+            polygons,scores = model.detect(image)
+    except (OSError,ValueError,cv2.error):
+        logger.warning("Local text detector unavailable; using established segmentation")
+        return None
+    boxes = []
+    for polygon,score in zip(polygons,scores):
+        if not np.isfinite(score) or not np.isfinite(polygon).all():
+            continue
+        points = np.clip(np.asarray(polygon,dtype=float)/[nw/width,nh/height],
+                         [0,0],[width,height])
+        lo = np.floor(points.min(axis=0)).astype(int)
+        hi = np.ceil(points.max(axis=0)).astype(int)
+        if np.all(hi > lo):
+            boxes.append(tuple(map(int,(*lo,*hi))))
+    return boxes
+
+
+def detect_text_regions(bgr):
+    """Return candidates in original pixels, or None when model unavailable.
+
+    No network/download takes place in a student request. Sideways writing is
+    considered only when the first pass contains predominantly vertical regions.
+    Returned coordinates always refer to the supplied image.
+    """
+    boxes = _infer_regions(bgr)
+    if not boxes:
+        return boxes
+    height,width = bgr.shape[:2]
+    tall = sum(y2-y1 > (x2-x1)*2 for x1,y1,x2,y2 in boxes)
+    rotated = False
+    if tall >= max(3,len(boxes)*.25):
+        upright = cv2.rotate(bgr,cv2.ROTATE_90_CLOCKWISE)
+        alternative = _infer_regions(upright)
+        def horizontal_evidence(regions, image_width):
+            return sum(x2-x1 for x1,y1,x2,y2 in regions
+                       if x2-x1 >= max((y2-y1)*3,image_width*.16))
+        if (alternative and horizontal_evidence(alternative,height) >
+                max(width*2,horizontal_evidence(boxes,width)*1.5)):
+            bgr,boxes,rotated = upright,alternative,True
+    parts = [part for box in boxes for part in split_stacked_writing(bgr,box)]
+    from app.api.generalized import extract_ink_mask
+    # Gap evidence does not need full camera resolution. Bound preprocessing to
+    # the model's working scale; returned geometry remains in original pixels.
+    ink_scale = min(1.0, 1280/max(bgr.shape[:2]))
+    ink_image = cv2.resize(bgr, None, fx=ink_scale, fy=ink_scale) if ink_scale < 1 else bgr
+    ink_mask, _ = extract_ink_mask(ink_image, *ink_image.shape[:2])
+    rows = merge_fragments(parts, ink_mask, ink_scale)
+    if rotated:
+        return [(y1,height-x2,y2,height-x1) for x1,y1,x2,y2 in rows]
+    return rows
+
+
+def detect_crop_regions(bgr):
+    """Provide model context for a tight strip, never reconstruct missing ink."""
+    height,width=bgr.shape[:2]
+    if min(height,width)<8:
+        return []
+    border=16
+    padded=cv2.copyMakeBorder(bgr,border,border,border,border,
+                             cv2.BORDER_CONSTANT,value=(255,255,255))
+    regions=detect_text_regions(padded)
+    if regions is None:
+        return None
+    clipped=[]
+    for x1,y1,x2,y2 in regions:
+        x1,y1=max(0,x1-border),max(0,y1-border)
+        x2,y2=min(width,x2-border),min(height,y2-border)
+        if x1<x2 and y1<y2:
+            clipped.append((x1,y1,x2,y2))
+    return clipped

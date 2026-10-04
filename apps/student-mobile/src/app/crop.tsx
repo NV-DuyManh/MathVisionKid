@@ -1,608 +1,237 @@
-/* eslint-disable react-hooks/immutability, react-hooks/set-state-in-effect, react-hooks/exhaustive-deps, @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Alert, TouchableOpacity } from 'react-native';
-import { ActivityRail } from '../components/ui/ActivityRail';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Image, Alert, Pressable, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import * as ImageManipulator from 'expo-image-manipulator';
-import { FONTS, COLORS, SIZES } from '../constants/theme';
+import { Ionicons } from '@expo/vector-icons';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import Animated, { useSharedValue, useDerivedValue, useAnimatedReaction, useAnimatedStyle, runOnJS, SharedValue } from 'react-native-reanimated';
+import { FONTS, COLORS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
-import { Ionicons } from '@expo/vector-icons';
-import { recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
-import { ensureFileUri, normalizeFileUri, normalizeLocalFileUri, resolveSafeCropImage, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
-import { calculateDrag, calculateResizeTL, calculateResizeTR, calculateResizeBL, calculateResizeBR, displayRectToSourceRect } from '../utils/cropGeometry';
-const MIN_CROP_SIZE = 60;
-const HIT_SLOP = { top: 24, bottom: 24, left: 24, right: 24 };
-export default function CropScreen() {
-    const router = useRouter();
-    const params = useLocalSearchParams<{
-        uri?: string;
-        retrySubmissionId?: string;
-        originalImageUri?: string;
-    }>();
-    const draft = recognitionDraftStore.getDraft();
-    const paramUri = Array.isArray(params.uri) ? params.uri[0] : params.uri;
-    const paramOriginal = Array.isArray(params.originalImageUri) ? params.originalImageUri[0] : params.originalImageUri;
-    const isPrivacyUri = (u?: string) => !!u && (u.includes('privacy') || u.includes('viewshot') || u.includes('masked') || u.includes('ViewShot'));
-    const safeParamUri = isPrivacyUri(paramUri) ? '' : paramUri;
-    // Rules 1, 3 & 4: In MathVision OCR mode, draft.originalImageUri in memory is the immutable single source of truth (never altered by Expo Router URL decoding)
-    const originalUri = (paramOriginal || draft?.originalImageUri || draft?.originalUri || (!isPrivacyUri(draft?.sourceImageUri) ? draft?.sourceImageUri : '') || (!isPrivacyUri(draft?.rawUri) ? draft?.rawUri : '') || safeParamUri);
-    const cropInputUri = (draft?.privacyImageUri || originalUri);
-    const [resolvedUri, setResolvedUri] = useState<string>('');
-    const [isResolvingImage, setIsResolvingImage] = useState<boolean>(true);
-    // Validate FileSystem existence and handle fallback/copying
-    useEffect(() => {
-        let isMounted = true;
-        async function initCropImage() {
-            setIsResolvingImage(true);
-            setImageLoadError(false);
-            const candidateFallbacks = [
-                draft?.originalImageUri,
-                draft?.originalUri,
-                draft?.sourceImageUri,
-                draft?.rawUri,
-                paramOriginal,
-                paramUri
-            ].filter(Boolean) as string[];
-            // A failed masked image must never fall back to the unmasked original.
-            const res = await resolveSafeCropImage(cropInputUri, draft?.isMasked ? [] : candidateFallbacks);
-            if (!isMounted)
-                return;
-            if (res.finalUri) {
-                setResolvedUri(res.finalUri);
-            }
-            else {
-                setResolvedUri(cropInputUri);
-            }
-            setIsResolvingImage(false);
-        }
-        if (cropInputUri) {
-            initCropImage();
-        }
-        else {
-            setIsResolvingImage(false);
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, [cropInputUri, draft?.originalImageUri, paramOriginal, paramUri]);
-    const activeUri = resolvedUri || (cropInputUri ? normalizeFileUri(cropInputUri) : '');
-    const activeRecognitionUri = draft?.croppedImageUri || activeUri || cropInputUri;
-    const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
-    useEffect(() => {
-        console.log(`[IMAGE_FLOW]\noriginalUri=${originalUri}\nprivacyUri=${draft?.privacyImageUri || 'undefined'}\ncropInputUri=${cropInputUri}\nactiveRecognitionUri=${activeRecognitionUri || 'pending'}\n`);
-    }, [draft?.privacyImageUri, originalUri, cropInputUri, activeRecognitionUri]);
-    const [imageLayout, setImageLayout] = useState({ width: 0, height: 0, x: 0, y: 0 });
-    const [actualSize, setActualSize] = useState({ w: draft?.width || 0, h: draft?.height || 0 });
-    const [isProcessing, setIsProcessing] = useState(false);
-    const [imageLoadError, setImageLoadError] = useState(false);
-    const [boundsReady, setBoundsReady] = useState(false);
-    // Shared values for UI-thread gesture animations
-    const boxX = useSharedValue(0);
-    const boxY = useSharedValue(0);
-    const boxW = useSharedValue(0);
-    const boxH = useSharedValue(0);
-    const startX = useSharedValue(0);
-    const startY = useSharedValue(0);
-    const startW = useSharedValue(0);
-    const startH = useSharedValue(0);
-    // Bounds
-    const bMinX = useSharedValue(0);
-    const bMinY = useSharedValue(0);
-    const bMaxX = useSharedValue(0);
-    const bMaxY = useSharedValue(0);
-    const imgScale = useSharedValue(1);
-    useEffect(() => {
-        if (activeUri) {
-            logStageDiagnostic('CROP_INPUT', {
-                uri: activeUri,
-                width: draft?.width,
-                height: draft?.height,
-                mimeType: draft?.mimeType,
-                source: draft?.source,
-            });
-            // Always resolve actual orientation-normalized bitmap dimensions via ImageManipulator
-            ImageManipulator.manipulateAsync(activeUri, [], {})
-                .then(res => {
-                if (res.width && res.height)
-                    setActualSize({ w: res.width, h: res.height });
-            })
-                .catch(() => {
-                Image.getSize(activeUri, (w, h) => setActualSize({ w, h }), () => { });
-            });
-        }
-    }, [activeUri]);
-    // Recalculate physical display bounds whenever layout, actual size, or image session changes
-    useEffect(() => {
-        if (imageLayout.width > 0 && imageLayout.height > 0 && actualSize.w > 0 && actualSize.h > 0) {
-            const containerRatio = imageLayout.width / imageLayout.height;
-            const imageRatio = actualSize.w / actualSize.h;
-            let renderedWidth = imageLayout.width;
-            let renderedHeight = imageLayout.height;
-            let offsetX = 0;
-            let offsetY = 0;
-            if (imageRatio > containerRatio) {
-                renderedHeight = imageLayout.width / imageRatio;
-                offsetY = (imageLayout.height - renderedHeight) / 2;
-            }
-            else {
-                renderedWidth = imageLayout.height * imageRatio;
-                offsetX = (imageLayout.width - renderedWidth) / 2;
-            }
-            bMinX.value = offsetX;
-            bMinY.value = offsetY;
-            bMaxX.value = offsetX + renderedWidth;
-            bMaxY.value = offsetY + renderedHeight;
-            imgScale.value = actualSize.w / renderedWidth;
-            // Initialize box centered and slightly inset (80%)
-            const initialW = renderedWidth * 0.8;
-            const initialH = renderedHeight * 0.8;
-            boxW.value = initialW;
-            boxH.value = initialH;
-            boxX.value = offsetX + (renderedWidth - initialW) / 2;
-            boxY.value = offsetY + (renderedHeight - initialH) / 2;
-            setBoundsReady(true);
-        }
-    }, [imageLayout.width, imageLayout.height, actualSize.w, actualSize.h, draft?.imageSessionId]);
-    const animatedBoxStyle = useAnimatedStyle(() => {
-        return {
-            left: boxX.value,
-            top: boxY.value,
-            width: boxW.value,
-            height: boxH.value,
-        };
-    });
-    // --- Gestures ---
-    const dragGesture = Gesture.Pan()
-        .activeOffsetX([-2, 2])
-        .activeOffsetY([-2, 2])
-        .onStart(() => {
-        startX.value = boxX.value;
-        startY.value = boxY.value;
-        startW.value = boxW.value;
-        startH.value = boxH.value;
-    })
-        .onUpdate((e) => {
-        const box = { x: startX.value, y: startY.value, w: startW.value, h: startH.value };
-        const bounds = { minX: bMinX.value, minY: bMinY.value, maxX: bMaxX.value, maxY: bMaxY.value };
-        const res = calculateDrag(e.translationX, e.translationY, box, bounds);
-        boxX.value = res.x;
-        boxY.value = res.y;
-    });
-    const resizeTL = Gesture.Pan()
-        .activeOffsetX([-2, 2])
-        .activeOffsetY([-2, 2])
-        .onStart(() => {
-        startX.value = boxX.value;
-        startY.value = boxY.value;
-        startW.value = boxW.value;
-        startH.value = boxH.value;
-    })
-        .onUpdate((e) => {
-        const box = { x: startX.value, y: startY.value, w: startW.value, h: startH.value };
-        const bounds = { minX: bMinX.value, minY: bMinY.value, maxX: bMaxX.value, maxY: bMaxY.value };
-        const res = calculateResizeTL(e.translationX, e.translationY, box, bounds);
-        boxX.value = res.x;
-        boxY.value = res.y;
-        boxW.value = res.w;
-        boxH.value = res.h;
-    });
-    const resizeTR = Gesture.Pan()
-        .activeOffsetX([-2, 2])
-        .activeOffsetY([-2, 2])
-        .onStart(() => {
-        startX.value = boxX.value;
-        startY.value = boxY.value;
-        startW.value = boxW.value;
-        startH.value = boxH.value;
-    })
-        .onUpdate((e) => {
-        const box = { x: startX.value, y: startY.value, w: startW.value, h: startH.value };
-        const bounds = { minX: bMinX.value, minY: bMinY.value, maxX: bMaxX.value, maxY: bMaxY.value };
-        const res = calculateResizeTR(e.translationX, e.translationY, box, bounds);
-        boxX.value = res.x;
-        boxY.value = res.y;
-        boxW.value = res.w;
-        boxH.value = res.h;
-    });
-    const resizeBL = Gesture.Pan()
-        .activeOffsetX([-2, 2])
-        .activeOffsetY([-2, 2])
-        .onStart(() => {
-        startX.value = boxX.value;
-        startY.value = boxY.value;
-        startW.value = boxW.value;
-        startH.value = boxH.value;
-    })
-        .onUpdate((e) => {
-        const box = { x: startX.value, y: startY.value, w: startW.value, h: startH.value };
-        const bounds = { minX: bMinX.value, minY: bMinY.value, maxX: bMaxX.value, maxY: bMaxY.value };
-        const res = calculateResizeBL(e.translationX, e.translationY, box, bounds);
-        boxX.value = res.x;
-        boxY.value = res.y;
-        boxW.value = res.w;
-        boxH.value = res.h;
-    });
-    const resizeBR = Gesture.Pan()
-        .activeOffsetX([-2, 2])
-        .activeOffsetY([-2, 2])
-        .onStart(() => {
-        startX.value = boxX.value;
-        startY.value = boxY.value;
-        startW.value = boxW.value;
-        startH.value = boxH.value;
-    })
-        .onUpdate((e) => {
-        const box = { x: startX.value, y: startY.value, w: startW.value, h: startH.value };
-        const bounds = { minX: bMinX.value, minY: bMinY.value, maxX: bMaxX.value, maxY: bMaxY.value };
-        const res = calculateResizeBR(e.translationX, e.translationY, box, bounds);
-        boxX.value = res.x;
-        boxY.value = res.y;
-        boxW.value = res.w;
-        boxH.value = res.h;
-    });
-    const resetBox = () => {
-        if (boundsReady) {
-            const renderedWidth = bMaxX.value - bMinX.value;
-            const renderedHeight = bMaxY.value - bMinY.value;
-            const initialW = renderedWidth * 0.8;
-            const initialH = renderedHeight * 0.8;
-            boxW.value = initialW;
-            boxH.value = initialH;
-            boxX.value = bMinX.value + (renderedWidth - initialW) / 2;
-            boxY.value = bMinY.value + (renderedHeight - initialH) / 2;
-        }
-    };
-    const setFullImage = () => {
-        if (boundsReady) {
-            boxX.value = bMinX.value;
-            boxY.value = bMinY.value;
-            boxW.value = bMaxX.value - bMinX.value;
-            boxH.value = bMaxY.value - bMinY.value;
-        }
-    };
-    const handleDone = async () => {
-        if (!boundsReady)
-            return;
-        setIsProcessing(true);
-        try {
-            let targetW = actualSize.w;
-            let targetH = actualSize.h;
-            if (targetW <= 0 || targetH <= 0) {
-                const probe = await ImageManipulator.manipulateAsync(activeUri, [], {});
-                targetW = probe.width || 1;
-                targetH = probe.height || 1;
-            }
-            const { x: realX, y: realY, w: realW, h: realH } = displayRectToSourceRect(boxX.value, boxY.value, boxW.value, boxH.value, bMinX.value, bMinY.value, imgScale.value, targetW, targetH);
-            // Safe clamp ensuring realX + realW <= targetW and realY + realH <= targetH
-            const safeX = Math.max(0, Math.min(targetW - 1, realX));
-            const safeY = Math.max(0, Math.min(targetH - 1, realY));
-            const safeW = Math.max(1, Math.min(targetW - safeX, realW));
-            const safeH = Math.max(1, Math.min(targetH - safeY, realH));
-            if (safeW <= 10 || safeH <= 10) {
-                setIsProcessing(false);
-                Alert.alert('Lỗi', 'Vùng chọn quá nhỏ. Em hãy kéo khung lớn hơn nhé.');
-                return;
-            }
-            console.log('[DEV_STAGE][CROP_EXECUTION]', {
-                activeUri,
-                actualSize: { w: targetW, h: targetH },
-                imageLayout,
-                box: { x: boxX.value, y: boxY.value, w: boxW.value, h: boxH.value },
-                bMin: { x: bMinX.value, y: bMinY.value },
-                imgScale: imgScale.value,
-                cropRect: { originX: safeX, originY: safeY, width: safeW, height: safeH }
-            });
-            const result = await ImageManipulator.manipulateAsync(activeUri, [{ crop: { originX: safeX, originY: safeY, width: safeW, height: safeH } }], { compress: 0.95, format: ImageManipulator.SaveFormat.JPEG });
-            const croppedUri = normalizeLocalFileUri(result.uri);
-            const finalCropWidth = result.width || Math.round(realW);
-            const finalCropHeight = result.height || Math.round(realH);
-            const cropW = finalCropWidth;
-            const cropH = finalCropHeight;
-            recognitionDraftStore.updateDraft({
-                croppedImageUri: croppedUri,
-                uri: croppedUri,
-                width: finalCropWidth,
-                height: finalCropHeight,
-            });
-            logStageDiagnostic('CROP_OUTPUT', {
-                uri: croppedUri,
-                width: cropW,
-                height: cropH,
-                mimeType: 'image/jpeg',
-                source: draft?.source,
-            });
-            console.log('[DEV_STAGE][CROP_IDENTITY]', {
-                croppedUri,
-                width: cropW,
-                height: cropH,
-                mimeType: 'image/jpeg',
-                source: draft?.source,
-                timestamp: new Date().toISOString(),
-            });
-            setIsProcessing(false);
-            const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
-            const targetPath = postPrivacyMode === 'MATH_TUTOR' ? '/learning/math-guide'
-                : (postPrivacyMode === 'ARITHMETIC' ? '/preview' : (postPrivacyMode === 'OCR_PILOT' ? '/recognition/line-crop' : '/recognition/multiline-review'));
-            router.push({
-                pathname: targetPath as any,
-                params: { retrySubmissionId, originalImageUri: originalUri },
-            });
-        }
-        catch (err: any) {
-            setIsProcessing(false);
-            console.error('[CROP] Crop execution error:', err?.message || err);
-            Alert.alert('Lỗi', 'Không thể đọc kích thước ảnh bài tập hoặc cắt ảnh. Vui lòng thử lại.');
-        }
-    };
-    if (!activeUri) {
-        return (<View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>{'Chưa có ảnh bài tập'}</Text>
-        <AppButton title={'Quay lại'} onPress={() => router.back()}/>
-      </View>);
-    }
-    return (<GestureHandlerRootView style={styles.container}>
-      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-        <AppHeader title={'Cắt gọn ảnh bài tập'} showBack/>
+import { ActivityRail } from '../components/ui/ActivityRail';
+import { ImageDraft, recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
+import { normalizeLocalFileUri, resolveSafeCropImage } from '../features/recognition/image/imagePipeline';
+import { Rect, CropHandle, calculateDrag, calculateResize, cropHandlePoint, closestCropHandle } from '../utils/cropGeometry';
+import { exportCropImage, normalizeRotation, rotatedFrame } from '../utils/cropRotation';
 
-        <View style={styles.instructionBox}>
-          <Ionicons name="crop-outline" size={20} color={COLORS.primary} style={styles.instructionIcon}/>
-          <Text style={styles.instructionText}>
-            {'Kéo các góc để chọn phần nội dung em muốn nhận diện.'}
-          </Text>
-        </View>
+const CORNERS = ['tl', 'tr', 'bl', 'br'] as const;
+const EDGES = ['top', 'right', 'bottom', 'left'] as const;
+const HANDLE_LABELS = { tl: 'góc trên trái', tr: 'góc trên phải', bl: 'góc dưới trái', br: 'góc dưới phải', top: 'cạnh trên', right: 'cạnh phải', bottom: 'cạnh dưới', left: 'cạnh trái' };
+const INSET = { x: 0.1, y: 0.1, w: 0.8, h: 0.8 };
 
-        <View style={styles.imageContainer}>
-          <View style={styles.imageWrapper} collapsable={false} onLayout={(e) => setImageLayout(e.nativeEvent.layout)}>
-            {isResolvingImage ? (<View style={styles.imageLoadingContainer}>
-                <ActivityRail label="Đang mở ảnh bài toán" />
-              </View>) : (<Image source={{ uri: activeUri }} style={styles.image} resizeMode="contain" onError={(e) => {
-                console.error('[CROP] Image load failed:', e.nativeEvent.error);
-                setImageLoadError(true);
-            }}/>)}
-
-            {imageLoadError && !isResolvingImage && (<View style={styles.errorOverlay}>
-                <Ionicons name="alert-circle" size={40} color={COLORS.error}/>
-                <Text style={styles.errorText}>
-                  {'Không thể hiển thị ảnh'}
-                </Text>
-              </View>)}
-
-            {boundsReady && !imageLoadError && (<Animated.View style={[styles.cropRect, animatedBoxStyle]}>
-                {/* Center Drag Zone */}
-                <GestureDetector gesture={dragGesture}>
-                  <Animated.View style={StyleSheet.absoluteFill as object}/>
-                </GestureDetector>
-
-                {/* 4 Corner Resize Handles */}
-                <GestureDetector gesture={resizeTL}>
-                  <Animated.View style={[styles.cornerHitTarget, styles.tl]} hitSlop={HIT_SLOP}>
-                    <View style={[styles.cornerVisual, styles.visualTL]}/>
-                  </Animated.View>
-                </GestureDetector>
-                <GestureDetector gesture={resizeTR}>
-                  <Animated.View style={[styles.cornerHitTarget, styles.tr]} hitSlop={HIT_SLOP}>
-                    <View style={[styles.cornerVisual, styles.visualTR]}/>
-                  </Animated.View>
-                </GestureDetector>
-                <GestureDetector gesture={resizeBL}>
-                  <Animated.View style={[styles.cornerHitTarget, styles.bl]} hitSlop={HIT_SLOP}>
-                    <View style={[styles.cornerVisual, styles.visualBL]}/>
-                  </Animated.View>
-                </GestureDetector>
-                <GestureDetector gesture={resizeBR}>
-                  <Animated.View style={[styles.cornerHitTarget, styles.br]} hitSlop={HIT_SLOP}>
-                    <View style={[styles.cornerVisual, styles.visualBR]}/>
-                  </Animated.View>
-                </GestureDetector>
-
-                {/* Aesthetic Edges (non-interactive) */}
-                <View style={styles.cropOverlayEdgeTop} pointerEvents="none"/>
-                <View style={styles.cropOverlayEdgeBottom} pointerEvents="none"/>
-                <View style={styles.cropOverlayEdgeLeft} pointerEvents="none"/>
-                <View style={styles.cropOverlayEdgeRight} pointerEvents="none"/>
-              </Animated.View>)}
-
-            {isProcessing && (<View style={styles.processingOverlay}>
-                <ActivityRail label="Đang chuẩn bị ảnh" />
-                <Text style={styles.processingText}>
-                  {'Đang cắt ảnh...'}
-                </Text>
-              </View>)}
-          </View>
-        </View>
-
-        <View style={styles.footer}>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.iconBtn} onPress={resetBox}>
-              <Ionicons name="refresh-outline" size={24} color={COLORS.primary}/>
-              <Text style={styles.iconBtnText}>{'Đặt lại'}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconBtn} onPress={setFullImage}>
-              <Ionicons name="expand-outline" size={24} color={COLORS.primary}/>
-              <Text style={styles.iconBtnText}>{'Dùng toàn ảnh'}</Text>
-            </TouchableOpacity>
-          </View>
-
-          <AppButton title={isProcessing ? ('Đang xử lý...') : ('Xác nhận cắt ảnh')} onPress={handleDone} disabled={!boundsReady || isProcessing || imageLoadError} variant="primary"/>
-          <View style={{ height: SIZES.small }}/>
-          <AppButton title={'Quay lại'} variant="secondary" onPress={() => router.back()} disabled={isProcessing}/>
-        </View>
-      </SafeAreaView>
-    </GestureHandlerRootView>);
+/** The ruler and image move on the UI thread; no image export during interaction. */
+function StraightenRuler({ angle, disabled }: { angle: SharedValue<number>; disabled: boolean }) {
+  const width = useSharedValue(1);
+  const [label, setLabel] = useState(0);
+  useAnimatedReaction(() => Math.round(angle.get() * 10) / 10, value => runOnJS(setLabel)(value));
+  const update = (x: number) => {
+    'worklet';
+    angle.set(Math.round((Math.max(0, Math.min(1, x / width.get())) * 90 - 45) * 10) / 10);
+  };
+  const pan = Gesture.Pan().enabled(!disabled).minDistance(0).onBegin(e => update(e.x)).onUpdate(e => update(e.x));
+  const marker = useAnimatedStyle(() => ({ left: `${(angle.get() + 45) / 90 * 100}%` }));
+  return <View style={styles.rulerBlock}>
+    <View style={styles.rulerHeading}><Text style={styles.controlTitle}>Căn thẳng</Text>
+      <Text style={styles.angleLabel}>{label > 0 ? '+' : ''}{label.toFixed(1).replace('.', ',')}°</Text></View>
+    <GestureDetector gesture={pan}><Animated.View style={styles.ruler} onLayout={e => { width.set(e.nativeEvent.layout.width); }}
+      accessible accessibilityRole="adjustable" accessibilityLabel="Góc căn thẳng ảnh"
+      accessibilityValue={{ min: -45, max: 45, now: label, text: `${label} độ` }}
+      accessibilityState={{ disabled }} accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+      onAccessibilityAction={e => { if (!disabled) angle.set(Math.max(-45, Math.min(45, angle.get() + (e.nativeEvent.actionName === 'increment' ? 0.5 : -0.5)))); }}>
+      <View pointerEvents="none" style={styles.ticks}>{Array.from({ length: 31 }, (_, i) => <View key={i} style={[styles.tick, i % 5 === 0 && styles.majorTick]} />)}</View>
+      <View pointerEvents="none" style={styles.degreeLabels}>{[-45, -30, -15, 0, 15, 30, 45].map(n => <Text key={n} style={styles.degreeText}>{n}°</Text>)}</View>
+      <Animated.View pointerEvents="none" style={[styles.angleMarker, marker]}><View style={styles.markerDot} /></Animated.View>
+    </Animated.View></GestureDetector>
+  </View>;
 }
+
+export default function CropScreen() {
+  const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string; originalImageUri?: string }>();
+  const draft = recognitionDraftStore.getDraft();
+  const one = (value?: string | string[]) => Array.isArray(value) ? value[0] : value;
+  const original = one(params.originalImageUri) || draft?.originalImageUri || draft?.originalUri || draft?.sourceImageUri || draft?.rawUri || one(params.uri) || '';
+  const source = draft?.privacyImageUri || original;
+  return <CropEditor key={`${source}:${draft?.imageSessionId}`} draft={draft} source={source} original={original}
+    retrySubmissionId={draft?.retrySubmissionId || one(params.retrySubmissionId)} />;
+}
+
+function CropEditor({ draft, source, original, retrySubmissionId }: { draft: ImageDraft | null; source: string; original: string; retrySubmissionId?: string }) {
+  const router = useRouter();
+  const { width, height } = useWindowDimensions();
+  const landscape = width > height && height < 550;
+  const [image, setImage] = useState<{ uri: string; width: number; height: number } | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const mounted = useRef(true), lock = useRef(false);
+  const viewport = useSharedValue({ w: 0, h: 0 });
+  const size = useSharedValue({ w: 0, h: 0 });
+  const fine = useSharedValue(0), turns = useSharedValue(0);
+  const crop = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
+  const start = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
+  const dragHandle = useSharedValue<CropHandle | null>(null);
+  const pointerStart = useSharedValue({ x: 0, y: 0 });
+  const totalAngle = useDerivedValue(() => normalizeRotation(turns.get() * 90 + fine.get()));
+  const frame = useDerivedValue(() => rotatedFrame(size.get().w, size.get().h, totalAngle.get(), viewport.get().w, viewport.get().h));
+  const disabled = !image || loadError || processing;
+
+  useEffect(() => {
+    mounted.current = true;
+    let cancelled = false;
+    void (async () => {
+      try {
+        // A failed masked image must never fall back to an unmasked photo.
+        const result = await resolveSafeCropImage(source, draft?.isMasked || source === draft?.privacyImageUri ? [] : [original]);
+        if (!result.finalUri) throw new Error('Missing photo');
+        const dimensions = await new Promise<{ w: number; h: number }>((resolve, reject) => Image.getSize(result.finalUri!, (w, h) => resolve({ w, h }), reject));
+        if (cancelled) return;
+        size.set(dimensions);
+        setImage({ uri: result.finalUri, width: dimensions.w, height: dimensions.h });
+      } catch { if (!cancelled) setLoadError(true); }
+    })();
+    return () => { cancelled = true; mounted.current = false; };
+  }, [source, original, draft?.isMasked, draft?.privacyImageUri, size]);
+
+  // Preserve the selection's relative position while rotating or relaying out.
+  useAnimatedReaction(() => frame.get(), (next, previous) => {
+    if (!next.w || !next.h || !size.get().w) return;
+    const selection = previous?.w && previous?.h && crop.get().w ? {
+      x: (crop.get().x - previous.x) / previous.w, y: (crop.get().y - previous.y) / previous.h,
+      w: crop.get().w / previous.w, h: crop.get().h / previous.h,
+    } : INSET;
+    crop.set({ x: next.x + next.w * selection.x, y: next.y + next.h * selection.y, w: next.w * selection.w, h: next.h * selection.h });
+  });
+  const imageStyle = useAnimatedStyle(() => ({
+    position: 'absolute', width: size.get().w * frame.get().scale, height: size.get().h * frame.get().scale,
+    left: (viewport.get().w - size.get().w * frame.get().scale) / 2,
+    top: (viewport.get().h - size.get().h * frame.get().scale) / 2,
+    transform: [{ rotate: `${totalAngle.get()}deg` }],
+  }));
+  const cropStyle = useAnimatedStyle(() => ({ left: crop.get().x, top: crop.get().y, width: crop.get().w, height: crop.get().h }));
+  const gridStyle = useAnimatedStyle(() => ({ opacity: Math.min(crop.get().w, crop.get().h) >= 48 ? 1 : 0 }));
+  const cornerStyle = useAnimatedStyle(() => ({ width: Math.min(22, Math.max(4, crop.get().w / 2)), height: Math.min(22, Math.max(4, crop.get().h / 2)) }));
+  const topShade = useAnimatedStyle(() => ({ top: 0, left: 0, width: viewport.get().w, height: Math.max(0, crop.get().y) }));
+  const bottomShade = useAnimatedStyle(() => ({ top: crop.get().y + crop.get().h, left: 0, width: viewport.get().w, height: Math.max(0, viewport.get().h - crop.get().y - crop.get().h) }));
+  const leftShade = useAnimatedStyle(() => ({ left: 0, top: crop.get().y, width: Math.max(0, crop.get().x), height: crop.get().h }));
+  const rightShade = useAnimatedStyle(() => ({ left: crop.get().x + crop.get().w, top: crop.get().y, width: Math.max(0, viewport.get().w - crop.get().x - crop.get().w), height: crop.get().h }));
+  const gesture = (handle: CropHandle | null = null) => Gesture.Pan().enabled(!disabled).maxPointers(1).minDistance(1)
+    .onBegin(e => {
+      const box = crop.get();
+      start.set({ ...box });
+      pointerStart.set({ x: e.absoluteX, y: e.absoluteY });
+      if (handle) {
+        const point = cropHandlePoint(handle, box);
+        dragHandle.set(closestCropHandle(point.x + e.x - 24, point.y + e.y - 24, box));
+      } else dragHandle.set(null);
+    })
+    .onUpdate(e => {
+      const f = frame.get();
+      const bounds = { minX: f.x, minY: f.y, maxX: f.x + f.w, maxY: f.y + f.h };
+      const handle = dragHandle.get();
+      // The handle moves while resizing. Screen coordinates keep the same finger anchor.
+      const dx = e.absoluteX - pointerStart.get().x, dy = e.absoluteY - pointerStart.get().y;
+      crop.set(handle ? calculateResize(handle, dx, dy, start.get(), bounds)
+        : calculateDrag(dx, dy, start.get(), bounds));
+    });
+  const select = (full = false) => {
+    const f = frame.get(), s = full ? { x: 0, y: 0, w: 1, h: 1 } : INSET;
+    crop.set({ x: f.x + f.w * s.x, y: f.y + f.h * s.y, w: f.w * s.w, h: f.h * s.h });
+  };
+  const reset = () => { turns.set(0); fine.set(0); select(); };
+  const done = async () => {
+    if (disabled || lock.current || !image) return;
+    const f = frame.get(), c = crop.get();
+    if (!f.w || !f.h || !c.w || !c.h) return;
+    lock.current = true; setProcessing(true);
+    try {
+      const result = await exportCropImage(image.uri, totalAngle.get(), {
+        x: (c.x - f.x) / f.w, y: (c.y - f.y) / f.h, w: c.w / f.w, h: c.h / f.h,
+      });
+      if (!mounted.current || recognitionDraftStore.getDraft()?.imageSessionId !== draft?.imageSessionId) return;
+      recognitionDraftStore.updateDraft({ croppedImageUri: normalizeLocalFileUri(result.uri), uri: normalizeLocalFileUri(result.uri), width: result.width, height: result.height });
+      const mode = resolveFlowDomain(null, draft?.mode);
+      const path = mode === 'MATH_TUTOR' ? '/learning/math-guide' : mode === 'ARITHMETIC' ? '/preview' : mode === 'OCR_PILOT' ? '/recognition/line-crop' : '/recognition/multiline-review';
+      router.push({ pathname: path as any, params: { retrySubmissionId, originalImageUri: original } });
+    } catch {
+      if (mounted.current) Alert.alert('Chưa cắt được ảnh', 'Ảnh của em vẫn được giữ. Em chọn vùng lớn hơn hoặc thử lại nhé.');
+    } finally { lock.current = false; if (mounted.current) setProcessing(false); }
+  };
+
+  return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
+    <AppHeader title="Cắt & căn thẳng" showBack />
+    <View style={styles.tip}><Ionicons name="crop-outline" size={18} color={COLORS.primaryDark} /><Text style={styles.tipText}>Kéo cạnh hoặc góc để cắt. Kéo thanh để căn thẳng.</Text></View>
+    <View style={[styles.body, landscape && styles.landscape]}>
+      <View style={styles.canvas} onLayout={e => { viewport.set({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }); }}>
+        {image ? <Animated.Image source={{ uri: image.uri }} style={imageStyle} resizeMode="stretch" onError={() => setLoadError(true)} accessibilityLabel="Ảnh bài tập đang căn chỉnh" /> : null}
+        {image && !loadError ? <>
+          {[topShade, bottomShade, leftShade, rightShade].map((shade, i) => <Animated.View key={i} pointerEvents="none" style={[styles.shade, shade]} />)}
+          <Animated.View style={[styles.crop, cropStyle]}>
+            <GestureDetector gesture={gesture()}><Animated.View style={StyleSheet.absoluteFill} /></GestureDetector>
+            <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, gridStyle]}>
+              {[33.33, 66.67].map(n => <React.Fragment key={n}><View style={[styles.horizontal, { top: `${n}%` }]} /><View style={[styles.vertical, { left: `${n}%` }]} /></React.Fragment>)}
+            </Animated.View>
+            {EDGES.map(edge => <GestureDetector key={edge} gesture={gesture(edge)}>
+              <Animated.View accessibilityLabel={`Kéo ${HANDLE_LABELS[edge]}`} style={[styles.handle, styles[`${edge}Handle`]]}>
+                <View pointerEvents="none" style={edge === 'top' || edge === 'bottom' ? styles.horizontalGrip : styles.verticalGrip} />
+              </Animated.View>
+            </GestureDetector>)}
+            {CORNERS.map(corner => <GestureDetector key={corner} gesture={gesture(corner)}>
+              <Animated.View accessibilityLabel={`Kéo ${HANDLE_LABELS[corner]}`} style={[styles.handle, styles[corner]]}><Animated.View pointerEvents="none" style={[styles.corner, styles[`${corner}Visual`], cornerStyle]} /></Animated.View>
+            </GestureDetector>)}
+          </Animated.View>
+        </> : null}
+        {!image && !loadError ? <View style={styles.loading}><ActivityRail label="Đang mở ảnh" /></View> : null}
+        {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" /><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text><AppButton title="Chọn lại ảnh" onPress={() => router.back()} /></View> : null}
+      </View>
+      <View style={[styles.footer, landscape && styles.landscapeFooter]}>
+        <View style={styles.controls}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Xoay ảnh 90 độ" disabled={disabled} onPress={() => { turns.set((turns.get() + 1) % 4); }} style={({ pressed }) => [styles.rotateButton, pressed && styles.pressed, disabled && styles.disabled]}>
+            <Ionicons name="refresh-outline" size={24} color={COLORS.primaryDark} /><Text style={styles.rotateLabel}>Xoay 90°</Text>
+          </Pressable>
+          <StraightenRuler angle={fine} disabled={disabled} />
+        </View>
+        <View style={styles.secondaryRow}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Đặt lại ảnh và khung cắt" disabled={disabled} style={styles.secondary} onPress={reset}><Ionicons name="refresh" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Đặt lại</Text></Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => select(true)}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
+        </View>
+        <AppButton title={processing ? 'Đang lưu ảnh…' : 'Dùng ảnh này'} accessibilityLabel="Xác nhận cắt ảnh" onPress={done} disabled={disabled} loading={processing} />
+      </View>
+    </View>
+  </SafeAreaView></GestureHandlerRootView>;
+}
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.background,
-    },
-    emptyContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: SIZES.large,
-    },
-    emptyText: {
-        fontFamily: FONTS.regular,
-        fontSize: 16,
-        color: COLORS.textSecondary,
-        marginBottom: SIZES.large,
-    },
-    instructionBox: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: SIZES.medium,
-        paddingVertical: SIZES.small,
-        backgroundColor: COLORS.surfaceSubdued,
-        borderBottomWidth: 1,
-        borderColor: '#BFDBFE',
-    },
-    instructionIcon: {
-        marginRight: 8,
-    },
-    instructionText: {
-        fontSize: 13,
-        color: COLORS.textPrimary,
-        lineHeight: 18,
-        flex: 1,
-        fontFamily: FONTS.semiBold,
-    },
-    imageContainer: {
-        flex: 1,
-        backgroundColor: '#0F172A',
-    },
-    imageWrapper: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-    },
-    imageLoadingContainer: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#0F172A',
-    },
-    image: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-    },
-    cropRect: {
-        position: 'absolute',
-        borderWidth: 2,
-        borderColor: '#22C55E',
-        backgroundColor: 'rgba(34, 197, 94, 0.15)',
-    },
-    cornerHitTarget: {
-        position: 'absolute',
-        width: 48,
-        height: 48,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 10,
-    },
-    cornerVisual: {
-        width: 24,
-        height: 24,
-        borderColor: '#22C55E',
-        position: 'absolute',
-    },
-    tl: { top: -24, left: -24 },
-    tr: { top: -24, right: -24 },
-    bl: { bottom: -24, left: -24 },
-    br: { bottom: -24, right: -24 },
-    visualTL: { top: 20, left: 20, borderTopWidth: 4, borderLeftWidth: 4 },
-    visualTR: { top: 20, right: 20, borderTopWidth: 4, borderRightWidth: 4 },
-    visualBL: { bottom: 20, left: 20, borderBottomWidth: 4, borderLeftWidth: 4 },
-    visualBR: { bottom: 20, right: 20, borderBottomWidth: 4, borderRightWidth: 4 },
-    cropOverlayEdgeTop: {
-        position: 'absolute',
-        top: -4,
-        left: 20,
-        right: 20,
-        height: 12,
-        backgroundColor: 'transparent',
-    },
-    cropOverlayEdgeBottom: {
-        position: 'absolute',
-        bottom: -4,
-        left: 20,
-        right: 20,
-        height: 12,
-        backgroundColor: 'transparent',
-    },
-    cropOverlayEdgeLeft: {
-        position: 'absolute',
-        left: -4,
-        top: 20,
-        bottom: 20,
-        width: 12,
-        backgroundColor: 'transparent',
-    },
-    cropOverlayEdgeRight: {
-        position: 'absolute',
-        right: -4,
-        top: 20,
-        bottom: 20,
-        width: 12,
-        backgroundColor: 'transparent',
-    },
-    processingOverlay: {
-        ...StyleSheet.absoluteFill as object,
-        backgroundColor: 'rgba(15, 23, 42, 0.75)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 100,
-    },
-    processingText: {
-        color: '#FFFFFF',
-        marginTop: 12,
-        fontSize: 16,
-        fontFamily: FONTS.semiBold,
-    },
-    errorOverlay: {
-        ...StyleSheet.absoluteFill as object,
-        backgroundColor: 'rgba(15, 23, 42, 0.9)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    errorText: {
-        color: COLORS.error,
-        marginTop: 10,
-        fontSize: 14,
-        fontFamily: FONTS.semiBold,
-    },
-    footer: {
-        padding: SIZES.large,
-        backgroundColor: COLORS.surface,
-        borderTopWidth: 1,
-        borderColor: COLORS.border,
-    },
-    buttonRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: SIZES.medium,
-    },
-    iconBtn: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 8,
-        borderRadius: 8,
-        backgroundColor: COLORS.surfaceSubdued,
-        flex: 0.48,
-        justifyContent: 'center',
-    },
-    iconBtnText: {
-        marginLeft: 6,
-        color: COLORS.primary,
-        fontFamily: FONTS.semiBold,
-        fontSize: 14,
-    },
+  screen: { flex: 1, backgroundColor: COLORS.background }, body: { flex: 1 }, landscape: { flexDirection: 'row' },
+  tip: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 18, paddingVertical: 10, backgroundColor: COLORS.surfaceSubdued },
+  tipText: { flex: 1, color: COLORS.textPrimary, fontFamily: FONTS.semiBold, fontSize: 13, lineHeight: 18 },
+  canvas: { flex: 1, overflow: 'hidden', backgroundColor: '#10121D' },
+  shade: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.58)' },
+  crop: { position: 'absolute', borderWidth: 1.5, borderColor: '#FFFFFF' },
+  horizontal: { position: 'absolute', left: 0, right: 0, height: 1, backgroundColor: 'rgba(255,255,255,0.35)' },
+  vertical: { position: 'absolute', top: 0, bottom: 0, width: 1, backgroundColor: 'rgba(255,255,255,0.35)' },
+  handle: { position: 'absolute', width: 48, height: 48, zIndex: 10 },
+  topHandle: { left: '50%', top: -24, transform: [{ translateX: -24 }] },
+  bottomHandle: { left: '50%', bottom: -24, transform: [{ translateX: -24 }] },
+  leftHandle: { left: -24, top: '50%', transform: [{ translateY: -24 }] },
+  rightHandle: { right: -24, top: '50%', transform: [{ translateY: -24 }] },
+  horizontalGrip: { position: 'absolute', width: 24, height: 4, top: 22, left: 12, borderRadius: 2, backgroundColor: '#FFF' },
+  verticalGrip: { position: 'absolute', width: 4, height: 24, top: 12, left: 22, borderRadius: 2, backgroundColor: '#FFF' },
+  corner: { position: 'absolute', width: 22, height: 22, borderColor: '#FFFFFF' },
+  tl: { left: -24, top: -24 }, tr: { right: -24, top: -24 }, bl: { left: -24, bottom: -24 }, br: { right: -24, bottom: -24 },
+  tlVisual: { top: 20, left: 20, borderTopWidth: 4, borderLeftWidth: 4 }, trVisual: { top: 20, right: 20, borderTopWidth: 4, borderRightWidth: 4 },
+  blVisual: { bottom: 20, left: 20, borderBottomWidth: 4, borderLeftWidth: 4 }, brVisual: { bottom: 20, right: 20, borderBottomWidth: 4, borderRightWidth: 4 },
+  loading: { ...StyleSheet.absoluteFill as object, justifyContent: 'center', alignItems: 'center', gap: 16, padding: 24 },
+  lightText: { color: '#FFF', fontFamily: FONTS.bold, fontSize: 17 },
+  footer: { paddingHorizontal: 20, paddingVertical: 14, gap: 8, backgroundColor: COLORS.surface }, landscapeFooter: { width: 320, justifyContent: 'center' },
+  controls: { flexDirection: 'row', alignItems: 'center', gap: 20 },
+  rotateButton: { width: 64, minHeight: 64, borderRadius: 18, backgroundColor: COLORS.surfaceSubdued, alignItems: 'center', justifyContent: 'center', gap: 3 },
+  rotateLabel: { fontFamily: FONTS.bold, fontSize: 11, color: COLORS.primaryDark }, pressed: { opacity: 0.65 }, disabled: { opacity: 0.4 },
+  rulerBlock: { flex: 1, paddingHorizontal: 8 }, rulerHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  controlTitle: { color: COLORS.textPrimary, fontFamily: FONTS.bold, fontSize: 13 }, angleLabel: { color: COLORS.primaryDark, fontFamily: FONTS.extraBold, fontSize: 16 },
+  ruler: { height: 60, marginTop: 4 }, ticks: { height: 26, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' },
+  tick: { width: 1, height: 12, backgroundColor: '#B6AEC9' }, majorTick: { height: 22, width: 2, backgroundColor: '#8F839F' },
+  degreeLabels: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }, degreeText: { color: COLORS.textSecondary, fontFamily: FONTS.semiBold, fontSize: 10 },
+  angleMarker: { position: 'absolute', top: 0, height: 31, width: 3, backgroundColor: COLORS.primary, transform: [{ translateX: -1.5 }] },
+  markerDot: { width: 9, height: 9, borderRadius: 5, backgroundColor: COLORS.primary, marginLeft: -3, marginTop: -3 },
+  secondaryRow: { flexDirection: 'row', justifyContent: 'space-between' }, secondary: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 14 },
+  secondaryText: { fontFamily: FONTS.bold, fontSize: 13, color: COLORS.primaryDark },
 });

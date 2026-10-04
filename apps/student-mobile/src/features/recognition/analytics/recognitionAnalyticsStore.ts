@@ -1,5 +1,4 @@
 import { computeLevenshteinDistance, tokenizeWords, computeWordLevenshteinDistance } from './textMetrics';
-export { computeLevenshteinDistance, tokenizeWords, computeWordLevenshteinDistance } from './textMetrics';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 import { MultilineTrialResult } from '../api/RecognitionService';
@@ -8,6 +7,7 @@ import { buildAdvisorView } from '../utils/lineReview';
 import { buildRecognitionMetrics } from './recognitionMetrics';
 import { LEGACY_HISTORY_KEY } from './legacyHistory';
 
+export { computeLevenshteinDistance, tokenizeWords, computeWordLevenshteinDistance } from './textMetrics';
 export type { MultilineTrialResult };
 
 export type CorrectionType = 'OCR_CORRECT' | 'AI_CORRECTED' | 'MANUAL_CORRECTED' | 'FAILED';
@@ -1932,7 +1932,6 @@ export class RecognitionAnalyticsStore {
         return;
       }
 
-      const selectedSource = (l.selectedSource || '').toUpperCase();
       const verdict = (l.verdict || (l as any).feedbackVerdict || '').toUpperCase();
 
       let groundTruthStatus: GroundTruthStatus = 'MISSING';
@@ -2045,7 +2044,7 @@ export class RecognitionAnalyticsStore {
         (isCompleted ? currentText : (l.verdict === 'CORRECT' ? ocrText : currentText))
       ).trim();
 
-      const { cer: lineCer, cerPercent: lineCerPercent, charAccuracy: lineCharAccuracy } = calculateCer(
+      const { cerPercent: lineCerPercent, charAccuracy: lineCharAccuracy } = calculateCer(
         ocrText,
         mandatoryGroundTruth
       );
@@ -2057,7 +2056,6 @@ export class RecognitionAnalyticsStore {
       }
 
       const {
-        wer: lineWer,
         werPercent: lineWerPercent,
         wordAccuracy: lineWordAccuracy,
         predictedWords: linePredWords,

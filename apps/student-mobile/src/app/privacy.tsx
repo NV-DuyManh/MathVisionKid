@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/immutability, react-hooks/purity, react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, useWindowDimensions } from 'react-native';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -42,6 +42,8 @@ interface Mask {
 
 export default function PrivacyGateScreen() {
   const router = useRouter();
+  const window = useWindowDimensions();
+  const landscape = window.width > window.height && window.height < 550;
   const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
   const draft = recognitionDraftStore.getDraft();
 
@@ -69,19 +71,44 @@ export default function PrivacyGateScreen() {
   }, []);
   const viewShotRef = useRef<any>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [sourceSize, setSourceSize] = useState<{ uri: string; width: number; height: number } | null>(null);
+
+  useEffect(() => {
+    if (!activeUri) return;
+    let cancelled = false;
+    // Cropping changes draft dimensions, but this screen always displays the source photo.
+    Image.getSize(activeUri, (width, height) => {
+      if (!cancelled && width > 0 && height > 0) setSourceSize({ uri: activeUri, width, height });
+    }, () => { if (!cancelled) setImageLoadError(true); });
+    return () => { cancelled = true; };
+  }, [activeUri]);
 
   const getFittedStyle = () => {
-    if (!containerSize.width || !containerSize.height || !draft?.width || !draft?.height) {
+    if (!containerSize.width || !containerSize.height || sourceSize?.uri !== activeUri) {
       return { width: '100%', height: '100%' } as any;
     }
     const containerRatio = containerSize.width / containerSize.height;
-    const imageRatio = draft.width / draft.height;
+    const imageRatio = sourceSize.width / sourceSize.height;
     if (imageRatio > containerRatio) {
       return { width: containerSize.width, height: containerSize.width / imageRatio };
     }
     return { width: containerSize.height * imageRatio, height: containerSize.height };
   };
   const fittedStyle = getFittedStyle();
+  const previousFit = useRef<{ width: number; height: number; uri: string } | null>(null);
+  useEffect(() => {
+    if (typeof fittedStyle.width !== 'number' || typeof fittedStyle.height !== 'number') return;
+    const previous = previousFit.current;
+    const next = { width: fittedStyle.width, height: fittedStyle.height, uri: activeUri };
+    previousFit.current = next;
+    if (previous?.uri === activeUri && previous.width > 0 && previous.height > 0 &&
+      (previous.width !== next.width || previous.height !== next.height)) {
+      setMasks(current => current.map(mask => ({ ...mask,
+        x: mask.x * next.width / previous.width, y: mask.y * next.height / previous.height,
+        width: mask.width * next.width / previous.width, height: mask.height * next.height / previous.height,
+      })));
+    }
+  }, [activeUri, fittedStyle.width, fittedStyle.height]);
 
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
 
@@ -432,7 +459,9 @@ export default function PrivacyGateScreen() {
 
       // If no masks were drawn, do NOT rasterize via ViewShot!
       if (masks.length === 0) {
-        recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, privacyConfirmed: true, isMasked: false, mode: postPrivacyMode });
+        recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, privacyConfirmed: true, isMasked: false, mode: postPrivacyMode,
+          ...(sourceSize?.uri === activeUri ? { width: sourceSize.width, height: sourceSize.height } : {}),
+        });
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: activeUri,
           width: draft?.width,
@@ -531,6 +560,7 @@ export default function PrivacyGateScreen() {
         </View>
 
         {/* Interactive Mask Canvas */}
+        <View style={[styles.editorBody, landscape && styles.editorLandscape]}>
         <View
           style={styles.imageContainer}
           onLayout={(e) => {
@@ -550,6 +580,7 @@ export default function PrivacyGateScreen() {
                   collapsable={false} >
                   <Image
                     source={{ uri: activeUri }}
+                    accessibilityLabel="Ảnh gốc để kiểm tra thông tin riêng tư"
                     style={styles.image}
                     resizeMode="contain"
                     onLoadStart={handleImageLoadStart}
@@ -669,7 +700,7 @@ export default function PrivacyGateScreen() {
         </View>
 
         {/* Footer Confirmation & Actions */}
-        <View style={[styles.footer, SHADOWS.medium]}>
+        <View style={[styles.footer, SHADOWS.medium, landscape && styles.landscapeFooter]}>
           <TouchableOpacity
             style={styles.checkboxContainer}
             onPress={() => setConfirmed(!confirmed)}
@@ -700,6 +731,7 @@ export default function PrivacyGateScreen() {
             variant="secondary"
             onPress={() => router.back()}
           />
+        </View>
         </View>
       </SafeAreaView>
     </GestureHandlerRootView>
@@ -768,6 +800,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#0F172A',
     position: 'relative',
   },
+  editorBody: { flex: 1 },
+  editorLandscape: { flexDirection: 'row' },
+  landscapeFooter: { width: 300, padding: 14, justifyContent: 'center' },
   imageWrapper: {
     flex: 1,
     width: '100%',

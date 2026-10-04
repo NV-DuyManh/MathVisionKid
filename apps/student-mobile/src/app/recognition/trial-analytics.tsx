@@ -14,12 +14,13 @@ import { RecognitionService } from '../../features/recognition/api/RecognitionSe
 export default function RecognitionTrialAnalyticsScreen() {
   const { trialId: rawId } = useLocalSearchParams<{ trialId?: string | string[] }>();
   const trialId = Array.isArray(rawId) ? rawId[0] : rawId;
-  const [trial, setTrial] = useState<TrialAnalytics | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState<{ trialId?: string; trial: TrialAnalytics | null; loading: boolean }>(() => ({ trialId, trial: null, loading: Boolean(trialId) }));
+  // Returning to a previous trial must still wait for its new request.
+  if (loaded.trialId !== trialId) setLoaded({ trialId, trial: null, loading: Boolean(trialId) });
+  const trial = loaded.trialId === trialId ? loaded.trial : null;
+  const loading = loaded.trialId === trialId ? loaded.loading : Boolean(trialId);
   useEffect(() => {
     let active = true;
-    setLoading(true);
-    setTrial(null);
     async function load() {
       if (!trialId) return;
       await recognitionAnalyticsStore.init();
@@ -28,10 +29,9 @@ export default function RecognitionTrialAnalyticsScreen() {
         const result = await RecognitionService.getMultilineTrial(trialId);
         data = recognitionAnalyticsStore.computeTrialAnalytics(result, result.lines.length > 0 && result.lines.every(line => ['CORRECT', 'CORRECTED', 'SKIPPED'].includes(line.verdict)));
       }
-      if (active) setTrial(data);
+      if (active) setLoaded({ trialId, trial: data, loading: false });
     }
-    load().catch(() => { if (active) setTrial(null); })
-      .finally(() => { if (active) setLoading(false); });
+    load().catch(() => { if (active) setLoaded({ trialId, trial: null, loading: false }); });
     return () => { active = false; };
   }, [trialId]);
   const metrics = buildRecognitionMetrics(recognitionAnalyticsStore.getSessions().filter(session => session.sessionId === trialId));

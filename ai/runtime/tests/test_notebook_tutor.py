@@ -72,6 +72,31 @@ def test_multiple_problems_return_crop_request_without_transcript(monkeypatch):
     assert result.kind == "MULTIPLE" and result.lines == [] and result.problemText == ""
 
 
+def test_answer_prose_cannot_become_an_original_question(monkeypatch):
+    monkeypatch.setattr(notebook, "_generate", AsyncMock(return_value={
+        "kind": "PROBLEM", "problemText": "Nhà trường đã vượt kế hoạch 15%", "needsProblem": False,
+        "lines": [
+            {"text": "Nhà trường đã vượt kế hoạch số phần trăm là:", "uncertain": False},
+            {"text": "115% - 100% = 15%", "uncertain": False},
+            {"text": "Đáp số: 15%", "uncertain": False},
+        ],
+    }))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == "WORK" and result.problemText == "" and result.needsProblem
+
+
+def test_visible_question_is_preserved_with_its_work(monkeypatch):
+    monkeypatch.setattr(notebook, "_generate", AsyncMock(return_value={
+        "kind": "MIXED", "problemText": "Hỏi quyển vở có giá bao nhiêu tiền?", "needsProblem": False,
+        "lines": [
+            {"text": "Hỏi quyển vở có giá bao nhiêu tiền?", "uncertain": False},
+            {"text": "Đáp số: 13000 đồng", "uncertain": False},
+        ],
+    }))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == "MIXED" and result.problemText and not result.needsProblem
+
+
 @pytest.mark.parametrize("hint", ["Em tính được 7 rồi nhân tiếp.", "Có mười bốn con bò khoang.", "Đáp số: 14", "49 : 7 = 7.", "14 chính là đáp số."])
 def test_existing_values_cannot_be_repackaged_as_answers(hint):
     request = notebook.CoachRequest(workText="49 : 7 × 2 = 14 (con)", focusText="49 : 7 × 2 = 14 (con)", stage="CHECK_WORK")

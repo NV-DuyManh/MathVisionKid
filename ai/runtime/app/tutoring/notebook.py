@@ -72,6 +72,9 @@ Return JSON only: kind PROBLEM (unsolved question), WORK (worked steps without t
 original question), MIXED (question plus steps), MULTIPLE (several separate problems),
 or UNREADABLE (not math/illegible); problemText (only the original visible question,
 empty if absent); needsProblem boolean; lines array of {text,box,uncertain,role}.
+An explanation ending in 'là:' followed by a completed calculation or 'Đáp số'
+is worked material, NOT an original question. For a photo containing only worked
+material use WORK and empty problemText. Never copy answers into problemText.
 role is TEXT for prose, EQUATION for calculations, DIAGRAM for labels in drawings.
 Each line is ONE physical handwritten/printed row in reading order, INCLUDING
 headings, explanatory prose, equations, units and final answer rows at the BOTTOM.
@@ -118,6 +121,13 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         return NotebookRead(kind="UNREADABLE")
     if result.kind in ("MULTIPLE", "UNREADABLE"):
         return NotebookRead(kind=result.kind)
+    # A model can mistake solution prose for a question. An answer-bearing
+    # transcription without any question must not become an invented problem.
+    visible = "\n".join(line.text for line in result.lines)
+    if (result.problemText and re.search(r"\bdap (?:so|an)\b", _fold(visible))
+            and not re.search(r"\b(?:hoi|hay|tinh|tim|bao nhieu)\b|\?", _fold(visible))):
+        result.problemText = ""
+        result.kind = "WORK"
     # Descriptions of drawings are not physical prose rows and cannot be
     # selected as a student's reasoning step.
     diagram_prefix = 0
@@ -140,7 +150,14 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         width, height = oriented.size
         pixels = cv2.cvtColor(np.array(oriented.convert("RGB")), cv2.COLOR_RGB2BGR)
     physical = handwriting_rows(pixels)
-    if physical and len(physical) != len(result.lines):
+    review_count = len(physical)
+    if not physical and height > width * 1.15:
+        from app.recognition.text_detector import detect_text_regions
+        regions = detect_text_regions(pixels)
+        review_count = len(regions) if regions else 0
+        # Learned text regions can expose missing transcription. They are not
+        # trusted line-to-text correspondences, so never attach them by count.
+    if review_count and review_count != len(result.lines):
         # A diagram, overwritten word or merged row merits an independent
         # reading. Disagreement becomes a targeted clarification, not a repair.
         remaining = min(10.0, 33.0 - (time.monotonic() - started))

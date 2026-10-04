@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { AuthProvider } from '../context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
-import { LogBox, Alert } from 'react-native';
+import { LogBox } from 'react-native';
 import { useEffect } from 'react';
 import { ENV } from '../config/env';
 import { useFonts } from 'expo-font';

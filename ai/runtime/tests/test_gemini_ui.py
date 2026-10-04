@@ -137,7 +137,7 @@ def test_gemui_10_merged_text_follows_chosen_final():
 
 def test_gemui_11_dev_panel_stays_removed():
     """GEMUI-11: Verify dev technical panel remains absent from student UI source code."""
-    ui_path = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "app" / "ocr-pilot" / "multiline-result.tsx"
+    ui_path = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "app" / "recognition" / "multiline-result.tsx"
     with open(ui_path, "r", encoding="utf-8") as f:
         src = f.read()
     # Check that forbidden dev technical panel headers and dev card components are absent
@@ -149,7 +149,7 @@ def test_gemui_11_dev_panel_stays_removed():
 
 def test_gemui_12_no_obvious_normal_width_overflow():
     """GEMUI-12: Verify responsive button rows and cards use flex without fixed exceeding widths."""
-    ui_path = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "app" / "ocr-pilot" / "multiline-result.tsx"
+    ui_path = Path(__file__).resolve().parents[3] / "apps" / "student-mobile" / "src" / "app" / "recognition" / "multiline-result.tsx"
     with open(ui_path, "r", encoding="utf-8") as f:
         src = f.read()
     assert "sectionBBox:" in src

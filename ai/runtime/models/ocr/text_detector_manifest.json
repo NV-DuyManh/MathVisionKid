@@ -1,0 +1,13 @@
+{
+  "source": "https://huggingface.co/opencv/opencv_zoo",
+  "revision": "d4938dfc9d4ec5d098bfa33e98b3f3345a236586",
+  "model": "text_detection_cn_ppocrv3_2023may.onnx",
+  "download_url": "https://huggingface.co/opencv/opencv_zoo/resolve/d4938dfc9d4ec5d098bfa33e98b3f3345a236586/models/text_detection_ppocr/text_detection_cn_ppocrv3_2023may.onnx",
+  "sha256": "03f550c6b406fda8bf54bd8327815f6c7e2edd98cea02348c93d879254366587",
+  "bytes": 2423490,
+  "license": "Apache-2.0 (official directory LICENSE)",
+  "training_performed": false,
+  "evaluation_only": false,
+  "warning": "General text candidate detector, not verified mathematical layout or Vietnamese OCR.",
+  "purpose": "Optional text-region proposals, not verified mathematical rows or transcription"
+}

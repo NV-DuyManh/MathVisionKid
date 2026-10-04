@@ -9,7 +9,6 @@ import {
   ActivityIndicator,
   Alert,
   ScrollView,
-  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -60,7 +59,7 @@ export default function OcrResultScreen() {
         setTrialResult(res);
         setEditedText(res.recognizedText || '');
         setIsLoading(false);
-      } catch (err: any) {
+      } catch {
         if (!active) return;
         if (__DEV__) console.log('[RECOGNITION] Line recognition failed');
         setErrorMsg('Không thể nhận diện dòng chữ lúc này. Vui lòng kiểm tra kết nối.');

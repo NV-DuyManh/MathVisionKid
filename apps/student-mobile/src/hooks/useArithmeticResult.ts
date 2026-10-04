@@ -7,19 +7,17 @@ import { parseSubmissionResult } from '../utils/resultRouting';
 export function useArithmeticResult(data?: string, submissionId?: string) {
   const initial = parseSubmissionResult(data);
   const id = submissionId || initial?.id;
-  const [result, setResult] = useState<SubmissionResult | null>(null);
-  const [loading, setLoading] = useState(Boolean(id));
+  const [loaded, setLoaded] = useState<{ id?: string; result: SubmissionResult | null; loading: boolean }>(() => ({ id, result: null, loading: Boolean(id) }));
+  // Reset on every identity change, including returning to a previous pending request.
+  if (loaded.id !== id) setLoaded({ id, result: null, loading: Boolean(id) });
   useEffect(() => {
     const controller = new AbortController();
-    setResult(null);
-    setLoading(Boolean(id));
     if (id) {
       getSubmissionService().getSubmission(id, undefined, controller.signal)
-        .then(current => { if (!controller.signal.aborted) setResult(current); })
-        .catch(() => { /* Keep missing results ungraded; the screen offers a safe way back. */ })
-        .finally(() => { if (!controller.signal.aborted) setLoading(false); });
+        .then(current => { if (!controller.signal.aborted) setLoaded({ id, result: current, loading: false }); })
+        .catch(() => { if (!controller.signal.aborted) setLoaded({ id, result: null, loading: false }); });
     }
     return () => controller.abort();
   }, [id]);
-  return { result, loading };
+  return { result: loaded.id === id ? loaded.result : null, loading: loaded.id === id ? loaded.loading : Boolean(id) };
 }

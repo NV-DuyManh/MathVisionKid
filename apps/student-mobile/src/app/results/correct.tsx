@@ -6,7 +6,6 @@ import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { StatusCard } from '../../components/domain/StatusCard';
 import { MathExpression } from '../../components/domain/MathExpression';
-import { SubmissionResult } from '../../types';
 import { logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 import { useArithmeticResult } from '../../hooks/useArithmeticResult';
 import { resolveResultRoute } from '../../utils/resultRouting';
@@ -19,7 +18,8 @@ export default function CorrectScreen() {
   const target = result ? resolveResultRoute(result) : null;
 
   useEffect(() => {
-    if (target && target.pathname !== '/results/correct') router.replace(target as any);
+    const destination = result ? resolveResultRoute(result) : null;
+    if (destination && destination.pathname !== '/results/correct') router.replace(destination as any);
   }, [result, router]);
 
   useEffect(() => {

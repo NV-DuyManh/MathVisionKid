@@ -21,14 +21,14 @@ AUTH_HEADERS = {
 
 def test_live_01_runtime_detector_version_visible():
     """LIVE-01: Runtime detector version is constant and visible."""
-    assert HW_LINE_DETECTOR_VERSION == "runtime6-hue-projection-20260914"
+    assert HW_LINE_DETECTOR_VERSION == "runtime9-stroke-annotation-rows-20261004"
     dummy_img = np.full((100, 100, 3), 255, dtype=np.uint8)
     _, png_bytes = cv2.imencode(".png", dummy_img)
     response = client.post("/internal/v1/ocr/detect-lines", content=png_bytes.tobytes(), headers=AUTH_HEADERS)
     assert response.status_code == 200
     data = response.json()
-    assert data["detector_version"] == "runtime6-hue-projection-20260914"
-    assert data["diagnostics"]["detector_version"] == "runtime6-hue-projection-20260914"
+    assert data["detector_version"] == HW_LINE_DETECTOR_VERSION
+    assert data["diagnostics"]["detector_version"] == HW_LINE_DETECTOR_VERSION
 
 def test_live_02_no_duplicate_fastapi_listener():
     """LIVE-02: Verify port binding logic / test client connects cleanly to single app."""
@@ -182,5 +182,5 @@ def test_live_12_physical_fixture_regression_contract():
         cv2.putText(img, f"Dong chu viet tay {i+1}", (30, y_pos), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (180, 50, 20), 2)
 
     lines, diag = detect_text_lines(img)
-    assert diag["detector_version"] in (HW_LINE_DETECTOR_VERSION, "generalized-20260914")
+    assert diag["detector_version"] in (HW_LINE_DETECTOR_VERSION, "generalized-20260914", "local-text-regions-v1-20261004")
     assert len(lines) >= 3  # Successfully isolates ink from grid

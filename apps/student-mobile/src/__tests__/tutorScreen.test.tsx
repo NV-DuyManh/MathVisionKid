@@ -74,6 +74,23 @@ it('keeps a wrong response at the same reasoning step', async () => {
   expect(readText()).toContain('Em tìm gì trước?');
 });
 
+it('opens and collapses the problem while keeping the current lesson step', async () => {
+  await render();
+  expect(button('Xem lại đề bài')).toBeUndefined();
+  await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
+  expect(button('Xem lại đề bài').props['aria-expanded']).toBe(false);
+  expect(readText()).not.toContain(PROBLEM);
+  act(() => button('Xem lại đề bài').props.onPress());
+  expect(button('Xem lại đề bài').props['aria-expanded']).toBe(true);
+  expect(readText()).toContain(PROBLEM);
+  act(() => button('Xem lại đề bài').props.onPress());
+  expect(readText()).not.toContain(PROBLEM);
+  expect(readText()).toContain('Em tìm gì trước?');
+  expect(TutorService.startLesson).toHaveBeenCalledTimes(1);
+  act(() => button('Chỉnh đề bài').props.onPress());
+  expect(input('Nội dung đề bài').props.value).toBe(PROBLEM);
+});
+
 it('uses a short numeric input and unit only after the server advances', async () => {
   (TutorService.answerLesson as jest.Mock).mockResolvedValue({ ...LESSON, stepIndex: 1, revision: 1, completed: [{}],
     step: { ...LESSON.step, title: 'Tìm chiều cao', question: 'Em tính chiều cao?', choices: [], expression: '90 × 2 ÷ 15', unit: 'cm' } });
@@ -112,6 +129,7 @@ it('combines the second privacy-approved problem photo with the first work', asy
   expect(readText()).toContain(PROBLEM);
   await act(async () => { await button('Cùng hiểu và đối chiếu bài').props.onPress(); });
   expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '90 × 2 : 15 = 12 (cm)', expect.anything());
+  act(() => button('Xem bài em đã viết').props.onPress());
   expect(view.root.findAll(node => node.props.accessibilityLabel === 'Ảnh bài em đã làm')[0].props.source.uri).toBe('file:///previous-masked.jpg');
 });
 
@@ -157,4 +175,22 @@ it('does not use uncertain work as a basis for comparing a method', async () => 
   await act(async () => { await button('Cùng hiểu và đối chiếu bài').props.onPress(); });
   expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '', expect.anything());
   expect(readText()).toContain('chưa đọc rõ');
+});
+
+it('shows the explanation before the pupil answers, rather than a generic extra hint', async () => {
+  await render();
+  await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
+  expect(readText()).toContain('Cần hai đáy và chiều cao.');
+  expect(readText()).toContain(LESSON.goal);
+});
+
+it('distinguishes lesson generation failure from a network error and offers a concrete retry', async () => {
+  (TutorService.startLesson as jest.Mock).mockRejectedValue({ response: { status: 503, data: { message: 'provider secret' } } });
+  await render();
+  await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
+  expect(readText()).toContain('chưa chuẩn bị được hướng dẫn');
+  expect(readText()).not.toContain('Chưa kết nối được');
+  expect(readText()).not.toContain('provider secret');
+  expect(button('Bắt đầu lại bài học')).toBeDefined();
+  expect(button('Nhận một gợi ý để bắt đầu')).toBeUndefined();
 });

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +9,7 @@ import { AppButton } from '../../components/ui/AppButton';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { ImageDraft, recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
-import { LessonResponse, NotebookRead, TutorGuidance, TutorService } from '../../features/tutoring/api/TutorService';
+import { LessonResponse, NotebookRead, TutorService } from '../../features/tutoring/api/TutorService';
 import { AuthContext } from '../../context/AuthContext';
 import { saveLesson } from '../../features/tutoring/learningHistory';
 
@@ -41,29 +41,41 @@ export default function MathGuideScreen() {
   const [expired, setExpired] = useState(false);
   const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
   const [showWork, setShowWork] = useState(false);
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [showProblem, setShowProblem] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [fallback, setFallback] = useState<TutorGuidance | null>(null);
-  const lessonId = useRef(context?.lessonId || (typeof params.lessonId === 'string' ? params.lessonId : `lesson_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`));
+  const [lessonId] = useState(() => context?.lessonId || (typeof params.lessonId === 'string' ? params.lessonId : `lesson_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`));
   const requestId = useRef(0);
   const controller = useRef<AbortController | null>(null);
   const running = useRef(false);
   const active = useRef(true);
   const initialized = useRef(false);
+  const scroll = useRef<ScrollView>(null);
+  const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
   const step = lesson?.step;
+  const lessonSessionId = lesson?.sessionId;
+  const lessonStepIndex = lesson?.stepIndex;
+  useEffect(() => {
+    if (!lessonSessionId) return;
+    const frame = requestAnimationFrame(() => scroll.current?.scrollTo({ y: Math.max(0, lessonPosition.current - 12), animated: false }));
+    return () => cancelAnimationFrame(frame);
+  }, [lessonSessionId, lessonStepIndex]);
   const cancel = () => {
     requestId.current += 1; controller.current?.abort(); controller.current = null; running.current = false; setBusy(null);
   };
-  const failureMessage = (failure: any) => {
+  const failureMessage = useCallback((failure: any) => {
     if (failure?.response?.status === 401) {
       setExpired(true); setError('Phiên học đã hết hạn. Em đăng nhập lại để tiếp tục nhé.');
     } else if ([409, 410].includes(failure?.response?.status)) {
       setLesson(null); setError('Bài học đã hết phiên. Đề và bài làm vẫn ở đây; em bắt đầu lại nhé.');
+    } else if ([400, 422].includes(failure?.response?.status)) {
+      setError('Đề bài còn thiếu hoặc có chỗ chưa rõ. Em kiểm tra lại lời văn, số và câu hỏi nhé.');
+    } else if (failure?.response?.status === 503) {
+      setError('Mình chưa chuẩn bị được hướng dẫn cho bài này lúc này. Bài của em vẫn ở đây; em kiểm tra đề đầy đủ rồi thử lại nhé.');
     } else setError('Chưa kết nối được lúc này. Bài của em vẫn ở đây, em thử lại nhé.');
-  };
-  const run = async <T,>(kind: 'read' | 'lesson' | 'answer', task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
+  }, []);
+  const run = useCallback(async <T,>(kind: 'read' | 'lesson' | 'answer', task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
     if (running.current || expired) return;
     const id = ++requestId.current; const abort = new AbortController();
     controller.current = abort; running.current = true; setBusy(kind); setError('');
@@ -75,7 +87,7 @@ export default function MathGuideScreen() {
     } finally {
       if (active.current && id === requestId.current) { running.current = false; controller.current = null; setBusy(null); }
     }
-  };
+  }, [expired, failureMessage]);
   const inspectPhoto = useCallback(async () => {
     if (!photoAllowed) return;
     await run('read', signal => TutorService.inspect(imageUri, true, signal), result => {
@@ -97,7 +109,7 @@ export default function MathGuideScreen() {
         if (result.problemText) setProblemImage(imageUri);
       }
     });
-  }, [photoAllowed, imageUri]);
+  }, [photoAllowed, imageUri, context?.purpose, draft?.problemText, run]);
 
   useFocusEffect(useCallback(() => {
     active.current = true;
@@ -110,7 +122,7 @@ export default function MathGuideScreen() {
     if (purpose) {
       const pending: ImageDraft = { rawUri: '', uri: '', width: 0, height: 0, mimeType: 'image/jpeg', filename: 'pending.jpg', mode: 'MATH_TUTOR',
         lessonContext: { purpose, problemText: problem, workText: work, workImageUri: workImage, problemImageUri: problemImage,
-          lessonId: lessonId.current, uncertainWork } };
+          lessonId, uncertainWork } };
       recognitionDraftStore.setDraft(pending);
     } else recognitionDraftStore.clearDraft();
     router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR' } });
@@ -118,43 +130,39 @@ export default function MathGuideScreen() {
   const start = () => {
     if (problem.trim().length < 3 || problem.includes('[?]')) return;
     void run('lesson', signal => TutorService.startLesson(problem.trim(), uncertainWork ? '' : work, signal), result => {
-      setLesson(result); setAttempt(''); setShowExplanation(false); setSaved(false); setFallback(null);
+      setLesson(result); setAttempt(''); setShowProblem(false); setSaved(false);
     });
   };
   const answer = (value: string, hint = false) => {
     if (!lesson) return;
     void run('answer', signal => TutorService.answerLesson(lesson, value, hint, signal), result => {
       setLesson(result);
-      if (result.stepIndex !== lesson.stepIndex) { setAttempt(''); setShowExplanation(false); }
-      if (hint) setShowExplanation(true);
+      if (result.stepIndex !== lesson.stepIndex) setAttempt('');
       setSaved(false);
     });
   };
-  const askFallback = () => void run('lesson', signal => TutorService.coach({
-    problemText: problem, workText: '', focusText: '', stage: 'PLAN', studentAttempt: '', hintLevel: 0, previousHint: '',
-  }, signal), setFallback);
   const archive = async () => {
     if (saving || (!problem.trim() && !work)) return;
     setSaving(true);
     try {
-      await saveLesson(owner, { id: lessonId.current, timestamp: Date.now(), problemText: problem, workText: work,
+      await saveLesson(owner, { id: lessonId, timestamp: Date.now(), problemText: problem, workText: work,
         reflection: lesson?.completed.filter(row => row.expression).map(row => `${row.title}: ${row.expression} = ${row.answer} ${row.unit}`).join('\n').slice(0, 2000) || '',
         reviewedSteps: lesson?.completed.length ?? 0 });
       if (active.current) setSaved(true);
     } catch { if (active.current) setError('Chưa lưu được bài. Em thử lại nhé.'); }
     finally { if (active.current) setSaving(false); }
   };
-  const edit = (field: 'problem' | 'work') => { cancel(); setEditing(field); setLesson(null); setFallback(null); setSaved(false); };
+  const edit = (field: 'problem' | 'work') => { cancel(); setError(''); setEditing(field); setLesson(null); setSaved(false); };
 
   return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
     <AppHeader title={work ? 'Hiểu bài, kiểm tra cách làm' : 'Cùng em tìm cách giải'} showBack />
     <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       {busy === 'read' ? <RecognitionProgress title="Mình đang đọc bài của em" description="Giữ cả đề và phần bài làm để cùng học nhé." imageUri={imageUri} onCancel={cancel} cancelLabel="Dừng chờ, giữ ảnh" />
-      : <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      : <ScrollView ref={scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
           <View style={styles.flex}><Text style={styles.eyebrow}>HỌC CÙNG MATHVISIONKID</Text>
-            <Text style={styles.title}>{lesson?.status === 'COMPLETE' ? 'Em đã tự làm được!' : !problem && work ? 'Thêm đề, hiểu trọn bài' : 'Hiểu cách làm, tự tìm lời giải'}</Text>
-            <Text style={styles.body}>{!problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : 'Một câu hỏi rõ ràng. Một bước nhỏ mỗi lần.'}</Text></View>
+            <Text style={styles.title}>{lesson?.status === 'COMPLETE' ? 'Em đã tự làm được!' : lesson?.topic || (!problem && work ? 'Thêm đề, hiểu trọn bài' : 'Hiểu cách làm, tự tìm lời giải')}</Text>
+            <Text style={styles.body}>{lesson?.goal || (!problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : 'Hiểu đề → chọn cách làm → tự tính → kiểm tra lại.')}</Text></View>
           <Image source={MASCOT} style={styles.mascot} resizeMode="contain" accessible={false} />
         </LinearGradient>
 
@@ -173,7 +181,7 @@ export default function MathGuideScreen() {
           <Pressable style={styles.linkButton} accessibilityRole="button" onPress={() => edit('problem')}><Text style={styles.link}>Em muốn nhập đề bằng chữ</Text></Pressable>
         </View> : null}
 
-        {!!(workImage || problemImage) && <View style={styles.photos}>
+        {!!(workImage || problemImage) && !lesson && <View style={styles.photos}>
           {problemImage ? <View style={styles.photoCard}><Image source={{ uri: problemImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh đề bài đã che thông tin" /><Text style={styles.caption}>Đề bài</Text></View> : null}
           {workImage && workImage !== problemImage ? <View style={styles.photoCard}><Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" /><Text style={styles.caption}>Bài em làm</Text></View> : null}
         </View>}
@@ -197,28 +205,42 @@ export default function MathGuideScreen() {
         </View> : null}
 
         {!!problem && !editing ? <View style={styles.card}>
-          <View style={styles.row}><Text style={styles.heading}>Đề bài của em</Text><Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" style={styles.linkButton} onPress={() => edit('problem')}><Text style={styles.link}>Chỉnh đề</Text></Pressable></View>
-          <Text style={styles.body}>{problem}</Text>
+          <View style={styles.problemHeader}>
+            {lesson ? <Pressable accessibilityRole="button" accessibilityLabel="Xem lại đề bài" aria-expanded={showProblem}
+              onPress={() => setShowProblem(v => !v)} style={({ pressed }) => [styles.problemToggle, pressed && styles.problemPressed]}>
+              <View style={styles.problemIcon}><Ionicons name="document-text-outline" size={21} color={COLORS.primaryDark} /></View>
+              <View style={styles.flex}><Text style={styles.problemTitle}>Đề bài của em</Text><Text style={styles.problemHint}>{showProblem ? 'Thu gọn đề bài' : 'Xem lại dữ kiện'}</Text></View>
+              <View style={styles.problemChevron}><Ionicons name={showProblem ? 'chevron-up' : 'chevron-down'} size={20} color={COLORS.primaryDark} /></View>
+            </Pressable> : <View style={styles.problemToggle}>
+              <View style={styles.problemIcon}><Ionicons name="document-text-outline" size={21} color={COLORS.primaryDark} /></View>
+              <Text style={[styles.problemTitle, styles.flex]}>Đề bài của em</Text>
+            </View>}
+            <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={() => edit('problem')}
+              style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /></Pressable>
+          </View>
+          {!lesson || showProblem ? <View style={styles.problemContent}><Text style={styles.body}>{problem}</Text></View> : null}
           {problem.includes('[?]') ? <Text style={styles.error}>Có dữ kiện chưa rõ. Em chỉnh lại chỗ đánh dấu trước nhé.</Text> : !lesson && !busy ? <AppButton title={work ? 'Cùng hiểu và đối chiếu bài' : 'Bắt đầu từng bước'} onPress={start} disabled={expired || !!invalidPhoto} /> : null}
           {!work && !lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp thêm bài làm" onPress={() => capture('ADD_WORK')}><Text style={styles.link}>Em đã làm rồi? Chụp thêm bài làm</Text></Pressable> : null}
         </View> : null}
 
         {!!work && !editing ? <View style={styles.workCard}>
-          <Pressable style={styles.row} accessibilityRole="button" accessibilityLabel="Xem bài em đã viết" accessibilityState={{ expanded: showWork }} onPress={() => setShowWork(v => !v)}>
+          <Pressable style={[styles.row, styles.workToggle]} accessibilityRole="button" accessibilityLabel="Xem bài em đã viết" aria-expanded={showWork} onPress={() => setShowWork(v => !v)}>
             <Ionicons name="book-outline" size={21} color={COLORS.primaryDark} /><Text style={[styles.link, styles.flex]}>Bài em đã viết</Text><Ionicons name={showWork ? 'chevron-up' : 'chevron-down'} size={18} color={COLORS.primaryDark} />
           </Pressable>
           {uncertainWork ? <Text style={styles.body}>Có chỗ trong ảnh chưa đọc rõ. Mình hướng dẫn từ đề; cần đối chiếu lại bài viết trước khi kiểm tra phần này.</Text> : null}
-          {showWork ? <><Text style={styles.body}>{work}</Text><Pressable accessibilityRole="button" style={styles.linkButton} onPress={() => edit('work')}><Text style={styles.link}>Chỉnh chỗ chưa đọc đúng</Text></Pressable></> : null}
+          {showWork ? <>{lesson && workImage ? <Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" /> : null}<Text style={styles.body}>{work}</Text><Pressable accessibilityRole="button" style={styles.linkButton} onPress={() => edit('work')}><Text style={styles.link}>Chỉnh chỗ chưa đọc đúng</Text></Pressable></> : null}
         </View> : null}
 
         {busy === 'lesson' ? <View style={styles.card}><RecognitionProgress title="Chuẩn bị các bước học" description="Mỗi bước sẽ có một việc rõ ràng để em thử." onCancel={cancel} cancelLabel="Dừng chờ" /></View> : null}
         {lesson && !editing ? <>
-          <View style={styles.rail}>{lesson.outline.map((title, index) => <View key={index} style={[styles.railStep, index <= lesson.stepIndex && styles.railActive]}>
-            <Text style={styles.railNumber}>{index < lesson.stepIndex ? '✓' : index + 1}</Text><Text style={styles.railLabel}>{title}</Text>
-          </View>)}</View>
-          {step ? <View style={styles.card} accessibilityLiveRegion="polite">
+          <View style={styles.rail} accessible accessibilityRole="progressbar" accessibilityLabel="Tiến trình bài học"
+            accessibilityValue={{ min: 0, max: lesson.outline.length, now: lesson.stepIndex, text: `Đã hoàn thành ${lesson.stepIndex} trên ${lesson.outline.length} bước` }}>
+            {lesson.outline.map((_, index) => <View key={index} style={[styles.railStep, index <= lesson.stepIndex && styles.railActive]} />)}
+          </View>
+          {step ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>BƯỚC {lesson.stepIndex + 1} / {lesson.outline.length}</Text>
             <Text style={styles.heading}>{step.title}</Text>
+            <View style={styles.explanation}><Text style={styles.body}>{step.explanation}</Text></View>
             {step.workExcerpt ? <View style={styles.workCard}><Text style={styles.caption}>TRONG BÀI EM VIẾT</Text><Text style={styles.body}>{step.workExcerpt}</Text></View> : null}
             <Text style={styles.question}>{step.question}</Text>
             {step.expression ? <View style={styles.expression}><Text style={styles.expressionText}>{step.expression} = ?</Text></View> : null}
@@ -231,10 +253,7 @@ export default function MathGuideScreen() {
               <Text style={styles.unit}>{step.unit}</Text></View>
               <AppButton title="Kiểm tra bước này" onPress={() => answer(attempt)} disabled={!attempt.trim() || !!busy || expired} loading={busy === 'answer'} /></>}
             {lesson.feedback ? <Text style={lesson.status === 'TRY_AGAIN' ? styles.error : styles.feedback}>{lesson.feedback}</Text> : null}
-            <Pressable accessibilityRole="button" accessibilityLabel="Giải thích cách làm" style={styles.linkButton} onPress={() => setShowExplanation(v => !v)}>
-              <Text style={styles.link}>{showExplanation ? 'Thu gọn giải thích' : 'Vì sao làm như vậy?'}</Text></Pressable>
-            {showExplanation ? <View style={styles.explanation}><Text style={styles.body}>{step.explanation}</Text></View> : null}
-          </View> : <View style={styles.card}>
+          </View> : <View style={styles.card} onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.heading}>Lời giải em vừa hoàn thành</Text><Text style={styles.body}>{lesson.goal}</Text>
             {lesson.feedback ? <Text style={styles.feedback}>{lesson.feedback}</Text> : null}
             {lesson.completed.map((item, index) => <View key={index} style={styles.completedStep}>
@@ -246,8 +265,6 @@ export default function MathGuideScreen() {
           </View>}
         </> : null}
         {error && problem && !lesson && !expired ? <AppButton title="Bắt đầu lại bài học" variant="secondary" onPress={start} /> : null}
-        {error && problem && !lesson && !expired ? <Pressable style={styles.linkButton} accessibilityRole="button" onPress={askFallback}><Text style={styles.link}>Nhận một gợi ý để bắt đầu</Text></Pressable> : null}
-        {fallback ? <View style={styles.card}><Text style={styles.body}>{fallback.hint}</Text><Text style={styles.question}>{fallback.question}</Text></View> : null}
         {!!(problem || work) && !editing && !busy ? <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} variant="secondary" loading={saving} disabled={saved || saving} onPress={() => void archive()} /> : null}
         <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp bài khác" onPress={() => capture()}><Text style={styles.link}>Chụp bài khác</Text></Pressable>
       </ScrollView>}
@@ -267,6 +284,15 @@ const styles = StyleSheet.create({
   errorCard: { backgroundColor: '#FFF3ED', padding: 16, borderRadius: 18, gap: 12 },
   error: { color: '#963E22', fontSize: 15, lineHeight: 22, fontFamily: FONTS.semiBold },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
+  problemHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  problemToggle: { flex: 1, minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14 },
+  problemIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: COLORS.surfaceSubdued, alignItems: 'center', justifyContent: 'center' },
+  problemTitle: { fontSize: 17, lineHeight: 23, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
+  problemHint: { fontSize: 12, lineHeight: 18, color: COLORS.textSecondary, fontFamily: FONTS.medium },
+  problemChevron: { width: 28, height: 28, borderRadius: 14, backgroundColor: COLORS.surfaceSubdued, alignItems: 'center', justifyContent: 'center' },
+  problemEdit: { width: 48, height: 48, borderRadius: 15, borderWidth: 1, borderColor: '#E8E1F4', alignItems: 'center', justifyContent: 'center' },
+  problemPressed: { backgroundColor: COLORS.surfaceSubdued },
+  problemContent: { borderTopWidth: 1, borderColor: '#EEE8F7', paddingTop: 14 },
   photos: { flexDirection: 'row', gap: 12 }, photoCard: { flex: 1, backgroundColor: COLORS.surface, borderRadius: 18, padding: 8, gap: 5 },
   photo: { width: '100%', height: 120, borderRadius: 12, backgroundColor: '#F1EEF8' },
   caption: { fontSize: 12, color: COLORS.textSecondary, fontFamily: FONTS.bold },
@@ -274,9 +300,9 @@ const styles = StyleSheet.create({
   linkButton: { minHeight: 44, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 8 },
   input: { minHeight: 130, borderRadius: 16, padding: 16, backgroundColor: '#F8F5FF', borderWidth: 1, borderColor: '#D7CDF2', fontFamily: FONTS.regular, fontSize: 16, color: COLORS.textPrimary, textAlignVertical: 'top' },
   workCard: { backgroundColor: '#F0EBFC', padding: 16, borderRadius: 18, gap: 10 },
-  rail: { flexDirection: 'row', gap: 6, flexWrap: 'wrap' }, railStep: { flexGrow: 1, flexBasis: 90, padding: 10, borderRadius: 14, backgroundColor: '#ECEAF2', gap: 4 },
-  railActive: { backgroundColor: '#E6DDFB' }, railNumber: { color: COLORS.primaryDark, fontFamily: FONTS.extraBold, fontSize: 16 },
-  railLabel: { color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 11, lineHeight: 16 },
+  workToggle: { minHeight: 48 },
+  rail: { flexDirection: 'row', gap: 6, paddingVertical: 4 }, railStep: { flex: 1, height: 6, borderRadius: 3, backgroundColor: '#E2DCEB' },
+  railActive: { backgroundColor: COLORS.primary },
   question: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 19, lineHeight: 28 },
   expression: { backgroundColor: '#F1EBFF', borderRadius: 18, padding: 18 },
   expressionText: { fontSize: 24, lineHeight: 34, color: COLORS.primaryDark, fontFamily: FONTS.extraBold },

@@ -9,8 +9,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MOBILE_ROOT = REPO_ROOT / "apps" / "student-mobile"
 HOME_SCREEN_PATH = MOBILE_ROOT / "src" / "app" / "(tabs)" / "index.tsx"
-EDITOR_SCREEN_PATH = MOBILE_ROOT / "src" / "app" / "ocr-pilot" / "multiline-review.tsx"
-RESULT_SCREEN_PATH = MOBILE_ROOT / "src" / "app" / "ocr-pilot" / "multiline-result.tsx"
+EDITOR_SCREEN_PATH = MOBILE_ROOT / "src" / "app" / "recognition" / "multiline-review.tsx"
+RESULT_SCREEN_PATH = MOBILE_ROOT / "src" / "app" / "recognition" / "multiline-result.tsx"
 LAYOUT_PATH = MOBILE_ROOT / "src" / "app" / "(tabs)" / "_layout.tsx"
 
 
@@ -42,11 +42,15 @@ def test_home_02_no_pilot_badges():
 
 
 def test_home_03_hero_camera_and_library_actions():
-    """HOME-03: Hero camera + library actions clear"""
+    """HOME-03: Owner-approved direct camera CTA; library remains in camera."""
     content = read_file(HOME_SCREEN_PATH)
-    assert "Đọc chữ viết tay" in content
-    assert "Chụp ảnh" in content
-    assert "Chọn từ thư viện" in content
+    dashboard = read_file(MOBILE_ROOT / "src/components/home/HomeDashboard.tsx")
+    camera = read_file(MOBILE_ROOT / "src/app/camera.tsx")
+    assert "Chụp bài toán" in dashboard
+    assert "onPress={onAcquire}" in dashboard
+    assert "onAcquire={() => navigateToCamera('MATH_TUTOR')}" in content
+    assert "Chọn ảnh từ thư viện" in camera
+    assert "onPress={handlePickImage}" in camera
 
 
 def test_home_04_unified_handwriting_flow():
@@ -54,7 +58,7 @@ def test_home_04_unified_handwriting_flow():
     content = read_file(HOME_SCREEN_PATH)
     assert "Nhận diện 1 dòng" not in content
     assert "Nhận diện nhiều dòng" not in content
-    assert "Đọc phép tính" in content
+    assert "onAcquire={() => navigateToCamera('MATH_TUTOR')}" in content
 
 
 def test_home_05_tips_visually_secondary():
@@ -71,7 +75,8 @@ def test_home_06_bottom_nav_polished():
     """HOME-06: Bottom nav polished"""
     content = read_file(LAYOUT_PATH)
     assert "Trang chủ" in content
-    assert "Chụp" in content
+    assert "Bài học" in content
+    assert "Thành tích" in content
     assert "Của em" in content
 
 
@@ -129,8 +134,9 @@ def test_editor_06_cta_says_nhan_dien_chu():
 def test_editor_07_submit_loading_disabled_state():
     """EDITOR-07: Submit loading and disabled state polished"""
     content = read_file(EDITOR_SCREEN_PATH)
-    assert "Đang xử lý..." in content
-    assert "disabled={requestStatus === 'SUBMITTING' || boxes.length === 0}" in content
+    assert "if (requestStatus === 'SUBMITTING')" in content
+    assert 'RecognitionProgress title="Đang đọc bài của em"' in content
+    assert "disabled={boxes.length === 0}" in content
 
 
 # ==============================================================================
@@ -160,11 +166,13 @@ def test_result_03_goi_y_2_clean():
 
 
 def test_result_04_provider_names_secondary():
-    """RESULT-04: Provider names secondary using subtle chip styles"""
+    """RESULT-04: Provider implementation names remain hidden from students."""
     content = read_file(RESULT_SCREEN_PATH)
-    assert "providerChipGroq" in content
-    assert "providerChipGemini" in content
-    assert "providerChipCrnn" in content
+    assert "Gợi ý 1" in content
+    assert "Gợi ý 2" in content
+    assert ">Groq</Text>" not in content
+    assert ">Gemini</Text>" not in content
+    assert ">CRNN</Text>" not in content
 
 
 def test_result_05_manual_edit_clear():
