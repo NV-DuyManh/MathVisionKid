@@ -1,133 +1,86 @@
-# MathVision Kids -- Local Demonstration Guide
+# Demo walkthrough and app gallery
 
-This guide describes how to run a complete end-to-end local demonstration of the MathVision Kids platform using deterministic fixture evaluation.
+[README](../README.md) · [User guide](USER_GUIDE.md) · [Local setup](LOCAL_SETUP.md)
 
----
+Use this walkthrough to present the current student experience. Screens below show actual app UI, not generated interface mockups.
 
-## 1. Demo Mode Architecture
+## A five-minute tour
 
-In local demonstration mode:
-- **Spring Boot API** executes real database transactions, batch orchestration, JWT authentication, and privacy gates.
-- **MinIO Object Storage** persists real image binaries in private S3 buckets.
-- **FastAPI AI Runtime** ingests async job requests, validates payloads, and enqueues tasks.
-- **Redis & Celery Worker** execute async background processing and dispatch authenticated HTTP callbacks back to Spring Boot.
-- **Fixture Recognition Engine** provides deterministic, reproducible math recognition without requiring trained deep learning weights (`RUNTIME_MODE=FIXTURE`, `MODEL_ARTIFACT=NOT_PROVIDED`).
-- **Deterministic Validators** calculate real column-by-column arithmetic proofs (addition carries, subtraction borrows).
+| Moment | Show | Explain |
+| :--- | :--- | :--- |
+| Welcome | Student home | The camera is the primary action; saved work, practice, and progress are easy to reach |
+| Practice | Lesson library, grades 1–5 | Choose a grade and a question; the labels describe selected practice topics |
+| Read a photo | One clear problem | Crop, privacy review, editable transcription, then a guided lesson |
+| Think | A supported guided example | The learner chooses a method and calculates each result |
+| Reflect | Completed steps | The solution is built from the learner's attempts |
+| Continue | Saved work and progress | Current learning history is stored on the device |
 
----
+For a reliable presentation, verify services and required capabilities beforehand. An unavailable provider should be described honestly; do not replace its output with unlabeled fixtures.
 
-## 2. Seeded Demo Accounts & Data
+## Guided lesson demo
 
-When running with `--spring.profiles.active=dev`, Spring Boot automatically seeds:
+The digit-append example has a validated built-in plan. It exercises lesson infrastructure without requiring a generated cloud plan. It still needs a running business API, AI runtime, and authenticated student session.
 
-### Teacher Account
-- **Email:** `lan.teacher@mathvision.local`
-- **Password:** `MathVision123!`
-- **Display Name:** `Ms. Lan`
+1. Open **Bài học**, select a practice card's **Cùng em tìm cách giải**.
+2. Choose **Chỉnh đề bài** and replace the text with the example below.
+3. Choose **Dùng nội dung này**, then **Bắt đầu từng bước**.
+4. Answer the steps and compare the completed solution.
 
-### Demo Classroom ("Lớp 3A")
-A Grade 3 classroom with 11 synthetic students ready for batch assignment demonstration:
-1. `minh.student@mathvision.local` -- Nguyễn Bình Minh
-2. `an.student@mathvision.local` -- Trần Văn An
-3. `binh.student@mathvision.local` -- Lê Thanh Bình
-4. `cuong.student@mathvision.local` -- Phạm Quốc Cường
-5. `dung.student@mathvision.local` -- Hoàng Ngọc Dũng
-6. `giang.student@mathvision.local` -- Vũ Hương Giang
-7. `ha.student@mathvision.local` -- Đỗ Thu Hà
-8. `khoa.student@mathvision.local` -- Bùi Anh Khoa
-9. `linh.student@mathvision.local` -- Ngô Phương Linh
-10. `mai.student@mathvision.local` -- Đặng Tuyết Mai
-11. `nam.student@mathvision.local` -- Dương Nhật Nam
+> Tìm một số biết rằng nếu viết thêm chữ số 6 vào bên phải số đó ta được số mới lớn hơn số phải tìm 537 đơn vị.
 
-### Supported Demo Assignments
-- **Bài tập Phép Cộng Dọc** (`VERTICAL_ADDITION`, Max Score: 10)
-- **Bài tập Phép Trừ Dọc** (`VERTICAL_SUBTRACTION`, Max Score: 10)
+Presenter reference:
 
----
+| Step | Reasoning | Input |
+| :--- | :--- | :--- |
+| Understand the new number | Appending a digit multiplies the original number by ten, then adds the digit | Gấp lên rồi cộng chữ số mới |
+| Count the additional parts | Ten equal parts minus the original part | 9 |
+| Remove the appended digit | 537 − 6 | 531 |
+| Find the original number | 531 ÷ 9 | 59 |
+| Verify | 59 × 10 + 6 − 59 | 537 |
 
-## 3. Deterministic Fixture Scenarios
+This is a lesson demonstration with typed input. It is **not** a benchmark of photo transcription or line detection.
 
-The AI pipeline reacts deterministically based on image references or file naming:
+## Photo demo
 
-| Scenario | Trigger Keyword in File / Reference | Pipeline Result | Teacher Decision Status | Student Feedback |
-| :--- | :--- | :--- | :--- | :--- |
-| **Valid Addition** | Default / `clean-addition` | `12 + 34 = 46` | `PROPOSED_GRADE` (10/10) | Correct |
-| **Addition Carry Mistake** | `addition-carry-error` | `45 + 27 = 62` (missed carry) | `PROPOSED_GRADE` (0/10 + evidence) | Hint on column carry |
-| **Subtraction Borrow Mistake** | `subtraction-borrow-error` | `52 - 18 = 44` (missed borrow) | `PROPOSED_GRADE` (0/10 + evidence) | Hint on column borrow |
-| **Ambiguous Handwriting** | `ambiguous` | Digit confidence `< 0.5` | `REVIEW_REQUIRED` | Confirmation requested |
-| **Blurry / Dark Image** | `quality-blur` or `quality-dark` | Quality gate trigger | `NEEDS_RETAKE` | Prompt to retake photo |
-| **Incomplete Crop** | `quality-incomplete-crop` | Quality gate trigger | `CROP_REQUIRED` | Prompt to re-crop |
-| **Out-of-Scope Content** | `out-of-scope` | Fractions / Geometry | `OUT_OF_SCOPE` | Unsupported operation message |
+On a phone, choose **Chụp bài toán** and use a non-private handwritten sample. Take one problem per photo, straighten and crop it, cover private information, and compare every recognized number and symbol against the image.
 
----
+If only a worked solution is photographed, add the original problem. If the app reports multiple problems or unclear content, recrop rather than treating incomplete text as a complete question.
 
-## 4. Complete Step-by-Step Demonstration Flow
+Main-guide photo transcription requires configured cloud vision. To demonstrate the separate CRNN line OCR path, install its checkpoint and use the handwriting workflow/endpoints appropriate to that feature. See [recognition boundaries](ARCHITECTURE_LOCAL_RUNTIME.md#three-different-recognition-tasks).
 
-### Step 1: Start the Local Stack
-Open Command Prompt or PowerShell:
-```cmd
-scripts\start-all.bat
-```
-Wait until the output concludes with `READY_FOR_DEMO`.
+## App gallery
 
-### Step 2: Verify Diagnostics
-Confirm all services are healthy:
-```cmd
-scripts\health-check.bat
-```
+<table>
+  <tr>
+    <td align="center"><a href="media/screenshots/home-web.jpg"><img src="media/screenshots/home-web.jpg" width="260" alt="Student home" /></a><br /><strong>Home</strong></td>
+    <td align="center"><a href="media/screenshots/lessons-web.jpg"><img src="media/screenshots/lessons-web.jpg" width="260" alt="Grade five lesson library" /></a><br /><strong>Practice library</strong></td>
+    <td align="center"><a href="media/screenshots/guided-step-web.jpg"><img src="media/screenshots/guided-step-web.jpg" width="260" alt="A guided reasoning question" /></a><br /><strong>Guided reasoning</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="media/screenshots/problem-android.png"><img src="media/screenshots/problem-android.png" width="260" alt="Android photo transcription supplied by the owner" /></a><br /><strong>Photographed question</strong></td>
+    <td align="center"><a href="media/screenshots/completed-lesson-web.jpg"><img src="media/screenshots/completed-lesson-web.jpg" width="260" alt="Completed steps in a guided lesson" /></a><br /><strong>Completed lesson</strong></td>
+    <td align="center"><a href="media/screenshots/progress-web.jpg"><img src="media/screenshots/progress-web.jpg" width="260" alt="Learning progress in its initial state" /></a><br /><strong>Progress</strong></td>
+  </tr>
+</table>
 
-### Step 3: Open Teacher Web Portal
-Navigate to [http://localhost:5173](http://localhost:5173) in your browser.
+Click an image to view its original capture. Long screens show the visible portion of scrollable content.
 
-### Step 4: Log In as Teacher
-- Email: `lan.teacher@mathvision.local`
-- Password: `MathVision123!`
-- Click **Sign In**.
+## Screenshot provenance
 
-### Step 5: Explore the Teacher Dashboard
-- Observe active classes (including **Lớp 3A**).
-- Observe assignments (**Bài tập Phép Cộng Dọc**).
+| Asset | Source | Context |
+| :--- | :--- | :--- |
+| `home-web.jpg` | Local student web preview, 5 Oct 2026 | 390 × 844 viewport; actual initial home |
+| `lessons-web.jpg` | Same preview session | Grade five selected; no invented activity |
+| `guided-step-web.jpg` | Same preview session | First step of the typed digit-append example |
+| `completed-lesson-web.jpg` | Same preview session | Real completion after answering all five steps |
+| `progress-web.jpg` | Same preview session | Empty saved-history state; metrics were not fabricated |
+| `problem-android.png` | Owner-supplied Android attachment | Existing capture showing photo + transcription; not a new physical-device test |
+| `readme-hero.jpg` | [HTML presentation source](media/showcase.html) | Brand composition using actual web captures and existing mascot assets |
 
-### Step 6: Create a Batch
-1. Click **Batches** in the navigation bar.
-2. Click **Create New Batch**.
-3. Select **Lớp 3A** and assignment **Bài tập Phép Cộng Dọc**.
-4. Click **Create Batch**.
+The screenshots do not establish that every device or every question works. This documentation task captured the web experience and reused one supplied Android capture. It did not repeat a physical-device camera test.
 
-### Step 7: Upload Submissions & Map Students
-1. Drag & drop or select images to upload (sample images from root: `test_image.jpg`, `retry_image.jpg`).
-2. Map each uploaded submission to a student in Lớp 3A from the dropdown list.
+## Recreate the cover
 
-### Step 8: Batch Privacy Gate
-1. Inspect the uploaded items.
-2. Confirm the privacy editor allows verifying that student PII (names, personal information outside math problem bounds) is masked or cropped before analysis.
-3. Click **Submit Batch for AI Analysis**.
+Serve the repository locally, open `docs/media/showcase.html`, and capture its 1600 × 860 artwork at 100% scale after fonts and images load. The cover uses the app's existing Nunito font, purple/navy palette, star mascot, and screenshots. No generated app UI is used.
 
-### Step 9: Observe Async AI Processing
-1. In the batch overview, watch the status transition:
-   `QUEUED` -> `PROCESSING` -> `COMPLETED`.
-2. Spring Boot sent asynchronous jobs to FastAPI.
-3. Celery executed the validation pipelines.
-4. Celery posted signed callbacks to Spring Boot, which persisted `AnalysisResult` entities.
-
-### Step 10: Review-by-Exception
-1. Navigate to the **Review Queue**.
-2. Notice the intelligent classification:
-   - Confident submissions receive `PROPOSED_GRADE` (advisory score 10/10 for correct; advisory score 0/10 with detailed carry error diagnosis for mistakes).
-   - Ambiguous or low-confidence submissions are routed to `REVIEW_REQUIRED`.
-3. Click into a submission:
-   - View the recognized tokens.
-   - View arithmetic validation proofs.
-   - Accept the proposed grade or enter an overridden final score and feedback note.
-   - Click **Submit Teacher Decision**.
-
-### Step 11: Optional Student Mobile Flow
-1. In another terminal, run: `npm start`.
-2. Open the app via Expo Go or web preview.
-3. In the Home Screen, tap **"Demo Mocks (For Testing)"** to view how students receive interactive step-by-step hints and token confirmations.
-
-### Step 12: Clean Shutdown
-When finished with the demo, stop all services cleanly:
-```cmd
-scripts\stop-all.bat
-```
+Keep source screenshots and provenance together when refreshing the cover. Replace screenshots after significant UI changes and recheck both the README and gallery.

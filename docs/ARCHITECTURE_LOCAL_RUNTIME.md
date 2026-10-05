@@ -1,104 +1,92 @@
-# MathVision Kids -- Local Runtime Architecture
+# Architecture and recognition boundaries
 
-This document describes the runtime topology, component boundaries, and asynchronous data flows across the MathVision Kids system in the local development environment.
+[README](../README.md) · [Local setup](LOCAL_SETUP.md) · [Contributing](../CONTRIBUTING.md)
 
----
+MathVision Kids separates the student experience, business authority, and AI processing. The local Windows launcher runs infrastructure in Docker and application services on the host.
 
-## 1. System Topology & Architecture Diagram
+## System map
 
-```mermaid
+~~~mermaid
 flowchart TD
-    subgraph Clients["Clients"]
-        TM["Teacher Web Portal<br/>(React 19 + Vite)<br/>Port: 5173"]
-        SM["Student Mobile App<br/>(React Native / Expo)<br/>Port: 8081"]
-    end
+    Student["Student · Expo / React Native"]
+    Web["Portal · Teacher · Admin"]
+    API["Business API · Spring Boot / Java 21"]
+    AI["AI runtime · FastAPI / Python"]
+    PG[("PostgreSQL · Records")]
+    Images[("MinIO · Images")]
+    Queue[("Redis · Queue and state")]
+    Worker["Celery worker"]
+    Local["Local geometry · CRNN · YOLO"]
+    Cloud["Configured Groq / Gemini"]
 
-    subgraph BusinessBackend["Business Backend Subsystem"]
-        SB["Spring Boot 3.3.6<br/>Business API (Java 21)<br/>Port: 8080"]
-        PG[("PostgreSQL 16<br/>(Port: 5432)<br/>mathvision db")]
-        MINIO[("MinIO S3 Storage<br/>(Port: 9000/9001)<br/>bucket: mathvision")]
-    end
+    Student -->|Authenticated requests| API
+    Web -->|Authenticated requests| API
+    API --> PG
+    API --> Images
+    API -->|Internal requests| AI
+    AI --> Local
+    AI -->|Optional cloud operations| Cloud
+    AI -->|Async grading jobs| Queue
+    Queue --> Worker
+    Worker --> Images
+    Worker --> Local
+    Worker -->|Authenticated callback| API
+~~~
 
-    subgraph AISubsystem["AI Runtime Subsystem (ai/runtime)"]
-        FASTAPI["FastAPI 0.115<br/>(Python 3.12)<br/>Port: 8000"]
-        REDIS[("Redis 7<br/>Broker & State<br/>Port: 6379")]
-        CELERY["Celery 5.4.0 Worker<br/>(Solo Pool on Windows)"]
-        VAL["Deterministic Arithmetic<br/>Validators & Policies"]
-        RECOG["Fixture Recognition<br/>(RUNTIME_MODE=FIXTURE)"]
-    end
+The business API owns authentication, roles, records, and job identity. Clients do not decide their own role or invoke internal AI services directly.
 
-    subgraph ExternalBoundary["Separate Workspace (Owned by AI Teammate)"]
-        TRAIN["ai-training/<br/>Model Training, Checkpoints,<br/>Annotation & Experiments<br/>(STATUS: NOT_PROVIDED)"]
-    end
+## Three different recognition tasks
 
-    TM -->|"REST / JWT (Port 8080)"| SB
-    SM -->|"REST / JWT (Port 8080)"| SB
-    SB <-->|"JDBC (Port 5432)"| PG
-    SB <-->|"S3 API (Port 9000)"| MINIO
-    
-    SB -->|"POST /internal/v1/jobs<br/>(required jobId: UUID)"| FASTAPI
-    FASTAPI -->|"Enqueue task<br/>(process_submission)"| REDIS
-    REDIS -->|"Consume task"| CELERY
-    
-    CELERY --> RECOG
-    CELERY --> VAL
-    CELERY -->|"POST /internal/v1/ai/jobs/{id}/callback<br/>(Signed with INTERNAL_API_KEY)"| SB
+| Task | Pipeline | Meaning |
+| :--- | :--- | :--- |
+| Find lines | OpenCV geometry with optional local PP-OCR detector inputs | Locates plausible text regions; does not prove the words were read correctly |
+| Read handwriting lines | Vietnamese CRNN checkpoint; optional advisor correction | Converts a line crop into text |
+| Read a photographed math page | Main tutor inspection calls cloud vision; local geometry maps rows | Distinguishes a question, a worked solution, or mixed content |
 
-    style ExternalBoundary fill:#f9f,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5
-```
+The main math guide's photographed-question transcription is **not** an inference from the local CRNN checkpoint. These paths coexist, but they have different dependencies.
 
----
+## Tutoring and arithmetic
 
-## 2. Component Boundaries & Responsibilities
+A validated lesson plan contains a small sequence of reasoning steps. Supported question patterns have built-in plans; other requests need a valid cloud-generated plan. Students choose an explanation or calculate an answer. Answer checking and session ownership remain on the server.
 
-### Clients
-- **Teacher Web Portal:** React 19 single-page application for teachers. Manages classes, assignments, batch uploads (10–30 image packs), privacy verification/masking, and review-by-exception grading.
-- **Student Mobile App:** Expo React Native application for primary school students. Supports capturing handwritten math exercises and interactive step-by-step tutoring hints.
+The asynchronous arithmetic grading pipeline uses fixture recognition by default. Setting `RUNTIME_MODE=MODEL` switches that engine to the configured YOLO artifact. It does not switch the notebook inspection pipeline to local OCR.
 
-### Business Backend Subsystem (`services/business-api`)
-- **Spring Boot 3.3.6:** Canonical authority of users, classrooms, assignments, batches, and submissions.
-- **Canonical Job Ownership:** Spring Boot creates and persists `AiJob` records with a canonical UUID `jobId` before dispatching async analysis requests.
-- **PostgreSQL 16:** Relational database storing relational entities, audit logs, and JSONB diagnostic artifacts.
-- **MinIO S3:** Object storage storing raw and privacy-sanitized student submission images in private bucket `mathvision`.
+A worked solution without its original question can be read, but cannot reliably be judged against the intended task. The student flow asks for missing problem context.
 
-### AI Runtime Subsystem (`ai/runtime`)
-- **FastAPI 0.115:** Lightweight, high-performance async job ingestion gateway. Requires `jobId: UUID` and validates contracts.
-- **Redis 7:** Celery broker maintaining task queues and correlation states.
-- **Celery 5.4.0:** Background worker executing computer vision and validation tasks. Runs with `--pool=solo` on Windows.
-- **Fixture Recognition Engine:** Emulates computer vision tokenization for known test cases deterministically while the real model artifact is in training.
-- **Deterministic Validators:** Pure Python mathematical engines verifying column-by-column vertical addition and subtraction with strict carry/borrow tracking.
-- **Spring Callback Gateway:** Dispatches authenticated HMAC callbacks back to Spring Boot upon task completion.
+## Repository responsibilities
 
-### External AI Training Boundary (`ai-training/`)
-- **Ownership:** Exclusively owned by the AI/ML teammate.
-- **Isolation:** Contains training scripts, synthetic datasets, YOLO/CRNN training experiments, and checkpoints.
-- **Model Ingestion Contract:** When ready, the trained model artifact and its manifest will be consumed by `ModelRecognitionEngine` in `ai/runtime` without requiring redesign of Spring Boot or frontend clients.
+| Directory | Responsibility |
+| :--- | :--- |
+| `apps/student-mobile/` | Camera, photo editing, privacy, review, lessons, and local learning history |
+| `apps/portal-web/` | Unified web entry point |
+| `apps/teacher-web/` | Classroom, assignment, and submission review workflows |
+| `apps/admin-web/` | Administrative UI |
+| `backend/business-api/` | Spring Security/JWT, JPA/Flyway records, storage, and AI orchestration |
+| `ai/runtime/` | OCR endpoints, geometry, arithmetic engine, tutoring, and worker |
+| `packages/`, `contracts/` | Shared definitions and contracts |
+| `scripts/`, `infra/docker/` | Owned-process launch, health, stop, and infrastructure |
 
----
+## Privacy and configuration
 
-## 3. Asynchronous Job Correlation Lifecycle
+Images go through a privacy review before the student sends them. Cloud-enabled operations can send image or text content to the configured provider. Masking information reduces what is sent; it is not an automatic guarantee that all private information was removed.
 
-```
-1. Spring Boot creates Submission and commits AiJob (Canonical jobId: UUID)
-       │
-       ▼
-2. Spring HttpAiAnalysisGateway sends POST /internal/v1/jobs { jobId, submissionId, ... }
-       │
-       ▼
-3. FastAPI validates required jobId: UUID and returns HTTP 202 Accepted { jobId, status: "QUEUED" }
-       │
-       ▼
-4. FastAPI enqueues process_submission.delay(job_id, payload) into Redis
-       │
-       ▼
-5. Celery worker dequeues task, binds correlation logging context: [jobId, submissionId]
-       │
-       ▼
-6. Celery executes Quality Gate -> Recognition Engine -> Structured Parser -> Math Validator -> Policy
-       │
-       ▼
-7. Celery sends HTTP POST to Spring Boot: /internal/v1/ai/jobs/{jobId}/callback
-       │
-       ▼
-8. Spring Boot verifies INTERNAL_API_KEY, updates AiJob to COMPLETED, and persists AnalysisResult
-```
+Keep secrets server-side, outside version control. Mobile variables prefixed `EXPO_PUBLIC_` are public client configuration and must not contain private keys. Model weights, datasets, private student images, and runtime logs are excluded from Git.
+
+Local development credentials and seeded accounts are examples. The Windows setup guide does not establish a production deployment.
+
+## Quality and current limits
+
+- Line localization, transcription quality, and math reasoning need separate evaluation.
+- Skew, faint ink, grids, overlapping strokes, diagrams, multi-column pages, and incomplete crops remain difficult.
+- An empty or failed read should lead to review or recapture, not invented text.
+- Notebook and OCR endpoints have bounded content limits. A dense page may need to be split into smaller crops.
+- Cloud operations can be unavailable because of configuration, network, provider quota, or unsupported requests.
+- The lesson library is a selected practice collection, not complete coverage of every textbook question.
+
+The [line polish report](../report/DRIVE_LINE_POLISH_20261005.md) and [refinement report](../report/DRIVE_LINE_REFINEMENT_20261005.md) record development evidence and unresolved cases. Reported batch execution counts are not equivalent to a held-out recognition accuracy benchmark.
+
+Runtime readiness checks Redis/worker availability and the selected grading artifact where applicable. It does not certify cloud access or the CRNN checkpoint. Validate those with a reviewed sample after installation.
+
+## Version references
+
+Use the repository's lockfiles and manifests for reproducibility. For mobile framework behavior, consult the exact [Expo SDK 57 reference](https://docs.expo.dev/versions/v57.0.0/). Installation, ports, and development accounts are maintained in [LOCAL_SETUP.md](LOCAL_SETUP.md).
