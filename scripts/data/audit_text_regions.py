@@ -20,10 +20,11 @@ from app.recognition.text_detector import MODEL_PATH
 from drive_line_batch import open_ledger, write_json
 
 
-def run(folder,max_regions,mark_tested=False,force=False):
+def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True):
     selection=json.loads((folder/'source_selection.json').read_text(encoding='utf-8'))
     out=folder/'local_regions';out.mkdir(exist_ok=True)
-    overlays=folder/'local_overlays';overlays.mkdir(exist_ok=True)
+    overlays=folder/'local_overlays'
+    if write_overlays:overlays.mkdir(exist_ok=True)
     sources=['app/api/ocr.py','app/api/generalized.py','app/api/generalized_pipeline.py',
              'app/recognition/text_detector.py','app/tutoring/rows.py']
     hashes={name:hashlib.sha256((ROOT/'ai/runtime'/name).read_bytes()).hexdigest() for name in sources}
@@ -61,11 +62,12 @@ def run(folder,max_regions,mark_tested=False,force=False):
                 write_json(label,{**draft,'drive_id':item['drive_id'],'sha256':record['sha256'],
                                  'review_status':'needs_review','line_count':None,'draft_boxes':boxes,
                                  'prediction_hashes':hashes,'training_eligible':False,'lines':[]})
-            w,h=im.size;im.thumbnail((1000,1400));draw=ImageDraw.Draw(im)
-            for number,(x1,y1,x2,y2) in enumerate(boxes,1):
-                rect=(x1*im.width/w,y1*im.height/h,x2*im.width/w,y2*im.height/h)
-                draw.rectangle(rect,outline='#c52385',width=2);draw.text(rect[:2],str(number),fill='#c52385')
-            im.save(overlays/f'{index:03}.jpg')
+            if write_overlays:
+                w,h=im.size;im.thumbnail((1000,1400));draw=ImageDraw.Draw(im)
+                for number,(x1,y1,x2,y2) in enumerate(boxes,1):
+                    rect=(x1*im.width/w,y1*im.height/h,x2*im.width/w,y2*im.height/h)
+                    draw.rectangle(rect,outline='#c52385',width=2);draw.text(rect[:2],str(number),fill='#c52385')
+                im.save(overlays/f'{index:03}.jpg')
         except (OSError,ValueError,cv2.error) as exc:
             record.update(status='execution_failed',error_type=type(exc).__name__)
         clear_detection_cache()
@@ -87,7 +89,7 @@ def run(folder,max_regions,mark_tested=False,force=False):
              'limit_exceeded_indices':[r['index'] for r in tested if r['diagnostics'].get('region_limit_exceeded')],
              'p95_ms':round(float(np.percentile([r['latency_ms'] for r in tested],95)),2) if tested else None,
              'source_hashes':hashes,'verified_accuracy':False,'training_performed':False,
-             'reused_results':reused,'marked_tested':mark_tested}
+             'reused_results':reused,'marked_tested':mark_tested,'overlays_written':write_overlays}
     (folder/'local_summary.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8')
     with (folder/'local_manifest.csv').open('w',encoding='utf-8-sig',newline='') as stream:
         writer=csv.writer(stream);writer.writerow(['index','source_key','name','sha256','status','regions','latency_ms','needs_review'])
@@ -100,8 +102,9 @@ if __name__=='__main__':
     parser.add_argument('--max-regions',type=int,default=200)
     parser.add_argument('--mark-tested',action='store_true')
     parser.add_argument('--force',action='store_true')
+    parser.add_argument('--no-overlays',action='store_true',help='Keep source-coordinate JSON without duplicating image previews')
     args=parser.parse_args()
     if not 1<=args.max_regions<=500:parser.error('max-regions must be between 1 and 500')
     folder=(ROOT/'ai-training/datasets/drive_math'/args.batch).resolve()
     if not folder.is_relative_to((ROOT/'ai-training/datasets/drive_math').resolve()):parser.error('batch must remain in private dataset directory')
-    run(folder,args.max_regions,args.mark_tested,args.force)
+    run(folder,args.max_regions,args.mark_tested,args.force,not args.no_overlays)

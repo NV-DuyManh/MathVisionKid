@@ -493,6 +493,63 @@ public class OcrMultilineServiceTest {
         verify(transactionManager).commit(any());
     }
 
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(ints = {41, 200})
+    void savesEveryConfirmedRowBeyondThirty(int count) throws Exception {
+        preparePersistence();
+        ReflectionTestUtils.setField(service, "objectMapper", new ObjectMapper());
+        java.awt.image.BufferedImage image = new java.awt.image.BufferedImage(
+                300, count * 18 + 20, java.awt.image.BufferedImage.TYPE_INT_RGB);
+        java.io.ByteArrayOutputStream output = new java.io.ByteArrayOutputStream();
+        javax.imageio.ImageIO.write(image, "png", output);
+        MockMultipartFile file = new MockMultipartFile("image", "page.png", "image/png", output.toByteArray());
+        List<LineBoxDto> boxes = new java.util.ArrayList<>();
+        for (int index = count; index >= 1; index--) {
+            LineBoxDto box = new LineBoxDto("row_" + index, 20, 5 + (index - 1) * 18,
+                    260, 12, index, "raw row " + index);
+            box.setRawOcrText("raw row " + index);
+            boxes.add(box);
+        }
+        TransactionSynchronizationManager.initSynchronization();
+        try {
+            MultilineTrialResponse response = service.createTrialAndRecognize(file, null, "CAMERA", true,
+                    new ObjectMapper().writeValueAsString(boxes), "line-cap-test");
+            assertEquals(count, response.getLines().size());
+            for (int index = 0; index < count; index++) {
+                assertEquals("raw row " + (index + 1), response.getLines().get(index).getRawOcrText());
+                assertEquals(index + 1, response.getLines().get(index).getLineOrder());
+            }
+            verify(lineRepository, times(count)).save(any(OcrMultilineLine.class));
+            verify(objectStorageService, times(count + 1)).store(any(), anyString());
+            verifyNoInteractions(restTemplate);
+        } finally {
+            TransactionSynchronizationManager.clearSynchronization();
+        }
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(booleans = {true, false})
+    void rejectsMoreThanTwoHundredRowsBeforeSaving(boolean jsonRequest) throws Exception {
+        List<LineBoxDto> boxes = new java.util.ArrayList<>();
+        for (int index = 1; index <= 201; index++) {
+            boxes.add(new LineBoxDto("row_" + index, 0, 0, 100, 30, index, "raw row " + index));
+        }
+        ReflectionTestUtils.setField(service, "objectMapper", new ObjectMapper());
+        MockMultipartFile file = testImage();
+        String json = new ObjectMapper().writeValueAsString(boxes);
+        com.mathvisionkids.api.common.ApiException error = org.junit.jupiter.api.Assertions.assertThrows(
+                com.mathvisionkids.api.common.ApiException.class,
+                () -> {
+                    if (jsonRequest) service.createTrialAndRecognize(file, null, "CAMERA", true, json, null);
+                    else service.createTrialAndRecognize(file, null, "CAMERA", true, boxes, null);
+                });
+        assertEquals("LINE_LIMIT_EXCEEDED", error.getCode());
+        assertEquals(org.springframework.http.HttpStatus.BAD_REQUEST, error.getStatus());
+        assertEquals(200, error.getDetails().get("lineLimit"));
+        assertEquals(201, error.getDetails().get("submittedLineCount"));
+        verifyNoInteractions(objectStorageService, trialRepository, lineRepository, userRepository, restTemplate);
+    }
+
     private void preparePersistence() {
         when(trialRepository.save(any())).thenAnswer(invocation -> {
             OcrMultilineTrial trial = invocation.getArgument(0);

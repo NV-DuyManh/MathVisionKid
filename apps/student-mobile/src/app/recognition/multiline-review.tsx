@@ -9,6 +9,7 @@ import { recognitionDraftStore } from '../../features/recognition/state/recognit
 import { normalizeLocalFileUri } from '../../features/recognition/image/imagePipeline';
 import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
 type RequestStatus = 'IDLE' | 'SUBMITTING' | 'SUCCESS' | 'ERROR' | 'CANCELLED';
+const MAX_LINES = 200;
 export default function MultilineReviewScreen() {
     const router = useRouter();
     const params = useLocalSearchParams();
@@ -19,7 +20,7 @@ export default function MultilineReviewScreen() {
     const originalUri = ((params.originalImageUri as string) || draft?.originalImageUri || draft?.originalUri || draft?.sourceImageUri || '');
     const cropInputUri = originalUri;
     const activeRecognitionUri = imageUri;
-    const imageSessionId = draft?.imageSessionId || imageUri;
+    const imageSessionId = `${draft?.imageSessionId || ''}:${imageUri}`;
     useEffect(() => {
         console.log(`[IMAGE_FLOW]\noriginalUri=${originalUri}\nprivacyUri=${draft?.privacyImageUri || 'undefined'}\ncropInputUri=${cropInputUri}\nactiveRecognitionUri=${activeRecognitionUri}\n`);
     }, [originalUri, draft?.privacyImageUri, cropInputUri, activeRecognitionUri]);
@@ -30,6 +31,7 @@ export default function MultilineReviewScreen() {
     const [boxes, setBoxes] = useState<LineBox[]>([]);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [isNetworkError, setIsNetworkError] = useState(false);
+    const [needsSmallerCrop, setNeedsSmallerCrop] = useState(false);
     const [editMode, setEditMode] = useState<'MOVE' | 'RESIZE'>('MOVE');
     const displayWidth = Math.min(screenWidth, 600) - 32;
     const detectRequestIdRef = useRef(0);
@@ -101,6 +103,10 @@ export default function MultilineReviewScreen() {
                 setOrigHeight(res.height);
             }
             const incomingLines = res.lines || [];
+            // Keep an incomplete page blocked until a successful new detection.
+            if (force || incomingLines.length > 0) {
+                setNeedsSmallerCrop(res.diagnostics?.region_limit_exceeded === true || incomingLines.length > MAX_LINES);
+            }
             console.log(`[LINE_DETECTION_DEBUG]
 Detected Lines: ${incomingLines.length}
 image dimensions: ${res.width}x${res.height}
@@ -171,14 +177,21 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
         if (initialLoadDoneRef.current !== null) {
             setBoxes([]);
             setSelectedId(null);
+            setNeedsSmallerCrop(false);
         }
         initialLoadDoneRef.current = imageSessionId;
+        detectRequestIdRef.current += 1;
+        activeAbortControllerRef.current?.abort();
+        setLoading(true);
+        const sizeRequestId = detectRequestIdRef.current;
         // Inspect real image dimensions if not present
         Image.getSize(imageUri, (w, h) => {
+            if (initialLoadDoneRef.current !== imageSessionId || sizeRequestId !== detectRequestIdRef.current) return;
             setOrigWidth(w);
             setOrigHeight(h);
             loadAutoDetection(imageUri, true);
         }, () => {
+            if (initialLoadDoneRef.current !== imageSessionId || sizeRequestId !== detectRequestIdRef.current) return;
             loadAutoDetection(imageUri, true);
         });
     }, [imageUri, displayWidth, router, loadAutoDetection, imageSessionId]);
@@ -233,6 +246,10 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
         });
     };
     const handleAddLine = () => {
+        if (boxes.length >= MAX_LINES || needsSmallerCrop) {
+            Alert.alert('Chọn một vùng nhỏ hơn', 'Em chia ảnh thành từng phần để mình đọc đủ các dòng nhé.');
+            return;
+        }
         const newId = `line_${Date.now()}`;
         const defaultW = Math.round(origWidth * 0.85);
         const defaultH = Math.round(origHeight * 0.1);
@@ -257,6 +274,10 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
         // Double-tap protection
         if (requestStatus === 'SUBMITTING')
             return;
+        if (needsSmallerCrop || boxes.length > MAX_LINES) {
+            Alert.alert('Chọn một vùng nhỏ hơn', 'Ảnh còn các dòng chưa được đọc. Em chọn lại vùng trước khi tiếp tục nhé.');
+            return;
+        }
         if (boxes.length === 0) {
             Alert.alert('Chưa có dòng nào', 'Vui lòng thêm ít nhất 1 dòng chữ trước khi nhận diện.');
             return;
@@ -347,8 +368,21 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
       </View>
 
       <Text style={styles.instruction}>
-        {`Đã tìm thấy ${boxes.length} dòng. Chạm vào một khung để chỉnh lại nếu cần.`}
+        {needsSmallerCrop ? 'Ảnh này có nhiều dòng. Mình cần em chọn một vùng nhỏ hơn để đọc đủ.' : `Đã tìm thấy ${boxes.length} dòng. Chạm vào một khung để chỉnh lại nếu cần.`}
       </Text>
+
+      {needsSmallerCrop ? <View style={styles.overflowCard}>
+        <Text style={styles.overflowTitle} accessibilityRole="alert">Chọn một vùng nhỏ hơn nhé</Text>
+        <Text style={styles.overflowBody}>Ảnh còn các dòng chưa được đọc. Em có thể chọn trọn một bài hoặc chia ảnh thành từng phần.</Text>
+        <TouchableOpacity style={styles.cropButton} accessibilityRole="button" accessibilityLabel="Chọn lại vùng ảnh" onPress={() => {
+            detectRequestIdRef.current += 1;
+            activeAbortControllerRef.current?.abort();
+            router.replace({ pathname: '/crop' as any, params: { uri: imageUri, originalImageUri: originalUri } });
+        }}>
+          <Ionicons name="crop-outline" size={20} color={COLORS.primaryDark} accessible={false}/>
+          <Text style={styles.cropButtonText}>Chọn lại vùng ảnh</Text>
+        </TouchableOpacity>
+      </View> : null}
 
       {/* Dominant Image Canvas Area */}
       <View style={[styles.imageContainer, SHADOWS.small, { width: imageDisplayWidth, height: displayHeight, alignSelf: 'center' }]}>
@@ -517,12 +551,12 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
 
       {/* Confident Bottom Action Bar */}
       <View style={styles.actionRow}>
-        <TouchableOpacity style={styles.secondaryBtn} onPress={handleAddLine} accessibilityRole="button" accessibilityLabel={'Thêm dòng'}>
+        <TouchableOpacity style={[styles.secondaryBtn, (needsSmallerCrop || boxes.length >= MAX_LINES) && { opacity: 0.5 }]} disabled={needsSmallerCrop || boxes.length >= MAX_LINES} onPress={handleAddLine} accessibilityRole="button" accessibilityState={{ disabled: needsSmallerCrop || boxes.length >= MAX_LINES }} accessibilityLabel={'Thêm dòng'}>
           <Ionicons name="add-circle-outline" size={19} color={COLORS.primary}/>
           <Text style={styles.secondaryBtnText}>{'Thêm dòng'}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.primaryBtn, boxes.length === 0 && { opacity: 0.5 }]} onPress={handleConfirmLines} disabled={boxes.length === 0} accessibilityRole="button" accessibilityLabel={'Nhận diện chữ'}>
+        <TouchableOpacity style={[styles.primaryBtn, (boxes.length === 0 || needsSmallerCrop) && { opacity: 0.5 }]} onPress={handleConfirmLines} disabled={boxes.length === 0 || needsSmallerCrop} accessibilityRole="button" accessibilityState={{ disabled: boxes.length === 0 || needsSmallerCrop }} accessibilityLabel={'Nhận diện chữ'}>
           <View style={styles.ctaColumn}>
               <View style={styles.ctaTextRow}>
                 <Text style={styles.primaryBtnText}>
@@ -531,7 +565,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
                 <Ionicons name="arrow-forward" size={18} color="#FFFFFF"/>
               </View>
               <Text style={styles.ctaSupportText}>
-                {`${boxes.length} dòng đã sẵn sàng`}
+                {needsSmallerCrop ? 'Chọn lại vùng để đọc đủ' : `${boxes.length} dòng đã sẵn sàng`}
               </Text>
             </View>
         </TouchableOpacity>
@@ -603,6 +637,11 @@ const styles = StyleSheet.create({
         marginBottom: 14,
         lineHeight: 18,
     },
+    overflowCard: { backgroundColor: COLORS.surfaceSubdued, padding: 16, borderRadius: 16, marginBottom: 16, gap: 12 },
+    overflowTitle: { fontFamily: FONTS.bold, fontSize: 17, color: COLORS.textPrimary },
+    overflowBody: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 22, color: COLORS.textSecondary },
+    cropButton: { minHeight: 48, flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 12 },
+    cropButtonText: { fontFamily: FONTS.bold, fontSize: 15, color: COLORS.primaryDark, flexShrink: 1 },
     imageContainer: {
         borderRadius: 16,
         overflow: 'hidden',

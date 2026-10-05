@@ -126,6 +126,39 @@ class MathTutorServiceTest {
         assertEquals("WORK", result.kind());
         assertEquals(java.util.List.of(120, 300, 700, 410), result.lines().getFirst().box());
         assertTrue(result.needsProblem());
+        assertFalse(result.needsCrop()); // Older runtimes omitted this optional flag.
+        server.verify();
+    }
+
+    @Test void notebookInspectionForwardsExplicitCropRequirementWithoutPartialText() {
+        String response = "{\"kind\":\"UNREADABLE\",\"problemText\":\"\",\"needsProblem\":false,\"needsCrop\":true,\"lines\":[]}";
+        server.expect(requestTo(URL + "/internal/v1/tutor/inspect"))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        NotebookRead result = service.inspect(png(), true);
+        assertTrue(result.needsCrop());
+        assertEquals("UNREADABLE", result.kind());
+        assertTrue(result.problemText().isEmpty());
+        assertTrue(result.lines().isEmpty());
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"\"true\"", "null", "1", "[]"})
+    void notebookInspectionRequiresAnActualBooleanCropFlag(String value) {
+        server.expect(requestTo(URL + "/internal/v1/tutor/inspect"))
+                .andRespond(withSuccess(INSPECT.replace("\"needsProblem\":true",
+                        "\"needsProblem\":true,\"needsCrop\":" + value), MediaType.APPLICATION_JSON));
+        error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE, () -> service.inspect(png(), true));
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(booleans = {true, false})
+    void notebookInspectionRejectsCropFlagWithPartialTranscript(boolean whitespaceOnly) {
+        String response = whitespaceOnly
+                ? "{\"kind\":\"UNREADABLE\",\"problemText\":\" \",\"needsProblem\":false,\"needsCrop\":true,\"lines\":[]}"
+                : INSPECT.replace("\"needsProblem\":true", "\"needsProblem\":true,\"needsCrop\":true");
+        server.expect(requestTo(URL + "/internal/v1/tutor/inspect"))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE, () -> service.inspect(png(), true));
         server.verify();
     }
 

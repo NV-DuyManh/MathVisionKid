@@ -239,8 +239,147 @@ def short_row_candidates(bgr, existing_rows, model_regions):
         _, _, nearby_stats, _ = cv2.connectedComponentsWithStats(nearby, 8)
         if _has_stacked_fraction(nearby_stats, y2-y1):
             continue
-        added.append(tuple(box))
+        added.append(_include_detached_marks(bgr, box, existing_rows + added, body))
     return added
+
+
+def _include_detached_marks(bgr, box, existing_rows, body):
+    """Extend an approved short row to faint suffix punctuation or accents.
+
+    Strong bodies still determine eligibility. A low-contrast colon may have
+    lower saturation than those bodies; local background contrast locates it.
+    Prefix marks beside page edges retain the learned envelope.
+    """
+    x1, y1, x2, y2 = box
+    h, w = bgr.shape[:2]
+    margin = round(body * .5)
+    left, top = max(0, x1-margin), max(0, y1-margin)
+    right, bottom = min(w, x2+margin), min(h, y2+margin)
+    hue, sat, value = cv2.split(cv2.cvtColor(bgr[top:bottom, left:right], cv2.COLOR_BGR2HSV))
+    mask = ((hue >= 90) & (hue <= 178)
+            & (sat > max(30, float(np.median(sat))+15)) & (value < 230)).astype(np.uint8)
+    _, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    bounds = list(box)
+    # ponytail: scan only the small approved row's neighbourhood, no new model.
+    for cx, cy, cw, ch, area in stats[1:]:
+        cx, cy = int(cx+left), int(cy+top)
+        if area < 8 or max(cw, ch) > body*.35:
+            continue
+        px, py = cx+cw/2, cy+ch/2
+        if x1 <= px <= x2 and y1 <= py <= y2:
+            continue
+        suffix = y1 <= py <= y2 and x2 < px <= x2+body*.5
+        accent = x1 <= px <= x2 and max(y1-py, py-y2, 0) <= body*.3
+        if not (suffix or accent):
+            continue
+        row_distance = abs(py-(y1+y2)/2)
+        if any(rx1-body*.5 <= px <= rx2+body*.5
+               and abs(py-(ry1+ry2)/2) <= row_distance
+               for rx1, ry1, rx2, ry2 in existing_rows):
+            continue
+        pad = max(4, round(body*.05))
+        bounds = [min(bounds[0], max(0, cx-pad)), min(bounds[1], max(0, cy-pad)),
+                  max(bounds[2], min(w, cx+int(cw)+pad)),
+                  max(bounds[3], min(h, cy+int(ch)+pad))]
+    return tuple(bounds)
+
+
+def coloured_strip_regions(bgr):
+    """Recover visible ink in a narrow strip after the learned detector is empty.
+
+    Require multiple substantial bodies, never use ruled paper or isolated
+    flecks as evidence. This is a review candidate, not reconstructed writing.
+    """
+    h, w = bgr.shape[:2]
+    if not 8 <= h <= 128 or w < h*5:
+        return []
+    hue, saturation, value = cv2.split(cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV))
+    mask = ((hue >= 90) & (hue <= 178)
+            & (saturation > max(40, float(np.median(saturation))*1.5))
+            & (value < 220)).astype(np.uint8)
+    rules = cv2.morphologyEx(mask, cv2.MORPH_OPEN,
+                            np.ones((1, max(30, min(w//6, round(h*1.5)))), np.uint8))
+    mask[rules > 0] = 0
+    _, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    parts = stats[1:]
+    bodies = [t for t in parts if t[4] >= 12 and t[2] >= 2 and t[2] <= t[3]*8
+              and (t[3] >= h*.45 or (t[3] >= h*.3 and t[2] >= t[3]*1.5
+                                     and t[4] >= t[2]*t[3]*.2))
+              and not (t[3] >= h*.75 and t[2] <= max(3, t[3]*.12))
+              and not (t[2] > t[3]*.6 and t[4] >= t[2]*t[3]*.65)
+              and t[0] > w*.03 and t[0]+t[2] < w*.97]
+    if len(bodies) < 3:
+        return []
+    body = float(np.median([t[3] for t in bodies]))
+    ordered = sorted(bodies, key=lambda t: t[0])
+    if any(right[0]-left[0]-left[2] > body*6 for left, right in zip(ordered, ordered[1:])):
+        return []  # Widely scattered texture/columns do not establish one row.
+    x1, x2 = min(t[0] for t in bodies), max(t[0]+t[2] for t in bodies)
+    top, bottom = min(t[1] for t in bodies), max(t[1]+t[3] for t in bodies)
+    # ponytail: inspect bounded connected components; no new model or retry.
+    support = [t for t in parts if t[4] >= 8 and t[3] >= 3
+               and t[0] >= x1-body*1.5-6 and t[0]+t[2] <= x2+body*1.5+6
+               and top-body*.3 <= t[1]+t[3]/2 <= bottom+1]
+    x1, x2 = max(0, int(min(t[0] for t in support))-4), min(w, int(max(t[0]+t[2] for t in support))+5)
+    y1 = max(0, int(min(t[1] for t in support))-3)
+    ink_bottom = int(max(t[1]+t[3] for t in support))
+    below = [int(t[1]) for t in parts if t[4] >= 8 and t[3] >= 3
+             and t[1] >= ink_bottom and t[0] < x2 and t[0]+t[2] > x1]
+    y2 = min(h, ink_bottom+4, min(below) if below else h)
+    return [(x1, y1, x2, y2)]
+
+
+def extend_tiny_row_ends(bgr, boxes, detect):
+    """Restore supported horizontal ink of one tiny row, preserving its y bounds."""
+    height, width = bgr.shape[:2]
+    if not (8 <= height < 32 and width >= height*4 and len(boxes) == 1):
+        return boxes, False
+    x1, y1, x2, y2 = boxes[0]
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    if np.median(gray) < 100:
+        return boxes, False
+    _, mask = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
+    _, _, stats, _ = cv2.connectedComponentsWithStats(mask)
+    parts = stats[1:]
+    parts = parts[(parts[:, 4] >= 3) & (parts[:, 2] >= 2) & (parts[:, 3] >= 2)
+                  & (parts[:, 2] < width*.8)]
+    # Mixed ruling/shadow support cannot establish a writing endpoint.
+    broad = ((parts[:, 3] >= height*.9) & (parts[:, 2] >= height*2) &
+             (parts[:, 4] >= parts[:, 2]*parts[:, 3]*.5))
+    ruling = ((parts[:, 3] >= height*.65) & (parts[:, 2] <= max(3, height*.12)))
+    if broad.any() and np.count_nonzero(ruling) >= 2:
+        return boxes, False
+    if len(parts) < 3:
+        return boxes, False
+    ordered = parts[np.argsort(parts[:, 3])]
+    weights = np.cumsum(ordered[:, 4])
+    body = float(ordered[np.searchsorted(weights, weights[-1]/2), 3])
+    anchors = parts[(parts[:, 4] >= 8) & (parts[:, 3] >= body*.6)]
+    if body < max(3, height*.2) or len(anchors) < 3:
+        return boxes, False
+    xs = anchors[:, 0]+anchors[:, 2]/2
+    bottoms = anchors[:, 1]+anchors[:, 3]
+    if np.ptp(xs) < width*.4:
+        return boxes, False
+    slope, offset = np.polyfit(xs, bottoms, 1, w=np.sqrt(anchors[:, 4]))
+    near = np.abs(bottoms-(slope*xs+offset)) <= max(2, body*.35)
+    if abs(slope) > .15 or anchors[near, 4].sum() < anchors[:, 4].sum()*.95:
+        return boxes, False
+    if anchors[:, 1].min() < y1 or bottoms.max() > y2:
+        return boxes, False
+    ink_left = int(anchors[:, 0].min())
+    ink_right = int((anchors[:, 0]+anchors[:, 2]).max())
+    if x1 <= ink_left+1 and x2 >= ink_right-1:
+        return boxes, False
+    learned = detect(bgr)
+    if not learned or len(learned) != 1:
+        return boxes, True
+    left, top, right, bottom = learned[0]
+    if (left > ink_left+2 or right < ink_right-2 or
+            min(y2, bottom)-max(y1, top) < (y2-y1)*.75):
+        return boxes, True
+    return [[max(0, min(x1, left, ink_left)), y1,
+             min(width, max(x2, right, ink_right)), y2]], True
 
 
 def _has_stacked_fraction(stats, body):

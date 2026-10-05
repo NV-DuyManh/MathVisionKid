@@ -12,6 +12,16 @@ const guidance = { stage: 'UNDERSTAND', hint: 'Tìm số bi ban đầu và số 
 
 beforeEach(() => jest.clearAllMocks());
 
+it.each([
+  [{ kind: 'UNREADABLE', problemText: '', lines: [], needsProblem: false, needsCrop: true }, true],
+  [{ kind: 'UNREADABLE', problemText: '', lines: [], needsProblem: false, needsCrop: 'true' }, false],
+  [{ kind: 'WORK', problemText: '', lines: [{ text: 'first row', box: null, uncertain: false }], needsProblem: true, needsCrop: true }, false],
+])('validates crop-required feedback before rendering partial content', async (data, valid) => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  if (valid) await expect(TutorService.inspect('file:///masked.jpg', true)).resolves.toEqual(data);
+  else await expect(TutorService.inspect('file:///masked.jpg', true)).rejects.toThrow('Chưa đọc được hướng dẫn');
+});
+
 const publicLesson = { sessionId: 'abcdefghijklmnopqrstuv', revision: 0, topic: 'Thêm bút', goal: 'Tìm số bút', outline: ['Chọn phép tính', 'Tính số bút'],
   stepIndex: 0, completed: [], status: 'READY', feedback: '', step: { title: 'Chọn phép tính', explanation: 'Xem số bút thay đổi.', question: 'Em chọn phép tính nào?',
     choices: ['Cộng', 'Trừ'], expression: '', unit: '', workExcerpt: '' } };

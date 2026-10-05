@@ -689,7 +689,7 @@ def run_generalized_line_detection(
         artifact_stamp = "absent"
     # The limit and optional artifact are part of the result, not just pixels.
     img_hash = hashlib.sha256(bgr_image.tobytes() +
-                              f"{bgr_image.shape}:text-regions-v3:{max_lines}:{artifact_stamp}".encode()).hexdigest()
+                              f"{bgr_image.shape}:text-regions-v8:{max_lines}:{artifact_stamp}".encode()).hexdigest()
 
     if not force_redetect and img_hash in _DETECTION_RUN_CACHE:
         cached = _DETECTION_RUN_CACHE[img_hash]
@@ -736,6 +736,27 @@ def run_generalized_line_detection(
     # Boxes are consumed against the original image. Rotating only the detector
     # input silently changes that coordinate system and misaligns every crop.
     height, width = bgr_image.shape[:2]
+
+    # Dense coloured backgrounds can mimic pen strokes and projection bands.
+    # Require independent learned evidence before accepting their classical
+    # regions. Small/clipped strips and an unavailable model retain all paths.
+    if min(height, width) >= 128 and width < height * 8:
+        scale = min(1.0, 900 / max(height, width))
+        sample = cv2.resize(bgr_image, None, fx=scale, fy=scale) if scale < 1 else bgr_image
+        saturation = cv2.cvtColor(sample, cv2.COLOR_BGR2HSV)[:, :, 1]
+        if np.mean(saturation > 90) > .8:
+            from app.recognition.text_detector import detect_crop_regions
+            if detect_crop_regions(bgr_image) == []:
+                diag = {"detector_version": "local-text-regions-v2-20261005",
+                        "selected_profile": "SATURATED_BACKGROUND_NO_TEXT",
+                        "needs_review": True, "geometry_verified": False,
+                        "background_rejected": True, "final_box_count": 0,
+                        "detected_region_count": 0, "cacheHit": False,
+                        "forceRedetect": force_redetect, "detectionRunId": current_run_id,
+                        "requestId": request_id or str(uuid.uuid4())}
+                _DETECTION_RUN_CACHE[img_hash] = {"lines": [], "diag": diag, "score": 0.0,
+                                                "run_id": current_run_id, "requestId": request_id}
+                return [], diag
 
     # Full notebook photographs benefit from the learned text evidence before
     # threshold profiles mistake a dark desk/page boundary for handwriting.
@@ -868,6 +889,21 @@ def run_generalized_line_detection(
                 for idx, l in enumerate(pruned_lines, 1)
             ]
             best_diag["inner_ui_card_pruned"] = True
+
+    # Tiny printed crops can have valid row heights but truncated word endings.
+    # Preserve the final padded y interval and count; repair only supported x.
+    if len(final_line_results) == 1 and 8 <= height < 32:
+        from app.tutoring.rows import extend_tiny_row_ends
+        from app.recognition.text_detector import detect_crop_regions
+        row = final_line_results[0]
+        original = [[row.x, row.y, row.x+row.width, row.y+row.height]]
+        repaired, _ = extend_tiny_row_ends(bgr_image, original, detect_crop_regions)
+        if repaired != original:
+            x1, y1, x2, y2 = repaired[0]
+            final_line_results = [LineBox(line_id=row.line_id, x=x1, y=y1,
+                                         width=x2-x1, height=y2-y1, order=row.order)]
+            best_diag.update(needs_review=True, geometry_verified=False,
+                             source_text_may_be_clipped=True, tiny_row_ends_recovered=1)
 
     # True Re-detect Quality Safety (Section 10)
     # If force_redetect is active and previous standard run had a high quality score (>= 80),

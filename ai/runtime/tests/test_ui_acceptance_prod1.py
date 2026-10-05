@@ -136,7 +136,7 @@ def test_editor_07_submit_loading_disabled_state():
     content = read_file(EDITOR_SCREEN_PATH)
     assert "if (requestStatus === 'SUBMITTING')" in content
     assert 'RecognitionProgress title="Đang đọc bài của em"' in content
-    assert "disabled={boxes.length === 0}" in content
+    assert "disabled={boxes.length === 0 || needsSmallerCrop}" in content
 
 
 # ==============================================================================

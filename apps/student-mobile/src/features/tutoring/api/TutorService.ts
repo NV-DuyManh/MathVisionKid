@@ -6,7 +6,7 @@ export interface TutorReadResult { problemText: string; needsReview: boolean; no
 export interface NotebookLine { text: string; box: [number, number, number, number] | null; uncertain: boolean }
 export interface NotebookRead {
   kind: 'PROBLEM' | 'WORK' | 'MIXED' | 'MULTIPLE' | 'UNREADABLE';
-  problemText: string; lines: NotebookLine[]; needsProblem: boolean;
+  problemText: string; lines: NotebookLine[]; needsProblem: boolean; needsCrop?: boolean;
 }
 export interface CoachRequest {
   problemText: string; workText: string; stage: TutorStage; studentAttempt: string;
@@ -75,6 +75,8 @@ export const TutorService = {
     });
     if (!['PROBLEM', 'WORK', 'MIXED', 'MULTIPLE', 'UNREADABLE'].includes(data?.kind)
       || typeof data.problemText !== 'string' || data.problemText.length > 4000 || typeof data.needsProblem !== 'boolean'
+      || (data.needsCrop !== undefined && typeof data.needsCrop !== 'boolean')
+      || (data.needsCrop === true && (data.kind !== 'UNREADABLE' || data.problemText !== '' || data.lines?.length !== 0))
       || !Array.isArray(data.lines) || data.lines.length > 35 || data.lines.some(row => typeof row.text !== 'string'
         || !row.text.trim() || row.text.length > 500 || typeof row.uncertain !== 'boolean'
         || (row.box !== null && (!Array.isArray(row.box) || row.box.length !== 4 || row.box.some(n => !Number.isInteger(n) || n < 0 || n > 1000)

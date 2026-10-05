@@ -175,8 +175,8 @@ export default function MathGuideScreen() {
         {photoAllowed && !reading ? <AppButton title="Đọc lại ảnh" variant="secondary" onPress={() => void inspectPhoto()} /> : null}
 
         {invalidPhoto ? <View style={styles.card}>
-          <Text style={styles.heading}>{reading?.kind === 'MULTIPLE' ? 'Mỗi lần một bài nhé' : 'Mình chưa đọc rõ bài toán'}</Text>
-          <Text style={styles.body}>Em chọn trọn một bài, gồm lời văn, số và hình vẽ nếu có.</Text>
+          <Text style={styles.heading}>{reading?.needsCrop ? 'Chọn một vùng nhỏ hơn nhé' : reading?.kind === 'MULTIPLE' ? 'Mỗi lần một bài nhé' : 'Mình chưa đọc rõ bài toán'}</Text>
+          <Text style={styles.body}>{reading?.needsCrop ? 'Ảnh có nhiều nội dung. Em chia thành từng phần để mình đọc đủ, rồi cùng xem từng bài nhé.' : 'Em chọn trọn một bài, gồm lời văn, số và hình vẽ nếu có.'}</Text>
           <AppButton title="Chọn lại vùng bài toán" onPress={() => router.push('/crop' as any)} />
           <Pressable style={styles.linkButton} accessibilityRole="button" onPress={() => edit('problem')}><Text style={styles.link}>Em muốn nhập đề bằng chữ</Text></Pressable>
         </View> : null}

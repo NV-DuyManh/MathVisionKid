@@ -141,3 +141,103 @@ def test_crop_api_fallback_runs_only_when_established_path_is_empty(monkeypatch,
     monkeypatch.setattr(pipeline,'_run_single_profile',lambda *args:(established,{},95,None,12))
     pipeline.clear_detection_cache();pipeline.run_generalized_line_detection(image)
     assert len(calls)==1
+
+
+def _chalk_board(width=400):
+    image=np.full((40,width,3),(55,90,45),np.uint8)
+    for x in (30,width//2,width-50):
+        cv2.putText(image,'a',(x,29),cv2.FONT_HERSHEY_SIMPLEX,.8,(240,240,240),2)
+    return image
+
+
+def test_chalk_retry_maps_context_back_and_rejects_a_partial_word_row(monkeypatch):
+    image=_chalk_board()
+    def infer(pixels):
+        assert pixels.shape[:2]==(144,864)
+        assert np.all(pixels[0]==255)
+        # Bright chalk becomes dark; original board becomes a light background.
+        assert pixels[80,110,0]<pixels[80,100,0]
+        return [(22,30,852,115),(32,32,470,112)]
+    monkeypatch.setattr(text_detector,'detect_text_regions',infer)
+    assert text_detector._chalk_strip_regions(image)==[(0,0,400,40)]
+
+
+def test_chalk_retry_maps_each_axis_at_the_actual_resize_ratio(monkeypatch):
+    image=_chalk_board(789)
+    def infer(pixels):
+        assert pixels.shape[:2]==(129,1344)
+        return [(32,32,1312,97)]
+    monkeypatch.setattr(text_detector,'detect_text_regions',infer)
+    assert text_detector._chalk_strip_regions(image)==[(0,0,789,40)]
+
+
+@pytest.mark.parametrize('crop_entry', [False, True], ids=['helper', 'crop-entry'])
+def test_extremely_wide_chalk_strip_clamps_resize_height_and_preserves_bounds(monkeypatch,crop_entry):
+    image=np.full((16,50000,3),(55,90,45),np.uint8)
+    for x in (1000,25000,48000):
+        cv2.rectangle(image,(x,5),(x+6,10),(240,240,240),-1)
+    calls=[]
+    def infer(pixels):
+        calls.append(pixels.shape[:2])
+        if pixels.shape[:2]==(48,50032):
+            return []
+        assert pixels.shape[:2]==(65,1344)
+        return [(32,32,1312,33)]
+    monkeypatch.setattr(text_detector,'detect_text_regions',infer)
+    detect=text_detector.detect_crop_regions if crop_entry else text_detector._chalk_strip_regions
+    assert detect(image)==[(0,0,50000,16)]
+    assert calls==([(48,50032),(65,1344)] if crop_entry else [(65,1344)])
+
+
+@pytest.mark.parametrize('image',[
+    np.full((40,400,3),245,np.uint8),
+    np.full((40,400,3),(55,90,45),np.uint8),
+    np.full((200,800,3),(55,90,45),np.uint8),
+    np.full((40,100,3),(55,90,45),np.uint8),
+])
+def test_chalk_retry_does_not_call_model_for_paper_blank_board_or_ineligible_shape(monkeypatch,image):
+    def unexpected(pixels):raise AssertionError('No supported chalk row')
+    monkeypatch.setattr(text_detector,'detect_text_regions',unexpected)
+    assert text_detector._chalk_strip_regions(image)==[]
+
+
+def test_chalk_retry_rejects_board_grid_and_one_glyph_before_inference(monkeypatch):
+    image=np.full((40,400,3),(55,90,45),np.uint8)
+    for x in range(0,400,30):
+        cv2.line(image,(x,0),(x,39),(240,240,240),1)
+    cv2.line(image,(0,20),(399,20),(240,240,240),1)
+    def unexpected(pixels):raise AssertionError('Grid is not three glyph bodies')
+    monkeypatch.setattr(text_detector,'detect_text_regions',unexpected)
+    assert text_detector._chalk_strip_regions(image)==[]
+    image=np.full((40,400,3),(55,90,45),np.uint8)
+    cv2.putText(image,'a',(30,29),cv2.FONT_HERSHEY_SIMPLEX,.8,(240,240,240),2)
+    assert text_detector._chalk_strip_regions(image)==[]
+
+
+@pytest.mark.parametrize('established,coloured',[
+    ([(30,20,400,48)],[]),
+    ([],[(10,3,300,35)]),
+    (None,[]),
+])
+def test_chalk_branch_preserves_model_availability_and_existing_crop_regions(monkeypatch,established,coloured):
+    from app.tutoring import rows
+    monkeypatch.setattr(text_detector,'detect_text_regions',lambda pixels:established)
+    monkeypatch.setattr(rows,'coloured_strip_regions',lambda pixels:coloured)
+    def unexpected(pixels):raise AssertionError('Established result must be preserved')
+    monkeypatch.setattr(text_detector,'_chalk_strip_regions',unexpected)
+    expected=None if established is None else ([(14,4,384,32)] if established else coloured)
+    assert text_detector.detect_crop_regions(_chalk_board())==expected
+
+
+def test_chalk_branch_runs_only_after_both_empty_passes_and_preserves_retry_unavailable(monkeypatch):
+    from app.tutoring import rows
+    monkeypatch.setattr(rows,'coloured_strip_regions',lambda pixels:[])
+    calls=[]
+    def infer(pixels):
+        calls.append(pixels.shape[:2])
+        return [] if len(calls)==1 else [(32,32,832,112)]
+    monkeypatch.setattr(text_detector,'detect_text_regions',infer)
+    assert text_detector.detect_crop_regions(_chalk_board())==[(0,0,400,40)]
+    assert calls==[(72,432),(144,864)]
+    monkeypatch.setattr(text_detector,'detect_text_regions',lambda pixels:None)
+    assert text_detector._chalk_strip_regions(_chalk_board()) is None

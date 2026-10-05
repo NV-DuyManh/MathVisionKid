@@ -36,6 +36,7 @@ import java.util.*;
 public class OcrMultilineService {
 
     private static final Logger log = LoggerFactory.getLogger(OcrMultilineService.class);
+    private static final int MAX_CONFIRMED_LINES = 200;
 
     private final OcrMultilineTrialRepository trialRepository;
     private final OcrMultilineLineRepository lineRepository;
@@ -205,6 +206,11 @@ public class OcrMultilineService {
         if (confirmedLines == null || confirmedLines.isEmpty()) {
             throw new ApiException("VALIDATION_ERROR", "At least one line box must be confirmed", HttpStatus.BAD_REQUEST);
         }
+        if (confirmedLines.size() > MAX_CONFIRMED_LINES) {
+            throw new ApiException("LINE_LIMIT_EXCEEDED", "Crop a smaller part of the page to read every line",
+                    HttpStatus.BAD_REQUEST, Map.of("lineLimit", MAX_CONFIRMED_LINES,
+                    "submittedLineCount", confirmedLines.size()));
+        }
 
         User user = null;
         if (userEmail != null && !userEmail.isBlank()) {
@@ -250,11 +256,10 @@ public class OcrMultilineService {
 
             // Sort confirmed boxes top-to-bottom
             confirmedLines.sort(Comparator.comparingInt(LineBoxDto::getOrder));
-            int maxLines = Math.min(confirmedLines.size(), 30);
 
             List<OcrMultilineLine> savedLines = new ArrayList<>();
 
-            for (int i = 0; i < maxLines; i++) {
+            for (int i = 0; i < confirmedLines.size(); i++) {
                 LineBoxDto box = confirmedLines.get(i);
                 box.sanitizeConfidence();
                 int x = Math.max(0, Math.min(box.getX(), pageWidth - 1));

@@ -37,12 +37,12 @@ if settings.groq_enabled and settings.groq_api_keys:
         auth_disable_seconds=settings.groq_auth_disable_seconds,
     )
 
-HW_LINE_DETECTOR_VERSION = "runtime9-stroke-annotation-rows-20261004"
+HW_LINE_DETECTOR_VERSION = "runtime13-bounded-complete-lines-20261005"
 
 CHECKPOINT_SHA256 = "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941"
 VOCAB_SHA256 = "6af4062e92e22cc91ece5198638e29a6ceec6cb92e3b12bd71deb4b874ac9e0d"
 MAX_PAYLOAD_BYTES = 10 * 1024 * 1024  # 10 MB maximum line crop size
-MAX_DETECTED_LINES = 30
+MAX_DETECTED_LINES = 200
 
 
 import math
@@ -744,7 +744,8 @@ async def detect_lines_endpoint(request: Request):
     try:
         lines, diagnostics = detect_text_lines(
             cv_img,
-            max_lines=MAX_DETECTED_LINES,
+            # One extra candidate distinguishes a full page from a capped result.
+            max_lines=MAX_DETECTED_LINES + 1,
             force_redetect=force_redetect,
             request_id=req_id
         )
@@ -811,6 +812,15 @@ async def detect_lines_endpoint(request: Request):
                 diagnostics["segmentationSource"] = "LOCAL_CV"
         else:
             diagnostics["segmentationSource"] = "LOCAL_CV_GROQ_ASSIST"
+
+        candidate_count = max(len(lines), diagnostics.get("detected_region_count", 0))
+        exceeded = len(lines) > MAX_DETECTED_LINES or bool(diagnostics.get("region_limit_exceeded"))
+        lines = lines[:MAX_DETECTED_LINES]
+        diagnostics.update(line_limit=MAX_DETECTED_LINES, region_limit_exceeded=exceeded,
+                           lines_truncated=exceeded, returned_line_count=len(lines),
+                           detected_line_count_at_least=candidate_count, final_box_count=len(lines))
+        if exceeded:
+            diagnostics.update(needs_review=True, geometry_verified=False)
 
         # === CRNN Core OCR (Every Final Handwriting Line) ===
         crnn_executed = False
