@@ -1,213 +1,162 @@
-# MathVision Kids -- Developer Local Setup Guide
+# Local setup
 
-Welcome to MathVision Kids! This guide details the complete local setup process for new developers and contributors.
+[README](../README.md) · [Tiếng Việt](HUONG_DAN_CAI_DAT.md) · [Troubleshooting](TROUBLESHOOTING.md)
 
----
+This guide covers the repository's Windows launcher. It distinguishes starting the ecosystem from enabling real recognition. Run commands from the repository root unless a step says otherwise.
 
-## 1. System Prerequisites
+## 1. Prerequisites
 
-Ensure the following developer tools are installed on your machine:
+| Tool | Version / requirement |
+| :--- | :--- |
+| Windows | PowerShell and Command Prompt available |
+| Git | Installed and available on PATH |
+| Node.js | 22.13 or newer compatible with the locked dependencies; the inspected environment uses Node 22 |
+| Python | 3.12; Windows `py -3.12` launcher available |
+| Java | JDK 21; `java` available on PATH |
+| Docker Desktop | Running engine, Linux containers, and Docker Compose |
+| Phone, optional | Compatible Expo Go client; same Wi-Fi as the computer for LAN testing |
 
-| Tool | Recommended Version | Verification Command | Notes |
-| :--- | :--- | :--- | :--- |
-| **Operating System** | Windows 10/11 (Primary) or macOS/Linux | `[System.Environment]::OSVersion` | Windows PowerShell / CMD first-class support |
-| **Git** | 2.40+ | `git --version` | Standard version control |
-| **Docker Desktop** | 24+ | `docker version` | Required for PostgreSQL, MinIO, Redis |
-| **Java JDK** | 21 (Eclipse Temurin / OpenJDK) | `java -version` | Required for Spring Boot Business API |
-| **Python** | 3.12 | `python --version` | Required for FastAPI AI Runtime & Celery |
-| **Node.js & npm** | Node 20+ (LTS), npm 10+ | `node -v` && `npm -v` | Required for Teacher Web & Student Expo app |
+The Gradle wrapper is included. You do not need global Gradle. Internet access is needed for the first dependency installation, container pulls, detector download, and cloud capabilities. The [versioned Expo SDK 57 reference](https://docs.expo.dev/versions/v57.0.0/) documents its React Native and Node.js compatibility.
 
-> **Note:** A globally installed Gradle is **not** required; the project includes Gradle Wrapper (`gradlew.bat`).
+## 2. Clone and install
 
----
-
-## 2. Clone & Initial Workspace Setup
-
-Clone the repository and enter the project directory:
-
-```bash
+~~~powershell
 git clone https://github.com/NV-DuyManh/MathVisionKid.git
 cd MathVisionKid
-```
+npm ci
+py -3.12 -m venv ai\runtime\.venv
+.\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt
+~~~
 
-Verify your workspace root:
-```bash
-git rev-parse --show-toplevel
-# Expected output: .../MathVisionKid
-```
+The root lockfile installs all JavaScript workspaces. Avoid separate installs in each app. If `py` is unavailable, use a verified Python 3.12 executable to create the virtual environment.
 
----
+## 3. Choose your capabilities
 
-## 3. Component Dependencies Installation
+### Start with the local defaults
 
-### A. Python AI Subsystem (FastAPI + Celery)
+A clean clone uses development defaults for the local database and object store. You do not need to copy every `.env.example` just to launch the stack.
 
-Set up the Python virtual environment and install dependencies:
+- The async arithmetic grader defaults to `RUNTIME_MODE=FIXTURE`, which produces synthetic fixture results.
+- Real handwriting OCR needs a trained checkpoint.
+- The main math guide's photo transcription needs configured cloud vision.
+- Supported built-in lesson patterns can run without a cloud-generated plan, but still need the local backend and AI runtime.
 
-```powershell
-cd ai\runtime
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\pip.exe install -r requirements.txt
-cd ..\..
-```
+Fixture grading is a developer integration tool. It does not enable real handwriting recognition or a general offline photo tutor.
 
-### B. Teacher Web Portal (React + Vite)
+### Enable real recognition and guidance
 
-Install the frontend dependencies:
+**Vietnamese handwriting OCR**
 
-```powershell
-cd teacher-web
-npm install
-cd ..
-```
+Request the trained artifact from the project owner and place it here:
 
-### C. Student Mobile App (Expo / React Native)
+~~~text
+ai/runtime/models/ocr/crnn_vi_handwriting_v1/
+├── best_cer.pth           required, not stored in Git
+├── vocab.json            included in Git
+└── model_manifest.json   included in Git
+~~~
 
-Install the mobile app dependencies at repository root:
+Verify the checkpoint:
 
-```powershell
-npm install
-```
+~~~powershell
+Get-FileHash ai\runtime\models\ocr\crnn_vi_handwriting_v1\best_cer.pth -Algorithm SHA256
+~~~
 
----
+The current expected hash is `a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941`. Compare against the [manifest](../ai/runtime/models/ocr/crnn_vi_handwriting_v1/model_manifest.json) if artifacts change. This checkpoint is used by handwriting OCR endpoints; the main math-guide photo transcription follows a separate cloud path.
 
-## 4. Environment Configuration
+**Optional local text detector**
 
-The repository includes a central configuration template: `.env.example`.
+~~~powershell
+.\ai\runtime\.venv\Scripts\python.exe ai\runtime\scripts\setup_text_detector.py
+~~~
 
-Copy and inspect local environment files:
+The setup script downloads its pinned artifact and verifies the checksum. It does not train a model or guarantee perfect line separation.
 
-```powershell
-# AI Service
-copy ai\runtime\.env.example ai\runtime\.env
+**Cloud notebook reading and assistance**
 
-# Teacher Web (pre-configured)
-# Verify teacher-web\.env contains:
-# VITE_API_BASE_URL=http://localhost:8080/api/v1
-# VITE_USE_MOCK=false
-```
+Create `ai/runtime/.env.local` with a text editor. Enable only the provider you actually configured; keep the file outside Git. A minimal Groq configuration is:
 
-All local development defaults (ports, demo credentials, non-secret HMAC keys) are pre-configured for instant out-of-the-box local operation.
+~~~dotenv
+GROQ_ENABLED=true
+GROQ_API_KEYS="REPLACE_WITH_YOUR_VALID_KEY"
+GEMINI_ENABLED=false
+GEMINI_API_KEYS=""
+~~~
 
----
+To use Gemini instead, disable Groq and set `GEMINI_ENABLED=true` with valid `GEMINI_API_KEYS`. To configure fallback, enable both with valid keys. Provider model settings and optional advisor settings are listed in [the AI example](../ai/runtime/.env.example); confirm your provider account supports the configured model.
 
-## 5. One-Command System Startup
+Do not use placeholder keys. The AI `.env.example` also contains storage placeholders and an enabled Gemini example, so copying it unchanged is not a working configuration. Service-local `.env.local` overrides corresponding base `.env` values; process environment variables take precedence.
 
-MathVision Kids provides a unified, single-command launcher that initializes Docker containers, starts background services, verifies health, and displays service URLs:
+**YOLO arithmetic grading, optional**
 
-```cmd
-scripts\start-all.bat
-```
+Place the owner-supplied `yolov8n_mathvision_det_v1.pt` under `ai/runtime/models/`, verify it against the [model manifest](../ai/runtime/models/model_manifest.json), and set `RUNTIME_MODE=MODEL` in `ai/runtime/.env.local`. Its current expected hash is `e78f8fa5a2fc8be581b8624fa510cd2c429c40cdbd0930dbb2f1c2d870338985`. This changes the async arithmetic grading engine, not the math-guide transcription provider.
 
-*(Alternatively in PowerShell: `.\scripts\start-all.ps1`)*
+Restart local services after changing AI configuration or artifacts.
 
-### What `start-all` does automatically:
-1. Verifies installed tools (Docker, Java, Node, Python).
-2. Creates transient `runtime\logs\` and `runtime\pids\` directories.
-3. Starts Docker containers (`mathvision-postgres`, `mathvision-minio`, `mathvision-redis`) via Docker Compose.
-4. Initializes the MinIO `mathvision` bucket if missing.
-5. Launches **Spring Boot Business API** (port 8080) with tracked PID and log redirection.
-6. Launches **FastAPI AI Runtime** (port 8000) with tracked PID.
-7. Launches **Celery Solo Worker** with tracked PID.
-8. Launches **Teacher Web Portal** (port 5173) with tracked PID.
-9. Polls all service health endpoints until ready.
-10. Executes the diagnostic suite and prints active service URLs.
+## 4. Launch the complete ecosystem
 
----
+Start Docker Desktop, then run:
 
-## 6. Service URLs & Ports
+~~~powershell
+.\RUN_MATHVISION.bat
+~~~
 
-When the local environment is healthy, access services at:
+The launcher checks prerequisites, starts PostgreSQL, MinIO, and Redis through Docker, then starts the business API, host AI runtime, worker, web workspaces, and student server. It opens the portal and prints a QR code.
 
-| Service | Port | Endpoint URL | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Teacher Web** | `5173` | [http://localhost:5173](http://localhost:5173) | Web portal for batch upload, student mapping, review |
-| **Spring Boot API** | `8080` | [http://localhost:8080](http://localhost:8080) | Core business backend REST API |
-| **Spring Swagger UI** | `8080` | [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) | OpenAPI documentation & interactive client |
-| **FastAPI AI Runtime** | `8000` | [http://localhost:8000](http://localhost:8000) | Async AI analysis & inference pipeline |
-| **MinIO Web Console** | `9001` | [http://localhost:9001](http://localhost:9001) | S3 storage manager (`minioadmin` / `minioadmin123`) |
-| **MinIO API** | `9000` | [http://localhost:9000](http://localhost:9000) | S3 object storage API |
-| **PostgreSQL** | `5432` | `localhost:5432` | Relational database (`mathvision` db) |
-| **Redis** | `6379` | `localhost:6379` | Celery message broker & state store |
-| **Student Mobile** | `8081` | [http://localhost:8081](http://localhost:8081) | Metro bundler for Expo development |
+**Keep the launcher window open while scanning.** It pauses at the end so the QR remains visible. The student server runs in a separate visible terminal. Closing a launcher window does not stop background services; use the stop command below.
 
----
+Do not also run the complete Compose file with all services: it includes containerized AI services that can conflict with the launcher's host runtime.
 
-## 7. Verifying Health
+### Core stack without the student server
 
-Run the diagnostic utility at any time:
+~~~powershell
+.\scripts\start-all.bat
+~~~
 
-```cmd
-scripts\health-check.bat
-```
+To start the student app separately afterward:
 
-Expected healthy output:
-```
-============================================
- MathVision Kids -- Local Runtime Diagnostic
-============================================
+~~~powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-student-metro.ps1
+~~~
 
-Docker ................. PASS
-PostgreSQL ............. PASS
-MinIO .................. PASS
-Redis .................. PASS
-Spring Boot ............ PASS
-FastAPI ................ PASS
-Celery Worker .......... PASS
-Teacher Web ............ PASS
-Student Mobile ......... CONFIGURED
+## 5. Open the apps
 
-AI Mode ............... FIXTURE
-Model Artifact ........ NOT_PROVIDED
+| Service | Local address |
+| :--- | :--- |
+| Unified portal | `http://localhost:5172` |
+| Teacher web | `http://localhost:5173` |
+| Admin web | `http://localhost:5174` |
+| Student web preview | `http://localhost:8081` |
+| Business API health | `http://localhost:8080/actuator/health` |
+| Business API documentation | `http://localhost:8080/swagger-ui.html` |
+| AI readiness | `http://localhost:8000/ready` |
 
-Overall ............... READY_FOR_DEMO
-============================================
-```
+For a physical phone, scan the QR using an Expo Go client compatible with **Expo SDK 57**. The phone and computer must share Wi-Fi. The phone uses the computer's LAN address, not localhost. See [phone troubleshooting](TROUBLESHOOTING.md#phone-cannot-open-the-app).
 
----
+The student API resolver normally derives the development host from the server URL. For an explicit override, use `EXPO_PUBLIC_API_OVERRIDE=http://YOUR_COMPUTER_LAN_IP:8080/api/v1` in `apps/student-mobile/.env.local`, then restart the student server. Keep the `/api/v1` prefix. `EXPO_PUBLIC_API_BASE_URL` is a fallback and does not take priority over a detected development host. Do not put private service keys in `EXPO_PUBLIC_` variables.
 
-## 8. Starting Student Mobile (Optional)
+### Development-only accounts
 
-To start the student mobile application:
+These accounts are seeded by the backend's dev profile. They are local examples, not production credentials.
 
-```bash
-npm start
-```
+| Role | Account | Password |
+| :--- | :--- | :--- |
+| Student | `minh.student@mathvision.local` | `MathVision123!` |
+| Teacher | `lan.teacher@mathvision.local` | `MathVision123!` |
+| Admin | `admin.demo@mathvision.local` | `MathVision123!` |
 
-- Press `a` to open Android Emulator (requires Android Studio).
-- Or scan the displayed QR code with the **Expo Go** app on your physical mobile phone connected to the same Wi-Fi network.
+The backend owns authentication and roles. Existing database records can differ from a fresh seeded installation.
 
----
+## 6. Verify and stop
 
-## 9. Stopping the System
+~~~powershell
+.\scripts\health-check.bat
+.\scripts\stop-all.bat
+~~~
 
-Stop all MathVision Kids processes safely:
+Run health check while the stack is running; run stop when finished. Logs and PID files live under `infra/local-runtime/logs/` and `infra/local-runtime/pids/`. The normal stop command preserves database and image-storage volumes.
 
-```cmd
-scripts\stop-all.bat
-```
+Readiness checks connectivity and worker/runtime availability. It does not verify the CRNN checkpoint, cloud quota, every transcription, or every lesson type. Use a real sample and review its content as described in the [demo guide](DEMO_GUIDE.md).
 
-This stops only MathVision Kids-owned background processes and stops the Docker containers without wiping your database records.
-
----
-
-## 10. Restarting the System
-
-```cmd
-scripts\restart-all.bat
-```
-
-Executes `stop-all.bat` followed by `start-all.bat`.
-
----
-
-## 11. Resetting Local Data
-
-To wipe local demo records (PostgreSQL tables, MinIO uploaded images, logs) and start completely fresh:
-
-```cmd
-scripts\reset-local-data.bat
-```
-
-> **Safety Confirmation:** The script will ask for explicit confirmation before removing Docker volumes. Unrelated Docker containers on your workstation are never touched.
+Local development defaults are not a production deployment recipe. Production requires separate secrets, access controls, networking, and storage policies.

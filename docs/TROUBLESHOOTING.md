@@ -1,187 +1,112 @@
-# MathVision Kids -- Local Troubleshooting Guide
+# Troubleshooting
 
-This guide provides actionable solutions for common local development and runtime issues.
+[README](../README.md) · [Setup](LOCAL_SETUP.md) · [Tiếng Việt](HUONG_DAN_CAI_DAT.md)
 
----
+Start with the failing component and the log named by the launcher. Commands below assume PowerShell at the repository root.
 
-## Quick Diagnostic Check
+## The launcher stops during prerequisites
 
-Before troubleshooting individual services, always run the unified diagnostics tool:
+Open Docker Desktop and wait for its engine. Check tool availability:
 
-```cmd
-scripts\health-check.bat
-```
+~~~powershell
+docker version
+docker compose version
+java -version
+node --version
+py -3.12 --version
+~~~
 
-Review the output table to pinpoint which specific service is in `FAIL` or `WARN` state.
+Use JDK 21, Python 3.12, and Node 22.13+ compatible with the lockfile. Install dependencies with the commands in [local setup](LOCAL_SETUP.md#2-clone-and-install). Open a new terminal after changing PATH.
 
----
+## Port conflict
 
-## 1. Docker & Container Issues
+The launcher refuses to stop a process it cannot identify as belonging to this project. Inspect the reported port and process first:
 
-### Issue 1.1: Docker daemon is not running
-- **Symptom:** `scripts\health-check.bat` reports `Docker ................ FAIL`.
-- **Cause:** Docker Desktop is closed, starting up, or WSL2 backend is stalled.
-- **Actionable Fix:**
-  1. Open Docker Desktop on Windows.
-  2. Wait until the Docker icon indicates "Engine running".
-  3. Re-run `scripts\health-check.bat`.
+~~~powershell
+$taskPort = 8000
+Get-NetTCPConnection -State Listen -LocalPort $taskPort |
+    Select-Object LocalAddress, LocalPort, OwningProcess
+Get-CimInstance Win32_Process -Filter "ProcessId = REPLACE_WITH_REPORTED_PID" |
+    Select-Object ProcessId, Name, CommandLine
+~~~
 
-### Issue 1.2: Port already occupied (5432, 6379, 9000, 9001)
-- **Symptom:** `docker compose up` fails with `port is already allocated` or `bind: address already in use`.
-- **Cause:** A local PostgreSQL or Redis service installed on your host machine is occupying standard ports.
-- **Actionable Fix:**
-  ```powershell
-  # Find which process is occupying the port (e.g. 5432):
-  Get-NetTCPConnection -LocalPort 5432 | Select-Object LocalPort, OwningProcess
-  
-  # If local Postgres service is running, stop it:
-  Stop-Service postgresql*
-  ```
+Replace the PID placeholder before running the second command. Stop the conflicting service using its own terminal or owner command. Do not kill every Python, Java, or Node process.
 
----
+A common cause is starting the complete Compose stack and the host launcher together. The launcher only needs the Compose infrastructure services; its AI runtime runs on the host. If you started a containerized AI runtime separately, stop that known container before relaunching.
 
-## 2. Database (PostgreSQL) Issues
+## Phone cannot open the app
 
-### Issue 2.1: PostgreSQL not accepting connections
-- **Symptom:** `PostgreSQL ............ FAIL`, Spring Boot logs `Connection to localhost:5432 refused`.
-- **Actionable Fix:**
-  ```powershell
-  # Check container status
-  docker ps -a --filter "name=mathvision-postgres"
-  
-  # Start container
-  docker compose -f services/business-api/docker-compose.yml up -d postgres
-  
-  # Inspect container logs
-  docker logs mathvision-postgres
-  ```
+1. Connect phone and computer to the same Wi-Fi; check that the network does not isolate devices.
+2. Keep the launcher and student terminal open. Scan the current QR, not an older screenshot.
+3. On the phone, open `http://COMPUTER_LAN_IP:8081/status` in a browser. `packager-status:running` proves the student server is reachable.
+4. If it is unreachable, review the computer's private-network firewall permission for the student server. Do not disable the firewall globally.
+5. Use an Expo Go client compatible with SDK 57. A client mismatch is separate from a network problem.
 
-### Issue 2.2: Database schema out of sync or migration failure
-- **Symptom:** Spring Boot startup fails on Flyway migration.
-- **Actionable Fix:**
-  ```cmd
-  scripts\reset-local-data.bat
-  scripts\start-all.bat
-  ```
+To restart the owned student server workflow, use:
 
----
+~~~powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-student-metro.ps1
+~~~
 
-## 3. Object Storage (MinIO) Issues
+The student launcher can reuse a healthy owned server. If it reports a conflicting process, resolve that conflict before retrying.
 
-### Issue 3.1: MinIO port 9000 unreachable
-- **Symptom:** `MinIO ................. FAIL`.
-- **Actionable Fix:**
-  ```powershell
-  docker compose -f services/business-api/docker-compose.yml up -d minio
-  docker logs mathvision-minio
-  ```
+## The app opens but cannot log in
 
-### Issue 3.2: Bucket `mathvision` does not exist
-- **Symptom:** Image uploads fail with `NoSuchBucket` or Spring logs S3 error.
-- **Actionable Fix:**
-  ```powershell
-  docker exec mathvision-minio mc alias set local http://localhost:9000 minioadmin minioadmin123
-  docker exec mathvision-minio mc mb --ignore-existing local/mathvision
-  ```
+Check business API health:
 
----
+~~~powershell
+Invoke-RestMethod http://localhost:8080/actuator/health
+~~~
 
-## 4. Message Broker (Redis) & Celery Issues
+On a phone, use the computer's LAN address for API connectivity. The app normally resolves the development host automatically. If an override is necessary, set `EXPO_PUBLIC_API_OVERRIDE=http://COMPUTER_LAN_IP:8080/api/v1` in `apps/student-mobile/.env.local` and restart the student server. Keep the API prefix; `EXPO_PUBLIC_API_BASE_URL` is a lower-priority fallback.
 
-### Issue 4.1: Redis unreachable
-- **Symptom:** `Redis ................ FAIL`.
-- **Actionable Fix:**
-  ```powershell
-  docker compose -f services/business-api/docker-compose.yml up -d redis
-  ```
+Use an account with the student role. [Development accounts](LOCAL_SETUP.md#development-only-accounts) are seeded only in the dev profile; an existing database may have different credentials. A 401 response is an authentication problem, not proof of OCR failure.
 
-### Issue 4.2: Celery Worker offline while Redis is PASS
-- **Symptom:** `Redis ................ PASS` but `Celery Worker ......... FAIL`.
-- **Cause:** Celery worker crashed, was killed, or failed to start on Windows.
-- **Note on Windows:** Celery on Windows requires `--pool=solo` to prevent billiard multiprocessing deadlocks.
-- **Actionable Fix:**
-  ```powershell
-  cd ai\runtime
-  .\.venv\Scripts\celery.exe -A app.jobs.celery_app worker --loglevel=info --pool=solo
-  ```
-  Inspect logs: `runtime\logs\celery.log`.
+## The page is read but no guided lesson starts
 
----
+Check the entire question: missing givens, multiple problems, or an incorrect OCR number can prevent a valid plan. Use **Chỉnh đề bài** to correct the text.
 
-## 5. Spring Boot Business API Issues
+Some patterns have validated built-in plans; other requests depend on cloud generation. If the runtime returns unavailable, check server-side provider configuration, model access, network, and quota. A selected practice activity does not guarantee that every wording currently has a supported plan.
 
-### Issue 5.1: Spring Boot health DOWN
-- **Symptom:** `Spring Boot ........... FAIL` or `/actuator/health` returns `{"status":"DOWN"}`.
-- **Actionable Fix:**
-  Check `runtime\logs\spring.log` or run manually to see full stack trace:
-  ```powershell
-  cd services\business-api
-  .\gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev"
-  ```
-  Verify that PostgreSQL (5432) and MinIO (9000) are healthy prior to starting Spring Boot.
+The demonstration's digit-append problem in [DEMO_GUIDE.md](DEMO_GUIDE.md#guided-lesson-demo) has a built-in plan. Use it to distinguish working lesson infrastructure from an unavailable cloud-dependent request.
 
-### Issue 5.2: Spring cannot reach FastAPI
-- **Symptom:** Submission creation triggers `HttpAiAnalysisGateway` exception: `Connection refused: localhost:8000`.
-- **Actionable Fix:**
-  1. Verify FastAPI is running: `Invoke-RestMethod http://localhost:8000/health`.
-  2. If down, start FastAPI:
-     ```powershell
-     cd ai\runtime
-     .\.venv\Scripts\uvicorn.exe app.main:app --host 0.0.0.0 --port 8000
-     ```
+## OCR is missing, empty, or inaccurate
 
-### Issue 5.3: Wrong AI Gateway Mode
-- **Symptom:** Submissions are completed instantly with dummy mock data without reaching FastAPI.
-- **Cause:** Spring Boot is running in `STUB` mode instead of `FASTAPI` mode.
-- **Actionable Fix:**
-  Launch Spring with `--ai.gateway.mode=FASTAPI`:
-  ```powershell
-  .\gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev"
-  ```
+Verify which path you are testing:
 
----
+| Symptom | Check |
+| :--- | :--- |
+| Main guide cannot read a photographed question | Configured Groq/Gemini access; this path uses cloud vision |
+| Handwriting line OCR cannot load its model | CRNN checkpoint path and hash in the [setup guide](LOCAL_SETUP.md#enable-real-recognition-and-guidance) |
+| Lines are merged, missing, or overlap a diagram | Crop one problem, straighten the page, improve lighting, review detector configuration |
+| Only fixture results appear in async grading | `RUNTIME_MODE=FIXTURE` is synthetic; enable model mode with the correct artifact |
 
-## 6. FastAPI AI Runtime Issues
+Do not switch to fixture mode and describe the resulting output as recognition of the uploaded handwriting. Preserve the failing sample privately and report the expected lines.
 
-### Issue 6.1: FastAPI /ready reports false
-- **Symptom:** `GET http://localhost:8000/ready` returns `{"ready":false,...}`.
-- **Cause:** Redis broker is disconnected.
-- **Actionable Fix:**
-  Start Redis container: `docker compose -f services/business-api/docker-compose.yml up -d redis`.
+## AI settings changed but behavior did not
 
-### Issue 6.2: Status `MODEL_NOT_AVAILABLE`
-- **Symptom:** Submissions return status `MODEL_NOT_AVAILABLE`.
-- **Cause:** `RUNTIME_MODE=MODEL` is set in environment, but trained model artifact has not been provided.
-- **Actionable Fix:**
-  Ensure `RUNTIME_MODE=FIXTURE` in `ai/runtime/.env`.
+Restart services after editing `ai/runtime/.env.local`. Process environment values take precedence over dotenv files. Confirm enabled providers have real keys; placeholder strings are not credentials.
 
----
+Do not paste keys, authorization headers, student photos, or complete private logs into a public issue. Share sanitized error messages and a non-private reproduction.
 
-## 7. Callback & Security Issues
+## Find logs and check health
 
-### Issue 7.1: Callback authentication error (HTTP 401 / 403)
-- **Symptom:** Celery worker log displays `HTTP 401 Unauthorized` or `HTTP 403 Forbidden` when posting to `http://localhost:8080/internal/v1/ai/jobs/.../callback`.
-- **Cause:** `INTERNAL_API_KEY` in `ai/runtime/.env` does not match `app.ai.callback.api-key` in Spring Boot `application.yml`.
-- **Actionable Fix:**
-  Ensure both environments use the same key:
-  - Spring: `INTERNAL_API_KEY=secret-key-default`
-  - AI Service: `INTERNAL_API_KEY=secret-key-default`
+~~~powershell
+.\scripts\health-check.bat
+Get-ChildItem .\infra\local-runtime\logs -File |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 10 Name, LastWriteTime
+~~~
 
----
+The readiness endpoint checks selected runtime dependencies. A green result does not prove OCR weights, cloud quota, or content correctness.
 
-## 8. Frontend & Mobile Issues
+## Stop or recover
 
-### Issue 8.1: Teacher Web cannot reach backend (Network Error)
-- **Symptom:** Login or batch requests in Teacher Web show Network Error or Failed to fetch.
-- **Cause:** Spring Boot is not running on port 8080, or CORS origin is blocked.
-- **Actionable Fix:**
-  1. Confirm Spring Boot is listening on port 8080.
-  2. Confirm `teacher-web\.env` contains `VITE_API_BASE_URL=http://localhost:8080/api/v1`.
-  3. Ensure Spring Boot `CORS_ALLOWED_ORIGINS` includes `http://localhost:5173`.
+~~~powershell
+.\scripts\stop-all.bat
+.\RUN_MATHVISION.bat
+~~~
 
-### Issue 8.2: Android Emulator or Device cannot connect to `localhost:8080`
-- **Symptom:** Mobile app hangs on network requests.
-- **Cause:** `localhost` inside an Android emulator or phone refers to the Android device itself, not your Windows workstation.
-- **Actionable Fix:**
-  - **Android Studio Emulator:** Use `http://10.0.2.2:8080/api/v1` in mobile configuration.
-  - **Physical Device (Expo Go):** Use your Windows workstation's LAN IP (e.g., `http://192.168.1.50:8080/api/v1`).
+Normal stop keeps stored data. Data-reset scripts delete local database/storage data and are not a routine fix for a UI, camera, or provider error.
+
+For a bug report, include the exact action, relevant service, sanitized error, expected result, and a small reproducible sample. See [CONTRIBUTING.md](../CONTRIBUTING.md).

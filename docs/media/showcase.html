@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MathVision Kids · Repository cover</title>
+  <style>
+    @font-face { font-family: Nunito; src: url('../../apps/student-mobile/assets/fonts/Nunito-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: Nunito; src: url('../../apps/student-mobile/assets/fonts/Nunito-ExtraBold.ttf'); font-weight: 800; }
+    @font-face { font-family: Nunito; src: url('../../apps/student-mobile/assets/fonts/Nunito-Black.ttf'); font-weight: 900; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #F8F7FE; font-family: Nunito, sans-serif; color: #18164C; }
+    .cover { position: relative; width: 1600px; height: 860px; overflow: hidden; background: linear-gradient(118deg, #FAF9FF 0%, #F3EFFF 55%, #ECE7FF 100%); }
+    .halo { position: absolute; width: 810px; height: 810px; border-radius: 50%; background: #DAD2FF; right: -150px; top: 100px; }
+    .halo::after { content: ''; position: absolute; inset: 50px; border-radius: 50%; border: 2px solid #EDE8FF; }
+    .mint { position: absolute; width: 500px; height: 260px; background: #D9F1E8; border-radius: 50%; left: 630px; bottom: -165px; transform: rotate(-18deg); }
+    header { position: absolute; top: 60px; left: 80px; display: flex; align-items: center; gap: 18px; }
+    header img { width: 64px; height: 64px; border-radius: 18px; }
+    header strong { font-size: 31px; font-weight: 900; letter-spacing: -1px; }
+    header small { display: block; margin-top: 2px; font-size: 16px; color: #475569; }
+    .copy { position: absolute; left: 80px; top: 214px; width: 715px; }
+    .eyebrow { color: #5637C9; font-weight: 800; font-size: 18px; letter-spacing: 2.3px; margin: 0 0 22px; }
+    h1 { margin: 0; font-weight: 900; font-size: 91px; line-height: 1.08; letter-spacing: -4px; }
+    h1 span { color: #7055F6; }
+    .subtitle { font-size: 27px; line-height: 1.5; color: #475569; width: 605px; margin: 27px 0 0; }
+    .journey { display: flex; gap: 16px; margin-top: 38px; }
+    .journey span { display: flex; align-items: center; gap: 10px; padding: 12px 17px; border-radius: 16px; border: 1px solid #DDD5F5; background: #FFFFFFC9; font-size: 18px; font-weight: 800; color: #5637C9; }
+    .journey svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .phone { position: absolute; background: #252143; padding: 6px; border-radius: 37px; border: 2px solid #605879; box-shadow: 0 32px 60px #36246D33, 0 2px 3px #FFFFFF; }
+    .phone img { display: block; width: 100%; height: auto; border-radius: 28px; }
+    .secondary { width: 286px; left: 894px; top: 154px; transform: rotate(-8deg); }
+    .primary { width: 328px; left: 1200px; top: 69px; transform: rotate(7deg); }
+    .mascot { position: absolute; width: 285px; left: 725px; top: 511px; filter: drop-shadow(0 15px 16px #5039A52B); }
+    .spark { position: absolute; color: #D39923; font-size: 48px; font-weight: 900; }
+    .s1 { left: 810px; top: 180px; }
+    .s2 { left: 1554px; top: 705px; font-size: 33px; }
+    footer { position: absolute; left: 80px; bottom: 64px; color: #64748B; font-size: 18px; display: flex; align-items: center; gap: 12px; }
+    footer::before { content: ''; display: block; width: 30px; height: 3px; background: #7055F6; border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <main class="cover" aria-label="MathVision Kids product presentation with actual app screenshots">
+    <div class="halo" aria-hidden="true"></div><div class="mint" aria-hidden="true"></div>
+    <header>
+      <img src="../../apps/student-mobile/assets/images/mathvision-icon-v2.png" alt="MathVision Kids star mascot logo" />
+      <div><strong>MathVision Kids</strong><small>Understand. Practice. Grow.</small></div>
+    </header>
+    <section class="copy">
+      <p class="eyebrow">VIETNAMESE MATH · GRADES 1–5</p>
+      <h1>Little steps.<br /><span>Big discoveries.</span></h1>
+      <p class="subtitle">From a notebook photo to clearer thinking.<br />A friendly companion for curious minds.</p>
+      <div class="journey">
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4v15H4V5z"/><circle cx="12" cy="12" r="4"/></svg>Capture</span>
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6m-6 3h6M8 15c-6-5-2-12 4-12s10 7 4 12l-1 3H9z"/></svg>Understand</span>
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4c4-1 6 0 9 2 3-2 5-3 9-2v15c-4-1-7 0-9 2-2-2-5-3-9-2zM12 6v15"/></svg>Practice</span>
+      </div>
+    </section>
+    <div class="phone secondary"><img src="screenshots/guided-step-web.jpg" alt="Actual app screenshot of a guided reasoning step" /></div>
+    <div class="phone primary"><img src="screenshots/home-web.jpg" alt="Actual app screenshot of the student home" /></div>
+    <img class="mascot" src="../../apps/student-mobile/assets/illustrations/mathvision-star.png" alt="" />
+    <span class="spark s1" aria-hidden="true">✦</span><span class="spark s2" aria-hidden="true">✦</span>
+    <footer>Camera input · Vietnamese handwriting · Guided learning</footer>
+  </main>
+</body>
+</html>
