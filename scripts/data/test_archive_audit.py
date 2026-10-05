@@ -65,3 +65,21 @@ def test_local_resume_preserves_accepted_label_and_validates_source_hash(tmp_pat
     audit.run(folder,100)
     assert json.loads((folder/'local_summary.json').read_text())['execution_failed']==1
     assert json.loads((folder/'labels/a.json').read_text())==reference
+
+
+def test_large_audit_can_skip_previews_without_losing_source_coordinate_evidence(tmp_path,monkeypatch):
+    from app.schemas.ocr import LineBox
+    folder=tmp_path/'sample';(folder/'images').mkdir(parents=True)
+    path=folder/'images/a.jpg';Image.new('RGB',(100,70),'white').save(path)
+    source_hash=hashlib.sha256(path.read_bytes()).hexdigest()
+    write_json(folder/'source_selection.json',[{'drive_id':'a','name':'a.jpg','source_group':'unit','sha256':source_hash}])
+    monkeypatch.setattr(audit,'detect_text_lines',lambda *args,**kwargs:
+                        ([LineBox(line_id='line_1',x=10,y=15,width=60,height=25,order=1)],{}))
+    audit.run(folder,200,mark_tested=True,write_overlays=False)
+    assert not (folder/'local_overlays').exists()
+    record=json.loads((folder/'local_regions/a.json').read_text())
+    assert record['boxes']==[[10,15,70,40]] and record['sha256']==source_hash
+    label=json.loads((folder/'labels/a.json').read_text())
+    assert label['draft_boxes']==record['boxes'] and not label['training_eligible']
+    with open_ledger(tmp_path) as db:assert db.execute('SELECT drive_id FROM images').fetchall()==[('a',)]
+    assert hashlib.sha256(path.read_bytes()).hexdigest()==source_hash

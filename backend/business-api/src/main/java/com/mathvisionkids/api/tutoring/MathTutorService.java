@@ -94,7 +94,10 @@ public class MathTutorService {
             }
             lines.add(new NotebookLine(text(row, "text", 500, false), box, flag(row, "uncertain")));
         }
-        return new NotebookRead(kind, text(body, "problemText", 4000, true), lines, flag(body, "needsProblem"));
+        String problem = text(body, "problemText", 4000, true);
+        boolean needsCrop = body.has("needsCrop") && flag(body, "needsCrop");
+        if (needsCrop && (!kind.equals("UNREADABLE") || !problem.isEmpty() || !lines.isEmpty())) throw unavailable();
+        return new NotebookRead(kind, problem, lines, flag(body, "needsProblem"), needsCrop);
     }
 
     public GuideResponse coach(CoachRequest request) {

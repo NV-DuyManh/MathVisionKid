@@ -24,7 +24,8 @@ public final class MathTutorDtos {
     public record GuideResponse(String stage, String hint, String question, String feedback, boolean guarded) {}
 
     public record NotebookLine(String text, java.util.List<Integer> box, boolean uncertain) {}
-    public record NotebookRead(String kind, String problemText, java.util.List<NotebookLine> lines, boolean needsProblem) {}
+    public record NotebookRead(String kind, String problemText, java.util.List<NotebookLine> lines,
+                               boolean needsProblem, boolean needsCrop) {}
     public record CoachRequest(
             @NotNull @Size(max = 4000) String problemText,
             @NotNull @Size(max = 6000) String workText,

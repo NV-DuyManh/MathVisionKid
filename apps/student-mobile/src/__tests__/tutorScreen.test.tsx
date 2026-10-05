@@ -56,6 +56,18 @@ const photo = (privacyConfirmed = true) => {
     privacyImageUri: 'file:///masked.jpg', privacyConfirmed, mode: 'MATH_TUTOR', width: 500, height: 300, filename: 'photo.jpg', mimeType: 'image/jpeg' });
 };
 
+it('asks for a smaller crop without starting a lesson from an incomplete page', async () => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockResolvedValue({ kind: 'UNREADABLE', problemText: '', lines: [], needsProblem: false, needsCrop: true });
+  await render();
+  expect(readText()).toContain('Chọn một vùng nhỏ hơn nhé');
+  expect(button('Bắt đầu từng bước')).toBeUndefined();
+  act(() => button('Chọn lại vùng bài toán').props.onPress());
+  expect((useRouter as jest.Mock).mock.results.at(-1)!.value.push).toHaveBeenCalledWith('/crop');
+  expect(recognitionDraftStore.getDraft()?.privacyImageUri).toBe('file:///masked.jpg');
+  expect(TutorService.startLesson).not.toHaveBeenCalled();
+});
+
 it('starts meaningful reasoning steps without displaying the answer key', async () => {
   await render();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });

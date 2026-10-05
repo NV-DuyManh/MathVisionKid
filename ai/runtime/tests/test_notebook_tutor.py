@@ -40,6 +40,40 @@ def test_unverified_model_geometry_is_not_displayed(monkeypatch):
     assert result.needsProblem is True
 
 
+def test_notebook_uses_physically_supported_short_rows_before_grounding_transcript(monkeypatch):
+    from app.recognition import text_detector
+    from app.tutoring import rows
+    generate = AsyncMock(return_value=cow_reading())
+    monkeypatch.setattr(notebook, '_generate', generate)
+    physical = [(100, 100, 600, 180), (100, 500, 800, 580)]
+    short = (100, 300, 200, 360)
+    learned = [physical[0], short, physical[1]]
+    monkeypatch.setattr(notebook, 'handwriting_rows', lambda pixels: physical)
+    monkeypatch.setattr(text_detector, 'detect_text_regions', lambda pixels: learned)
+    def recover(pixels, existing, candidates):
+        assert existing == physical and candidates == learned
+        return [short]
+    monkeypatch.setattr(rows, 'short_row_candidates', recover)
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert [line.box for line in result.lines] == [
+        (100, 100, 600, 180), short, (100, 500, 800, 580)]
+    assert generate.await_count == 1
+
+
+def test_learned_short_region_alone_cannot_supply_notebook_geometry(monkeypatch):
+    from app.recognition import text_detector
+    from app.tutoring import rows
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=cow_reading()))
+    monkeypatch.setattr(notebook, 'handwriting_rows',
+                        lambda pixels: [(100, 100, 600, 180), (100, 500, 800, 580)])
+    monkeypatch.setattr(text_detector, 'detect_text_regions',
+                        lambda pixels: [(100, 300, 200, 360)])
+    monkeypatch.setattr(rows, 'short_row_candidates', lambda *args: [])
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert all(line.box is None for line in result.lines)
+    assert result.lines[1].uncertain and result.lines[2].uncertain
+
+
 def test_unclear_symbol_gets_targeted_question_without_cloud(monkeypatch):
     cloud = AsyncMock()
     monkeypatch.setattr(notebook, "_generate", cloud)

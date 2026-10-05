@@ -219,4 +219,67 @@ def detect_crop_regions(bgr):
         x2,y2=min(width,x2-border),min(height,y2-border)
         if x1<x2 and y1<y2:
             clipped.append((x1,y1,x2,y2))
-    return clipped
+    if clipped:
+        return clipped
+    from app.tutoring.rows import coloured_strip_regions
+    coloured=coloured_strip_regions(bgr)
+    return coloured if coloured else _chalk_strip_regions(bgr)
+
+
+def _chalk_strip_regions(bgr):
+    """Retry an empty dark-board strip only where a whole bright row is supported."""
+    height,width=bgr.shape[:2]
+    if not (8<=height<=128 and width>=height*4):
+        return []
+    hue,saturation,value=cv2.split(cv2.cvtColor(bgr,cv2.COLOR_BGR2HSV))
+    background_hue,background_sat,background_value=[
+        float(np.median(channel)) for channel in (hue,saturation,value)]
+    if not (35<=background_hue<=125 and background_sat>40 and background_value<155):
+        return []
+    bright=((saturation<85)&(value>background_value+35)).astype(np.uint8)
+    count,labels,stats,_=cv2.connectedComponentsWithStats(bright,8)
+    parts=stats[1:]
+    substantial=((parts[:,3]>=height*.2)&(parts[:,3]<=height*.9)
+                 &(parts[:,2]<=height*3)&(parts[:,4]>=8))
+    bodies=parts[substantial]
+    if len(bodies)<3:
+        return []
+    # Inversion exposes light chalk to the same pinned model. No equalization
+    # or fabricated full-source box: dark grids otherwise produce false text.
+    gray=255-cv2.cvtColor(bgr,cv2.COLOR_BGR2GRAY)
+    first_scale=min(2.,1280/max(height,width))
+    centers=bodies[:,1]+bodies[:,3]/2
+    # Preserve the first supported result; a bounded larger view may expose
+    # faint chalk to the same model without relaxing its ink requirements.
+    for scale in dict.fromkeys((first_scale,min(4.,1280/max(height,width)))):
+        size=(max(1,round(width*scale)),max(1,round(height*scale)))
+        resized=cv2.resize(gray,size)
+        scale_x,scale_y=resized.shape[1]/width,resized.shape[0]/height
+        border=32
+        padded=cv2.copyMakeBorder(resized,border,border,border,border,
+                                 cv2.BORDER_CONSTANT,value=255)
+        candidates=detect_text_regions(cv2.cvtColor(padded,cv2.COLOR_GRAY2BGR))
+        if candidates is None:
+            return None
+        accepted=[]
+        for x1,y1,x2,y2 in candidates:
+            x1,y1=max(0,int(np.floor((x1-border)/scale_x))),max(0,int(np.floor((y1-border)/scale_y)))
+            x2,y2=min(width,int(np.ceil((x2-border)/scale_x))),min(height,int(np.ceil((y2-border)/scale_y)))
+            if x2-x1<width*.45 or y2-y1<height*.3:
+                continue
+            in_row=(centers>=y1-height*.1)&(centers<=y2+height*.1)
+            if np.count_nonzero(in_row)<3:
+                continue
+            keep=np.zeros(count,np.uint8)
+            keep[np.flatnonzero(substantial)+1]=in_row
+            supported=keep[labels]
+            if supported[y1:y2,x1:x2].sum()/max(1,supported.sum())>=.9:
+                if scale>first_scale:
+                    nearby=bodies[in_row & (bodies[:,0]+bodies[:,2]>=x1-height*.5)
+                                  & (bodies[:,0]<=x2+height*.5)]
+                    x1=min(x1,int(nearby[:,0].min()));y1=min(y1,int(nearby[:,1].min()))
+                    x2=max(x2,int((nearby[:,0]+nearby[:,2]).max()));y2=max(y2,int((nearby[:,1]+nearby[:,3]).max()))
+                accepted.append((x1,y1,x2,y2))
+        if accepted:
+            return accepted
+    return []
