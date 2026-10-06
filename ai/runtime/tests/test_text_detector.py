@@ -5,6 +5,51 @@ import pytest
 from app.recognition import text_detector
 
 
+def _spaced_notebook_glyphs():
+    image = np.full((700, 450, 3), 248, np.uint8)
+    for y in (110, 220, 330, 440):
+        for x in range(75, 410, 55):
+            cv2.ellipse(image, (x, y), (10, 15), 0, 0, 360, (150, 55, 35), 2)
+            cv2.line(image, (x-4, y-25), (x, y-30), (150, 55, 35), 2)
+            cv2.line(image, (x, y-30), (x+4, y-25), (150, 55, 35), 2)
+    cv2.putText(image, 'LOGO', (335, 485), cv2.FONT_HERSHEY_SIMPLEX, .4, (150, 55, 35), 1)
+    return image
+
+
+@pytest.mark.parametrize('scale', [1, 3])
+def test_isolated_glyph_retry_recovers_ink_and_accents_without_swallowing_footer(scale):
+    image = cv2.resize(_spaced_notebook_glyphs(), None, fx=scale, fy=scale)
+    footer = tuple(v * scale for v in (330, 470, 380, 490))
+    fragments = [tuple(v * scale for v in (62, 91, 89, 130)), footer]
+    boxes = text_detector.recover_glyph_rows(image, fragments)
+    assert len(boxes) == 5 and boxes[-1] == footer
+    for box, y in zip(boxes[:4], (110, 220, 330, 440)):
+        x1, y1, x2, y2 = box
+        assert x1 <= 64*scale and x2 >= 415*scale
+        assert y1 <= (y-30)*scale and y2 >= (y+16)*scale
+        assert y2 < (y+30)*scale
+        assert 0 <= x1 < x2 <= image.shape[1] and 0 <= y1 < y2 <= image.shape[0]
+
+
+def test_glyph_retry_rejects_a_stacked_fraction_on_an_otherwise_eligible_page():
+    image = _spaced_notebook_glyphs()
+    cv2.putText(image, '12', (70, 560), cv2.FONT_HERSHEY_SIMPLEX, .7, (150, 55, 35), 2)
+    cv2.line(image, (65, 575), (110, 575), (150, 55, 35), 2)
+    cv2.putText(image, '34', (70, 608), cv2.FONT_HERSHEY_SIMPLEX, .7, (150, 55, 35), 2)
+    original = [(65, 540, 115, 615)]
+    assert text_detector.recover_glyph_rows(image, original) == original
+
+
+@pytest.mark.parametrize('image', [
+    np.full((700, 450, 3), 248, np.uint8),
+    np.full((700, 450, 3), (140, 60, 30), np.uint8),
+    cv2.rotate(_spaced_notebook_glyphs(), cv2.ROTATE_90_CLOCKWISE),
+])
+def test_glyph_retry_keeps_existing_geometry_on_blank_saturated_or_landscape_input(image):
+    original = [(10, 20, 100, 40)]
+    assert text_detector.recover_glyph_rows(image, original) == original
+
+
 def test_fragments_merge_without_joining_rows_or_columns():
     boxes = [(20,20,70,40),(75,21,130,41),(260,20,320,40),
              (20,55,70,75),(80,56,130,76),(180,18,210,115)]

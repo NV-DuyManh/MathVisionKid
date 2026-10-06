@@ -97,13 +97,42 @@ def test_coaching_may_reference_visible_numbers_but_blocks_new_result(monkeypatc
     assert notebook.unsafe_coaching(invented, request) is True
 
 
-def test_multiple_problems_return_crop_request_without_transcript(monkeypatch):
+@pytest.mark.parametrize('needs_crop', [False, True])
+def test_multiple_problems_return_crop_request_without_transcript(monkeypatch, needs_crop):
     monkeypatch.setattr(notebook, "_generate", AsyncMock(return_value={
         "kind": "MULTIPLE", "problemText": "ignored", "needsProblem": False,
+        "needsCrop": needs_crop,
         "lines": [{"text": "1 + 2", "box": None, "uncertain": False}],
     }))
     result = run(notebook.inspect_notebook(image_bytes((800, 1200))))
     assert result.kind == "MULTIPLE" and result.lines == [] and result.problemText == ""
+    assert not result.needsCrop
+
+
+@pytest.mark.parametrize('needs_crop', [False, True])
+def test_independent_review_multiple_overrides_a_single_work_misclassification(monkeypatch, needs_crop):
+    monkeypatch.setattr(notebook, 'handwriting_rows',
+                        lambda pixels: [(100, 100, 600, 180), (100, 500, 800, 580)])
+    monkeypatch.setattr('app.recognition.text_detector.detect_text_regions', lambda pixels: [])
+    cloud = AsyncMock(side_effect=[cow_reading(), {
+        'kind': 'MULTIPLE', 'problemText': 'discard this',
+        'lines': [{'text': 'discard this too'}], 'needsProblem': True, 'needsCrop': needs_crop}])
+    monkeypatch.setattr(notebook, '_generate', cloud)
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert cloud.await_count == 2
+    assert result.kind == 'MULTIPLE' and result.lines == [] and result.problemText == ''
+    assert not result.needsCrop
+
+
+def test_independent_single_work_review_keeps_a_multi_step_solution(monkeypatch):
+    monkeypatch.setattr(notebook, 'handwriting_rows',
+                        lambda pixels: [(100, 100, 600, 180), (100, 500, 800, 580)])
+    monkeypatch.setattr('app.recognition.text_detector.detect_text_regions', lambda pixels: [])
+    cloud = AsyncMock(side_effect=[cow_reading(), cow_reading()])
+    monkeypatch.setattr(notebook, '_generate', cloud)
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert cloud.await_count == 2
+    assert result.kind == 'WORK' and len(result.lines) == 3 and result.needsProblem
 
 
 def test_answer_prose_cannot_become_an_original_question(monkeypatch):

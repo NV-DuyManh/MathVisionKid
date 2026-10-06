@@ -195,8 +195,10 @@ async def run_cloud_batch(data, batch, force=False):
     sys.path.insert(0, str(ROOT / 'ai/runtime'))
     from app.tutoring.notebook import inspect_notebook, READ_NOTEBOOK
     from app.tutoring.service import TutorUnavailable
-    signature = hashlib.sha256(READ_NOTEBOOK.encode() + (ROOT / 'ai/runtime/app/tutoring/notebook.py').read_bytes()
-                               + (ROOT / 'ai/runtime/app/tutoring/rows.py').read_bytes()).hexdigest()
+    signature = hashlib.sha256(READ_NOTEBOOK.encode() + b''.join(
+        (ROOT / 'ai/runtime' / source).read_bytes() for source in (
+            'app/tutoring/notebook.py', 'app/tutoring/rows.py',
+            'app/recognition/text_detector.py'))).hexdigest()
     folder = data / batch
     selection = json.loads((folder / 'source_selection.json').read_text(encoding='utf-8'))
     completed = []

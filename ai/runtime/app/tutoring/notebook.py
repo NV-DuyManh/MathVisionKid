@@ -89,7 +89,15 @@ Handwritten words added above a crossed-out word belong to that SAME row.
 Set box=null. The application locates physical ink rows separately.
 Diagrams can inform classification; label their rows DIAGRAM, never TEXT.
 For multiple separate exercises set MULTIPLE, lines=[], problemText="" so the child
-can crop one. For non-math use UNREADABLE and empty content. If the page has more
+can crop one. Several independent vertical multiplication, addition, subtraction
+or long-division setups, even under a single 'Tính' heading, are separate exercises.
+Repeated digits or a vertical layout do not make arithmetic non-math.
+Decide MULTIPLE before counting transcript rows or applying the 35-row limit.
+Distinct numbered exercise groups are
+also MULTIPLE. Several calculations explaining ONE word problem are one exercise;
+do not mistake its intermediate steps, fraction rows or diagram for extra tasks.
+Check the entire page for these groups BEFORE transcribing any rows.
+For non-math use UNREADABLE and empty content. If the page has more
 than 35 rows or cannot fit completely, return UNREADABLE, needsCrop=true and empty
 content. NEVER return just the first 35 rows of a longer page.
 needsProblem=true whenever the original question is absent, including a diagram-only
@@ -142,9 +150,14 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         result = NotebookRead.model_validate(parsed)
     except (ValidationError, TypeError):
         return NotebookRead(kind="UNREADABLE")
+    if result.kind == "MULTIPLE":
+        # Selecting one exercise is a normal next action, not an illegible page.
+        # Providers may set needsCrop for this; keep the specific classification
+        # while normalizing the wire shape expected by the student application.
+        return NotebookRead(kind="MULTIPLE")
     if result.needsCrop:
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
-    if result.kind in ("MULTIPLE", "UNREADABLE"):
+    if result.kind == "UNREADABLE":
         return NotebookRead(kind=result.kind)
     # A model can mistake solution prose for a question. An answer-bearing
     # transcription without any question must not become an invented problem.
@@ -192,10 +205,12 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         if remaining > .5:
             try:
                 reviewed = await asyncio.wait_for(_generate(READ_NOTEBOOK,
-                    "Independently verify this handwritten page. Ignore diagram labels. Focus on crossed-out numbers, handwritten replacement words and bottom answer rows. A crossed-out value MUST contain [?] and uncertain=true; never choose a replacement by calculating. Return the same JSON schema.", image), timeout=remaining)
+                    "Independently verify this handwritten page. First count independent exercises across the WHOLE page, including separate long-division setups and numbered groups; return MULTIPLE with empty content if there is more than one. Intermediate steps of one word problem remain one exercise. Ignore diagram labels. Focus on crossed-out numbers, handwritten replacement words and bottom answer rows. A crossed-out value MUST contain [?] and uncertain=true; never choose a replacement by calculating. Return the same JSON schema.", image), timeout=remaining)
                 if _reading_exceeds_capacity(reviewed):
                     return NotebookRead(kind="UNREADABLE", needsCrop=True)
                 second = NotebookRead.model_validate(reviewed)
+                if second.kind == "MULTIPLE":
+                    return NotebookRead(kind="MULTIPLE")
                 if second.needsCrop:
                     return NotebookRead(kind="UNREADABLE", needsCrop=True)
                 if second.kind in ("WORK", "MIXED", "PROBLEM"):

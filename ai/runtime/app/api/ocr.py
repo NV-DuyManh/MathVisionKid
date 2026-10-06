@@ -37,7 +37,7 @@ if settings.groq_enabled and settings.groq_api_keys:
         auth_disable_seconds=settings.groq_auth_disable_seconds,
     )
 
-HW_LINE_DETECTOR_VERSION = "runtime13-bounded-complete-lines-20261005"
+HW_LINE_DETECTOR_VERSION = "runtime14-spaced-glyph-rows-20261006"
 
 CHECKPOINT_SHA256 = "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941"
 VOCAB_SHA256 = "6af4062e92e22cc91ece5198638e29a6ceec6cb92e3b12bd71deb4b874ac9e0d"

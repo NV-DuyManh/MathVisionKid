@@ -167,6 +167,127 @@ def _infer_regions(bgr):
     return boxes
 
 
+def recover_glyph_rows(bgr, regions):
+    """Recover spaced notebook glyphs from ink, retaining unrelated model text.
+
+    This is a bounded portrait-only retry for repeated isolated letter bodies.
+    Prose, fractions and ambiguous stacked bands keep their learned geometry.
+    It supplies candidate boxes, never a transcription or verified annotation.
+    """
+    from app.tutoring.rows import handwriting_rows, _has_stacked_fraction
+    height, width = bgr.shape[:2]
+    if height <= width * 1.15:
+        return regions
+    scale = min(1., 1280 / max(height, width))
+    image = cv2.resize(bgr, None, fx=scale, fy=scale) if scale < 1 else bgr
+    hue, saturation, value = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
+    if np.median(value) < 100 or np.mean(saturation > 90) > .3:
+        return regions
+    mask = ((hue >= 90) & (hue <= 178) &
+            (saturation > max(25, np.median(saturation) + 15)) & (value < 230)).astype(np.uint8)
+    rules = cv2.morphologyEx(mask, cv2.MORPH_OPEN,
+                            np.ones((max(30, image.shape[0] // 8), 1), np.uint8))
+    rules |= cv2.morphologyEx(mask, cv2.MORPH_OPEN,
+                             np.ones((1, max(30, image.shape[1] // 4)), np.uint8))
+    mask[rules > 0] = 0
+    _, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    parts = stats[1:]
+    eligible = parts[(parts[:, 4] >= 25) & (parts[:, 3] >= 7) &
+                     (parts[:, 3] < image.shape[0] * .12)]
+    narrow = eligible[eligible[:, 2] < image.shape[1] * .12]
+    if len(narrow) < 12:
+        return regions
+    body = float(np.percentile(narrow[:, 3], 65))
+    if _has_stacked_fraction(stats, body):
+        return regions
+    compact = eligible[(eligible[:, 3] >= body * .5) & (eligible[:, 3] <= body * 2.5) &
+                       (eligible[:, 2] <= body * 2) & (eligible[:, 2] >= body * .15) &
+                       (eligible[:, 4] < eligible[:, 2] * eligible[:, 3] * .7)]
+    if len(compact) < 12 or compact[:, 4].sum() < eligible[:, 4].sum() * .5:
+        return regions
+    cx = (compact[:, 0] + compact[:, 2] / 2) / scale
+    cy = (compact[:, 1] + compact[:, 3] / 2) / scale
+    bands = []
+    for x1, y1, x2, y2 in handwriting_rows(bgr, max_lines=200):
+        candidates = compact[(cx >= x1 - body / scale * .5) &
+                             (cx <= x2 + body / scale * .5) & (cy >= y1) & (cy <= y2)]
+        joined = []
+        for part in sorted(candidates, key=lambda p: p[0]):
+            if joined and part[0] - (joined[-1][0] + joined[-1][2]) < body * .4:
+                previous = joined[-1]
+                lo = np.minimum(part[:2], previous[:2])
+                hi = np.maximum(part[:2] + part[2:4], previous[:2] + previous[2:4])
+                joined[-1] = np.r_[lo, hi - lo, part[4] + previous[4]]
+            else:
+                joined.append(part)
+        if len(joined) < 4:
+            continue
+        centers = np.array([p[0] + p[2] / 2 for p in joined])
+        gaps = np.diff(centers)
+        if (np.min(gaps) < body * .9 or np.max(gaps) > np.median(gaps) * 1.7 or
+                np.ptp(centers) < image.shape[1] * .35 or
+                any(p[2] > body * 2 or p[3] > body * 1.8 for p in joined)):
+            continue
+        slope, offset = np.polyfit(centers, [p[1] + p[3] / 2 for p in joined], 1)
+        if (abs(slope) > .2 or max(abs(p[1] + p[3] / 2 -
+                (slope * (p[0] + p[2] / 2) + offset)) for p in joined) > body * .6 or
+                max(p[1] + p[3] for p in joined) - min(p[1] for p in joined) > body * 2.5):
+            continue
+        bands.append(joined)
+    if len(bands) < 4:
+        return regions
+    rows = []
+    baselines = np.array([np.median([p[1] + p[3] / 2 for p in band]) for band in bands])
+    for index, band in enumerate(bands):
+        x1, y1 = min(p[0] for p in band), min(p[1] for p in band)
+        x2, y2 = max(p[0] + p[2] for p in band), max(p[1] + p[3] for p in band)
+        centers = np.array([p[0] + p[2] / 2 for p in band])
+        step = np.median(np.diff(centers))
+        slope, offset = np.polyfit(centers, [p[1] + p[3] / 2 for p in band], 1)
+        px, py = parts[:, 0] + parts[:, 2] / 2, parts[:, 1] + parts[:, 3] / 2
+        slots = np.r_[centers[0] - step, centers, centers[-1] + step]
+        extra = parts[(parts[:, 4] >= 8) & (parts[:, 3] >= body * .3) &
+                      (parts[:, 3] <= body * 1.8) & (parts[:, 2] <= body * 2) &
+                      (np.min(abs(px[:, None] - slots), axis=1) <= step * .18) &
+                      (abs(py - (slope * px + offset)) <= body * .6)]
+        if len(extra):
+            x1, y1 = min(x1, int(extra[:, 0].min())), min(y1, int(extra[:, 1].min()))
+            x2 = max(x2, int((extra[:, 0] + extra[:, 2]).max()))
+            y2 = max(y2, int((extra[:, 1] + extra[:, 3]).max()))
+        # Detached accents belong to the nearest supported row, above/within its
+        # local sloping body. A printed footer below it must not expand the crop.
+        marks = parts[(parts[:, 4] >= 8) & (parts[:, 3] >= 2) &
+                      (parts[:, 3] <= body * .5) & (parts[:, 2] <= body * .7) &
+                      (parts[:, 0] >= x1 - body * .3) &
+                      (parts[:, 0] + parts[:, 2] <= x2 + body * .3)]
+        mx, my = marks[:, 0] + marks[:, 2] / 2, marks[:, 1] + marks[:, 3] / 2
+        owners = np.argmin(abs(my[:, None] - baselines), axis=1)
+        near = marks[(abs(my - baselines[index]) <= body * 1.5) &
+                     (my <= slope * mx + offset + body * .6) & (owners == index)]
+        if len(near):
+            x1, y1 = min(x1, int(near[:, 0].min())), min(y1, int(near[:, 1].min()))
+            x2 = max(x2, int((near[:, 0] + near[:, 2]).max()))
+            y2 = max(y2, int((near[:, 1] + near[:, 3]).max()))
+        rows.append((max(0, int((x1 - 4) / scale)), max(0, int((y1 - 4) / scale)),
+                     min(width, int(np.ceil((x2 + 4) / scale))),
+                     min(height, int(np.ceil((y2 + 4) / scale)))))
+    if (any(a[3] > b[1] for a, b in zip(rows, rows[1:])) or
+            any((box[3] - box[1]) * scale >= body * 1.8 and
+                len(split_stacked_writing(bgr, box)) > 1 for box in rows)):
+        return regions
+    supported = np.zeros_like(mask)
+    for x1, y1, x2, y2 in rows:
+        supported[int(y1 * scale):int(np.ceil(y2 * scale)),
+                  int(x1 * scale):int(np.ceil(x2 * scale))] = 1
+    keep = []
+    for box in regions:
+        x1, y1, x2, y2 = [round(v * scale) for v in box]
+        ink = mask[y1:y2, x1:x2]
+        if (ink * supported[y1:y2, x1:x2]).sum() < max(1, ink.sum() * .8):
+            keep.append(box)
+    return sorted(keep + rows, key=lambda b: ((b[1] + b[3]) / 2, b[0]))
+
+
 def detect_text_regions(bgr):
     """Return candidates in original pixels, or None when model unavailable.
 
@@ -199,7 +320,7 @@ def detect_text_regions(bgr):
     rows = merge_fragments(parts, ink_mask, ink_scale)
     if rotated:
         return [(y1,height-x2,y2,height-x1) for x1,y1,x2,y2 in rows]
-    return rows
+    return recover_glyph_rows(bgr, rows)
 
 
 def detect_crop_regions(bgr):
