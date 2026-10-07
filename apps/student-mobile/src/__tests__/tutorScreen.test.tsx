@@ -10,7 +10,10 @@ jest.mock('expo-router', () => ({
   useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]),
 }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
-jest.mock('../features/tutoring/api/TutorService', () => ({ TutorService: { inspect: jest.fn(), coach: jest.fn(), startLesson: jest.fn(), answerLesson: jest.fn() } }));
+jest.mock('../features/tutoring/api/TutorService', () => ({
+  ...jest.requireActual('../features/tutoring/api/TutorService'),
+  TutorService: { inspect: jest.fn(), coach: jest.fn(), startLesson: jest.fn(), answerLesson: jest.fn(), checkDivision: jest.fn() },
+}));
 jest.mock('../features/recognition/components/RecognitionProgress', () => ({
   RecognitionProgress: ({ title, onCancel, cancelLabel }: any) => {
     const React = require('react'); const { View, Text, Pressable } = require('react-native');
@@ -55,6 +58,77 @@ const photo = (privacyConfirmed = true) => {
   recognitionDraftStore.setDraft({ rawUri: 'file:///original.jpg', uri: 'file:///masked-crop.jpg', croppedImageUri: 'file:///masked-crop.jpg',
     privacyImageUri: 'file:///masked.jpg', privacyConfirmed, mode: 'MATH_TUTOR', width: 500, height: 300, filename: 'photo.jpg', mimeType: 'image/jpeg' });
 };
+
+const division = { dividend: '17843', divisor: '3', quotient: '59947', rows: ['028', '014', '023', '02'] };
+const divisionPhoto = () => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockResolvedValue({ kind: 'WORK', problemText: '', needsProblem: true,
+    lines: [{ text: '17843 : 3', box: null, uncertain: true, division }] });
+};
+
+it('reviews every long-division field before grading and lets the pupil repair a wrong quotient', async () => {
+  divisionPhoto(); await render();
+  expect(readText()).not.toContain('Cần thêm đề bài');
+  expect(input('Thương em viết').props.value).toBe('59947');
+  expect(input('Hàng 1').props.value).toBe('028');
+  expect(input('Hàng 4 · Số dư cuối').props.value).toBe('02');
+  expect(button('Kiểm tra phép chia').props.disabled).toBe(true);
+  expect(TutorService.checkDivision).not.toHaveBeenCalled();
+  (TutorService.checkDivision as jest.Mock).mockResolvedValue({ status: 'TRY_AGAIN', field: 'quotient', rowIndex: null, message: 'Em xem lại thương ở lượt 3.' });
+  act(() => button('Em đã đối chiếu các số với ảnh').props.onPress());
+  expect(button('Em đã đối chiếu các số với ảnh').props['aria-checked']).toBe(true);
+  await act(async () => { await button('Kiểm tra phép chia').props.onPress(); });
+  expect(TutorService.checkDivision).toHaveBeenCalledWith(division, true, expect.anything());
+  expect(readText()).toContain('Em xem lại thương ở lượt 3.');
+  act(() => input('Thương em viết').props.onChangeText('5947'));
+  expect(readText()).not.toContain('Em xem lại thương ở lượt 3.');
+  expect(button('Kiểm tra phép chia').props.disabled).toBe(true);
+  (TutorService.checkDivision as jest.Mock).mockResolvedValue({ status: 'CORRECT', field: '', rowIndex: null, message: 'Các hàng đã đúng.' });
+  act(() => button('Em đã kiểm tra phần vừa sửa').props.onPress());
+  await act(async () => { await button('Kiểm tra phép chia').props.onPress(); });
+  expect(TutorService.checkDivision).toHaveBeenLastCalledWith({ ...division, quotient: '5947' }, true, expect.anything());
+  expect(readText()).toContain('Em làm đúng rồi!');
+  expect(TutorService.startLesson).not.toHaveBeenCalled();
+});
+
+it('does not apply stale grading after editing a row and preserves inputs through failure', async () => {
+  divisionPhoto(); await render();
+  let finish!: (value: unknown) => void;
+  (TutorService.checkDivision as jest.Mock).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+  act(() => button('Em đã đối chiếu các số với ảnh').props.onPress());
+  await act(async () => { button('Kiểm tra phép chia').props.onPress(); });
+  const signal = (TutorService.checkDivision as jest.Mock).mock.calls[0][2];
+  act(() => input('Hàng 1').props.onChangeText('029'));
+  expect(signal.aborted).toBe(true);
+  await act(async () => { finish({ status: 'CORRECT', field: '', rowIndex: null, message: 'Stale success' }); });
+  expect(readText()).not.toContain('Stale success');
+  expect(input('Hàng 1').props.value).toBe('029');
+  (TutorService.checkDivision as jest.Mock).mockRejectedValue(new Error('connection'));
+  act(() => button('Em đã đối chiếu các số với ảnh').props.onPress());
+  await act(async () => { button('Kiểm tra phép chia').props.onPress(); });
+  expect(readText()).toContain('Các số em đã sửa vẫn được giữ');
+  expect(input('Hàng 1').props.value).toBe('029');
+});
+
+it('lets pupils add missing rows, blocks unread digits, and restores saved division fields', async () => {
+  (useLocalSearchParams as jest.Mock).mockReturnValue({ workText: '87268 : 3\nThương đã viết: 2989\nCác hàng đã viết:\n27\n0026\n008\n01' });
+  await render();
+  expect(input('Thương em viết').props.value).toBe('2989');
+  act(() => button('Thêm hàng bị thiếu').props.onPress());
+  expect(input('Hàng 5 · Số dư cuối').props.value).toBe('');
+  expect(button('Em đã đối chiếu các số với ảnh').props.disabled).toBe(true);
+  act(() => input('Hàng 5 · Số dư cuối').props.onChangeText('[?]'));
+  expect(button('Em đã đối chiếu các số với ảnh').props.disabled).toBe(true);
+  act(() => input('Hàng 5 · Số dư cuối').props.onChangeText('01'));
+  expect(button('Em đã đối chiếu các số với ảnh').props.disabled).toBe(false);
+  act(() => button('Xóa hàng 4').props.onPress());
+  expect(input('Hàng 4 · Số dư cuối').props.value).toBe('01');
+  act(() => button('Thêm hàng sau hàng 1').props.onPress());
+  expect(input('Hàng 2').props.value).toBe('');
+  expect(input('Hàng 3').props.value).toBe('0026');
+  expect(input('Hàng 5 · Số dư cuối').props.value).toBe('01');
+  expect(TutorService.inspect).not.toHaveBeenCalled();
+});
 
 it('asks for a smaller crop without starting a lesson from an incomplete page', async () => {
   photo();

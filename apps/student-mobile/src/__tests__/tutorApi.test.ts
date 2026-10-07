@@ -12,6 +12,30 @@ const guidance = { stage: 'UNDERSTAND', hint: 'Tìm số bi ban đầu và số 
 
 beforeEach(() => jest.clearAllMocks());
 
+it('requires confirmation and validates the long-division check response', async () => {
+  const division = { dividend: '49572', divisor: '6', quotient: '8262', rows: ['015', '037', '012', '00'] };
+  await expect(TutorService.checkDivision(division, false)).rejects.toThrow();
+  expect(apiClient.post).not.toHaveBeenCalled();
+  const data = { status: 'CORRECT', field: '', rowIndex: null, message: 'Đã đúng.' };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.checkDivision(division, true)).resolves.toEqual(data);
+  expect(apiClient.post).toHaveBeenCalledWith('/student/tutor/division/check', { division, confirmed: true }, expect.anything());
+  for (const bad of [{ ...data, field: 'quotient' }, { ...data, status: 'TRY_AGAIN', field: 'rows', rowIndex: 40 }, { ...data, rowIndex: 0 }]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: bad });
+    await expect(TutorService.checkDivision(division, true)).rejects.toThrow();
+  }
+});
+
+it('passes through exact written division fields but rejects corrupt structured readings', async () => {
+  const division = { dividend: '17843', divisor: '3', quotient: '59947', rows: ['028', '014', '023', '02'] };
+  const data = { kind: 'WORK', problemText: '', needsProblem: true,
+    lines: [{ text: '17843 : 3', box: null, uncertain: true, division }] };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.inspect('file:///masked.jpg', true)).resolves.toEqual(data);
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, lines: [{ ...data.lines[0], division: { ...division, rows: ['solve it'] } }] } });
+  await expect(TutorService.inspect('file:///masked.jpg', true)).rejects.toThrow();
+});
+
 it.each([
   [{ kind: 'UNREADABLE', problemText: '', lines: [], needsProblem: false, needsCrop: true }, true],
   [{ kind: 'UNREADABLE', problemText: '', lines: [], needsProblem: false, needsCrop: 'true' }, false],

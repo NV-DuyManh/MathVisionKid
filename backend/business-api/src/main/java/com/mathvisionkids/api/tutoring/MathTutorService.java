@@ -92,12 +92,36 @@ public class MathTutorService {
                 box = List.of(coords.get(0).asInt(), coords.get(1).asInt(), coords.get(2).asInt(), coords.get(3).asInt());
                 if (box.get(0) >= box.get(2) || box.get(1) >= box.get(3)) throw unavailable();
             }
-            lines.add(new NotebookLine(text(row, "text", 500, false), box, flag(row, "uncertain")));
+            lines.add(new NotebookLine(text(row, "text", 500, false), box, flag(row, "uncertain"), writtenDivision(row.get("division"))));
         }
         String problem = text(body, "problemText", 4000, true);
         boolean needsCrop = body.has("needsCrop") && flag(body, "needsCrop");
         if (needsCrop && (!kind.equals("UNREADABLE") || !problem.isEmpty() || !lines.isEmpty())) throw unavailable();
         return new NotebookRead(kind, problem, lines, flag(body, "needsProblem"), needsCrop);
+    }
+
+    private WrittenDivision writtenDivision(JsonNode value) {
+        if (value == null || value.isNull()) return null;
+        if (!value.isObject()) throw unavailable();
+        String dividend = text(value, "dividend", 24, false), divisor = text(value, "divisor", 24, false);
+        String quotient = value.hasNonNull("quotient") ? text(value, "quotient", 24, false) : null;
+        String numberPattern = "(?:[0-9]|\\[\\?\\])+";
+        if (!dividend.matches(numberPattern) || !divisor.matches(numberPattern)
+                || (quotient != null && !quotient.matches(numberPattern))) throw unavailable();
+        JsonNode rows = value.get("rows");
+        if (rows == null || !rows.isArray() || rows.size() > 30) throw unavailable();
+        java.util.ArrayList<String> written = new java.util.ArrayList<>();
+        for (JsonNode row : rows) {
+            if (!row.isTextual() || row.asText().length() > 40 || !row.asText().matches("(?:[0-9 +\\-−]|\\[\\?\\])+")) throw unavailable();
+            written.add(row.asText());
+        }
+        return new WrittenDivision(dividend, divisor, quotient, written);
+    }
+
+    public DivisionCheckResponse checkDivision(DivisionCheckRequest request) {
+        if (!Boolean.TRUE.equals(request.confirmed()))
+            throw invalid("TRANSCRIPTION_CONFIRMATION_REQUIRED", "Em đối chiếu các số với ảnh trước nhé.");
+        return DivisionChecker.check(request.division());
     }
 
     public GuideResponse coach(CoachRequest request) {

@@ -1,6 +1,7 @@
 """Select every unseen original crop in the owner's downloaded archive."""
 import argparse
 import csv
+import gzip
 import hashlib
 import io
 import json
@@ -20,6 +21,13 @@ def prepare(data, batch):
         raise ValueError('Selection is already frozen; reuse it without reselection')
     archive=data/'archives/dataset_clean_full.zip'
     meta=json.loads(archive.with_suffix('.inventory.json').read_text(encoding='utf-8'))
+    if not archive.is_file():
+        index=data/'storage_sources.json.gz'
+        if index.is_file():
+            with gzip.open(index,'rt',encoding='utf-8') as stream:
+                mounted=json.load(stream).get('archives',{}).get(archive.name)
+            if mounted:
+                archive=Path(mounted['path'])
     # Stream the large artifact rather than reading the whole archive into RAM.
     with archive.open('rb') as stream:
         if hashlib.file_digest(stream,'sha256').hexdigest()!=meta['sha256']:

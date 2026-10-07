@@ -3,7 +3,24 @@ import apiClient from '../../../services/api/apiClient';
 
 export type TutorStage = 'UNDERSTAND' | 'PLAN' | 'NEXT_STEP' | 'CHECK_WORK';
 export interface TutorReadResult { problemText: string; needsReview: boolean; notes: string }
-export interface NotebookLine { text: string; box: [number, number, number, number] | null; uncertain: boolean }
+export interface WrittenDivision { dividend: string; divisor: string; quotient: string | null; rows: string[] }
+export interface DivisionCheck { status: 'CORRECT' | 'TRY_AGAIN' | 'NEEDS_REVIEW'; field: '' | 'dividend' | 'divisor' | 'quotient' | 'rows'; rowIndex: number | null; message: string }
+export interface NotebookLine { text: string; box: [number, number, number, number] | null; uncertain: boolean; division?: WrittenDivision | null }
+export function divisionText(value: WrittenDivision): string {
+  return `${value.dividend} : ${value.divisor}\nThương đã viết: ${value.quotient ?? ''}\nCác hàng đã viết:\n${value.rows.join('\n')}`;
+}
+export function savedDivision(text: string): WrittenDivision | null {
+  const match = /^(.*?) : (.*?)\nThương đã viết: (.*?)\nCác hàng đã viết:\n([\s\S]*)$/.exec(text);
+  if (!match) return null;
+  const value = { dividend: match[1], divisor: match[2], quotient: match[3] || null, rows: match[4] ? match[4].split('\n') : [] };
+  return validDivision(value) ? value : null;
+}
+function validDivision(value: any): value is WrittenDivision {
+  const number = (v: any) => typeof v === 'string' && v.length <= 24 && /^(?:[0-9]|\[\?\])+$/.test(v);
+  return value && number(value.dividend) && number(value.divisor) && (value.quotient === null || number(value.quotient))
+    && Array.isArray(value.rows) && value.rows.length <= 30
+    && value.rows.every((r: any) => typeof r === 'string' && r.length <= 40 && /^(?:[0-9 +\-−]|\[\?\])+$/.test(r));
+}
 export interface NotebookRead {
   kind: 'PROBLEM' | 'WORK' | 'MIXED' | 'MULTIPLE' | 'UNREADABLE';
   problemText: string; lines: NotebookLine[]; needsProblem: boolean; needsCrop?: boolean;
@@ -53,6 +70,17 @@ function lessonResponse(value: any): LessonResponse {
 }
 
 export const TutorService = {
+  async checkDivision(division: WrittenDivision, confirmed: boolean, signal?: AbortSignal): Promise<DivisionCheck> {
+    if (!confirmed || !validDivision(division)) throw new Error('Em kiểm tra lại các số trước nhé.');
+    const { data } = await apiClient.post('/student/tutor/division/check', { division, confirmed }, { timeout: 15000, signal });
+    if (!data || !['CORRECT', 'TRY_AGAIN', 'NEEDS_REVIEW'].includes(data.status)
+      || !['', 'dividend', 'divisor', 'quotient', 'rows'].includes(data.field)
+      || typeof data.message !== 'string' || !data.message.trim() || data.message.length > 600
+      || (data.rowIndex !== null && (!Number.isInteger(data.rowIndex) || data.rowIndex < 0 || data.rowIndex >= division.rows.length || data.field !== 'rows'))
+      || (data.status === 'CORRECT' && (data.field !== '' || data.rowIndex !== null))
+      || (data.status !== 'CORRECT' && data.field === '')) throw new Error(INVALID_RESPONSE);
+    return data;
+  },
   async startLesson(problemText: string, workText: string, signal?: AbortSignal): Promise<LessonResponse> {
     const { data } = await apiClient.post('/student/tutor/lesson', { problemText, workText }, { timeout: TIMEOUT, signal });
     return lessonResponse(data);
@@ -79,6 +107,7 @@ export const TutorService = {
       || (data.needsCrop === true && (data.kind !== 'UNREADABLE' || data.problemText !== '' || data.lines?.length !== 0))
       || !Array.isArray(data.lines) || data.lines.length > 35 || data.lines.some(row => typeof row.text !== 'string'
         || !row.text.trim() || row.text.length > 500 || typeof row.uncertain !== 'boolean'
+        || (row.division != null && !validDivision(row.division))
         || (row.box !== null && (!Array.isArray(row.box) || row.box.length !== 4 || row.box.some(n => !Number.isInteger(n) || n < 0 || n > 1000)
           || row.box[0] >= row.box[2] || row.box[1] >= row.box[3])))) throw new Error(INVALID_RESPONSE);
     return data;

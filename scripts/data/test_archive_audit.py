@@ -1,4 +1,5 @@
 """Offline selection, resume and annotation safety; no model/network needed."""
+import gzip
 import hashlib
 import io
 import json
@@ -37,6 +38,34 @@ def test_archive_selects_unlabelled_crops_and_excludes_derived_and_duplicate_pix
     assert len(summary['excluded'])==1 and summary['debug_derivatives_excluded']==1
     assert len(list((folder/'imported_labels').glob('*.json')))==1
     with pytest.raises(ValueError,match='frozen'):archive.prepare(tmp_path,'sample')
+
+
+@pytest.mark.parametrize('state',['available','missing','changed'])
+def test_archive_uses_verified_mounted_fallback_without_local_zip(tmp_path,state):
+    data=tmp_path/'data';(data/'archives').mkdir(parents=True)
+    mounted=tmp_path/'mounted-drive/dataset_clean_full.zip';mounted.parent.mkdir()
+    buffer=io.BytesIO();Image.new('RGB',(100,50),'red').save(buffer,format='PNG')
+    raw=buffer.getvalue()
+    with zipfile.ZipFile(mounted,'w') as zipped:
+        zipped.writestr('content/dataset_clean/crops/a.png',raw)
+        zipped.writestr('content/dataset_clean/labels.csv','crop_path,filename,label\ncrops/a.png,a.png,original text\n')
+    digest=hashlib.sha256(mounted.read_bytes()).hexdigest()
+    local=data/'archives/dataset_clean_full.zip'
+    write_json(local.with_suffix('.inventory.json'),{'drive_id':'archive','sha256':digest})
+    with gzip.open(data/'storage_sources.json.gz','wt',encoding='utf-8') as stream:
+        json.dump({'sources':{},'archives':{local.name:{'path':str(mounted)}}},stream)
+    if state=='missing':mounted.unlink()
+    elif state=='changed':mounted.write_bytes(b'changed archive')
+    if state=='available':
+        archive.prepare(data,'sample')
+        items=json.loads((data/'sample/source_selection.json').read_text())
+        assert len(items)==1 and items[0]['archive_sha256']==digest
+        assert (data/'sample/images'/f"{items[0]['drive_id']}.jpg").read_bytes()==raw
+    else:
+        with pytest.raises(FileNotFoundError if state=='missing' else ValueError):
+            archive.prepare(data,'sample')
+        assert not (data/'sample').exists()  # Reject unavailable/changed sources before writing a batch.
+    assert not local.exists()
 
 
 def test_local_resume_preserves_accepted_label_and_validates_source_hash(tmp_path,monkeypatch):

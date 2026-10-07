@@ -23,7 +23,20 @@ public final class MathTutorDtos {
 
     public record GuideResponse(String stage, String hint, String question, String feedback, boolean guarded) {}
 
-    public record NotebookLine(String text, java.util.List<Integer> box, boolean uncertain) {}
+    public record WrittenDivision(
+            @NotNull @Size(min = 1, max = 24) @Pattern(regexp = "(?:[0-9]|\\[\\?\\])+") String dividend,
+            @NotNull @Size(min = 1, max = 24) @Pattern(regexp = "(?:[0-9]|\\[\\?\\])+") String divisor,
+            @Size(min = 1, max = 24) @Pattern(regexp = "(?:[0-9]|\\[\\?\\])+") String quotient,
+            @NotNull @Size(max = 30) java.util.List<@NotNull @Size(min = 1, max = 40)
+                    @Pattern(regexp = "(?:[0-9 +\\-−]|\\[\\?\\])+") String> rows) {}
+    public record DivisionCheckRequest(@NotNull @jakarta.validation.Valid WrittenDivision division,
+                                       @NotNull @AssertTrue Boolean confirmed) {}
+    public record DivisionCheckResponse(String status, String field, Integer rowIndex, String message) {}
+    public record NotebookLine(String text, java.util.List<Integer> box, boolean uncertain, WrittenDivision division) {
+        public NotebookLine(String text, java.util.List<Integer> box, boolean uncertain) {
+            this(text, box, uncertain, null);
+        }
+    }
     public record NotebookRead(String kind, String problemText, java.util.List<NotebookLine> lines,
                                boolean needsProblem, boolean needsCrop) {}
     public record CoachRequest(

@@ -1,0 +1,2 @@
+# Needed only to audit embedded image sources in supplied Parquet datasets.
+pyarrow>=18

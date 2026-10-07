@@ -689,7 +689,7 @@ def run_generalized_line_detection(
         artifact_stamp = "absent"
     # The limit and optional artifact are part of the result, not just pixels.
     img_hash = hashlib.sha256(bgr_image.tobytes() +
-                              f"{bgr_image.shape}:text-regions-v9:{max_lines}:{artifact_stamp}".encode()).hexdigest()
+                              f"{bgr_image.shape}:text-regions-v10:{max_lines}:{artifact_stamp}".encode()).hexdigest()
 
     if not force_redetect and img_hash in _DETECTION_RUN_CACHE:
         cached = _DETECTION_RUN_CACHE[img_hash]

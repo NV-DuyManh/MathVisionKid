@@ -37,6 +37,48 @@ class MathTutorControllerTest {
         return new MockMultipartFile("file", "page.png", "image/png", new byte[]{1});
     }
 
+    private static String divisionRequest(boolean confirmed) {
+        return """
+                {"confirmed":%s,"division":{"dividend":"49572","divisor":"6","quotient":"8262","rows":["015","037","012","00"]}}
+                """.formatted(confirmed);
+    }
+
+    @Test void anonymousCannotGradeDivision() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON)
+                .content(divisionRequest(true))).andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(roles = "TEACHER") void otherRoleCannotGradeDivision() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON)
+                .content(divisionRequest(true))).andExpect(status().isForbidden());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(roles = "STUDENT") void studentMustConfirmValidBoundedDivisionFields() throws Exception {
+        for (String body : new String[]{divisionRequest(false), divisionRequest(true).replace("8262", "solve"),
+                divisionRequest(true).replace("\"015\"", "null"), divisionRequest(true).replace("\"49572\"", "null")}) {
+            mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON)
+                    .content(body)).andExpect(status().isBadRequest());
+        }
+        verifyNoInteractions(service);
+        when(service.checkDivision(any())).thenCallRealMethod();
+        mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON)
+                .content(divisionRequest(true))).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("CORRECT"));
+    }
+
+    @Test @WithMockUser(roles = "STUDENT") void actualArithmeticReturnsRepairThenSuccessAfterStudentChanges() throws Exception {
+        when(service.checkDivision(any())).thenCallRealMethod();
+        String written = """
+                {"confirmed":true,"division":{"dividend":"17843","divisor":"3","quotient":"59947","rows":["028","014","023","02"]}}
+                """;
+        mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON).content(written))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("TRY_AGAIN"))
+                .andExpect(jsonPath("$.field").value("quotient"));
+        mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON).content(written.replace("59947", "5947")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("CORRECT"));
+    }
+
     private static Map<String, Object> validGuide() {
         Map<String, Object> request = new HashMap<>();
         request.put("problemText", "Lan có 12 bút, cho bạn 3 bút. Hỏi còn bao nhiêu bút?");

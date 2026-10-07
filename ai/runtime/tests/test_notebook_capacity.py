@@ -60,7 +60,7 @@ def test_exact_capacity_keeps_last_row_and_grounding(monkeypatch):
     assert not result.needsCrop and len(result.lines) == 35
     assert result.lines[-1].text.endswith("(34)")
     assert all(line.box is not None for line in result.lines)
-    assert cloud.await_count == 1
+    assert cloud.await_count == 2  # Matching 35 rows still needs numeric verification.
 
 
 def test_learned_black_ink_overflow_discards_partial_read_before_verification(monkeypatch):

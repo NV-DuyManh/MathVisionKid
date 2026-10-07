@@ -42,6 +42,27 @@ class MathTutorServiceTest {
         return new GuideRequest("Lan có 12 bút, cho bạn 3 bút. Hỏi còn bao nhiêu bút?", true, "PLAN", "", 0, null);
     }
 
+    @Test void structuredDivisionPreservesWrongWrittenNumbersThroughThePublicBoundary() {
+        String response = """
+            {"kind":"WORK","problemText":"","needsProblem":true,"lines":[{"text":"17843 : 3",
+            "box":null,"uncertain":true,"division":{"dividend":"17843","divisor":"3",
+            "quotient":"59947","rows":["028","014","023","02"]}}]}
+            """;
+        server.expect(requestTo(URL + "/internal/v1/tutor/inspect")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        var result = service.inspect(png(), true);
+        assertEquals("59947", result.lines().getFirst().division().quotient());
+        assertEquals(java.util.List.of("028", "014", "023", "02"), result.lines().getFirst().division().rows());
+        server.verify();
+    }
+
+    @Test void divisionCheckRequiresConfirmationAndWorksWithoutAnyProviderRequest() {
+        var division = new WrittenDivision("49572", "6", "8262", java.util.List.of("015", "037", "012", "00"));
+        error("TRANSCRIPTION_CONFIRMATION_REQUIRED", HttpStatus.BAD_REQUEST,
+                () -> service.checkDivision(new DivisionCheckRequest(division, false)));
+        assertEquals("CORRECT", service.checkDivision(new DivisionCheckRequest(division, true)).status());
+        server.verify();
+    }
+
     @Test void lessonProxyInjectsOwnerAndExposesOnlyTheCurrentPublicStep() {
         String response = "{\"sessionId\":\"abcdefghijklmnopqrstuv\",\"revision\":0,\"topic\":\"Thêm bút\",\"goal\":\"Tìm số bút\",\"outline\":[\"Chọn cách làm\",\"Tính\"],\"stepIndex\":0,\"completed\":[],\"status\":\"READY\",\"feedback\":\"\",\"step\":{\"title\":\"Chọn cách làm\",\"explanation\":\"Xem số bút thay đổi.\",\"question\":\"Em chọn gì?\",\"choices\":[\"Cộng\",\"Trừ\"],\"expression\":\"\",\"unit\":\"\",\"workExcerpt\":\"\",\"correctChoice\":\"Cộng\"}}";
         server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))

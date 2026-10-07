@@ -2,6 +2,7 @@
 import argparse
 import csv
 import hashlib
+import io
 import json
 from pathlib import Path
 import sys
@@ -18,9 +19,10 @@ from app.api.ocr import detect_text_lines
 from app.api.generalized_pipeline import clear_detection_cache
 from app.recognition.text_detector import MODEL_PATH
 from drive_line_batch import open_ledger, write_json
+from source_storage import read_source_bytes
 
 
-def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True):
+def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True,write_drafts=True):
     selection=json.loads((folder/'source_selection.json').read_text(encoding='utf-8'))
     out=folder/'local_regions';out.mkdir(exist_ok=True)
     overlays=folder/'local_overlays'
@@ -32,14 +34,13 @@ def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True):
     records=[];cv2.setNumThreads(1);reused=0
     ledger=open_ledger(folder.parent) if mark_tested else None
     for index,item in enumerate(selection,1):
-        path=folder/'images'/f"{item['drive_id']}.jpg"
         record={**item,'index':index,'source_hashes':hashes,'max_regions':max_regions,
                 'labels_verified':False,'cloud_calls':0,'training_performed':False}
         try:
-            raw=path.read_bytes();record['sha256']=hashlib.sha256(raw).hexdigest()
+            raw=read_source_bytes(folder,item);record['sha256']=hashlib.sha256(raw).hexdigest()
             if item.get('sha256') and item['sha256']!=record['sha256']:
                 raise ValueError('Original differs from frozen selection')
-            with Image.open(path) as source:im=ImageOps.exif_transpose(source).convert('RGB')
+            with Image.open(io.BytesIO(raw)) as source:im=ImageOps.exif_transpose(source).convert('RGB')
             pixels=cv2.cvtColor(np.asarray(im),cv2.COLOR_RGB2BGR)
             output=out/f"{item['drive_id']}.json"
             old=json.loads(output.read_text(encoding='utf-8')) if output.exists() else {}
@@ -56,12 +57,13 @@ def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True):
                 raise ValueError('Out of source bounds')
             record.update(status='tested',boxes=boxes,image_size=im.size,diagnostics=diag,
                           latency_ms=duration,pixel_sha256=hashlib.sha256(str(im.size).encode()+im.tobytes()).hexdigest())
-            label=folder/'labels'/f"{item['drive_id']}.json"
-            draft=json.loads(label.read_text(encoding='utf-8')) if label.exists() else {}
-            if not draft or (draft.get('review_status')=='needs_review' and draft.get('sha256')==record['sha256']):
-                write_json(label,{**draft,'drive_id':item['drive_id'],'sha256':record['sha256'],
-                                 'review_status':'needs_review','line_count':None,'draft_boxes':boxes,
-                                 'prediction_hashes':hashes,'training_eligible':False,'lines':[]})
+            if write_drafts:
+                label=folder/'labels'/f"{item['drive_id']}.json"
+                draft=json.loads(label.read_text(encoding='utf-8')) if label.exists() else {}
+                if not draft or (draft.get('review_status')=='needs_review' and draft.get('sha256')==record['sha256']):
+                    write_json(label,{**draft,'drive_id':item['drive_id'],'sha256':record['sha256'],
+                                     'review_status':'needs_review','line_count':None,'draft_boxes':boxes,
+                                     'prediction_hashes':hashes,'training_eligible':False,'lines':[]})
             if write_overlays:
                 w,h=im.size;im.thumbnail((1000,1400));draw=ImageDraw.Draw(im)
                 for number,(x1,y1,x2,y2) in enumerate(boxes,1):
@@ -89,7 +91,8 @@ def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True):
              'limit_exceeded_indices':[r['index'] for r in tested if r['diagnostics'].get('region_limit_exceeded')],
              'p95_ms':round(float(np.percentile([r['latency_ms'] for r in tested],95)),2) if tested else None,
              'source_hashes':hashes,'verified_accuracy':False,'training_performed':False,
-             'reused_results':reused,'marked_tested':mark_tested,'overlays_written':write_overlays}
+             'reused_results':reused,'marked_tested':mark_tested,'overlays_written':write_overlays,
+             'drafts_written':write_drafts}
     (folder/'local_summary.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8')
     with (folder/'local_manifest.csv').open('w',encoding='utf-8-sig',newline='') as stream:
         writer=csv.writer(stream);writer.writerow(['index','source_key','name','sha256','status','regions','latency_ms','needs_review'])
@@ -103,8 +106,9 @@ if __name__=='__main__':
     parser.add_argument('--mark-tested',action='store_true')
     parser.add_argument('--force',action='store_true')
     parser.add_argument('--no-overlays',action='store_true',help='Keep source-coordinate JSON without duplicating image previews')
+    parser.add_argument('--no-drafts',action='store_true',help='Keep predictions only in result JSON; do not duplicate unverified label drafts')
     args=parser.parse_args()
     if not 1<=args.max_regions<=500:parser.error('max-regions must be between 1 and 500')
     folder=(ROOT/'ai-training/datasets/drive_math'/args.batch).resolve()
     if not folder.is_relative_to((ROOT/'ai-training/datasets/drive_math').resolve()):parser.error('batch must remain in private dataset directory')
-    run(folder,args.max_regions,args.mark_tested,args.force,not args.no_overlays)
+    run(folder,args.max_regions,args.mark_tested,args.force,not args.no_overlays,not args.no_drafts)

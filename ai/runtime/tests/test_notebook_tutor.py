@@ -57,7 +57,56 @@ def test_notebook_uses_physically_supported_short_rows_before_grounding_transcri
     result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
     assert [line.box for line in result.lines] == [
         (100, 100, 600, 180), short, (100, 500, 800, 580)]
-    assert generate.await_count == 1
+    assert generate.await_count == 2  # Row count does not independently verify digits.
+
+
+@pytest.mark.parametrize('review', ['same', 'digit_change', 'operator_change', 'crossed_out', 'unavailable'])
+def test_numeric_rows_need_exact_independent_reading_even_when_row_counts_match(monkeypatch, review):
+    from copy import deepcopy
+    first = {'kind': 'WORK', 'lines': [
+        {'text': 'Bài giải'}, {'text': '864 : 4 = 216 (con)', 'role': 'EQUATION'}]}
+    second = deepcopy(first)
+    if review == 'digit_change':
+        second['lines'][1]['text'] = '864 : 4 = 218 (con)'
+    elif review == 'operator_change':
+        second['lines'][1]['text'] = '864 + 4 = 216 (con)'
+    elif review == 'crossed_out':
+        second['lines'][1]['uncertain'] = True
+    monkeypatch.setattr(notebook, 'handwriting_rows',
+                        lambda _: [(100, 100, 600, 180), (100, 300, 800, 380)])
+    cloud = AsyncMock(side_effect=[first, notebook.TutorUnavailable() if review == 'unavailable' else second])
+    monkeypatch.setattr(notebook, '_generate', cloud)
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert cloud.await_count == 2
+    assert result.lines[1].text == first['lines'][1]['text']
+    assert result.lines[1].uncertain is (review != 'same')
+    assert result.lines[1].box == (100, 300, 800, 380)
+
+
+def test_review_cannot_clear_initial_uncertainty_or_supply_missing_numbers(monkeypatch):
+    first = {'kind': 'WORK', 'lines': [
+        {'text': '864 : [?] = 216', 'uncertain': True, 'role': 'EQUATION'}]}
+    second = {'kind': 'WORK', 'lines': [{'text': '864 : 4 = 216', 'role': 'EQUATION'}]}
+    monkeypatch.setattr(notebook, 'handwriting_rows', lambda _: [(100, 100, 600, 180)])
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(side_effect=[first, second]))
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert result.lines[0].text == '864 : [?] = 216' and result.lines[0].uncertain
+
+
+@pytest.mark.parametrize('initial_uncertainty,expired', [(True, False), (False, True)])
+def test_unverified_numeric_row_stays_uncertain_without_extending_request_budget(monkeypatch, initial_uncertainty, expired):
+    from types import SimpleNamespace
+    payload = {'kind': 'WORK', 'lines': [
+        {'text': '864 : 4 = 216', 'uncertain': initial_uncertainty, 'role': 'EQUATION'}]}
+    monkeypatch.setattr(notebook, 'handwriting_rows', lambda _: [(100, 100, 600, 180)])
+    if expired:
+        moments = iter([0., 40.])
+        monkeypatch.setattr(notebook, 'time', SimpleNamespace(monotonic=lambda: next(moments)))
+    cloud = AsyncMock(return_value=payload)
+    monkeypatch.setattr(notebook, '_generate', cloud)
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert result.lines[0].text == payload['lines'][0]['text'] and result.lines[0].uncertain
+    assert cloud.await_count == (1 if expired else 2)
 
 
 def test_learned_short_region_alone_cannot_supply_notebook_geometry(monkeypatch):

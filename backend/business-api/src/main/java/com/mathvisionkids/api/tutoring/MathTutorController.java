@@ -51,6 +51,11 @@ public class MathTutorController {
         return service.coach(request);
     }
 
+    @PostMapping(value = "/division/check", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public DivisionCheckResponse checkDivision(@Valid @RequestBody DivisionCheckRequest request) {
+        return service.checkDivision(request);
+    }
+
     @PostMapping(value = "/lesson", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonResponse lesson(@Valid @RequestBody LessonRequest request, Authentication authentication) {
         return service.lesson(request, authentication.getName());

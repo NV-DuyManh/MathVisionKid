@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "drive_root": "My Drive/Dá»± Ã¡n/MathVisionKid/LÆ°u trá»¯",
+  "drive_url": "https://drive.google.com/drive/folders/1oOenOCeNdsHRprk3c8yNNmdp9ZYRE2Lh",
+  "candidate_plan_sha256": "99fba1697cb17edf794bc643df17ae53b447826bfddbf1c814a98cc49c6edadc",
+  "archives": [
+    {
+      "id": "audit-results-20261007",
+      "path": "audit-results-20261007.zip",
+      "bytes": 465557024,
+      "files": 276648,
+      "source_bytes": 703623617,
+      "sha256": "e1e28991de71d249a12a91eaa996a24fb5323dfb5bbc27a28056c6ecbbc18124",
+      "backup_only": false
+    },
+    {
+      "id": "evidence-20261007",
+      "path": "evidence-20261007.zip",
+      "bytes": 416573016,
+      "files": 1369,
+      "source_bytes": 485261053,
+      "sha256": "76d4204812c776110b1ad35d9d00f6a1bee46aa5309970f417cdcb214497e4fb",
+      "backup_only": false
+    },
+    {
+      "id": "handoff-20261007",
+      "path": "handoff-20261007.zip",
+      "bytes": 78707158,
+      "files": 4,
+      "source_bytes": 80966207,
+      "sha256": "75376d8e1480e71e5a0933f24ae02a63bed9550e3dd73a39410ca2f6b1b18fc7",
+      "backup_only": false
+    },
+    {
+      "id": "history-20261007",
+      "path": "history-20261007.zip",
+      "bytes": 112971711,
+      "files": 8,
+      "source_bytes": 417549548,
+      "sha256": "9b1a8e65cdc1e9307ca9ded2def72d5ed8bd607ba419661810530d02be19ed1e",
+      "backup_only": false
+    },
+    {
+      "id": "ledger-backup-20261007",
+      "path": "ledger-backup-20261007.zip",
+      "bytes": 19534708,
+      "files": 1,
+      "source_bytes": 45694976,
+      "sha256": "1f53493eca4cfbbdfe2272d63093287dab9922e74d50df9614015e38e187110d",
+      "backup_only": true
+    },
+    {
+      "id": "parquet-tools-20261007",
+      "path": "parquet-tools-20261007.zip",
+      "bytes": 31395625,
+      "files": 763,
+      "source_bytes": 86517696,
+      "sha256": "d2306b1b83102a42d5d02e8db00030fb98a38176c933589c56ea96ef26427973",
+      "backup_only": false
+    },
+    {
+      "id": "private-metadata-20261007",
+      "path": "private-metadata-20261007.zip",
+      "bytes": 76781033,
+      "files": 24219,
+      "source_bytes": 285189160,
+      "sha256": "a10691a5d8be435fecdde4dc2a136542db87c069293f0ffe0d939271e8c06234",
+      "backup_only": true
+    },
+    {
+      "id": "review-images-20261007",
+      "path": "review-images-20261007.zip",
+      "bytes": 614058766,
+      "files": 11830,
+      "source_bytes": 628538118,
+      "sha256": "e1743eec3148a47b6c503a35379922bc020d997d19be7423aeb8d29a44c1364e",
+      "backup_only": false
+    },
+    {
+      "id": "scratch-20261007",
+      "path": "scratch-20261007.zip",
+      "bytes": 366473161,
+      "files": 1628,
+      "source_bytes": 463156928,
+      "sha256": "64b131936854820a6604e4cc558e6415955fa64f918b4b4e5e0f2b3080466e8f",
+      "backup_only": false
+    },
+    {
+      "id": "storage-evidence-20261007",
+      "path": "storage-evidence-20261007.zip",
+      "bytes": 22568486,
+      "files": 29,
+      "source_bytes": 164443603,
+      "sha256": "cbd23a4694c7627f4b58d163676bbfdd656a3a738439447ab0eefc7ea6a24bd3",
+      "backup_only": true
+    }
+  ]
+}

@@ -245,11 +245,41 @@ def recover_glyph_rows(bgr, regions):
         step = np.median(np.diff(centers))
         slope, offset = np.polyfit(centers, [p[1] + p[3] / 2 for p in band], 1)
         px, py = parts[:, 0] + parts[:, 2] / 2, parts[:, 1] + parts[:, 3] / 2
+        possible = ((parts[:, 4] >= 8) & (parts[:, 3] >= body * .3) &
+                    (parts[:, 3] <= body * 1.8) & (parts[:, 2] <= body * 2))
         slots = np.r_[centers[0] - step, centers, centers[-1] + step]
-        extra = parts[(parts[:, 4] >= 8) & (parts[:, 3] >= body * .3) &
-                      (parts[:, 3] <= body * 1.8) & (parts[:, 2] <= body * 2) &
+        extra = parts[possible &
                       (np.min(abs(px[:, None] - slots), axis=1) <= step * .18) &
                       (abs(py - (slope * px + offset)) <= body * .6)]
+        fit_x = list(centers)
+        fit_y = [p[1] + p[3] / 2 for p in band]
+        growth_slope, growth_offset = slope, offset
+        # Follow actual consecutive glyphs beyond a clipped physical band.
+        # Stop at the first empty/ambiguous cell; never bridge a missing glyph
+        # to another column. Refitting follows modest page curvature.
+        for direction in (-1, 1):
+            anchor = centers[0] if direction < 0 else centers[-1]
+            for _ in range(int(image.shape[1] / step) + 1):
+                target = anchor + direction * step
+                candidates = parts[possible & (abs(px - target) <= step * .18) &
+                                   (abs(py - (growth_slope * px + growth_offset)) <= body * .6)]
+                if not len(candidates):
+                    break
+                lo = candidates[:, :2].min(axis=0)
+                hi = (candidates[:, :2] + candidates[:, 2:4]).max(axis=0)
+                cw, ch = hi - lo
+                if cw > body * 2 or not body * .5 <= ch <= body * 1.8:
+                    break
+                center = (lo + hi) / 2
+                next_x, next_y = fit_x + [center[0]], fit_y + [center[1]]
+                next_slope, next_offset = np.polyfit(next_x, next_y, 1)
+                if (abs(next_slope) > .2 or np.max(abs(np.array(next_y) -
+                        (next_slope * np.array(next_x) + next_offset))) > body * .6):
+                    break
+                extra = np.concatenate((extra, candidates))
+                fit_x, fit_y = next_x, next_y
+                growth_slope, growth_offset = next_slope, next_offset
+                anchor = center[0]
         if len(extra):
             x1, y1 = min(x1, int(extra[:, 0].min())), min(y1, int(extra[:, 1].min()))
             x2 = max(x2, int((extra[:, 0] + extra[:, 2]).max()))

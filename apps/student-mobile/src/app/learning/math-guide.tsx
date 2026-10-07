@@ -9,7 +9,8 @@ import { AppButton } from '../../components/ui/AppButton';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { ImageDraft, recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
-import { LessonResponse, NotebookRead, TutorService } from '../../features/tutoring/api/TutorService';
+import { divisionText, savedDivision, LessonResponse, NotebookRead, TutorService } from '../../features/tutoring/api/TutorService';
+import { DivisionReview } from '../../features/tutoring/DivisionReview';
 import { AuthContext } from '../../context/AuthContext';
 import { saveLesson } from '../../features/tutoring/learningHistory';
 
@@ -27,7 +28,8 @@ export default function MathGuideScreen() {
   const imageUri = draft?.mode === 'MATH_TUTOR' ? draft.croppedImageUri ?? '' : '';
   const photoAllowed = !!imageUri && draft?.privacyConfirmed === true && !!draft.privacyImageUri;
   const [reading, setReading] = useState<NotebookRead | null>(supplied || suppliedWork ? {
-    kind: suppliedWork ? 'MIXED' : 'PROBLEM', problemText: supplied, lines: [], needsProblem: !supplied,
+    kind: suppliedWork ? 'MIXED' : 'PROBLEM', problemText: supplied,
+    lines: savedDivision(suppliedWork) ? [{ text: suppliedWork, box: null, uncertain: true, division: savedDivision(suppliedWork) }] : [], needsProblem: !supplied,
   } : null);
   const [problem, setProblem] = useState(supplied || context?.problemText || '');
   const [work, setWork] = useState(suppliedWork || context?.workText || '');
@@ -53,6 +55,8 @@ export default function MathGuideScreen() {
   const scroll = useRef<ScrollView>(null);
   const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
+  const divisionLine = !invalidPhoto && reading?.lines.length === 1 ? reading.lines[0] : null;
+  const division = divisionLine?.division;
   const step = lesson?.step;
   const lessonSessionId = lesson?.sessionId;
   const lessonStepIndex = lesson?.stepIndex;
@@ -155,14 +159,14 @@ export default function MathGuideScreen() {
   const edit = (field: 'problem' | 'work') => { cancel(); setError(''); setEditing(field); setLesson(null); setSaved(false); };
 
   return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <AppHeader title={work ? 'Hiểu bài, kiểm tra cách làm' : 'Cùng em tìm cách giải'} showBack />
+    <AppHeader title={division ? 'Kiểm tra phép chia' : work ? 'Hiểu bài, kiểm tra cách làm' : 'Cùng em tìm cách giải'} showBack />
     <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       {busy === 'read' ? <RecognitionProgress title="Mình đang đọc bài của em" description="Giữ cả đề và phần bài làm để cùng học nhé." imageUri={imageUri} onCancel={cancel} cancelLabel="Dừng chờ, giữ ảnh" />
       : <ScrollView ref={scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
           <View style={styles.flex}><Text style={styles.eyebrow}>HỌC CÙNG MATHVISIONKID</Text>
-            <Text style={styles.title}>{lesson?.status === 'COMPLETE' ? 'Em đã tự làm được!' : lesson?.topic || (!problem && work ? 'Thêm đề, hiểu trọn bài' : 'Hiểu cách làm, tự tìm lời giải')}</Text>
-            <Text style={styles.body}>{lesson?.goal || (!problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : 'Hiểu đề → chọn cách làm → tự tính → kiểm tra lại.')}</Text></View>
+            <Text style={styles.title}>{lesson?.status === 'COMPLETE' ? 'Em đã tự làm được!' : lesson?.topic || (division ? 'Cùng kiểm tra phép chia' : !problem && work ? 'Thêm đề, hiểu trọn bài' : 'Hiểu cách làm, tự tìm lời giải')}</Text>
+            <Text style={styles.body}>{lesson?.goal || (division ? 'Đối chiếu với ảnh → kiểm tra → tự sửa chỗ chưa đúng.' : !problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : 'Hiểu đề → chọn cách làm → tự tính → kiểm tra lại.')}</Text></View>
           <Image source={MASCOT} style={styles.mascot} resizeMode="contain" accessible={false} />
         </LinearGradient>
 
@@ -181,12 +185,19 @@ export default function MathGuideScreen() {
           <Pressable style={styles.linkButton} accessibilityRole="button" onPress={() => edit('problem')}><Text style={styles.link}>Em muốn nhập đề bằng chữ</Text></Pressable>
         </View> : null}
 
-        {!!(workImage || problemImage) && !lesson && <View style={styles.photos}>
+        {!!(workImage || problemImage) && !lesson && !division && <View style={styles.photos}>
           {problemImage ? <View style={styles.photoCard}><Image source={{ uri: problemImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh đề bài đã che thông tin" /><Text style={styles.caption}>Đề bài</Text></View> : null}
           {workImage && workImage !== problemImage ? <View style={styles.photoCard}><Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" /><Text style={styles.caption}>Bài em làm</Text></View> : null}
         </View>}
 
-        {!problem && work && !invalidPhoto && editing !== 'problem' ? <View style={styles.card}>
+        {division && !editing && !lesson ? <DivisionReview division={division} imageUri={workImage || imageUri}
+          uncertain={divisionLine?.uncertain ?? false} onChange={value => {
+            const text = divisionText(value);
+            setReading(previous => previous ? { ...previous, lines: [{ ...previous.lines[0], division: value, text }] } : previous);
+            setWork(text); setSaved(false);
+          }} /> : null}
+
+        {!problem && work && !invalidPhoto && !division && editing !== 'problem' ? <View style={styles.card}>
           <Text style={styles.heading}>Cần thêm đề bài</Text>
           <Text style={styles.body}>Bài làm chưa cho biết đầy đủ câu hỏi và dữ kiện. Em chụp thêm đề để mình cùng kiểm tra nhé.</Text>
           <AppButton title="Chụp thêm đề bài" onPress={() => capture('ADD_PROBLEM')} icon={<Ionicons name="camera" size={20} color="white" />} />
@@ -223,7 +234,7 @@ export default function MathGuideScreen() {
           {!work && !lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp thêm bài làm" onPress={() => capture('ADD_WORK')}><Text style={styles.link}>Em đã làm rồi? Chụp thêm bài làm</Text></Pressable> : null}
         </View> : null}
 
-        {!!work && !editing ? <View style={styles.workCard}>
+        {!!work && !editing && !division ? <View style={styles.workCard}>
           <Pressable style={[styles.row, styles.workToggle]} accessibilityRole="button" accessibilityLabel="Xem bài em đã viết" aria-expanded={showWork} onPress={() => setShowWork(v => !v)}>
             <Ionicons name="book-outline" size={21} color={COLORS.primaryDark} /><Text style={[styles.link, styles.flex]}>Bài em đã viết</Text><Ionicons name={showWork ? 'chevron-up' : 'chevron-down'} size={18} color={COLORS.primaryDark} />
           </Pressable>

@@ -14,7 +14,7 @@ A Vietnamese math learning companion for primary school students: capture a prob
 ![Python](https://img.shields.io/badge/Python-3.12-0369A1?style=flat-square&logo=python&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-7055F6?style=flat-square)](LICENSE)
 
-[Explore the app](#see-it-in-action) · [Get started](#run-it-locally) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md)
+[Explore the app](#see-it-in-action) · [Get started](#run-it-locally) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) · [Drive data & recovery](DU_LIEU_GOOGLE_DRIVE.md)
 
 </div>
 

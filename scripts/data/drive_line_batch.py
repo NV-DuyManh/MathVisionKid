@@ -1,14 +1,15 @@
 """Resumable, local-only Drive-image line audit. Originals and labels stay private.
 
-Discover/download with the Drive connector first, then supply source_selection.json
-and images/<drive_id>.jpg under the batch directory. Never promote predictions to
-reference labels. 'select' skips tested IDs; content hashes also catch aliases.
+Use mount-select to read a mounted Drive folder without downloading batch copies,
+or supply connector source_selection.json and local originals. Never promote
+predictions to reference labels. Tested IDs and content hashes catch aliases.
 """
 import argparse
 import asyncio
 import csv
 import hashlib
 import importlib.util
+import io
 import json
 import sqlite3
 import sys
@@ -19,6 +20,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 from PIL import Image, ImageOps
+from source_storage import read_source_bytes
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DATA = ROOT / 'ai-training/datasets/drive_math'
@@ -47,6 +49,24 @@ def select_unseen(records, db, limit):
     seen = {row[0] for row in db.execute('SELECT drive_id FROM images')}
     unique = {r['drive_id']: r for r in records if r['drive_id'] not in seen}
     return list(unique.values())[:limit]
+
+
+def select_mounted(source_folder, db, limit):
+    seen = {row[0] for row in db.execute('SELECT sha256 FROM images')}
+    selected = []
+    for path in sorted(source_folder.iterdir()):
+        if not path.is_file() or path.suffix.lower() not in {'.jpg', '.jpeg', '.png', '.webp', '.bmp'}:
+            continue
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        if digest in seen:
+            continue
+        seen.add(digest)
+        selected.append({'drive_id': 'mounted_' + digest, 'name': path.name,
+                         'sha256': digest, 'source_group': source_folder.name,
+                         'mounted_source_path': str(path.resolve())})
+        if len(selected) == limit:
+            break
+    return selected
 
 
 def reviewed_label(path, image_hash, image_size):
@@ -89,9 +109,9 @@ def run_batch(data, batch, detector_source, force=False):
         output = folder / 'results' / f"{item['drive_id']}.json"
         record = {**item, 'index': number, 'detector_sha256': digest}
         try:
-            path = folder / 'images' / f"{item['drive_id']}.jpg"
-            raw_hash = hashlib.sha256(path.read_bytes()).hexdigest()
-            with Image.open(path) as raw:
+            source_bytes = read_source_bytes(folder, item)
+            raw_hash = hashlib.sha256(source_bytes).hexdigest()
+            with Image.open(io.BytesIO(source_bytes)) as raw:
                 image = ImageOps.exif_transpose(raw).convert('RGB')
             pixel_hash = hashlib.sha256(str(image.size).encode() + image.tobytes()).hexdigest()
             alias = db.execute('SELECT drive_id FROM images WHERE pixel_sha256=? AND drive_id<>?',
@@ -160,26 +180,30 @@ def run_batch(data, batch, detector_source, force=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['run', 'select', 'cloud'])
+    parser.add_argument('action', choices=['run', 'select', 'mount-select', 'cloud'])
     parser.add_argument('--data-root', type=Path, default=DEFAULT_DATA)
     parser.add_argument('--batch', default='20261004')
     parser.add_argument('--selection', type=Path)
+    parser.add_argument('--source-folder', type=Path)
     parser.add_argument('--limit', type=int, default=200)
     parser.add_argument('--detector-source', type=Path)
     parser.add_argument('--force', action='store_true')
     args = parser.parse_args()
     if args.limit < 1:
         parser.error('--limit must be positive')
-    if args.action == 'select':
-        if args.selection is None:
+    if args.action in {'select', 'mount-select'}:
+        if args.action == 'select' and args.selection is None:
             parser.error('select requires --selection containing connector metadata')
-        with open_ledger(args.data_root) as db:
-            selected = select_unseen(json.loads(args.selection.read_text(encoding='utf-8')), db, args.limit)
+        if args.action == 'mount-select' and args.source_folder is None:
+            parser.error('mount-select requires --source-folder')
         target = args.data_root / args.batch / 'source_selection.json'
         if target.exists():
             parser.error('Batch already exists; choose a new --batch instead of replacing its selection')
+        with open_ledger(args.data_root) as db:
+            selected = (select_mounted(args.source_folder, db, args.limit) if args.action == 'mount-select'
+                        else select_unseen(json.loads(args.selection.read_text(encoding='utf-8')), db, args.limit))
         write_json(target, selected)
-        print(f'Selected {len(selected)} untested Drive IDs')
+        print(f'Selected {len(selected)} untested source images')
     elif args.action == 'cloud':
         asyncio.run(run_cloud_batch(args.data_root, args.batch, args.force))
     else:
@@ -197,13 +221,13 @@ async def run_cloud_batch(data, batch, force=False):
     from app.tutoring.service import TutorUnavailable
     signature = hashlib.sha256(READ_NOTEBOOK.encode() + b''.join(
         (ROOT / 'ai/runtime' / source).read_bytes() for source in (
-            'app/tutoring/notebook.py', 'app/tutoring/rows.py',
+            'app/tutoring/notebook.py', 'app/tutoring/math_layout.py', 'app/tutoring/rows.py',
             'app/recognition/text_detector.py'))).hexdigest()
     folder = data / batch
     selection = json.loads((folder / 'source_selection.json').read_text(encoding='utf-8'))
     completed = []
     for number, item in enumerate(selection, 1):
-        raw = (folder / 'images' / f"{item['drive_id']}.jpg").read_bytes()
+        raw = read_source_bytes(folder, item)
         digest = hashlib.sha256(raw).hexdigest()
         target = folder / 'cloud_results' / f"{item['drive_id']}.json"
         previous = json.loads(target.read_text(encoding='utf-8')) if target.exists() else {}

@@ -40,6 +40,48 @@ def test_glyph_retry_rejects_a_stacked_fraction_on_an_otherwise_eligible_page():
     assert text_detector.recover_glyph_rows(image, original) == original
 
 
+@pytest.mark.parametrize('scale', [1, 3])
+@pytest.mark.parametrize('side', ['left', 'right'])
+def test_glyph_retry_follows_multiple_supported_end_cells(monkeypatch, scale, side):
+    from app.tutoring import rows
+    image = cv2.resize(_spaced_notebook_glyphs(), None, fx=scale, fy=scale)
+    left, right = (220, 425) if side == 'left' else (55, 260)
+    # Projection on a curved page can cover only the first/last four bodies.
+    monkeypatch.setattr(rows, 'handwriting_rows', lambda *args, **kwargs: [
+        tuple(v * scale for v in (left, y-20, right, y+20))
+        for y in (110, 220, 330, 440)])
+    boxes = text_detector.recover_glyph_rows(image, [])
+    assert len(boxes) == 4
+    for x1, y1, x2, y2 in boxes:
+        assert x1 <= 64*scale and x2 >= 415*scale
+        assert 0 <= y1 < y2 <= image.shape[0]
+
+
+def test_glyph_retry_stops_at_an_empty_cell_before_distant_writing(monkeypatch):
+    from app.tutoring import rows
+    image = _spaced_notebook_glyphs()
+    for y in (110, 220, 330, 440):
+        image[y-35:y+22, 280:311] = 248  # Fifth cell is genuinely empty.
+    monkeypatch.setattr(rows, 'handwriting_rows', lambda *args, **kwargs: [
+        (55, y-20, 260, y+20) for y in (110, 220, 330, 440)])
+    boxes = text_detector.recover_glyph_rows(image, [])
+    assert len(boxes) == 4
+    assert all(x2 < 280 for _, _, x2, _ in boxes)
+
+
+def test_glyph_retry_preserves_a_partial_first_end_cell(monkeypatch):
+    from app.tutoring import rows
+    image = _spaced_notebook_glyphs()
+    for y in (110, 220, 330, 440):
+        image[y-35:y+22, 280:430] = 248
+        cv2.ellipse(image, (295, y), (8, 5), 0, 0, 360, (150, 55, 35), 2)
+    monkeypatch.setattr(rows, 'handwriting_rows', lambda *args, **kwargs: [
+        (55, y-20, 260, y+20) for y in (110, 220, 330, 440)])
+    boxes = text_detector.recover_glyph_rows(image, [])
+    assert len(boxes) == 4
+    assert all(x2 >= 308 for _, _, x2, _ in boxes)
+
+
 @pytest.mark.parametrize('image', [
     np.full((700, 450, 3), 248, np.uint8),
     np.full((700, 450, 3), (140, 60, 30), np.uint8),
