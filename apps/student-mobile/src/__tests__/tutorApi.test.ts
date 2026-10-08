@@ -50,9 +50,20 @@ const publicLesson = { sessionId: 'abcdefghijklmnopqrstuv', revision: 0, topic: 
   stepIndex: 0, completed: [], status: 'READY', feedback: '', step: { title: 'Chọn phép tính', explanation: 'Xem số bút thay đổi.', question: 'Em chọn phép tính nào?',
     choices: ['Cộng', 'Trừ'], expression: '', unit: '', workExcerpt: '' } };
 
+it('rejects unconfirmed source content before making any lesson request', async () => {
+  for (const [problem, work, confirmation] of [
+    [request.problemText, '', { problemConfirmed: false, workConfirmed: false }],
+    [request.problemText, '3/2 = 1', { problemConfirmed: true, workConfirmed: false }],
+    [request.problemText, '3/[?]', { problemConfirmed: true, workConfirmed: true }],
+  ] as const) {
+    await expect(TutorService.startLesson(problem, work, confirmation)).rejects.toThrow('kiểm tra lại');
+  }
+  expect(apiClient.post).not.toHaveBeenCalled();
+});
+
 it('starts a lesson and sends only session revision and the pupil response for an answer', async () => {
   (apiClient.post as jest.Mock).mockResolvedValue({ data: publicLesson });
-  const lesson = await TutorService.startLesson(request.problemText, '');
+  const lesson = await TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false });
   await TutorService.answerLesson(lesson, 'Cộng');
   expect(apiClient.post).toHaveBeenLastCalledWith('/student/tutor/lesson/answer', {
     sessionId: publicLesson.sessionId, revision: 0, answer: 'Cộng', hint: false,
@@ -61,9 +72,9 @@ it('starts a lesson and sends only session revision and the pupil response for a
 
 it('rejects an inconsistent or oversized public lesson', async () => {
   (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...publicLesson, stepIndex: 2 } });
-  await expect(TutorService.startLesson(request.problemText, '')).rejects.toThrow('Chưa đọc được hướng dẫn');
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow('Chưa đọc được hướng dẫn');
   (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...publicLesson, step: { ...publicLesson.step, explanation: 'a'.repeat(501) } } });
-  await expect(TutorService.startLesson(request.problemText, '')).rejects.toThrow('Chưa đọc được hướng dẫn');
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow('Chưa đọc được hướng dẫn');
 });
 
 it('blocks image upload before privacy acknowledgement', async () => {

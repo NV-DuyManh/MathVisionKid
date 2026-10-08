@@ -49,7 +49,16 @@ public final class MathTutorDtos {
             @NotNull @Size(max = 1200) String previousHint) {}
 
     public record LessonRequest(@NotBlank @Size(min = 3, max = 4000) String problemText,
-                                @NotNull @Size(max = 6000) String workText) {}
+                                @NotNull @Size(max = 6000) String workText,
+                                @NotNull @AssertTrue Boolean problemConfirmed,
+                                @NotNull Boolean workConfirmed) {
+        @AssertTrue public boolean isSourceConfirmed() {
+            return Boolean.TRUE.equals(problemConfirmed)
+                    && (workText == null || workText.isBlank() || Boolean.TRUE.equals(workConfirmed))
+                    && problemText != null && !problemText.contains("[?]")
+                    && (workText == null || !workText.contains("[?]"));
+        }
+    }
     public record LessonAnswer(@NotBlank @Size(min = 20, max = 100) String sessionId,
                                @NotNull @Min(0) Integer revision,
                                @NotNull @Size(max = 500) String answer, @NotNull Boolean hint) {}

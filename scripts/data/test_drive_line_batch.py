@@ -103,3 +103,65 @@ def test_cloud_unavailability_stops_without_sweeping_images(tmp_path, monkeypatc
     summary = asyncio.run(batch.run_cloud_batch(tmp_path, 'sample'))
     assert summary['read'] == 0 and summary['pending'] == 2 and call.await_count == 1
     assert not (folder/'cloud_results/b.json').exists()
+
+
+@pytest.mark.parametrize('force', [False, True])
+def test_saved_cloud_backoff_prevents_calls_after_process_restart(tmp_path, monkeypatch, force):
+    from app.tutoring import notebook
+    folder, _ = prepare(tmp_path, duplicate=True)
+    batch.write_json(folder/'cloud_results/b.json', {
+        'status': 'provider_unavailable', 'retry_not_before': batch.time.time()+300,
+        'primary_error_classes': ['RATE_LIMIT'],
+    })
+    call = AsyncMock()
+    monkeypatch.setattr(notebook, 'inspect_notebook', call)
+    summary = asyncio.run(batch.run_cloud_batch(tmp_path, 'sample', force=force))
+    assert summary['pending'] == 2 and summary['stop_reason'] == 'saved_provider_backoff'
+    assert call.await_count == 0 and not (folder/'cloud_results/a.json').exists()
+
+
+def test_backoff_counts_later_successes_without_fetching_pending_source(tmp_path, monkeypatch):
+    from app.tutoring import notebook
+    folder, _ = prepare(tmp_path, duplicate=True)
+    call = AsyncMock(return_value=notebook.NotebookRead(kind='WORK', lines=[notebook.NotebookLine(text='015')]))
+    monkeypatch.setattr(notebook, 'inspect_notebook', call)
+    asyncio.run(batch.run_cloud_batch(tmp_path, 'sample'))
+    previous = (folder/'cloud_results/b.json').read_bytes()
+    batch.write_json(folder/'cloud_results/a.json', {
+        'status': 'provider_unavailable', 'retry_not_before': batch.time.time()+300})
+    call.reset_mock()
+    original = batch.read_source_bytes
+    fetched = []
+    def read(folder, item):
+        fetched.append(item['drive_id'])
+        return original(folder, item)
+    monkeypatch.setattr(batch, 'read_source_bytes', read)
+    summary = asyncio.run(batch.run_cloud_batch(tmp_path, 'sample'))
+    assert summary['read'] == 1 and summary['pending'] == 1
+    assert summary['stop_reason'] == 'saved_provider_backoff'
+    assert fetched == ['b'] and call.await_count == 0
+    assert (folder/'cloud_results/b.json').read_bytes() == previous
+
+
+@pytest.mark.parametrize('change', ['reader', 'source', 'force'])
+def test_successful_cloud_evidence_is_immutable(tmp_path, monkeypatch, change):
+    from app.tutoring import notebook
+    folder, _ = prepare(tmp_path)
+    call = AsyncMock(return_value=notebook.NotebookRead(kind='WORK', lines=[notebook.NotebookLine(text='59947')]))
+    monkeypatch.setattr(notebook, 'inspect_notebook', call)
+    asyncio.run(batch.run_cloud_batch(tmp_path, 'sample'))
+    file = folder/'cloud_results/a.json'
+    if change == 'reader':
+        record = json.loads(file.read_text())
+        record['signature'] = 'earlier-reader'
+        batch.write_json(file, record)
+    elif change == 'source':
+        Image.new('RGB', (100, 70), 'red').save(folder/'images/a.jpg')
+    previous = file.read_bytes()
+    call.reset_mock()
+    if change == 'force':
+        assert asyncio.run(batch.run_cloud_batch(tmp_path, 'sample', force=True))['read'] == 1
+    else:
+        with pytest.raises(ValueError, match='new batch'):
+            asyncio.run(batch.run_cloud_batch(tmp_path, 'sample'))
+    assert call.await_count == 0 and file.read_bytes() == previous

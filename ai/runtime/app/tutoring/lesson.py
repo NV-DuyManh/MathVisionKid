@@ -18,6 +18,16 @@ class LessonRequest(TutorModel):
     owner: str = Field(min_length=1, max_length=200)
     problemText: str = Field(min_length=3, max_length=4000)
     workText: str = Field(default="", max_length=6000)
+    problemConfirmed: StrictBool = False
+    workConfirmed: StrictBool = False
+
+    @model_validator(mode="after")
+    def confirmed_source(self):
+        if not self.problemConfirmed or (self.workText.strip() and not self.workConfirmed):
+            raise ValueError("Confirm the source transcription before starting a lesson")
+        if "[?]" in self.problemText or "[?]" in self.workText:
+            raise ValueError("Clarify unread source symbols before starting a lesson")
+        return self
 
 
 class TurnRequest(TutorModel):

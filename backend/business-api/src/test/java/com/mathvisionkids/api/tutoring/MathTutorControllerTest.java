@@ -113,7 +113,7 @@ class MathTutorControllerTest {
     @Test @WithMockUser(username = "student-a", roles = "STUDENT")
     void lessonOwnershipComesFromAuthenticationInsteadOfTheRequestBody() throws Exception {
         mvc.perform(post("/api/v1/student/tutor/lesson").contentType(MediaType.APPLICATION_JSON)
-                .content("{\"problemText\":\"Lan có 12 bút và 5 bút.\",\"workText\":\"\",\"owner\":\"student-b\"}"))
+                .content("{\"problemText\":\"Lan có 12 bút và 5 bút.\",\"workText\":\"\",\"problemConfirmed\":true,\"workConfirmed\":false,\"owner\":\"student-b\"}"))
                 .andExpect(status().isOk());
         verify(service).lesson(any(LessonRequest.class), eq("student-a"));
     }
@@ -127,6 +127,18 @@ class MathTutorControllerTest {
         reset(service);
         mvc.perform(post("/api/v1/student/tutor/lesson/answer").contentType(MediaType.APPLICATION_JSON).content(body.replace("\"revision\":0", "\"revision\":-1")))
                 .andExpect(status().isBadRequest());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(roles = "STUDENT") void lessonRejectsMissingAndFalseSourceConfirmation() throws Exception {
+        for (String body : new String[]{
+                "{\"problemText\":\"Lan có 12 bút.\",\"workText\":\"\"}",
+                "{\"problemText\":\"Lan có 12 bút.\",\"workText\":\"\",\"problemConfirmed\":false,\"workConfirmed\":false}",
+                "{\"problemText\":\"Lan có 12 bút.\",\"workText\":\"3/2 = 1\",\"problemConfirmed\":true,\"workConfirmed\":false}",
+                "{\"problemText\":\"Lan có [?] bút.\",\"workText\":\"\",\"problemConfirmed\":true,\"workConfirmed\":false}"}) {
+            mvc.perform(post("/api/v1/student/tutor/lesson").contentType(MediaType.APPLICATION_JSON)
+                    .content(body)).andExpect(status().isBadRequest());
+        }
         verifyNoInteractions(service);
     }
 

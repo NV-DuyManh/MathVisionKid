@@ -158,6 +158,8 @@ MathVisionKid/
 | Present the app and view all demo images | [Demo walkthrough](docs/DEMO_GUIDE.md) |
 | Understand services and AI boundaries | [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) |
 | Fix startup, phone, or recognition issues | [Troubleshooting](docs/TROUBLESHOOTING.md) |
+| Review labels and evaluate a local OCR candidate | [OCR review and training](docs/OCR_REVIEW_AND_TRAINING.md) |
+| Check the latest app on a physical phone | [Phone test checklist](docs/PHONE_TEST_HANDOFF.md) |
 | Contribute and run checks | [Contributing](CONTRIBUTING.md) |
 
 ## Contributing and license

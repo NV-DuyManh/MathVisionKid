@@ -205,7 +205,9 @@ def main():
         write_json(target, selected)
         print(f'Selected {len(selected)} untested source images')
     elif args.action == 'cloud':
-        asyncio.run(run_cloud_batch(args.data_root, args.batch, args.force))
+        summary = asyncio.run(run_cloud_batch(args.data_root, args.batch, args.force))
+        if summary['pending']:
+            raise SystemExit(2)  # Paused/unavailable is not a completed audit.
     else:
         run_batch(args.data_root, args.batch, args.detector_source, args.force)
 
@@ -225,15 +227,36 @@ async def run_cloud_batch(data, batch, force=False):
             'app/recognition/text_detector.py'))).hexdigest()
     folder = data / batch
     selection = json.loads((folder / 'source_selection.json').read_text(encoding='utf-8'))
+    # A saved provider stop survives a process restart, including --force.
+    # Continue to count valid completed outputs, but make no request during backoff.
+    retry_not_before = 0
+    for path in (folder / 'cloud_results').glob('*.json'):
+        previous = json.loads(path.read_text(encoding='utf-8'))
+        if previous.get('status') == 'provider_unavailable':
+            retry_not_before = max(retry_not_before, previous.get('retry_not_before', 0))
     completed = []
+    stop_reason = None
     for number, item in enumerate(selection, 1):
-        raw = read_source_bytes(folder, item)
-        digest = hashlib.sha256(raw).hexdigest()
         target = folder / 'cloud_results' / f"{item['drive_id']}.json"
         previous = json.loads(target.read_text(encoding='utf-8')) if target.exists() else {}
-        if not force and previous.get('signature') == signature and previous.get('sha256') == digest and previous.get('status') == 'read':
+        if previous.get('status') == 'read':
+            if previous.get('signature') != signature:
+                raise ValueError('Successful cloud evidence uses another reader version; choose a new batch')
+            raw = read_source_bytes(folder, item)
+            digest = hashlib.sha256(raw).hexdigest()
+            if previous.get('sha256') != digest:
+                raise ValueError('Successful cloud evidence belongs to different source bytes; choose a new batch')
+            # --force never destroys a successful read. A comparison gets a new batch.
             completed.append(previous)
             continue
+        if stop_reason:
+            continue  # Still count later successful records, but do not fetch pending sources.
+        if retry_not_before > time.time():
+            stop_reason = 'saved_provider_backoff'
+            print('Saved provider backoff is active; no new request made.', flush=True)
+            continue
+        raw = read_source_bytes(folder, item)
+        digest = hashlib.sha256(raw).hexdigest()
         record = {**item, 'index': number, 'sha256': digest, 'signature': signature, 'reference_label': False}
         try:
             start = time.perf_counter()
@@ -247,9 +270,11 @@ async def run_cloud_batch(data, batch, force=False):
             record.update(status='provider_unavailable',
                           primary_error_classes=sorted({entry.last_error_class for entry in entries if entry.last_error_class}),
                           retry_not_before=max([time.time()+60] + [entry.cooldown_until for entry in entries]))
+            retry_not_before = record['retry_not_before']
+            stop_reason = 'provider_unavailable'
             write_json(target, record)
             print(f'{number}/{len(selection)}: provider unavailable; stopped without quota/key sweep', flush=True)
-            break
+            continue
         write_json(target, record)
         completed.append(record)
         print(f'{number}/{len(selection)} cloud result persisted: {reading.kind}, {len(reading.lines)} rows', flush=True)
@@ -257,7 +282,9 @@ async def run_cloud_batch(data, batch, force=False):
                'pending': len(selection)-len(completed), 'signature': signature,
                'kind_counts': {kind: sum(r['result']['kind'] == kind for r in completed)
                                for kind in ('PROBLEM', 'WORK', 'MIXED', 'MULTIPLE', 'UNREADABLE')},
-               'auto_verified_labels': 0, 'training_performed': False}
+               'auto_verified_labels': 0, 'training_performed': False,
+               'stop_reason': stop_reason,
+               'retry_not_before': retry_not_before if stop_reason else None}
     write_json(folder / 'cloud_summary.json', summary)
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return summary

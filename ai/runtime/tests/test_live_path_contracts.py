@@ -21,7 +21,7 @@ AUTH_HEADERS = {
 
 def test_live_01_runtime_detector_version_visible():
     """LIVE-01: Runtime detector version is constant and visible."""
-    assert HW_LINE_DETECTOR_VERSION == "runtime13-bounded-complete-lines-20261005"
+    assert HW_LINE_DETECTOR_VERSION == "runtime18-paper-texture-recovery-20261008"
     dummy_img = np.full((100, 100, 3), 255, dtype=np.uint8)
     _, png_bytes = cv2.imencode(".png", dummy_img)
     response = client.post("/internal/v1/ocr/detect-lines", content=png_bytes.tobytes(), headers=AUTH_HEADERS)

@@ -7,19 +7,29 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 
-def _ink(bgr):
+def _ink(bgr, *, neutral=False):
     scale = min(1., 1000 / max(bgr.shape[:2]))
     image = cv2.resize(bgr, None, fx=scale, fy=scale) if scale < 1 else bgr
     hue, saturation, value = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
     mask = (((hue >= 90) | (hue <= 12)) &
             (saturation > max(55, float(np.median(saturation)) + 30)) & (value < 230)).astype(np.uint8)*255
     _, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    if (neutral and image.shape[0] <= 320
+            and not np.any((stats[1:, 4] > 12) & (stats[1:, 3] >= 8))):
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        if np.median(gray) >= 100:
+            background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE,
+                                         np.ones((35, 35), np.uint8))
+            # Faint blue notebook rulings are not the pupil's neutral ink.
+            mask = ((gray.astype(float) < background.astype(float) * .8)
+                    & ~((hue >= 90) & (hue <= 135) & (saturation > 20))).astype(np.uint8)*255
+            _, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
     return image, mask, stats[1:]
 
 
 def isolated_fraction(bgr):
     """A tight numerator/bar/denominator crop can be math without a question."""
-    image, _, parts = _ink(bgr)
+    image, _, parts = _ink(bgr, neutral=True)
     h, w = image.shape[:2]
     bodies = parts[(parts[:, 4] > 12) & (parts[:, 3] >= 8) & (parts[:, 3] < h*.5)]
     if not len(bodies):
@@ -32,6 +42,8 @@ def isolated_fraction(bgr):
     for x, y, width, height, area in parts:
         if not (body*.5 < width < body*3 and height < body*.3 and area > 8):
             continue
+        if x == 0 or x+width == w or y == 0 or y+height == h:
+            continue  # A crop-edge ruling cannot establish a complete fraction bar.
         cx, cy = digits[:, 0]+digits[:, 2]/2, digits[:, 1]+digits[:, 3]/2
         if (np.all((cx >= x-body*.3) & (cx <= x+width+body*.3))
                 and ((y-cy > body*.3) & (y-cy < body*3)).any()
@@ -48,7 +60,7 @@ def fraction_expression(bgr):
     This is ink evidence, not a math classification or a symbol transcription.
     Whole pages and a single subtraction/division bar do not qualify.
     """
-    image, _, parts = _ink(bgr)
+    image, _, parts = _ink(bgr, neutral=True)
     h, w = image.shape[:2]
     bodies = parts[(parts[:, 4] > 12) & (parts[:, 3] >= 8) & (parts[:, 3] < h*.5)]
     if not len(bodies):
@@ -58,15 +70,25 @@ def fraction_expression(bgr):
         return False
     digits = bodies[bodies[:, 3] > body*.5]
     cy = digits[:, 1]+digits[:, 3]/2
-    bars = 0
+    fractions = []
     for x, y, width, height, area in parts:
         if not (body*.5 < width < body*3 and height < body*.3 and area > 8):
             continue
+        if x == 0 or x+width == w or y == 0 or y+height == h:
+            continue
         overlap = (digits[:, 0] < x+width) & (digits[:, 0]+digits[:, 2] > x)
-        if ((overlap & (y-cy > body*.3) & (y-cy < body*3)).any()
-                and (overlap & (cy-y > body*.3) & (cy-y < body*3)).any()):
-            bars += 1
-    return bars >= 2
+        above = overlap & (y-cy > body*.3) & (y-cy < body*3)
+        below = overlap & (cy-y > body*.3) & (cy-y < body*3)
+        if above.any() and below.any():
+            support = set(np.flatnonzero(above | below))
+            # Several ruling fragments around the same glyphs are not several
+            # fractions. Require independent numerator/denominator evidence.
+            while shared := [group for group in fractions if group & support]:
+                for group in shared:
+                    support.update(group)
+                    fractions.remove(group)
+            fractions.append(support)
+    return len(fractions) >= 2
 
 
 def division_panels(bgr):
@@ -87,7 +109,8 @@ def division_panels(bgr):
                            minLineLength=max(15, body*.9), maxLineGap=max(4, round(body*.4)))
     if lines is None:
         return None
-    vertical = [l for l in lines.reshape(-1, 4) if abs(l[2]-l[0]) < abs(l[3]-l[1])*.25]
+    # A sloping stroke inside a numeral must not become a second bracket.
+    vertical = [l for l in lines.reshape(-1, 4) if abs(l[2]-l[0]) < abs(l[3]-l[1])*.15]
     horizontal = [l for l in lines.reshape(-1, 4) if abs(l[3]-l[1]) < abs(l[2]-l[0])*.3]
     candidates = []
     cx, cy = bodies[:, 0]+bodies[:, 2]/2, bodies[:, 1]+bodies[:, 3]/2
@@ -97,7 +120,7 @@ def division_panels(bgr):
             continue
         for left, hy1, right, hy2 in horizontal:
             y = (hy1+hy2)/2
-            if (abs(min(left, right)-x) > body*.4 or max(left, right)-x < body*1.4
+            if (abs(min(left, right)-x) > body*.7 or max(left, right)-x < body*1.4
                     or y > h*.4 or not top+body*.6 < y < bottom+body*.15):
                 continue
             above = (cy > y-body*2.5) & (cy < y+body*.3)
@@ -119,8 +142,13 @@ def division_panels(bgr):
                   (round(x+body*.15), round(y), w, min(h, round(y+body*3))),
                   (0, round(y+body*.6), round(x-body*.15), h)]
     labels = ('DIVIDEND (top left)', 'DIVISOR (top right)',
-              'QUOTIENT (right below bar)', 'WRITTEN WORKING ROWS (left, top to bottom)')
+              'QUOTIENT (right below bar)', 'WRITTEN WORKING ROWS (left, top to bottom)',
+              'FULL SOURCE (verify complete digits and rows)')
     panels = [image[t:b, l:r] for l, t, r, b in rectangles]
+    # Working rows can extend past the bracket as digits are brought down.
+    # Keep the untouched source available; a positional crop is not evidence
+    # that an omitted digit was absent from the pupil's writing.
+    panels.append(image)
     canvas = Image.new('RGB', (max(p.shape[1] for p in panels)+24,
                                sum(p.shape[0]+45 for p in panels)), 'white')
     draw = ImageDraw.Draw(canvas)

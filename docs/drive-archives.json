@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "drive_root": "My Drive/Dá»± Ã¡n/MathVisionKid/LÆ°u trá»¯",
+  "drive_root": "My Drive/Dự án/MathVisionKid/Lưu trữ",
   "drive_url": "https://drive.google.com/drive/folders/1oOenOCeNdsHRprk3c8yNNmdp9ZYRE2Lh",
   "candidate_plan_sha256": "99fba1697cb17edf794bc643df17ae53b447826bfddbf1c814a98cc49c6edadc",
   "archives": [
@@ -93,6 +93,87 @@
       "source_bytes": 164443603,
       "sha256": "cbd23a4694c7627f4b58d163676bbfdd656a3a738439447ab0eefc7ea6a24bd3",
       "backup_only": true
+    },
+    {
+      "id": "line-repair-20261008",
+      "path": "line-repair-20261008.zip",
+      "bytes": 15037102,
+      "files": 1768,
+      "source_bytes": 17497459,
+      "sha256": "6893696feceb02eaee585b188b96e164b00b12ee1691554a69d1c79c66e7d4c6",
+      "backup_only": false
+    },
+    {
+      "id": "line-expansion-20261008",
+      "path": "line-expansion-20261008.zip",
+      "bytes": 3319061,
+      "files": 2547,
+      "source_bytes": 4721905,
+      "sha256": "1f53706c4c7a221383f4dde582d2c655a677b8ebadde7c994a6f3e78088eade6",
+      "backup_only": false
+    },
+    {
+      "id": "sparse-ink-20261008",
+      "path": "sparse-ink-20261008.zip",
+      "bytes": 8789248,
+      "files": 3676,
+      "source_bytes": 11231757,
+      "sha256": "6be835de867ccd4a562db9e82a5d441fa944356f0d566816cbf5684bbf218af4",
+      "backup_only": false
+    },
+    {
+      "id": "math-source-safety-20261008",
+      "path": "math-source-safety-20261008.zip",
+      "bytes": 18722442,
+      "files": 189,
+      "source_bytes": 19388305,
+      "sha256": "7e9fcdc03157fa74ce21a880fa863035418eae278c9cdd36d499af5c7f4d2097",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-completion-20261008",
+      "path": "ocr-completion-20261008.zip",
+      "bytes": 78673832,
+      "files": 178,
+      "source_bytes": 81982943,
+      "sha256": "464911315d91c31aa661c0e36a41a5774bf43cf620a1f60c77d31309d69436e9",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-fields-decoder-20261008",
+      "path": "ocr-fields-decoder-20261008.zip",
+      "bytes": 73662462,
+      "files": 127,
+      "source_bytes": 78571910,
+      "sha256": "fb6444051ca35099a71687fb5cbfbe1bcca5d29681530bf7ddd436e4c7d93a0b",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-visual-numeric-20261008",
+      "path": "ocr-visual-numeric-20261008.zip",
+      "bytes": 181585898,
+      "files": 220,
+      "source_bytes": 198200179,
+      "sha256": "8a51c9c10c55a6c0491ff84564fc4608d5bb9d3c69bf77887187702cee2d71e2",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-visual-numeric-final-20261008",
+      "path": "ocr-visual-numeric-final-20261008.zip",
+      "bytes": 2637992,
+      "files": 128,
+      "source_bytes": 3692495,
+      "sha256": "d83c57add536f993599d2c5b972b375a35f204597e1e343fcd5ba0b42e55243d",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-neutral-fraction-20261008",
+      "path": "ocr-neutral-fraction-20261008.zip",
+      "bytes": 1621828,
+      "files": 294,
+      "source_bytes": 5195133,
+      "sha256": "4a96a44039eda00a4717331ca8695acf59cc0c592c1087afad24802949d7fee9",
+      "backup_only": false
     }
   ]
 }

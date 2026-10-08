@@ -328,3 +328,253 @@ def test_chalk_branch_runs_only_after_both_empty_passes_and_preserves_retry_unav
     assert calls==[(72,432),(144,864)]
     monkeypatch.setattr(text_detector,'detect_text_regions',lambda pixels:None)
     assert text_detector._chalk_strip_regions(_chalk_board()) is None
+
+
+def _black_notebook_strip():
+    image = np.full((48, 360, 3), 230, np.uint8)
+    for x in range(0, 360, 20):
+        cv2.line(image, (x, 0), (x, 47), (195, 195, 195), 1)
+    for y in (5, 25, 45):
+        cv2.line(image, (0, y), (359, y), (195, 195, 195), 1)
+    for x in range(35, 330, 40):
+        cv2.putText(image, '1', (x, 36), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, 1.1, (35, 35, 35), 2)
+    return image
+
+
+@pytest.mark.parametrize('scale', [1, 2])
+def test_neutral_strip_recovers_visible_black_glyphs_in_original_pixels(scale):
+    image = cv2.resize(_black_notebook_strip(), None, fx=scale, fy=scale)
+    boxes = text_detector._neutral_strip_regions(image)
+    assert len(boxes) == 1
+    x1, y1, x2, y2 = boxes[0]
+    assert x1 <= 45 * scale and x2 >= 325 * scale
+    assert y1 <= 15 * scale and y2 >= 37 * scale
+    assert 0 <= x1 < x2 <= image.shape[1] and 0 <= y1 < y2 <= image.shape[0]
+
+
+@pytest.mark.parametrize('kind', ['grid', 'diagonal', 'partial_rulings', 'speckles', 'shadow', 'two_rows', 'fraction'])
+def test_neutral_strip_rejects_unwritten_or_ambiguous_support(kind):
+    image = np.full((64, 420, 3), 230, np.uint8)
+    if kind == 'grid':
+        for x in range(0, 420, 25):
+            cv2.line(image, (x, 0), (x, 63), (35, 35, 35), 1)
+        for y in range(0, 64, 20):
+            cv2.line(image, (0, y), (419, y), (35, 35, 35), 1)
+    elif kind == 'diagonal':
+        for x in range(0, 400, 30):
+            cv2.line(image, (x, 0), (x + 15, 63), (35, 35, 35), 2)
+    elif kind == 'partial_rulings':
+        for x in range(20, 400, 40):
+            cv2.line(image, (x, 15), (x + 6, 45), (35, 35, 35), 2)
+    elif kind == 'speckles':
+        for x in range(20, 400, 30):
+            cv2.circle(image, (x, 35), 2, (35, 35, 35), -1)
+    elif kind == 'shadow':
+        for x in range(20, 400, 70):
+            cv2.rectangle(image, (x, 20), (x + 30, 50), (35, 35, 35), -1)
+    else:
+        for y in (24, 60):
+            for x in range(20, 400, 70):
+                cv2.putText(image, '2', (x, y), cv2.FONT_HERSHEY_SIMPLEX, .9, (35, 35, 35), 2)
+                if kind == 'fraction' and y == 24:
+                    cv2.line(image, (x - 2, 31), (x + 25, 31), (35, 35, 35), 2)
+    assert text_detector._neutral_strip_regions(image) == []
+
+
+def test_neutral_branch_runs_only_after_empty_passes_and_keeps_missing_model(monkeypatch):
+    from app.tutoring import rows
+    image = _black_notebook_strip()
+    monkeypatch.setattr(rows, 'coloured_strip_regions', lambda pixels: [])
+    monkeypatch.setattr(text_detector, '_chalk_strip_regions', lambda pixels: [])
+    monkeypatch.setattr(text_detector, 'detect_text_regions', lambda pixels: [])
+    assert len(text_detector.detect_crop_regions(image)) == 1
+    monkeypatch.setattr(text_detector, 'detect_text_regions', lambda pixels: [(40, 25, 340, 55)])
+    assert text_detector.detect_crop_regions(image) == [(24, 9, 324, 39)]
+    monkeypatch.setattr(text_detector, 'detect_text_regions', lambda pixels: None)
+    assert text_detector.detect_crop_regions(image) is None
+
+
+def _context_writing(background=230, ink=(35, 35, 35), width=500):
+    image = np.full((100, width, 3), background, np.uint8)
+    for x in np.linspace(25, width-50, max(7, width//60)).astype(int):
+        cv2.putText(image, 'a', (x, 55), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, 1, ink, 2)
+        cv2.putText(image, 'b', (x, 96), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, .8, ink, 2)
+    return image
+
+
+def _mapped_context_seed(image, source_shape, box):
+    height, width = source_shape
+    sx, sy = (image.shape[1]-128)/width, (image.shape[0]-128)/height
+    return [tuple(round(v*scale+64) for v, scale in zip(box, (sx, sy, sx, sy)))]
+
+
+@pytest.mark.parametrize('background,ink', [
+    (230, (35,35,35)),
+    ((110,165,200), (40,40,40)),
+    ((55,90,45), (240,240,240)),
+])
+@pytest.mark.parametrize('width', [500, 789])
+def test_context_retry_uses_source_ink_and_keeps_the_adjacent_row_out(monkeypatch, background, ink, width):
+    image = _context_writing(background, ink, width)
+    calls = []
+    def infer(pixels):
+        calls.append(pixels.shape)
+        assert np.all(pixels[0] == 255)
+        assert max(pixels.shape[:2]) <= 1408
+        return _mapped_context_seed(pixels, image.shape[:2], (20,26,width-20,60))
+    monkeypatch.setattr(text_detector, 'detect_text_regions', infer)
+    boxes = text_detector._context_crop_regions(image)
+    assert len(boxes) == 1 and len(calls) == 1
+    x1,y1,x2,y2 = boxes[0]
+    assert 0 <= x1 <= 30 and width-35 <= x2 <= width
+    assert 0 <= y1 <= 35 and 55 <= y2 <= 65
+
+
+def test_context_retry_rejects_a_word_fragment_then_checks_bounded_contrast(monkeypatch):
+    image = _context_writing()
+    calls = []
+    def infer(pixels):
+        calls.append(True)
+        box = (20,26,120,60) if len(calls) == 1 else (20,26,480,60)
+        return _mapped_context_seed(pixels, image.shape[:2], box)
+    monkeypatch.setattr(text_detector, 'detect_text_regions', infer)
+    assert len(text_detector._context_crop_regions(image)) == 1
+    assert len(calls) == 2
+
+
+def test_context_retry_does_not_swallow_two_rows_into_one(monkeypatch):
+    image = _context_writing()
+    monkeypatch.setattr(text_detector, 'detect_text_regions',
+                        lambda pixels: _mapped_context_seed(pixels, image.shape[:2], (10,5,490,99)))
+    assert text_detector._context_crop_regions(image) == []
+
+
+def test_context_retry_rejects_two_supported_baselines_inside_an_eligible_seed(monkeypatch):
+    image = _context_writing()
+    monkeypatch.setattr(text_detector, 'detect_text_regions',
+                        lambda pixels: _mapped_context_seed(pixels, image.shape[:2], (10,26,490,99)))
+    assert text_detector._context_crop_regions(image) == []
+
+
+def test_context_retry_keeps_fraction_tiers_together_even_when_model_seeds_them_separately(monkeypatch):
+    image = np.full((100,500,3),230,np.uint8)
+    for x in range(25,480,70):
+        cv2.putText(image,'3',(x,35),cv2.FONT_HERSHEY_SIMPLEX,.8,(35,35,35),2)
+        cv2.line(image,(x-3,45),(x+23,45),(35,35,35),2)
+        cv2.putText(image,'2',(x,77),cv2.FONT_HERSHEY_SIMPLEX,.8,(35,35,35),2)
+    def infer(pixels):
+        return (_mapped_context_seed(pixels,image.shape[:2],(15,15,480,37)) +
+                _mapped_context_seed(pixels,image.shape[:2],(15,55,480,80)))
+    monkeypatch.setattr(text_detector,'detect_text_regions',infer)
+    assert text_detector._context_crop_regions(image) == []
+
+
+@pytest.mark.parametrize('kind',['blank','grid','partial_rulings','speckles','shadow'])
+def test_context_retry_requires_letter_shapes_before_inference(monkeypatch,kind):
+    image = np.full((100,500,3),230,np.uint8)
+    if kind == 'grid':
+        for x in range(0,500,25):
+            cv2.line(image,(x,0),(x,99),(35,35,35),1)
+        for y in range(0,100,20):
+            cv2.line(image,(0,y),(499,y),(35,35,35),1)
+    elif kind == 'partial_rulings':
+        for x in range(25,480,30):
+            cv2.line(image,(x,20),(x+8,65),(35,35,35),2)
+    elif kind == 'speckles':
+        for x in range(25,480,30):
+            cv2.circle(image,(x,40),1,(35,35,35),-1)
+    elif kind == 'shadow':
+        cv2.rectangle(image,(20,20),(480,70),(35,35,35),-1)
+    def unexpected(pixels):
+        raise AssertionError('Background geometry must not trigger extra inference')
+    monkeypatch.setattr(text_detector,'detect_text_regions',unexpected)
+    assert text_detector._context_crop_regions(image) == []
+
+
+def test_context_retry_preserves_missing_model(monkeypatch):
+    monkeypatch.setattr(text_detector,'detect_text_regions',lambda pixels:None)
+    assert text_detector._context_crop_regions(_context_writing()) is None
+
+
+def test_paper_texture_retry_is_bounded_and_runs_after_both_existing_passes(monkeypatch):
+    image = _context_writing((110,165,200))
+    original = image.copy()
+    calls = []
+    def infer(pixels):
+        calls.append(pixels.copy())
+        box = (20,26,120,60) if len(calls) < 3 else (20,26,480,60)
+        return _mapped_context_seed(pixels, image.shape[:2], box)
+    monkeypatch.setattr(text_detector, 'detect_text_regions', infer)
+    boxes = text_detector._context_crop_regions(image)
+    assert len(boxes) == 1 and len(calls) == 3
+    assert not np.array_equal(calls[0], calls[2])
+    assert all(max(pixels.shape[:2]) <= 1408 for pixels in calls)
+    assert 0 <= boxes[0][0] < boxes[0][2] <= image.shape[1]
+    assert boxes[0][3] <= 65  # Adjacent writing is outside the returned row.
+    assert np.array_equal(image, original)
+
+
+def test_paper_texture_retry_does_not_repeat_or_accept_merged_rows(monkeypatch):
+    image = _context_writing((110,165,200))
+    calls = []
+    def infer(pixels):
+        calls.append(True)
+        return _mapped_context_seed(pixels, image.shape[:2], (10,26,490,99))
+    monkeypatch.setattr(text_detector, 'detect_text_regions', infer)
+    assert text_detector._context_crop_regions(image) == []
+    assert len(calls) == 3
+
+
+@pytest.mark.parametrize('kind', ['grid', 'shadow', 'speckles'])
+def test_paper_texture_retry_cannot_make_background_into_writing(monkeypatch, kind):
+    image = np.full((100,500,3), (110,165,200), np.uint8)
+    if kind == 'grid':
+        for x in range(0,500,25):
+            cv2.line(image,(x,0),(x,99),(35,35,35),1)
+        for y in range(0,100,20):
+            cv2.line(image,(0,y),(499,y),(35,35,35),1)
+    elif kind == 'shadow':
+        cv2.rectangle(image,(20,20),(480,70),(35,35,35),-1)
+    else:
+        for x in range(25,480,30):
+            cv2.circle(image,(x,40),1,(35,35,35),-1)
+    def unexpected(pixels):
+        raise AssertionError('Paper texture cannot justify model inference')
+    monkeypatch.setattr(text_detector, 'detect_text_regions', unexpected)
+    assert text_detector._context_crop_regions(image) == []
+
+
+def test_paper_texture_retry_preserves_missing_model_on_the_extra_pass(monkeypatch):
+    calls = []
+    def infer(pixels):
+        calls.append(True)
+        return [] if len(calls) < 3 else None
+    monkeypatch.setattr(text_detector, 'detect_text_regions', infer)
+    assert text_detector._context_crop_regions(_context_writing((110,165,200))) is None
+    assert len(calls) == 3
+
+
+def test_paper_texture_retry_preserves_fraction_tiers(monkeypatch):
+    image = np.full((100,500,3), (110,165,200), np.uint8)
+    for x in range(25,480,70):
+        cv2.putText(image,'3',(x,35),cv2.FONT_HERSHEY_SIMPLEX,.8,(35,35,35),2)
+        cv2.line(image,(x-3,45),(x+23,45),(35,35,35),2)
+        cv2.putText(image,'2',(x,77),cv2.FONT_HERSHEY_SIMPLEX,.8,(35,35,35),2)
+    calls = []
+    def infer(pixels):
+        calls.append(True)
+        return (_mapped_context_seed(pixels,image.shape[:2],(15,15,480,37)) +
+                _mapped_context_seed(pixels,image.shape[:2],(15,55,480,80)))
+    monkeypatch.setattr(text_detector, 'detect_text_regions', infer)
+    assert text_detector._context_crop_regions(image) == []
+    assert len(calls) == 3
+
+
+def test_paper_texture_retry_keeps_other_backgrounds_on_two_passes(monkeypatch):
+    calls = []
+    def infer(pixels):
+        calls.append(True)
+        return []
+    monkeypatch.setattr(text_detector, 'detect_text_regions', infer)
+    assert text_detector._context_crop_regions(_context_writing()) == []
+    assert len(calls) == 2

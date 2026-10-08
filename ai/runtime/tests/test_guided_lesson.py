@@ -21,9 +21,20 @@ def turn(response, answer='', owner='student-a', hint=False):
     return answer_lesson(TurnRequest(owner=owner, sessionId=response.sessionId, revision=response.revision, answer=answer, hint=hint))
 
 
+@pytest.mark.parametrize('updates', [
+    {}, {'problemConfirmed': False}, {'problemConfirmed': 'true'},
+    {'problemConfirmed': True, 'workText': '3/2 = 1'},
+    {'problemConfirmed': True, 'workConfirmed': True, 'workText': '3/[?]'},
+])
+def test_unconfirmed_or_unread_source_cannot_construct_a_lesson(updates):
+    from pydantic import ValidationError
+    with pytest.raises(ValidationError):
+        LessonRequest(owner='student-a', problemText=PROBLEM, **updates)
+
+
 @pytest.mark.asyncio
 async def test_geometry_guides_three_reasoning_steps_without_returning_answer_keys():
-    response = await start_lesson(LessonRequest(owner='student-a', problemText=PROBLEM))
+    response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM))
     assert len(response.outline) == 3
     assert response.step.choices == ['Chiều cao', 'Chu vi', 'Đường chéo AC']
     assert '138' not in response.model_dump_json() and '12' not in response.model_dump_json()
@@ -47,7 +58,7 @@ async def test_geometry_guides_three_reasoning_steps_without_returning_answer_ke
 
 @pytest.mark.asyncio
 async def test_geometry_uses_changed_givens_not_a_hardcoded_example():
-    response = await start_lesson(LessonRequest(owner='student-a', problemText=PROBLEM.replace('8 cm', '10 cm').replace('90 cm', '75 cm')))
+    response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM.replace('8 cm', '10 cm').replace('90 cm', '75 cm')))
     response = turn(response, 'Chiều cao')
     response = turn(response, '10')
     response = turn(response, '125')
@@ -56,7 +67,7 @@ async def test_geometry_uses_changed_givens_not_a_hardcoded_example():
 
 @pytest.mark.asyncio
 async def test_accounts_cannot_access_each_others_lesson_or_replay_old_step():
-    response = await start_lesson(LessonRequest(owner='student-a', problemText=PROBLEM))
+    response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM))
     with pytest.raises(LessonExpired):
         turn(response, 'Chiều cao', owner='student-b')
     turn(response, 'Chiều cao')
@@ -70,14 +81,14 @@ async def test_accounts_cannot_access_each_others_lesson_or_replay_old_step():
 @pytest.mark.asyncio
 @pytest.mark.parametrize('answer', ['90 × 2 ÷ 15 = 12', '12 cm', '12; import os', 'Infinity', 'NaN'])
 async def test_only_a_single_numeric_answer_is_accepted(answer):
-    response = await start_lesson(LessonRequest(owner='student-a', problemText=PROBLEM))
+    response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM))
     response = turn(response, 'Chiều cao')
     assert turn(response, answer).status == 'TRY_AGAIN'
 
 
 @pytest.mark.asyncio
 async def test_work_is_grouped_with_its_reason_and_compared_only_after_student_response():
-    response = await start_lesson(LessonRequest(owner='student-a', problemText=PROBLEM, workText=WORK.replace('= 12', '= 11')))
+    response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM, workText=WORK.replace('= 12', '= 11')))
     response = turn(response, 'Chiều cao')
     assert 'chiều cao AH' in response.step.workExcerpt
     assert '= 11' in response.step.workExcerpt
@@ -99,7 +110,7 @@ async def test_cloud_plan_keeps_keys_private_and_validates_arithmetic(monkeypatc
         dict(title='Tính số bút', explanation='Gộp số bút ban đầu với số bút được thêm.', question='Em tính được bao nhiêu bút?', expression='12+5', unit='bút'),
     ])
     monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
-    response = await start_lesson(LessonRequest(owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
+    response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
     # Opaque random session IDs may contain these digits without revealing an
     # answer. Check every learning-content field, including completed steps.
     assert '17' not in response.model_dump_json(exclude={'sessionId'})
@@ -107,7 +118,7 @@ async def test_cloud_plan_keeps_keys_private_and_validates_arithmetic(monkeypatc
     assert turn(response, '17').status == 'COMPLETE'
     plan['steps'][1]['question'] = 'Kết quả là 17 bút, đúng không?'
     with pytest.raises(TutorUnavailable):
-        await start_lesson(LessonRequest(owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
+        await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
 
 
 @pytest.mark.asyncio
@@ -118,15 +129,15 @@ async def test_cloud_plan_must_not_invent_givens_or_copy_ungrounded_work(monkeyp
     ])
     monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
     with pytest.raises(TutorUnavailable):
-        await start_lesson(LessonRequest(owner='student-a', problemText='Lan có 12 bút, được cho 5 bút.'))
+        await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút.'))
 
 
 @pytest.mark.asyncio
 async def test_missing_or_uncertain_original_problem_cannot_start_lesson():
     with pytest.raises(ValueError):
-        LessonRequest(owner='student-a', problemText='', workText=WORK)
+        LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='', workText=WORK)
     with pytest.raises(ValueError):
-        await start_lesson(LessonRequest(owner='student-a', problemText=PROBLEM.replace('90', '[?]')))
+        await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM.replace('90', '[?]')))
 
 
 @pytest.mark.asyncio
@@ -142,4 +153,4 @@ async def test_every_generated_public_field_is_checked_before_lesson_is_opened(m
         plan['steps'][1][field] = value
     monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
     with pytest.raises(TutorUnavailable):
-        await start_lesson(LessonRequest(owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
+        await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))

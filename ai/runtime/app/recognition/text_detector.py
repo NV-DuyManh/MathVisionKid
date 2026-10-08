@@ -374,7 +374,198 @@ def detect_crop_regions(bgr):
         return clipped
     from app.tutoring.rows import coloured_strip_regions
     coloured=coloured_strip_regions(bgr)
-    return coloured if coloured else _chalk_strip_regions(bgr)
+    if coloured:
+        return coloured
+    chalk = _chalk_strip_regions(bgr)
+    if chalk is None or chalk:
+        return chalk
+    neutral = _neutral_strip_regions(bgr)
+    return neutral if neutral else _context_crop_regions(bgr)
+
+
+def _curved_ink_parts(mask, minimum_height, maximum_width):
+    """Keep letter-shaped components; straight partial rulings are not bodies."""
+    _, labels, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    parts = stats[1:]
+    eligible = ((parts[:, 4] >= 8) & (parts[:, 3] >= minimum_height) &
+                (parts[:, 2] >= 2) & (parts[:, 2] <= maximum_width) &
+                (parts[:, 4] < parts[:, 2] * parts[:, 3] * .85))
+    curved = []
+    for ident, (x, y, width, height, area) in zip(np.flatnonzero(eligible) + 1, parts[eligible]):
+        yy, xx = np.nonzero(labels[y:y+height, x:x+width] == ident)
+        occupied = np.unique(yy)
+        centerline = np.bincount(yy, weights=xx) / np.maximum(1, np.bincount(yy))
+        slope, offset = np.polyfit(occupied, centerline[occupied], 1)
+        if np.max(abs(centerline[occupied] - (slope * occupied + offset))) > max(.6, height * .025):
+            curved.append((x, y, width, height, area))
+    return stats, np.array(curved, dtype=int).reshape(-1, 5)
+
+
+def _context_crop_regions(bgr, *, smooth_paper=False):
+    """Retry empty small crops with source contrast and bounded model context.
+
+    Learned seeds need several actual curved ink bodies on one baseline. Extend
+    only through nearby source ink; incomplete crops remain review candidates.
+    Existing detections and missing-model behavior are handled by the caller.
+    """
+    from app.tutoring.rows import _has_stacked_fraction
+    height, width = bgr.shape[:2]
+    if not (12 <= height <= 320 and height * 2 <= width <= 4096):
+        return []
+    hue, saturation, value = cv2.split(cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV))
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    board = (35 <= np.median(hue) <= 125 and np.median(saturation) > 40 and np.median(value) < 155)
+    warm_paper = (5 <= np.median(hue) <= 35 and np.median(saturation) < 150 and np.median(value) > 150)
+    if not board and (np.median(gray) < 100 or (np.mean(saturation > 90) > .3 and not warm_paper)):
+        return []
+    def retry_paper_texture():
+        # One bounded retry after unchanged raw/contrast passes. Smoothing the
+        # source's paper grain must never relax row or fraction safeguards.
+        return _context_crop_regions(bgr, smooth_paper=True) if warm_paper and not board and not smooth_paper else []
+
+    if board:
+        gray = 255 - gray
+    elif smooth_paper:
+        gray = cv2.GaussianBlur(gray, (3, 3), 0)
+    kernel = max(9, round(height * .4)) | 1
+    background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, np.ones((kernel, kernel), np.uint8))
+    mask = ((gray.astype(float) < background.astype(float) * .9) &
+            (background.astype(float) - gray.astype(float) > 8)).astype(np.uint8)
+    if board:
+        mask = ((saturation < 85) & (value > float(np.median(value)) + 35)).astype(np.uint8)
+    for size in [(1, max(12, round(width * .45))), (max(12, round(height * .85)), 1)]:
+        rulings = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones(size, np.uint8))
+        mask[rulings > 0] = 0
+    stats, bodies = _curved_ink_parts(mask, max(4, height * .08), height * 3)
+    if len(bodies) < 4:
+        return retry_paper_texture()
+    scale = min(3., 1280 / max(height, width))
+    # At most three local inferences, including the optional paper retry.
+    # Do not alter thresholds or download weights.
+    variants = [gray] if smooth_paper else [gray, cv2.createCLAHE(clipLimit=3, tileGridSize=(8, 4)).apply(gray)]
+    for variant in variants:
+        resized = cv2.resize(variant, (max(1, round(width * scale)), max(1, round(height * scale))))
+        sx, sy = resized.shape[1] / width, resized.shape[0] / height
+        padded = cv2.copyMakeBorder(resized, 64, 64, 64, 64, cv2.BORDER_CONSTANT, value=255)
+        regions = detect_text_regions(cv2.cvtColor(padded, cv2.COLOR_GRAY2BGR))
+        if regions is None:
+            return None
+        accepted = []
+        for x1, y1, x2, y2 in sorted(regions, key=lambda box: (box[1], box[0])):
+            x1, y1 = max(0, int(np.floor((x1-64)/sx))), max(0, int(np.floor((y1-64)/sy)))
+            x2, y2 = min(width, int(np.ceil((x2-64)/sx))), min(height, int(np.ceil((y2-64)/sy)))
+            if x2-x1 < width * .5 or not max(4, height * .15) <= y2-y1 < height * .75:
+                continue  # A word fragment or a box swallowing two rows is insufficient.
+            row_stats, row = _curved_ink_parts(mask[y1:y2], max(4, (y2-y1) * .25), height * 3)
+            if len(row) < 4:
+                continue
+            body = float(np.median(row[:, 3]))
+            # Fraction tiers can have more whitespace than ordinary letters.
+            # Broaden their vertical guard only for dense straight bars, so a
+            # cursive accent/loop cannot impersonate a fraction divider.
+            fraction_stats = stats.copy()
+            thin = fraction_stats[:, 3] < body * .4
+            bar_like = ((fraction_stats[:, 2] >= fraction_stats[:, 3] * 4) &
+                        (fraction_stats[:, 4] >= fraction_stats[:, 2] * fraction_stats[:, 3] * .7))
+            fraction_stats[thin & ~bar_like, 4] = 0
+            if (_has_stacked_fraction(fraction_stats, body * 1.5) or
+                    _has_stacked_fraction(row_stats, body)):
+                continue  # Never turn numerator/denominator tiers into prose lines.
+            xs = row[:, 0] + row[:, 2]/2
+            bottoms = row[:, 1] + row[:, 3]
+            slope, offset = np.polyfit(xs, bottoms, 1, w=np.sqrt(row[:, 4]))
+            residuals = bottoms - (slope * xs + offset)
+            aligned = abs(residuals) <= body * 1.2
+            ranks = np.argsort(residuals)
+            mass = np.cumsum(row[ranks, 4])
+            quartiles = residuals[ranks[np.searchsorted(mass, mass[-1] * np.array([.25, .75]))]]
+            covered = (row[:, 0] >= x1-body*.5) & (row[:, 0]+row[:, 2] <= x2+body*.5)
+            ordered = row[np.argsort(row[:, 0])]
+            gaps = ordered[1:, 0] - (ordered[:-1, 0] + ordered[:-1, 2])
+            if (abs(slope) > .2 or np.ptp(quartiles) > body * .8 or
+                    row[aligned, 4].sum() < row[:, 4].sum() * .8 or
+                    row[covered, 4].sum() < row[:, 4].sum() * .5 or
+                    np.ptp(xs) < width * .45 or gaps.max() > body * 5):
+                continue
+            lo = row[:, :2].min(axis=0) + [0, y1]
+            hi = (row[:, :2] + row[:, 2:4]).max(axis=0) + [0, y1]
+            parts = stats[1:]
+            centers = parts[:, 1] + parts[:, 3]/2
+            ends = parts[(parts[:, 4] >= 4) & (parts[:, 3] >= 2) & (parts[:, 2] <= height * 3) &
+                         (parts[:, 0] >= lo[0]-body) & (parts[:, 0]+parts[:, 2] <= hi[0]+body) &
+                         (parts[:, 1] >= y1-body*.5) & (parts[:, 1]+parts[:, 3] <= y2+body*.3) &
+                         (parts[:, 1]+parts[:, 3] >= y1+body*.5) &
+                         (centers >= y1-body*.15) & (centers <= y2)]
+            if len(ends):
+                lo = np.minimum(lo, ends[:, :2].min(axis=0))
+                hi = np.maximum(hi, (ends[:, :2] + ends[:, 2:4]).max(axis=0))
+            box = (max(0, min(x1, int(lo[0])-3)), max(0, min(y1, int(lo[1]))-3),
+                   min(width, max(x2, int(hi[0])+3)), min(height, y2+3))
+            if not accepted or box[1] >= accepted[-1][3]:
+                accepted.append(box)
+        if accepted:
+            return accepted
+    return retry_paper_texture()
+
+
+def _neutral_strip_regions(bgr):
+    """Recover one supported dark-ink row after empty learned/colour passes.
+
+    Local contrast separates pencil/black ink from paper shading. Multiple
+    aligned glyph bodies must establish the row; grids, shadows and two-row
+    crops stay empty. These boxes require review, never certify a transcript.
+    """
+    height, width = bgr.shape[:2]
+    if not (8 <= height <= 128 and height * 4 <= width <= 4096):
+        return []
+    saturation = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)[:, :, 1]
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    if np.median(gray) < 100 or np.mean(saturation > 90) > .3:
+        return []
+    kernel = max(5, round(height * .35)) | 1
+    background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE,
+                                 np.ones((kernel, kernel), np.uint8))
+    mask = (gray.astype(float) < background.astype(float) * .7).astype(np.uint8)
+    _, labels, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    parts = stats[1:]
+    eligible = ((parts[:, 4] >= 8) & (parts[:, 3] >= height * .3) &
+                (parts[:, 3] < height * .9) & (parts[:, 2] >= 2) &
+                (parts[:, 2] <= height * 3) &
+                (parts[:, 4] < parts[:, 2] * parts[:, 3] * .85))
+    bodies = parts[eligible]
+    if not 4 <= len(bodies) <= 200:
+        return []
+    body = float(np.median(bodies[:, 3]))
+    curved = 0
+    for ident, (x, y, cw, ch, _) in zip(np.flatnonzero(eligible) + 1, bodies):
+        yy, xx = np.nonzero(labels[y:y+ch, x:x+cw] == ident)
+        centerline = np.bincount(yy, weights=xx) / np.maximum(1, np.bincount(yy))
+        occupied = np.unique(yy)
+        slope, offset = np.polyfit(occupied, centerline[occupied], 1)
+        curved += np.max(abs(centerline[occupied] - (slope * occupied + offset))) > max(.6, body * .025)
+    if curved < max(3, len(bodies) * .5):
+        return []  # Parallel partial rulings do not establish letter shapes.
+    centers = bodies[:, 0] + bodies[:, 2] / 2
+    bottoms = bodies[:, 1] + bodies[:, 3]
+    if np.ptp(centers) < width * .4:
+        return []
+    slope, offset = np.polyfit(centers, bottoms, 1)
+    if (abs(slope) > .15 or np.max(abs(bottoms - (slope * centers + offset))) > body * .35
+            or np.max(np.diff(np.sort(centers))) > body * 6):
+        return []
+    x1, y1 = bodies[:, :2].min(axis=0)
+    x2, y2 = (bodies[:, :2] + bodies[:, 2:4]).max(axis=0)
+    # Include detached accents in this band, without touching another row.
+    marks = parts[(parts[:, 4] >= 4) & (parts[:, 3] >= 2) & (parts[:, 3] <= body * .5) &
+                  (parts[:, 2] <= body * .7) & (parts[:, 0] >= x1 - body * .3) &
+                  (parts[:, 0] + parts[:, 2] <= x2 + body * .3) &
+                  (parts[:, 1] >= y1 - body * .5) &
+                  (parts[:, 1] + parts[:, 3] <= y2)]
+    if len(marks):
+        x1, y1 = np.minimum([x1, y1], marks[:, :2].min(axis=0))
+        x2, y2 = np.maximum([x2, y2], (marks[:, :2] + marks[:, 2:4]).max(axis=0))
+    return [(max(0, int(x1) - 3), max(0, int(y1) - 3),
+             min(width, int(x2) + 3), min(height, int(y2) + 3))]
 
 
 def _chalk_strip_regions(bgr):

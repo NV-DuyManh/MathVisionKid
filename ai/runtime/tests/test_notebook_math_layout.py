@@ -47,6 +47,31 @@ def test_overwritten_digit_is_uncertain_without_changing_readable_neighbours():
     assert line.uncertain and '72[?]0' in line.text and '0[?]5' in line.text
 
 
+def test_letter_between_written_digits_becomes_unknown_without_guessing_or_mutating_provider():
+    raw = {'dividend': '68721', 'divisor': '9', 'quotient': '76304', 'rows': ['057', '0M5']}
+    value = notebook.WrittenDivision.model_validate(notebook._mark_unread_division_digits(raw))
+    assert value.rows == ['057', '0[?]5']
+    assert raw['rows'] == ['057', '0M5']
+    assert notebook.NotebookLine(text='division', layout='LONG_DIVISION', division=value).uncertain
+
+
+def test_unread_division_marker_does_not_accept_nontranscription_content():
+    raw = {'dividend': '8;run', 'divisor': '9', 'quotient': '1', 'rows': ['calculate 15']}
+    with pytest.raises(ValidationError):
+        notebook.WrittenDivision.model_validate(notebook._mark_unread_division_digits(raw))
+
+
+def test_panel_read_with_an_unread_glyph_keeps_the_division_for_pupil_review(monkeypatch):
+    first = {'kind': 'WORK', 'lines': [{'text': v, 'role': 'EQUATION'} for v in ['68721', '9', '76304', '057', '015']]}
+    second = {'dividend': '68721', 'divisor': '9', 'quotient': '76304', 'rows': ['057', '0M5']}
+    monkeypatch.setattr(notebook, 'division_panels', lambda _: 'source panels')
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(side_effect=[first, second]))
+    result = asyncio.run(notebook.inspect_notebook(photo()))
+    assert len(result.lines) == 1 and result.lines[0].uncertain
+    assert result.lines[0].division.rows == ['057', '0[?]5']
+    assert result.lines[0].division.quotient == '76304'
+
+
 @pytest.mark.parametrize('text', ['(3)/(2)', '13/2', '(3)/(2) + (1)/(4) = (7)/(4)',
                                 '2 (3)/(2)', '(7+44)/(24)', '(3+5)/8', '[?]/2'])
 def test_fraction_tiers_keep_one_expression(text):
@@ -183,12 +208,79 @@ def school_division(x=185, width=400):
     return image
 
 
+@pytest.mark.parametrize('ink', [(35, 35, 35), (90, 90, 90)])
+def test_neutral_fraction_support_keeps_both_tiers_and_rejects_rulings(ink):
+    pixels = np.full((240, 120, 3), 248, np.uint8)
+    cv2.putText(pixels, '3', (35, 70), cv2.FONT_HERSHEY_SIMPLEX, 1.2, ink, 3)
+    cv2.line(pixels, (25, 105), (85, 105), ink, 3)
+    cv2.putText(pixels, '2', (35, 180), cv2.FONT_HERSHEY_SIMPLEX, 1.2, ink, 3)
+    original = pixels.copy()
+    assert isolated_fraction(pixels)
+    assert fraction_expression(np.concatenate([pixels, pixels], axis=1))
+    assert np.array_equal(pixels, original)
+    assert not isolated_fraction(np.concatenate([pixels, pixels], axis=0))
+    assert not fraction_expression(np.tile(pixels, (3, 3, 1)))
+    assert division_panels(pixels) is None  # Neutral division path remains unchanged.
+    pixels[100:110] = 248
+    cv2.line(pixels, (0, 105), (119, 105), ink, 3)
+    assert not isolated_fraction(pixels)  # A full-width ruling is insufficient.
+    assert not fraction_expression(np.concatenate([pixels, pixels], axis=1))
+
+
+def test_neutral_prose_grid_colon_and_subtraction_do_not_trigger_fraction_retry():
+    pixels = np.full((220, 500, 3), 240, np.uint8)
+    for text in ('3 : 2', '3 - 2', 'Read this row', '1 + 2 = 3'):
+        pixels[:] = 240
+        cv2.putText(pixels, text, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1, (40, 40, 40), 2)
+        assert not isolated_fraction(pixels) and not fraction_expression(pixels)
+    pixels[:] = 240
+    for x in range(0, 500, 20):
+        cv2.line(pixels, (x, 0), (x, 219), (130, 130, 130), 1)
+    for y in range(0, 220, 20):
+        cv2.line(pixels, (0, y), (499, y), (130, 130, 130), 1)
+    assert not isolated_fraction(pixels) and not fraction_expression(pixels)
+
+
+def test_ruling_fragments_around_one_fraction_are_not_multiple_fractions():
+    pixels = np.full((240, 120, 3), 248, np.uint8)
+    cv2.putText(pixels, '3', (35, 70), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (35, 35, 35), 3)
+    cv2.putText(pixels, '2', (35, 180), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (35, 35, 35), 3)
+    for y in (95, 105, 115):
+        cv2.line(pixels, (25, y), (85, y), (35, 35, 35), 2)
+    assert not fraction_expression(pixels)
+    assert fraction_expression(np.concatenate([pixels, pixels], axis=1))
+
+
 def test_division_bracket_panels_require_one_complete_layout():
     assert division_panels(school_division())
     assert not fraction_expression(school_division())
     pair = np.concatenate([school_division(), school_division()], axis=1)
     assert division_panels(pair) is None
     assert division_panels(np.full((320, 400, 3), 248, np.uint8)) is None
+
+
+def test_division_panels_retain_full_source_when_work_crosses_bracket():
+    import base64
+    import io
+    from PIL import Image
+    pixels = school_division()
+    # This later working row crosses the column boundary; it must stay visible
+    # even though the labelled left-column crop cannot contain its final digit.
+    cv2.putText(pixels, '015', (150, 275), cv2.FONT_HERSHEY_SIMPLEX, 1, (140, 40, 20), 2)
+    encoded = division_panels(pixels)
+    assert encoded
+    canvas = np.asarray(Image.open(io.BytesIO(base64.b64decode(encoded))))
+    source = canvas[-pixels.shape[0]-15:-15, 12:12+pixels.shape[1]]
+    expected = cv2.cvtColor(pixels, cv2.COLOR_BGR2RGB)
+    assert source.shape == expected.shape
+    assert np.abs(source.astype(float) - expected.astype(float)).mean() < 3
+
+
+def test_division_bracket_accepts_a_small_source_gap_without_accepting_two_exercises():
+    pixels = school_division()
+    pixels[75:82, 185:198] = 248
+    assert division_panels(pixels)
+    assert division_panels(np.concatenate([pixels, pixels], axis=1)) is None
 
 
 def test_fraction_retry_preserves_visible_operands_when_result_is_overwritten(monkeypatch):

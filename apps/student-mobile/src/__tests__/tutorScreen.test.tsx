@@ -44,7 +44,11 @@ beforeEach(() => {
   (TutorService.answerLesson as jest.Mock).mockResolvedValue({ ...LESSON, status: 'TRY_AGAIN', feedback: 'Em thử chọn lại nhé.' });
 });
 afterEach(() => { if (view) act(() => view.unmount()); });
-const render = async () => { await act(async () => { view = TestRenderer.create(<MathGuideScreen />); }); };
+const render = async (confirmProblem = true) => {
+  await act(async () => { view = TestRenderer.create(<MathGuideScreen />); });
+  if (confirmProblem && button('Em đã kiểm tra đề bài và các số') && !button('Em đã kiểm tra đề bài và các số').props.disabled)
+    act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
+};
 
 it('returns home when a lesson is opened without navigation history', async () => {
   const replace = jest.fn();
@@ -65,6 +69,19 @@ const divisionPhoto = () => {
   (TutorService.inspect as jest.Mock).mockResolvedValue({ kind: 'WORK', problemText: '', needsProblem: true,
     lines: [{ text: '17843 : 3', box: null, uncertain: true, division }] });
 };
+
+it('keeps the division editor and companion text when a photo has one division plus a note', async () => {
+  divisionPhoto();
+  (TutorService.inspect as jest.Mock).mockResolvedValue({ kind: 'WORK', problemText: '', needsProblem: true,
+    lines: [{ text: '17843 : 3', box: null, uncertain: true, division },
+      { text: 'Chữ ghi bên cạnh', box: null, uncertain: false }] });
+  await render();
+  expect(input('Thương em viết').props.value).toBe('59947');
+  expect(readText()).toContain('Chữ ghi bên cạnh');
+  act(() => input('Thương em viết').props.onChangeText('5947'));
+  expect(input('Thương em viết').props.value).toBe('5947');
+  expect(readText()).toContain('Chữ ghi bên cạnh');
+});
 
 it('reviews every long-division field before grading and lets the pupil repair a wrong quotient', async () => {
   divisionPhoto(); await render();
@@ -145,7 +162,7 @@ it('asks for a smaller crop without starting a lesson from an incomplete page', 
 it('starts meaningful reasoning steps without displaying the answer key', async () => {
   await render();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
-  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '', expect.anything());
+  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '', { problemConfirmed: true, workConfirmed: false }, expect.anything());
   expect(readText()).toContain('Em tìm gì trước?');
   expect(readText()).not.toContain('138');
   expect(button('Xem bước tiếp')).toBeUndefined();
@@ -213,8 +230,9 @@ it('combines the second privacy-approved problem photo with the first work', asy
   (TutorService.inspect as jest.Mock).mockResolvedValue({ kind: 'PROBLEM', problemText: PROBLEM, lines: [], needsProblem: false });
   await render();
   expect(readText()).toContain(PROBLEM);
+  act(() => button('Em đã đối chiếu bài làm với ảnh').props.onPress());
   await act(async () => { await button('Cùng hiểu và đối chiếu bài').props.onPress(); });
-  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '90 × 2 : 15 = 12 (cm)', expect.anything());
+  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '90 × 2 : 15 = 12 (cm)', { problemConfirmed: true, workConfirmed: true }, expect.anything());
   act(() => button('Xem bài em đã viết').props.onPress());
   expect(view.root.findAll(node => node.props.accessibilityLabel === 'Ảnh bài em đã làm')[0].props.source.uri).toBe('file:///previous-masked.jpg');
 });
@@ -233,8 +251,9 @@ it('allows a manually supplied original question without losing work', async () 
   act(() => button('Nhập đề bài').props.onPress());
   act(() => input('Nội dung đề bài').props.onChangeText(PROBLEM));
   act(() => button('Dùng nội dung này').props.onPress());
+  act(() => button('Em đã đối chiếu bài làm với ảnh').props.onPress());
   await act(async () => { await button('Cùng hiểu và đối chiếu bài').props.onPress(); });
-  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, WORK.lines.map(row => row.text).join('\n'), expect.anything());
+  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, WORK.lines.map(row => row.text).join('\n'), { problemConfirmed: true, workConfirmed: true }, expect.anything());
 });
 
 it('offers recropping for several exercises', async () => {
@@ -259,8 +278,39 @@ it('does not use uncertain work as a basis for comparing a method', async () => 
     lines: WORK.lines.map(row => ({ ...row, uncertain: true })) });
   await render();
   await act(async () => { await button('Cùng hiểu và đối chiếu bài').props.onPress(); });
-  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '', expect.anything());
+  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '', { problemConfirmed: true, workConfirmed: false }, expect.anything());
   expect(readText()).toContain('chưa đọc rõ');
+});
+
+it('blocks even confident photo text until the pupil confirms and invalidates confirmation on editing', async () => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockResolvedValue({ ...WORK, kind: 'MIXED', problemText: PROBLEM });
+  await render(false);
+  expect(button('Cùng hiểu và đối chiếu bài').props.disabled).toBe(true);
+  act(() => button('Cùng hiểu và đối chiếu bài').props.onPress());
+  expect(TutorService.startLesson).not.toHaveBeenCalled();
+  act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
+  await act(async () => { button('Cùng hiểu và đối chiếu bài').props.onPress(); });
+  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '', { problemConfirmed: true, workConfirmed: false }, expect.anything());
+  act(() => button('Chỉnh đề bài').props.onPress());
+  act(() => input('Nội dung đề bài').props.onChangeText(PROBLEM.replace('90', '[?]')));
+  act(() => button('Dùng nội dung này').props.onPress());
+  expect(button('Em đã kiểm tra đề bài và các số').props.disabled).toBe(true);
+  expect(button('Cùng hiểu và đối chiếu bài')).toBeUndefined();
+});
+
+it('preserves a wrong written value and uses work only after explicit source review', async () => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockResolvedValue({ kind: 'MIXED', problemText: PROBLEM, needsProblem: false,
+    lines: [{ text: '4(3x - 5) + 15 = 11', box: null, uncertain: false }] });
+  await render();
+  expect(readText()).toContain('4(3x - 5) + 15 = 11');
+  act(() => button('Chỉnh chỗ chưa đọc đúng').props.onPress());
+  act(() => input('Nội dung bài làm').props.onChangeText('4(2x - 5) + 15 = 11'));
+  act(() => button('Dùng nội dung này').props.onPress());
+  await act(async () => { button('Cùng hiểu và đối chiếu bài').props.onPress(); });
+  expect(TutorService.startLesson).toHaveBeenCalledWith(PROBLEM, '4(2x - 5) + 15 = 11',
+    { problemConfirmed: true, workConfirmed: true }, expect.anything());
 });
 
 it('shows the explanation before the pupil answers, rather than a generic extra hint', async () => {

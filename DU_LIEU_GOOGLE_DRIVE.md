@@ -83,7 +83,42 @@ Helper xác minh SHA-256 của cả ZIP trước khi khôi phục, kiểm tra t�
 
 Đọc `--list` để biết các ID thực sự có trong danh mục hiện tại. Những file đã được Git theo dõi, gồm dữ liệu quarantine, vẫn ở repo.
 
+## Bằng chứng nhận diện ngày 08/10/2026
+
+Gói `line-repair-20261008` chứa kết quả kiểm tra lại dòng ảnh, danh sách ảnh
+không có chữ và bản sửa khung nhãn riêng. Xem [báo cáo chi tiết](report/LINE_REPAIR_AND_SOURCE_TRIAGE_20261008.md)
+và danh mục ZIP để khôi phục đúng phần cần dùng. Nhãn gốc vẫn giữ cho so sánh
+lịch sử; bản sửa khung không tự trở thành nhãn chữ được duyệt để train.
+
+Gói tiếp nối `line-expansion-20261008` lưu baseline, kết quả cuối, 1.000 ảnh
+hồi quy bổ sung và manifest `empty_triage_expansion_20261008.json`. Xem
+[báo cáo mở rộng](report/LINE_CONTEXT_EXPANSION_20261008.md). Chín ảnh có chữ
+được phục hồi thêm khung ứng viên, vẫn cần kiểm tra; nhãn chữ chưa được duyệt
+và không tự đưa vào train. Giữ manifest cũ để so sánh lịch sử.
+
 ## Tiếp tục kiểm thử OCR
+
+Gói `sparse-ink-20261008` lưu đợt tiếp theo: kiểm tra local 1.671 ảnh, thêm một
+khung dòng chữ chì và giữ nguyên 1.500 kết quả hồi quy. Gói còn lưu 85/100 lượt
+đọc trang đã hoàn tất và bảy bản đối chiếu chữ từ ảnh gốc; 15 trang chờ dịch vụ.
+Xem [báo cáo đối chiếu mới](report/PAPER_TEXTURE_AND_TRANSCRIPT_REVIEW_20261008.md).
+Các bản trong `source_review_texture_20261008` có phạm vi rõ ràng, giữ chỗ chữ
+gạch sửa chưa chắc chắn và không tự thành nhãn được duyệt để train.
+
+Đợt tiếp nối `math-source-safety-20261008` đã đọc xong **15 trang chờ** ở thư
+mục riêng `all_current_20261007/cloud_pending15_20261008`, giữ nguyên byte của
+85 kết quả trước. Tổng hàng đợi 1.319 trang hiện có **139 lượt đọc đã lưu và
+1.180 trang còn chờ**; chưa phải toàn bộ ảnh đã nhận chữ chính xác. Gói lưu
+18 lựa chọn phép chia/phân số từ năm ảnh nguồn, 52 thử nghiệm trên 13 crop khó,
+ảnh kiểm tra giao diện và biên nhận kiểm thử. Xem
+[báo cáo mới](report/MATH_SOURCE_CONFIRMATION_AND_REMAINDER_20261008.md).
+Các crop khó và bảy mảnh cắt thiếu nét vẫn cần xem lại; không tự duyệt nhãn để
+train. App đã thêm bước xác nhận đề/bài làm trước khi dùng nội dung nhận diện.
+
+```powershell
+py -3 .\scripts\data\restore_drive_archive.py --id math-source-safety-20261008 `
+  --prefix 'ai-training/datasets/drive_math/all_current_20261007/cloud_pending15_20261008'
+```
 
 Đọc [quy trình kiểm thử Drive](docs/DRIVE_DATA_STORAGE.md) trước khi chọn batch. Bộ đọc chung kiểm tra hash từng ảnh; Drive mất kết nối, thiếu ảnh hoặc byte nguồn thay đổi sẽ báo lỗi, không thay ảnh khác hay bịa kết quả.
 
@@ -94,7 +129,34 @@ Trước khi chạy công cụ lịch sử:
 - Khôi phục `crossdataset_aliases_20261005.jsonl`, `embedded_rows.jsonl` hoặc `dimension_index.jsonl` trước các báo cáo coverage/Parquet lịch sử tương ứng.
 - Giữ kết quả cloud và queue hiện tại để tránh gọi API lặp. Không coi dự đoán OCR hoặc nhãn nháp là nhãn đúng đã duyệt; không tự train model chỉ vì dữ liệu đã khôi phục.
 
-## Vì sao không đưa mọi thứ lên G?
+## Cập nhật hàng đợi OCR ngày 08/10/2026
+
+Đợt tiếp theo đã lưu thêm 63 lượt đọc, nâng tổng hàng đợi cố định lên
+**202/1.319 trang; còn 1.117 trang chờ dịch vụ**. Kết quả có cả ảnh không đọc
+được, nên số này không phải tỷ lệ nhận chữ đúng. 139 kết quả cũ giữ nguyên byte.
+
+Gói `ocr-completion-20261008` lưu nhãn theo vùng đã xem trực tiếp, bản OCR local
+thử nghiệm, số liệu đánh giá và bằng chứng. Model thử nghiệm **chưa đạt tiêu chí
+và không thay model app**. Đọc
+[báo cáo](report/OCR_COMPLETION_AND_CANDIDATE_20261008.md),
+[hướng dẫn duyệt nhãn/train](docs/OCR_REVIEW_AND_TRAINING.md) và
+[checklist điện thoại](docs/PHONE_TEST_HANDOFF.md).
+
+```powershell
+py -3 .\scripts\data\restore_drive_archive.py --id ocr-completion-20261008 `
+  --prefix 'ai-training/datasets/drive_math/all_current_20261007/cloud_remaining1180_20261008'
+```
+
+Lệnh batch nay giữ thời gian chờ khi dịch vụ lỗi, kể cả mở lại chương trình;
+exit code 2 nghĩa là chưa đọc hết. Không tự coi dự đoán là nhãn đúng để train.
+
+## Lưu trữ cloud và dữ liệu cần giữ local
+
+Đợt OCR tiếp theo có **209/1.319 kết quả đọc đã lưu, còn 1.110 ảnh chờ**;
+kết quả dự đoán chưa tự thành nhãn đúng. Gói `ocr-fields-decoder-20261008`
+bổ sung nhãn phạm vi các ô số, hai model thử chưa đạt và bằng chứng kiểm tra.
+Model app vẫn được giữ nguyên. Xem [báo cáo](report/OCR_FIELDS_AND_DECODER_20261008.md)
+và [cách khôi phục](docs/DRIVE_DATA_STORAGE.md#numeric-fields-and-decoder-follow-up-2026-10-08).
 
 Ổ G là cửa vào dữ liệu cloud, không phải ổ SSD mới. Drive vẫn tải/cache file trên máy khi mở; một lần khôi phục ZIP có thể cần tải cả ZIP để xác minh hash. Dung lượng hiển thị cho G trong File Explorer có thể phản ánh ổ chứa cache, còn hạn mức tài khoản xem ở Google One.
 
@@ -103,3 +165,35 @@ Code, thư viện, model đang dùng và SQLite đang ghi cần filesystem local
 Sau khi Drive xác nhận đồng bộ đầy đủ và bản trên cloud đã được đối chiếu, mới cân nhắc dọn bản local không cần dùng nữa. Không xóa thủ công cache Drive đang có upload chờ. Việc lưu trữ này không phải lần train model và không chứng minh độ chính xác nhận diện.
 
 Đợt chuyển ngày 07/10/2026 đã dọn 292.250 bản file local sau khi xác minh. Chín ZIP tạm tại `infra/local-runtime/storage-offload-20261007/staging` vẫn còn vì bộ xét duyệt tự động chặn bước xóa; chúng trùng các gói đã xác nhận trên Drive, không phải dữ liệu cần cho app. Xem [báo cáo chuyển dữ liệu](report/DRIVE_COLD_STORAGE_OFFLOAD_20261007.md) để biết phần đã hoàn tất và phần còn giữ.
+
+## Bằng chứng OCR tiếp theo ngày 08/10/2026
+
+Đợt sau đạt **238/1.319 kết quả đọc đã lưu, còn 1.081 ảnh chờ**. Gói riêng
+`ocr-visual-numeric-20261008` trên ổ G giữ các nhãn đã duyệt theo vùng, bản model
+thử nghiệm, ảnh kiểm tra, kết quả thô và mã train. Đã kiểm tra hash từng file
+trong ZIP và khôi phục thử sang thư mục mới. Chưa xác nhận độc lập việc upload
+hoàn tất lên máy chủ Google, nên vẫn giữ bằng chứng đang làm việc.
+
+Bản thử đọc đúng 46/57 ô số, rồi bản học thêm đọc đúng 17/19 ô số trên ảnh khác;
+cả hai vẫn có lỗi chữ số nên **chưa thay model app**. Đây là kết quả trên vùng
+cắt đã duyệt, không phải tuyên bố mọi ảnh hay toàn bộ phép chia đều đúng.
+Đọc [báo cáo](report/OCR_VISUAL_AND_NUMERIC_ADAPTATION_20261008.md) và
+[lệnh khôi phục](docs/DRIVE_DATA_STORAGE.md#visual-and-numeric-adaptation-archive-2026-10-08).
+
+Lượt tiếp theo lưu thêm sáu ảnh: **244/1.319 kết quả, còn 1.075 ảnh chờ**.
+Gói bổ sung `ocr-visual-numeric-final-20261008` giữ trạng thái này và các ảnh
+kiểm tra khung tự nhận diện. Gói đầu vẫn giữ nguyên mốc 238 kết quả. Đừng khôi
+phục gói cũ đè lên hàng đợi mới hơn; công cụ sẽ chặn file trùng nhưng khác byte.
+
+Lượt sau giữ **250/1.319 kết quả đã lưu, còn 1.069 ảnh chờ**. Bộ đọc có thêm
+kiểm tra phân số mực đen và chặn đếm nhầm đường kẻ vở, nhưng vẫn còn trường hợp
+bỏ sót. 435 kiểm thử qua; 140 ảnh đã rà không có chữ không kích hoạt nhầm xử lý
+phân số/phép chia. Đây chưa phải bằng chứng mọi ảnh đã nhận chữ đúng.
+
+Gói `ocr-neutral-fraction-20261008` lưu bằng chứng và hàng đợi mới
+`all_current_20261007/cloud_neutral_fraction1069_20261008`; 250 file kết quả cũ
+giữ nguyên byte. Lượt mới gặp lỗi dịch vụ, chưa lưu thêm kết quả. Xem
+[báo cáo](report/NEUTRAL_FRACTION_EVIDENCE_20261008.md) và
+[lệnh tiếp tục](docs/OCR_REVIEW_AND_TRAINING.md#resume-page-reading-safely).
+Đã kiểm tra ZIP trên ổ G và khôi phục thử; chưa xác nhận độc lập upload xong
+trên Google, nên vẫn giữ bằng chứng đang làm việc. Model app chưa bị thay.

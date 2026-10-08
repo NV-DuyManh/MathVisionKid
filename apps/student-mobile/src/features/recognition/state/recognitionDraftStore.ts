@@ -34,6 +34,8 @@ export interface ImageDraft {
         problemImageUri?: string;
         lessonId: string;
         uncertainWork: boolean;
+        problemConfirmed?: boolean;
+        workConfirmed?: boolean;
     };
     problemText?: string;
     imageSessionId?: string;

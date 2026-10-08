@@ -40,7 +40,7 @@ The **178 existing development references were all re-compared against newly sav
 | Geometry at IoU >= 0.5, one-to-one matching | 146 / 148 labelled rows |
 | Complete geometric match | 20 / 22 geometrically labelled images |
 
-Three count failures remain: sparse black calligraphy, a poem page with additional printed/side content, and a tight black single-line crop. Two fraction-image reference rectangles remain unmatched geometrically. The reference files were not changed to make these scores pass.
+Three count failures remain: sparse black calligraphy, a poem page with additional printed/side content, and a tight black single-line crop. Two short-row reference rectangles remain unmatched geometrically. A source review on 2026-10-08 identified these as the “là:” rows in percentage and cube-area work, rather than stacked-fraction fixtures. The reference files were not changed to make these historical scores pass. See [the follow-up review](LINE_REPAIR_AND_SOURCE_TRIAGE_20261008.md) for separately recorded label revisions.
 
 These are development comparisons, not held-out OCR accuracy. Count-only labels do not establish box correctness, and neither count nor box agreement establishes correct letters, operators, numerators, denominators or division working.
 
@@ -85,6 +85,29 @@ Resume commands from the repository root, using the existing local runtime:
 # Resume only after the configured provider is available again.
 & .\ai\runtime\.venv\Scripts\python.exe .\ai-training\datasets\drive_math\all_current_20261007\recheck_numeric_guard.py
 ```
+
+## Follow-up status (2026-10-08)
+
+The [paper-texture and source-review phase](PAPER_TEXTURE_AND_TRANSCRIPT_REVIEW_20261008.md)
+adds one pencil-row candidate after the earlier ten recoveries. It rechecks
+1,671 images locally with 1,500 unchanged regression results and 365 passing
+tests. Thirteen reviewed writing crops and seven clipped fragments remain
+unresolved; these sampled reruns do not replace the original full-corpus audit.
+
+The original 1,319-page cloud queue now has 124 saved reads: the historical
+39 plus 85 additional reads from a bounded 100-page cohort. There are 1,195
+pending overall, including 15 in that cohort. Provider availability stopped
+the latest attempt. Seven separate source reviews preserve OCR corrections
+and uncertainty; raw provider responses are not automatically approved labels.
+
+The subsequent [source-confirmation and remainder phase](MATH_SOURCE_CONFIRMATION_AND_REMAINDER_20261008.md)
+completed those 15 pending entries in a separate folder, preserving the earlier
+85 outputs byte for byte. Current original-queue coverage is **139 saved reads
+and 1,180 pending**. It also checked 18 real-math selections from five photos,
+enforced source confirmation across mobile/Java/Python, and passed 428 Python,
+53 mobile and 80 Java tests. Thirteen writing crops and seven clipped fragments
+remain unresolved. This bounded follow-up does not replace the historical
+64,541-image segmentation sweep or certify corpus-wide transcription accuracy.
 
 ## Skills Applied
 

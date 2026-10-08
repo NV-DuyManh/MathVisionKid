@@ -36,6 +36,8 @@ export default function MathGuideScreen() {
   const [workImage, setWorkImage] = useState(context?.workImageUri || '');
   const [problemImage, setProblemImage] = useState(context?.problemImageUri || '');
   const [uncertainWork, setUncertainWork] = useState(context?.uncertainWork || false);
+  const [problemConfirmed, setProblemConfirmed] = useState(context?.problemConfirmed === true);
+  const [workConfirmed, setWorkConfirmed] = useState(context?.workConfirmed === true);
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [attempt, setAttempt] = useState('');
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
@@ -55,7 +57,8 @@ export default function MathGuideScreen() {
   const scroll = useRef<ScrollView>(null);
   const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
-  const divisionLine = !invalidPhoto && reading?.lines.length === 1 ? reading.lines[0] : null;
+  const divisionLines = reading?.lines.filter(line => line.division) ?? [];
+  const divisionLine = !invalidPhoto && divisionLines.length === 1 ? divisionLines[0] : null;
   const division = divisionLine?.division;
   const step = lesson?.step;
   const lessonSessionId = lesson?.sessionId;
@@ -102,12 +105,13 @@ export default function MathGuideScreen() {
       if (context?.purpose === 'ADD_PROBLEM') {
         // A worked page is not silently treated as an original question.
         if (!result.problemText.trim()) { setError('Ảnh này chưa có đề bài. Em chụp phần câu hỏi nhé.'); return; }
-        setProblem(result.problemText); setProblemImage(imageUri);
+        setProblem(result.problemText); setProblemImage(imageUri); setProblemConfirmed(false);
       } else if (context?.purpose === 'ADD_WORK') {
         if (!workRead) { setError('Ảnh này chưa có phần em đã làm. Em chụp bài làm nhé.'); return; }
-        setWork(text); setWorkImage(imageUri); setUncertainWork(result.lines.some(row => row.uncertain));
+        setWork(text); setWorkImage(imageUri); setUncertainWork(result.lines.some(row => row.uncertain)); setWorkConfirmed(false);
       } else {
         setProblem(draft?.problemText || result.problemText);
+        setProblemConfirmed(false); setWorkConfirmed(false);
         setWork(text); setUncertainWork(workRead && result.lines.some(row => row.uncertain));
         if (workRead) setWorkImage(imageUri);
         if (result.problemText) setProblemImage(imageUri);
@@ -126,14 +130,16 @@ export default function MathGuideScreen() {
     if (purpose) {
       const pending: ImageDraft = { rawUri: '', uri: '', width: 0, height: 0, mimeType: 'image/jpeg', filename: 'pending.jpg', mode: 'MATH_TUTOR',
         lessonContext: { purpose, problemText: problem, workText: work, workImageUri: workImage, problemImageUri: problemImage,
-          lessonId, uncertainWork } };
+          lessonId, uncertainWork, problemConfirmed, workConfirmed } };
       recognitionDraftStore.setDraft(pending);
     } else recognitionDraftStore.clearDraft();
     router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR' } });
   };
   const start = () => {
-    if (problem.trim().length < 3 || problem.includes('[?]')) return;
-    void run('lesson', signal => TutorService.startLesson(problem.trim(), uncertainWork ? '' : work, signal), result => {
+    if (problem.trim().length < 3 || problem.includes('[?]') || !problemConfirmed) return;
+    const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
+    void run('lesson', signal => TutorService.startLesson(problem.trim(), confirmedWork,
+      { problemConfirmed, workConfirmed: !!confirmedWork }, signal), result => {
       setLesson(result); setAttempt(''); setShowProblem(false); setSaved(false);
     });
   };
@@ -156,7 +162,10 @@ export default function MathGuideScreen() {
     } catch { if (active.current) setError('Chưa lưu được bài. Em thử lại nhé.'); }
     finally { if (active.current) setSaving(false); }
   };
-  const edit = (field: 'problem' | 'work') => { cancel(); setError(''); setEditing(field); setLesson(null); setSaved(false); };
+  const edit = (field: 'problem' | 'work') => {
+    cancel(); setError(''); setEditing(field); setLesson(null); setSaved(false);
+    if (field === 'problem') setProblemConfirmed(false); else setWorkConfirmed(false);
+  };
 
   return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
     <AppHeader title={division ? 'Kiểm tra phép chia' : work ? 'Hiểu bài, kiểm tra cách làm' : 'Cùng em tìm cách giải'} showBack />
@@ -192,10 +201,16 @@ export default function MathGuideScreen() {
 
         {division && !editing && !lesson ? <DivisionReview division={division} imageUri={workImage || imageUri}
           uncertain={divisionLine?.uncertain ?? false} onChange={value => {
+            if (!reading) return;
             const text = divisionText(value);
-            setReading(previous => previous ? { ...previous, lines: [{ ...previous.lines[0], division: value, text }] } : previous);
-            setWork(text); setSaved(false);
+            const lines = reading.lines.map(line => line === divisionLine ? { ...line, division: value, text } : line);
+            setReading({ ...reading, lines });
+            setWork(lines.map(line => line.text).join('\n')); setWorkConfirmed(false); setSaved(false);
           }} /> : null}
+        {division && reading?.lines.some(line => !line.division) ? <View style={styles.card}>
+          <Text style={styles.heading}>Nội dung đi kèm</Text>
+          <Text style={styles.body}>{reading.lines.filter(line => !line.division).map(line => line.text).join('\n')}</Text>
+        </View> : null}
 
         {!problem && work && !invalidPhoto && !division && editing !== 'problem' ? <View style={styles.card}>
           <Text style={styles.heading}>Cần thêm đề bài</Text>
@@ -209,7 +224,8 @@ export default function MathGuideScreen() {
           <TextInput accessibilityLabel={editing === 'work' ? 'Nội dung bài làm' : 'Nội dung đề bài'} value={editing === 'work' ? work : problem}
             onChangeText={editing === 'work' ? setWork : setProblem} maxLength={editing === 'work' ? 6000 : 4000} multiline style={styles.input} placeholder="Nhập nội dung ở đây nhé…" />
           <AppButton title="Dùng nội dung này" disabled={(editing === 'work' ? work : problem).trim().length < 3} onPress={() => {
-            if (editing === 'work') setUncertainWork(work.includes('[?]'));
+            if (editing === 'work') { setUncertainWork(work.includes('[?]')); setWorkConfirmed(!work.includes('[?]')); }
+            else setProblemConfirmed(!problem.includes('[?]'));
             setReading({ kind: work ? 'MIXED' : 'PROBLEM', problemText: problem, lines: [], needsProblem: !problem });
             setEditing(null);
           }} />
@@ -230,7 +246,17 @@ export default function MathGuideScreen() {
               style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /></Pressable>
           </View>
           {!lesson || showProblem ? <View style={styles.problemContent}><Text style={styles.body}>{problem}</Text></View> : null}
-          {problem.includes('[?]') ? <Text style={styles.error}>Có dữ kiện chưa rõ. Em chỉnh lại chỗ đánh dấu trước nhé.</Text> : !lesson && !busy ? <AppButton title={work ? 'Cùng hiểu và đối chiếu bài' : 'Bắt đầu từng bước'} onPress={start} disabled={expired || !!invalidPhoto} /> : null}
+          {!lesson ? <>
+            <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
+            <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã kiểm tra đề bài và các số"
+              aria-checked={problemConfirmed} accessibilityState={{ checked: problemConfirmed, disabled: !!busy || problem.includes('[?]') }}
+              disabled={!!busy || problem.includes('[?]')} style={styles.confirm}
+              onPress={() => setProblemConfirmed(value => !value)}>
+              <Ionicons name={problemConfirmed ? 'checkbox' : 'square-outline'} size={26} color={COLORS.primaryDark} />
+              <Text style={[styles.body, styles.flex]}>Em đã kiểm tra đề bài và các số</Text>
+            </Pressable>
+          </> : null}
+          {problem.includes('[?]') ? <Text style={styles.error}>Có dữ kiện chưa rõ. Em chỉnh lại chỗ đánh dấu trước nhé.</Text> : !lesson && !busy ? <AppButton title={work ? 'Cùng hiểu và đối chiếu bài' : 'Bắt đầu từng bước'} onPress={start} disabled={expired || !!invalidPhoto || !problemConfirmed} /> : null}
           {!work && !lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp thêm bài làm" onPress={() => capture('ADD_WORK')}><Text style={styles.link}>Em đã làm rồi? Chụp thêm bài làm</Text></Pressable> : null}
         </View> : null}
 
@@ -238,8 +264,20 @@ export default function MathGuideScreen() {
           <Pressable style={[styles.row, styles.workToggle]} accessibilityRole="button" accessibilityLabel="Xem bài em đã viết" aria-expanded={showWork} onPress={() => setShowWork(v => !v)}>
             <Ionicons name="book-outline" size={21} color={COLORS.primaryDark} /><Text style={[styles.link, styles.flex]}>Bài em đã viết</Text><Ionicons name={showWork ? 'chevron-up' : 'chevron-down'} size={18} color={COLORS.primaryDark} />
           </Pressable>
-          {uncertainWork ? <Text style={styles.body}>Có chỗ trong ảnh chưa đọc rõ. Mình hướng dẫn từ đề; cần đối chiếu lại bài viết trước khi kiểm tra phần này.</Text> : null}
-          {showWork ? <>{lesson && workImage ? <Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" /> : null}<Text style={styles.body}>{work}</Text><Pressable accessibilityRole="button" style={styles.linkButton} onPress={() => edit('work')}><Text style={styles.link}>Chỉnh chỗ chưa đọc đúng</Text></Pressable></> : null}
+          {uncertainWork && !workConfirmed ? <Text style={styles.body}>Có chỗ trong ảnh chưa đọc rõ. Em đối chiếu từng số và dấu phép tính trước khi dùng bài làm nhé.</Text> : null}
+          {!workConfirmed && !lesson ? <Text style={styles.body}>Bài làm chưa được xác nhận. Mình có thể hướng dẫn từ đề đã kiểm tra; chỉ đối chiếu cách làm sau khi em xác nhận bài viết.</Text> : null}
+          {showWork || (!workConfirmed && !lesson) ? <>
+            {workImage ? <Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" /> : null}
+            <Text style={styles.body}>{work}</Text>
+            <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh chỗ chưa đọc đúng" style={styles.linkButton} onPress={() => edit('work')}><Text style={styles.link}>Chỉnh chỗ chưa đọc đúng</Text></Pressable>
+            {!lesson ? <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã đối chiếu bài làm với ảnh"
+              aria-checked={workConfirmed} accessibilityState={{ checked: workConfirmed, disabled: !!busy || work.includes('[?]') }}
+              disabled={!!busy || work.includes('[?]')} style={styles.confirm} onPress={() => setWorkConfirmed(value => !value)}>
+              <Ionicons name={workConfirmed ? 'checkbox' : 'square-outline'} size={26} color={COLORS.primaryDark} />
+              <Text style={[styles.body, styles.flex]}>Em đã đối chiếu bài làm với ảnh</Text>
+            </Pressable> : null}
+            {work.includes('[?]') ? <Text style={styles.error}>Em sửa chỗ có dấu [?] trước khi xác nhận bài làm nhé.</Text> : null}
+          </> : null}
         </View> : null}
 
         {busy === 'lesson' ? <View style={styles.card}><RecognitionProgress title="Chuẩn bị các bước học" description="Mỗi bước sẽ có một việc rõ ràng để em thử." onCancel={cancel} cancelLabel="Dừng chờ" /></View> : null}
@@ -312,6 +350,7 @@ const styles = StyleSheet.create({
   input: { minHeight: 130, borderRadius: 16, padding: 16, backgroundColor: '#F8F5FF', borderWidth: 1, borderColor: '#D7CDF2', fontFamily: FONTS.regular, fontSize: 16, color: COLORS.textPrimary, textAlignVertical: 'top' },
   workCard: { backgroundColor: '#F0EBFC', padding: 16, borderRadius: 18, gap: 10 },
   workToggle: { minHeight: 48 },
+  confirm: { minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 12 },
   rail: { flexDirection: 'row', gap: 6, paddingVertical: 4 }, railStep: { flex: 1, height: 6, borderRadius: 3, backgroundColor: '#E2DCEB' },
   railActive: { backgroundColor: COLORS.primary },
   question: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 19, lineHeight: 28 },

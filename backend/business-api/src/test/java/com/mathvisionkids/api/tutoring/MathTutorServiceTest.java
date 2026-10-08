@@ -68,11 +68,25 @@ class MathTutorServiceTest {
         server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
                 .andExpect(header("X-Internal-API-Key", "test-only-internal-key"))
                 .andExpect(jsonPath("$.owner").value("student-a"))
+                .andExpect(jsonPath("$.problemConfirmed").value(true))
+                .andExpect(jsonPath("$.workConfirmed").value(false))
                 .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
-        LessonResponse result = service.lesson(new LessonRequest("Lan có 12 bút, được cho 5 bút.", ""), "student-a");
+        LessonResponse result = service.lesson(new LessonRequest("Lan có 12 bút, được cho 5 bút.", "", true, false), "student-a");
         assertEquals(0, result.stepIndex());
         assertEquals(java.util.List.of("Cộng", "Trừ"), result.step().choices());
         assertFalse(result.toString().contains("correctChoice"));
+        server.verify();
+    }
+
+    @Test void unconfirmedSourceNeverCallsTheLessonProvider() {
+        for (var request : java.util.List.of(
+                new LessonRequest("Lan có 12 bút.", "", false, false),
+                new LessonRequest("Lan có 12 bút.", "3/2 = 1", true, false),
+                new LessonRequest("Lan có [?] bút.", "", true, false),
+                new LessonRequest("Lan có 12 bút.", "3/[?]", true, true))) {
+            error("TRANSCRIPTION_CONFIRMATION_REQUIRED", HttpStatus.BAD_REQUEST,
+                    () -> service.lesson(request, "student-a"));
+        }
         server.verify();
     }
 

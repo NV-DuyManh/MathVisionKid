@@ -81,8 +81,11 @@ export const TutorService = {
       || (data.status !== 'CORRECT' && data.field === '')) throw new Error(INVALID_RESPONSE);
     return data;
   },
-  async startLesson(problemText: string, workText: string, signal?: AbortSignal): Promise<LessonResponse> {
-    const { data } = await apiClient.post('/student/tutor/lesson', { problemText, workText }, { timeout: TIMEOUT, signal });
+  async startLesson(problemText: string, workText: string,
+    confirmation: { problemConfirmed: boolean; workConfirmed: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
+    if (confirmation?.problemConfirmed !== true || (workText.trim() && confirmation.workConfirmed !== true)
+      || problemText.includes('[?]') || workText.includes('[?]')) throw new Error('Em kiểm tra lại đề và các số với ảnh trước nhé.');
+    const { data } = await apiClient.post('/student/tutor/lesson', { problemText, workText, ...confirmation }, { timeout: TIMEOUT, signal });
     return lessonResponse(data);
   },
   async answerLesson(lesson: LessonResponse, answer: string, hint = false, signal?: AbortSignal): Promise<LessonResponse> {

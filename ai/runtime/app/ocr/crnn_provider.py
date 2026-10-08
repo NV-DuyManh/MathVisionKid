@@ -10,6 +10,7 @@ import json
 import logging
 import threading
 import re
+import math
 from collections import defaultdict
 
 import numpy as np
@@ -148,8 +149,19 @@ class CrnnOcrProvider(OcrProvider):
         normalized log probabilities, and candidate margins.
         """
         T, C = probs.shape
-        beams = {(): (1.0, 0.0)}
+        # Stay in log space: multiplying long sequences underflows, and flooring
+        # their probabilities to 1e-30 makes distinct hypotheses look identical.
+        negative_infinity = float('-inf')
+        beams = {(): (0.0, negative_infinity)}
         blank_idx = BLANK_IDX
+
+        def add(left, right):
+            if left == negative_infinity:
+                return right
+            if right == negative_infinity:
+                return left
+            high, low = max(left, right), min(left, right)
+            return high + math.log1p(math.exp(low - high))
 
         for t in range(T):
             p_t = probs[t]
@@ -157,45 +169,48 @@ class CrnnOcrProvider(OcrProvider):
             if len(cand_indices) == 0:
                 cand_indices = np.argsort(p_t)[-10:]
 
-            next_beams = defaultdict(lambda: (0.0, 0.0))
-            p_blank = float(p_t[blank_idx])
+            next_beams = defaultdict(lambda: (negative_infinity, negative_infinity))
+            p_blank = math.log(float(p_t[blank_idx])) if p_t[blank_idx] > 0 else negative_infinity
 
             for prefix, (p_b, p_nb) in beams.items():
-                p_total = p_b + p_nb
-                if p_total <= 0.0:
+                p_total = add(p_b, p_nb)
+                if p_total == negative_infinity:
                     continue
-                if p_blank > 1e-6:
+                if p_blank != negative_infinity:
                     curr_b, curr_nb = next_beams[prefix]
-                    next_beams[prefix] = (curr_b + p_total * p_blank, curr_nb)
+                    next_beams[prefix] = (add(curr_b, p_total + p_blank), curr_nb)
 
                 for c in cand_indices:
                     if c == blank_idx:
                         continue
-                    p_c = float(p_t[c])
+                    if p_t[c] <= 0:
+                        continue
+                    p_c = math.log(float(p_t[c]))
                     last_c = prefix[-1] if prefix else None
                     if c == last_c:
                         new_prefix = prefix + (c,)
                         curr_b, curr_nb = next_beams[new_prefix]
-                        next_beams[new_prefix] = (curr_b, curr_nb + p_b * p_c)
+                        next_beams[new_prefix] = (curr_b, add(curr_nb, p_b + p_c))
                         curr_b, curr_nb = next_beams[prefix]
-                        next_beams[prefix] = (curr_b, curr_nb + p_nb * p_c)
+                        next_beams[prefix] = (curr_b, add(curr_nb, p_nb + p_c))
                     else:
                         new_prefix = prefix + (c,)
                         curr_b, curr_nb = next_beams[new_prefix]
-                        next_beams[new_prefix] = (curr_b, curr_nb + p_total * p_c)
+                        next_beams[new_prefix] = (curr_b, add(curr_nb, p_total + p_c))
 
             sorted_prefixes = sorted(
                 next_beams.keys(),
-                key=lambda pref: next_beams[pref][0] + next_beams[pref][1],
+                key=lambda pref: add(*next_beams[pref]),
                 reverse=True
             )[:beam_width]
             beams = {p: next_beams[p] for p in sorted_prefixes}
 
         candidates = []
         for prefix, (p_b, p_nb) in beams.items():
-            total_p = p_b + p_nb
+            log_p = add(p_b, p_nb)
+            if log_p == negative_infinity:
+                continue
             text = "".join(self._inv_vocab.get(idx, "?") for idx in prefix)
-            log_p = float(np.log(max(1e-30, total_p)))
             length = max(1, len(text))
             norm_score = float(np.exp(log_p / length))
             candidates.append({"text": text, "logProb": round(log_p, 4), "normalizedScore": round(norm_score, 4)})

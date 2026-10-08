@@ -198,6 +198,9 @@ quotient=null only if unwritten. rows is an array of every written WORKING ROW f
 top to bottom, INCLUDING the final remainder. Retain leading zeros, subtraction
 signs and exact written digits. Do NOT calculate, repair wrong working, append a
 missing zero, infer a missing quotient digit or an unwritten subtraction/product.
+FULL SOURCE is the complete original image: verify every field against it. A
+working row may extend to the right past the bracket. Positional panels can cut
+off such digits; read their complete visible forms from FULL SOURCE, never infer.
 Ignore the printed English panel labels, notebook grid, teacher circles and checks.
 Crossed-out/overwritten digits MUST use [?], retaining readable adjacent digits.
 No other keys, explanation, arithmetic equality or answer inferred from operands.
@@ -236,6 +239,18 @@ def _reading_exceeds_capacity(payload) -> bool:
 def _same_math(first, second):
     return (first.layout == second.layout and first.division == second.division
             and re.sub(r"\s+", "", first.text) == re.sub(r"\s+", "", second.text))
+
+
+def _mark_unread_division_digits(payload):
+    """Keep a glyph read as a letter explicitly unknown, never infer its digit.
+
+    This applies only to the provider's numeric working rows. Public input and
+    the structured division schema retain their strict validation.
+    """
+    if not isinstance(payload, dict) or not isinstance(payload.get("rows"), list):
+        return payload
+    return {**payload, "rows": [re.sub(r"(?<=[0-9])[A-Za-z](?=[0-9])", "[?]", row)
+                              if isinstance(row, str) else row for row in payload["rows"]]}
 
 
 async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
@@ -348,8 +363,8 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
             try:
                 if panels:
                     parsed_division = await asyncio.wait_for(_generate(READ_DIVISION,
-                        "Read exactly the four labelled image panels, preserving all pupil errors.", panels), timeout=remaining)
-                    division = WrittenDivision.model_validate(parsed_division)
+                        "Read the four labelled positions and verify complete digits against FULL SOURCE, preserving all pupil errors.", panels), timeout=remaining)
+                    division = WrittenDivision.model_validate(_mark_unread_division_digits(parsed_division))
                     originals = [line for line in result.lines if line.layout == "LONG_DIVISION"]
                     agreed = (len(originals) == 1 and originals[0].division == division
                               and not math_uncertainty.get(result.lines.index(originals[0]), True))

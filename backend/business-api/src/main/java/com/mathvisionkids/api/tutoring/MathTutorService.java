@@ -137,8 +137,11 @@ public class MathTutorService {
     }
 
     public LessonResponse lesson(LessonRequest request, String owner) {
+        if (!request.isSourceConfirmed())
+            throw invalid("TRANSCRIPTION_CONFIRMATION_REQUIRED", "Em kiểm tra lại đề và các số với ảnh trước nhé.");
         return lessonResponse(call("/internal/v1/tutor/lesson", java.util.Map.of("owner", owner,
-                "problemText", request.problemText(), "workText", request.workText()), MediaType.APPLICATION_JSON));
+                "problemText", request.problemText(), "workText", request.workText(),
+                "problemConfirmed", true, "workConfirmed", Boolean.TRUE.equals(request.workConfirmed())), MediaType.APPLICATION_JSON));
     }
 
     public LessonResponse answer(LessonAnswer request, String owner) {
