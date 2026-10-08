@@ -174,6 +174,15 @@
       "source_bytes": 5195133,
       "sha256": "4a96a44039eda00a4717331ca8695acf59cc0c592c1087afad24802949d7fee9",
       "backup_only": false
+    },
+    {
+      "id": "ocr-scale-topic-20261008",
+      "path": "ocr-scale-topic-20261008.zip",
+      "bytes": 10691541,
+      "files": 314,
+      "source_bytes": 15631605,
+      "sha256": "0f2e38e3abbaf7376e3ac6e69d450389ea7c05db9ae40ffd380e66ea31587e20",
+      "backup_only": false
     }
   ]
 }

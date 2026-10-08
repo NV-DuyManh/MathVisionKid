@@ -251,6 +251,24 @@ def test_ruling_fragments_around_one_fraction_are_not_multiple_fractions():
     assert fraction_expression(np.concatenate([pixels, pixels], axis=1))
 
 
+@pytest.mark.parametrize('scale', [1, 2, 4, 8])
+def test_neutral_fraction_probe_preserves_support_at_larger_capture_sizes(scale):
+    pixels = np.full((240, 120, 3), 248, np.uint8)
+    cv2.putText(pixels, '3', (35, 70), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (35, 35, 35), 3)
+    cv2.line(pixels, (25, 105), (85, 105), (35, 35, 35), 3)
+    cv2.putText(pixels, '2', (35, 180), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (35, 35, 35), 3)
+    # A tiny blue ruling fragment grows past eight pixels in larger captures.
+    cv2.rectangle(pixels, (100, 80), (104, 82), (140, 40, 20), -1)
+    captured = cv2.resize(pixels, None, fx=scale, fy=scale)
+    original = captured.copy()
+    assert isolated_fraction(captured)
+    assert fraction_expression(np.concatenate([captured, captured], axis=1))
+    assert not isolated_fraction(np.concatenate([captured, captured], axis=1))
+    assert not fraction_expression(captured)
+    assert not fraction_expression(np.tile(captured, (3, 3, 1)))
+    assert np.array_equal(captured, original)
+
+
 def test_division_bracket_panels_require_one_complete_layout():
     assert division_panels(school_division())
     assert not fraction_expression(school_division())

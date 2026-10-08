@@ -308,3 +308,22 @@ separately before restoring overlapping newer files. The new provider attempt
 saved no further read and retained backoff. No production checkpoint is replaced.
 Mounted ZIP readback and a fresh selected restore are verified; independent
 Google server upload confirmation is still pending. Working evidence is retained.
+
+## Scale and topic guard continuation (2026-10-08)
+
+Archive `ocr-scale-topic-20261008` preserves **256 saved predictions and 1,063
+pending IDs**, including six new provider responses, source-linked reviews,
+scale comparisons, topic-guard replay and the final tested code. It supplements
+the old archive rather than replacing its 250-read snapshot.
+
+```powershell
+py -3 .\scripts\data\restore_drive_archive.py --id ocr-scale-topic-20261008 `
+  --prefix 'ai-training/datasets/drive_math/all_current_20261007/cloud_heading1063_20261008'
+```
+
+The current versioned queue inherits the prior provider backoff; do not copy raw
+successful predictions into it or resume an older batch with changed code. Use
+[the current reading command](OCR_REVIEW_AND_TRAINING.md#resume-page-reading-safely).
+Different existing bytes are rejected by restoration. All mounted ZIP entries
+and a selected fresh restore are checked; independent Google server-upload
+confirmation remains unavailable, so working evidence is retained.

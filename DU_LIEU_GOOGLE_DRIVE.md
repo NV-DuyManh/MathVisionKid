@@ -197,3 +197,11 @@ giữ nguyên byte. Lượt mới gặp lỗi dịch vụ, chưa lưu thêm kế
 [lệnh tiếp tục](docs/OCR_REVIEW_AND_TRAINING.md#resume-page-reading-safely).
 Đã kiểm tra ZIP trên ổ G và khôi phục thử; chưa xác nhận độc lập upload xong
 trên Google, nên vẫn giữ bằng chứng đang làm việc. Model app chưa bị thay.
+
+Đợt tiếp nối có **256/1.319 kết quả dự đoán đã lưu, còn 1.063 ảnh chờ**.
+Đã sửa kiểm tra phân số khi ảnh lớn hơn và chặn tiêu đề bài học bị dùng nhầm
+làm đề bài; 452 kiểm thử qua. Sáu ảnh mới vẫn có lỗi chữ/phân loại khi rà lại,
+nên không tự dùng làm nhãn train. Gói `ocr-scale-topic-20261008` trên G giữ
+bằng chứng và hàng đợi `all_current_20261007/cloud_heading1063_20261008`.
+Xem [báo cáo](report/OCR_SCALE_AND_TOPIC_GUARDS_20261008.md) và
+[lệnh đọc tiếp](docs/OCR_REVIEW_AND_TRAINING.md#resume-page-reading-safely).

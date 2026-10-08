@@ -168,7 +168,7 @@ For the current versioned queue, after restoring its current state if needed:
 
 ```powershell
 & .\ai\runtime\.venv\Scripts\python.exe -X utf8 .\scripts\data\drive_line_batch.py cloud `
-  --batch 'all_current_20261007/cloud_neutral_fraction1069_20261008'
+  --batch 'all_current_20261007/cloud_heading1063_20261008'
 ```
 
 Matching successful reads are skipped. A saved provider backoff survives restarts
@@ -189,6 +189,14 @@ do not resume it with changed code or copy old predictions into the new batch.
 The first new attempt stopped before saving a read; a later invocation honored
 its persisted backoff. No cloud result is automatically a training reference.
 See [the guard and queue report](../report/NEUTRAL_FRACTION_EVIDENCE_20261008.md).
+
+The subsequent scale/topic phase adds six reads: **256 saved, 1,063 pending**.
+The command above selects only those pending IDs under the final reader version.
+Earlier neutral and scale batches remain immutable historical evidence. The new
+queue inherits the prior provider-failure deadline, so a batch-name change does
+not bypass backoff. The topic guard was checked using a cached-response replay;
+that is control-flow verification, not an independent provider accuracy result.
+See [the follow-up report](../report/OCR_SCALE_AND_TOPIC_GUARDS_20261008.md).
 
 Run dataset safety checks without cloud credentials:
 

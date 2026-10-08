@@ -209,6 +209,36 @@ def test_visible_question_is_preserved_with_its_work(monkeypatch):
     assert result.kind == "MIXED" and result.problemText and not result.needsProblem
 
 
+@pytest.mark.parametrize('heading', [
+    'Bài 18: Đề-xi-mét vuông, mét vuông, mi-li-mét vuông',
+    'Chương 2: Phân số', 'Tiết 7. Biểu thức chứa chữ',
+])
+def test_topic_heading_cannot_be_used_as_an_original_question(monkeypatch, heading):
+    notes = [heading, '1dm² = 100cm²']
+    payload = {'kind': 'PROBLEM', 'problemText': heading,
+               'lines': [{'text': text} for text in notes]}
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == 'WORK' and result.problemText == '' and result.needsProblem
+    assert [line.text for line in result.lines] == notes
+    assert payload['problemText'] == heading
+
+
+@pytest.mark.parametrize('question', [
+    'Bài 18: Tính diện tích hình vuông cạnh 5 cm.',
+    'Bài 2: 3/4 + 2/5', 'Bài 7: Có 5 con bò. Hỏi có bao nhiêu chân?',
+    'Bài 3: Đổi 1 m² sang cm².', 'Bài 4: Viết các số chẵn nhỏ hơn 10.',
+    'Bài 2: 5 - 2', 'Bài 2: 5 − 2', 'Bài 2: 5 × 2', 'Bài 2: 5 : 2',
+    'Bài 2: a - b',
+])
+def test_numbered_actual_tasks_remain_original_questions(monkeypatch, question):
+    payload = {'kind': 'PROBLEM', 'problemText': question,
+               'lines': [{'text': question}]}
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == 'PROBLEM' and result.problemText == question and not result.needsProblem
+
+
 @pytest.mark.parametrize("hint", ["Em tính được 7 rồi nhân tiếp.", "Có mười bốn con bò khoang.", "Đáp số: 14", "49 : 7 = 7.", "14 chính là đáp số."])
 def test_existing_values_cannot_be_repackaged_as_answers(hint):
     request = notebook.CoachRequest(workText="49 : 7 × 2 = 14 (con)", focusText="49 : 7 × 2 = 14 (con)", stage="CHECK_WORK")

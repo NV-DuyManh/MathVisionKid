@@ -118,6 +118,9 @@ lines array of {text,box,uncertain,role,layout,division}.
 An explanation ending in 'là:' followed by a completed calculation or 'Đáp số'
 is worked material, NOT an original question. For a photo containing only worked
 material use WORK and empty problemText. Never copy answers into problemText.
+Lesson titles, definitions and completed unit-conversion examples are notes, not
+an unsolved question. Keep those visible rows as WORK with empty problemText when
+no actual task is present. A title such as 'Bài 18: ...' alone is not a question.
 role is TEXT for prose, EQUATION for calculations, DIAGRAM for labels in drawings.
 For ordinary writing layout=ROW and division=null. Each line is ONE physical row,
 INCLUDING
@@ -303,6 +306,14 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     # A model can mistake solution prose for a question. An answer-bearing
     # transcription without any question must not become an invented problem.
     visible = "\n".join(line.text for line in result.lines)
+    # A topic heading does not provide the task required for a guided lesson.
+    # Preserve the transcribed notes, but do not manufacture an original question.
+    heading = _fold(result.problemText.strip())
+    if (re.fullmatch(r"(?:bai|chuong|tiet)\s+\d+\s*[:.]\s*[^\n?=+−×÷*/:]+", heading)
+            and not re.search(r"(?:\d|\b[a-z])\s*-\s*(?:\d|[a-z]\b)", heading)
+            and not re.search(r"\b(?:hay|hoi|tinh|tim|giai|dien|viet|sap xep|so sanh|rut gon|quy dong|doi|chon|xac dinh)\b|bao nhieu", heading)):
+        result.problemText = ""
+        result.kind = "WORK"
     completed_fraction = any(line.layout == "FRACTION" and re.search(r"=\s*(?:[\d(]|\[\?\])", line.text)
                              for line in result.lines)
     if (result.problemText and (re.search(r"\bdap (?:so|an)\b", _fold(visible)) or completed_fraction)

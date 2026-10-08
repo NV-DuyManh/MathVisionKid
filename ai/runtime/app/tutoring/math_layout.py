@@ -14,8 +14,14 @@ def _ink(bgr, *, neutral=False):
     mask = (((hue >= 90) | (hue <= 12)) &
             (saturation > max(55, float(np.median(saturation)) + 30)) & (value < 230)).astype(np.uint8)*255
     _, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
-    if (neutral and image.shape[0] <= 320
-            and not np.any((stats[1:, 4] > 12) & (stats[1:, 3] >= 8))):
+    if (neutral and not np.any((stats[1:, 4] > 12)
+                              & (stats[1:, 3] >= max(8, image.shape[0]*.06)))):
+        # Normalize the neutral probe before its pixel-scale contrast kernel.
+        # A larger capture of the same fraction must not disable its ink path.
+        if image.shape[0] > 320:
+            scale = 320 / image.shape[0]
+            image = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
+            hue, saturation, _ = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         if np.median(gray) >= 100:
             background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE,
