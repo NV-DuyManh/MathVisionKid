@@ -13,6 +13,8 @@ import { divisionText, savedDivision, LessonResponse, NotebookRead, TutorService
 import { DivisionReview } from '../../features/tutoring/DivisionReview';
 import { AuthContext } from '../../context/AuthContext';
 import { saveLesson } from '../../features/tutoring/learningHistory';
+import { MathText } from '../../components/domain/MathText';
+import { AppIllustration } from '../../components/ui/AppIllustration';
 
 const MASCOT = require('../../../assets/illustrations/mathvision-star.png');
 
@@ -40,6 +42,9 @@ export default function MathGuideScreen() {
   const [workConfirmed, setWorkConfirmed] = useState(context?.workConfirmed === true);
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [attempt, setAttempt] = useState('');
+  const [answerEdited, setAnswerEdited] = useState(false);
+  const [hintCount, setHintCount] = useState(0);
+  const [fractionInput, setFractionInput] = useState(false);
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
   const [error, setError] = useState('');
   const [expired, setExpired] = useState(false);
@@ -63,6 +68,7 @@ export default function MathGuideScreen() {
   const step = lesson?.step;
   const lessonSessionId = lesson?.sessionId;
   const lessonStepIndex = lesson?.stepIndex;
+  useEffect(() => { setAnswerEdited(false); setHintCount(0); setFractionInput(false); }, [lessonSessionId, lessonStepIndex]);
   useEffect(() => {
     if (!lessonSessionId) return;
     const frame = requestAnimationFrame(() => scroll.current?.scrollTo({ y: Math.max(0, lessonPosition.current - 12), animated: false }));
@@ -140,13 +146,15 @@ export default function MathGuideScreen() {
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
     void run('lesson', signal => TutorService.startLesson(problem.trim(), confirmedWork,
       { problemConfirmed, workConfirmed: !!confirmedWork }, signal), result => {
-      setLesson(result); setAttempt(''); setShowProblem(false); setSaved(false);
+      setLesson(result); setAttempt(''); setAnswerEdited(false); setShowProblem(false); setSaved(false);
     });
   };
   const answer = (value: string, hint = false) => {
     if (!lesson) return;
     void run('answer', signal => TutorService.answerLesson(lesson, value, hint, signal), result => {
       setLesson(result);
+      setAnswerEdited(false);
+      if (hint) setHintCount(value => value + 1);
       if (result.stepIndex !== lesson.stepIndex) setAttempt('');
       setSaved(false);
     });
@@ -176,7 +184,7 @@ export default function MathGuideScreen() {
           <View style={styles.flex}><Text style={styles.eyebrow}>HỌC CÙNG MATHVISIONKID</Text>
             <Text style={styles.title}>{lesson?.status === 'COMPLETE' ? 'Em đã tự làm được!' : lesson?.topic || (division ? 'Cùng kiểm tra phép chia' : !problem && work ? 'Thêm đề, hiểu trọn bài' : 'Hiểu cách làm, tự tìm lời giải')}</Text>
             <Text style={styles.body}>{lesson?.goal || (division ? 'Đối chiếu với ảnh → kiểm tra → tự sửa chỗ chưa đúng.' : !problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : 'Hiểu đề → chọn cách làm → tự tính → kiểm tra lại.')}</Text></View>
-          <Image source={MASCOT} style={styles.mascot} resizeMode="contain" accessible={false} />
+          <AppIllustration source={MASCOT} style={styles.mascot} accessible={false} />
         </LinearGradient>
 
         {error ? <View style={styles.errorCard} accessibilityRole="alert"><Text style={styles.error}>{error}</Text>
@@ -245,7 +253,7 @@ export default function MathGuideScreen() {
             <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={() => edit('problem')}
               style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /></Pressable>
           </View>
-          {!lesson || showProblem ? <View style={styles.problemContent}><Text style={styles.body}>{problem}</Text></View> : null}
+          {!lesson || showProblem ? <View style={styles.problemContent}><MathText style={styles.body}>{problem}</MathText></View> : null}
           {!lesson ? <>
             <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
             <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã kiểm tra đề bài và các số"
@@ -268,7 +276,7 @@ export default function MathGuideScreen() {
           {!workConfirmed && !lesson ? <Text style={styles.body}>Bài làm chưa được xác nhận. Mình có thể hướng dẫn từ đề đã kiểm tra; chỉ đối chiếu cách làm sau khi em xác nhận bài viết.</Text> : null}
           {showWork || (!workConfirmed && !lesson) ? <>
             {workImage ? <Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" /> : null}
-            <Text style={styles.body}>{work}</Text>
+            <MathText style={styles.body}>{work}</MathText>
             <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh chỗ chưa đọc đúng" style={styles.linkButton} onPress={() => edit('work')}><Text style={styles.link}>Chỉnh chỗ chưa đọc đúng</Text></Pressable>
             {!lesson ? <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã đối chiếu bài làm với ảnh"
               aria-checked={workConfirmed} accessibilityState={{ checked: workConfirmed, disabled: !!busy || work.includes('[?]') }}
@@ -286,29 +294,48 @@ export default function MathGuideScreen() {
             accessibilityValue={{ min: 0, max: lesson.outline.length, now: lesson.stepIndex, text: `Đã hoàn thành ${lesson.stepIndex} trên ${lesson.outline.length} bước` }}>
             {lesson.outline.map((_, index) => <View key={index} style={[styles.railStep, index <= lesson.stepIndex && styles.railActive]} />)}
           </View>
+          {lesson.status === 'CORRECT' && lesson.feedback ? <View style={styles.explanation}>
+            <Text style={styles.caption}>BƯỚC TRƯỚC ĐÃ HOÀN THÀNH</Text><Text style={styles.feedback}>{lesson.feedback}</Text>
+          </View> : null}
           {step ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>BƯỚC {lesson.stepIndex + 1} / {lesson.outline.length}</Text>
             <Text style={styles.heading}>{step.title}</Text>
-            <View style={styles.explanation}><Text style={styles.body}>{step.explanation}</Text></View>
-            {step.workExcerpt ? <View style={styles.workCard}><Text style={styles.caption}>TRONG BÀI EM VIẾT</Text><Text style={styles.body}>{step.workExcerpt}</Text></View> : null}
-            <Text style={styles.question}>{step.question}</Text>
-            {step.expression ? <View style={styles.expression}><Text style={styles.expressionText}>{step.expression} = ?</Text></View> : null}
+            <View style={styles.explanation}><MathText style={styles.body}>{step.explanation}</MathText></View>
+            {step.workExcerpt ? <View style={styles.workCard}><Text style={styles.caption}>TRONG BÀI EM VIẾT</Text><MathText style={styles.body}>{step.workExcerpt}</MathText></View> : null}
+            <MathText style={styles.question}>{step.question}</MathText>
+            {step.expression ? <View style={styles.expression}><MathText style={styles.expressionText}>{`${step.expression} = ?`}</MathText></View> : null}
             {step.choices.length ? step.choices.map(choice => <Pressable key={choice} accessibilityRole="button" accessibilityLabel={choice} disabled={!!busy || expired}
-              style={[styles.choice, attempt === choice && styles.choiceSelected]} onPress={() => { setAttempt(choice); answer(choice); }}>
+              style={[styles.choice, attempt === choice && styles.choiceSelected]} onPress={() => { setAttempt(choice); setAnswerEdited(true); answer(choice); }}>
               <Text style={styles.choiceText}>{choice}</Text><Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
             </Pressable>) : <><View style={styles.answerRow}>
-              <TextInput style={styles.numberInput} accessibilityLabel="Câu trả lời của em" value={attempt} onChangeText={setAttempt} keyboardType="decimal-pad"
+              {fractionInput ? <View style={styles.fractionAnswer}>
+                <TextInput style={styles.fractionNumber} accessibilityLabel="Tử số câu trả lời" value={attempt.split('/')[0]} keyboardType="number-pad" maxLength={12}
+                  placeholder="Tử số" editable={!busy && !expired} onChangeText={value => { setAttempt(`${value}/${attempt.split('/')[1] || ''}`); setAnswerEdited(true); }} />
+                <View style={styles.fractionBar} />
+                <TextInput style={styles.fractionNumber} accessibilityLabel="Mẫu số câu trả lời" value={attempt.split('/')[1] || ''} keyboardType="number-pad" maxLength={12}
+                  placeholder="Mẫu số" editable={!busy && !expired} onChangeText={value => { setAttempt(`${attempt.split('/')[0]}/${value}`); setAnswerEdited(true); }} />
+              </View> : <TextInput style={styles.numberInput} accessibilityLabel="Câu trả lời của em" value={attempt} onChangeText={value => { setAttempt(value); setAnswerEdited(true); }} keyboardType="decimal-pad"
                 maxLength={30} placeholder="Em tính được…" placeholderTextColor={COLORS.textMuted} editable={!busy && !expired} onSubmitEditing={() => answer(attempt)} />
+              }
               <Text style={styles.unit}>{step.unit}</Text></View>
-              <AppButton title="Kiểm tra bước này" onPress={() => answer(attempt)} disabled={!attempt.trim() || !!busy || expired} loading={busy === 'answer'} /></>}
-            {lesson.feedback ? <Text style={lesson.status === 'TRY_AGAIN' ? styles.error : styles.feedback}>{lesson.feedback}</Text> : null}
+              {step.expression.includes('/') ? <>
+                <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel={fractionInput ? 'Nhập số thường' : 'Nhập kết quả phân số'} disabled={!!busy || expired}
+                  onPress={() => { setFractionInput(value => !value); setAttempt(''); setAnswerEdited(true); }}>
+                  <Text style={styles.link}>{fractionInput ? 'Đổi sang nhập số thường' : 'Kết quả là phân số? Nhập tử và mẫu'}</Text>
+                </Pressable><Text style={styles.caption}>Giữ nguyên phân số để tính chính xác, không cần làm tròn sang số thập phân.</Text>
+              </> : null}
+              <AppButton title="Kiểm tra bước này" onPress={() => answer(attempt)} disabled={!attempt.trim() || (fractionInput && !/^\d+\/[1-9]\d*$/.test(attempt)) || !!busy || expired} loading={busy === 'answer'} /></>}
+            <AppButton title={hintCount ? 'Gợi ý rõ hơn' : 'Gợi ý cách làm bước này'} variant="secondary" onPress={() => answer('', true)} disabled={!!busy || expired} />
+            {lesson.status === 'HINT' && lesson.feedback ? <View style={styles.hintCard}>
+              <Text style={styles.link}>Gợi ý cho bước này</Text><MathText style={styles.body}>{lesson.feedback}</MathText>
+            </View> : lesson.status === 'TRY_AGAIN' && !answerEdited && lesson.feedback ? <Text style={styles.error}>{lesson.feedback}</Text> : null}
           </View> : <View style={styles.card} onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.heading}>Lời giải em vừa hoàn thành</Text><Text style={styles.body}>{lesson.goal}</Text>
             {lesson.feedback ? <Text style={styles.feedback}>{lesson.feedback}</Text> : null}
             {lesson.completed.map((item, index) => <View key={index} style={styles.completedStep}>
               <Text style={styles.link}>{index + 1}. {item.title}</Text>
-              <Text style={styles.body}>{item.expression ? `${item.expression} = ${item.answer} ${item.unit}` : item.answer}</Text>
-              <Text style={styles.body}>{item.explanation}</Text>
+              <MathText style={styles.body}>{item.expression ? `${item.expression} = ${item.answer} ${item.unit}` : item.answer}</MathText>
+              <MathText style={styles.body}>{item.explanation}</MathText>
             </View>)}
             {work ? <Text style={styles.body}>Em đối chiếu những bước vừa học với bài trong ảnh. Các phép tính vừa nhập đã được kiểm tra; nét chữ và hình vẽ vẫn cần nhìn lại.</Text> : null}
           </View>}
@@ -359,7 +386,11 @@ const styles = StyleSheet.create({
   choice: { minHeight: 52, borderRadius: 16, padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1.5, borderColor: '#DDD4F5', backgroundColor: '#FAF8FF' },
   choiceSelected: { backgroundColor: '#E8DEFF', borderColor: COLORS.primary }, choiceText: { flex: 1, marginRight: 8, color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 17, lineHeight: 24 },
   answerRow: { flexDirection: 'row', gap: 12, alignItems: 'center' }, numberInput: { flex: 1, minHeight: 58, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 16, fontFamily: FONTS.bold, fontSize: 18, color: COLORS.textPrimary },
+  fractionAnswer: { flex: 1, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 12, gap: 4 },
+  fractionNumber: { minHeight: 48, textAlign: 'center', fontFamily: FONTS.bold, fontSize: 20, color: COLORS.textPrimary },
+  fractionBar: { height: 2, backgroundColor: COLORS.primaryDark, marginHorizontal: 16 },
   unit: { color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 19 },
   explanation: { backgroundColor: '#E9F5EF', padding: 16, borderRadius: 16 }, feedback: { color: '#226A51', fontFamily: FONTS.bold, fontSize: 15, lineHeight: 23 },
+  hintCard: { backgroundColor: '#F4EEFF', borderWidth: 1, borderColor: '#D7CDF2', padding: 16, borderRadius: 16, gap: 10 },
   completedStep: { gap: 8, paddingVertical: 12, borderBottomWidth: 1, borderColor: '#ECE6F5' },
 });

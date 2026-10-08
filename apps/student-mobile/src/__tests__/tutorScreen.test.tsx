@@ -212,6 +212,36 @@ it('never uploads before privacy review', async () => {
   expect((useRouter as jest.Mock).mock.results.at(-1)!.value.replace).toHaveBeenCalledWith('/privacy');
 });
 
+it('offers progressive help for a concept step without clearing the pupil answer', async () => {
+  (TutorService.answerLesson as jest.Mock).mockResolvedValueOnce({ ...LESSON, status: 'HINT', feedback: 'Tìm chiều cao trong hình.' })
+    .mockResolvedValueOnce({ ...LESSON, status: 'HINT', feedback: 'Kẻ đường vuông góc với đáy.' });
+  await render();
+  await act(async () => { button('Bắt đầu từng bước').props.onPress(); });
+  await act(async () => { button('Gợi ý cách làm bước này').props.onPress(); });
+  expect(TutorService.answerLesson).toHaveBeenCalledWith(LESSON, '', true, expect.anything());
+  await act(async () => { button('Gợi ý rõ hơn').props.onPress(); });
+  expect(readText()).toContain('Kẻ đường vuông góc');
+  expect(readText()).toContain('Em tìm gì trước?');
+});
+
+it('allows numerator and denominator input, keeps fraction source, and clears stale wrong feedback on editing', async () => {
+  const fraction = { ...LESSON, step: { ...LESSON.step, choices: [], expression: '1 − 1/3 − 2/5', unit: 'phần' } };
+  (TutorService.startLesson as jest.Mock).mockResolvedValue(fraction);
+  (TutorService.answerLesson as jest.Mock).mockResolvedValue({ ...fraction, status: 'TRY_AGAIN', feedback: 'Em kiểm tra lại nhé.' });
+  await render();
+  await act(async () => { button('Bắt đầu từng bước').props.onPress(); });
+  act(() => button('Nhập kết quả phân số').props.onPress());
+  act(() => input('Tử số câu trả lời').props.onChangeText('4'));
+  expect(button('Kiểm tra bước này').props.disabled).toBe(true);
+  act(() => input('Mẫu số câu trả lời').props.onChangeText('15'));
+  await act(async () => { button('Kiểm tra bước này').props.onPress(); });
+  expect(TutorService.answerLesson).toHaveBeenCalledWith(fraction, '4/15', false, expect.anything());
+  expect(readText()).toContain('Em kiểm tra lại nhé.');
+  act(() => input('Tử số câu trả lời').props.onChangeText('8'));
+  expect(readText()).not.toContain('Em kiểm tra lại nhé.');
+  expect(input('Mẫu số câu trả lời').props.value).toBe('15');
+});
+
 it('requires a problem and preserves the work when taking its companion photo', async () => {
   photo(); await render();
   expect(button('Cùng hiểu và đối chiếu bài')).toBeUndefined();
