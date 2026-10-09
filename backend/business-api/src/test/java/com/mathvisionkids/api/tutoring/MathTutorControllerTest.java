@@ -74,9 +74,12 @@ class MathTutorControllerTest {
                 """;
         mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON).content(written))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("TRY_AGAIN"))
-                .andExpect(jsonPath("$.field").value("quotient"));
+                .andExpect(jsonPath("$.field").value("quotient"))
+                .andExpect(jsonPath("$.hints.length()").value(2))
+                .andExpect(jsonPath("$.hints[0]").value(org.hamcrest.Matchers.containsString("số đang chia là 14")));
         mvc.perform(post("/api/v1/student/tutor/division/check").contentType(MediaType.APPLICATION_JSON).content(written.replace("59947", "5947")))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("CORRECT"));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("CORRECT"))
+                .andExpect(jsonPath("$.hints.length()").value(0));
     }
 
     private static Map<String, Object> validGuide() {

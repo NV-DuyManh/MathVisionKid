@@ -124,17 +124,20 @@ _sessions: OrderedDict[str, Session] = OrderedDict()
 TTL = 3600
 MAX_SESSIONS = 128
 _OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv}
+_SYMBOLS = str.maketrans({'×': '*', '÷': '/', ':': '/', '−': '-'})
 
 
 def calculate_exact(expression: str) -> Fraction:
     """Only basic arithmetic; never eval model or pupil code."""
-    tree = ast.parse(expression.replace("×", "*").replace("÷", "/").replace(":", "/"), mode="eval")
+    normalized = expression.translate(_SYMBOLS)
+    tree = ast.parse(normalized, mode="eval")
     if len(list(ast.walk(tree))) > 50:
         raise ValueError("Expression too large")
 
     def visit(node):
         if isinstance(node, ast.Constant) and type(node.value) in (int, float):
-            return Fraction(str(node.value))
+            # AST floats lose digits; check the original literal instead.
+            return Fraction(ast.get_source_segment(normalized, node))
         if isinstance(node, ast.BinOp) and type(node.op) in _OPS:
             return _OPS[type(node.op)](visit(node.left), visit(node.right))
         if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
@@ -156,14 +159,20 @@ def expression_at(step: Step, answers: list[str]) -> str:
     expression = step.expression
     for index, answer in enumerate(answers):
         if re.fullmatch(r"-?\d+(?:\.\d+)?(?:/\d+)?", answer):
-            expression = expression.replace("{s" + str(index) + "}", f"({answer})" if "/" in answer else answer)
+            expression = expression.replace("{s" + str(index) + "}", f"({answer})" if "/" in answer or answer.startswith('-') else answer)
     if "{" in expression or "}" in expression:
         raise ValueError("Missing previous calculation")
     return expression
 
 
 def display_expression(expression: str, fractions=False) -> str:
-    return expression.replace("*", " × ").replace("/", "/" if fractions else " ÷ ").replace("+", " + ").replace("-", " − ")
+    # A ratio of compound terms is division; only literal fraction pairs stack.
+    if fractions:
+        expression = re.sub(r'(?<![\w/.,])\(-([0-9]+)\)/([1-9]\d*)(?![\w/]|[.,]\d)', r'-\1/\2', expression)
+    parts = re.split(r"(?<![\w/.,])(\d+\s*/\s*[1-9]\d*)(?![\w/]|[.,]\d)", expression) if fractions else [expression]
+    return ''.join(re.sub(r'\s+', '', part) if index % 2 else
+                   part.replace('*', ' × ').replace('/', ' ÷ ').replace('+', ' + ').replace('-', ' − ')
+                   for index, part in enumerate(parts))
 
 
 def _requested_goal(text: str) -> str:
@@ -298,13 +307,18 @@ def primary_plan(problem: str) -> Plan | None:
                      question="Chu vi nói đến phần nào của hình?", choices=["Độ dài đường bao quanh", "Phần mặt phẳng bên trong"], correctChoice="Độ dài đường bao quanh"),
                 Step(title="Tính chu vi", explanation="Cộng chiều dài và chiều rộng trong ngoặc trước, rồi nhân 2. Chu vi dùng đơn vị độ dài.", question="Chu vi là bao nhiêu?", expression=f"({a}+{b})*2", unit=length[2]),
             ])
-    arithmetic = re.fullmatch(r"(?:tinh\s*(?::|gia tri bieu thuc\s*:)?\s*)?([\d.,\s()+\-*×÷/:]+)[.?!]?", text.strip())
-    if arithmetic and re.search(r"[+\-*×÷/:]", arithmetic[1]):
+    arithmetic = re.fullmatch(r"(?:tinh\s*(?::|gia tri bieu thuc\s*:)?\s*)?([\d.,\s()+\-−*×÷/:]+?)[.?!]?", text.strip())
+    if arithmetic and re.search(r"[+\-−*×÷/:]", arithmetic[1]):
         expression = arithmetic[1].strip().replace(',', '.')
         try:
             calculate(expression)
         except (ValueError, SyntaxError, ArithmeticError):
             return None
+        fraction = fraction_arithmetic_plan(expression)
+        if fraction:
+            return fraction
+        if '/' not in expression:
+            return arithmetic_steps(expression)
         first = "Làm trong ngoặc trước" if '(' in expression else "Nhân, chia trước; cộng, trừ sau"
         return Plan(topic="Tính giá trị biểu thức", goal="Hiểu thứ tự phép tính, tự tính và kiểm tra kết quả.", steps=[
             Step(title="Chọn thứ tự làm", explanation="Làm trong ngoặc trước. Ngoài ngoặc, nhân và chia trước cộng và trừ; các phép cùng mức làm từ trái sang phải.",
@@ -312,6 +326,83 @@ def primary_plan(problem: str) -> Plan | None:
             Step(title="Thực hiện phép tính", explanation="Em thực hiện từng phép theo thứ tự vừa chọn. Tính xong hãy làm lại một lượt để kiểm tra.", question="Giá trị của biểu thức là bao nhiêu?", expression=expression),
         ])
     return None
+
+
+def arithmetic_steps(expression: str) -> Plan | None:
+    """One checked operation at a time, preserving the source's AST order."""
+    normalized = expression.translate(_SYMBOLS)
+    tree = ast.parse(normalized, mode='eval')
+    if not 1 <= sum(isinstance(node, ast.BinOp) for node in ast.walk(tree)) <= 5:
+        return None  # Do not silently teach only part of a longer expression.
+    first = 'Làm trong ngoặc trước' if '(' in expression else 'Nhân, chia trước; cộng, trừ sau'
+    steps = [Step(title='Chọn thứ tự làm', explanation='Làm trong ngoặc trước. Ngoài ngoặc, nhân và chia trước cộng và trừ; các phép cùng mức làm từ trái sang phải.',
+                  question='Em sẽ bắt đầu theo quy tắc nào?', choices=[first, 'Làm tùy ý từ phép cuối'], correctChoice=first)]
+    names = {ast.Add: ('cộng', '+'), ast.Sub: ('trừ', '-'), ast.Mult: ('nhân', '*'), ast.Div: ('chia', '/')}
+    def walk(node):
+        if isinstance(node, ast.Constant):
+            return ast.get_source_segment(normalized, node)
+        if isinstance(node, ast.UnaryOp):
+            return f'-({walk(node.operand)})'
+        left, right = walk(node.left), walk(node.right)
+        name, symbol = names[type(node.op)]
+        index = len(steps)
+        steps.append(Step(title=f'Thực hiện phép {name}',
+            explanation=f'Phép {name} này là thao tác tiếp theo theo thứ tự của biểu thức. Những phép đã làm được thay bằng kết quả em vừa tính. Chỉ tính phép đang hiện ở bước này.',
+            question=f'Em thực hiện phép {name} đang hiện được bao nhiêu?', expression=f'{left}{symbol}{right}',
+            hints=[f'Nhìn hai số hai bên dấu phép {name}. Dùng đúng kết quả của bước trước nếu có.',
+                   f'Thực hiện phép {name} của hai số đang hiện, rồi thử tính lại để kiểm tra. Em chưa cần làm các phép còn lại của đề.']))
+        return '{s' + str(index) + '}'
+    walk(tree.body)
+    return Plan(topic='Tính từng phép trong biểu thức', goal='Làm đúng thứ tự, tự tính từng phép rồi ghép kết quả.', steps=steps)
+
+
+def fraction_arithmetic_plan(expression: str) -> Plan | None:
+    pair = re.fullmatch(r'\s*(\d+)\s*/\s*(\d+)\s*([+\-−*×÷:])\s*(\d+)\s*/\s*(\d+)\s*', expression)
+    if not pair:
+        return None
+    a, b, operation, c, d = pair.groups()
+    if min(int(b), int(d)) <= 0:
+        return None
+    if operation in '+-−':
+        name, symbol = ('cộng', '+') if operation == '+' else ('trừ', '-')
+        steps = [
+            Step(title='Tìm mẫu số chung', explanation='Hai phân số cần cùng cỡ phần trước khi cộng hoặc trừ. Nhân hai mẫu số để tìm một mẫu số chung; đây không nhất thiết là mẫu số chung nhỏ nhất.',
+                 question='Mẫu số chung em chọn bằng tích hai mẫu số là bao nhiêu?', expression=f'{b}*{d}',
+                 hints=['Nhìn số ở dưới gạch ngang của mỗi phân số.', 'Lấy mẫu số thứ nhất nhân với mẫu số thứ hai. Chưa cộng hoặc trừ hai tử số.']),
+            Step(title='Quy đồng phân số thứ nhất', explanation='Chia mẫu số chung vừa tìm cho mẫu số thứ nhất. Nhân tử số thứ nhất với số lần đó; mẫu số mới là mẫu số chung.',
+                 question='Tử số mới của phân số thứ nhất là bao nhiêu?', expression=f'{a}*({{s0}}/{b})',
+                 hints=['Tìm xem mẫu số cũ cần nhân với bao nhiêu để bằng mẫu số chung.', 'Nhân tử số với cùng số lần mà em đã dùng cho mẫu số. Giá trị của phân số sẽ không đổi.']),
+            Step(title='Quy đồng phân số thứ hai', explanation='Làm tương tự cho phân số thứ hai: chia mẫu số chung cho mẫu số cũ, rồi nhân tử số với số lần vừa tìm.',
+                 question='Tử số mới của phân số thứ hai là bao nhiêu?', expression=f'{c}*({{s0}}/{d})',
+                 hints=['Dùng mẫu số của phân số thứ hai để tìm số lần cần nhân.', 'Nhân cả tử và mẫu với cùng số lần. Điền tử số mới; mẫu số mới vẫn là mẫu số chung.']),
+            Step(title=f'{name.capitalize()} hai tử số', explanation=f'Hai phân số đã có cùng mẫu số nên các phần có cùng cỡ. {name.capitalize()} hai tử số mới và giữ nguyên mẫu số chung.',
+                 question='Tử số của kết quả là bao nhiêu?', expression=f'{{s1}}{symbol}{{s2}}',
+                 hints=['Dùng hai tử số mới em vừa tính, không dùng hai tử số ban đầu.', f'Chỉ {name} hai tử số mới. Không {name} hai mẫu số.']),
+            Step(title='Viết phân số kết quả', explanation='Đặt tử số vừa tính trên mẫu số chung. Nếu tử và mẫu cùng chia hết cho một số lớn hơn một, chia cả hai cho số đó để rút gọn.',
+                 question='Em viết kết quả dưới dạng phân số được bao nhiêu?', expression='{s3}/{s0}',
+                 hints=['Tử số là kết quả bước trước; mẫu số là mẫu số chung của hai phân số.', 'Chọn ô nhập phân số. Điền tử ở trên, mẫu ở dưới. Rút gọn bằng cách chia cả tử và mẫu cho cùng một số.']),
+        ]
+    else:
+        divide = operation in '÷:'
+        if divide and int(c) == 0:
+            return None
+        top, bottom = (d, c) if divide else (c, d)
+        rule = ('Đổi chỗ tử và mẫu của phân số thứ hai để lấy phân số đảo ngược, rồi chuyển phép chia thành phép nhân.' if divide else
+                'Nhân tử số với tử số, mẫu số với mẫu số. Phép nhân phân số không cần quy đồng mẫu số.')
+        steps = [
+            Step(title='Tính tử số kết quả', explanation=rule + ' Bước này chỉ tính tích của hai tử số trong phép nhân.',
+                 question='Tử số của kết quả là bao nhiêu?', expression=f'{a}*{top}',
+                 hints=['Giữ nguyên phân số thứ nhất.' + (' Đảo tử và mẫu của phân số thứ hai.' if divide else ' Nhìn hai số ở trên gạch ngang.'),
+                        'Nhân hai số ở trên gạch ngang sau khi đã chọn đúng phép nhân. Chưa tính mẫu số.']),
+            Step(title='Tính mẫu số kết quả', explanation='Dùng hai phân số trong phép nhân ở bước trước. Nhân hai mẫu số để tìm mẫu số của kết quả.',
+                 question='Mẫu số của kết quả là bao nhiêu?', expression=f'{b}*{bottom}',
+                 hints=['Nhìn hai số ở dưới gạch ngang trong phép nhân.', 'Nhân hai mẫu số đó. Khi làm phép chia, nhớ dùng phân số thứ hai đã đảo ngược.'] if divide else
+                       ['Nhìn hai số ở dưới gạch ngang.', 'Nhân hai mẫu số đó; không cộng hai mẫu số.']),
+            Step(title='Viết và rút gọn kết quả', explanation='Đặt tử số đã tính trên mẫu số đã tính. Chia cả tử và mẫu cho cùng một ước chung nếu có để rút gọn.',
+                 question='Kết quả của phép tính dưới dạng phân số là bao nhiêu?', expression='{s0}/{s1}',
+                 hints=['Dùng tử và mẫu ở hai bước em vừa hoàn thành.', 'Nhập tử số ở ô trên, mẫu số ở ô dưới. Có thể rút gọn cả tử và mẫu bằng cùng một số.']),
+        ]
+    return Plan(topic='Tính với hai phân số', goal='Hiểu từng thao tác, tự tính tử và mẫu rồi viết kết quả chính xác.', steps=steps)
 
 
 def fraction_garden_plan(problem: str) -> Plan | None:
@@ -438,7 +529,7 @@ def calculation_hints(step: Step, answers: list[str]) -> list[str]:
         return [f"Đọc lại câu hỏi: {step.question} {step.explanation}"[:500],
                 "Xem mỗi lựa chọn nói đến đại lượng hoặc cách làm nào. Đối chiếu với điều đề hỏi, rồi chọn cách em có thể giải thích được."]
     expression = expression_at(step, answers)
-    tree = ast.parse(expression.replace("×", "*").replace("÷", "/").replace(":", "/"), mode="eval")
+    tree = ast.parse(expression.translate(_SYMBOLS), mode="eval")
     operations = []
     def walk(node):
         if isinstance(node, ast.BinOp):
@@ -504,7 +595,7 @@ def answer_lesson(request: TurnRequest) -> LessonResponse:
             try:
                 entered = Fraction(numeric.replace(" ", ""))
                 expected = calculate_exact(expression)
-                correct = entered == expected if step.fractionNotation or "/" in numeric else abs(entered - expected) <= Fraction(1, 1000000)
+                correct = entered == expected
                 if correct:
                     # Retain the exact server-checked value for subsequent calculations.
                     answer = str(expected)
@@ -514,7 +605,7 @@ def answer_lesson(request: TurnRequest) -> LessonResponse:
         return present(request.sessionId, session, "TRY_AGAIN",
             "Em xem lại đại lượng cần tìm và thử chọn lại nhé." if step.choices else
             "Chưa khớp. Với kết quả phân số, em nhập tử số/mẫu số, không làm tròn số thập phân. Chọn gợi ý để xem cách làm nhé." if step.fractionNotation else
-            "Chưa khớp phép tính này. Em tính lại theo thứ tự trong biểu thức nhé.")
+            "Chưa khớp phép tính này. Em tính lại; nếu kết quả không viết được chính xác bằng số thập phân, em có thể nhập phân số, không làm tròn nhé.")
     session.completed.append(CompletedStep(title=step.title, expression=display_expression(expression, step.fractionNotation),
         answer=answer, unit=step.unit, explanation=step.explanation))
     session.answers.append(answer)

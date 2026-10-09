@@ -68,6 +68,40 @@ def test_accent_specks_stay_with_their_row():
     assert all(a[3] <= b[1] for a, b in zip(boxes, boxes[1:]))
 
 
+@pytest.mark.parametrize('scale', [.5, 1, 2])
+@pytest.mark.parametrize('clip', [0, 30])
+def test_tall_underlined_heading_keeps_its_glyphs_in_one_row(scale, clip):
+    image = notebook([], width=1400, height=500)
+    heading = np.zeros((500, 1400), np.uint8)
+    cv2.putText(heading, 'Bai 3: Bai giai:', (70, 100),
+                cv2.FONT_HERSHEY_SIMPLEX, 3.2, 255, 3)
+    image[heading > 0] = (145, 45, 25)
+    cv2.line(image, (65, 111), (850, 111), (145, 45, 25), 3)
+    for baseline in [185, 280, 375, 470]:
+        cv2.putText(image, '62500 + 2500 = 65000 cm', (100, baseline),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1.5, (145, 45, 25), 3)
+    image = cv2.resize(image[clip:], None, fx=scale, fy=scale)
+    heading = cv2.resize(heading[clip:], (image.shape[1], image.shape[0]),
+                         interpolation=cv2.INTER_NEAREST)
+    boxes = handwriting_rows(image)
+    assert len(boxes) == 5
+    ys, xs = np.nonzero(heading)
+    x1, y1, x2, y2 = boxes[0]
+    assert x1 <= xs.min() and xs.max() < x2
+    assert y1 <= ys.min() and ys.max() < y2
+    assert all(a[3] <= b[1] for a, b in zip(boxes, boxes[1:]))
+    assert all(0 <= x1 < x2 <= image.shape[1] and 0 <= y1 < y2 <= image.shape[0]
+               for x1, y1, x2, y2 in boxes)
+
+
+def test_close_independent_rows_are_not_joined_without_shared_glyph_bodies():
+    image = notebook([95, 140, 230])
+    boxes = handwriting_rows(image)
+    assert len(boxes) == 3
+    for box, baseline in zip(boxes, [95, 140, 230]):
+        assert box[1] < baseline-12 < box[3]
+
+
 def test_sparse_strong_writing_keeps_rows_across_a_blank_section():
     image = notebook([90, 160, 470, 540], width=900, height=800)
     boxes = handwriting_rows(image)

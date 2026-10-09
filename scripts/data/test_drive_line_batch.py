@@ -94,6 +94,42 @@ def test_cloud_resume_does_not_call_provider_twice_or_make_labels(tmp_path, monk
     assert call.await_count == 1 and not (folder/'labels').exists()
 
 
+def test_cloud_limit_counts_only_new_reads_and_never_fetches_later_pending_sources(tmp_path, monkeypatch):
+    from app.tutoring import notebook
+    folder, _ = prepare(tmp_path, duplicate=True)
+    selection = json.loads((folder/'source_selection.json').read_text())
+    (folder/'images/c.jpg').write_bytes((folder/'images/a.jpg').read_bytes())
+    selection.append({'drive_id': 'c', 'name': 'c.jpg', 'source_group': 'unit'})
+    batch.write_json(folder/'source_selection.json', selection)
+    call = AsyncMock(return_value=notebook.NotebookRead(kind='WORK', lines=[notebook.NotebookLine(text='015')]))
+    monkeypatch.setattr(notebook, 'inspect_notebook', call)
+    first = asyncio.run(batch.run_cloud_batch(tmp_path, 'sample', max_new_reads=1))
+    assert first['read'] == first['new_reads'] == 1 and first['pending'] == 2
+    assert first['stop_reason'] == 'batch_limit' and first['retry_not_before'] is None
+    frozen = (folder/'cloud_results/a.json').read_bytes()
+    original = batch.read_source_bytes
+    fetched = []
+    def read(folder, item):
+        fetched.append(item['drive_id'])
+        return original(folder, item)
+    monkeypatch.setattr(batch, 'read_source_bytes', read)
+    call.reset_mock()
+    second = asyncio.run(batch.run_cloud_batch(tmp_path, 'sample', force=True, max_new_reads=1))
+    assert second['read'] == 2 and second['new_reads'] == 1 and second['pending'] == 1
+    assert fetched == ['a', 'b'] and call.await_count == 1
+    assert (folder/'cloud_results/a.json').read_bytes() == frozen
+    assert not (folder/'cloud_results/c.json').exists() and not (folder/'labels').exists()
+    third = asyncio.run(batch.run_cloud_batch(tmp_path, 'sample', max_new_reads=1))
+    assert third['read'] == 3 and third['new_reads'] == 1 and third['pending'] == 0
+    assert third['stop_reason'] is None
+
+
+@pytest.mark.parametrize('limit', [0, -1, True, 1.5])
+def test_cloud_rejects_invalid_read_limits(tmp_path, limit):
+    with pytest.raises(ValueError, match='positive integer'):
+        asyncio.run(batch.run_cloud_batch(tmp_path, 'unused', max_new_reads=limit))
+
+
 def test_cloud_unavailability_stops_without_sweeping_images(tmp_path, monkeypatch):
     from app.tutoring import notebook
     from app.tutoring.service import TutorUnavailable

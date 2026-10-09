@@ -54,6 +54,37 @@ class DivisionCheckerTest {
         assertEquals("CORRECT", check("1005", "5", "201", "00", "05", "0").status());
     }
 
+    @Test void hintsExplainOnlyTheFlaggedTurnWithoutReplacingWrittenNumbers() {
+        var written = new WrittenDivision("17843", "3", "59947", List.of("028", "014", "023", "02"));
+        var wrongQuotient = DivisionChecker.check(written);
+        assertEquals(2, wrongQuotient.hints().size());
+        assertTrue(wrongQuotient.hints().getFirst().contains("số đang chia là 14"));
+        assertFalse(String.join(" ", wrongQuotient.hints()).contains("5947"));
+        assertEquals("59947", written.quotient());
+        assertEquals(List.of("028", "014", "023", "02"), written.rows());
+
+        var intermediate = check("17843", "3", "5947", "028", "015", "023", "02");
+        assertEquals(1, intermediate.rowIndex());
+        assertTrue(intermediate.hints().get(1).contains("(28 − 9 × 3) × 10 + 4"));
+        assertFalse(intermediate.hints().get(1).contains("= 14"));
+        var last = check("17843", "3", "5947", "028", "014", "023", "03");
+        assertTrue(last.hints().get(1).contains("23 − 7 × 3"));
+        assertTrue(last.hints().get(1).contains("không hạ thêm chữ số"));
+        assertFalse(last.hints().get(1).contains("= 2"));
+        assertTrue(check("17843", "3", "5947", "028", "014", "023", "02").hints().isEmpty());
+        assertTrue(check("17843", "3", "5[?]47", "028", "014", "023", "02").hints().isEmpty());
+    }
+
+    @Test void hintHandlesZeroQuotientPositionsAndDifferentOperandWidths() {
+        var zero = check("1005", "5", "21", "00", "05", "0");
+        assertTrue(zero.hints().getFirst().contains("số đang chia là 0"));
+        assertTrue(zero.hints().get(1).contains("kể cả khi chữ số đó là 0"));
+        var wide = check("123456", "97", "1272", "263", "695", "166", "73");
+        assertEquals("TRY_AGAIN", wide.status());
+        assertEquals(0, wide.rowIndex());
+        assertTrue(wide.hints().get(1).contains("(123 − 1 × 97) × 10 + 4"));
+    }
+
     @Test void checkedRowsReconstructManyDifferentDivisionShapes() {
         // Independent fixture construction from quotient positions, including inner/trailing zeroes.
         for (long dividend : new long[]{0, 1, 99, 1005, 10000, 123456, 999999999999L}) {

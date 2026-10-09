@@ -50,6 +50,19 @@ const render = async (confirmProblem = true) => {
     act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
 };
 
+it('opens and closes the calculator without changing the lesson answer or requesting a hint', async () => {
+  await render();
+  await act(async () => button('Bắt đầu từng bước').props.onPress());
+  const before = readText();
+  act(() => button('Mở máy tính bỏ túi').props.onPress());
+  act(() => input('Phép tính').props.onChangeText('17+5'));
+  act(() => button('Tính kết quả').props.onPress());
+  act(() => button('Đóng máy tính').props.onPress());
+  expect(readText()).toBe(before);
+  expect(TutorService.startLesson).toHaveBeenCalledTimes(1);
+  expect(TutorService.answerLesson).not.toHaveBeenCalled();
+});
+
 it('returns home when a lesson is opened without navigation history', async () => {
   const replace = jest.fn();
   (useRouter as jest.Mock).mockReturnValue({ replace, back: jest.fn(), canGoBack: () => false });
@@ -125,6 +138,29 @@ it('does not apply stale grading after editing a row and preserves inputs throug
   await act(async () => { button('Kiểm tra phép chia').props.onPress(); });
   expect(readText()).toContain('Các số em đã sửa vẫn được giữ');
   expect(input('Hàng 1').props.value).toBe('029');
+});
+
+it('reveals division hints progressively without auto-filling and resets them on repair', async () => {
+  divisionPhoto(); await render();
+  const hints = ['Ở lượt 3, thử nhân 3 với một chữ số.', 'Chọn tích không lớn hơn 14.'];
+  (TutorService.checkDivision as jest.Mock).mockResolvedValue({ status: 'TRY_AGAIN', field: 'quotient', rowIndex: null,
+    message: 'Em xem lại lượt 3.', hints });
+  act(() => button('Em đã đối chiếu các số với ảnh').props.onPress());
+  await act(async () => { await button('Kiểm tra phép chia').props.onPress(); });
+  expect(readText()).not.toContain(hints[0]);
+  act(() => button('Gợi ý sửa bước này').props.onPress());
+  expect(readText()).toContain(hints[0]);
+  expect(readText()).not.toContain(hints[1]);
+  act(() => button('Gợi ý rõ hơn').props.onPress());
+  expect(readText()).toContain(hints[1]);
+  expect(button('Gợi ý rõ hơn')).toBeUndefined();
+  expect(TutorService.checkDivision).toHaveBeenCalledTimes(1);
+  expect(input('Thương em viết').props.value).toBe('59947');
+  expect(input('Hàng 1').props.value).toBe('028');
+  act(() => input('Thương em viết').props.onChangeText('5947'));
+  expect(readText()).not.toContain(hints[0]);
+  expect(readText()).not.toContain(hints[1]);
+  expect(button('Kiểm tra phép chia').props.disabled).toBe(true);
 });
 
 it('lets pupils add missing rows, blocks unread digits, and restores saved division fields', async () => {
@@ -240,6 +276,20 @@ it('allows numerator and denominator input, keeps fraction source, and clears st
   act(() => input('Tử số câu trả lời').props.onChangeText('8'));
   expect(readText()).not.toContain('Em kiểm tra lại nhé.');
   expect(input('Mẫu số câu trả lời').props.value).toBe('15');
+});
+
+it.each([['1 ÷ 3', '1', '3'], ['1 − 5', '-4', '1']])('accepts an exact signed fraction for an ordinary calculation: %s', async (expression, numerator, denominator) => {
+  const lesson = { ...LESSON, step: { ...LESSON.step, choices: [], expression, unit: '' } };
+  (TutorService.startLesson as jest.Mock).mockResolvedValue(lesson);
+  await render();
+  await act(async () => { button('Bắt đầu từng bước').props.onPress(); });
+  act(() => button('Nhập kết quả phân số').props.onPress());
+  act(() => input('Tử số câu trả lời').props.onChangeText(numerator));
+  act(() => input('Mẫu số câu trả lời').props.onChangeText('0'));
+  expect(button('Kiểm tra bước này').props.disabled).toBe(true);
+  act(() => input('Mẫu số câu trả lời').props.onChangeText(denominator));
+  await act(async () => { button('Kiểm tra bước này').props.onPress(); });
+  expect(TutorService.answerLesson).toHaveBeenCalledWith(lesson, `${numerator}/${denominator}`, false, expect.anything());
 });
 
 it('requires a problem and preserves the work when taking its companion photo', async () => {

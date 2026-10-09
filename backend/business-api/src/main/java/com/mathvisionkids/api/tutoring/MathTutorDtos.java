@@ -31,7 +31,12 @@ public final class MathTutorDtos {
                     @Pattern(regexp = "(?:[0-9 +\\-−]|\\[\\?\\])+") String> rows) {}
     public record DivisionCheckRequest(@NotNull @jakarta.validation.Valid WrittenDivision division,
                                        @NotNull @AssertTrue Boolean confirmed) {}
-    public record DivisionCheckResponse(String status, String field, Integer rowIndex, String message) {}
+    public record DivisionCheckResponse(String status, String field, Integer rowIndex, String message,
+                                        java.util.List<String> hints) {
+        public DivisionCheckResponse(String status, String field, Integer rowIndex, String message) {
+            this(status, field, rowIndex, message, java.util.List.of());
+        }
+    }
     public record NotebookLine(String text, java.util.List<Integer> box, boolean uncertain, WrittenDivision division) {
         public NotebookLine(String text, java.util.List<Integer> box, boolean uncertain) {
             this(text, box, uncertain, null);

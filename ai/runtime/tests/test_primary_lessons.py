@@ -57,7 +57,6 @@ def test_incomplete_ambiguous_or_inconsistent_statements_never_select_a_local_an
  ('Hình chữ nhật có chiều dài là 12 cm, chiều rộng là 5 cm. Tính diện tích hình chữ nhật.', 'Nhân chiều dài với chiều rộng','60'),
  ('Hình chữ nhật có chiều dài là 12 cm, chiều rộng là 5 cm. Tính chu vi hình chữ nhật.', 'Độ dài đường bao quanh','34'),
  ('Hình tam giác có đáy là 15 cm, chiều cao là 12 cm. Tính diện tích.', 'Đáy nhân chiều cao, rồi chia đôi','90'),
- ('Tính (18 + 6) : 3.', 'Làm trong ngoặc trước','8'),
 ])
 async def test_primary_geometry_and_expressions_are_grounded_without_provider(monkeypatch,problem,choice,answer):
     monkeypatch.setattr(lesson,'_generate',AsyncMock(side_effect=AssertionError('No cloud')))
@@ -65,6 +64,24 @@ async def test_primary_geometry_and_expressions_are_grounded_without_provider(mo
     for value in [choice,answer]:
         result=answer_lesson(TurnRequest(owner='pupil',sessionId=result.sessionId,revision=result.revision,answer=value))
     assert result.status=='COMPLETE'
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('source,choice,answers', [
+ ('Tính (18 + 6) : 3.', 'Làm trong ngoặc trước', ['24', '8']),
+ ('Tính 8 + 6 × 3 − 4.', 'Nhân, chia trước; cộng, trừ sau', ['18', '26', '22']),
+ ('Tính (12 − 8) × (9 + 3).', 'Làm trong ngoặc trước', ['4', '12', '48']),
+ ('Tính 24 : 3 : 2.', 'Nhân, chia trước; cộng, trừ sau', ['8', '4']),
+])
+async def test_expression_is_taught_one_actual_operation_at_a_time(monkeypatch, source, choice, answers):
+    cloud = AsyncMock(side_effect=AssertionError('Source operations are locally grounded'))
+    monkeypatch.setattr(lesson, '_generate', cloud)
+    response = await start_lesson(LessonRequest(owner='pupil', problemText=source, problemConfirmed=True))
+    for value in [choice, *answers]:
+        response = answer_lesson(TurnRequest(owner='pupil', sessionId=response.sessionId, revision=response.revision, answer=value))
+    assert response.status == 'COMPLETE'
+    assert [item.answer for item in response.completed[1:]] == answers
+    cloud.assert_not_called()
 
 
 @pytest.mark.parametrize('problem', [

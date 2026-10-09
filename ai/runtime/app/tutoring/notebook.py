@@ -17,7 +17,7 @@ from app.tutoring.service import (
     normalize_image, safe_fallback, _UNSUPPORTED_VERDICTS, TutorUnavailable,
 )
 from app.tutoring.rows import handwriting_rows
-from app.tutoring.math_layout import division_panels, fraction_expression, isolated_fraction
+from app.tutoring.math_layout import division_panels, fraction_expression, isolated_fraction, row_panels
 
 
 WrittenNumber = Annotated[str, Field(min_length=1, max_length=24, pattern=r"^(?:[0-9]|\[\?\])+$")]
@@ -244,6 +244,28 @@ def _same_math(first, second):
             and re.sub(r"\s+", "", first.text) == re.sub(r"\s+", "", second.text))
 
 
+def _flatten_band_review(payload, count):
+    """Internal positional groups; never add text or accept duplicate band IDs."""
+    if not isinstance(payload, dict) or "bands" not in payload:
+        return payload, True  # A flat reply still faces the existing content/role guard.
+    groups = payload["bands"]
+    if "lines" in payload or not isinstance(groups, list):
+        raise ValueError("Invalid band response")
+    if not groups and payload.get("kind") in ("MULTIPLE", "UNREADABLE"):
+        return {**{key: value for key, value in payload.items() if key != "bands"}, "lines": []}, False
+    if len(groups) != count:
+        raise ValueError("Incomplete candidate bands")
+    rows = []
+    for index, group in enumerate(groups, 1):
+        if (not isinstance(group, dict) or set(group) != {"candidateId", "lines"}
+                or type(group["candidateId"]) is not int or group["candidateId"] != index
+                or not isinstance(group["lines"], list)):
+            raise ValueError("Invalid candidate band order or content")
+        rows.extend(group["lines"])
+    aligned = all(len(group["lines"]) == 1 for group in groups)
+    return {**{key: value for key, value in payload.items() if key != "bands"}, "lines": rows}, aligned
+
+
 def _mark_unread_division_digits(payload):
     """Keep a glyph read as a letter explicitly unknown, never infer its digit.
 
@@ -316,9 +338,30 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         result.kind = "WORK"
     completed_fraction = any(line.layout == "FRACTION" and re.search(r"=\s*(?:[\d(]|\[\?\])", line.text)
                              for line in result.lines)
-    if (result.problemText and (re.search(r"\bdap (?:so|an)\b", _fold(visible)) or completed_fraction)
-            and not re.search(r"\b(?:hoi|hay|tinh|tim|bao nhieu)\b|\?",
-                              _fold((visible + "\n" + result.problemText).replace("[?]", "")))):
+    # Only completed numeric expressions, not unsolved x + 3 = 10 or blank boxes.
+    completed_equation = any(line.role == "EQUATION" and re.match(
+        r"^[\s(\-−+]*\d[\d\s.,()%+−×÷*/:\-]*=\s*[-−+]?\s*\d",
+        re.sub(r"(?<=\d)\s*[xX]\s*(?=\d)", " × ", line.text))
+                             for line in result.lines)
+    completed_division = any(line.division and (line.division.quotient is not None or line.division.rows)
+                             for line in result.lines)
+    worked_material = (re.search(r"\b(?:dap (?:so|an)|bai giai)\b", _fold(visible))
+                       or completed_fraction or completed_equation or completed_division)
+    # A question elsewhere on a mixed page cannot validate selected answer prose.
+    question_text = _fold(result.problemText.replace("[?]", ""))
+    # Descriptive phrases such as "phép tính" are not instructions to calculate.
+    question_text = re.sub(r"\b(?:phep tinh|cach tinh|muon tim)\b", "", question_text)
+    question_text = re.sub(r"\b(?:tinh|tim)\s+(?:duoc|ra)\b", "", question_text)
+    symbolic = re.sub(r"^(?:bai\s+\d+\s*[:.]|[a-z]\))\s*", "", question_text).strip().rstrip('.')
+    symbolic = re.sub(r"(?<=\d)\s*x\s*(?=\d)", " × ", symbolic)
+    unknown_equation = ("=" in symbolic and re.fullmatch(r"[\s\d.,()+×÷*/:\-−=□☐a-z]+", symbolic)
+                        and not re.search(r"[a-z]{2,}", symbolic) and re.search(r"[a-z□☐]", symbolic))
+    task = (re.search(r"\b(?:hoi|hay|bao nhieu)\b|\?", question_text)
+            or re.search(r"(?:^|[\n:.;])\s*(?:[a-z]\)|\d+[.)])?\s*"
+                         r"(?:tinh|tim|dien|viet|sap xep|so sanh|rut gon|quy dong|doi|chon|xac dinh|dat tinh)\b",
+                         question_text)
+            or unknown_equation)
+    if result.problemText and worked_material and not task:
         result.problemText = ""
         result.kind = "WORK"
     # Descriptions of drawings are not physical prose rows and cannot be
@@ -362,8 +405,10 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
     # Count agreement locates rows; it does not verify any written digit.
     # Independently reread numeric rows and grouped math, preserving disagreement.
+    initial_uncertainty = [line.uncertain for line in result.lines]
+    band_alignment = True
     math_uncertainty = {index: line.uncertain for index, line in enumerate(result.lines)
-                        if line.layout != "ROW" or re.search(r"\d", line.text)}
+                        if line.layout != "ROW" or line.role == "EQUATION" or re.search(r"\d", line.text)}
     for index in math_uncertainty:
         result.lines[index].uncertain = True
     if panels or math_uncertainty or (review_count and review_count != len(result.lines)):
@@ -390,9 +435,26 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
                     # No synthetic answer or equality is generated from operands.
                     reviewed = None
                 else:
-                    reviewed = await asyncio.wait_for(_generate(MATH_REVIEW if structured else READ_NOTEBOOK,
-                    "Independently read the numerator, ONE fraction bar and denominator as ONE expression. The upper and lower tiers are not separate exercises. Do not solve or correct it. Return the same JSON schema." if isolated else
-                    "Independently verify this handwritten page. First count independent exercises across the WHOLE page, including separate long-division setups and numbered groups; return MULTIPLE with empty content if there is more than one. Intermediate steps of one word problem remain one exercise. Ignore diagram labels. Focus on crossed-out numbers, handwritten replacement words and bottom answer rows. A crossed-out value MUST contain [?] and uncertain=true; never choose a replacement by calculating. Return the same JSON schema.", image), timeout=remaining)
+                    bands = (row_panels(pixels, physical) if not structured and physical
+                             and len(physical) != len(result.lines) and not isolated
+                             and not fraction_expression(pixels) else None)
+                    review_system = MATH_REVIEW if structured else READ_NOTEBOOK
+                    if bands:
+                        review_system += """\nFor this labelled sheet ONLY, replace the top-level lines
+with bands: an array of {candidateId,lines}. For WORK/MIXED/PROBLEM include each
+printed CANDIDATE BAND integer ID exactly once in ascending order. Each group can
+contain ZERO, ONE or SEVERAL actual physical rows; a candidate is not verified row
+geometry. Assign a row to the nearest candidate centre, once only, excluding rows
+repeated in padding. Preserve distinct baselines when a sentence wraps. Compare
+complete strokes against FULL SOURCE. Do not force one row per band or infer text
+outside the source. For MULTIPLE/UNREADABLE return bands=[] and empty problemText.
+All other fields and line schemas remain the same. Never solve or correct."""
+                    reviewed = await asyncio.wait_for(_generate(review_system,
+                    ("Independently read the numerator, ONE fraction bar and denominator as ONE expression. The upper and lower tiers are not separate exercises. Do not solve or correct it. Return the same JSON schema." if isolated else
+                    "Independently verify this handwritten page. First count independent exercises across the WHOLE page, including separate long-division setups and numbered groups; return MULTIPLE with empty content if there is more than one. Intermediate steps of one word problem remain one exercise. Ignore diagram labels. Focus on crossed-out numbers, handwritten replacement words and bottom answer rows. A crossed-out value MUST contain [?] and uncertain=true; never choose a replacement by calculating. Return the same JSON schema.") +
+                    (" The sheet repeats ONE source page: FULL SOURCE is authoritative. CANDIDATE BAND panels are positional aids with padding/overlap, not additional exercises or verified row boundaries. Ignore all printed English labels. Compare each band with FULL SOURCE and preserve physical line breaks even when a sentence wraps. Do not force the band count, duplicate text, split stacked fractions/division blocks or infer clipped glyphs; read complete strokes from FULL SOURCE." if bands else ""), bands or image), timeout=remaining)
+                    if bands:
+                        reviewed, band_alignment = _flatten_band_review(reviewed, len(physical))
                 if reviewed is None:
                     for line in result.lines:
                         line.box = None
@@ -420,6 +482,38 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
                         return result
                     return NotebookRead(kind="UNREADABLE", needsCrop=True)
                 if second.kind in ("WORK", "MIXED", "PROBLEM"):
+                    disputed_question = (second.problemText.strip()
+                        and " ".join(result.problemText.split()) != " ".join(second.problemText.split()))
+                    if result.problemText and (disputed_question
+                            or (second.kind == "WORK" and not second.problemText.strip())):
+                        # A disputed original question requires pupil clarification.
+                        # Keep the first transcription; do not replace it with a guess.
+                        result.problemText = ""
+                        result.kind = "WORK"
+                        result.needsProblem = True
+                    if (not structured and physical and len(result.lines) != len(physical)
+                            and len(alternatives) == len(physical)
+                            and all(line.layout == "ROW" for line in alternatives)
+                            and " ".join(" ".join(line.text for line in result.lines).split())
+                            == " ".join(" ".join(line.text for line in alternatives).split())):
+                        # Reconcile only row breaks of IDENTICAL ordered content.
+                        # A changed digit, word, symbol or missing row cannot pass.
+                        spans, offset = [], 0
+                        for line, uncertain in zip(result.lines, initial_uncertainty):
+                            end = offset + len(re.sub(r"\s", "", line.text))
+                            spans.append((offset, end, uncertain, line.role))
+                            offset = end
+                        offset, matched = 0, True
+                        for line in alternatives:
+                            end = offset + len(re.sub(r"\s", "", line.text))
+                            parents = [span for span in spans if span[0] < end and offset < span[1]]
+                            matched = matched and bool(parents) and all(span[3] == line.role for span in parents)
+                            line.uncertain = line.uncertain or any(span[2] for span in parents)
+                            offset = end
+                        if matched:
+                            result.lines = alternatives
+                            math_uncertainty = {i: line.uncertain for i, line in enumerate(result.lines)
+                                                if line.role == "EQUATION" or re.search(r"\d", line.text)}
                     for index, line in enumerate(result.lines):
                         if not alternatives:
                             break
@@ -441,10 +535,14 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     if (diagram_prefix and result.lines and re.match(r"^(?:bai|loi) giai", _fold(result.lines[0].text))
             and 0 < len(physical)-len(result.lines) <= diagram_prefix):
         physical = physical[-len(result.lines):]
-    grounded = not structured and len(physical) == len(result.lines)
+    # Touching envelopes can cut overlapping ascenders/descenders. Count alone
+    # cannot justify highlighting either complete physical row in that case.
+    crowded = any(first[3] >= second[1] and max(first[0], second[0]) < min(first[2], second[2])
+                  for first, second in zip(physical, physical[1:]))
+    grounded = not structured and len(physical) == len(result.lines) and not crowded and band_alignment
     for index, line in enumerate(result.lines):
         line.uncertain = line.uncertain or "[?]" in line.text
-        if not structured and physical and not grounded and re.search(r"\d|dap (?:an|so)", _fold(line.text)):
+        if not structured and physical and not grounded:
             line.uncertain = True
         line.box = None
         if grounded:

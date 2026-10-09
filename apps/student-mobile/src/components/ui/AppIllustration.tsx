@@ -13,12 +13,24 @@ const SOURCES = [
   require('../../../assets/images/mathvision-icon-v2.png'),
 ];
 const ready = new Map<number, ImageRef>();
+const loads = new Map<number, { started: number; promise: Promise<ImageRef> }>();
 let pending: Promise<void> | null = null;
 
 export function prepareIllustrations(): Promise<void> {
   if (!pending) {
     const loading = Promise.all(SOURCES.map(async source => {
-      if (!ready.has(source)) ready.set(source, await Image.loadAsync(source, { maxWidth: 640, maxHeight: 640 }));
+      if (ready.has(source)) return;
+      let current = loads.get(source);
+      // Reuse other downloads after a fast failure; retry only stalled ones.
+      if (!current || Date.now() - current.started >= 15000) {
+        const promise = Image.loadAsync(source, { maxWidth: 640, maxHeight: 640 });
+        current = { started: Date.now(), promise };
+        loads.set(source, current);
+        promise.then(ref => ready.set(source, ref)).catch(() => {}).finally(() => {
+          if (loads.get(source)?.promise === promise) loads.delete(source);
+        });
+      }
+      await current.promise;
     }));
     let timeout: ReturnType<typeof setTimeout>;
     pending = Promise.race([loading, new Promise<never>((_, reject) => {

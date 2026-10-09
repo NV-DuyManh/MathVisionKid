@@ -209,6 +209,99 @@ def test_visible_question_is_preserved_with_its_work(monkeypatch):
     assert result.kind == "MIXED" and result.problemText and not result.needsProblem
 
 
+@pytest.mark.parametrize('question', [
+    'Điền số thích hợp vào ô trống: □ + 3 = 10.', 'x + 3 = 10', 'y + 3 = 10', 'm + 3 = 10',
+    'Bài 2: So sánh 7 và 10.', 'Viết số thích hợp vào chỗ chấm.',
+    'Đặt tính rồi tính 84 : 4.', 'Rút gọn phân số 6/8.',
+])
+def test_actual_tasks_survive_on_a_page_with_completed_work(monkeypatch, question):
+    payload = {'kind': 'MIXED', 'problemText': question, 'lines': [
+        {'text': question}, {'text': '7 + 3 = 10', 'role': 'EQUATION'}]}
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == 'MIXED' and result.problemText == question and not result.needsProblem
+
+
+@pytest.mark.parametrize('selected', [
+    'Số tiền mua vở là: 10 000 × 3 = 30 000 (đồng)', 'Ta tính số tiền mua vở:',
+    'Tính được số tiền là:', 'Tìm ra số tiền là:',
+])
+def test_question_elsewhere_cannot_validate_selected_solution_prose(monkeypatch, selected):
+    question = 'Hỏi mua ba quyển vở hết bao nhiêu tiền?'
+    payload = {'kind': 'MIXED', 'problemText': selected, 'lines': [
+        {'text': question}, {'text': 'Ta tính số tiền mua vở:'},
+        {'text': '10 000 × 3 = 30 000 (đồng)', 'role': 'EQUATION'}]}
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == 'WORK' and result.problemText == '' and result.needsProblem
+    assert result.lines[0].text == question  # Retain the source, require clarification.
+    assert result.lines[-1].text == '10 000 × 3 = 30 000 (đồng)'
+
+
+@pytest.mark.parametrize('question', ['87 : 4', 'Tính 87 : 4.'])
+def test_written_division_work_is_not_itself_the_original_question(monkeypatch, question):
+    division = {'dividend': '87', 'divisor': '4', 'quotient': '21', 'rows': ['07', '3']}
+    payload = {'kind': 'PROBLEM', 'problemText': question, 'lines': [
+        {'text': 'division', 'layout': 'LONG_DIVISION', 'division': division}]}
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    monkeypatch.setattr(notebook, 'division_panels', lambda _: None)
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.lines[0].division.model_dump() == division
+    assert result.problemText == (question if question.startswith('Tính') else '')
+    assert result.needsProblem is (not question.startswith('Tính'))
+
+
+def test_independent_reading_can_dispute_an_original_question_without_replacing_text(monkeypatch):
+    lines = [{'text': 'Tính 84 : 4.'}, {'text': '84 : 4 = 21', 'role': 'EQUATION'}]
+    first = {'kind': 'MIXED', 'problemText': 'Tính 84 : 4.', 'lines': lines}
+    second = {'kind': 'WORK', 'lines': lines}
+    monkeypatch.setattr(notebook, 'handwriting_rows', lambda _: [(20, 20, 800, 100), (20, 150, 800, 230)])
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(side_effect=[first, second]))
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert result.kind == 'WORK' and result.problemText == '' and result.needsProblem
+    assert [line.text for line in result.lines] == [line['text'] for line in lines]
+
+
+@pytest.mark.parametrize('review', ['same', 'digit_change', 'initial_uncertainty', 'role_change'])
+def test_independent_physical_row_breaks_require_identical_ordered_content(monkeypatch, review):
+    first = {'kind': 'WORK', 'lines': [
+        {'text': 'Bài giải:'}, {'text': 'Số tiền lãi là:'},
+        {'text': '35 000 000 × 7,4 : 100 = 2 590 000 (đồng)', 'role': 'EQUATION'},
+        {'text': 'Tổng số tiền gửi và tiền lãi sau một năm là:',
+         'uncertain': review == 'initial_uncertainty'}]}
+    second = {'kind': 'WORK', 'lines': [*first['lines'][:3],
+        {'text': 'Tổng số tiền gửi và tiền lãi sau một'}, {'text': 'năm là:'}]}
+    if review == 'digit_change':
+        second['lines'][2] = {'text': '35 000 000 × 7,4 : 100 = 2 580 000 (đồng)', 'role': 'EQUATION'}
+    elif review == 'role_change':
+        second['lines'][-1]['role'] = 'EQUATION'
+    boxes = [(20, 20 + i * 150, 800, 100 + i * 150) for i in range(5)]
+    monkeypatch.setattr(notebook, 'handwriting_rows', lambda _: boxes)
+    monkeypatch.setattr('app.recognition.text_detector.detect_text_regions', lambda _: [])
+    cloud = AsyncMock(side_effect=[first, second])
+    monkeypatch.setattr(notebook, '_generate', cloud)
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    accepted = review in ('same', 'initial_uncertainty')
+    assert cloud.await_count == 2
+    assert [line.text for line in result.lines] == [line['text'] for line in (second if accepted else first)['lines']]
+    assert [line.box for line in result.lines] == (boxes if accepted else [None] * 4)
+    if accepted:
+        assert all(line.uncertain is (review == 'initial_uncertainty') for line in result.lines[-2:])
+    else:
+        assert all(line.uncertain for line in result.lines)
+    assert first['lines'][-1]['text'] == 'Tổng số tiền gửi và tiền lãi sau một năm là:'
+
+
+@pytest.mark.parametrize('next_top', [100, 95])
+def test_touching_ink_envelopes_cannot_be_presented_as_verified_row_geometry(monkeypatch, next_top):
+    payload = {'kind': 'WORK', 'lines': [{'text': 'Bài giải:'}, {'text': 'Số tiền là:'}]}
+    monkeypatch.setattr(notebook, 'handwriting_rows', lambda _: [(20, 20, 800, 100), (20, next_top, 800, 180)])
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
+    assert [line.text for line in result.lines] == ['Bài giải:', 'Số tiền là:']
+    assert all(line.box is None and line.uncertain for line in result.lines)
+
+
 @pytest.mark.parametrize('heading', [
     'Bài 18: Đề-xi-mét vuông, mét vuông, mi-li-mét vuông',
     'Chương 2: Phân số', 'Tiết 7. Biểu thức chứa chữ',
@@ -222,6 +315,33 @@ def test_topic_heading_cannot_be_used_as_an_original_question(monkeypatch, headi
     assert result.kind == 'WORK' and result.problemText == '' and result.needsProblem
     assert [line.text for line in result.lines] == notes
     assert payload['problemText'] == heading
+
+
+@pytest.mark.parametrize('heading, equation', [
+    ('Bài 3: Bài giải:', '35 000 000 x 7,4 : 100 = 2590 000 (đồng)'),
+    ('Số tiền bán được là:', '18 000 000 : 5 × 2 = 7 200 000 (đồng)'),
+    ('Kết quả phép tính là:', '92 : 4 = 22'),  # Preserve even a written wrong result.
+])
+def test_completed_numeric_work_cannot_become_an_original_question(monkeypatch, heading, equation):
+    payload = {'kind': 'PROBLEM', 'problemText': heading + '\n' + equation,
+               'lines': [{'text': heading}, {'text': equation, 'role': 'EQUATION'}]}
+    original_problem = payload['problemText']
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == 'WORK' and result.problemText == '' and result.needsProblem
+    assert [line.text for line in result.lines] == [heading, equation]
+    assert payload['problemText'] == original_problem
+
+
+@pytest.mark.parametrize('question', ['x + 3 = 10', '□ + 3 = 10', 'Tìm x: x + 3 = 10', 'Tính 84 : 4.'])
+def test_unsolved_tasks_are_kept_despite_an_equals_sign_or_additional_work(monkeypatch, question):
+    lines = [{'text': question, 'role': 'EQUATION'}]
+    if question.startswith('Tính'):
+        lines.append({'text': '84 : 4 = 21', 'role': 'EQUATION'})
+    payload = {'kind': 'PROBLEM', 'problemText': question, 'lines': lines}
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.problemText == question and not result.needsProblem
 
 
 @pytest.mark.parametrize('question', [

@@ -27,6 +27,7 @@ export function DivisionReview({ division, imageUri, uncertain, onChange }: Prop
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [repairing, setRepairing] = useState(false);
+  const [hintCount, setHintCount] = useState(0);
   const request = useRef<AbortController | null>(null);
   const fieldRefs = useRef<Record<string, TextInput | null>>({});
   useFocusEffect(useCallback(() => () => {
@@ -34,7 +35,7 @@ export function DivisionReview({ division, imageUri, uncertain, onChange }: Prop
   }, []));
   const change = (next: WrittenDivision) => {
     request.current?.abort(); request.current = null;
-    setBusy(false); setConfirmed(false); setResult(null); setError(''); onChange(next);
+    setBusy(false); setConfirmed(false); setResult(null); setHintCount(0); setError(''); onChange(next);
   };
   const check = async () => {
     if (!confirmed || request.current) return;
@@ -42,7 +43,7 @@ export function DivisionReview({ division, imageUri, uncertain, onChange }: Prop
     try {
       const response = await TutorService.checkDivision(division, true, abort.signal);
       if (abort.signal.aborted) return;
-      setResult(response);
+      setResult(response); setHintCount(0);
       if (response.status === 'TRY_AGAIN') setRepairing(true);
       if (response.status !== 'CORRECT') {
         const field = response.field === 'rows' ? `row-${response.rowIndex ?? 0}` : response.field;
@@ -59,6 +60,7 @@ export function DivisionReview({ division, imageUri, uncertain, onChange }: Prop
   const incomplete = !/^[0-9]+$/.test(division.dividend) || !/^[0-9]+$/.test(division.divisor)
     || !division.quotient || !/^[0-9]+$/.test(division.quotient)
     || !division.rows.length || division.rows.some(row => !row.trim() || !/^[0-9 +\-−]+$/.test(row));
+  const hints = result?.status === 'TRY_AGAIN' ? result.hints ?? [] : [];
   return <View style={styles.card}>
     <View style={styles.titleRow}><Ionicons name="calculator-outline" color={COLORS.primaryDark} size={24} /><Text style={styles.title}>Phép chia em đã làm</Text></View>
     <Text style={styles.body}>Nhìn ảnh và kiểm tra từng số bên dưới. Nếu mình đọc khác bài em viết, em sửa ngay tại ô đó nhé.</Text>
@@ -103,6 +105,12 @@ export function DivisionReview({ division, imageUri, uncertain, onChange }: Prop
       <Text style={styles.label}>{result.status === 'CORRECT' ? 'Em làm đúng rồi!' : result.status === 'TRY_AGAIN' ? 'Cùng sửa một chỗ nhé' : 'Cần nhìn lại hàng tính'}</Text>
       <Text style={styles.body}>{result.message}</Text>
       {result.status !== 'CORRECT' ? <Text style={styles.body}>Em sửa ô được nhắc tới, đối chiếu lại rồi bấm kiểm tra. Mình sẽ xem tiếp các hàng còn lại.</Text> : null}
+      {hintCount < hints.length ? <AppButton title={hintCount === 0 ? 'Gợi ý sửa bước này' : 'Gợi ý rõ hơn'} variant="secondary"
+        onPress={() => setHintCount(count => Math.min(count + 1, hints.length))} /> : null}
+      {hints.slice(0, hintCount).map((hint, index) => <View key={index} style={styles.hint}>
+        <Text style={styles.label}>Gợi ý {index + 1} · Chia, nhân, trừ, hạ</Text>
+        <Text style={styles.body}>{hint}</Text>
+      </View>)}
     </View> : null}
     {error ? <Text style={styles.error} accessibilityRole="alert">{error}</Text> : null}
     <Text style={styles.caption}>Phần này kiểm tra phép chia. Nếu đây là bước trong bài toán có lời văn, vẫn cần đề bài để đối chiếu cách giải.</Text>
@@ -115,18 +123,19 @@ const styles = StyleSheet.create({
   title: { flex: 1, fontSize: 21, fontFamily: FONTS.extraBold, color: COLORS.textPrimary },
   body: { fontSize: 15, lineHeight: 23, fontFamily: FONTS.regular, color: COLORS.textSecondary },
   label: { fontSize: 15, lineHeight: 22, fontFamily: FONTS.bold, color: COLORS.textPrimary },
-  field: { flex: 1, gap: 7 }, flex: { flex: 1 },
+  field: { flex: 1, minWidth: 120, gap: 7 }, flex: { flex: 1 },
   photo: { width: '100%', aspectRatio: 1, backgroundColor: COLORS.surfaceSubdued, borderRadius: 16 },
-  operands: { flexDirection: 'row', gap: 12 },
+  operands: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   input: { minHeight: 52, borderRadius: 14, borderWidth: 1.5, borderColor: '#D7CDF2', padding: 12, backgroundColor: COLORS.surfaceSubdued, color: COLORS.textPrimary, fontSize: 21, fontFamily: FONTS.bold },
   flagged: { borderColor: '#963E22', backgroundColor: '#FFF3ED' },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  row: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 8 },
   remove: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center', borderRadius: 14 },
   confirm: { minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 12 },
   pressed: { opacity: 0.7 }, disabled: { opacity: 0.5 },
   notice: { color: '#70441E', fontSize: 14, lineHeight: 21, fontFamily: FONTS.medium },
   error: { color: '#963E22', fontSize: 14, lineHeight: 21, fontFamily: FONTS.semiBold },
   feedback: { backgroundColor: '#FFF3ED', borderRadius: 16, padding: 16, gap: 8 },
+  hint: { backgroundColor: COLORS.surface, borderRadius: 12, padding: 12, gap: 6 },
   success: { backgroundColor: '#E9F5EF', borderRadius: 16, padding: 16, gap: 8 },
   caption: { color: COLORS.textSecondary, fontSize: 12, lineHeight: 18, fontFamily: FONTS.regular },
 });

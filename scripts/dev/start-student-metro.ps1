@@ -88,5 +88,5 @@ if ($metroReady) {
     exit $LASTEXITCODE
 } else {
     Write-Host "  WARN: Student Metro took longer than 45s to open port 8081. Check visible terminal." -ForegroundColor DarkYellow
-    exit 0
+    exit 1
 }

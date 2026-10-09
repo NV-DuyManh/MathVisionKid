@@ -327,3 +327,23 @@ successful predictions into it or resume an older batch with changed code. Use
 Different existing bytes are rejected by restoration. All mounted ZIP entries
 and a selected fresh restore are checked; independent Google server-upload
 confirmation remains unavailable, so working evidence is retained.
+
+## OCR and lesson continuation (2026-10-09)
+
+The newest supplement, `ocr-lesson-continuation-20261009`, retains **284/1,319
+saved provider responses and 1,035 pending sources**. It contains the unchanged
+1,063-source selection, 28 new saved responses, visual spot reviews, the
+140-source negative regression check and current test evidence. A response
+classifying a page with no rows is not completed transcription. No new training
+labels or production model are promoted.
+
+```powershell
+py -3 .\scripts\data\restore_drive_archive.py --id ocr-lesson-continuation-20261009 `
+  --prefix 'ai-training/datasets/drive_math/all_current_20261007/cloud_heading1063_20261008'
+```
+
+Use [the reading guide](OCR_REVIEW_AND_TRAINING.md#resume-page-reading-safely)
+to continue with the same reader fingerprint and persisted backoff. Existing
+different bytes are rejected on restore. Mounted archive readback is checked;
+Google's background upload cannot be independently confirmed, so working
+evidence is retained. See [the phase report](../report/CONTINUED_OCR_AND_LESSON_FIXES_20261009.md).

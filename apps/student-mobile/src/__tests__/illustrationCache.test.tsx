@@ -10,18 +10,22 @@ it('loads the critical art concurrently, retries failed downloads, and reuses de
   await expect(prepareIllustrations()).rejects.toThrow('offline');
   (Image.loadAsync as jest.Mock).mockClear();
   const done: (() => void)[] = [];
+  let count = 0;
   (Image.loadAsync as jest.Mock).mockImplementation(source => new Promise(resolve => {
+    if (count++ === 0) throw new Error('one image failed quickly');
     done.push(() => resolve({ nativeRef: source }));
   }));
-  const first = prepareIllustrations();
+  await expect(prepareIllustrations()).rejects.toThrow('one image failed quickly');
   expect(Image.loadAsync).toHaveBeenCalledTimes(9);
+  const first = prepareIllustrations();
+  expect(Image.loadAsync).toHaveBeenCalledTimes(10);
   expect(prepareIllustrations()).toBe(first);
   const source = (Image.loadAsync as jest.Mock).mock.calls[0][0];
   expect((Image.loadAsync as jest.Mock).mock.calls[0][1]).toEqual({ maxWidth: 640, maxHeight: 640 });
   done.forEach(resolve => resolve());
   await first;
   await prepareIllustrations();
-  expect(Image.loadAsync).toHaveBeenCalledTimes(9);
+  expect(Image.loadAsync).toHaveBeenCalledTimes(10);
   let view: TestRenderer.ReactTestRenderer;
   act(() => { view = TestRenderer.create(<AppIllustration source={source} />); });
   expect(view!.root.findByType('PreparedImage' as any).props.source).toEqual({ nativeRef: source });

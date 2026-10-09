@@ -155,6 +155,34 @@ def division_panels(bgr):
     # Keep the untouched source available; a positional crop is not evidence
     # that an omitted digit was absent from the pupil's writing.
     panels.append(image)
+    return _labelled_panels(panels, labels)
+
+
+def row_panels(bgr, boxes):
+    """Bounded candidate bands plus the full source; never verified row crops."""
+    h, w = bgr.shape[:2]
+    if not 1 <= len(boxes) <= 35 or any(not (0 <= x1 < x2 <= w and 0 <= y1 < y2 <= h)
+                                       for x1, y1, x2, y2 in boxes):
+        return None
+    scale = min(1., 1400 / max(h, w))
+    image = cv2.resize(bgr, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA) if scale < 1 else bgr
+    height, width = image.shape[:2]
+    if min(height, width) < 16:
+        return None
+    # Full-width padding retains margins, accents and slanted strokes. Bands
+    # may overlap; the untouched source resolves which marks belong to a row.
+    margin = max(4, round(float(np.median([y2-y1 for _, y1, _, y2 in boxes])) * scale * .35))
+    bands = [image[max(0, round(y1*scale)-margin):min(height, round(y2*scale)+margin)]
+             for _, y1, _, y2 in boxes]
+    if any(not band.size for band in bands) or sum(band.shape[0] for band in bands) > height*2:
+        return None  # Do not truncate an over-budget sheet or omit bottom ink.
+    labels = ['FULL SOURCE (one original page, verify all content)'] + [
+        f'CANDIDATE BAND {i} (overlap/padding possible, not a separate exercise)'
+        for i in range(1, len(bands)+1)]
+    return _labelled_panels([image, *bands], labels)
+
+
+def _labelled_panels(panels, labels):
     canvas = Image.new('RGB', (max(p.shape[1] for p in panels)+24,
                                sum(p.shape[0]+45 for p in panels)), 'white')
     draw = ImageDraw.Draw(canvas)

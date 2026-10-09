@@ -205,3 +205,9 @@ nên không tự dùng làm nhãn train. Gói `ocr-scale-topic-20261008` trên G
 bằng chứng và hàng đợi `all_current_20261007/cloud_heading1063_20261008`.
 Xem [báo cáo](report/OCR_SCALE_AND_TOPIC_GUARDS_20261008.md) và
 [lệnh đọc tiếp](docs/OCR_REVIEW_AND_TRAINING.md#resume-page-reading-safely).
+
+Lượt ngày 09/10 lưu thêm 28 phản hồi: **284/1.319 phản hồi đã lưu, còn 1.035
+ảnh chờ**. Trong 28 phản hồi mới, 19 phản hồi phân loại nhiều bài/ảnh khó đọc
+mà chưa trả dòng chữ; đây chưa phải 284 ảnh OCR hoàn chỉnh. Gói
+`ocr-lesson-continuation-20261009` trên G giữ hàng đợi và bằng chứng kiểm thử.
+Model gốc giữ nguyên, chưa train mới. Xem [báo cáo tiếp nối](report/CONTINUED_OCR_AND_LESSON_FIXES_20261009.md).

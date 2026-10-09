@@ -36,6 +36,23 @@ it('passes through exact written division fields but rejects corrupt structured 
   await expect(TutorService.inspect('file:///masked.jpg', true)).rejects.toThrow();
 });
 
+it('accepts bounded repair hints and rejects invalid or unearned guidance', async () => {
+  const division = { dividend: '87', divisor: '4', quotient: '22', rows: ['07', '3'] };
+  const data = { status: 'TRY_AGAIN', field: 'quotient', rowIndex: null, message: 'Xem lại lượt 2.',
+    hints: ['Lấy 7 chia 4.', 'Thử nhân 4 với một chữ số.'] };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.checkDivision(division, true)).resolves.toEqual(data);
+  for (const bad of [null, [''], ['a'.repeat(301)], ['a', 'b', 'c'], [123]]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, hints: bad } });
+    await expect(TutorService.checkDivision(division, true)).rejects.toThrow();
+  }
+  for (const status of ['CORRECT', 'NEEDS_REVIEW']) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, status,
+      field: status === 'CORRECT' ? '' : 'quotient' } });
+    await expect(TutorService.checkDivision(division, true)).rejects.toThrow();
+  }
+});
+
 it.each([
   [{ kind: 'UNREADABLE', problemText: '', lines: [], needsProblem: false, needsCrop: true }, true],
   [{ kind: 'UNREADABLE', problemText: '', lines: [], needsProblem: false, needsCrop: 'true' }, false],

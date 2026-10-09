@@ -8,6 +8,7 @@ import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { recognitionAnalyticsStore } from '../../features/recognition/analytics/recognitionAnalyticsStore';
 import { buildLearningActivity } from '../../features/home/learningActivity';
 import { loadLessons } from '../../features/tutoring/learningHistory';
+import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 
 const ART = {
   avatar: require('../../../assets/illustrations/student-avatar.png'),
@@ -36,6 +37,7 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
   const roomyText = width < 350 || fontScale > 1.3;
   const [activity, setActivity] = useState<ReturnType<typeof buildLearningActivity> | null>(null);
   const [historyUnavailable, setHistoryUnavailable] = useState(false);
+  const [calculatorOpen, setCalculatorOpen] = useState(false);
   useFocusEffect(useCallback(() => {
     let active = true;
     setActivity(null);
@@ -115,6 +117,14 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
       </Pressable>)}
     </View>
 
+    <Pressable accessibilityRole="button" accessibilityLabel="Mở máy tính bỏ túi" onPress={() => setCalculatorOpen(true)}
+      style={({ pressed }) => [styles.calculatorCard, pressed && styles.pressed]}>
+      <View style={styles.calculatorIcon}><Ionicons name="calculator-outline" size={28} color={COLORS.primaryDark} accessible={false} /></View>
+      <View style={styles.lessonCopy}><Text style={styles.calculatorTitle}>Máy tính bỏ túi</Text><Text style={styles.quickDescription}>Số thường · Phân số · Chia có dư</Text></View>
+      <Ionicons name="chevron-forward" size={20} color={COLORS.primaryDark} accessible={false} />
+    </Pressable>
+    <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
+
     <View style={[styles.activityCard, SHADOWS.small]}>
       <View style={styles.activityCopy}>
         <View style={styles.activityTitleRow}>
@@ -171,6 +181,9 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
 }
 
 const styles = StyleSheet.create({
+  calculatorCard: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16, minHeight: 88, borderRadius: 24, backgroundColor: COLORS.primaryLight, marginBottom: 20 },
+  calculatorIcon: { width: 52, height: 52, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.surface },
+  calculatorTitle: { fontFamily: FONTS.extraBold, fontSize: 18, color: COLORS.textPrimary, marginBottom: 4 },
   pressed: { opacity: 0.75 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 14 },
   avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: COLORS.primaryLight, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },

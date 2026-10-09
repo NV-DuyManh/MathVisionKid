@@ -50,6 +50,24 @@ it('submits every detected row above the old 30-row limit', async () => {
   expect((RecognitionService.createMultilineTrial as jest.Mock).mock.calls[0][1][40].line_id).toBe('line_41');
 });
 
+it('blocks two presses before rendering, permits retry after cancel, and ignores the old response', async () => {
+  const resolve: ((value: unknown) => void)[] = [];
+  (RecognitionService.createMultilineTrial as jest.Mock).mockImplementation(() => new Promise(done => resolve.push(done)));
+  await render();
+  const submit = button('Nhận diện chữ').props.onPress;
+  act(() => { void submit(); void submit(); });
+  expect(RecognitionService.createMultilineTrial).toHaveBeenCalledTimes(1);
+  act(() => view.root.findByType('RecognitionProgress' as any).props.onCancel());
+  act(() => { void button('Nhận diện chữ').props.onPress(); });
+  expect(RecognitionService.createMultilineTrial).toHaveBeenCalledTimes(2);
+  await act(async () => resolve[0]({ trialId: 'cancelled' }));
+  expect(mockRouter.push).not.toHaveBeenCalled();
+  expect(view.root.findByType('RecognitionProgress' as any)).toBeDefined();
+  await act(async () => resolve[1]({ trialId: 'active' }));
+  expect(mockRouter.push).toHaveBeenCalledTimes(1);
+  expect(mockRouter.push).toHaveBeenCalledWith({ pathname: '/recognition/multiline-result', params: { trialId: 'active' } });
+});
+
 it('blocks a truncated page even after deleting rows and keeps the masked crop source', async () => {
   (RecognitionService.detectLines as jest.Mock).mockResolvedValue(response(true));
   await render();

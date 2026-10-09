@@ -46,7 +46,11 @@ final class DivisionChecker {
                     ? "Số đang chia nhỏ hơn số chia; em nhớ giữ vị trí của chữ số 0 trong thương."
                     : "Em chia, nhân rồi trừ để kiểm tra chữ số ở vị trí này; mỗi lượt chỉ viết một chữ số vào thương.";
             return new DivisionCheckResponse("TRY_AGAIN", "quotient", null,
-                    "Em xem lại thương ở lượt " + (step + 1) + ": lấy " + partials.get(step) + " chia " + divisor + ". " + hint);
+                    "Em xem lại thương ở lượt " + (step + 1) + ": lấy " + partials.get(step) + " chia " + divisor + ". " + hint,
+                    List.of("Ở lượt " + (step + 1) + ", số đang chia là " + partials.get(step)
+                            + ". Em thử nhân " + divisor + " với một chữ số từ 0 đến 9; tích không được lớn hơn số đang chia.",
+                            "Chọn chữ số lớn nhất thỏa điều đó. Nếu tăng chữ số ấy thêm 1, tích phải lớn hơn "
+                            + partials.get(step) + ". Viết đúng một chữ số ở lượt này, kể cả khi chữ số đó là 0."));
         }
         // Do not label a subtraction/product row as a wrong brought-down number.
         if (written.rows().size() != expectedRows.size())
@@ -57,8 +61,20 @@ final class DivisionChecker {
                 String instruction = i == expectedRows.size() - 1
                         ? "Đây là số dư cuối; số dư phải nhỏ hơn số chia."
                         : "Lấy số dư của lượt này rồi hạ đúng một chữ số tiếp theo xuống.";
+                char writtenDigit = actualQuotient.charAt(i);
+                String subtraction = partials.get(i) + " − " + writtenDigit + " × " + divisor;
+                String next = i == expectedRows.size() - 1
+                        ? "Đây là lượt cuối, không hạ thêm chữ số. Tự tính " + subtraction
+                            + " để điền số dư; số dư phải từ 0 đến nhỏ hơn " + divisor + "."
+                        : "Hạ chữ số " + dividend.charAt(dividend.length() - quotient.length() + i + 1)
+                            + " của số bị chia xuống. Hàng cần sửa được tính bằng (" + subtraction
+                            + ") × 10 + " + dividend.charAt(dividend.length() - quotient.length() + i + 1)
+                            + ". Giữ số 0 ở đầu hàng nếu trong ảnh em viết như vậy.";
                 return new DivisionCheckResponse("TRY_AGAIN", "rows", i,
-                        "Em xem lại hàng " + (i + 1) + ", sau lượt lấy " + partials.get(i) + " chia " + divisor + ". " + instruction);
+                        "Em xem lại hàng " + (i + 1) + ", sau lượt lấy " + partials.get(i) + " chia " + divisor + ". " + instruction,
+                        List.of("Ở lượt " + (i + 1) + ", chữ số " + writtenDigit
+                                + " trong thương em xác nhận đã đúng. Nhân " + writtenDigit + " × " + divisor
+                                + ", rồi lấy " + partials.get(i) + " trừ tích vừa tìm để tính số dư của lượt này.", next));
             }
         }
         return new DivisionCheckResponse("CORRECT", "", null,

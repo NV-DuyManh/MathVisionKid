@@ -37,16 +37,19 @@ export default function MultilineReviewScreen() {
     const detectRequestIdRef = useRef(0);
     const initialLoadDoneRef = useRef<string | null>(null);
     const operationGenerationRef = useRef(0);
+    const submittingRef = useRef(false);
     const activeAbortControllerRef = useRef<AbortController | null>(null);
     const hasNavigatedRef = useRef(false);
     // Invalidate any in-flight request and ensure clean state on blur / focus
     useFocusEffect(useCallback(() => {
         // On screen focus: ensure fresh IDLE state
         setRequestStatus('IDLE');
+        submittingRef.current = false;
         hasNavigatedRef.current = false;
         return () => {
             // On screen blur or navigation away: cancel in-flight request and bump generation
             operationGenerationRef.current += 1;
+            submittingRef.current = false;
             detectRequestIdRef.current += 1;
             activeAbortControllerRef.current?.abort();
             activeAbortControllerRef.current = null;
@@ -55,6 +58,7 @@ export default function MultilineReviewScreen() {
     }, []));
     const handleBack = () => {
         operationGenerationRef.current += 1;
+        submittingRef.current = false;
         detectRequestIdRef.current += 1;
         activeAbortControllerRef.current?.abort();
         activeAbortControllerRef.current = null;
@@ -272,7 +276,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
     };
     const handleConfirmLines = async () => {
         // Double-tap protection
-        if (requestStatus === 'SUBMITTING')
+        if (submittingRef.current)
             return;
         if (needsSmallerCrop || boxes.length > MAX_LINES) {
             Alert.alert('Chọn một vùng nhỏ hơn', 'Ảnh còn các dòng chưa được đọc. Em chọn lại vùng trước khi tiếp tục nhé.');
@@ -283,6 +287,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
             return;
         }
         const currentGen = ++operationGenerationRef.current;
+        submittingRef.current = true;
         activeAbortControllerRef.current?.abort();
         const abortController = new AbortController();
         activeAbortControllerRef.current = abortController;
@@ -322,6 +327,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
         }
         finally {
             if (currentGen === operationGenerationRef.current) {
+                submittingRef.current = false;
                 // Always reset to IDLE so the button never stays permanently spinning!
                 setRequestStatus('IDLE');
             }
@@ -337,6 +343,7 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
           <RecognitionProgress title="Đang đọc bài của em" description={`Đọc ${boxes.length} dòng em đã chọn.`} imageUri={imageUri}
             cancelLabel="Quay lại kiểm tra" onCancel={() => {
                 operationGenerationRef.current += 1;
+                submittingRef.current = false;
                 activeAbortControllerRef.current?.abort();
                 activeAbortControllerRef.current = null;
                 setRequestStatus('IDLE');

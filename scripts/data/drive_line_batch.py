@@ -185,7 +185,8 @@ def main():
     parser.add_argument('--batch', default='20261004')
     parser.add_argument('--selection', type=Path)
     parser.add_argument('--source-folder', type=Path)
-    parser.add_argument('--limit', type=int, default=200)
+    parser.add_argument('--limit', type=int, default=200,
+                        help='Maximum selected sources, or maximum new successful reads in a cloud run')
     parser.add_argument('--detector-source', type=Path)
     parser.add_argument('--force', action='store_true')
     args = parser.parse_args()
@@ -205,19 +206,21 @@ def main():
         write_json(target, selected)
         print(f'Selected {len(selected)} untested source images')
     elif args.action == 'cloud':
-        summary = asyncio.run(run_cloud_batch(args.data_root, args.batch, args.force))
+        summary = asyncio.run(run_cloud_batch(args.data_root, args.batch, args.force, max_new_reads=args.limit))
         if summary['pending']:
             raise SystemExit(2)  # Paused/unavailable is not a completed audit.
     else:
         run_batch(args.data_root, args.batch, args.detector_source, args.force)
 
 
-async def run_cloud_batch(data, batch, force=False):
+async def run_cloud_batch(data, batch, force=False, max_new_reads=None):
     """Explicit opt-in to the configured vision APIs; never turn output into labels.
 
     Run only for an owner-authorized cloud audit. Stop on provider unavailability
     instead of sweeping credentials or pretending a local draft is an OCR result.
     """
+    if max_new_reads is not None and (isinstance(max_new_reads, bool) or not isinstance(max_new_reads, int) or max_new_reads < 1):
+        raise ValueError('max_new_reads must be a positive integer')
     sys.path.insert(0, str(ROOT / 'ai/runtime'))
     from app.tutoring.notebook import inspect_notebook, READ_NOTEBOOK
     from app.tutoring.service import TutorUnavailable
@@ -235,6 +238,7 @@ async def run_cloud_batch(data, batch, force=False):
         if previous.get('status') == 'provider_unavailable':
             retry_not_before = max(retry_not_before, previous.get('retry_not_before', 0))
     completed = []
+    new_reads = 0
     stop_reason = None
     for number, item in enumerate(selection, 1):
         target = folder / 'cloud_results' / f"{item['drive_id']}.json"
@@ -254,6 +258,9 @@ async def run_cloud_batch(data, batch, force=False):
         if retry_not_before > time.time():
             stop_reason = 'saved_provider_backoff'
             print('Saved provider backoff is active; no new request made.', flush=True)
+            continue
+        if max_new_reads is not None and new_reads >= max_new_reads:
+            stop_reason = 'batch_limit'
             continue
         raw = read_source_bytes(folder, item)
         digest = hashlib.sha256(raw).hexdigest()
@@ -277,14 +284,16 @@ async def run_cloud_batch(data, batch, force=False):
             continue
         write_json(target, record)
         completed.append(record)
+        new_reads += 1
         print(f'{number}/{len(selection)} cloud result persisted: {reading.kind}, {len(reading.lines)} rows', flush=True)
-    summary = {'requested': len(selection), 'read': len(completed),
+    summary = {'requested': len(selection), 'read': len(completed), 'new_reads': new_reads,
+               'max_new_reads': max_new_reads,
                'pending': len(selection)-len(completed), 'signature': signature,
                'kind_counts': {kind: sum(r['result']['kind'] == kind for r in completed)
                                for kind in ('PROBLEM', 'WORK', 'MIXED', 'MULTIPLE', 'UNREADABLE')},
                'auto_verified_labels': 0, 'training_performed': False,
                'stop_reason': stop_reason,
-               'retry_not_before': retry_not_before if stop_reason else None}
+               'retry_not_before': retry_not_before if stop_reason in {'saved_provider_backoff', 'provider_unavailable'} else None}
     write_json(folder / 'cloud_summary.json', summary)
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return summary

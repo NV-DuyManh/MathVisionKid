@@ -49,7 +49,7 @@ async def test_fraction_answers_remain_exact_across_steps_and_invalid_inputs_do_
     for bad in ['0.26', '0.266667', '4/0', '4/15 = 1', 'NaN', '4/15 cây']:
         assert turn(result, bad).status == 'TRY_AGAIN'
     result = turn(result, '8/30')
-    assert result.completed[0].answer == '4/15' and result.step.expression == '16/(4/15)'
+    assert result.completed[0].answer == '4/15' and result.step.expression == '16 ÷ (4/15)'
     result = turn(result, '60')
     assert result.status == 'COMPLETE'
 
@@ -66,3 +66,46 @@ async def test_generated_hint_cannot_leak_an_unearned_computed_answer(monkeypatc
 @pytest.mark.parametrize('source', [garden('1','0'), garden('4','3'), garden(count='17'), garden()+' Tìm thêm số cây táo.', garden().replace('cây cam có trong vườn', 'cây táo có trong vườn')])
 def test_partial_contradictory_or_different_goals_do_not_use_the_garden_template(source):
     assert lesson.fraction_garden_plan(source) is None
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('source,answers', [
+    ('Tính 1/3 + 2/5.', ['15','5','6','11','11/15']),
+    ('Tính 5/6 − 1/4.', ['24','20','6','14','7/12']),
+    ('Tính 2/3 − 3/4.', ['12','8','9','-1','-1/12']),
+    ('Tính 2/3 × 3/4.', ['6','12','1/2']),
+    ('Tính 2/3 : 4/5.', ['10','12','5/6']),
+    ('Tính 3/4 ÷ 2/7.', ['21','8','21/8']),
+    ('Tính 0/3 + 2/5.', ['15','0','6','6','2/5']),
+])
+async def test_varied_fraction_operations_teach_the_actual_givens_without_cloud(monkeypatch, source, answers):
+    cloud = AsyncMock(side_effect=AssertionError('No image-specific answer or cloud'))
+    monkeypatch.setattr(lesson, '_generate', cloud)
+    response = await start_lesson(LessonRequest(owner='child', problemText=source, problemConfirmed=True))
+    assert len(response.outline) == len(answers)
+    for index, value in enumerate(answers):
+        first = turn(response, hint=True); second = turn(first, hint=True)
+        assert first.feedback != second.feedback and second.stepIndex == index
+        assert turn(second, '999').stepIndex == index
+        response = turn(second, value)
+    assert response.status == 'COMPLETE'
+    assert response.completed[-1].answer == answers[-1]
+    cloud.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_ordinary_division_also_rejects_rounded_values(monkeypatch):
+    monkeypatch.setattr(lesson, '_generate', AsyncMock(side_effect=AssertionError('No cloud')))
+    response = await start_lesson(LessonRequest(owner='child', problemText='Tính 1 : 3.', problemConfirmed=True))
+    response = turn(response, 'Nhân, chia trước; cộng, trừ sau')
+    assert turn(response, '0.333333').status == 'TRY_AGAIN'
+    assert turn(response, '1/3').status == 'COMPLETE'
+
+
+def test_exact_decimal_literals_and_fraction_division_presentation():
+    from fractions import Fraction
+    assert lesson.calculate_exact('999999999999.12345678') == Fraction('999999999999.12345678')
+    assert lesson.display_expression('(2/3)/(4/5)', True) == '(2/3) ÷ (4/5)'
+    assert lesson.display_expression('(1+2)/(3+4)', True) == '(1 + 2) ÷ (3 + 4)'
+    assert lesson.display_expression('1/3/2/5', True) == '1 ÷ 3 ÷ 2 ÷ 5'
+    assert lesson.display_expression('(-1)/12', True) == ' − 1/12'

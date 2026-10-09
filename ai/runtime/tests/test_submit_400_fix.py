@@ -345,12 +345,16 @@ def test_submit400_13_mobile_maps_400_safely():
 
 
 def test_submit400_14_double_tap_cannot_duplicate_trial():
-    """SUBMIT400-14: Double tap is blocked by requestStatus === 'SUBMITTING' guard"""
+    """SUBMIT400-14: Synchronous submission guard and incomplete-page guard stay present.
+
+    The mobile multilineCapacity suite exercises same-render double taps and cancellation.
+    """
     with open(MULTILINE_REVIEW_PATH, "r", encoding="utf-8") as f:
         src = f.read()
 
-    assert "if (requestStatus === 'SUBMITTING')\n            return;" in src
-    assert "disabled={boxes.length === 0}" in src
+    assert "if (submittingRef.current)\n            return;" in src
+    assert "submittingRef.current = true;" in src
+    assert "disabled={boxes.length === 0 || needsSmallerCrop}" in src
     assert 'RecognitionProgress title="Đang đọc bài của em"' in src
 
 

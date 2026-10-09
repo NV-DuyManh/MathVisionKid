@@ -183,6 +183,51 @@
       "source_bytes": 15631605,
       "sha256": "0f2e38e3abbaf7376e3ac6e69d450389ea7c05db9ae40ffd380e66ea31587e20",
       "backup_only": false
+    },
+    {
+      "id": "ocr-lesson-continuation-20261009",
+      "path": "ocr-lesson-continuation-20261009.zip",
+      "bytes": 1516336,
+      "files": 87,
+      "source_bytes": 2572096,
+      "sha256": "c7861977728d985f23fdb54a662f95050c17a5139dca0ff87128376679adf8a5",
+      "backup_only": false
+    },
+    {
+      "id": "division-repair-hints-20261009",
+      "path": "division-repair-hints-20261009.zip",
+      "bytes": 123253,
+      "files": 18,
+      "source_bytes": 212319,
+      "sha256": "a651d9441a70fc176186707b08f112e77953a19b8f2248c1114f2bfd8b62714e",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-bounded-continuation-20261009",
+      "path": "ocr-bounded-continuation-20261009.zip",
+      "bytes": 207491,
+      "files": 27,
+      "source_bytes": 936503,
+      "sha256": "e22285bc1a5c9d75a34a6edf472f7b4018c76f4358c791083382a7b754d6ba01",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-physical-row-review-20261009",
+      "path": "ocr-physical-row-review-20261009.zip",
+      "bytes": 222940,
+      "files": 41,
+      "source_bytes": 956285,
+      "sha256": "a9001e04159388687ab20f59d6fc28b5b115a9c8ddf1e22384d8ea369d5cb346",
+      "backup_only": false
+    },
+    {
+      "id": "ocr-candidate-bands-20261009",
+      "path": "ocr-candidate-bands-20261009.zip",
+      "bytes": 533103,
+      "files": 62,
+      "source_bytes": 2527397,
+      "sha256": "97d237f1ce3616207140cef977fbff7e1d87626c2258ccf1b9665f8c88244738",
+      "backup_only": false
     }
   ]
 }

@@ -15,6 +15,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { saveLesson } from '../../features/tutoring/learningHistory';
 import { MathText } from '../../components/domain/MathText';
 import { AppIllustration } from '../../components/ui/AppIllustration';
+import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 
 const MASCOT = require('../../../assets/illustrations/mathvision-star.png');
 
@@ -45,6 +46,7 @@ export default function MathGuideScreen() {
   const [answerEdited, setAnswerEdited] = useState(false);
   const [hintCount, setHintCount] = useState(0);
   const [fractionInput, setFractionInput] = useState(false);
+  const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
   const [error, setError] = useState('');
   const [expired, setExpired] = useState(false);
@@ -176,7 +178,9 @@ export default function MathGuideScreen() {
   };
 
   return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <AppHeader title={division ? 'Kiểm tra phép chia' : work ? 'Hiểu bài, kiểm tra cách làm' : 'Cùng em tìm cách giải'} showBack />
+    <AppHeader title={division ? 'Kiểm tra phép chia' : work ? 'Hiểu bài, kiểm tra cách làm' : 'Cùng em tìm cách giải'} showBack
+      rightIcon="calculator-outline" rightAccessibilityLabel="Mở máy tính bỏ túi" onRightPress={() => setCalculatorOpen(true)} />
+    <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
     <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       {busy === 'read' ? <RecognitionProgress title="Mình đang đọc bài của em" description="Giữ cả đề và phần bài làm để cùng học nhé." imageUri={imageUri} onCancel={cancel} cancelLabel="Dừng chờ, giữ ảnh" />
       : <ScrollView ref={scroll} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
@@ -309,7 +313,7 @@ export default function MathGuideScreen() {
               <Text style={styles.choiceText}>{choice}</Text><Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
             </Pressable>) : <><View style={styles.answerRow}>
               {fractionInput ? <View style={styles.fractionAnswer}>
-                <TextInput style={styles.fractionNumber} accessibilityLabel="Tử số câu trả lời" value={attempt.split('/')[0]} keyboardType="number-pad" maxLength={12}
+                <TextInput style={styles.fractionNumber} accessibilityLabel="Tử số câu trả lời" value={attempt.split('/')[0]} keyboardType="numbers-and-punctuation" maxLength={13}
                   placeholder="Tử số" editable={!busy && !expired} onChangeText={value => { setAttempt(`${value}/${attempt.split('/')[1] || ''}`); setAnswerEdited(true); }} />
                 <View style={styles.fractionBar} />
                 <TextInput style={styles.fractionNumber} accessibilityLabel="Mẫu số câu trả lời" value={attempt.split('/')[1] || ''} keyboardType="number-pad" maxLength={12}
@@ -318,13 +322,13 @@ export default function MathGuideScreen() {
                 maxLength={30} placeholder="Em tính được…" placeholderTextColor={COLORS.textMuted} editable={!busy && !expired} onSubmitEditing={() => answer(attempt)} />
               }
               <Text style={styles.unit}>{step.unit}</Text></View>
-              {step.expression.includes('/') ? <>
+              {step.expression ? <>
                 <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel={fractionInput ? 'Nhập số thường' : 'Nhập kết quả phân số'} disabled={!!busy || expired}
                   onPress={() => { setFractionInput(value => !value); setAttempt(''); setAnswerEdited(true); }}>
                   <Text style={styles.link}>{fractionInput ? 'Đổi sang nhập số thường' : 'Kết quả là phân số? Nhập tử và mẫu'}</Text>
-                </Pressable><Text style={styles.caption}>Giữ nguyên phân số để tính chính xác, không cần làm tròn sang số thập phân.</Text>
+                </Pressable><Text style={styles.caption}>Nếu kết quả là phân số, em nhập tử và mẫu; không làm tròn số thập phân.</Text>
               </> : null}
-              <AppButton title="Kiểm tra bước này" onPress={() => answer(attempt)} disabled={!attempt.trim() || (fractionInput && !/^\d+\/[1-9]\d*$/.test(attempt)) || !!busy || expired} loading={busy === 'answer'} /></>}
+              <AppButton title="Kiểm tra bước này" onPress={() => answer(attempt)} disabled={!attempt.trim() || (fractionInput && !/^-?\d+\/[1-9]\d*$/.test(attempt)) || !!busy || expired} loading={busy === 'answer'} /></>}
             <AppButton title={hintCount ? 'Gợi ý rõ hơn' : 'Gợi ý cách làm bước này'} variant="secondary" onPress={() => answer('', true)} disabled={!!busy || expired} />
             {lesson.status === 'HINT' && lesson.feedback ? <View style={styles.hintCard}>
               <Text style={styles.link}>Gợi ý cho bước này</Text><MathText style={styles.body}>{lesson.feedback}</MathText>
@@ -385,11 +389,11 @@ const styles = StyleSheet.create({
   expressionText: { fontSize: 24, lineHeight: 34, color: COLORS.primaryDark, fontFamily: FONTS.extraBold },
   choice: { minHeight: 52, borderRadius: 16, padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1.5, borderColor: '#DDD4F5', backgroundColor: '#FAF8FF' },
   choiceSelected: { backgroundColor: '#E8DEFF', borderColor: COLORS.primary }, choiceText: { flex: 1, marginRight: 8, color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 17, lineHeight: 24 },
-  answerRow: { flexDirection: 'row', gap: 12, alignItems: 'center' }, numberInput: { flex: 1, minHeight: 58, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 16, fontFamily: FONTS.bold, fontSize: 18, color: COLORS.textPrimary },
-  fractionAnswer: { flex: 1, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 12, gap: 4 },
+  answerRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, alignItems: 'center' }, numberInput: { flex: 1, minWidth: 120, minHeight: 58, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 16, fontFamily: FONTS.bold, fontSize: 18, color: COLORS.textPrimary },
+  fractionAnswer: { flex: 1, minWidth: 120, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 12, gap: 4 },
   fractionNumber: { minHeight: 48, textAlign: 'center', fontFamily: FONTS.bold, fontSize: 20, color: COLORS.textPrimary },
   fractionBar: { height: 2, backgroundColor: COLORS.primaryDark, marginHorizontal: 16 },
-  unit: { color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 19 },
+  unit: { flexShrink: 1, maxWidth: '100%', color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 19 },
   explanation: { backgroundColor: '#E9F5EF', padding: 16, borderRadius: 16 }, feedback: { color: '#226A51', fontFamily: FONTS.bold, fontSize: 15, lineHeight: 23 },
   hintCard: { backgroundColor: '#F4EEFF', borderWidth: 1, borderColor: '#D7CDF2', padding: 16, borderRadius: 16, gap: 10 },
   completedStep: { gap: 8, paddingVertical: 12, borderBottomWidth: 1, borderColor: '#ECE6F5' },

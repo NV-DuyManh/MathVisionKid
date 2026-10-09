@@ -131,9 +131,12 @@ def suppress_notebook_rulings(binary_mask: np.ndarray, width: int, height: int, 
             # already contain mostly ink; synthetic bridges are not evidence.
             component = labels == i
             support = np.count_nonzero(binary_mask[component]) / stats[i, cv2.CC_STAT_AREA]
-            # Sparse dashed rules have gaps but stay uniformly thin. Letter
-            # bodies are taller even when their baselines have been bridged.
-            if support >= 0.70 or rh <= max(3, max_ruling_h // 3):
+            # Sparse dashed rules have gaps but stay uniformly thin. Dense small
+            # letters can fill 70% of a bridged band, so thick rules need stronger
+            # original ink support; otherwise an entire text row is erased.
+            clipped_strip = (stats[i, cv2.CC_STAT_TOP] == 0 or
+                             stats[i, cv2.CC_STAT_TOP] + rh == height) and rh < 8
+            if support >= 0.85 or rh <= max(3, max_ruling_h // 3) or (clipped_strip and support >= .70):
                 ruling_mask[component] = 255
             
     # 4. Check for crossing strokes: preserve ruling pixels where handwriting crosses

@@ -294,6 +294,43 @@ def test_ruling_suppression_retains_small_letters_and_removes_dashed_rules(profi
     assert np.count_nonzero(clean[120:210]) < np.count_nonzero(mask[120:210]) * .01
 
 
+@pytest.mark.parametrize('profile', ['PROFILE_A', 'PROFILE_B', 'PROFILE_C'])
+@pytest.mark.parametrize('word', ['Bai tap ve nha', 'Phep cong don gian', '12345 + 6789 = ?'])
+def test_ruling_suppression_preserves_dense_small_print(profile, word):
+    from app.api.generalized import extract_ink_mask, suppress_notebook_rulings
+    from unittest.mock import patch
+
+    image = np.full((300, 400, 3), 255, np.uint8)
+    cv2.putText(image, word, (30, 240), cv2.FONT_HERSHEY_SIMPLEX, .7, (0, 0, 0), 2)
+    with patch('app.api.generalized.suppress_notebook_rulings',
+               side_effect=lambda mask, *args, **kwargs: (mask, np.zeros_like(mask))):
+        mask, _ = extract_ink_mask(image, 300, 400, profile)
+    clean, removed = suppress_notebook_rulings(mask, 400, 300, profile)
+    assert np.count_nonzero(clean) >= np.count_nonzero(mask) * .95
+
+
+@pytest.mark.parametrize('baselines', [(60, 150, 240), (40, 125, 210), (75, 175, 275), (85, 190, 299)])
+def test_three_printed_rows_survive_ruling_suppression(baselines):
+    image = np.full((300, 400, 3), 255, np.uint8)
+    for word, y in zip(['Toan lop 1', 'Phep cong don gian', 'Bai tap ve nha'], baselines):
+        cv2.putText(image, word, (30, y), cv2.FONT_HERSHEY_SIMPLEX, .7, (0, 0, 0), 2)
+    lines, _ = detect_text_lines(image, force_redetect=True)
+    assert len(lines) == 3
+    for line, y in zip(lines, baselines):
+        assert line.y <= y - 12 and line.y + line.height >= y
+
+
+def test_clipped_dense_ruling_at_page_edge_does_not_become_text():
+    from app.api.generalized import suppress_notebook_rulings
+    mask = np.zeros((333, 673), np.uint8)
+    for x in range(97, 195, 30):
+        cv2.rectangle(mask, (x, 328), (x+23, 332), 255, -1)
+    # The original page has a detected notebook grid; this narrow fragment is
+    # the clipped bottom of that grid, not a complete character row.
+    clean, _ = suppress_notebook_rulings(mask, 673, 333, has_page_rulings=True)
+    assert np.count_nonzero(clean) < np.count_nonzero(mask) * .1
+
+
 def test_single_sparse_page_edge_is_rejected_but_isolated_boundary_words_survive():
     from app.api.generalized_pipeline import filter_and_merge_residual_false_lines
 

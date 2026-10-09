@@ -14,6 +14,17 @@ jest.mock('expo-image-picker', () => ({ launchImageLibraryAsync: jest.fn() }));
 jest.mock('expo-camera', () => ({ CameraView: 'CameraView', useCameraPermissions: jest.fn() }));
 
 describe('Native MathVision recognition entry points', () => {
+  it('opens the calculator from quick tools and closes back to the unchanged home', () => {
+    let renderer: TestRenderer.ReactTestRenderer;
+    act(() => { renderer = TestRenderer.create(<HomeScreen />); });
+    const press = (label: string) => renderer!.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
+    act(() => press('Mở máy tính bỏ túi').props.onPress());
+    expect(press('Đóng máy tính')).toBeDefined();
+    act(() => press('Đóng máy tính').props.onPress());
+    expect(press('Chụp bài toán')).toBeDefined();
+    expect((useRouter as jest.Mock)().push).not.toHaveBeenCalled();
+    act(() => renderer!.unmount());
+  });
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({ push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true });
     (useCameraPermissions as jest.Mock).mockReturnValue([{ granted: true }, jest.fn()]);

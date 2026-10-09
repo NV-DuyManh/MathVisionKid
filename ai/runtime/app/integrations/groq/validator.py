@@ -24,7 +24,7 @@ async def validate_groq_models(
 ) -> Dict[str, Any]:
     """
     Validate configured models with Groq API.
-    Checks availability and vision capability. Logs safe status.
+    Checks catalog/text availability, not image inference capability. Logs safe status.
     Never raises an exception.
     """
     global _validation_cache
@@ -37,13 +37,23 @@ async def validate_groq_models(
             "model": primary,
             "status": "UNAVAILABLE",
             "available": False,
-            "vision_capable": False,
+            "vision_capable": None,
+            "probeKind": None,
+            "catalogAvailable": None,
+            "liveProbe": False,
+            "lastHttpStatus": None,
+            "lastErrorClass": None,
         },
         "fallback": {
             "model": fallback,
             "status": "UNAVAILABLE",
             "available": False,
-            "vision_capable": False,
+            "vision_capable": None,
+            "probeKind": None,
+            "catalogAvailable": None,
+            "liveProbe": False,
+            "lastHttpStatus": None,
+            "lastErrorClass": None,
         },
         "checked_at": time.time(),
         "error": None,
@@ -92,22 +102,22 @@ async def validate_groq_models(
                 result["primary"]["catalogAvailable"] = primary_in_catalog
                 result["primary"]["available"] = primary_in_catalog
                 result["primary"]["status"] = "AVAILABLE" if primary_in_catalog else "UNAVAILABLE"
-                result["primary"]["vision_capable"] = primary_in_catalog
-                result["primary"]["liveProbe"] = primary_in_catalog
+                result["primary"]["lastHttpStatus"] = 200
+                # Catalog membership does not establish image input support.
 
                 result["fallback"]["catalogAvailable"] = fallback_in_catalog
-                result["fallback"]["probeKeySafeId"] = entry.safe_id
-                result["fallback"]["probeTimestamp"] = time.time()
 
                 if fallback_in_catalog:
                     result["fallback"]["status"] = "AVAILABLE"
                     result["fallback"]["available"] = True
-                    result["fallback"]["vision_capable"] = True
-                    result["fallback"]["liveProbe"] = True
+                    result["fallback"]["lastHttpStatus"] = 200
                     result["fallback"]["lastErrorClass"] = None
                 else:
                     # Probe fallback model directly to capture sanitized live error
                     try:
+                        result["fallback"]["probeKind"] = "text"
+                        result["fallback"]["probeKeySafeId"] = entry.safe_id
+                        result["fallback"]["probeTimestamp"] = time.time()
                         probe_resp = await client.post(
                             "https://api.groq.com/openai/v1/chat/completions",
                             headers={"Authorization": f"Bearer {entry.raw_key}", "Content-Type": "application/json"},
@@ -126,7 +136,11 @@ async def validate_groq_models(
                             result["fallback"]["liveProbe"] = False
                             result["fallback"]["status"] = "UNAVAILABLE"
                             result["fallback"]["available"] = False
-                            result["fallback"]["lastErrorClass"] = err_code
+                            # Provider bodies are untrusted and can echo credentials.
+                            known_codes = {"model_not_found", "model_decommissioned", "rate_limit_exceeded",
+                                           "invalid_api_key", "authentication_error", "insufficient_quota",
+                                           "invalid_request_error", "permission_denied", "service_unavailable"}
+                            result["fallback"]["lastErrorClass"] = err_code if isinstance(err_code, str) and err_code in known_codes else f"HTTP_{probe_resp.status_code}"
                     except Exception as pe:
                         result["fallback"]["liveProbe"] = False
                         result["fallback"]["status"] = "UNAVAILABLE"
@@ -134,9 +148,15 @@ async def validate_groq_models(
                         result["fallback"]["lastErrorClass"] = type(pe).__name__
             else:
                 result["error"] = f"HTTP {resp.status_code}"
+                for role in ('primary', 'fallback'):
+                    result[role]['lastHttpStatus'] = resp.status_code
+                    result[role]['lastErrorClass'] = f'HTTP_{resp.status_code}'
     except Exception as e:
-        logger.warning(f"Groq model validation network error: {e}")
-        result["error"] = str(e)
+        # Exception bodies can carry request credentials or provider text.
+        result["error"] = type(e).__name__
+        for role in ('primary', 'fallback'):
+            result[role]['lastErrorClass'] = type(e).__name__
+        logger.warning('Groq model validation unavailable: %s', type(e).__name__)
 
     _validation_cache = result
 
@@ -166,13 +186,23 @@ def get_model_validation_status() -> Dict[str, Any]:
             "model": settings.groq_primary_vision_model,
             "status": "NOT_CHECKED",
             "available": False,
-            "vision_capable": False,
+            "vision_capable": None,
+            "probeKind": None,
+            "catalogAvailable": None,
+            "liveProbe": False,
+            "lastHttpStatus": None,
+            "lastErrorClass": None,
         },
         "fallback": {
             "model": settings.groq_fallback_vision_model,
             "status": "NOT_CHECKED",
             "available": False,
-            "vision_capable": False,
+            "vision_capable": None,
+            "probeKind": None,
+            "catalogAvailable": None,
+            "liveProbe": False,
+            "lastHttpStatus": None,
+            "lastErrorClass": None,
         },
         "checked_at": 0.0,
         "error": None,

@@ -168,7 +168,8 @@ For the current versioned queue, after restoring its current state if needed:
 
 ```powershell
 & .\ai\runtime\.venv\Scripts\python.exe -X utf8 .\scripts\data\drive_line_batch.py cloud `
-  --batch 'all_current_20261007/cloud_heading1063_20261008'
+  --batch 'all_current_20261007/cloud_groupedsafe1001_20261009' `
+  --limit 10
 ```
 
 Matching successful reads are skipped. A saved provider backoff survives restarts
@@ -177,13 +178,22 @@ consult `cloud_summary.json` and the saved retry deadline. Do not use `--force`
 to bypass limits or repeat a completed cohort. If reader code/source hashes
 change, preserve the old outputs and create a separately versioned comparison.
 
+`--limit` now bounds **new successful reads in this invocation** (default 200).
+For example, use 10 for a small continuation or 100 for a larger one. Existing
+immutable results are counted and hash-checked but do not consume the new-read
+budget. `batch_limit` means this bounded invocation stopped with work remaining,
+not that the provider failed. Resume the same batch to continue. It never bypasses
+the saved provider deadline. `new_reads` and `max_new_reads` are recorded in the
+summary; classification responses without transcribed rows are still predictions,
+not fully recognized pages or approved training labels.
+
 Successful reads are immutable even with `--force`. A reader-version or source
 byte mismatch stops with an explicit error and requires a new batch. During
 backoff, later valid cached successes are still counted, and pending originals
 are not fetched. No new provider request is made until the saved deadline passes.
 
-The neutral-fraction follow-up preserves 250 successful historical source IDs
-and selects only the 1,069 remaining sources into the batch above. The earlier
+The historical neutral-fraction follow-up preserves 250 successful source IDs
+and selects the then-remaining 1,069 sources into its own versioned batch. The earlier
 1180-source batch uses another reader fingerprint and remains historical evidence;
 do not resume it with changed code or copy old predictions into the new batch.
 The first new attempt stopped before saving a read; a later invocation honored
@@ -191,12 +201,72 @@ its persisted backoff. No cloud result is automatically a training reference.
 See [the guard and queue report](../report/NEUTRAL_FRACTION_EVIDENCE_20261008.md).
 
 The subsequent scale/topic phase adds six reads: **256 saved, 1,063 pending**.
-The command above selects only those pending IDs under the final reader version.
+That phase selected only those pending IDs under its reader version.
 Earlier neutral and scale batches remain immutable historical evidence. The new
 queue inherits the prior provider-failure deadline, so a batch-name change does
 not bypass backoff. The topic guard was checked using a cached-response replay;
 that is control-flow verification, not an independent provider accuracy result.
 See [the follow-up report](../report/OCR_SCALE_AND_TOPIC_GUARDS_20261008.md).
+
+The 2026-10-09 continuation saves 28 further provider responses: **284/1,319
+saved responses, 1,035 pending sources**. Of these new responses, 16 classify
+multiple exercises and three classify unreadable pages without transcribed
+rows. Saved responses are therefore not a count of fully recognized pages.
+Four source-linked visual spot reviews remain separate from raw predictions;
+none is automatically approved for training. The queue fingerprint is unchanged
+and its historical queue resumed the remaining IDs after persisted backoff.
+See [the continuation report](../report/CONTINUED_OCR_AND_LESSON_FIXES_20261009.md).
+
+The bounded 2026-10-09 follow-up saves another **10 responses**, bringing the
+immutable total to **294/1,319**, with **1,025 pending**. Six new responses classify
+multiple exercises and one is unreadable without rows; only three contain
+transcribed content. A source-linked review found one worked solution incorrectly
+classified as a question. The shared guard now retains the original transcribed
+lines as WORK and requests the missing problem, without correcting numbers.
+
+That guard changed the reader fingerprint. It created the planned
+`cloud_workguard1025_20261009` queue containing only the remaining 1,025 IDs.
+Its `queue_plan.json` records provenance and signature. The parent
+`cloud_heading1063_20261008` results remain unchanged; do not resume that parent
+with changed reader code. A cached-response comparison verifies guard behavior
+only, not an independent OCR reading or a fully approved reference.
+
+The subsequent physical-row/task-review phase saves **20 new source responses**:
+**314/1,319 unique sources have responses; 1,005 remain pending**. Eight new
+responses are MULTIPLE and ten UNREADABLE without rows; two contain 17 predicted
+rows. Two independent repeat readings of historical sources are comparison
+evidence and are excluded from coverage. These counts measure saved predictions,
+not correctness or approved training references.
+
+That phase used `cloud_rowreview1025_20261009`, whose fingerprint covers
+the task guard, tall-glyph row detector and conservative row-boundary handling.
+Its first 20 responses are immutable and will be skipped on resume. The prior
+`cloud_workguard1025_20261009` plan was never invoked; preserve it as provenance
+rather than running it with changed code. Source spot checks still show merged
+prose and a misread operator in a table page. No weights or reference labels were
+changed. See [the physical-row follow-up](../report/OCR_PHYSICAL_ROW_REVIEW_20261009.md).
+
+The candidate-band follow-up saves **15 new responses**: **329/1,319 unique source
+IDs have saved responses; 990 remain pending**. Ten are MULTIPLE, three UNREADABLE,
+and two contain 24 predicted rows. Four additional readings repeat historical
+sources for comparison and are excluded from coverage. No reference labels or
+production weights were changed.
+
+The current command uses `cloud_groupedsafe1001_20261009`. Four new readings were
+saved under the preceding flat-band version and eleven under the final grouped
+version. The failed provider record and its deadline were carried into the new
+queue unchanged. The final run stopped on provider unavailability before reaching
+its bounded budget; honor `retry_not_before` before resuming. Earlier completed
+responses remain immutable. `cloud_grouped1001_20261009` and its comparison are
+uninvoked historical plans, not the current queues.
+
+Candidate bands include the full source, retain original pixels and never count
+as approved crops. Internal grouped replies may contain zero or several actual
+rows per candidate. Only identical ordered content/roles can reconcile breaks;
+non-singleton grouping cannot supply displayed geometry. The actual comparison
+split wrapped prose but duplicated another row, so the guard rejected adoption.
+This is progress in review and safety, not proof of improved whole-corpus accuracy.
+See [the candidate-band report](../report/OCR_CANDIDATE_BANDS_20261009.md).
 
 Run dataset safety checks without cloud credentials:
 

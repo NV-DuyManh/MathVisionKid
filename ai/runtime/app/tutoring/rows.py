@@ -107,6 +107,28 @@ def _straight_rows(bgr, max_lines, sparse=False):
         if all(abs(y - other) > body_height * (.95 if cropped_page else 1.2) for other in peaks):
             peaks.append(y)
     peaks.sort()
+    # Tall glyphs can have two strong ink bands inside the SAME writing row.
+    # Require two substantial connected bodies across both peaks; separate
+    # fraction tiers and close independent rows have no such shared glyphs.
+    parts = stats[keep > 0]
+    joined = []
+    merged_bodies = {}
+    for peak in peaks:
+        if joined and peak-joined[-1] <= body_height*1.5:
+            shared = parts[(parts[:, 1] <= joined[-1])
+                           & (parts[:, 1]+parts[:, 3] > peak)
+                           & (parts[:, 2] >= body_height*.3)
+                           & (parts[:, 2] <= body_height*4)
+                           & (parts[:, 4] >= parts[:, 2]*parts[:, 3]*.12)]
+            if len(shared) >= 2:
+                previous = joined[-1]
+                joined[-1] = max((previous, peak), key=lambda y: projection[y])
+                bounds = merged_bodies.pop(previous, (h, 0))
+                merged_bodies[joined[-1]] = (min(bounds[0], int(shared[:, 1].min())),
+                    max(bounds[1], int((shared[:, 1]+shared[:, 3]).max())))
+                continue
+        joined.append(peak)
+    peaks = joined
     if not 1 <= len(peaks) <= max_lines:
         return []
     gap = float(np.median(np.diff(peaks))) if len(peaks) > 1 else body_height*2
@@ -126,8 +148,13 @@ def _straight_rows(bgr, max_lines, sparse=False):
     covered = 0
     for top, bottom, peak in zip(cuts, cuts[1:], peaks):
         # A distant page ornament must not expand a handwriting crop.
+        row_top, row_bottom = top, bottom
         top = max(top, round(peak-gap * .7))
         bottom = min(bottom, round(peak+gap * .7)+1)
+        if peak in merged_bodies:
+            first, last = merged_bodies[peak]
+            top = max(row_top, min(top, first-4))
+            bottom = min(row_bottom, max(bottom, last+5))
         ys, xs = np.nonzero(mask[top:bottom])
         if len(xs) < 30:
             return []

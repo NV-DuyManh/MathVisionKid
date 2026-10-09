@@ -4,7 +4,7 @@ import apiClient from '../../../services/api/apiClient';
 export type TutorStage = 'UNDERSTAND' | 'PLAN' | 'NEXT_STEP' | 'CHECK_WORK';
 export interface TutorReadResult { problemText: string; needsReview: boolean; notes: string }
 export interface WrittenDivision { dividend: string; divisor: string; quotient: string | null; rows: string[] }
-export interface DivisionCheck { status: 'CORRECT' | 'TRY_AGAIN' | 'NEEDS_REVIEW'; field: '' | 'dividend' | 'divisor' | 'quotient' | 'rows'; rowIndex: number | null; message: string }
+export interface DivisionCheck { status: 'CORRECT' | 'TRY_AGAIN' | 'NEEDS_REVIEW'; field: '' | 'dividend' | 'divisor' | 'quotient' | 'rows'; rowIndex: number | null; message: string; hints?: string[] }
 export interface NotebookLine { text: string; box: [number, number, number, number] | null; uncertain: boolean; division?: WrittenDivision | null }
 export function divisionText(value: WrittenDivision): string {
   return `${value.dividend} : ${value.divisor}\nThương đã viết: ${value.quotient ?? ''}\nCác hàng đã viết:\n${value.rows.join('\n')}`;
@@ -78,7 +78,10 @@ export const TutorService = {
       || typeof data.message !== 'string' || !data.message.trim() || data.message.length > 600
       || (data.rowIndex !== null && (!Number.isInteger(data.rowIndex) || data.rowIndex < 0 || data.rowIndex >= division.rows.length || data.field !== 'rows'))
       || (data.status === 'CORRECT' && (data.field !== '' || data.rowIndex !== null))
-      || (data.status !== 'CORRECT' && data.field === '')) throw new Error(INVALID_RESPONSE);
+      || (data.status !== 'CORRECT' && data.field === '')
+      || (data.hints !== undefined && (!Array.isArray(data.hints) || data.hints.length > 2
+        || data.hints.some((hint: unknown) => typeof hint !== 'string' || !hint.trim() || hint.length > 300)
+        || (data.status !== 'TRY_AGAIN' && data.hints.length > 0)))) throw new Error(INVALID_RESPONSE);
     return data;
   },
   async startLesson(problemText: string, workText: string,
