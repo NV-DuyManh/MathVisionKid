@@ -2,6 +2,7 @@ import { AppBar, Toolbar, Typography, Avatar, Box, Menu, MenuItem, ListItemIcon 
 import { Logout, Person, Home } from '@mui/icons-material';
 import { useAuth } from './AuthContext';
 import { useState } from 'react';
+import { appConfig } from '../../config/runtime';
 
 export default function Topbar() {
   const { user, logout } = useAuth();
@@ -109,7 +110,7 @@ export default function Topbar() {
           </MenuItem>
           <MenuItem
             component="a"
-            href="http://localhost:5172"
+            href={appConfig.portalOrigin}
             onClick={handleClose}
             sx={{ py: 1, fontSize: '0.875rem', color: '#4F46E5' }}
           >

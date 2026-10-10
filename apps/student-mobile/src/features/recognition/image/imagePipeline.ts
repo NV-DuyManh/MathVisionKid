@@ -2,6 +2,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 import { ImageDraft } from '../state/recognitionDraftStore';
+import { exportCropImage } from '../../../utils/cropRotation';
 
 /**
  * Normalizes local file URIs safely.
@@ -188,7 +189,7 @@ export async function normalizeImageDraft(
 
   try {
     // Materialize into a stable, non-transient JPEG file in app cache and normalize EXIF orientation
-    const manipResult = await ImageManipulator.manipulateAsync(
+    const manipResult = Platform.OS === 'web' ? await exportCropImage(preparedUri, 0, { x: 0, y: 0, w: 1, h: 1 }) : await ImageManipulator.manipulateAsync(
       preparedUri,
       [], // no transformations; this acts as a materialize & orientation pass
       { compress: 0.95, format: ImageManipulator.SaveFormat.JPEG }
@@ -224,6 +225,7 @@ export async function normalizeImageDraft(
 
     return draft;
   } catch (err) {
+    if (Platform.OS === 'web') throw err;
     console.warn('[IMAGE_PIPELINE] manipulateAsync fallback used:', err);
     // If manipulateAsync throws (e.g. on web or unsupported mock), fall back gracefully
     const stableUri = ensureFileUri(cleanUri);

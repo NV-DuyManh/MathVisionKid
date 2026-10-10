@@ -34,6 +34,7 @@ public class TeacherClassController {
         response.setName(classroom.getName());
         response.setGradeLevel(classroom.getGradeLevel());
         response.setAcademicYear(classroom.getAcademicYear());
+        response.setStudentCount(classroom.getStudents().size());
 
         if (includeStudents && classroom.getStudents() != null) {
             List<UserResponse> students = classroom.getStudents().stream().map(student -> {

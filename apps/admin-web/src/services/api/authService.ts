@@ -1,4 +1,5 @@
 import { apiClient } from './apiClient';
+import { useMocks } from '../../config/runtime';
 import { tokenStore } from './tokenStore';
 import type { AdminUserResponse, LoginResponse } from '../../types';
 
@@ -29,7 +30,7 @@ export const authService = {
       }
       return userData;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         // Fallback for standalone demo when backend is offline
         if (email.trim().toLowerCase() === 'admin.demo@mathvision.local' && password === 'MathVision123!') {
           tokenStore.setTokens('mock-admin-access-token', 'mock-admin-refresh-token');
@@ -67,7 +68,7 @@ export const authService = {
       const { data } = await apiClient.get<AdminUserResponse>('/me');
       return data;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         if (tokenStore.hasTokens()) {
           return MOCK_ADMIN;
         }
@@ -78,7 +79,8 @@ export const authService = {
 
   async logout(): Promise<void> {
     try {
-      await apiClient.post('/auth/logout');
+      // Send an explicit body and bound the wait before clearing this browser's session.
+      await apiClient.post('/auth/logout', {}, { timeout: 5000 });
     } catch {
       // Ignore errors on logout
     } finally {

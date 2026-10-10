@@ -5,6 +5,7 @@ export interface TeacherService {
   getDashboard(): Promise<DashboardStats>;
   getClasses(): Promise<Class[]>;
   getAssignments(): Promise<Assignment[]>;
+  getAssignmentRoster(assignmentId: string): Promise<{ id: string; name: string }[]>;
   createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment>;
   getBatches(): Promise<Batch[]>;
   createBatch(assignmentId: string, imagesCount: number): Promise<Batch>;

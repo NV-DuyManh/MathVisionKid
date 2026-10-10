@@ -1,8 +1,9 @@
 /* eslint-disable import/no-named-as-default-member */
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { tokenStore } from './tokenStore';
+import { appConfig } from '../../config/runtime';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = appConfig.apiBaseUrl;
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -47,7 +48,8 @@ apiClient.interceptors.response.use(
     // Don't retry auth endpoints
     if (
       originalRequest.url?.includes('/auth/login') ||
-      originalRequest.url?.includes('/auth/refresh')
+      originalRequest.url?.includes('/auth/refresh') ||
+      originalRequest.url?.includes('/auth/logout')
     ) {
       return Promise.reject(error);
     }

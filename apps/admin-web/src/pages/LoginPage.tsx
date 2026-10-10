@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Card,
@@ -17,6 +17,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { appConfig, showDevTools } from '../config/runtime';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -24,6 +25,7 @@ export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const ssoStarted = useRef(false);
 
   const { login, loginWithSsoTicket } = useAuth();
   const navigate = useNavigate();
@@ -33,6 +35,8 @@ export const LoginPage: React.FC = () => {
 
   // Handle SSO Ticket Exchange if redirected from Unified Portal (URL Fragment #sso= preferred)
   useEffect(() => {
+    // A ticket is single use; StrictMode may replay this effect after URL scrubbing.
+    if (ssoStarted.current) return;
     let ssoCode: string | null = null;
     const hash = window.location.hash;
     if (hash && hash.includes('sso=')) {
@@ -43,19 +47,19 @@ export const LoginPage: React.FC = () => {
     }
     // Backward compatibility fallback to query param
     if (!ssoCode) {
-      const showDevTools = import.meta.env.VITE_SHOW_DEV_TOOLS === 'true';
       const hasFallbackParam = new URLSearchParams(location.search).get('fallback') === 'true' ||
                                new URLSearchParams(location.search).get('direct') === 'true';
       const isAllowedFallback = showDevTools && hasFallbackParam;
 
       if (!isAllowedFallback) {
-        window.location.href = 'http://localhost:5172/';
+        window.location.href = appConfig.portalOrigin;
         return;
       }
       return;
     }
 
     // IMMEDIATELY scrub the URL (fragment or query) before any network operation
+    ssoStarted.current = true;
     window.history.replaceState({}, document.title, window.location.pathname);
 
     const performSsoExchange = async () => {
@@ -214,6 +218,7 @@ export const LoginPage: React.FC = () => {
           </form>
 
           {/* Dev Mode Helper */}
+          {showDevTools && <>
           <Divider sx={{ my: 3 }}>
             <Typography variant="caption" sx={{ color: '#94A3B8', px: 1 }}>
               TÀI KHOẢN MẪU DEV
@@ -239,12 +244,13 @@ export const LoginPage: React.FC = () => {
           >
             Điền tài khoản Admin mẫu
           </Button>
+          </>}
 
           <Button
             variant="outlined"
             fullWidth
             component="a"
-            href="http://localhost:5172/login"
+            href={`${appConfig.portalOrigin}/login`}
             sx={{
               mt: 2,
               py: 1,
@@ -264,7 +270,7 @@ export const LoginPage: React.FC = () => {
           <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 1 }}>
               <a
-                href="http://localhost:5172"
+                href={appConfig.portalOrigin}
                 style={{ color: '#64748B', textDecoration: 'none', fontWeight: 500 }}
               >
                 ← Về Trang chủ MathVision Kids

@@ -1,4 +1,5 @@
 import { apiClient } from './apiClient';
+import { useMocks } from '../../config/runtime';
 import type {
   AdminDashboardResponse,
   AdminUserResponse,
@@ -21,7 +22,7 @@ export const adminService = {
       const { data } = await apiClient.get<AdminDashboardResponse>('/admin/dashboard');
       return data;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         return {
           totalStudents: 150,
           activeStudents: 148,
@@ -48,7 +49,7 @@ export const adminService = {
       const { data } = await apiClient.get<Page<AdminUserResponse>>('/admin/users', { params });
       return data;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         const mockUsers: AdminUserResponse[] = [
           { userId: 'u_1', email: 'admin.demo@mathvision.local', displayName: 'Demo Administrator', role: 'ADMIN', active: true, createdAt: '2026-09-01T00:00:00Z', updatedAt: '2026-09-01T00:00:00Z' },
           { userId: 'u_2', email: 'lan.teacher@mathvision.local', displayName: 'Ms. Lan', role: 'TEACHER', active: true, createdAt: '2026-09-01T00:00:00Z', updatedAt: '2026-09-01T00:00:00Z', classes: [{ classId: 'c_3a', name: 'Lớp 3A', gradeLevel: 3 }] },
@@ -76,7 +77,7 @@ export const adminService = {
       const { data } = await apiClient.get<AdminUserResponse>(`/admin/users/${userId}`);
       return data;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         return {
           userId,
           email: 'admin.demo@mathvision.local',
@@ -131,7 +132,7 @@ export const adminService = {
       const { data } = await apiClient.get<Page<AdminClassResponse>>('/admin/classes', { params });
       return data;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         const mockClasses: AdminClassResponse[] = [
           {
             classId: 'c_3a',
@@ -172,7 +173,7 @@ export const adminService = {
       const { data } = await apiClient.get<AdminClassResponse>(`/admin/classes/${classId}`);
       return data;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         return {
           classId,
           name: 'Lớp 3A',
@@ -230,7 +231,7 @@ export const adminService = {
       const { data } = await apiClient.get<Page<AdminAuditEventResponse>>('/admin/audit', { params });
       return data;
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error')) {
+      if (useMocks && (err.code === 'ERR_NETWORK' || !err.response || err.message?.includes('Network Error'))) {
         return {
           content: [
             {

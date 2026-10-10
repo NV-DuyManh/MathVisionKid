@@ -1,22 +1,25 @@
 import { Box, Button, Card, CardContent, Typography, TextField, Alert, InputAdornment, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Visibility, VisibilityOff, School } from '@mui/icons-material';
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import apiClient from '../services/api/apiClient';
 import { AuthTokenStore } from '../services/api/AuthTokenStore';
+import { appConfig, showDevTools } from '../config/runtime';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [email, setEmail] = useState('lan.teacher@mathvision.local');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const ssoStarted = useRef(false);
 
   // Handle SSO Ticket Exchange if redirected from Unified Portal (URL Fragment #sso= preferred)
   useEffect(() => {
+    if (ssoStarted.current) return;
     let ssoCode: string | null = null;
     const hash = window.location.hash;
     if (hash && hash.includes('sso=')) {
@@ -31,18 +34,18 @@ export default function LoginPage() {
     }
     // Handle SSO Ticket Exchange if redirected from Unified Portal (URL Fragment #sso= preferred)
     if (!ssoCode) {
-      const showDevTools = import.meta.env.VITE_SHOW_DEV_TOOLS === 'true';
       const hasFallbackParam = searchParams.get('fallback') === 'true' || searchParams.get('direct') === 'true';
       const isAllowedFallback = showDevTools && hasFallbackParam;
 
       if (!isAllowedFallback) {
-        window.location.href = 'http://localhost:5172/';
+        window.location.href = appConfig.portalOrigin;
         return;
       }
       return;
     }
 
     // IMMEDIATELY scrub the URL (fragment or query) before any network operation
+    ssoStarted.current = true;
     window.history.replaceState({}, document.title, window.location.pathname);
 
     const exchangeTicket = async () => {
@@ -55,7 +58,7 @@ export default function LoginPage() {
         });
         const { accessToken, refreshToken } = res.data;
         if (accessToken && refreshToken) {
-          AuthTokenStore.setTokens(accessToken, refreshToken);
+          AuthTokenStore.setTokens(accessToken, refreshToken, true);
         }
         navigate('/dashboard', { replace: true });
       } catch (err: any) {
@@ -221,7 +224,7 @@ export default function LoginPage() {
               fullWidth
               variant="outlined"
               component="a"
-              href="http://localhost:5172/login"
+              href={`${appConfig.portalOrigin}/login`}
               sx={{
                 py: 1.1,
                 fontWeight: 600,
@@ -240,7 +243,7 @@ export default function LoginPage() {
             <Box sx={{ mt: 2.5, textAlign: 'center' }}>
               <Typography variant="caption" sx={{ color: '#64748B' }}>
                 <a
-                  href="http://localhost:5172"
+                  href={appConfig.portalOrigin}
                   style={{ color: '#64748B', textDecoration: 'none', fontWeight: 500 }}
                 >
                   ← Về Trang chủ MathVision Kids

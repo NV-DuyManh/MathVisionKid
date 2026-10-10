@@ -54,3 +54,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 	jvmArgs = ['-Dfile.encoding=UTF-8']
 }
+
+tasks.named('bootJar') {
+	archiveFileName = 'business-api.jar'
+}

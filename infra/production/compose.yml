@@ -1,0 +1,217 @@
+name: mathvision-production
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-ai-environment: &ai-environment
+  APP_ENV: production
+  RUNTIME_MODE: MODEL
+  OCR_PROVIDER: crnn_vi_handwriting_v1
+  OCR_DEVICE: cpu
+  OCR_MODEL_DIR: /app/models/ocr/crnn_vi_handwriting_v1
+  MODEL_MANIFEST_PATH: /app/models/model_manifest.json
+  MODEL_ARTIFACT_PATH: /app/models/yolov8n_mathvision_det_v1.pt
+  CANONICAL_RUNTIME_OVERRIDE_ENABLED: "false"
+  OCR_PHYSICAL_TRACE_ENABLED: "false"
+  OCR_BRIDGE_MODE: shadow
+  PORT: "8000"
+  AI_HOST: 0.0.0.0
+  REDIS_URL: redis://:${REDIS_PASSWORD:?Set REDIS_PASSWORD}@redis:6379/0
+  SPRING_CALLBACK_BASE_URL: http://backend:8080/internal/v1/ai/jobs
+  INTERNAL_API_KEY: ${INTERNAL_API_KEY:?Set INTERNAL_API_KEY}
+  MINIO_ENDPOINT: minio:9000
+  MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:?Set MINIO_ACCESS_KEY}
+  MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:?Set MINIO_SECRET_KEY}
+  MINIO_BUCKET: mathvision
+  MINIO_SECURE: "false"
+  GROQ_ENABLED: ${GROQ_ENABLED:-true}
+  GROQ_API_KEYS: ${GROQ_API_KEYS:-}
+  GROQ_PRIMARY_VISION_MODEL: ${GROQ_PRIMARY_VISION_MODEL:-qwen/qwen3.8-27b}
+  GROQ_FALLBACK_VISION_MODEL: ${GROQ_FALLBACK_VISION_MODEL:-qwen/qwen3.6-27b}
+  GROQ_LINE_ASSIST_MODE: ${GROQ_LINE_ASSIST_MODE:-suspicious_only}
+  GROQ_CONSENSUS_MODE: ${GROQ_CONSENSUS_MODE:-adaptive}
+  GROQ_TIMEOUT_SECONDS: ${GROQ_TIMEOUT_SECONDS:-25}
+  GROQ_POST_CORRECTION_ENABLED: ${GROQ_POST_CORRECTION_ENABLED:-true}
+  GROQ_ROTATE_ON_429: "false"
+  GEMINI_ENABLED: ${GEMINI_ENABLED:-true}
+  GEMINI_API_KEYS: ${GEMINI_API_KEYS:-}
+  GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.6-flash}
+  GEMINI_FALLBACK_ENABLED: ${GEMINI_FALLBACK_ENABLED:-false}
+  GEMINI_POST_CORRECTION_ENABLED: ${GEMINI_POST_CORRECTION_ENABLED:-true}
+  GEMINI_ROTATE_ON_429: "false"
+  CLOUD_ADVISOR_MAX_CONCURRENCY: ${CLOUD_ADVISOR_MAX_CONCURRENCY:-3}
+  HWTEXT_ALWAYS_REVIEW_ENABLED: "true"
+
+x-ai-models: &ai-models
+  - type: bind
+    source: ${MODEL_BUNDLE_DIR:?Set MODEL_BUNDLE_DIR to the verified runtime bundle}
+    target: /app/models
+    read_only: true
+    bind:
+      create_host_path: false
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mathvision
+      POSTGRES_DB: mathvision
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U mathvision -d mathvision"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    logging: *logging
+
+  redis:
+    image: redis:7-alpine
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD}
+    command: [sh, -c, 'exec redis-server --appendonly yes --requirepass "$${REDIS_PASSWORD}"']
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: [CMD-SHELL, 'REDISCLI_AUTH="$${REDIS_PASSWORD}" redis-cli ping | grep -q PONG']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    logging: *logging
+
+  minio:
+    image: minio/minio:RELEASE.2024-01-28T22-35-53Z
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:?Set MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:?Set MINIO_SECRET_KEY}
+    command: server /data --console-address :9001
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: [CMD, mc, ready, local]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    logging: *logging
+
+  storage-init:
+    image: minio/minio:RELEASE.2024-01-28T22-35-53Z
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:?Set MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:?Set MINIO_SECRET_KEY}
+    entrypoint: [/bin/sh, -ec]
+    command:
+      - 'mc alias set private http://minio:9000 "$${MINIO_ACCESS_KEY}" "$${MINIO_SECRET_KEY}" >/dev/null; mc mb --ignore-existing private/mathvision; mc anonymous set none private/mathvision'
+    depends_on:
+      minio:
+        condition: service_healthy
+    restart: "no"
+    logging: *logging
+
+  ai:
+    image: mathvision-ai:production
+    build:
+      context: ../../ai/runtime
+    environment: *ai-environment
+    volumes: *ai-models
+    depends_on:
+      redis:
+        condition: service_healthy
+      storage-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    logging: *logging
+
+  worker:
+    image: mathvision-ai:production
+    build:
+      context: ../../ai/runtime
+    environment: *ai-environment
+    command: [celery, -A, app.jobs.celery_app, worker, --loglevel=info, --pool=solo, --hostname=mathvision@%h]
+    volumes: *ai-models
+    healthcheck:
+      test: [CMD-SHELL, 'celery -A app.jobs.celery_app inspect ping --destination "mathvision@$${HOSTNAME}" --timeout 5 | grep -q pong']
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 5
+    depends_on:
+      redis:
+        condition: service_healthy
+      storage-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    logging: *logging
+
+  backend:
+    image: mathvision-business-api:production
+    build:
+      context: ../../backend/business-api
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      PORT: "8080"
+      DB_URL: jdbc:postgresql://postgres:5432/mathvision
+      DB_USERNAME: mathvision
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:?Set INTERNAL_API_KEY}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:?Set the exact HTTPS web origins}
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:?Set MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:?Set MINIO_SECRET_KEY}
+      MINIO_BUCKET: mathvision
+      AI_GATEWAY_MODE: FASTAPI
+      AI_SERVICE_URL: http://ai:8000/internal/v1/jobs
+      AI_SERVICE_BASE_URL: http://ai:8000
+      BOOTSTRAP_ADMIN_ENABLED: ${BOOTSTRAP_ADMIN_ENABLED:-false}
+      BOOTSTRAP_ADMIN_EMAIL: ${BOOTSTRAP_ADMIN_EMAIL:-}
+      BOOTSTRAP_ADMIN_PASSWORD: ${BOOTSTRAP_ADMIN_PASSWORD:-}
+      BOOTSTRAP_ADMIN_NAME: ${BOOTSTRAP_ADMIN_NAME:-Owner}
+      JAVA_TOOL_OPTIONS: -XX:MaxRAMPercentage=35.0
+    healthcheck:
+      test: [CMD, curl, --fail, --silent, http://127.0.0.1:8080/actuator/health]
+      interval: 15s
+      timeout: 5s
+      start_period: 90s
+      retries: 10
+    depends_on:
+      postgres:
+        condition: service_healthy
+      storage-init:
+        condition: service_completed_successfully
+      ai:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *logging
+
+  gateway:
+    image: caddy:2.10.2-alpine
+    environment:
+      API_DOMAIN: ${API_DOMAIN:?Set the public API domain}
+      CADDY_EMAIL: ${CADDY_EMAIL:?Set the certificate contact email}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *logging
+
+volumes:
+  postgres-data:
+  redis-data:
+  minio-data:
+  caddy-data:
+  caddy-config:

@@ -323,7 +323,7 @@ export const UsersPage: React.FC = () => {
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 required
-                placeholder="VD: an.student@mathvision.local"
+                placeholder="Nhập email của học sinh"
               />
 
               <TextField

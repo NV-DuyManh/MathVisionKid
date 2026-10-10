@@ -10,3 +10,22 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
   flyway:
     enabled: false
+
+app:
+  jwt:
+    secret: test_only_signing_key_for_backend_authentication_tests_1234567890
+  cors:
+    allowed-origins: http://localhost:3000,http://localhost:5173
+
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin123
+
+ai:
+  gateway:
+    url: http://localhost:8000/internal/v1/jobs
+  service:
+    base-url: http://localhost:8000
+  callback:
+    api-key: test-internal-key

@@ -4,6 +4,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { authService } from '../services/authService';
 import { tokenStore } from '../services/apiClient';
+import { appConfig } from '../config/runtime';
 
 export const AdminEntryPage: React.FC = () => {
   const [status, setStatus] = useState<string>('Đang kiểm tra quyền truy cập...');
@@ -30,7 +31,7 @@ export const AdminEntryPage: React.FC = () => {
         const ticket = await authService.requestSsoTicket('ADMIN');
 
         setStatus('Đang chuyển hướng đến không gian Quản trị viên...');
-        window.location.href = `http://localhost:5174/login#sso=${encodeURIComponent(ticket.code)}`;
+        window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
       } catch (err: any) {
         setError(err.response?.data?.message || err.message || 'Lỗi khi khởi tạo phiên làm việc Quản trị.');
       }

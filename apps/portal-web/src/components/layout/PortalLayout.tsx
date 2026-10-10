@@ -17,19 +17,32 @@ import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { RoleBadge } from '../common/RoleBadge';
 import { authService, type UserProfile } from '../../services/authService';
 import { tokenStore } from '../../services/apiClient';
+import { showDevTools } from '../../config/runtime';
 
 export const PortalLayout: React.FC = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const navigate = useNavigate();
-  const showDevTools = import.meta.env.VITE_SHOW_DEV_TOOLS === 'true';
 
   useEffect(() => {
-    if (tokenStore.hasTokens()) {
-      authService.getMe().then(setUser).catch(() => {
-        tokenStore.clearTokens();
-        setUser(null);
-      });
-    }
+    let active = true;
+    let version = 0;
+    const updateSession = () => {
+      const request = ++version;
+      setUser(null);
+      if (tokenStore.hasTokens()) {
+        authService.getMe().then(profile => {
+          if (active && request === version && tokenStore.hasTokens()) setUser(profile);
+        }).catch(() => {
+          if (active && request === version) tokenStore.clearTokens();
+        });
+      }
+    };
+    window.addEventListener('portal_auth_changed', updateSession);
+    updateSession();
+    return () => {
+      active = false;
+      window.removeEventListener('portal_auth_changed', updateSession);
+    };
   }, []);
 
   const handleLogout = () => {

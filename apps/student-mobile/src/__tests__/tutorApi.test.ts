@@ -67,6 +67,31 @@ const publicLesson = { sessionId: 'abcdefghijklmnopqrstuv', revision: 0, topic: 
   stepIndex: 0, completed: [], status: 'READY', feedback: '', step: { title: 'Chọn phép tính', explanation: 'Xem số bút thay đổi.', question: 'Em chọn phép tính nào?',
     choices: ['Cộng', 'Trừ'], expression: '', unit: '', workExcerpt: '' } };
 
+it('retains bounded teaching actions from the backend', async () => {
+  const data = { ...publicLesson, step: { ...publicLesson.step, guidance: ['Đọc điều được cho.', 'Giải thích vì sao gộp hai nhóm.'] } };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).resolves.toEqual(data);
+});
+
+it.each([null, [1], [' '], ['x'.repeat(501)], Array(7).fill('Ý')])('rejects malformed teaching on current and completed steps', async guidance => {
+  for (const patch of [
+    { step: { ...publicLesson.step, guidance } },
+    { stepIndex: 1, completed: [{ title: 'Tính', expression: '12+5', answer: '17', unit: 'bút', explanation: 'Gộp hai nhóm.', guidance }] },
+  ]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...publicLesson, ...patch } });
+    await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow('Chưa đọc được hướng dẫn');
+  }
+});
+
+it.each([
+  { conclusion: 'Đáp số: 17 bút.' },
+  { step: { ...publicLesson.step, solutionSentence: 'x'.repeat(221) } },
+  { stepIndex: 1, completed: [{ title: 'Tính', expression: '12+5', answer: '17', unit: 'bút', explanation: 'Gộp hai nhóm.', calculationDetails: ['x'.repeat(501)] }] },
+])('rejects malformed solution fields and premature final answers', async patch => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...publicLesson, ...patch } });
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow('Chưa đọc được hướng dẫn');
+});
+
 it('rejects unconfirmed source content before making any lesson request', async () => {
   for (const [problem, work, confirmation] of [
     [request.problemText, '', { problemConfirmed: false, workConfirmed: false }],

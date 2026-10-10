@@ -137,7 +137,7 @@ def normalize_image(image_bytes: bytes) -> str:
         raise ValueError("Không đọc được ảnh. Em hãy chọn ảnh khác rõ hơn.") from exc
 
 
-async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None) -> dict:
+async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None) -> dict:
     pool = get_gemini_pool()
     if pool is None:
         raise TutorUnavailable()
@@ -147,8 +147,12 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
     payload = {
         "systemInstruction": {"parts": [{"text": system_prompt}]},
         "contents": [{"role": "user", "parts": parts}],
-        "generationConfig": {"temperature": 0.0, "responseMimeType": "application/json", "maxOutputTokens": 2500 if image_b64 else 1500},
+        "generationConfig": {"temperature": 0.0, "responseMimeType": "application/json", "maxOutputTokens": max_output_tokens or (2500 if image_b64 else 1500)},
     }
+    if settings.gemini_model.startswith("gemini-3."):
+        # Default thinking can exhaust the output budget before emitting JSON.
+        payload["generationConfig"].update(temperature=1.0,
+            thinkingConfig={"thinkingLevel": "low", "includeThoughts": False})
     attempted = set()
     # This skips unusable credentials; it is separate from the OCR correction
     # retry budget, which may be zero. Quota/transient errors never try a new key.
@@ -158,7 +162,8 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
             break
         attempted.add(entry.safe_id)
         try:
-            async with httpx.AsyncClient(timeout=httpx.Timeout(min(settings.gemini_timeout_seconds, 14.0), connect=min(settings.gemini_connect_timeout_seconds, 4.0))) as client:
+            timeout = min(settings.gemini_timeout_seconds, 14.0) if timeout_seconds == 14.0 else timeout_seconds
+            async with httpx.AsyncClient(timeout=httpx.Timeout(timeout, connect=min(settings.gemini_connect_timeout_seconds, 4.0))) as client:
                 response = await client.post(
                     f"{GEMINI_API_BASE}/models/{settings.gemini_model}:generateContent",
                     headers={"x-goog-api-key": entry.raw_key}, json=payload,
@@ -170,14 +175,18 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
                 raise GeminiError("RATE_LIMIT_429", "Rate limited", retry_after=float(retry_after) if retry_after.replace(".", "", 1).isdigit() else None)
             if not response.is_success:
                 raise GeminiError("MODEL_UNAVAILABLE" if response.status_code == 404 else "SERVER_ERROR_5XX", "Provider unavailable")
-            parts = response.json()["candidates"][0]["content"]["parts"]
-            content = next(part["text"] for part in parts if "text" in part and not part.get("thought"))
+            candidate = response.json()["candidates"][0]
+            if candidate.get("finishReason", "STOP") != "STOP":
+                raise ValueError("Incomplete response")
+            parts = candidate["content"]["parts"]
+            content = "".join(part["text"] for part in parts if isinstance(part.get("text"), str) and not part.get("thought"))
             parsed = json.loads(content)
             if not isinstance(parsed, dict):
                 raise ValueError("Object required")
             pool.mark_success(entry)
             return parsed
         except GeminiError as exc:
+            logger.info("Math tutor fallback unavailable (%s)", exc.error_class)
             pool.mark_failure(entry, exc.error_class, exc.retry_after)
             # Invalid credentials cannot consume quota: disable them and try an
             # untried credential. Every quota/transient failure stops immediately.
@@ -189,47 +198,74 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
     raise TutorUnavailable()
 
 
-async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None) -> dict:
+async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False) -> dict:
     pool = get_pool()
     if pool is None:
         init_pool(settings.groq_api_keys, settings.groq_key_cooldown_seconds, settings.groq_auth_disable_seconds)
         pool = get_pool()
-    entry = pool.acquire() if pool else None
-    if entry is None:
-        raise TutorUnavailable()
-    content = [{"type": "text", "text": user_text}]
-    if image_b64:
-        content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}})
-    payload = {
-        "model": settings.groq_primary_vision_model,
-        "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": content}],
-        "temperature": 0.0, "response_format": {"type": "json_object"}, "max_completion_tokens": 2500 if image_b64 else 1500,
-    }
-    try:
-        parsed = await _execute_chat_completion(payload, entry, timeout_seconds=min(settings.groq_timeout_seconds, 14.0), connect_timeout=min(settings.groq_connect_timeout_seconds, 4.0))
-        if not isinstance(parsed, dict):
-            raise GroqError("RESPONSE_VALIDATION_ERROR", "Object required")
-        pool.report_success(entry)
-        return parsed
-    except GroqError as exc:
-        pool.report_failure(entry, exc.error_class, exc.retry_after)
-        raise TutorUnavailable() from None
-    except (httpx.HTTPError, ValueError, TypeError):
-        pool.report_failure(entry, "RESPONSE_VALIDATION_ERROR")
-        raise TutorUnavailable() from None
+    # Skip disabled credentials only; quota, timeout and content failures stop.
+    for _ in range(3):
+        entry = pool.acquire() if pool else None
+        if entry is None:
+            raise TutorUnavailable()
+        content = [{"type": "text", "text": user_text}]
+        if image_b64:
+            content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}})
+        payload = {
+            "model": settings.groq_primary_vision_model,
+            "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": content}],
+            "temperature": 0.0, "response_format": {"type": "json_object"}, "max_completion_tokens": max_output_tokens or (2500 if image_b64 else 1500),
+        }
+        if reasoning and settings.groq_primary_vision_model in {
+                "qwen/qwen3.8-27b", "openai/gpt-oss-20b", "openai/gpt-oss-120b"}:
+            # Qwen defaults to non-thinking. Lesson planning/review opts in;
+            # faithful image transcription keeps its existing settings.
+            payload.update(reasoning_effort="low", reasoning_format="hidden")
+            if settings.groq_primary_vision_model == "qwen/qwen3.8-27b":
+                payload.update(temperature=1.0, top_p=0.95)
+        if response_schema is not None and settings.groq_primary_vision_model in {
+                "qwen/qwen3.8-27b", "openai/gpt-oss-20b", "openai/gpt-oss-120b"}:
+            payload["response_format"] = {"type": "json_schema", "json_schema": {
+                "name": "math_lesson", "strict": True, "schema": response_schema}}
+        try:
+            timeout = min(settings.groq_timeout_seconds, 14.0) if timeout_seconds == 14.0 else timeout_seconds
+            parsed = await _execute_chat_completion(payload, entry, timeout_seconds=timeout, connect_timeout=min(settings.groq_connect_timeout_seconds, 4.0))
+            if not isinstance(parsed, dict):
+                raise GroqError("RESPONSE_VALIDATION_ERROR", "Object required")
+            pool.report_success(entry)
+            return parsed
+        except GroqError as exc:
+            logger.info("Math tutor primary unavailable (%s)", exc.error_class)
+            pool.report_failure(entry, exc.error_class, exc.retry_after)
+            if exc.error_class not in {"AUTH_INVALID", "AUTH_FORBIDDEN"}:
+                raise TutorUnavailable() from None
+        except (httpx.HTTPError, ValueError, TypeError):
+            pool.report_failure(entry, "RESPONSE_VALIDATION_ERROR")
+            raise TutorUnavailable() from None
+    raise TutorUnavailable()
 
 
-async def _generate(system_prompt: str, user_text: str, image_b64: str | None = None) -> dict:
+async def _generate(system_prompt: str, user_text: str, image_b64: str | None = None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False) -> dict:
+    # Detailed lessons need more space than a single hint. Other callers keep
+    # their existing budget. Quota failures never trigger key sweeps.
+    options = {}
+    if max_output_tokens is not None or timeout_seconds != 14.0:
+        options = {"max_output_tokens": max(256, min(max_output_tokens or 1500, 7000)),
+                   "timeout_seconds": max(1.0, min(timeout_seconds, 24.0))}
+    if response_schema is not None:
+        options["response_schema"] = response_schema
     async def attempt():
-        # Quota/transient errors never sweep keys; only invalid Gemini credentials
+        # Quota/transient errors never sweep keys; only invalid credentials
         # can be disabled and skipped within a small bounded attempt count.
-        if settings.groq_enabled and settings.groq_api_keys.strip():
-            try:
-                return await _call_groq(system_prompt, user_text, image_b64)
-            except TutorUnavailable:
-                logger.info("Math tutor primary provider unavailable; trying configured fallback")
-        if settings.gemini_enabled and settings.gemini_api_keys.strip():
-            return await _call_gemini(system_prompt, user_text, image_b64)
+        providers = [(_call_groq, settings.groq_enabled, settings.groq_api_keys),
+                     (_call_gemini, settings.gemini_enabled, settings.gemini_api_keys)]
+        for provider, enabled, keys in providers:
+            if enabled and keys.strip():
+                try:
+                    provider_options = {**options, "reasoning": True} if reasoning and provider is _call_groq else options
+                    return await provider(system_prompt, user_text, image_b64, **provider_options)
+                except TutorUnavailable:
+                    logger.info("Math tutor provider unavailable; trying configured fallback")
         raise TutorUnavailable()
 
     acquired = False

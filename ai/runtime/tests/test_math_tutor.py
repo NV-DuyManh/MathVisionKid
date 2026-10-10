@@ -234,6 +234,28 @@ def test_groq_quota_sets_cooldown_without_sweeping_keys(monkeypatch):
     assert pool._entries[1].failure_count == 0
 
 
+def test_groq_invalid_credential_is_disabled_before_valid_credential_is_used(monkeypatch):
+    pool = GroqKeyPool("mock-invalid,mock-valid")
+    monkeypatch.setattr(service, "get_pool", lambda: pool)
+    transport = AsyncMock(side_effect=[GroqError("AUTH_INVALID", "private error"), safe_response()])
+    monkeypatch.setattr(service, "_execute_chat_completion", transport)
+    assert run(service._call_groq("policy", "source", None)) == safe_response()
+    assert transport.await_count == 2
+    assert pool._entries[0].state == KeyState.DISABLED_AUTH
+    assert pool._entries[1].success_count == 1
+
+
+def test_groq_invalid_credential_attempts_are_bounded(monkeypatch):
+    pool = GroqKeyPool("mock-a,mock-b,mock-c,mock-d")
+    monkeypatch.setattr(service, "get_pool", lambda: pool)
+    transport = AsyncMock(side_effect=GroqError("AUTH_FORBIDDEN", "private error"))
+    monkeypatch.setattr(service, "_execute_chat_completion", transport)
+    with pytest.raises(service.TutorUnavailable):
+        run(service._call_groq("policy", "source", None))
+    assert transport.await_count == 3
+    assert pool._entries[3].failure_count == 0
+
+
 def test_groq_payload_has_system_separation_json_mode_and_bounded_tokens(monkeypatch):
     pool = GroqKeyPool("mock-key")
     monkeypatch.setattr(service, "get_pool", lambda: pool)
@@ -246,6 +268,75 @@ def test_groq_payload_has_system_separation_json_mode_and_bounded_tokens(monkeyp
     assert payload["response_format"] == {"type": "json_object"}
     assert payload["max_completion_tokens"] == 2500
     assert transport.call_args.kwargs["timeout_seconds"] <= 14
+
+
+def test_lesson_budget_is_forwarded_to_both_providers_with_hard_caps(monkeypatch):
+    primary = AsyncMock(side_effect=service.TutorUnavailable())
+    fallback = AsyncMock(return_value=safe_response())
+    monkeypatch.setattr(service, "_call_groq", primary)
+    monkeypatch.setattr(service, "_call_gemini", fallback)
+    run(service._generate("lesson", "source", max_output_tokens=6500, timeout_seconds=24))
+    assert primary.await_args.kwargs == fallback.await_args.kwargs == {"max_output_tokens": 6500, "timeout_seconds": 24}
+    run(service._generate("lesson", "source", max_output_tokens=100000, timeout_seconds=1000))
+    assert fallback.await_args.kwargs == {"max_output_tokens": 7000, "timeout_seconds": 24}
+
+
+def test_lesson_transport_can_emit_detailed_teaching_without_changing_short_hint_budget(monkeypatch):
+    pool = GroqKeyPool("mock-key")
+    monkeypatch.setattr(service, "get_pool", lambda: pool)
+    transport = AsyncMock(return_value=safe_response())
+    monkeypatch.setattr(service, "_execute_chat_completion", transport)
+    run(service._call_groq("lesson", "source", None, max_output_tokens=6500, timeout_seconds=24))
+    assert transport.await_args.args[0]["max_completion_tokens"] == 6500
+    assert transport.await_args.kwargs["timeout_seconds"] == 24
+    run(service._call_groq("hint", "source", None))
+    assert transport.await_args.args[0]["max_completion_tokens"] == 1500
+
+
+def test_lesson_reasoning_is_hidden_and_opt_in_without_affecting_photo_reading(monkeypatch):
+    pool = GroqKeyPool("mock-key")
+    monkeypatch.setattr(service, "get_pool", lambda: pool)
+    monkeypatch.setattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
+    transport = AsyncMock(return_value=safe_response())
+    monkeypatch.setattr(service, "_execute_chat_completion", transport)
+    run(service._call_groq("lesson", "source", None, reasoning=True))
+    payload = transport.await_args.args[0]
+    assert payload['reasoning_effort']=='low' and payload['reasoning_format']=='hidden'
+    assert payload['response_format']=={'type':'json_object'}
+    run(service._call_groq("faithful transcription", "source", "encoded-photo"))
+    payload = transport.await_args.args[0]
+    assert 'reasoning_effort' not in payload and 'reasoning_format' not in payload
+    assert payload['temperature']==0.0
+    monkeypatch.setattr(settings, "groq_primary_vision_model", "unsupported-test-model")
+    run(service._call_groq("lesson", "source", None, reasoning=True))
+    assert 'reasoning_effort' not in transport.await_args.args[0]
+
+
+def test_reasoning_option_never_breaks_the_configured_fallback_transport(monkeypatch):
+    primary = AsyncMock(side_effect=service.TutorUnavailable())
+    fallback = AsyncMock(return_value=safe_response())
+    monkeypatch.setattr(service, "_call_groq", primary)
+    monkeypatch.setattr(service, "_call_gemini", fallback)
+    run(service._generate("lesson", "source", reasoning=True))
+    assert primary.await_args.kwargs=={'reasoning':True}
+    assert 'reasoning' not in fallback.await_args.kwargs
+
+
+def test_review_uses_strict_schema_only_on_a_documented_supported_model(monkeypatch):
+    from app.tutoring.lesson import REVIEW_SCHEMA
+    pool = GroqKeyPool("mock-key")
+    monkeypatch.setattr(service, "get_pool", lambda: pool)
+    transport = AsyncMock(return_value=safe_response())
+    monkeypatch.setattr(service, "_execute_chat_completion", transport)
+    monkeypatch.setattr(settings, "groq_primary_vision_model", "qwen/qwen3.8-27b")
+    run(service._call_groq("review", "source", None, response_schema=REVIEW_SCHEMA))
+    format=transport.await_args.args[0]["response_format"]
+    assert format["json_schema"]["strict"] is True
+    assert format["json_schema"]["schema"]==REVIEW_SCHEMA
+    assert set(REVIEW_SCHEMA['required'])==set(REVIEW_SCHEMA['properties'])
+    monkeypatch.setattr(settings, "groq_primary_vision_model", "unsupported-test-model")
+    run(service._call_groq("review", "source", None, response_schema=REVIEW_SCHEMA))
+    assert transport.await_args.args[0]["response_format"]=={"type":"json_object"}
 
 
 @pytest.mark.parametrize("status,error", [(401, "AUTH_ERROR"), (403, "AUTH_ERROR"), (429, "RATE_LIMIT_429"), (404, "MODEL_UNAVAILABLE"), (500, "SERVER_ERROR_5XX")])
@@ -330,6 +421,29 @@ def test_gemini_json_transport_and_malformed_response(monkeypatch):
     monkeypatch.setattr(service.httpx, "AsyncClient", lambda **kwargs: original_client(transport=httpx.MockTransport(lambda req: httpx.Response(200, json={"candidates": []})), **kwargs))
     with pytest.raises(service.TutorUnavailable):
         run(service._call_gemini("policy", "data", None))
+
+
+@pytest.mark.parametrize('finish', ['STOP', 'MAX_TOKENS', 'SAFETY'])
+def test_gemini_split_visible_json_is_joined_but_incomplete_output_never_accepted(monkeypatch, finish):
+    import json
+    pool = GeminiKeyPool("mock-key")
+    monkeypatch.setattr(service, "get_gemini_pool", lambda: pool)
+    monkeypatch.setattr(settings, "gemini_model", "gemini-3.6-flash")
+    original_client=httpx.AsyncClient
+    raw=json.dumps(safe_response()); cut=len(raw)//2; calls=[]
+    def handler(req):
+        calls.append(json.loads(req.content))
+        return httpx.Response(200,json={'candidates':[{'finishReason':finish,'content':{'parts':[
+            {'thought':True,'text':'private reasoning must never enter parsed JSON'},
+            {'text':raw[:cut]},{'thoughtSignature':'metadata'},{'text':raw[cut:]}]}}]})
+    monkeypatch.setattr(service.httpx,'AsyncClient',lambda **kwargs: original_client(transport=httpx.MockTransport(handler),**kwargs))
+    if finish=='STOP':
+        assert run(service._call_gemini('policy','source','photo'))==safe_response()
+    else:
+        with pytest.raises(service.TutorUnavailable):
+            run(service._call_gemini('policy','source','photo'))
+    assert len(calls)==1
+    assert calls[0]['generationConfig']['thinkingConfig']=={'thinkingLevel':'low','includeThoughts':False}
 
 
 def test_concurrency_rejects_busy_requests_without_waiting_full_inference(monkeypatch):

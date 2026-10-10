@@ -7,14 +7,21 @@ import pytest
 from app.tutoring import lesson
 from app.tutoring.lesson import LessonRequest, TurnRequest, LessonExpired, StaleTurn, calculate, start_lesson, answer_lesson
 from app.tutoring.service import TutorUnavailable
+from _lesson_test_data import step, geometry, review_for
 
 PROBLEM = 'Cho hình thang ABCD có đáy AB = 8 cm, đáy CD = 15 cm và diện tích hình tam giác ACD là 90 cm². Tính diện tích hình thang ABCD.'
 WORK = 'Bài giải\nĐộ dài chiều cao AH là:\n90 × 2 : 15 = 12 (cm)\nDiện tích hình thang ABCD là:\n(15 + 8) × 12 : 2 = 138 (cm²)'
 
 
 @pytest.fixture(autouse=True)
-def reset_sessions():
+def reset_sessions(monkeypatch):
     lesson._sessions.clear()
+    async def generated(prompt, data, **options):
+        value=json.loads(data)
+        if prompt == lesson.PLAN_PROMPT:
+            return geometry(value['problemText'], value['workText'])
+        return review_for(value['candidate'])
+    monkeypatch.setattr(lesson, '_generate', AsyncMock(side_effect=generated))
 
 
 def turn(response, answer='', owner='student-a', hint=False):
@@ -105,11 +112,11 @@ def test_math_expression_evaluator_rejects_code_and_unsupported_operations(expre
 
 @pytest.mark.asyncio
 async def test_cloud_plan_keeps_keys_private_and_validates_arithmetic(monkeypatch):
-    plan = dict(topic='Thêm bút', goal='Tìm số bút sau khi được cho thêm.', steps=[
-        dict(title='Chọn phép tính', explanation='Xem số bút thay đổi như thế nào.', question='Em chọn phép tính nào?', choices=['Cộng', 'Trừ'], correctChoice='Cộng'),
-        dict(title='Tính số bút', explanation='Gộp số bút ban đầu với số bút được thêm.', question='Em tính được bao nhiêu bút?', expression='12+5', unit='bút'),
+    plan = dict(topic='Thêm bút', goal='Tìm số bút sau khi được cho thêm.', finalAnswerStep=1, steps=[
+        step(title='Chọn phép tính', explanation='Xem số bút thay đổi như thế nào.', question='Em chọn phép tính nào?', choices=['Cộng', 'Trừ'], correctChoice='Cộng'),
+        step(title='Tính số bút', explanation='Gộp số bút ban đầu với số bút được thêm.', question='Em tính được bao nhiêu bút?', expression='12+5', unit='bút'),
     ])
-    monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
+    monkeypatch.setattr(lesson, '_generate', AsyncMock(side_effect=[plan, review_for(plan)]))
     response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
     # Opaque random session IDs may contain these digits without revealing an
     # answer. Check every learning-content field, including completed steps.
@@ -117,17 +124,18 @@ async def test_cloud_plan_keeps_keys_private_and_validates_arithmetic(monkeypatc
     response = turn(response, 'Cộng')
     assert turn(response, '17').status == 'COMPLETE'
     plan['steps'][1]['question'] = 'Kết quả là 17 bút, đúng không?'
+    monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
     with pytest.raises(TutorUnavailable):
         await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))
 
 
 @pytest.mark.asyncio
 async def test_cloud_plan_must_not_invent_givens_or_copy_ungrounded_work(monkeypatch):
-    plan = dict(topic='Thêm bút', goal='Tìm số bút.', steps=[
-        dict(title='Chọn phép tính', explanation='Xem số bút thay đổi.', question='Em chọn phép tính nào?', choices=['Cộng', 'Trừ'], correctChoice='Cộng'),
-        dict(title='Tính', explanation='Gộp hai nhóm.', question='Em tính được bao nhiêu?', expression='100+5', unit='bút'),
+    plan = dict(topic='Thêm bút', goal='Tìm số bút.', finalAnswerStep=1, steps=[
+        step(title='Chọn phép tính', explanation='Xem số bút thay đổi.', question='Em chọn phép tính nào?', choices=['Cộng', 'Trừ'], correctChoice='Cộng'),
+        step(title='Tính', explanation='Gộp hai nhóm.', question='Em tính được bao nhiêu?', expression='100+5', unit='bút'),
     ])
-    monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
+    monkeypatch.setattr(lesson, '_generate', AsyncMock(side_effect=[plan, review_for(plan)]))
     with pytest.raises(TutorUnavailable):
         await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút.'))
 
@@ -143,14 +151,14 @@ async def test_missing_or_uncertain_original_problem_cannot_start_lesson():
 @pytest.mark.asyncio
 @pytest.mark.parametrize('field,value', [('unit', '17 bút'), ('title', 'Bước {s1}'), ('topic', 'groq'), ('goal', 'Xem http://localhost:8000')])
 async def test_every_generated_public_field_is_checked_before_lesson_is_opened(monkeypatch, field, value):
-    plan = dict(topic='Thêm bút', goal='Hiểu việc được cho thêm.', steps=[
-        dict(title='Hiểu đề', explanation='Số bút tăng khi được cho thêm.', question='Em chọn cách nào?', choices=['Gộp', 'Bớt'], correctChoice='Gộp'),
-        dict(title='Tính', explanation='Gộp số bút ban đầu với số bút được thêm.', question='Có tất cả bao nhiêu bút?', expression='12+5', unit='bút'),
+    plan = dict(topic='Thêm bút', goal='Hiểu việc được cho thêm.', finalAnswerStep=1, steps=[
+        step(title='Hiểu đề', explanation='Số bút tăng khi được cho thêm.', question='Em chọn cách nào?', choices=['Gộp', 'Bớt'], correctChoice='Gộp'),
+        step(title='Tính', explanation='Gộp số bút ban đầu với số bút được thêm.', question='Có tất cả bao nhiêu bút?', expression='12+5', unit='bút'),
     ])
     if field in ['topic', 'goal']:
         plan[field] = value
     else:
         plan['steps'][1][field] = value
-    monkeypatch.setattr(lesson, '_generate', AsyncMock(return_value=plan))
+    monkeypatch.setattr(lesson, '_generate', AsyncMock(side_effect=[plan, review_for(plan)]))
     with pytest.raises(TutorUnavailable):
         await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText='Lan có 12 bút, được cho 5 bút. Hỏi có tất cả bao nhiêu bút?'))

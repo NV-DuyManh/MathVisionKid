@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react';
 import { authService } from '../services/api/authService';
 import { tokenStore } from '../services/api/tokenStore';
+import { appConfig } from '../config/runtime';
 import type { AdminUserResponse } from '../types';
 
 interface AuthContextType {
@@ -59,7 +60,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const loginWithSsoTicket = async (code: string) => {
+  const loginWithSsoTicket = useCallback(async (code: string) => {
     setLoading(true);
     try {
       const userData = await authService.exchangeSsoTicket(code);
@@ -67,13 +68,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const logout = async () => {
+    setLoading(true);
     try {
       await authService.logout();
     } finally {
-      setUser(null);
+      tokenStore.clearTokens();
+      // Keep the login route from redirecting before Portal clears its own session.
+      window.location.replace(`${appConfig.portalOrigin}/logout?source=admin`);
     }
   };
 

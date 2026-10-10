@@ -1,8 +1,10 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { AppTeacherService } from '../../services/api/ServiceLocator';
 import { AuthTokenStore } from '../../services/api/AuthTokenStore';
 import apiClient from '../../services/api/apiClient';
+import { appConfig } from '../../config/runtime';
 
 interface AuthContextType {
   user: any;
@@ -17,8 +19,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
+  const sessionVersion = useRef(0);
 
   useEffect(() => {
+    const clearSession = () => {
+      sessionVersion.current += 1;
+      void queryClient.cancelQueries();
+      queryClient.clear();
+      setUser(null);
+    };
+    window.addEventListener('teacher_auth_changed', clearSession);
+    return () => window.removeEventListener('teacher_auth_changed', clearSession);
+  }, [queryClient]);
+
+  useEffect(() => {
+    let active = true;
+    const version = sessionVersion.current;
     const fetchMe = async () => {
       try {
         if (!AppTeacherService.getMe) {
@@ -27,18 +44,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             return;
         }
         const data = await AppTeacherService.getMe();
+        if (!active || version !== sessionVersion.current) return;
         if (data.role !== 'TEACHER') {
           throw new Error('Unauthorized role');
         }
         setUser(data);
       } catch {
+        if (!active || version !== sessionVersion.current) return;
         AuthTokenStore.clearTokens();
         setUser(null);
         if (location.pathname !== '/login') {
           navigate('/login');
         }
       } finally {
-        setLoading(false);
+        if (active && version === sessionVersion.current) setLoading(false);
       }
     };
     
@@ -48,6 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(false);
     }
+    return () => { active = false; };
   }, [navigate, location.pathname]);
 
   const logout = async () => {
@@ -58,13 +78,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       AuthTokenStore.clearTokens();
       setUser(null);
-      window.location.href = 'http://localhost:5172/logout?source=teacher';
+      window.location.href = `${appConfig.portalOrigin}/logout?source=teacher`;
     }
   };
 
   return (
     <AuthContext.Provider value={{ user, loading, logout }}>
-      {children}
+      {location.pathname === '/login' || user ? children : <div role="status">Đang kiểm tra phiên đăng nhập...</div>}
     </AuthContext.Provider>
   );
 }

@@ -4,6 +4,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import { authService } from '../services/authService';
 import { tokenStore } from '../services/apiClient';
+import { appConfig } from '../config/runtime';
 
 export const TeacherEntryPage: React.FC = () => {
   const [status, setStatus] = useState<string>('Đang kiểm tra quyền truy cập...');
@@ -30,7 +31,7 @@ export const TeacherEntryPage: React.FC = () => {
         const ticket = await authService.requestSsoTicket('TEACHER');
 
         setStatus('Đang chuyển hướng đến không gian Giáo viên...');
-        window.location.href = `http://localhost:5173/login#sso=${encodeURIComponent(ticket.code)}`;
+        window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
       } catch (err: any) {
         setError(err.response?.data?.message || err.message || 'Lỗi khi khởi tạo phiên làm việc Giáo viên.');
       }

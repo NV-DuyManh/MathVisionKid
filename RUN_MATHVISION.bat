@@ -1,7 +1,11 @@
 @echo off
 setlocal enabledelayedexpansion
 chcp 65001 >nul
-title MathVision Kids - Launcher and Expo Go QR
+title MathVision Kids - Local, Vercel and Expo Go QR
+
+:: Windows PowerShell must load its own modules even when launched from PowerShell 7.
+:: setlocal confines this search-path adjustment to the launcher and its children.
+set "PSModulePath=%SystemRoot%\System32\WindowsPowerShell\v1.0\Modules;%PSModulePath%"
 
 :: 1. Determine repository root safely
 set "SCRIPT_DIR=%~dp0"
@@ -40,7 +44,7 @@ echo     Prerequisites verified successfully.
 echo.
 
 :: 4. Start Core Stack Services (Infrastructure, APIs, Web Portals)
-echo [1/3] Starting Core Stack Services (Infrastructure, APIs, Web)...
+echo [1/4] Starting Core Stack Services (Infrastructure, APIs, Web)...
 call "%SCRIPT_DIR%scripts\start-all.bat"
 if errorlevel 1 (
     set "FAIL_REASON=Core stack services failed to start or verify readiness"
@@ -49,7 +53,7 @@ if errorlevel 1 (
 
 :: 5. Start Student Mobile Metro Bundler (LAN Mode)
 echo.
-echo [2/3] Starting Student Mobile Metro Bundler (LAN Mode)...
+echo [2/4] Starting Student Mobile Metro Bundler (LAN Mode)...
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%scripts\start-student-metro.ps1"
 if errorlevel 1 (
     set "FAIL_REASON=Failed to launch Student Metro Bundler"
@@ -58,7 +62,7 @@ if errorlevel 1 (
 
 :: 6. Run Complete Ecosystem Diagnostics
 echo.
-echo [3/3] Verifying Complete Ecosystem Diagnostics...
+echo [3/4] Verifying Complete Ecosystem Diagnostics...
 set "PY_EXE=%SCRIPT_DIR%ai\runtime\.venv\Scripts\python.exe"
 if not exist "%PY_EXE%" set "PY_EXE=python"
 "%PY_EXE%" "%SCRIPT_DIR%tools\diagnostics\check_runtime.py"
@@ -67,20 +71,44 @@ if errorlevel 1 (
     goto :launcher_failed
 )
 
-:: 7. Launch Unified Portal Web in default browser
+:: 7. Resume the configured owner's public website without changing private setup
+echo.
+set "PUBLIC_WEB_STATUS=NOT_CONFIGURED"
+set "PUBLIC_WEB_EXIT=0"
+if exist "%SCRIPT_DIR%infra\local-runtime\pc-preview\.env.preview" (
+    echo [4/4] Starting public API and updating the Vercel websites...
+    echo This step may take a few minutes. Keep this window open.
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%scripts\deploy\Start-PC-Preview.ps1" -PublishWeb
+    if errorlevel 1 (
+        set "PUBLIC_WEB_STATUS=FAILED"
+        set "PUBLIC_WEB_EXIT=1"
+        echo [WARNING] Public website startup failed. Local services and Expo are still running.
+        echo Review the error above and run this launcher again after fixing it.
+    ) else (
+        set "PUBLIC_WEB_STATUS=READY"
+    )
+) else (
+    echo [4/4] Public website skipped: this checkout has no configured PC preview.
+    echo Setup guide: docs\PC_PREVIEW_DEPLOYMENT.md
+)
+
+:: 8. Launch Unified Portal Web in default browser
 echo.
 echo Launching Unified Portal Web in default browser...
 start http://localhost:5172
 
 echo.
 echo ============================================================
-echo  MathVision Kids -- Full Ecosystem Ready!
+echo  MathVision Kids -- Local Ecosystem Ready!
 echo ============================================================
 echo  - Unified Portal:  http://localhost:5172  (Main Entry)
 echo  - Teacher Portal:  http://localhost:5173
 echo  - Admin Portal:    http://localhost:5174
 echo  - Student Mobile:  Scan the Expo Go QR code below
+echo  - Public Website: !PUBLIC_WEB_STATUS!
+if "!PUBLIC_WEB_STATUS!"=="READY" echo  - Vercel Portal:   https://mathvisionkid-portal.vercel.app
 echo  - Stop All:        scripts\stop-all.bat
+echo  - Stop Public API: scripts\deploy\Stop-PC-Preview.ps1
 echo ============================================================
 echo.
 
@@ -92,8 +120,9 @@ if errorlevel 1 (
 echo.
 echo Keep this window open to scan the QR code above.
 echo Press any key to close this launcher. Services will keep running.
+if "!PUBLIC_WEB_STATUS!"=="READY" echo Keep this PC awake and Docker running for public login and OCR.
 pause >nul
-exit /b 0
+exit /b !PUBLIC_WEB_EXIT!
 
 :launcher_failed
 echo.

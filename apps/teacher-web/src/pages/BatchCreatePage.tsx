@@ -44,7 +44,7 @@ interface FileState {
 export default function BatchCreatePage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const assignmentId = location.state?.assignmentId || 'a1';
+  const assignmentId = location.state?.assignmentId;
 
   const [files, setFiles] = useState<FileState[]>([]);
   const [roster, setRoster] = useState<{ id: string; name: string }[]>([]);
@@ -61,17 +61,14 @@ export default function BatchCreatePage() {
     let isMounted = true;
     const fetchClass = async () => {
       try {
-        const classes = await AppTeacherService.getClasses();
-        if (classes.length > 0 && isMounted) {
-          const cls = classes[0];
-          const students = Array.from({ length: cls.studentCount }, (_, i) => ({
-            id: `st_${i + 1}`,
-            name: `Học sinh ${i + 1} (${cls.name})`,
-          }));
+        if (!assignmentId) throw new Error('Missing assignment');
+        const students = await AppTeacherService.getAssignmentRoster(assignmentId);
+        if (isMounted) {
           setRoster(students);
+          if (!students.length) setError('Lớp chưa có học sinh. Hãy thêm học sinh trước khi gửi bài.');
         }
-      } catch (err) {
-        console.error(err);
+      } catch {
+        if (isMounted) setError('Chưa tải được danh sách học sinh. Hãy quay lại chọn bài tập và thử lại.');
       }
     };
     fetchClass();
@@ -81,7 +78,7 @@ export default function BatchCreatePage() {
       // Clean up object URLs
       filesRef.current.forEach((f) => URL.revokeObjectURL(f.previewUrl));
     };
-  }, []);
+  }, [assignmentId]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {

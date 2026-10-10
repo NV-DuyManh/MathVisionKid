@@ -68,8 +68,9 @@ public final class MathTutorDtos {
                                @NotNull @Min(0) Integer revision,
                                @NotNull @Size(max = 500) String answer, @NotNull Boolean hint) {}
     public record LessonStep(String title, String explanation, String question, java.util.List<String> choices,
-                             String expression, String unit, String workExcerpt) {}
-    public record CompletedStep(String title, String expression, String answer, String unit, String explanation) {}
+                             String expression, String unit, String workExcerpt, String solutionSentence, java.util.List<String> guidance) {}
+    public record CompletedStep(String title, String expression, String answer, String unit, String explanation,
+                                String solutionSentence, java.util.List<String> calculationDetails, java.util.List<String> guidance) {}
     public record LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,
-                                 int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback) {}
+                                 int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback, String conclusion) {}
 }

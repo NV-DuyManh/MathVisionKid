@@ -48,24 +48,32 @@ const STAGES: TutorStage[] = ['UNDERSTAND', 'PLAN', 'NEXT_STEP', 'CHECK_WORK'];
 const TIMEOUT = 45000;
 const INVALID_RESPONSE = 'Chưa đọc được hướng dẫn. Em hãy thử lại nhé.';
 
-export type LessonStep = { title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string };
+export type CompletedLessonStep = { title: string; expression: string; answer: string; unit: string; explanation: string; solutionSentence?: string; calculationDetails?: string[]; guidance?: string[] };
+export type LessonStep = { title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[] };
 export type LessonResponse = {
   sessionId: string; revision: number; topic: string; goal: string; outline: string[]; stepIndex: number;
-  step: LessonStep | null; completed: { title: string; expression: string; answer: string; unit: string; explanation: string }[];
-  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string;
+  step: LessonStep | null; completed: CompletedLessonStep[];
+  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string;
 };
 function lessonResponse(value: any): LessonResponse {
   const bounded = (v: any, max: number) => typeof v === 'string' && v.length <= max;
+  const guidanceValid = (v: any) => v === undefined || (Array.isArray(v) && v.length <= 6 && v.every((item: any) => bounded(item, 500) && item.trim()));
   const stepValid = (s: any) => s && bounded(s.title, 100) && bounded(s.explanation, 500) && bounded(s.question, 220)
     && Array.isArray(s.choices) && s.choices.length <= 4 && s.choices.every((c: any) => bounded(c, 100))
-    && bounded(s.expression, 220) && bounded(s.unit, 20) && bounded(s.workExcerpt, 500);
+    && bounded(s.expression, 220) && bounded(s.unit, 20) && bounded(s.workExcerpt, 500)
+    && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220)) && guidanceValid(s.guidance);
   if (!value || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
       || !bounded(value.topic, 120) || !bounded(value.goal, 220) || !bounded(value.feedback, 500)
       || !Array.isArray(value.outline) || value.outline.length < 2 || value.outline.length > 6 || !value.outline.every((t: any) => bounded(t, 100))
       || !Array.isArray(value.completed) || value.completed.length > value.outline.length
-      || !value.completed.every((s: any) => bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500))
+      || !value.completed.every((s: any) => bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
+        && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220))
+        && guidanceValid(s.guidance)
+        && (s.calculationDetails === undefined || (Array.isArray(s.calculationDetails) && s.calculationDetails.length <= 5 && s.calculationDetails.every((d: any) => bounded(d, 500)))))
+      || (value.conclusion !== undefined && !bounded(value.conclusion, 150))
       || value.stepIndex !== value.completed.length || !['READY', 'HINT', 'TRY_AGAIN', 'CORRECT', 'COMPLETE'].includes(value.status)
       || (value.step === null) !== (value.status === 'COMPLETE') || (value.step !== null && !stepValid(value.step))) throw new Error(INVALID_RESPONSE);
+  if (value.status !== 'COMPLETE' && value.conclusion) throw new Error(INVALID_RESPONSE);
   return value as LessonResponse;
 }
 

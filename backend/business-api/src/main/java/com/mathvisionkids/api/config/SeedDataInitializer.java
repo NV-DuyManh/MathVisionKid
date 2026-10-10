@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @Configuration
-@Profile("dev")
+@Profile("dev & !prod")
 public class SeedDataInitializer {
 
     @Bean

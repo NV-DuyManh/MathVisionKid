@@ -23,6 +23,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import HomeIcon from '@mui/icons-material/Home';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { appConfig } from '../../config/runtime';
 
 const DRAWER_WIDTH = 260;
 
@@ -41,7 +42,6 @@ export const AdminSidebar: React.FC = () => {
 
   const handleLogout = async () => {
     await logout();
-    window.location.href = 'http://localhost:5172/logout?source=admin';
   };
 
   return (
@@ -154,7 +154,7 @@ export const AdminSidebar: React.FC = () => {
       <Box sx={{ px: 1.5, py: 1 }}>
         <ListItemButton
           component="a"
-          href="http://localhost:5172"
+          href={appConfig.portalOrigin}
           sx={{
             borderRadius: 1.5,
             py: 1,
@@ -189,7 +189,7 @@ export const AdminSidebar: React.FC = () => {
             {user?.displayName || 'Administrator'}
           </Typography>
           <Typography variant="caption" noWrap sx={{ color: '#94A3B8', display: 'block' }}>
-            {user?.email || 'admin@mathvision.local'}
+            {user?.email || ''}
           </Typography>
         </Box>
         <Tooltip title="Đăng xuất">

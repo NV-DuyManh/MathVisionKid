@@ -33,11 +33,13 @@ def cow_reading():
 
 
 def test_unverified_model_geometry_is_not_displayed(monkeypatch):
-    monkeypatch.setattr(notebook, "_generate", AsyncMock(return_value=cow_reading()))
+    cloud=AsyncMock(return_value=cow_reading())
+    monkeypatch.setattr(notebook, "_generate", cloud)
     result = run(notebook.inspect_notebook(image_bytes()))
     assert [line.text for line in result.lines][-1] == "Bò vàng: 35 con"
     assert all(line.box is None for line in result.lines)
     assert result.needsProblem is True
+    assert cloud.await_args_list[0].kwargs['max_output_tokens']==4000
 
 
 def test_notebook_uses_physically_supported_short_rows_before_grounding_transcript(monkeypatch):
@@ -258,8 +260,30 @@ def test_independent_reading_can_dispute_an_original_question_without_replacing_
     monkeypatch.setattr(notebook, 'handwriting_rows', lambda _: [(20, 20, 800, 100), (20, 150, 800, 230)])
     monkeypatch.setattr(notebook, '_generate', AsyncMock(side_effect=[first, second]))
     result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
-    assert result.kind == 'WORK' and result.problemText == '' and result.needsProblem
+    assert result.kind == 'MIXED' and result.problemText == '[?] Tính 84 : 4.' and not result.needsProblem
     assert [line.text for line in result.lines] == [line['text'] for line in lines]
+
+
+@pytest.mark.parametrize('second_question', ['Tính 12 + 8', '  Tính  12 + 8? '])
+def test_worksheet_heading_or_sentence_punctuation_does_not_erase_a_question(monkeypatch, second_question):
+    first = {'kind': 'PROBLEM', 'problemText': 'Bài 7: Tính 12 + 8.',
+             'lines': [{'text': 'Tính 12 + 8.'}]}
+    second = {'kind': 'PROBLEM', 'problemText': second_question, 'lines': first['lines']}
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(side_effect=[first, second]))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.kind == 'PROBLEM' and result.problemText == first['problemText']
+    assert not result.needsProblem and '[?]' not in result.problemText
+
+
+def test_fraction_operand_parentheses_do_not_dispute_an_identical_transcription():
+    assert notebook._question_signature('Bài 6: Có (1)/(3) số cây là táo.') == notebook._question_signature('Có 1/3 số cây là táo.')
+
+
+@pytest.mark.parametrize('first,other', [('Tính 1/3 + 2/5.', 'Tính 1/2 + 2/5.'),
+    ('Tính 1,5 + 2.', 'Tính 15 + 2.'), ('Tính 12 : 3.', 'Tính 12 × 3.'),
+    ('Tính 1/(3 + 2).', 'Tính 1/3 + 2.')])
+def test_question_comparison_preserves_disputed_digits_operators_and_decimal_separators(first, other):
+    assert notebook._question_signature(first) != notebook._question_signature(other)
 
 
 @pytest.mark.parametrize('review', ['same', 'digit_change', 'initial_uncertainty', 'role_change'])

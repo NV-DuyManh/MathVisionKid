@@ -109,9 +109,12 @@ export interface Submission {
   recognitionConfidence?: number;
   diagnosisConfidence?: number;
   suggestedScore?: number;
+  maxScore?: number;
   gradeProposal?: { score: number; confidence: number; metadata: any };
   teacherScore?: number;
   decision?: string; // VALID, INVALID
+  confidenceBundle?: { recognition?: number; structure?: number; diagnosis?: number };
+  validation?: { isValid?: boolean; diagnosisState?: string };
   evidence?: Evidence | any;
   recognizedText?: string;
 }

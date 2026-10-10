@@ -365,6 +365,51 @@ public class SubmissionService {
         
         return submission;
     }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> getTeacherSubmissionDetail(String email, UUID submissionId) {
+        Submission submission = getTeacherSubmission(email, submissionId);
+        Map<String, Object> detail = new java.util.LinkedHashMap<>();
+        detail.put("submissionId", submission.getSubmissionId());
+        detail.put("status", submission.getStatus());
+        detail.put("createdAt", submission.getCreatedAt());
+        detail.put("studentId", submission.getStudentId());
+        detail.put("assignmentId", submission.getAssignmentId());
+        detail.put("batchId", submission.getBatchId());
+        if (submission.getAssignment() != null) detail.put("maxScore", submission.getAssignment().getMaxScore());
+        if (submission.getStudent() != null) detail.put("studentName", submission.getStudent().getDisplayName());
+        detail.put("imageUrl", "/api/v1/teacher/submissions/" + submissionId + "/image");
+        if ("PROCESSING".equals(submission.getStatus())) return detail;
+        AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submissionId).orElse(null);
+        if (latest != null && "FAILED".equals(latest.getStatus())) return detail;
+        analysisResultRepository.findBySubmission_SubmissionId(submissionId).ifPresent(result -> {
+            Map<String, Object> reasons = result.getReviewReasons();
+            if (latest != null && reasons != null && reasons.get("jobId") != null
+                    && !latest.getJobId().toString().equals(reasons.get("jobId"))) return;
+            detail.put("analysisStatus", result.getStatus());
+            if (result.getGradeProposal() != null) {
+                detail.put("gradeProposal", result.getGradeProposal());
+                Object score = result.getGradeProposal().get("suggestedScore");
+                if (score instanceof Number number && Double.isFinite(number.doubleValue())) detail.put("suggestedScore", score);
+            }
+            if (reasons != null) {
+                Map<String, Object> confidence = new java.util.LinkedHashMap<>();
+                for (String key : java.util.List.of("recognition", "structure", "diagnosis")) {
+                    if (reasons.get(key) instanceof Number number && Double.isFinite(number.doubleValue())) {
+                        confidence.put(key, number);
+                    }
+                }
+                if (!confidence.isEmpty()) detail.put("confidenceBundle", confidence);
+                if (reasons.get("reasonCode") instanceof String reasonCode) detail.put("reasonCode", reasonCode);
+            }
+            if (result.getRecognizedExercise() != null && result.getRecognizedExercise().get("expression") instanceof String expression) {
+                detail.put("recognizedText", expression);
+            }
+            if (result.getValidation() != null) detail.put("validation", result.getValidation());
+            if (result.getEvidence() != null) detail.put("evidence", result.getEvidence());
+        });
+        return detail;
+    }
     
     @Transactional
     public void approveSubmission(String email, UUID submissionId) {

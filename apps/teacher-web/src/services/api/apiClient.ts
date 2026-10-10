@@ -2,9 +2,10 @@
 import axios, { AxiosError } from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 import { AuthTokenStore } from './AuthTokenStore';
+import { appConfig } from '../../config/runtime';
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1',
+  baseURL: appConfig.apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

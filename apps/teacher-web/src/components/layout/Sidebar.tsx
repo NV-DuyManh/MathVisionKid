@@ -1,6 +1,7 @@
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Box, Chip } from '@mui/material';
 import { Dashboard, School, Assignment, FactCheck, Settings, Home } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { appConfig } from '../../config/runtime';
 
 const DRAWER_WIDTH = 250;
 
@@ -95,7 +96,7 @@ export default function Sidebar() {
       <Box sx={{ p: 2, borderTop: '1px solid #F1F5F9', mt: 'auto' }}>
         <ListItemButton
           component="a"
-          href="http://localhost:5172"
+          href={appConfig.portalOrigin}
           sx={{
             borderRadius: 1.5,
             py: 1,

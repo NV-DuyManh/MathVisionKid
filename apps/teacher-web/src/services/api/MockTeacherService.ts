@@ -56,6 +56,14 @@ class MockTeacherServiceImpl implements TeacherService {
     return MOCK_ASSIGNMENTS;
   }
 
+  async getAssignmentRoster(assignmentId: string): Promise<{ id: string; name: string }[]> {
+    const assignment = MOCK_ASSIGNMENTS.find(item => item.assignmentId === assignmentId);
+    const classroom = MOCK_CLASSES.find(item => item.id === assignment?.classId);
+    return Array.from({ length: classroom?.studentCount ?? 0 }, (_, index) => ({
+      id: `st_${index + 1}`, name: `Học sinh ${index + 1} (${classroom?.name})`,
+    }));
+  }
+
   async createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment> {
     await delay(500);
     const newAssignment: Assignment = {

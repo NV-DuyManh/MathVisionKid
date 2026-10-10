@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Container,
   Paper,
@@ -23,6 +23,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { authService } from '../services/authService';
 import { tokenStore } from '../services/apiClient';
+import { appConfig, showDevTools } from '../config/runtime';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -30,37 +31,43 @@ export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const sessionCheck = useRef<AbortController | null>(null);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const showDevTools = import.meta.env.VITE_SHOW_DEV_TOOLS === 'true';
 
   // Display session expired notice if redirected after expiry
   useEffect(() => {
+    const controller = new AbortController();
+    sessionCheck.current = controller;
     if (searchParams.get('expired') === 'true' || searchParams.get('session') === 'expired') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
-      return;
+      return () => controller.abort();
     }
 
     if (tokenStore.hasTokens()) {
-      authService.getMe().then((user) => {
+      authService.getMe(controller.signal).then(async (user) => {
+        if (controller.signal.aborted) return;
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
         if (role === 'STUDENT') {
           navigate('/student', { replace: true });
         } else if (role === 'TEACHER') {
-          authService.requestSsoTicket('TEACHER').then((ticket) => {
-            window.location.href = `http://localhost:5173/login#sso=${encodeURIComponent(ticket.code)}`;
-          });
+          const ticket = await authService.requestSsoTicket('TEACHER', controller.signal);
+          if (!controller.signal.aborted) {
+            window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          }
         } else if (role === 'ADMIN') {
-          authService.requestSsoTicket('ADMIN').then((ticket) => {
-            window.location.href = `http://localhost:5174/login#sso=${encodeURIComponent(ticket.code)}`;
-          });
+          const ticket = await authService.requestSsoTicket('ADMIN', controller.signal);
+          if (!controller.signal.aborted) {
+            window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          }
         }
       }).catch(() => {
-        tokenStore.clearTokens();
+        if (!controller.signal.aborted) tokenStore.clearTokens();
       });
     }
+    return () => controller.abort();
   }, [searchParams, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -70,6 +77,7 @@ export const LoginPage: React.FC = () => {
       return;
     }
 
+    sessionCheck.current?.abort();
     setLoading(true);
     setError(null);
 
@@ -83,12 +91,12 @@ export const LoginPage: React.FC = () => {
           break;
         case 'TEACHER': {
           const ticket = await authService.requestSsoTicket('TEACHER');
-          window.location.href = `http://localhost:5173/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
           break;
         }
         case 'ADMIN': {
           const ticket = await authService.requestSsoTicket('ADMIN');
-          window.location.href = `http://localhost:5174/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
           break;
         }
         default:
@@ -101,8 +109,14 @@ export const LoginPage: React.FC = () => {
       setLoading(false);
       if (err.response?.status === 401 || err.response?.status === 400) {
         setError('Tài khoản hoặc mật khẩu chưa đúng.');
+      } else if (err.response?.status === 403) {
+        setError('Tài khoản chưa được phép truy cập. Vui lòng liên hệ giáo viên.');
+      } else if (err.response?.status === 429) {
+        setError('Em đã thử nhiều lần liên tiếp. Chờ một chút rồi đăng nhập lại nhé.');
+      } else if (!err.response) {
+        setError('Chưa kết nối được máy chủ. Em thử đăng nhập lại sau một chút nhé.');
       } else {
-        setError(err.response?.data?.message || err.message || 'Không thể kết nối đến máy chủ xác thực.');
+        setError('Máy chủ đang gặp sự cố. Em thử lại sau một chút nhé.');
       }
     }
   };
@@ -150,7 +164,7 @@ export const LoginPage: React.FC = () => {
             value={email}
             disabled={loading}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="email@mathvision.local"
+            placeholder="Nhập email của bạn"
           />
           <TextField
             margin="normal"

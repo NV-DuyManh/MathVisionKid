@@ -1,0 +1,19 @@
+{
+    email {$CADDY_EMAIL}
+}
+
+{$API_DOMAIN} {
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        Strict-Transport-Security "max-age=31536000"
+        -Server
+    }
+    @public_api path /api/v1/* /actuator/health
+    handle @public_api {
+        reverse_proxy backend:8080
+    }
+    handle {
+        respond 404
+    }
+}

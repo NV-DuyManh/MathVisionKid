@@ -1,6 +1,6 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field, AliasChoices
+from pydantic import Field, AliasChoices, model_validator
 from typing import Optional
 
 _SERVICE_DIR = Path(__file__).resolve().parent.parent
@@ -107,7 +107,36 @@ class Settings(BaseSettings):
     )
     always_review_enabled: bool = False
 
-    model_config = SettingsConfigDict(env_file=_ENV_FILES, env_file_encoding="utf-8", extra="ignore")
+    @model_validator(mode="after")
+    def require_real_production_runtime(self):
+        if self.app_env.lower() not in {"production", "prod"}:
+            return self
+        if self.runtime_mode != "MODEL":
+            raise ValueError("Production requires RUNTIME_MODE=MODEL; fixture recognition is prohibited.")
+        if self.ocr_provider not in {"crnn_vi_handwriting_v1", "crnn"}:
+            raise ValueError("Production requires a real CRNN OCR_PROVIDER.")
+        if self.canonical_runtime_override_enabled:
+            raise ValueError("Production prohibits CANONICAL_RUNTIME_OVERRIDE_ENABLED.")
+        for name, value, development_default in (
+            ("INTERNAL_API_KEY", self.internal_api_key, "secret-key-default"),
+            ("MINIO_ACCESS_KEY", self.minio_access_key, "minioadmin"),
+            ("MINIO_SECRET_KEY", self.minio_secret_key, "minioadmin123"),
+        ):
+            if not value.strip() or value == development_default:
+                raise ValueError(f"Production requires a configured {name} secret.")
+        if len(self.internal_api_key.encode("utf-8")) < 32 or len(set(self.internal_api_key)) < 8:
+            raise ValueError("Production requires a unique INTERNAL_API_KEY of at least 32 bytes.")
+        for name, enabled, keys in (
+            ("GROQ_API_KEYS", self.groq_enabled, self.groq_api_keys),
+            ("GEMINI_API_KEYS", self.gemini_enabled, self.gemini_api_keys),
+        ):
+            if enabled and not any(key.strip() for key in keys.split(",")):
+                raise ValueError(f"Enabled production provider requires {name}.")
+        return self
+
+    model_config = SettingsConfigDict(
+        env_file=_ENV_FILES, env_file_encoding="utf-8", extra="ignore", hide_input_in_errors=True
+    )
 
 settings = Settings()
 

@@ -159,8 +159,20 @@ public class MathTutorService {
             titles.add(title.asText());
         }
         java.util.ArrayList<CompletedStep> done = new java.util.ArrayList<>();
-        for (JsonNode row : completed) done.add(new CompletedStep(text(row, "title", 100, false), text(row, "expression", 220, true),
-                text(row, "answer", 100, false), text(row, "unit", 20, true), text(row, "explanation", 500, false)));
+        for (JsonNode row : completed) {
+            java.util.ArrayList<String> details = new java.util.ArrayList<>();
+            if (row.has("calculationDetails")) {
+                JsonNode values = row.get("calculationDetails");
+                if (!values.isArray() || values.size() > 5) throw unavailable();
+                for (JsonNode detail : values) {
+                    if (!detail.isTextual() || detail.asText().isBlank() || detail.asText().length() > 500) throw unavailable();
+                    details.add(detail.asText());
+                }
+            }
+            done.add(new CompletedStep(text(row, "title", 100, false), text(row, "expression", 220, true),
+                text(row, "answer", 100, false), text(row, "unit", 20, true), text(row, "explanation", 500, false),
+                row.has("solutionSentence") ? text(row, "solutionSentence", 220, true) : "", details, guidance(row)));
+        }
         LessonStep current = null;
         if (step != null && !step.isNull()) {
             JsonNode choices = step.get("choices");
@@ -171,7 +183,8 @@ public class MathTutorService {
                 labels.add(choice.asText());
             }
             current = new LessonStep(text(step, "title", 100, false), text(step, "explanation", 500, false),
-                    text(step, "question", 220, false), labels, text(step, "expression", 220, true), text(step, "unit", 20, true), text(step, "workExcerpt", 500, true));
+                    text(step, "question", 220, false), labels, text(step, "expression", 220, true), text(step, "unit", 20, true), text(step, "workExcerpt", 500, true),
+                    step.has("solutionSentence") ? text(step, "solutionSentence", 220, true) : "", guidance(step));
         }
         JsonNode revision = body.get("revision"), index = body.get("stepIndex");
         if (revision == null || !revision.isIntegralNumber() || revision.asInt() < 0 || index == null || !index.isIntegralNumber()
@@ -179,8 +192,10 @@ public class MathTutorService {
         String status = text(body, "status", 20, false);
         if (!List.of("READY", "HINT", "TRY_AGAIN", "CORRECT", "COMPLETE").contains(status)
                 || (current == null) != status.equals("COMPLETE")) throw unavailable();
+        String conclusion = body.has("conclusion") ? text(body, "conclusion", 150, true) : "";
+        if (!status.equals("COMPLETE") && !conclusion.isBlank()) throw unavailable();
         return new LessonResponse(text(body, "sessionId", 100, false), revision.asInt(), text(body, "topic", 120, false),
-                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true));
+                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion);
     }
 
     public GuideResponse guide(GuideRequest request) {
@@ -252,6 +267,18 @@ public class MathTutorService {
         if (value == null || !value.isTextual() || value.asText().length() > limit
                 || (!allowBlank && value.asText().isBlank())) throw unavailable();
         return value.asText();
+    }
+
+    private static List<String> guidance(JsonNode body) {
+        JsonNode values = body.get("guidance");
+        if (values == null) return List.of();
+        if (!values.isArray() || values.size() > 6) throw unavailable();
+        java.util.ArrayList<String> result = new java.util.ArrayList<>();
+        for (JsonNode value : values) {
+            if (!value.isTextual() || value.asText().isBlank() || value.asText().length() > 500) throw unavailable();
+            result.add(value.asText());
+        }
+        return result;
     }
 
     private static boolean flag(JsonNode body, String field) {

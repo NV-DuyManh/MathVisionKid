@@ -26,6 +26,7 @@ import {
   AutoAwesome,
 } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
+import { SubmissionImage } from '../components/common/SubmissionImage';
 
 export default function SubmissionReviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -45,7 +46,7 @@ export default function SubmissionReviewPage() {
 
   useEffect(() => {
     if (sub && editScore === '') {
-      const initial = sub.suggestedScore !== undefined ? sub.suggestedScore : (sub.gradeProposal?.score ?? 0);
+      const initial = sub.suggestedScore !== undefined ? sub.suggestedScore : (sub.gradeProposal?.score ?? '');
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditScore(initial);
     }
@@ -174,17 +175,7 @@ export default function SubmissionReviewPage() {
                 p: 2,
               }}
             >
-              <Box
-                component="img"
-                src={sub.imageUrl}
-                alt={`Bài làm của ${sub.studentName || 'học sinh'}`}
-                sx={{
-                  maxWidth: '100%',
-                  maxHeight: 650,
-                  objectFit: 'contain',
-                  borderRadius: 1.5,
-                }}
-              />
+              <SubmissionImage id={id!} mockUrl={sub.imageUrl} studentName={sub.studentName} />
             </Box>
 
             {/* Evidence Overlay / Position Indicator */}
@@ -247,7 +238,8 @@ export default function SubmissionReviewPage() {
                           color: sub.decision === 'VALID' ? '#15803D' : '#B91C1C',
                         }}
                       >
-                        {sub.decision === 'VALID' ? 'Hợp lệ theo quy tắc' : 'Nghi ngờ có lỗi tính'}
+                        {sub.decision === 'VALID' ? 'Hợp lệ theo quy tắc'
+                          : sub.decision === 'INVALID' ? 'Phát hiện lỗi tính cần xem lại' : 'Chưa đủ dữ liệu để kết luận'}
                       </Typography>
                     </Box>
                   </Grid>
@@ -299,7 +291,7 @@ export default function SubmissionReviewPage() {
                     {suggestedScore !== undefined ? suggestedScore : '--'}
                   </Typography>
                   <Typography variant="h6" color="text.secondary">
-                    / 10 điểm
+                    / {sub.maxScore ?? 10} điểm
                   </Typography>
                 </Box>
 
@@ -353,7 +345,7 @@ export default function SubmissionReviewPage() {
                         size="large"
                         startIcon={isPending ? <CircularProgress size={18} color="inherit" /> : <CheckCircle />}
                         onClick={handleApprove}
-                        disabled={isPending}
+                        disabled={isPending || suggestedScore === undefined}
                         sx={{ flex: 2, py: 1.25, fontWeight: 700 }}
                       >
                         {isPending ? 'Đang lưu...' : `Duyệt điểm ${suggestedScore !== undefined ? suggestedScore : ''}`}

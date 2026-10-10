@@ -9,7 +9,7 @@ import { AppButton } from '../../components/ui/AppButton';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { ImageDraft, recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
-import { divisionText, savedDivision, LessonResponse, NotebookRead, TutorService } from '../../features/tutoring/api/TutorService';
+import { divisionText, savedDivision, CompletedLessonStep, LessonResponse, NotebookRead, TutorService } from '../../features/tutoring/api/TutorService';
 import { DivisionReview } from '../../features/tutoring/DivisionReview';
 import { AuthContext } from '../../context/AuthContext';
 import { saveLesson } from '../../features/tutoring/learningHistory';
@@ -18,6 +18,29 @@ import { AppIllustration } from '../../components/ui/AppIllustration';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 
 const MASCOT = require('../../../assets/illustrations/mathvision-star.png');
+
+function SolutionLine({ item }: { item: CompletedLessonStep }) {
+  return <View style={styles.completedStep}>
+    <MathText style={styles.question}>{item.solutionSentence || `${item.title} là:`}</MathText>
+    <MathText style={styles.body}>{`${item.expression} = ${item.answer}${item.unit ? ` (${item.unit})` : ''}`}</MathText>
+    {item.calculationDetails?.map((detail, index) => <MathText key={index} style={styles.body}>{detail}</MathText>)}
+  </View>;
+}
+
+function StepGuidance({ items = [], checked = false }: { items?: string[]; checked?: boolean }) {
+  const [opened, setOpened] = useState(1);
+  if (!items.length) return null;
+  return <View style={styles.guidanceCard}>
+    <Text style={styles.link}>Cùng làm từng ý</Text>
+    <Text style={styles.body}>Em làm theo từng ý nhỏ. Các ý đã mở vẫn ở đây để em đọc lại.</Text>
+    <Text style={styles.caption} accessibilityLiveRegion="polite">ĐÃ MỞ {Math.min(opened, items.length)} / {items.length} Ý</Text>
+    {items.slice(0, opened).map((item, index) => <View key={index} style={styles.guidanceItem}>
+      <Text style={styles.guidanceNumber}>{index + 1}</Text><View style={styles.flex}><MathText style={styles.body}>{item}</MathText></View>
+    </View>)}
+    {opened < items.length ? <AppButton title="Xem ý tiếp theo" variant="secondary" onPress={() => setOpened(value => value + 1)} />
+      : <Text style={styles.caption}>{checked ? 'Em đã làm đúng bước này. Đọc lại các ý để giải thích cách làm bằng lời của em nhé.' : 'Em thử tự tính, rồi dùng nút kiểm tra. Nếu còn vướng, chọn gợi ý cách làm.'}</Text>}
+  </View>;
+}
 
 export default function MathGuideScreen() {
   const router = useRouter();
@@ -45,6 +68,7 @@ export default function MathGuideScreen() {
   const [attempt, setAttempt] = useState('');
   const [answerEdited, setAnswerEdited] = useState(false);
   const [hintCount, setHintCount] = useState(0);
+  const [reviewedStep, setReviewedStep] = useState<CompletedLessonStep | null>(null);
   const [fractionInput, setFractionInput] = useState(false);
   const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
@@ -70,7 +94,8 @@ export default function MathGuideScreen() {
   const step = lesson?.step;
   const lessonSessionId = lesson?.sessionId;
   const lessonStepIndex = lesson?.stepIndex;
-  useEffect(() => { setAnswerEdited(false); setHintCount(0); setFractionInput(false); }, [lessonSessionId, lessonStepIndex]);
+  const prefersFraction = !!step?.expression && /phân số|mấy phần/i.test(step.question);
+  useEffect(() => { setAnswerEdited(false); setHintCount(0); setFractionInput(prefersFraction); }, [lessonSessionId, lessonStepIndex, prefersFraction]);
   useEffect(() => {
     if (!lessonSessionId) return;
     const frame = requestAnimationFrame(() => scroll.current?.scrollTo({ y: Math.max(0, lessonPosition.current - 12), animated: false }));
@@ -148,7 +173,7 @@ export default function MathGuideScreen() {
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
     void run('lesson', signal => TutorService.startLesson(problem.trim(), confirmedWork,
       { problemConfirmed, workConfirmed: !!confirmedWork }, signal), result => {
-      setLesson(result); setAttempt(''); setAnswerEdited(false); setShowProblem(false); setSaved(false);
+      setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setShowProblem(false); setSaved(false);
     });
   };
   const answer = (value: string, hint = false) => {
@@ -157,7 +182,10 @@ export default function MathGuideScreen() {
       setLesson(result);
       setAnswerEdited(false);
       if (hint) setHintCount(value => value + 1);
-      if (result.stepIndex !== lesson.stepIndex) setAttempt('');
+      if (result.stepIndex !== lesson.stepIndex) {
+        setAttempt('');
+        if (result.status !== 'COMPLETE') setReviewedStep(result.completed[result.completed.length - 1]);
+      }
       setSaved(false);
     });
   };
@@ -166,7 +194,7 @@ export default function MathGuideScreen() {
     setSaving(true);
     try {
       await saveLesson(owner, { id: lessonId, timestamp: Date.now(), problemText: problem, workText: work,
-        reflection: lesson?.completed.filter(row => row.expression).map(row => `${row.title}: ${row.expression} = ${row.answer} ${row.unit}`).join('\n').slice(0, 2000) || '',
+        reflection: lesson?.completed.filter(row => row.expression).map(row => `${row.solutionSentence || row.title}\n${row.expression} = ${row.answer} ${row.unit}`).join('\n').slice(0, 2000) || '',
         reviewedSteps: lesson?.completed.length ?? 0 });
       if (active.current) setSaved(true);
     } catch { if (active.current) setError('Chưa lưu được bài. Em thử lại nhé.'); }
@@ -259,6 +287,7 @@ export default function MathGuideScreen() {
           </View>
           {!lesson || showProblem ? <View style={styles.problemContent}><MathText style={styles.body}>{problem}</MathText></View> : null}
           {!lesson ? <>
+            {Platform.OS === 'web' && problem.includes('[?]') ? <Text style={styles.error} accessibilityRole="alert">Có chỗ chưa chắc trong đề. Em chọn chỉnh đề, đối chiếu với ảnh và bỏ dấu [?] sau khi sửa nhé.</Text> : null}
             <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
             <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã kiểm tra đề bài và các số"
               aria-checked={problemConfirmed} accessibilityState={{ checked: problemConfirmed, disabled: !!busy || problem.includes('[?]') }}
@@ -298,16 +327,27 @@ export default function MathGuideScreen() {
             accessibilityValue={{ min: 0, max: lesson.outline.length, now: lesson.stepIndex, text: `Đã hoàn thành ${lesson.stepIndex} trên ${lesson.outline.length} bước` }}>
             {lesson.outline.map((_, index) => <View key={index} style={[styles.railStep, index <= lesson.stepIndex && styles.railActive]} />)}
           </View>
-          {lesson.status === 'CORRECT' && lesson.feedback ? <View style={styles.explanation}>
+          {lesson.status === 'CORRECT' && lesson.feedback && !reviewedStep ? <View style={styles.explanation}>
             <Text style={styles.caption}>BƯỚC TRƯỚC ĐÃ HOÀN THÀNH</Text><Text style={styles.feedback}>{lesson.feedback}</Text>
           </View> : null}
-          {step ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
+          {reviewedStep ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
+            <Text style={styles.eyebrow}>EM ĐÃ HOÀN THÀNH BƯỚC {lesson.stepIndex}</Text>
+            <Text style={styles.feedback}>{lesson.feedback}</Text>
+            <Text style={styles.heading}>Viết vào bài giải</Text>
+            {reviewedStep.expression ? <SolutionLine item={reviewedStep} /> : <Text style={styles.body}>{reviewedStep.answer}</Text>}
+            <Text style={styles.link}>Vì sao làm như vậy?</Text>
+            <MathText style={styles.body}>{reviewedStep.explanation}</MathText>
+            <StepGuidance key={`review:${lesson.sessionId}:${lesson.stepIndex}`} items={reviewedStep.guidance} checked />
+            <AppButton title="Tiếp tục bước tiếp theo" onPress={() => setReviewedStep(null)} />
+          </View> : step ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>BƯỚC {lesson.stepIndex + 1} / {lesson.outline.length}</Text>
             <Text style={styles.heading}>{step.title}</Text>
-            <View style={styles.explanation}><MathText style={styles.body}>{step.explanation}</MathText></View>
+            <View style={styles.explanation}><Text style={styles.link}>Vì sao cần bước này?</Text><MathText style={styles.body}>{step.explanation}</MathText></View>
+            <StepGuidance key={`${lesson.sessionId}:${lesson.stepIndex}`} items={step.guidance} />
             {step.workExcerpt ? <View style={styles.workCard}><Text style={styles.caption}>TRONG BÀI EM VIẾT</Text><MathText style={styles.body}>{step.workExcerpt}</MathText></View> : null}
             <MathText style={styles.question}>{step.question}</MathText>
-            {step.expression ? <View style={styles.expression}><MathText style={styles.expressionText}>{`${step.expression} = ?`}</MathText></View> : null}
+            {step.solutionSentence ? <View style={styles.workCard}><Text style={styles.caption}>CÂU LỜI GIẢI</Text><MathText style={styles.body}>{step.solutionSentence}</MathText></View> : null}
+            {step.expression && hintCount > 0 ? <View style={styles.expression}><Text style={styles.caption}>PHÉP TÍNH GỢI Ý — EM TỰ TÍNH KẾT QUẢ</Text><MathText style={styles.expressionText}>{`${step.expression} = ?`}</MathText></View> : null}
             {step.choices.length ? step.choices.map(choice => <Pressable key={choice} accessibilityRole="button" accessibilityLabel={choice} disabled={!!busy || expired}
               style={[styles.choice, attempt === choice && styles.choiceSelected]} onPress={() => { setAttempt(choice); setAnswerEdited(true); answer(choice); }}>
               <Text style={styles.choiceText}>{choice}</Text><Ionicons name="chevron-forward" size={18} color={COLORS.primaryDark} />
@@ -334,12 +374,14 @@ export default function MathGuideScreen() {
               <Text style={styles.link}>Gợi ý cho bước này</Text><MathText style={styles.body}>{lesson.feedback}</MathText>
             </View> : lesson.status === 'TRY_AGAIN' && !answerEdited && lesson.feedback ? <Text style={styles.error}>{lesson.feedback}</Text> : null}
           </View> : <View style={styles.card} onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
-            <Text style={styles.heading}>Lời giải em vừa hoàn thành</Text><Text style={styles.body}>{lesson.goal}</Text>
+            <Text style={styles.heading}>Bài giải</Text><Text style={styles.body}>Đây là các bước em đã tự tính và kiểm tra. Em có thể viết lại vào vở.</Text>
             {lesson.feedback ? <Text style={styles.feedback}>{lesson.feedback}</Text> : null}
+            {lesson.completed.filter(item => item.expression).map((item, index) => <SolutionLine key={index} item={item} />)}
+            {lesson.conclusion ? <MathText style={styles.question}>{lesson.conclusion}</MathText> : null}
+            <Text style={styles.heading}>Nhìn lại cách giải</Text>
             {lesson.completed.map((item, index) => <View key={index} style={styles.completedStep}>
-              <Text style={styles.link}>{index + 1}. {item.title}</Text>
-              <MathText style={styles.body}>{item.expression ? `${item.expression} = ${item.answer} ${item.unit}` : item.answer}</MathText>
-              <MathText style={styles.body}>{item.explanation}</MathText>
+              <Text style={styles.link}>{item.title}</Text><MathText style={styles.body}>{item.explanation}</MathText>
+              <StepGuidance items={item.guidance} checked />
             </View>)}
             {work ? <Text style={styles.body}>Em đối chiếu những bước vừa học với bài trong ảnh. Các phép tính vừa nhập đã được kiểm tra; nét chữ và hình vẽ vẫn cần nhìn lại.</Text> : null}
           </View>}
@@ -396,5 +438,8 @@ const styles = StyleSheet.create({
   unit: { flexShrink: 1, maxWidth: '100%', color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 19 },
   explanation: { backgroundColor: '#E9F5EF', padding: 16, borderRadius: 16 }, feedback: { color: '#226A51', fontFamily: FONTS.bold, fontSize: 15, lineHeight: 23 },
   hintCard: { backgroundColor: '#F4EEFF', borderWidth: 1, borderColor: '#D7CDF2', padding: 16, borderRadius: 16, gap: 10 },
+  guidanceCard: { backgroundColor: '#F8F6FF', borderWidth: 1, borderColor: '#E0D8FA', padding: 16, borderRadius: 16, gap: 14 },
+  guidanceItem: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  guidanceNumber: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#EAE2FF', color: COLORS.primaryDark, textAlign: 'center', lineHeight: 28, fontFamily: FONTS.bold },
   completedStep: { gap: 8, paddingVertical: 12, borderBottomWidth: 1, borderColor: '#ECE6F5' },
 });

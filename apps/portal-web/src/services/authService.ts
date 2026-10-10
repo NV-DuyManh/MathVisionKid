@@ -18,18 +18,18 @@ export interface SsoTicketResponse {
 export const authService = {
   async login(email: string, password: string): Promise<UserProfile> {
     const { data } = await apiClient.post('/auth/login', { email, password });
-    tokenStore.setTokens(data.accessToken, data.refreshToken);
+    tokenStore.setTokens(data.accessToken, data.refreshToken, true);
     const profile = await this.getMe();
     return profile;
   },
 
-  async getMe(): Promise<UserProfile> {
-    const { data } = await apiClient.get<UserProfile>('/me');
+  async getMe(signal?: AbortSignal): Promise<UserProfile> {
+    const { data } = await apiClient.get<UserProfile>('/me', { signal });
     return data;
   },
 
-  async requestSsoTicket(targetApp: 'TEACHER' | 'ADMIN'): Promise<SsoTicketResponse> {
-    const { data } = await apiClient.post<SsoTicketResponse>('/auth/sso/ticket', { targetApp });
+  async requestSsoTicket(targetApp: 'TEACHER' | 'ADMIN', signal?: AbortSignal): Promise<SsoTicketResponse> {
+    const { data } = await apiClient.post<SsoTicketResponse>('/auth/sso/ticket', { targetApp }, { signal });
     return data;
   },
 

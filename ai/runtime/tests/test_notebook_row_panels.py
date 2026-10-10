@@ -147,7 +147,10 @@ def test_disputed_question_cannot_start_a_lesson_even_with_matching_line_text(mo
     monkeypatch.setattr(notebook, '_generate', cloud)
     result = asyncio.run(notebook.inspect_notebook(photo(np.full((300, 500, 3), 245, np.uint8))))
     assert cloud.await_count == 2
-    assert result.kind == 'WORK' and result.problemText == '' and result.needsProblem
+    assert result.kind == 'PROBLEM' and result.problemText == '[?] Tính 12 + 8.' and not result.needsProblem
+    from app.tutoring.lesson import LessonRequest
+    with pytest.raises(ValueError):
+        LessonRequest(problemText=result.problemText, problemConfirmed=True)
     assert result.lines[0].text == first['lines'][0]['text']
 
 

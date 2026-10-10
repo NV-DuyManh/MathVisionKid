@@ -27,6 +27,7 @@ public class AiGatewayConfig {
             AiJobRepository aiJobRepository,
             com.mathvisionkids.api.submission.SubmissionImageRepository submissionImageRepository,
             @Value("${ai.gateway.url:http://localhost:8000/internal/v1/jobs}") String aiServiceUrl,
+            @Value("${ai.callback.api-key}") String internalApiKey,
             org.springframework.beans.factory.ObjectProvider<org.springframework.transaction.PlatformTransactionManager> transactionManagerProvider) {
         org.springframework.transaction.PlatformTransactionManager tm = transactionManagerProvider.getIfAvailable();
         org.springframework.transaction.support.TransactionTemplate tt = tm != null ? new org.springframework.transaction.support.TransactionTemplate(tm) : null;
@@ -35,9 +36,18 @@ public class AiGatewayConfig {
                 aiJobRepository,
                 submissionImageRepository,
                 aiServiceUrl,
-                null,
+                authenticatedRestTemplate(internalApiKey),
                 tt
         );
+    }
+
+    static org.springframework.web.client.RestTemplate authenticatedRestTemplate(String internalApiKey) {
+        var client = HttpAiAnalysisGateway.createDefaultRestTemplate();
+        client.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().set("X-Internal-API-Key", internalApiKey);
+            return execution.execute(request, body);
+        });
+        return client;
     }
 
     public AiAnalysisGateway httpAiAnalysisGateway(

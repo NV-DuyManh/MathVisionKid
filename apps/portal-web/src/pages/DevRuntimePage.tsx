@@ -21,9 +21,9 @@ import SchoolIcon from '@mui/icons-material/School';
 import PersonIcon from '@mui/icons-material/Person';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { showDevTools } from '../config/runtime';
 
 export const DevRuntimePage: React.FC = () => {
-  const showDevTools = import.meta.env.VITE_SHOW_DEV_TOOLS === 'true';
   const [copied, setCopied] = useState<string | null>(null);
 
   // Gate page: if dev flag is false/unset, redirect to home

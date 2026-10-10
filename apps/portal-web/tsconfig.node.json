@@ -8,6 +8,7 @@
 
     /* Bundler mode */
     "module": "nodenext",
+    "allowImportingTsExtensions": true,
     "moduleDetection": "force",
     "noEmit": true,
 

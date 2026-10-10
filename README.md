@@ -91,7 +91,7 @@ py -3.12 -m venv ai\runtime\.venv
 .\RUN_MATHVISION.bat
 ~~~
 
-The launcher starts the local stack, opens the web portal, and displays the student app QR code. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available.
+The launcher starts the local stack, opens the web portal, and displays the student app QR code. On a PC with an existing private preview configuration, it also starts the public API tunnel and republishes the three Vercel websites for its current address. This additional step can take a few minutes and requires an authenticated Vercel CLI. A public startup failure is reported separately while local services remain running. Fresh clones skip public startup until [PC preview setup](docs/PC_PREVIEW_DEPLOYMENT.md) is complete. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available.
 
 > **Fresh clone expectations:** source code and model manifests are included; trained weights and API keys are not. The default asynchronous grading mode uses synthetic fixtures. Real handwriting OCR requires the supplied CRNN checkpoint. Reading a photographed math question uses configured cloud vision. Set up those capabilities with the [installation guide](docs/LOCAL_SETUP.md#enable-real-recognition-and-guidance).
 
@@ -154,6 +154,9 @@ MathVisionKid/
 | I want to… | Read this |
 | :--- | :--- |
 | Install and run the project | [Local setup](docs/LOCAL_SETUP.md) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) |
+| Deploy the web workspaces | [Vercel and production setup](docs/PRODUCTION_DEPLOYMENT.md) · [API/OCR trial on your PC](docs/PC_PREVIEW_DEPLOYMENT.md) |
+| Clone on another computer or understand the shared link | [Clone and hosting behavior](docs/CLONE_AND_HOSTING.md) · [Free cloud trial](docs/FREE_CLOUD_DEPLOYMENT.md) |
+| Review the shared student website | [Student web parity and verification](report/student-web-parity-2026-10-09.md) |
 | Understand how a student uses it | [User guide](docs/USER_GUIDE.md) |
 | Present the app and view all demo images | [Demo walkthrough](docs/DEMO_GUIDE.md) |
 | Understand services and AI boundaries | [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) |

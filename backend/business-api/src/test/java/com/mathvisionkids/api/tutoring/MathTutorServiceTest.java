@@ -78,6 +78,48 @@ class MathTutorServiceTest {
         server.verify();
     }
 
+    @Test void classroomSolutionFieldsAreBoundedAndFinalAnswerRequiresCompletion() {
+        String response = """
+                {"sessionId":"abcdefghijklmnopqrstuv","revision":2,"topic":"Tìm số bút","goal":"Gộp hai nhóm",
+                 "outline":["Hiểu đề","Tính"],"stepIndex":2,"step":null,"status":"COMPLETE","feedback":"Đã xong",
+                 "conclusion":"Đáp số: 17 bút.","completed":[
+                  {"title":"Hiểu đề","expression":"","answer":"Cộng","unit":"","explanation":"Gộp hai nhóm."},
+                  {"title":"Tính","expression":"12 + 5","answer":"17","unit":"bút","explanation":"Gộp hai nhóm.",
+                   "solutionSentence":"Số bút có tất cả là:","calculationDetails":["12 + 5 = 17"],
+                   "guidance":["Đọc điều được cho.","Gộp hai nhóm rồi viết lời giải."]}]}
+                """;
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson/answer"))
+                .andExpect(jsonPath("$.owner").value("student-a"))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        var result = service.answer(new LessonAnswer("abcdefghijklmnopqrstuv", 1, "17", false), "student-a");
+        assertEquals("Đáp số: 17 bút.", result.conclusion());
+        assertEquals("Số bút có tất cả là:", result.completed().get(1).solutionSentence());
+        assertEquals(java.util.List.of("12 + 5 = 17"), result.completed().get(1).calculationDetails());
+        assertEquals(java.util.List.of("Đọc điều được cho.", "Gộp hai nhóm rồi viết lời giải."), result.completed().get(1).guidance());
+        server.verify();
+        server.reset();
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson/answer"))
+                .andRespond(withSuccess(response.replace("12 + 5 = 17", "x".repeat(501)), MediaType.APPLICATION_JSON));
+        error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE,
+                () -> service.answer(new LessonAnswer("abcdefghijklmnopqrstuv", 1, "17", false), "student-a"));
+        server.verify();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"null", "false", "[1]", "[\" \"]", "[\"a\",\"b\",\"c\",\"d\",\"e\",\"f\",\"g\"]"})
+    void rejectsMalformedTeachingFromTheProvider(String guidance) {
+        String response = """
+            {"sessionId":"abcdefghijklmnopqrstuv","revision":0,"topic":"Gộp hai nhóm","goal":"Tìm số bút",
+             "outline":["Tính","Kiểm tra"],"stepIndex":0,"completed":[],"status":"READY","feedback":"",
+             "step":{"title":"Tính","explanation":"Gộp hai nhóm.","question":"Có bao nhiêu bút?",
+             "choices":[],"expression":"12 + 5","unit":"bút","workExcerpt":"","guidance":%s}}
+            """.formatted(guidance);
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE,
+                () -> service.lesson(new LessonRequest("Lan có 12 bút, thêm 5 bút.", "", true, false), "student-a"));
+        server.verify();
+    }
+
     @Test void unconfirmedSourceNeverCallsTheLessonProvider() {
         for (var request : java.util.List.of(
                 new LessonRequest("Lan có 12 bút.", "", false, false),

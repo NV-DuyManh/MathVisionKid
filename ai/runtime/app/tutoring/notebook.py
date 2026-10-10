@@ -115,6 +115,9 @@ original question), MIXED (question plus steps), MULTIPLE (several separate prob
 or UNREADABLE (not math/illegible); problemText (only the original visible question,
 empty if absent); needsProblem boolean; needsCrop boolean (normally false);
 lines array of {text,box,uncertain,role,layout,division}.
+A printed question above an EMPTY 'Bài giải' heading is PROBLEM, not WORK.
+The heading alone is not a worked step. Preserve the complete visible question,
+including its given fractions, even if the photo cuts off a blank solution area.
 An explanation ending in 'là:' followed by a completed calculation or 'Đáp số'
 is worked material, NOT an original question. For a photo containing only worked
 material use WORK and empty problemText. Never copy answers into problemText.
@@ -228,6 +231,15 @@ Do not repeat previousHint. hint <=600 chars, question <=220, feedback <=300.
 """
 
 
+def _question_signature(text: str):
+    # Worksheet numbering and sentence punctuation do not change the question.
+    # Keep every actual word, digit, decimal separator and mathematical operator.
+    body = re.sub(r"^(?:bài|bai|câu|cau)\s+\d+\s*[:.)-]?\s*", "", text.strip(), flags=re.I)
+    body = re.sub(r"\((\d+)\)\s*/\s*\((\d+)\)", r"\1/\2", body)
+    body = body.rstrip(" .!?;")
+    return re.findall(r"\d+(?:[.,]\d+)?|[^\W\d_]+|[^\w\s]", body.casefold())
+
+
 def _reading_exceeds_capacity(payload) -> bool:
     if not isinstance(payload, dict) or not isinstance(payload.get("lines"), list):
         return False
@@ -290,7 +302,7 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     # Probe its existing bounded range before spending a cloud reading request.
     if not physical and len(handwriting_rows(pixels, max_lines=200)) > 35:
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
-    parsed = await _generate(READ_NOTEBOOK, "First check whether there are several exercises. If so return MULTIPLE immediately with empty lines. Otherwise read every physical math row, including the bottom of the page.", image)
+    parsed = await _generate(READ_NOTEBOOK, "First check whether there are several exercises. If so return MULTIPLE immediately with empty lines. Otherwise read every physical math row, including the bottom of the page.", image, max_output_tokens=4000)
     if _reading_exceeds_capacity(parsed):
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
     try:
@@ -483,14 +495,14 @@ All other fields and line schemas remain the same. Never solve or correct."""
                     return NotebookRead(kind="UNREADABLE", needsCrop=True)
                 if second.kind in ("WORK", "MIXED", "PROBLEM"):
                     disputed_question = (second.problemText.strip()
-                        and " ".join(result.problemText.split()) != " ".join(second.problemText.split()))
+                        and _question_signature(result.problemText) != _question_signature(second.problemText))
                     if result.problemText and (disputed_question
                             or (second.kind == "WORK" and not second.problemText.strip())):
-                        # A disputed original question requires pupil clarification.
-                        # Keep the first transcription; do not replace it with a guess.
-                        result.problemText = ""
-                        result.kind = "WORK"
-                        result.needsProblem = True
+                        # Keep the actual first reading visible for correction.
+                        # [?] blocks lesson creation until the pupil edits it;
+                        # neither the verifier nor arithmetic supplies replacement data.
+                        if "[?]" not in result.problemText:
+                            result.problemText = "[?] " + result.problemText[:3996]
                     if (not structured and physical and len(result.lines) != len(physical)
                             and len(alternatives) == len(physical)
                             and all(line.layout == "ROW" for line in alternatives)

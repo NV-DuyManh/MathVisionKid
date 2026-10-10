@@ -67,6 +67,7 @@ ai/runtime/models/**
 !ai/runtime/scripts/
 !ai/runtime/.env.example
 !ai/runtime/Dockerfile
+!ai/runtime/.dockerignore
 !ai/runtime/README.md
 !ai/runtime/pyproject.toml
 !ai/runtime/requirements.txt
@@ -133,3 +134,7 @@ build/
 
 # Generated local service state and diagnostic output
 infra/local-runtime/
+
+# Vercel project links and private container verification bundles
+.vercel/
+ai/runtime/.container-smoke-models/

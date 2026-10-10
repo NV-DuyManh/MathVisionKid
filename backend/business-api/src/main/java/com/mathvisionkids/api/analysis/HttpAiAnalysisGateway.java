@@ -57,7 +57,7 @@ public class HttpAiAnalysisGateway implements AiAnalysisGateway {
         this.transactionTemplate = transactionTemplate;
     }
 
-    private static RestTemplate createDefaultRestTemplate() {
+    static RestTemplate createDefaultRestTemplate() {
         org.springframework.http.client.SimpleClientHttpRequestFactory factory =
                 new org.springframework.http.client.SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(5000);
