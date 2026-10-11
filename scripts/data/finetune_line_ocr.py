@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import io
 import json
+import math
 from pathlib import Path
 import random
 import re
@@ -62,9 +63,11 @@ def metrics(rows, predictions):
     predictions = [canonical(text) for text in predictions]
     errors = sum(distance(a, b) for a, b in zip(references, predictions))
     chars = sum(map(len, references))
-    math_rows = [(critical(a), critical(b)) for a, b in zip(references, predictions)
-                 if critical(a)]
-    math_errors = sum(distance(a, b) for a, b in math_rows)
+    all_math_rows = [(critical(a), critical(b)) for a, b in zip(references, predictions)]
+    math_rows = [(a, b) for a, b in all_math_rows if a]
+    # A numeral hallucinated in plain prose is an error even without a reference numeral.
+    unexpected = [(a, b) for a, b in all_math_rows if not a and b]
+    math_errors = sum(distance(a, b) for a, b in all_math_rows)
     math_chars = sum(len(a) for a, _ in math_rows)
     return {'lines': len(rows), 'character_errors': errors, 'reference_chars': chars,
             'cer': errors / chars if chars else None,
@@ -72,6 +75,8 @@ def metrics(rows, predictions):
             'critical_lines': len(math_rows), 'critical_errors': math_errors,
             'critical_chars': math_chars,
             'critical_cer': math_errors / math_chars if math_chars else None,
+            'unexpected_critical_lines': len(unexpected),
+            'unexpected_critical_errors': sum(len(b) for _, b in unexpected),
             'critical_exact_lines': sum(a == b for a, b in math_rows)}
 
 
@@ -155,7 +160,47 @@ def load_reviewed(manifest, data_root):
     return document, result
 
 
-def gate(baseline, candidate):
+def scope_regressions(baseline, candidate):
+    reasons = []
+    for role, old in baseline.items():
+        new = candidate.get(role)
+        if new is None:
+            reasons.append(f'{role}: missing candidate scope')
+            continue
+        if new['cer'] > old['cer']:
+            reasons.append(f'{role}: character regression')
+        if new['critical_errors'] > old['critical_errors']:
+            reasons.append(f'{role}: digit/operator regression')
+        if new['exact_lines'] < old['exact_lines']:
+            reasons.append(f'{role}: exact-line regression')
+    return reasons
+
+
+def checkpoint_key(dev, baseline_scopes, candidate_scopes):
+    regressions = scope_regressions(baseline_scopes, candidate_scopes)
+    return (bool(regressions), len(regressions), dev['critical_errors'], dev['cer'], -dev['exact_lines'])
+
+
+def expand_head(original_head, vocabulary, new_chars, warm_multiplication=False):
+    """Opt-in TRAIN-only glyph transfer; preserve x/× combined softmax mass."""
+    import torch
+    if warm_multiplication and ('×' not in new_chars or 'x' not in vocabulary):
+        raise ValueError('Multiplication initialization requires new TRAIN × and existing x')
+    head = torch.nn.Linear(original_head.in_features, len(vocabulary) + len(new_chars))
+    with torch.no_grad():
+        head.weight.zero_()
+        head.bias.fill_(-12)
+        head.weight[:len(vocabulary)].copy_(original_head.weight)
+        head.bias[:len(vocabulary)].copy_(original_head.bias)
+        if warm_multiplication:
+            source, target = vocabulary['x'], len(vocabulary) + new_chars.index('×')
+            head.weight[target].copy_(original_head.weight[source])
+            head.bias[source].sub_(math.log(2))
+            head.bias[target].copy_(head.bias[source])
+    return head
+
+
+def gate(baseline, candidate, scope_metrics=None):
     reasons = []
     for split in ('DEV', 'HOLDOUT'):
         old, new = baseline[split], candidate[split]
@@ -165,6 +210,10 @@ def gate(baseline, candidate):
             reasons.append(split + ': digit/operator regression')
         if new.get('exact_lines', 0) < old.get('exact_lines', 0):
             reasons.append(split + ': exact-line regression')
+        # Aggregate gains must not hide worse prose or mathematical notation.
+        scopes = (scope_metrics or {}).get(split, {})
+        reasons.extend(f'{split}/{reason}' for reason in scope_regressions(
+            scopes.get('baseline', {}), scopes.get('candidate', {})))
     if candidate['HOLDOUT']['cer'] >= baseline['HOLDOUT']['cer']:
         reasons.append('HOLDOUT: no character improvement')
     # Experiment promotion needs stronger evidence than a small same-writer sample.
@@ -181,6 +230,13 @@ def run(args):
     trainer_source = Path(__file__).read_bytes()
     manifest_source = args.manifest.read_bytes()
     manifest_sha256 = hashlib.sha256(manifest_source).hexdigest()
+    prose_replay = getattr(args, 'prose_replay', 1)
+    if type(prose_replay) is not int or not 1 <= prose_replay <= 3:
+        raise ValueError('Prose replay must be an integer from 1 to 3')
+    prose_anchor_weight = getattr(args, 'prose_anchor_weight', 0.0)
+    if (type(prose_anchor_weight) not in (float, int)
+            or not 0 <= prose_anchor_weight <= 2):
+        raise ValueError('Prose anchor weight must be finite and between 0 and 2')
     if not (1 <= args.epochs <= 30 and 1 <= args.batch_size <= 16
             and 1 <= args.threads <= 8 and 0 < args.learning_rate <= 0.01):
         raise ValueError('Use bounded epochs, batch size, threads and learning rate')
@@ -194,6 +250,11 @@ def run(args):
     if json.loads(manifest_source.decode('utf-8')) != document:
         raise ValueError('Reviewed manifest changed while it was being loaded')
     numeric_only = getattr(args, 'numeric_fields_only', False)
+    warm_multiplication = getattr(args, 'warm_multiplication', False)
+    if numeric_only and warm_multiplication:
+        raise ValueError('Multiplication initialization cannot be used for numeric fields')
+    if numeric_only and prose_anchor_weight:
+        raise ValueError('Prose anchoring cannot be used for numeric fields')
     if numeric_only and any(row.get('content_kind') != 'UNSIGNED_NUMERIC_FIELD'
                             or not re.fullmatch(r'[0-9]+(?:[,. ][0-9]+)*', canonical(row['text']))
                             for row, _ in samples):
@@ -232,12 +293,9 @@ def run(args):
                 model.fc.weight[ident].copy_(original_head.weight[original_vocab[char]])
                 model.fc.bias[ident].copy_(original_head.bias[original_vocab[char]])
     elif new_chars:
-        model.fc = torch.nn.Linear(256, len(vocab))
-        with torch.no_grad():
-            model.fc.weight.zero_()
-            model.fc.bias.fill_(-12)
-            model.fc.weight[:original_size].copy_(original_head.weight)
-            model.fc.bias[:original_size].copy_(original_head.bias)
+        model.fc = expand_head(original_head, original_vocab, new_chars, warm_multiplication)
+    elif warm_multiplication:
+        raise ValueError('Multiplication initialization requires new TRAIN × and existing x')
     for parameter in model.parameters():
         parameter.requires_grad_(False)
     for parameter in model.fc.parameters():
@@ -281,7 +339,7 @@ def run(args):
             rows.append(row)
             original_view.append(not augmented)
             if (i + 1) % 10 == 0:
-                print(f'Hash-checked feature extraction: {i + 1}/{len(samples)}', flush=True)
+                print(f'Hash-checked feature extraction: {i + 1}/{len(views)}', flush=True)
     lengths = [feat.shape[-1] if train_visual else len(feat) for feat in features]
     original_lengths = [len(feat) for feat in original_features]
     if not train_visual:
@@ -331,6 +389,15 @@ def run(args):
                             for s, ids in evaluation_indices.items()}
     baseline = {s: metrics([rows[i] for i in ids], baseline_predictions[s])
                 for s, ids in evaluation_indices.items()}
+    # Distill only reviewed TRAIN prose, with the same aspect policy/time alignment.
+    # Teacher outputs are regularization targets, never new reference labels.
+    prose_teacher = {}
+    if prose_anchor_weight:
+        with torch.no_grad():
+            for i in indices['TRAIN']:
+                if rows[i].get('math_role') == 'prose':
+                    teacher = logits_for([i], head=original_head)[0, :lengths[i]].softmax(-1)
+                    prose_teacher[i] = F.pad(teacher, (0, len(vocab) - original_size))
     targets = {}
     for i in indices['TRAIN']:
         text = canonical(rows[i]['text'])
@@ -339,13 +406,19 @@ def run(args):
         if required > lengths[i]:
             raise ValueError('Repeated characters exceed CTC alignment capacity')
         targets[i] = torch.tensor(values, dtype=torch.long)
+    training_order = indices['TRAIN'] + [i for i in indices['TRAIN']
+                                       if rows[i].get('math_role') == 'prose'] * (prose_replay - 1)
+    if len(training_order) > 512:
+        raise ValueError('Bounded epoch supports at most 512 sampled TRAIN views')
+    dev_rows = [rows[i] for i in evaluation_indices['DEV']]
+    baseline_dev_scopes = scoped_metrics(dev_rows, baseline_predictions['DEV'])
     trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
     optimizer = torch.optim.Adam(trainable, lr=args.learning_rate)
     loss_fn = torch.nn.CTCLoss(blank=0, zero_infinity=False)
     best_state, best_epoch = None, None
-    best_key, history = (float('inf'), float('inf')), []
+    best_key, history = None, []
     for epoch in range(1, args.epochs + 1):
-        chosen = indices['TRAIN'].copy()
+        chosen = training_order.copy()
         random.shuffle(chosen)
         losses = []
         for start in range(0, len(chosen), args.batch_size):
@@ -355,6 +428,11 @@ def run(args):
             loss = loss_fn(F.log_softmax(logits, dim=-1).transpose(0, 1), target,
                            torch.tensor([lengths[i] for i in batch], dtype=torch.long),
                            torch.tensor([len(targets[i]) for i in batch], dtype=torch.long))
+            anchors = [F.kl_div(F.log_softmax(logits[j, :lengths[i]], dim=-1),
+                               prose_teacher[i], reduction='batchmean')
+                       for j, i in enumerate(batch) if i in prose_teacher]
+            if anchors:
+                loss = loss + prose_anchor_weight * torch.stack(anchors).mean()
             if not torch.isfinite(loss):
                 raise ValueError('Non-finite CTC loss; no candidate emitted')
             optimizer.zero_grad()
@@ -362,14 +440,18 @@ def run(args):
             torch.nn.utils.clip_grad_norm_(trainable, 5)
             optimizer.step()
             losses.append(loss.item())
-        dev = metrics([rows[i] for i in evaluation_indices['DEV']], predict(evaluation_indices['DEV']))
-        key = (dev['critical_errors'], dev['cer'])
-        if key < best_key:
+        dev_predictions = predict(evaluation_indices['DEV'])
+        dev = metrics(dev_rows, dev_predictions)
+        dev_scopes = scoped_metrics(dev_rows, dev_predictions)
+        regressions = scope_regressions(baseline_dev_scopes, dev_scopes)
+        key = checkpoint_key(dev, baseline_dev_scopes, dev_scopes)
+        if best_key is None or key < best_key:
             best_key, best_epoch = key, epoch
             best_state = {k: value.detach().clone() for k, value in model.state_dict().items()}
-        history.append({'epoch': epoch, 'mean_ctc_loss': sum(losses) / len(losses), 'dev': dev})
+        history.append({'epoch': epoch, 'mean_ctc_loss': sum(losses) / len(losses), 'dev': dev,
+                        'dev_scopes': dev_scopes, 'scope_regressions': regressions})
         print(f"Epoch {epoch}/{args.epochs}: DEV CER={dev['cer']:.4f}, "
-              f"critical errors={dev['critical_errors']}", flush=True)
+              f"critical errors={dev['critical_errors']}, scope regressions={len(regressions)}", flush=True)
     model.load_state_dict(best_state)
     # HOLDOUT is used once for the selected candidate, never for selection.
     predictions = {s: predict(ids) for s, ids in evaluation_indices.items()}
@@ -386,6 +468,9 @@ def run(args):
     mode = ('train last CNN block, BiLSTM and CTC head; first three CNN blocks frozen' if train_visual
             else 'frozen CNN; train BiLSTM and CTC head' if train_recurrent
             else 'frozen CNN/BiLSTM; train linear CTC head only')
+    scopes = {s: {'baseline': scoped_metrics([rows[i] for i in ids], baseline_predictions[s]),
+                  'candidate': scoped_metrics([rows[i] for i in ids], predictions[s])}
+              for s, ids in evaluation_indices.items()}
     evidence = {'schema_version': 1, 'mode': mode,
                 'manifest_sha256': manifest_sha256, 'source_model_hashes': before,
                 'settings': {'epochs': args.epochs, 'batch_size': args.batch_size,
@@ -394,10 +479,15 @@ def run(args):
                              'train_recurrent': train_recurrent,
                              'train_last_visual_block': train_visual,
                              'numeric_fields_only': numeric_only,
+                             'warm_multiplication': warm_multiplication,
                              'holdout_deferred': defer_holdout,
+                             'prose_replay': prose_replay,
+                             'prose_anchor_weight': prose_anchor_weight,
                              'augment_train_contrast': augment_contrast},
                 'training_views': {'original': len(evaluation_indices['TRAIN']),
+                                   'prose_anchor_views': len(prose_teacher),
                                    'augmented': len(indices['TRAIN'])-len(evaluation_indices['TRAIN']),
+                                   'sampled_per_epoch': len(training_order),
                                    'augmentation': 'grayscale autocontrast; TRAIN only' if augment_contrast else None},
                 'recognition_scope': 'reviewed unsigned numeric field only; no prose or expressions' if numeric_only else 'reviewed text line or field',
                 'input_policy': {'height': 64, 'max_width': 1024,
@@ -406,14 +496,14 @@ def run(args):
                 'trainer_sha256': hashlib.sha256(trainer_source).hexdigest(),
                 'seed': args.seed, 'torch_version': torch.__version__, 'device': 'cpu',
                 'new_training_characters': new_chars, 'selected_epoch': best_epoch,
+                'selection_policy': 'DEV role regressions first; then critical errors, CER, exact lines',
+                'selected_scope_regressions': history[best_epoch-1]['scope_regressions'],
                 'baseline': baseline, 'candidate': candidate, 'history': history,
-                'scope_metrics': {s: {'baseline': scoped_metrics([rows[i] for i in ids], baseline_predictions[s]),
-                                     'candidate': scoped_metrics([rows[i] for i in ids], predictions[s])}
-                                  for s, ids in evaluation_indices.items()},
+                'scope_metrics': scopes,
                 'quality_gate': ({'experiment_passed': False, 'production_promoted': False,
                                   'reasons': ['HOLDOUT deferred; development measurements only'],
                                   'scope': 'TRAIN and DEV only; no HOLDOUT neural inference'}
-                                 if defer_holdout else gate(baseline, candidate)),
+                                 if defer_holdout else gate(baseline, candidate, scopes)),
                 'limitations': document.get('limitations', []),
                 'predictions': {s: [{'id': rows[i]['id'], 'reference': rows[i]['text'],
                                     'baseline': a, 'candidate': b}
@@ -481,7 +571,7 @@ def evaluate_saved(args):
     result = {'mode': 'frozen checkpoint evaluation; no fitting or checkpoint selection',
               'candidate_sha256': digest(checkpoint), 'candidate_vocab_sha256': digest(vocabulary),
               'manifest_sha256': digest(args.manifest), 'baseline': baseline, 'candidate': candidate,
-              'scope_metrics': scopes, 'quality_gate': gate(baseline, candidate),
+              'scope_metrics': scopes, 'quality_gate': gate(baseline, candidate, scopes),
               'limitations': document.get('limitations', []),
               'predictions': [dict(id=row['id'], split=row['split'], reference=row['text'], baseline=old, candidate=new)
                               for row, old, new in zip(rows, baseline_predictions, predictions)]}
@@ -516,6 +606,12 @@ if __name__ == '__main__':
                         help='Develop using TRAIN/DEV only; do not infer on HOLDOUT or pass a release gate')
     parser.add_argument('--augment-train-contrast', action='store_true',
                         help='One grayscale/autocontrast TRAIN view; originals and evaluation pixels stay unchanged')
+    parser.add_argument('--prose-replay', type=int, default=1,
+                        help='Sample reviewed TRAIN prose 1–3 times per epoch; never repeats evaluation rows')
+    parser.add_argument('--warm-multiplication', action='store_true',
+                        help='Experimental TRAIN-only × initialization from x; never changes production')
+    parser.add_argument('--prose-anchor-weight', type=float, default=0.0,
+                        help='Bounded 0–2 KL regularization from the original head on TRAIN prose only')
     parser.add_argument('--evaluate-candidate', type=Path,
                         help='Evaluate this frozen paired checkpoint; no training or epoch selection')
     arguments = parser.parse_args()

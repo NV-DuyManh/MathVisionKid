@@ -6,7 +6,7 @@ import json
 from PIL import Image
 import pytest
 
-from finetune_line_ocr import distance, gate, load_reviewed, metrics, line_tensor, scoped_metrics
+from finetune_line_ocr import checkpoint_key, distance, expand_head, gate, load_reviewed, metrics, line_tensor, scoped_metrics
 
 
 def prepare(tmp_path):
@@ -89,6 +89,18 @@ def test_metric_does_not_solve_or_discard_wrong_digits():
         metrics(rows, [])
 
 
+def test_metric_counts_numerals_hallucinated_in_prose_without_reference_digits():
+    rows = [{'text': 'cá mà'}, {'text': '8 : 2 = 4'}]
+    result = metrics(rows, ['cá m0', '8 : 2 = 4'])
+    assert result['critical_errors'] == result['unexpected_critical_errors'] == 1
+    assert result['unexpected_critical_lines'] == 1
+    assert result['critical_lines'] == result['critical_exact_lines'] == 1
+    assert result['critical_chars'] == 5
+    assert result['critical_cer'] == .2
+    plain = metrics(rows[:1], ['cá m0'])
+    assert plain['critical_errors'] == 1 and plain['critical_cer'] is None
+
+
 def test_gate_rejects_numeric_regression_despite_lower_cer():
     old = {'cer': 0.04, 'critical_errors': 0}
     new = {'cer': 0.03, 'critical_errors': 1}
@@ -116,9 +128,77 @@ def test_gate_keeps_exact_row_regression_visible_even_when_cer_improves():
     assert 'HOLDOUT: exact-line regression' in result['reasons']
 
 
+def test_gate_rejects_prose_regression_hidden_by_aggregate_math_gain():
+    old = {'cer': .04, 'critical_errors': 0, 'exact_lines': 9}
+    new = {'cer': .02, 'critical_errors': 0, 'exact_lines': 10}
+    scope_old = {'cer': .01, 'critical_errors': 0, 'exact_lines': 5}
+    scope_new = {'cer': .03, 'critical_errors': 1, 'exact_lines': 4}
+    scopes = {'HOLDOUT': {'baseline': {'prose': scope_old}, 'candidate': {'prose': scope_new}}}
+    result = gate({'DEV': old, 'HOLDOUT': old}, {'DEV': new, 'HOLDOUT': new}, scopes)
+    assert not result['experiment_passed']
+    assert 'HOLDOUT/prose: character regression' in result['reasons']
+    assert 'HOLDOUT/prose: digit/operator regression' in result['reasons']
+    assert 'HOLDOUT/prose: exact-line regression' in result['reasons']
+    scopes['HOLDOUT']['candidate']['prose'] = scope_old
+    assert gate({'DEV': old, 'HOLDOUT': old}, {'DEV': new, 'HOLDOUT': new}, scopes)['experiment_passed']
+
+
+def test_checkpoint_selection_preserves_prose_before_aggregate_math_gain():
+    baseline = {'prose': {'cer': .04, 'critical_errors': 1, 'exact_lines': 3}}
+    worse = {'prose': {'cer': .04, 'critical_errors': 1, 'exact_lines': 1}}
+    safe_dev = {'cer': .07, 'critical_errors': 15, 'exact_lines': 20}
+    unsafe_dev = {'cer': .02, 'critical_errors': 5, 'exact_lines': 30}
+    assert checkpoint_key(safe_dev, baseline, baseline) < checkpoint_key(unsafe_dev, baseline, worse)
+    better_safe_dev = dict(safe_dev, critical_errors=10)
+    assert checkpoint_key(better_safe_dev, baseline, baseline) < checkpoint_key(safe_dev, baseline, baseline)
+
+
+def test_multiplication_transfer_preserves_probability_mass_and_original_head():
+    import torch
+    torch.manual_seed(9)
+    old = torch.nn.Linear(4, 3)
+    initial = {k: v.clone() for k, v in old.state_dict().items()}
+    vocabulary = {'<blank>': 0, 'x': 1, 'a': 2}
+    transferred = expand_head(old, vocabulary, ['×'], True)
+    features = torch.randn(6, 4)
+    baseline = old(features).softmax(-1)
+    actual = transferred(features).softmax(-1)
+    assert torch.allclose(actual[:, 0], baseline[:, 0], atol=1e-7)
+    assert torch.allclose(actual[:, 2], baseline[:, 2], atol=1e-7)
+    assert torch.allclose(actual[:, 1] + actual[:, 3], baseline[:, 1], atol=1e-7)
+    assert all(torch.equal(v, initial[k]) for k, v in old.state_dict().items())
+    cold = expand_head(old, vocabulary, ['×'])
+    assert torch.equal(cold.weight[:3], old.weight)
+    assert torch.equal(cold.bias[:3], old.bias)
+    assert torch.count_nonzero(cold.weight[3]) == 0 and cold.bias[3].item() == -12
+    with pytest.raises(ValueError, match='new TRAIN'):
+        expand_head(old, vocabulary, [], True)
+    with pytest.raises(ValueError, match='existing x'):
+        expand_head(old, {'<blank>': 0, 'z': 1, 'a': 2}, ['×'], True)
+
+
+@pytest.mark.parametrize('replay', [0, 4, True])
+def test_unbounded_or_noninteger_prose_replay_rejected_before_training(tmp_path, replay):
+    from argparse import Namespace
+    from finetune_line_ocr import run
+    manifest, _ = prepare(tmp_path)
+    with pytest.raises(ValueError, match='Prose replay'):
+        run(Namespace(manifest=manifest, prose_replay=replay))
+
+
+@pytest.mark.parametrize('weight', [-1, 3, float('nan'), float('inf'), True])
+def test_invalid_prose_anchor_rejected_before_training(tmp_path, weight):
+    from argparse import Namespace
+    from finetune_line_ocr import run
+    manifest, _ = prepare(tmp_path)
+    with pytest.raises(ValueError, match='Prose anchor weight'):
+        run(Namespace(manifest=manifest, prose_anchor_weight=weight))
+
+
 @pytest.mark.parametrize('visual,numeric,defer', [(False, False, False), (True, False, False),
-                                               (True, True, False), (True, True, True)])
-def test_recurrent_experiment_runs_with_mixed_lengths_and_preserves_cnn(tmp_path, visual, numeric, defer):
+                                               (True, True, False), (True, True, True),
+                                               (True, False, True)])
+def test_recurrent_experiment_runs_with_mixed_lengths_and_preserves_cnn(tmp_path, monkeypatch, visual, numeric, defer):
     """One real backward pass; synthetic pixels verify plumbing, not accuracy."""
     from argparse import Namespace
     import torch
@@ -128,6 +208,8 @@ def test_recurrent_experiment_runs_with_mixed_lengths_and_preserves_cnn(tmp_path
     manifest, rows = prepare(tmp_path)
     for row, width in zip(rows, (60, 100, 80)):
         row.update(text='11', box=[0, 0, width, 40])
+        if defer:
+            row['math_role'] = 'prose'
         if numeric:
             row['content_kind'] = 'UNSIGNED_NUMERIC_FIELD'
     save(manifest, rows)
@@ -143,11 +225,20 @@ def test_recurrent_experiment_runs_with_mixed_lengths_and_preserves_cnn(tmp_path
     vocab.write_text(json.dumps(initial_vocab), encoding='utf-8')
     original = hashlib.sha256(weights.read_bytes()).hexdigest()
     output = tmp_path / 'candidate'
+    if defer:
+        import finetune_line_ocr as trainer
+        transform = trainer.line_tensor
+        holdout_pixels = Image.open(tmp_path/'cohort/images/2.jpg').convert('RGB').crop(rows[2]['box']).tobytes()
+        def reject_holdout_transform(crop, preserve=False):
+            assert crop.tobytes() != holdout_pixels, 'HOLDOUT must never enter neural preprocessing during development'
+            return transform(crop, preserve)
+        monkeypatch.setattr(trainer, 'line_tensor', reject_holdout_transform)
     run(Namespace(manifest=manifest, data_root=tmp_path, model_dir=model_dir,
                   output=output, epochs=1, batch_size=2, threads=2,
                   learning_rate=.001, seed=3, preserve_aspect_ratio=True, train_recurrent=True,
                   train_last_visual_block=visual, numeric_fields_only=numeric, defer_holdout=defer,
-                  augment_train_contrast=defer))
+                  augment_train_contrast=defer, prose_replay=2 if defer else 1,
+                  prose_anchor_weight=1.0 if defer and not numeric else 0.0))
     candidate = torch.load(output / 'candidate.pth', map_location='cpu', weights_only=True)
     assert all(torch.equal(value, candidate[key]) for key, value in model.state_dict().items()
                if key.startswith('cnn.') and (not visual or int(key.split('.')[1]) < 12))
@@ -159,12 +250,18 @@ def test_recurrent_experiment_runs_with_mixed_lengths_and_preserves_cnn(tmp_path
     evidence = json.loads((output / 'evaluation.json').read_text(encoding='utf-8'))
     assert evidence['settings']['train_recurrent'] is True
     assert evidence['settings']['numeric_fields_only'] is numeric
+    assert evidence['history'][0]['dev_scopes']
+    assert evidence['selected_scope_regressions'] == evidence['history'][0]['scope_regressions']
     if defer:
         assert 'HOLDOUT' not in evidence['predictions'] and 'HOLDOUT' not in evidence['baseline']
         assert evidence['quality_gate']['reasons'] == ['HOLDOUT deferred; development measurements only']
         assert evidence['training_views']['original'] == evidence['training_views']['augmented'] == 1
+        assert evidence['training_views']['sampled_per_epoch'] == 4
+        assert evidence['training_views']['prose_anchor_views'] == (0 if numeric else 2)
+        assert evidence['candidate']['DEV']['lines'] == 1
         assert evidence['candidate']['TRAIN']['lines'] == 1  # Augmentation is not another evaluated source.
         from finetune_line_ocr import evaluate_saved
+        monkeypatch.setattr(trainer, 'line_tensor', transform)
         replay_args = Namespace(evaluate_candidate=output, output=tmp_path/'evaluation', model_dir=model_dir,
                                 manifest=manifest, data_root=tmp_path, threads=2)
         replay = evaluate_saved(replay_args)
