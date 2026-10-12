@@ -8,6 +8,33 @@ import pytest
 from source_storage import read_source_bytes
 
 
+def test_parquet_uses_python_stream_for_virtual_drive(tmp_path, monkeypatch):
+    import pyarrow.parquet as pq
+    from source_storage import _row_group
+    path = tmp_path / 'virtual.parquet'
+    path.write_bytes(b'virtual bytes')
+    seen = []
+
+    class Reader:
+        def read_row_group(self, group, *, columns, use_threads):
+            assert group == 2 and columns == ['image'] and use_threads is False
+            assert not seen[0].closed and seen[0].read() == b'virtual bytes'
+            return self
+
+        def to_pylist(self):
+            return [{'image': {'bytes': b'row'}}]
+
+    def open_parquet(stream):
+        assert hasattr(stream, 'read') and hasattr(stream, 'seek')
+        seen.append(stream)
+        return Reader()
+
+    monkeypatch.setattr(pq, 'ParquetFile', open_parquet)
+    assert _row_group(str(path), path.stat().st_size, path.stat().st_mtime_ns, 2) == [
+        {'image': {'bytes': b'row'}}]
+    assert seen[0].closed
+
+
 @pytest.mark.parametrize('kind', ['file', 'zip', 'parquet'])
 def test_mounted_sources_keep_exact_bytes_and_reject_changes(tmp_path, kind):
     raw = b'original image bytes'
@@ -48,6 +75,21 @@ def test_unmigrated_local_source_remains_readable(tmp_path):
     (folder / 'images').mkdir(parents=True)
     (folder / 'images/a.jpg').write_bytes(b'local image')
     assert read_source_bytes(folder, {'drive_id': 'a'}) == b'local image'
+
+
+def test_missing_retained_copy_uses_mapping_but_changed_copy_is_rejected(tmp_path):
+    raw = b'approved original bytes'
+    original = tmp_path / 'mapped.jpg'
+    original.write_bytes(raw)
+    retained = tmp_path / 'retained.jpg'
+    sha = hashlib.sha256(raw).hexdigest()
+    with gzip.open(tmp_path / 'storage_sources.json.gz', 'wt') as f:
+        json.dump({'sources': {'a': {'kind': 'file', 'path': str(original), 'sha256': sha}}}, f)
+    item = dict(drive_id='a', sha256=sha, mounted_source_path=str(retained))
+    assert read_source_bytes(tmp_path/'nested', item) == raw
+    retained.write_bytes(b'changed copy')
+    with pytest.raises(ValueError, match='differ'):
+        read_source_bytes(tmp_path/'nested', item)
 
 
 def test_nested_audit_reads_retained_original_without_creating_another_copy(tmp_path):

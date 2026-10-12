@@ -728,18 +728,21 @@ async def detect_lines_endpoint(request: Request):
 
     height, width = cv_img.shape[:2]
 
-    # Save live input for runtime forensics under scratch/runtime6_live_input/
-    save_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../scratch/runtime6_live_input"))
-    try:
-        os.makedirs(save_dir, exist_ok=True)
-        with open(os.path.join(save_dir, "raw_upload_bytes.bin"), "wb") as f:
-            f.write(img_bytes)
-        ok, enc = cv2.imencode(".png", cv_img)
-        if ok:
-            with open(os.path.join(save_dir, "decoded_input.png"), "wb") as f:
-                f.write(enc)
-    except Exception as se:
-        logger.warning(f"[OCR_PILOT] Failed to persist live input capture: {se}")
+    # Image capture is opt-in for development, matching physical trace logging.
+    save_dir = None
+    if (getattr(settings, "ocr_physical_trace_enabled", False)
+            and getattr(settings, "app_env", "production") != "production"):
+        save_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../scratch/runtime6_live_input"))
+        try:
+            os.makedirs(save_dir, exist_ok=True)
+            with open(os.path.join(save_dir, "raw_upload_bytes.bin"), "wb") as f:
+                f.write(img_bytes)
+            ok, enc = cv2.imencode(".png", cv_img)
+            if ok:
+                with open(os.path.join(save_dir, "decoded_input.png"), "wb") as f:
+                    f.write(enc)
+        except Exception as se:
+            logger.warning(f"[OCR_PILOT] Failed to persist live input capture: {se}")
 
     try:
         lines, diagnostics = detect_text_lines(
@@ -1194,8 +1197,9 @@ async def detect_lines_endpoint(request: Request):
                 "confidence": diagnostics.get("confidence"),
                 "fallback_reason": diagnostics.get("fallbackReason"),
             }
-            with open(os.path.join(save_dir, "metadata.json"), "w", encoding="utf-8") as mf:
-                json.dump(metadata, mf, indent=2, default=str)
+            if save_dir is not None:
+                with open(os.path.join(save_dir, "metadata.json"), "w", encoding="utf-8") as mf:
+                    json.dump(metadata, mf, indent=2, default=str)
         except Exception as me:
             logger.warning(f"[OCR_PILOT] Failed to write metadata.json: {me}")
 
@@ -1268,7 +1272,7 @@ async def detect_lines_endpoint(request: Request):
             diagnostics["geminiSuccessCount"] = gemini_success_count
 
         # Physical Android Trace Logging (Dev-only)
-        if getattr(settings, "ocr_physical_trace_enabled", True) and getattr(settings, "app_env", "development") != "production":
+        if getattr(settings, "ocr_physical_trace_enabled", False) and getattr(settings, "app_env", "production") != "production":
             logger.info(
                 f"[OCR-PHYSICAL]\n"
                 f"requestId={req_id}\n"

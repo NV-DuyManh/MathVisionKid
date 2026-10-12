@@ -48,10 +48,12 @@ def test_hash_checked_resume_never_approves_wrong_arithmetic(tmp_path, provenanc
     approved.write_text('{"review_status":"verified","text":"original reference"}')
     before = approved.read_bytes()
     provider = Provider()
-    hashes = {'model_sha256': 'm', 'vocab_sha256': 'v', 'provider_sha256': 'p'}
+    hashes = {'model_sha256': 'm', 'vocab_sha256': 'v', 'provider_sha256': 'p',
+              'provider': 'private_experimental_crnn_candidate'}
     assert run(tmp_path, provider, hashes)['regions_recognized'] == 1
     record = json.loads((tmp_path / 'crnn_results/a.json').read_text())
     assert record['lines'][0]['text'] == '12 : 3 = 5'
+    assert record['provider'] == hashes['provider']
     assert record['training_eligible'] is False and record['labels_verified'] is False
     run(tmp_path, provider, hashes)
     assert provider.calls == 1
@@ -61,6 +63,8 @@ def test_hash_checked_resume_never_approves_wrong_arithmetic(tmp_path, provenanc
     assert provider.calls == 2
     source.write_bytes(b'changed source')
     assert run(tmp_path, provider, hashes)['execution_failed'] == 1
+    failed = json.loads((tmp_path / 'crnn_results/a.json').read_text())
+    assert failed['provider'] == hashes['provider']
     assert provider.calls == 2 and approved.read_bytes() == before
 
 

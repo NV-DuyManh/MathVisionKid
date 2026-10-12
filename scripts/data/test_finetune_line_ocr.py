@@ -89,6 +89,35 @@ def test_metric_does_not_solve_or_discard_wrong_digits():
         metrics(rows, [])
 
 
+@pytest.mark.parametrize('operator', ['÷', '−', '<', '>', '≤', '≥', '≠', '·', '⋅'])
+def test_low_cer_cannot_hide_missing_unicode_math_operators(operator):
+    text = 'Lời văn ' * 20 + '8 ' + operator + ' 2 = 4'
+    result = metrics([{'text': text}], [text.replace(operator, '')])
+    assert result['cer'] < .05 and result['critical_errors'] == 1
+    old = dict(cer=.04, critical_errors=0, exact_lines=0)
+    decision = gate({'DEV': old, 'HOLDOUT': old}, {'DEV': old, 'HOLDOUT': result})
+    assert not decision['experiment_passed']
+    assert 'HOLDOUT: unresolved digit/operator errors' in decision['reasons']
+
+
+def test_verified_literal_question_mark_is_not_an_uncertainty_marker(tmp_path):
+    manifest, rows = prepare(tmp_path)
+    rows[0]['text'] = 'Hỏi có bao nhiêu cây?'
+    save(manifest, rows)
+    _, samples = load_reviewed(manifest, tmp_path)
+    assert samples[0][0]['text'] == rows[0]['text']
+    rows[0]['uncertain'] = True
+    save(manifest, rows)
+    with pytest.raises(ValueError, match='Unreviewed or uncertain'):
+        load_reviewed(manifest, tmp_path)
+
+
+def test_missing_grouping_is_critical_even_with_the_same_digits_and_operators():
+    text = 'Lời văn ' * 20 + '(8 + 2) × 3'
+    result = metrics([{'text': text}], [text.replace('(', '').replace(')', '')])
+    assert result['cer'] < .05 and result['critical_errors'] == 2
+
+
 def test_metric_counts_numerals_hallucinated_in_prose_without_reference_digits():
     rows = [{'text': 'cá mà'}, {'text': '8 : 2 = 4'}]
     result = metrics(rows, ['cá m0', '8 : 2 = 4'])
@@ -151,6 +180,32 @@ def test_checkpoint_selection_preserves_prose_before_aggregate_math_gain():
     assert checkpoint_key(safe_dev, baseline, baseline) < checkpoint_key(unsafe_dev, baseline, worse)
     better_safe_dev = dict(safe_dev, critical_errors=10)
     assert checkpoint_key(better_safe_dev, baseline, baseline) < checkpoint_key(safe_dev, baseline, baseline)
+
+
+def test_resize_gain_cannot_hide_training_regression_against_same_input():
+    native = dict(cer=.25, critical_errors=9, exact_lines=1)
+    control = dict(cer=.02, critical_errors=0, exact_lines=8)
+    candidate = dict(cer=.03, critical_errors=0, exact_lines=7)
+    baseline, new = {s: native for s in ('DEV', 'HOLDOUT')}, {s: candidate for s in ('DEV', 'HOLDOUT')}
+    assert gate(baseline, new)['experiment_passed']
+    result = gate(baseline, new, preprocessing_control={s: control for s in baseline})
+    assert not result['experiment_passed']
+    assert 'HOLDOUT/same-input/all: character regression' in result['reasons']
+    assert 'HOLDOUT/same-input/all: exact-line regression' in result['reasons']
+
+
+def test_same_input_prose_regression_is_visible_despite_better_aggregate():
+    native = dict(cer=.25, critical_errors=9, exact_lines=1)
+    control = dict(cer=.04, critical_errors=0, exact_lines=8)
+    candidate = dict(cer=.02, critical_errors=0, exact_lines=9)
+    prose_old = dict(cer=.01, critical_errors=0, exact_lines=4)
+    prose_new = dict(cer=.03, critical_errors=0, exact_lines=3)
+    scopes = {'HOLDOUT': {'candidate': {'prose': prose_new}}}
+    result = gate({s: native for s in ('DEV', 'HOLDOUT')},
+                  {s: candidate for s in ('DEV', 'HOLDOUT')}, scopes,
+                  {s: control for s in ('DEV', 'HOLDOUT')}, {'HOLDOUT': {'prose': prose_old}})
+    assert 'HOLDOUT/same-input/prose: character regression' in result['reasons']
+    assert 'HOLDOUT/same-input/prose: exact-line regression' in result['reasons']
 
 
 def test_multiplication_transfer_preserves_probability_mass_and_original_head():

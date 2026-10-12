@@ -15,6 +15,7 @@ import time
 from PIL import Image, ImageOps
 from drive_line_batch import write_json
 from source_storage import read_source_bytes
+from source_orientation import orient_image, validate_orientation_geometry
 
 ROOT = Path(__file__).resolve().parents[2]
 DETECTOR_SOURCES = {'app/api/ocr.py', 'app/api/generalized.py',
@@ -55,7 +56,8 @@ def run(folder, provider, model_hashes):
         path = output / f"{item['drive_id']}.json"
         record = {**item, **model_hashes, 'labels_verified': False,
                   'reference_label': False, 'training_eligible': False,
-                  'cloud_calls': 0, 'device': 'cpu', 'provider': 'crnn_vi_handwriting_v1'}
+                  'cloud_calls': 0, 'device': 'cpu',
+                  'provider': model_hashes.get('provider', 'crnn_vi_handwriting_v1')}
         try:
             raw = read_source_bytes(folder, item)
             if hashlib.sha256(raw).hexdigest() != item['sha256']:
@@ -63,15 +65,18 @@ def run(folder, provider, model_hashes):
             region = json.loads((folder / 'local_regions' / f"{item['drive_id']}.json").read_text(encoding='utf-8'))
             if region.get('status') != 'tested' or region.get('sha256') != item['sha256']:
                 raise ValueError('Regions do not match verified source bytes')
+            validate_orientation_geometry(item, region)
             detector_hash = validate_region_provenance(region)
             boxes = region['boxes']
             signature = {**model_hashes, 'sha256': item['sha256'],
                          'detector_provenance_sha256': detector_hash,
                          'boxes_sha256': hashlib.sha256(json.dumps(boxes).encode()).hexdigest()}
+            signature['reviewed_orientation'] = item.get('reviewed_orientation')
+            signature['orientation_code_sha256'] = digest(Path(__file__).with_name('source_orientation.py'))
             record.update(signature)
             prior = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {}
             with Image.open(io.BytesIO(raw)) as source:
-                image = ImageOps.exif_transpose(source).convert('RGB')
+                image = orient_image(source, item)
             if region.get('image_size') != list(image.size):
                 raise ValueError('Regions do not match the oriented source dimensions')
             if not all(len(b) == 4 and all(type(v) is int for v in b) and

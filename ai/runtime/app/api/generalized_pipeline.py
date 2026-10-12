@@ -660,6 +660,44 @@ def clear_detection_cache():
 
 
 
+def _separate_column_evidence(regions, width):
+    """Require repeated independent rows on both sides of a wide central gap."""
+    horizontal = [b for b in regions if b[2]-b[0] >= (b[3]-b[1])*3
+                  and b[3]-b[1] >= 12]
+    left = [b for b in horizontal if b[2] <= width*.52]
+    right = [b for b in horizontal if b[0] >= width*.48]
+    if len(left) < 3 or len(right) < 3:
+        return False
+    supported_left, supported_right = set(), set()
+    # ponytail: bounded scan over <=500 learned regions; no spatial index.
+    for a in left:
+        for b in right:
+            gap, body = b[0]-a[2], max(a[3]-a[1], b[3]-b[1])
+            middle = (a[2]+b[0])/2
+            if (gap >= max(width*.12, body*2) and width*.35 <= middle <= width*.65
+                    and abs((a[1]+a[3]-b[1]-b[3])/2) <= body*.5):
+                supported_left.add(tuple(a))
+                supported_right.add(tuple(b))
+    if len(supported_left) >= 2 and len(supported_right) >= 2:
+        return True
+    # Columns need not share baselines (e.g. arithmetic beside handwriting).
+    # Require substantial rows, a stable gutter and overlapping vertical spans;
+    # tiny chopped strokes cannot supply this independent evidence.
+    wide_left = [b for b in left if b[2]-b[0] >= width*.12]
+    wide_right = [b for b in right if b[2]-b[0] >= width*.12]
+    if len(wide_left)<3 or len(wide_right)<3:
+        return False
+    edge_left = float(np.median([b[2] for b in wide_left]))
+    edge_right = float(np.median([b[0] for b in wide_right]))
+    body = float(np.median([b[3]-b[1] for b in wide_left+wide_right]))
+    span_left = min(b[1] for b in wide_left),max(b[3] for b in wide_left)
+    span_right = min(b[1] for b in wide_right),max(b[3] for b in wide_right)
+    return (edge_right-edge_left >= max(width*.12,body*2)
+            and width*.35 <= (edge_left+edge_right)/2 <= width*.65
+            and min(span_left[1],span_right[1])-max(span_left[0],span_right[0]) >= body*3
+            and all(end-start>=body*3 for start,end in (span_left,span_right)))
+
+
 def run_generalized_line_detection(
     bgr_image: np.ndarray,
     max_lines: int = 30,
@@ -689,7 +727,7 @@ def run_generalized_line_detection(
         artifact_stamp = "absent"
     # The limit and optional artifact are part of the result, not just pixels.
     img_hash = hashlib.sha256(bgr_image.tobytes() +
-                              f"{bgr_image.shape}:text-regions-v13:{max_lines}:{artifact_stamp}".encode()).hexdigest()
+                              f"{bgr_image.shape}:text-regions-v17:{max_lines}:{artifact_stamp}".encode()).hexdigest()
 
     if not force_redetect and img_hash in _DETECTION_RUN_CACHE:
         cached = _DETECTION_RUN_CACHE[img_hash]
@@ -763,12 +801,18 @@ def run_generalized_line_detection(
     # Keep established projection geometry for short landscape exercise crops.
     if height > width * 1.15:
         regions = detect_text_regions(bgr_image)
+        profile = "PPOCR_TEXT_REGIONS"
+        if regions == []:
+            from app.recognition.text_detector import recover_sparse_ruled_regions
+            recovered = recover_sparse_ruled_regions(bgr_image)
+            if recovered:
+                regions, profile = recovered, "SPARSE_RULED_INK_REGIONS"
         if regions:
             lines = [LineBox(line_id=f"line_{i+1}", x=x1,y=y1,width=x2-x1,
                              height=y2-y1,order=i+1)
                      for i,(x1,y1,x2,y2) in enumerate(regions[:max_lines])]
             diag = {"detector_version":"local-text-regions-v1-20261004",
-                    "selected_profile":"PPOCR_TEXT_REGIONS", "needs_review":True,
+                    "selected_profile":profile, "needs_review":True,
                     "geometry_verified":False, "detected_region_count":len(regions),
                     "region_limit_exceeded":len(regions)>max_lines,
                     "final_box_count":len(lines), "cacheHit":False,
@@ -821,6 +865,22 @@ def run_generalized_line_detection(
         best_lines = projection_lines
         best_diag["chromatic_projection_used"] = True
         best_diag["chromatic_projection_count"] = len(projection_lines)
+
+    # A full spread can have aligned rows on both pages. Projection joins them
+    # across the spine; independent learned rows preserve each column. Short
+    # exercise crops and already separate physical rows retain their path.
+    if (min(height, width) >= 512 and height*1.15 < width < height*2.5
+            and sum(x2-x1 > width*.7 for x1,y1,x2,y2 in physical_rows) >= 3):
+        regions = detect_text_regions(bgr_image)
+        if regions and _separate_column_evidence(regions, width):
+            best_lines = [LineBox(line_id=f"line_{i+1}", x=x1,y=y1,
+                                 width=x2-x1,height=y2-y1,order=i+1)
+                          for i,(x1,y1,x2,y2) in enumerate(regions[:max_lines])]
+            best_profile, best_score = "PPOCR_COLUMN_REGIONS", 0.0
+            best_diag.update(needs_review=True, geometry_verified=False,
+                             separate_columns_recovered=True,
+                             detected_region_count=len(regions),
+                             region_limit_exceeded=len(regions)>max_lines)
 
     # Empty landscape results can still contain legible writing, including
     # narrow strips and column layouts. Blank context also supports <32px crops.

@@ -20,6 +20,7 @@ from app.api.generalized_pipeline import clear_detection_cache
 from app.recognition.text_detector import MODEL_PATH
 from drive_line_batch import open_ledger, write_json
 from source_storage import read_source_bytes
+from source_orientation import orient_image
 
 
 def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True,write_drafts=True):
@@ -40,12 +41,16 @@ def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True,wri
             raw=read_source_bytes(folder,item);record['sha256']=hashlib.sha256(raw).hexdigest()
             if item.get('sha256') and item['sha256']!=record['sha256']:
                 raise ValueError('Original differs from frozen selection')
-            with Image.open(io.BytesIO(raw)) as source:im=ImageOps.exif_transpose(source).convert('RGB')
+            with Image.open(io.BytesIO(raw)) as source:im=orient_image(source,item)
+            record['orientation_code_sha256']=hashlib.sha256(
+                (ROOT/'scripts/data/source_orientation.py').read_bytes()).hexdigest()
             pixels=cv2.cvtColor(np.asarray(im),cv2.COLOR_RGB2BGR)
             output=out/f"{item['drive_id']}.json"
             old=json.loads(output.read_text(encoding='utf-8')) if output.exists() else {}
             reusable=(not force and old.get('status')=='tested' and old.get('sha256')==record['sha256']
-                      and old.get('source_hashes')==hashes and old.get('max_regions')==max_regions)
+                      and old.get('source_hashes')==hashes and old.get('max_regions')==max_regions
+                      and old.get('reviewed_orientation')==item.get('reviewed_orientation')
+                      and old.get('orientation_code_sha256')==record['orientation_code_sha256'])
             if reusable:
                 boxes=old['boxes'];diag=old['diagnostics'];duration=old['latency_ms'];reused+=1
             else:
@@ -63,6 +68,7 @@ def run(folder,max_regions,mark_tested=False,force=False,write_overlays=True,wri
                 if not draft or (draft.get('review_status')=='needs_review' and draft.get('sha256')==record['sha256']):
                     write_json(label,{**draft,'drive_id':item['drive_id'],'sha256':record['sha256'],
                                      'review_status':'needs_review','line_count':None,'draft_boxes':boxes,
+                                     'reviewed_orientation':item.get('reviewed_orientation'),
                                      'prediction_hashes':hashes,'training_eligible':False,'lines':[]})
             if write_overlays:
                 w,h=im.size;im.thumbnail((1000,1400));draw=ImageDraw.Draw(im)

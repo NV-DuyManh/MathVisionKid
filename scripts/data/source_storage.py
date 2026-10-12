@@ -16,15 +16,22 @@ def _index(path, modified):
 @lru_cache(maxsize=1)
 def _row_group(path, size, modified, group):
     import pyarrow.parquet as pq
-    return pq.ParquetFile(path).read_row_group(group, columns=['image']).to_pylist()
+    # Drive's virtual filesystem can reject Arrow's native random-access reads.
+    # Some mounts still need a hash-verified local cache for large blocks.
+    with open(path, 'rb') as stream:
+        return pq.ParquetFile(stream).read_row_group(
+            group, columns=['image'], use_threads=False).to_pylist()
 
 
 def read_source_bytes(folder, item):
     """Cloud mappings take priority; unmigrated sources remain local."""
     folder = Path(folder)
     if item.get('mounted_source_path'):
-        return read_mapped_bytes({'kind': 'file', 'path': item['mounted_source_path'],
-                                  'sha256': item['sha256']})
+        try:
+            return read_mapped_bytes({'kind': 'file', 'path': item['mounted_source_path'],
+                                      'sha256': item['sha256']})
+        except FileNotFoundError:
+            pass  # A missing retained copy can use the original mapped bytes.
     for parent in (folder, *folder.parents):
         index = parent / 'storage_sources.json.gz'
         if index.is_file():

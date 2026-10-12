@@ -126,8 +126,56 @@ def split_stacked_writing(bgr,box):
             runs.append([int(y),int(y)+1])
     if len(runs)<2 or any(bottom-top<body*.45 for top,bottom in runs):
         return [box]
+    original_parts = [(x1,max(y1,y1+top-3),x2,min(y2,y1+bottom+3)) for top,bottom in runs]
+    # Strong ink can miss a faint connecting stem or accent. Use weaker source
+    # ink only to veto cuts / extend supported rows, never create another row.
+    weak = (((hue>=90)&(hue<=178) | (hue<=12)) &
+            (saturation>max(25,float(np.median(saturation))+15))&(value<230)).astype(np.uint8)
+    rules = cv2.HoughLinesP(weak*255,1,np.pi/180,
+                           threshold=max(8,round(min(x2-x1,y2-y1)*.2)),
+                           minLineLength=max(8,min(x2-x1,y2-y1)*.8),maxLineGap=3)
+    if rules is not None:
+        for a,b,c,d in rules.reshape(-1,4):
+            if ((abs(c-a)>=(x2-x1)*.85 and abs(d-b)<=abs(c-a)*.25) or
+                    (abs(d-b)>=(y2-y1)*.85 and abs(c-a)<=abs(d-b)*.25)):
+                cv2.line(weak,(a,b),(c,d),0,2)
+    _,_,weak_stats,_ = cv2.connectedComponentsWithStats(weak,8)
+    if _has_stacked_fraction(weak_stats,body*1.75):
+        return [box]
+    complete = weak_stats[1:]
+    complete = complete[(complete[:,4]>=12)&(complete[:,3]>=5)]
+    if x2-x1>(y2-y1)*3:
+        bodies = complete[complete[:,3]>=(y2-y1)*.35]
+        if len(bodies)<3:
+            return original_parts
+        body2 = float(np.percentile(bodies[:,3],65))
+        bodies = bodies[(bodies[:,3]>=body2*.6)&(bodies[:,2]<=body2*5)]
+        if len(bodies)<3:
+            return original_parts
+        xs,bottoms = bodies[:,0]+bodies[:,2]/2,bodies[:,1]+bodies[:,3]
+        if np.ptp(xs)<(x2-x1)*.4:
+            return original_parts
+        slope,offset = np.polyfit(xs,bottoms,1)
+        distant = complete[(complete[:,2]>=body2*.7)&(
+            (complete[:,1]+complete[:,3]<bodies[:,1].min()-body2*.5) |
+            (complete[:,1]>(bodies[:,1]+bodies[:,3]).max()+body2*.3))]
+        if abs(slope)>.2 or np.max(abs(bottoms-(slope*xs+offset)))>body2*.6 or len(distant):
+            return original_parts  # Ambiguous prose / multiple baselines retain their path.
+    expanded = [r.copy() for r in runs]
+    for x,y,w,h,area in complete:
+        owners = [i for i,(top,bottom) in enumerate(runs) if max(y,top)<min(y+h,bottom)]
+        if len(owners)>1:
+            return [box]  # One complete stroke crosses proposed row boundaries.
+        if owners:
+            row = expanded[owners[0]]
+            row[0],row[1] = min(row[0],int(y)),max(row[1],int(y+h))
+    if any(a[1]>=b[0] for a,b in zip(expanded,expanded[1:])):
+        return [box]
+    runs = expanded
     # Retain the original horizontal extent and bound added whitespace by gaps.
-    return [(x1,max(y1,y1+top-3),x2,min(y2,y1+bottom+3)) for top,bottom in runs]
+    return [(x1,max(y1,y1+top-3,y1+(runs[i-1][1]+top)//2 if i else y1),
+             x2,min(y2,y1+bottom+3,y1+(bottom+runs[i+1][0])//2 if i+1<len(runs) else y2))
+            for i,(top,bottom) in enumerate(runs)]
 
 
 def _infer_regions(bgr):
@@ -399,6 +447,79 @@ def _curved_ink_parts(mask, minimum_height, maximum_width):
         if np.max(abs(centerline[occupied] - (slope * occupied + offset))) > max(.6, height * .025):
             curved.append((x, y, width, height, area))
     return stats, np.array(curved, dtype=int).reshape(-1, 5)
+
+
+def recover_sparse_ruled_regions(bgr):
+    """Recover a few isolated pen bodies when a ruled portrait has no model seed.
+
+    No blank-page classification: missing, dense or ambiguous ink retains the
+    established path. Neutral interior writing and stacked fractions veto this
+    colour-only recovery instead of being silently replaced by one pen mark.
+    """
+    height, width = bgr.shape[:2]
+    if min(height, width) < 360 or height <= width * 1.15:
+        return None
+    scale = min(1., 1280 / max(height, width))
+    image = cv2.resize(bgr, None, fx=scale, fy=scale) if scale < 1 else bgr
+    h, w = image.shape[:2]
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    if np.median(gray) < 130:
+        return None
+    lines = cv2.HoughLinesP(cv2.Canny(gray, 40, 100), 1, np.pi / 180,
+                           threshold=80, minLineLength=min(h, w) * .35, maxLineGap=15)
+    if lines is None:
+        return None
+    horizontal, vertical, rules = [], [], np.zeros_like(gray)
+    for x1, y1, x2, y2 in lines.reshape(-1, 4):
+        angle = np.degrees(np.arctan2(y2-y1, x2-x1))
+        if abs(angle) < 15:
+            horizontal.append((y1+y2)/2)
+            cv2.line(rules, (x1, y1), (x2, y2), 255, 5)
+        if abs(angle) > 75:
+            vertical.append((x1+x2)/2)
+            cv2.line(rules, (x1, y1), (x2, y2), 255, 5)
+
+    def distinct(values):
+        positions = []
+        for value in sorted(values):
+            if not positions or value-positions[-1] > 8:
+                positions.append(value)
+        return len(positions)
+
+    if distinct(horizontal) < 8 or distinct(vertical) < 8:
+        return None
+    hue, saturation, value = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
+    ink = (((hue >= 90) & (hue <= 178) | (hue <= 12)) &
+           (saturation > max(65, np.median(saturation)+15)) & (value < 230)).astype(np.uint8)
+    if ink.mean() > .012:
+        return None
+    stats, bodies = _curved_ink_parts(ink, max(5, h*.006), w*.2)
+    bodies = bodies[(bodies[:, 4] >= 35) & (bodies[:, 2] >= bodies[:, 3]*.22) &
+                    (bodies[:, 3] < h*.10)]
+    if not 1 <= len(bodies) <= 3:
+        return None
+    from app.tutoring.rows import _has_stacked_fraction
+    # Allow the whitespace between compact numerator/denominator bodies too.
+    if _has_stacked_fraction(stats, float(np.median(bodies[:, 3])) * 1.5):
+        return None
+    background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, np.ones((31, 31), np.uint8))
+    neutral = ((gray.astype(float) < background.astype(float)*.88) &
+               (background.astype(float)-gray.astype(float) > 12)).astype(np.uint8)
+    neutral[rules > 0] = 0
+    _, other = _curved_ink_parts(neutral, max(5, h*.006), w*.2)
+    # Exclude photographed notebook borders; supported neutral interior glyphs
+    # veto recovery. Faint/border writing remains a known review limitation.
+    other = other[(other[:, 4] >= 60) & (other[:, 2] >= other[:, 3]*.22) &
+                  (other[:, 3] < h*.10) & (other[:, 0] > w*.12) &
+                  (other[:, 0]+other[:, 2] < w*.88) & (other[:, 1] > h*.10) &
+                  (other[:, 1]+other[:, 3] < h*.88)]
+    for x, y, cw, ch, _ in other:
+        if not any(x <= bx+bw+8 and x+cw >= bx-8 and y <= by+bh+8 and y+ch >= by-8
+                   for bx, by, bw, bh, _ in bodies):
+            return None
+    return [(max(0, int((x-5)/scale)), max(0, int((y-5)/scale)),
+             min(width, int(np.ceil((x+cw+5)/scale))),
+             min(height, int(np.ceil((y+ch+5)/scale)))) for x, y, cw, ch, _ in bodies]
 
 
 def _context_crop_regions(bgr, *, smooth_paper=False):

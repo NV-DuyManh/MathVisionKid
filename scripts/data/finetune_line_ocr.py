@@ -16,6 +16,7 @@ import unicodedata
 
 from PIL import Image, ImageOps
 from source_storage import read_source_bytes
+from source_orientation import orient_image, reviewed_rotation
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -40,8 +41,8 @@ def distance(left, right):
 
 
 def critical(text):
-    # Keep every digit, decimal separator and operator; do not solve expressions.
-    return ''.join(c for c in canonical(text) if c.isdigit() or c in '+-×*/:=,.%²³')
+    # Keep digits, separators, operators and grouping; never solve expressions.
+    return ''.join(c for c in canonical(text) if c.isdigit() or c in '+-−×·⋅*/÷:=≠<>≤≥()[],.%²³')
 
 
 def line_tensor(crop, preserve_aspect_ratio=False):
@@ -127,7 +128,7 @@ def load_reviewed(manifest, data_root):
         if split == 'TRAIN' and row.get('training_eligible') is not True:
             raise ValueError('Training requires explicit eligibility')
         text = row['text']
-        if not isinstance(text, str) or not canonical(text) or '?' in text or '<blank>' in text:
+        if not isinstance(text, str) or not canonical(text) or '[?]' in text or '<blank>' in text:
             raise ValueError('Unread or invalid transcript')
         if len(canonical(text)) > 128:
             raise ValueError('Transcript exceeds CRNN time steps')
@@ -135,12 +136,13 @@ def load_reviewed(manifest, data_root):
         folder = (data_root / row['source_batch']).resolve()
         if not folder.is_relative_to(data_root):
             raise ValueError('Source batch must stay inside the dataset')
-        key = source['drive_id'], source['sha256'], str(folder)
+        key = source['drive_id'], source['sha256'], str(folder), reviewed_rotation(source)
         if key not in sources:
             raw = read_source_bytes(folder, source)
             if hashlib.sha256(raw).hexdigest() != source['sha256']:
                 raise ValueError('Source SHA-256 mismatch')
-            sources[key] = ImageOps.exif_transpose(Image.open(io.BytesIO(raw))).convert('RGB')
+            with Image.open(io.BytesIO(raw)) as image:
+                sources[key] = orient_image(image, source)
         image = sources[key]
         box = row['box']
         if (len(box) != 4 or any(type(x) is not int for x in box)
@@ -200,7 +202,7 @@ def expand_head(original_head, vocabulary, new_chars, warm_multiplication=False)
     return head
 
 
-def gate(baseline, candidate, scope_metrics=None):
+def gate(baseline, candidate, scope_metrics=None, preprocessing_control=None, control_scopes=None):
     reasons = []
     for split in ('DEV', 'HOLDOUT'):
         old, new = baseline[split], candidate[split]
@@ -214,6 +216,13 @@ def gate(baseline, candidate, scope_metrics=None):
         scopes = (scope_metrics or {}).get(split, {})
         reasons.extend(f'{split}/{reason}' for reason in scope_regressions(
             scopes.get('baseline', {}), scopes.get('candidate', {})))
+        # A resize gain must not hide a regression caused by the new weights.
+        if preprocessing_control is not None:
+            controls = {'all': preprocessing_control[split]}
+            reasons.extend(f'{split}/same-input/{reason}' for reason in scope_regressions(
+                controls, {'all': new}))
+            reasons.extend(f'{split}/same-input/{reason}' for reason in scope_regressions(
+                (control_scopes or {}).get(split, {}), scopes.get('candidate', {})))
     if candidate['HOLDOUT']['cer'] >= baseline['HOLDOUT']['cer']:
         reasons.append('HOLDOUT: no character improvement')
     # Experiment promotion needs stronger evidence than a small same-writer sample.
@@ -268,7 +277,8 @@ def run(args):
     torch.manual_seed(args.seed)
     random.seed(args.seed)
     weights, vocab_path = model_dir / 'best_cer.pth', model_dir / 'vocab.json'
-    before = {str(path): digest(path) for path in (weights, vocab_path)}
+    before = {str(path): digest(path) for path in (
+        weights, vocab_path, Path(__file__).with_name('source_orientation.py'))}
     vocab = json.loads(vocab_path.read_text(encoding='utf-8'))
     if vocab.get('<blank>') != 0 or sorted(vocab.values()) != list(range(len(vocab))):
         raise ValueError('Vocabulary must have contiguous IDs and blank 0')
@@ -389,6 +399,13 @@ def run(args):
                             for s, ids in evaluation_indices.items()}
     baseline = {s: metrics([rows[i] for i in ids], baseline_predictions[s])
                 for s, ids in evaluation_indices.items()}
+    control_predictions = {s: predict(ids, head=original_head,
+                                     inverse={value: char for char, value in original_vocab.items()})
+                           for s, ids in evaluation_indices.items()}
+    preprocessing_control = {s: metrics([rows[i] for i in ids], control_predictions[s])
+                             for s, ids in evaluation_indices.items()}
+    control_scopes = {s: scoped_metrics([rows[i] for i in ids], control_predictions[s])
+                      for s, ids in evaluation_indices.items()}
     # Distill only reviewed TRAIN prose, with the same aspect policy/time alignment.
     # Teacher outputs are regularization targets, never new reference labels.
     prose_teacher = {}
@@ -411,7 +428,7 @@ def run(args):
     if len(training_order) > 512:
         raise ValueError('Bounded epoch supports at most 512 sampled TRAIN views')
     dev_rows = [rows[i] for i in evaluation_indices['DEV']]
-    baseline_dev_scopes = scoped_metrics(dev_rows, baseline_predictions['DEV'])
+    baseline_dev_scopes = control_scopes['DEV']
     trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
     optimizer = torch.optim.Adam(trainable, lr=args.learning_rate)
     loss_fn = torch.nn.CTCLoss(blank=0, zero_infinity=False)
@@ -494,20 +511,23 @@ def run(args):
                                  'resize': 'aspect; stride 8; min width 64' if preserve_aspect_ratio else 'fixed 64x1024',
                                  'padding': 'features only; excluded from CTC, decoding and recurrent context'},
                 'trainer_sha256': hashlib.sha256(trainer_source).hexdigest(),
+                'orientation_code_sha256': digest(Path(__file__).with_name('source_orientation.py')),
                 'seed': args.seed, 'torch_version': torch.__version__, 'device': 'cpu',
                 'new_training_characters': new_chars, 'selected_epoch': best_epoch,
-                'selection_policy': 'DEV role regressions first; then critical errors, CER, exact lines',
+                'selection_policy': 'DEV role regressions against unchanged weights with same input first; then critical errors, CER, exact lines',
                 'selected_scope_regressions': history[best_epoch-1]['scope_regressions'],
                 'baseline': baseline, 'candidate': candidate, 'history': history,
-                'scope_metrics': scopes,
+                'scope_metrics': scopes, 'preprocessing_control': preprocessing_control,
+                'preprocessing_control_scopes': control_scopes,
                 'quality_gate': ({'experiment_passed': False, 'production_promoted': False,
                                   'reasons': ['HOLDOUT deferred; development measurements only'],
                                   'scope': 'TRAIN and DEV only; no HOLDOUT neural inference'}
-                                 if defer_holdout else gate(baseline, candidate, scopes)),
+                                 if defer_holdout else gate(baseline, candidate, scopes,
+                                                           preprocessing_control, control_scopes)),
                 'limitations': document.get('limitations', []),
                 'predictions': {s: [{'id': rows[i]['id'], 'reference': rows[i]['text'],
-                                    'baseline': a, 'candidate': b}
-                                   for i, a, b in zip(ids, baseline_predictions[s], predictions[s])]
+                                    'baseline': a, 'preprocessing_control': c, 'candidate': b}
+                                   for i, a, c, b in zip(ids, baseline_predictions[s], control_predictions[s], predictions[s])]
                                 for s, ids in evaluation_indices.items()},
                 'candidate_sha256': digest(output / 'candidate.pth')}
     evidence['candidate_vocab_sha256'] = digest(output / 'vocab.json')
@@ -536,9 +556,16 @@ def evaluate_saved(args):
     for path in (weights, base_vocab):
         if digest(path) != evidence['source_model_hashes'].get(str(path)):
             raise ValueError('Original model hash differs from the experiment baseline')
-    before = {path: digest(path) for path in (checkpoint, vocabulary, args.manifest, weights, base_vocab)}
+    orientation_code = Path(__file__).with_name('source_orientation.py')
+    if evidence.get('orientation_code_sha256') not in (None, digest(orientation_code)):
+        raise ValueError('Orientation preprocessing differs from the frozen experiment')
+    before = {path: digest(path) for path in (
+        checkpoint, vocabulary, args.manifest, weights, base_vocab, orientation_code)}
     manifest_source = args.manifest.read_bytes()
     document, samples = load_reviewed(args.manifest, args.data_root)
+    if (evidence.get('orientation_code_sha256') is None
+            and any(reviewed_rotation(row['source']) for row, _ in samples)):
+        raise ValueError('Legacy experiment did not pin reviewed orientation preprocessing')
     if json.loads(manifest_source.decode('utf-8')) != document:
         raise ValueError('Reviewed manifest changed while it was being loaded')
     import torch
@@ -551,30 +578,38 @@ def evaluate_saved(args):
     candidate_model.load_state_dict(torch.load(checkpoint, map_location='cpu', weights_only=True))
     baseline_model = CRNN(len(original_vocab)).eval()
     baseline_model.load_state_dict(torch.load(weights, map_location='cpu', weights_only=True))
-    rows, baseline_predictions, predictions = [], [], []
+    rows, baseline_predictions, control_predictions, predictions = [], [], [], []
     with torch.no_grad():
         for row, crop in samples:
             if row['split'] not in ('DEV', 'HOLDOUT'):
                 continue
             baseline_logits = baseline_model(line_tensor(crop).unsqueeze(0))
+            control_logits = baseline_model(line_tensor(crop, evidence['settings']['preserve_aspect_ratio']).unsqueeze(0))
             logits = candidate_model(line_tensor(crop, evidence['settings']['preserve_aspect_ratio']).unsqueeze(0))
             baseline_predictions.extend(decode_ctc(baseline_logits.argmax(-1).tolist(), original_vocab))
+            control_predictions.extend(decode_ctc(control_logits.argmax(-1).tolist(), original_vocab))
             predictions.extend(decode_ctc(logits.argmax(-1).tolist(), vocab))
             rows.append(row)
-    baseline, candidate, scopes = {}, {}, {}
+    baseline, candidate, scopes, preprocessing_control, control_scopes = {}, {}, {}, {}, {}
     for split in ('DEV', 'HOLDOUT'):
         chosen = [i for i, row in enumerate(rows) if row['split'] == split]
         refs = [rows[i] for i in chosen]
         old, new = [baseline_predictions[i] for i in chosen], [predictions[i] for i in chosen]
+        control = [control_predictions[i] for i in chosen]
         baseline[split], candidate[split] = metrics(refs, old), metrics(refs, new)
+        preprocessing_control[split] = metrics(refs, control)
+        control_scopes[split] = scoped_metrics(refs, control)
         scopes[split] = {'baseline': scoped_metrics(refs, old), 'candidate': scoped_metrics(refs, new)}
     result = {'mode': 'frozen checkpoint evaluation; no fitting or checkpoint selection',
               'candidate_sha256': digest(checkpoint), 'candidate_vocab_sha256': digest(vocabulary),
               'manifest_sha256': digest(args.manifest), 'baseline': baseline, 'candidate': candidate,
-              'scope_metrics': scopes, 'quality_gate': gate(baseline, candidate, scopes),
+              'scope_metrics': scopes, 'preprocessing_control': preprocessing_control,
+              'preprocessing_control_scopes': control_scopes,
+              'quality_gate': gate(baseline, candidate, scopes, preprocessing_control, control_scopes),
               'limitations': document.get('limitations', []),
-              'predictions': [dict(id=row['id'], split=row['split'], reference=row['text'], baseline=old, candidate=new)
-                              for row, old, new in zip(rows, baseline_predictions, predictions)]}
+              'predictions': [dict(id=row['id'], split=row['split'], reference=row['text'], baseline=old,
+                                   preprocessing_control=control, candidate=new)
+                              for row, old, control, new in zip(rows, baseline_predictions, control_predictions, predictions)]}
     if any(digest(path) != sha for path, sha in before.items()):
         raise ValueError('Frozen evaluation inputs changed; no result emitted')
     output.mkdir(parents=True)
