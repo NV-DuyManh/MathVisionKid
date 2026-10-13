@@ -1,0 +1,10 @@
+# Cloud-only override: preserve the PC preview and its cached registry image.
+services:
+  minio:
+    image: mathvision-storage:cloud
+    build:
+      context: ./storage
+    healthcheck:
+      test: [CMD, curl, --fail, --silent, http://127.0.0.1:9000/minio/health/ready]
+  storage-init:
+    image: mathvision-storage:cloud

@@ -78,6 +78,8 @@ Never put JWT secrets, internal callback keys, storage credentials, database pas
 
 The future server configuration is [infra/production/compose.yml](../infra/production/compose.yml). It contains PostgreSQL, Redis, MinIO, private AI API and worker services, the business API, and Caddy. Java and AI run as non-root users. Model artifacts are mounted read-only, rather than bundled into the images.
 
+For a fresh server, apply [compose.cloud.yml](../infra/production/compose.cloud.yml) as well. The old MinIO registry tag cannot currently be pulled; this override builds checksum-verified official server/client release binaries for AMD64 or ARM64. It preserves the current server version for data migration and includes the upstream licenses. Keep storage private and review its old-version maintenance limits in [the source notice](../infra/production/storage/SOURCES.md). The PC preview uses its own override and is not switched by these server commands.
+
 The base Compose file publishes ports **80 and 443** for the owned-domain Caddy gateway. **Do not use its public gateway configuration directly for the PC Quick Tunnel trial**; the PC arrangement needs a loopback-only HTTP gateway and the override described in [the PC preview guide](PC_PREVIEW_DEPLOYMENT.md).
 
 Copy [the production environment template](../infra/production/.env.production.example) to an ignored private environment file. Replace every placeholder and protect the file with owner-only filesystem permissions. The templates are safe to share; filled environment files are not.
@@ -116,7 +118,7 @@ From the repository root, validate the private environment and four recorded mod
 
 ```powershell
 py -3.12 scripts/deploy/check_production.py --env-file infra/production/.env.production
-docker compose --env-file infra/production/.env.production -f infra/production/compose.yml config --quiet
+docker compose --env-file infra/production/.env.production -f infra/production/compose.yml -f infra/production/compose.cloud.yml config --quiet
 ```
 
 The validator prints the names of invalid settings without revealing their values. It does not contact a provider, establish DNS ownership, test backups, or prove cloud availability. Use `--models` to override the model directory for artifact verification before a transfer.
@@ -134,8 +136,8 @@ Use the administrator workflow to create real teacher/student accounts. The back
 This section requires a provisioned server, the verified model bundle, configured DNS, and the private environment. No server purchase or paid subscription is implied by these commands.
 
 ```powershell
-docker compose --env-file infra/production/.env.production -f infra/production/compose.yml up -d --build
-docker compose --env-file infra/production/.env.production -f infra/production/compose.yml ps
+docker compose --env-file infra/production/.env.production -f infra/production/compose.yml -f infra/production/compose.cloud.yml up -d --build
+docker compose --env-file infra/production/.env.production -f infra/production/compose.yml -f infra/production/compose.cloud.yml ps
 ```
 
 Allow the build and health checks to finish. The Caddy gateway forwards only `/api/v1/*` and `/actuator/health`; other paths return 404. Internal AI routes and callback routes stay within the private Docker network. PostgreSQL, Redis, MinIO, and the AI API have no public host port in the base configuration.
@@ -171,7 +173,7 @@ The current trial includes owner-requested test accounts provisioned separately 
 Named volumes persist database, queue, images, and Caddy state across ordinary restarts or container rebuilds. Stop the project without deleting volumes:
 
 ```powershell
-docker compose --env-file infra/production/.env.production -f infra/production/compose.yml down
+docker compose --env-file infra/production/.env.production -f infra/production/compose.yml -f infra/production/compose.cloud.yml down
 ```
 
 `down --volumes` deletes this project's persisted data. Do not use it for ordinary maintenance. Keep versioned PostgreSQL backups, private image backups, and protected copies of configuration/model manifests outside the running stack, then test a restore into an isolated project. A named Docker volume alone is not a backup, and Google Drive streaming alone does not prove that a backup has finished uploading.
