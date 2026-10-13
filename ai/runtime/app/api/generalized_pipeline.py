@@ -698,6 +698,57 @@ def _separate_column_evidence(regions, width):
             and all(end-start>=body*3 for start,end in (span_left,span_right)))
 
 
+def _recover_spread_regions(bgr, detector):
+    """Retry each side of a supported empty gutter, never cut source pixels."""
+    height, width = bgr.shape[:2]
+    if min(height, width) < 512 or not height*1.15 < width < height*2.5:
+        return None
+    scale = min(1., 1280/width)
+    sample = cv2.resize(bgr, None, fx=scale, fy=scale) if scale < 1 else bgr
+    h, w = sample.shape[:2]
+    gray = cv2.cvtColor(sample, cv2.COLOR_BGR2GRAY)
+    hue, sat, value = cv2.split(cv2.cvtColor(sample, cv2.COLOR_BGR2HSV))
+    if np.median(gray) < 130 or np.mean(sat > 90) > .3:
+        return None
+    # Strong coloured pen bodies identify the fold; neutral page grids otherwise
+    # connect the entire spread. Learned boundary boxes below veto clipped text,
+    # including faint/neutral writing that is absent from this proposal mask.
+    ink = ((((hue >= 90) & (hue <= 178)) | (hue <= 12)) &
+           (sat > max(65, float(np.median(sat))+15)) & (value < 230)).astype(np.uint8)
+    rules = cv2.morphologyEx(ink, cv2.MORPH_OPEN, np.ones((max(30, h//3), 1), np.uint8))
+    rules |= cv2.morphologyEx(ink, cv2.MORPH_OPEN, np.ones((1, max(30, w//3)), np.uint8))
+    ink[rules > 0] = 0
+    top, bottom = round(h*.1), round(h*.9)
+    if min(ink[top:bottom, :round(w*.4)].mean(),
+           ink[top:bottom, round(w*.6):].mean()) < .002:
+        return None
+    _, _, stats, _ = cv2.connectedComponentsWithStats(ink[top:bottom], 8)
+    parts = stats[1:]
+    parts = parts[(parts[:, 4] >= 12) & (parts[:, 3] >= max(5, h*.005))]
+    start, end = round(w*.45), round(w*.55)
+    gap = max(3, round(w*.01))
+    profile = cv2.blur(ink[top:bottom].mean(axis=0).astype(np.float32)[None, :],
+                       (gap*2+1, 1)).ravel()
+    # Choose only a corridor without a substantial stroke. A low average alone
+    # can otherwise cut an occasional word, minus sign or fraction at the fold.
+    candidates = [x for x in range(start, end) if profile[x] < .006
+                  and not np.any((parts[:, 0] < x+gap) & (parts[:, 0]+parts[:, 2] > x-gap))]
+    if not candidates:
+        return None
+    pivot = round(min(candidates, key=lambda x: (profile[x], abs(x-w/2)))/scale)
+    left, right = detector(bgr[:, :pivot]), detector(bgr[:, pivot:])
+    if not left or not right:
+        return None
+    margin = max(3, round(width*.003))
+    if (any(c >= pivot-margin and d-b >= 10 and c-a >= 5 for a,b,c,d in left)
+            or any(a <= margin and d-b >= 10 and c-a >= 5 for a,b,c,d in right)):
+        return None
+    regions = left + [(a+pivot, b, c+pivot, d) for a, b, c, d in right]
+    if not _separate_column_evidence(regions, width):
+        return None
+    return sorted(regions, key=lambda b: ((b[1]+b[3])/2, b[0]))
+
+
 def run_generalized_line_detection(
     bgr_image: np.ndarray,
     max_lines: int = 30,
@@ -727,7 +778,7 @@ def run_generalized_line_detection(
         artifact_stamp = "absent"
     # The limit and optional artifact are part of the result, not just pixels.
     img_hash = hashlib.sha256(bgr_image.tobytes() +
-                              f"{bgr_image.shape}:text-regions-v17:{max_lines}:{artifact_stamp}".encode()).hexdigest()
+                              f"{bgr_image.shape}:text-regions-v20:{max_lines}:{artifact_stamp}".encode()).hexdigest()
 
     if not force_redetect and img_hash in _DETECTION_RUN_CACHE:
         cached = _DETECTION_RUN_CACHE[img_hash]
@@ -869,9 +920,20 @@ def run_generalized_line_detection(
     # A full spread can have aligned rows on both pages. Projection joins them
     # across the spine; independent learned rows preserve each column. Short
     # exercise crops and already separate physical rows retain their path.
+    # Curved spreads can have no physical-row seed yet still produce repeated
+    # full-width classical bands. Those joined bands need the same safe retry.
+    physical_joined = sum(x2-x1 > width*.7 for x1,y1,x2,y2 in physical_rows)
+    joined_rows = max(physical_joined,
+                      sum(line.width > width*.7 for line in best_lines))
     if (min(height, width) >= 512 and height*1.15 < width < height*2.5
-            and sum(x2-x1 > width*.7 for x1,y1,x2,y2 in physical_rows) >= 3):
-        regions = detect_text_regions(bgr_image)
+            and joined_rows >= 3):
+        # Without physical seeds, arbitrary word gaps can resemble columns.
+        # Require the source-ink gutter and clipped-boundary veto first.
+        regions = detect_text_regions(bgr_image) if physical_joined >= 3 else None
+        if not regions or not _separate_column_evidence(regions, width):
+            regions = _recover_spread_regions(bgr_image, detect_text_regions)
+            if regions:
+                best_diag["spread_gutter_retried"] = True
         if regions and _separate_column_evidence(regions, width):
             best_lines = [LineBox(line_id=f"line_{i+1}", x=x1,y=y1,
                                  width=x2-x1,height=y2-y1,order=i+1)

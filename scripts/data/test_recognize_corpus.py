@@ -1,10 +1,34 @@
 """Protect resumability and source geometry at the corpus boundary."""
 import sqlite3
 import copy
+import json
+from types import SimpleNamespace
 import pytest
 from PIL import Image
 
+import recognize_corpus
 from recognize_corpus import open_results, reusable_draft, save_record, source_boxes
+
+
+@pytest.mark.parametrize('numeric_only', [True, False, None])
+def test_candidate_scope_checked_before_checkpoint_sources_or_output(tmp_path, monkeypatch, numeric_only):
+    monkeypatch.setattr(recognize_corpus, 'ROOT', tmp_path)
+    private = tmp_path / 'ai-training/datasets/drive_math'
+    candidate = tmp_path / 'candidate'
+    candidate.mkdir()
+    settings = {} if numeric_only is None else {'numeric_fields_only': numeric_only}
+    (candidate / 'evaluation.json').write_text(json.dumps({'settings': settings}), encoding='utf-8')
+    args = SimpleNamespace(threads=1, batch=private / 'sources', candidate=candidate,
+                           output=private / 'drafts')
+    if numeric_only is True:
+        with pytest.raises(ValueError, match='Numeric-fields-only'):
+            recognize_corpus.run(args)
+    else:
+        # Existing general candidates, including legacy evidence, still reach pair validation.
+        with pytest.raises(FileNotFoundError, match='candidate.pth'):
+            recognize_corpus.run(args)
+    assert not args.output.exists()
+    assert not args.batch.exists()
 
 
 def test_resume_rejects_different_frozen_inputs(tmp_path):

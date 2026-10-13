@@ -100,6 +100,8 @@ def run(args):
     if not folder.is_relative_to(private) or not output.is_relative_to(private):
         raise ValueError('Sources and drafts must stay inside the private dataset')
     evidence = json.loads((model_dir / 'evaluation.json').read_text(encoding='utf-8'))
+    if evidence.get('settings', {}).get('numeric_fields_only') is True:
+        raise ValueError('Numeric-fields-only candidates cannot recognize general text/math corpora')
     weights, vocabulary = model_dir / 'candidate.pth', model_dir / 'vocab.json'
     paired = {'model_sha256': digest(weights), 'vocab_sha256': digest(vocabulary)}
     if (paired['model_sha256'] != evidence['candidate_sha256']
