@@ -2,11 +2,13 @@
 import ast
 import asyncio
 import json
+import logging
 import operator
 import re
 import secrets
 import time
 from collections import OrderedDict
+from copy import deepcopy
 from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation
 from fractions import Fraction
@@ -15,6 +17,8 @@ from typing import Annotated
 from pydantic import Field, StrictBool, ValidationError, field_validator, model_validator
 
 from app.tutoring.service import TutorModel, TutorUnavailable, _fold, _generate
+
+logger = logging.getLogger(__name__)
 
 
 class LessonRequest(TutorModel):
@@ -89,6 +93,8 @@ class Plan(TutorModel):
 class DraftStep(Step):
     workExcerpt: str = Field(default="", max_length=0)
     workLineIndexes: list[Annotated[int, Field(ge=0, strict=True)]] = Field(default_factory=list, max_length=3)
+    initialGuidance: list[str] = Field(default_factory=list, max_length=3,
+        description="Three substantial paragraphs before the pupil answers: quantities, WHY, and HOW to start. Only givens and prior step references; never calculated values for this/future step.")
 
 
 class PlanDraft(Plan):
@@ -212,6 +218,9 @@ def expression_at(step: Step, answers: list[str]) -> str:
     for index, answer in enumerate(answers):
         if re.fullmatch(r"-?\d+(?:\.\d+)?(?:/\d+)?", answer):
             expression = expression.replace("{s" + str(index) + "}", f"({answer})" if "/" in answer or answer.startswith('-') else answer)
+            checked = Fraction(answer)
+            for part in ("numerator", "denominator"):
+                expression = expression.replace("{s" + str(index) + "_" + part + "}", str(getattr(checked, part)))
     if "{" in expression or "}" in expression:
         raise ValueError("Missing previous calculation")
     return expression
@@ -248,7 +257,7 @@ bước kiểm tra. null chỉ khi đề yêu cầu nhiều kết quả.
 Mỗi bước là object với đúng các trường và kiểu:
 title:string; solutionSentence:string; explanation:string; guidance:array string;
 question:string; choices:array string; correctChoice:string; expression:string;
-unit:string; workExcerpt:string; workLineIndexes:array integer;
+unit:string; workExcerpt:string; workLineIndexes:array integer; initialGuidance:array string;
 hints:array string; fractionNotation:boolean.
 Bước tính: choices=[], correctChoice="", expression là công thức số RIÊNG TƯ.
 question hỏi đại lượng BẰNG BAO NHIÊU. solutionSentence gọi tên đại lượng và
@@ -266,13 +275,13 @@ explanation nói vì sao cần tìm lượng này, dùng phép toán đó và l�
 sau. KHÔNG chứa kết quả hiện tại hoặc tương lai. topic/goal/title/question/
 choices/solutionSentence cũng không có kết quả tính sẵn.
 
-guidance là MẢNG 4 đoạn, mỗi đoạn 90-450 ký tự, có câu rõ ràng, theo thứ tự:
+initialGuidance là MẢNG 3 đoạn, mỗi đoạn 90-450 ký tự, theo thứ tự:
 1. Dữ kiện nào liên quan, mỗi lượng nghĩa là gì, cần tìm lượng gì.
 2. Vì sao dùng phép toán này và vì sao tìm lượng này trước lượng khác.
 3. Thao tác BẮT ĐẦU để học sinh tự tính: cách đặt tính/quy đồng/chia thành các
 phần. BA đoạn đầu chỉ dùng số đề cho, hằng số được phép và kết quả bước TRƯỚC;
 không có giá trị vừa tính, mẫu số vừa tìm, thương/dư vừa tính hoặc phép tính mẫu.
-4. Trợ giúp sâu RIÊNG TƯ: dạy từng thao tác tính của CHÍNH bước này, kèm kết quả
+guidance là MẢNG 1-3 đoạn trợ giúp sâu RIÊNG TƯ: dạy từng thao tác tính của CHÍNH bước này, kèm kết quả
 và cách ghi câu lời giải/phép tính/đơn vị. Không kể kết quả của bất kỳ bước SAU
 nào. Đoạn này chỉ được mở khi xin gợi ý sâu hoặc đã làm xong.
 hints là hai chuỗi khác nhau: đầu chỉ thao tác bắt đầu, sau dạy kỹ cách tính
@@ -291,8 +300,10 @@ Chia từng hàng: chia, nhân kiểm tra, trừ tìm dư, hạ chữ số tiế
 
 expression chỉ có + - * / ngoặc, số đề cho NGUYÊN VẸN trong givenNumbers,
 additionalFormulaConstants và {sN} của bước tính TRƯỚC, N là chỉ số từ 0
-(kể cả bước chọn). Không chữ/biến/lũy thừa/hàm. Bước đầu không tham chiếu.
-Không chèn kết quả đã tính vào công thức; dùng {sN}. Chỉ guidance được dùng
+(kể cả bước chọn). Có thể dùng {sN_numerator}, {sN_denominator} để chia theo
+số phần và gộp các phần của một phân số đã tính ở bước trước. Không chữ/biến/
+lũy thừa/hàm. Bước đầu không tham chiếu.
+Không chèn kết quả đã tính vào công thức; dùng tham chiếu bước trước. Lời giảng được dùng
 {sN}, {sN_numerator}, {sN_denominator} để nhắc kết quả bước trước.
 workExcerpt luôn là "". workLineIndexes chứa chỉ số TỪ 0 của 1-3 dòng LIÊN TIẾP
 trong workLines liên quan đến chính bước này; [] nếu không có. Máy sẽ trích đúng
@@ -300,6 +311,19 @@ chữ từ ảnh đã xác nhận. Không tự chép, chuẩn hóa hay viết l�
 title<=100, topic<=120, goal/question/solutionSentence<=220, explanation<=500,
 unit<=20 ký tự. Không tự gán lớp/tên sách, không thông tin dịch vụ/kỹ thuật/
 tài khoản/đường dẫn. Tự kiểm tra kiểu dữ liệu và mọi điều trên trước khi trả JSON.
+
+KIỂM TRA CUỐI TRƯỚC KHI GỬI:
+- Ba đoạn initialGuidance phải thực sự KHÔNG có số mới tính (kể cả mẫu chung).
+  Giải thích vì sao cần chia thành các phần CÙNG KÍCH THƯỚC trước khi cộng/trừ;
+  chỉ nêu cách tìm mẫu chung ở đây, để giá trị mẫu chung và quy đồng ở guidance.
+- Tìm toàn bộ từ phân số: tử số cho biết số phần bằng nhau của lượng đã biết,
+  mẫu số cho biết số phần của toàn bộ. Chia lượng đã biết cho số phần của nó
+  để tìm lượng trong một phần; nhân với số phần của toàn bộ để gộp lại.
+  Hãy diễn giải bằng đồ vật trong đề. Quy tắc đảo phân số chỉ là cách viết
+  gọn SAU khi giải thích ý nghĩa này, không được thay thế phần giải thích.
+- expression dùng trực tiếp phân số của bước trước: lượng đã biết / {sN}.
+  Không đưa tử/mẫu mới tính thành số rời trong expression. Các thao tác chia
+  cho tử rồi nhân mẫu được giảng kỹ trong guidance, không cần bước giả.
 """
 
 
@@ -313,6 +337,7 @@ results are reached; finalAnswerStep must point to the requested result, not an
 intermediate or check. Missing/contradictory givens must be rejected.
 candidate.steps.expression is a PRIVATE server formula. {sN} means the exactly
 checked answer of calculation step N; indices include choice steps. These refs
+may end in _numerator or _denominator to use a prior fraction's checked parts.
 are resolved to actual values before the pupil reaches that step. Never require
 literal computed answers instead of references. A choice step has expression
 and solutionSentence empty by design; only calculation steps need a classroom
@@ -337,6 +362,9 @@ Reject a method with wrong vocabulary (e.g. 'bring down' for subtraction), or
 generic 'calculate carefully/recall the rule' without an actionable explanation.
 Use everyday equal-part reasoning; explanations relying on 'triệt tiêu', moving
 equation sides or algebraic elimination are unsuitable for this primary lesson.
+Ordinary division by a known fraction IS primary arithmetic, not algebra.
+Approve either quantity / share or quantity / numerator * denominator when
+the explanation correctly describes finding one equal part then the whole.
 Initial teaching must explain the quantities and operation in everyday terms,
 including a small action the pupil can start without opening worked help. For
 fractions, merely quoting common-denominator or reciprocal rules is insufficient:
@@ -359,6 +387,10 @@ Return only {"sourceFaithful":boolean,"mathematicsCorrect":boolean,
 the independently derived requested results with their candidate calculation
 indices, NOT all intermediate results. answer is an exact integer, decimal or
 numerator/denominator string, with no equation or unit; unit is separate.
+resultScope specifies the candidate step(s) claiming to answer the original
+question. Independently check that claim: if it is the wrong quantity, set
+answersQuestion=false and results=[]. Otherwise results must contain ONLY
+that requested final quantity, never an intermediate fraction or subtotal.
 All givenNumbers from the original problem ARE permitted operands.
 additionalFormulaConstants only adds mathematical conventions; it does NOT
 exclude the source numbers. Reject needless rewriting of source numbers as
@@ -372,8 +404,8 @@ Never approve merely because the candidate uses the same numbers as the source.
 
 REPAIR_PROMPT = PLAN_PROMPT + """
 BẢN TRƯỚC BỊ TỪ CHỐI. Hãy VIẾT LẠI toàn bộ JSON, không chép lời giảng bị lỗi.
-Chuyển phép tính mẫu của bước hiện tại xuống các đoạn cuối guidance.
-Các đoạn đầu phải giải thích dữ kiện, VÌ SAO và thao tác bắt đầu không có đáp án.
+Chuyển phép tính mẫu của bước hiện tại xuống guidance.
+initialGuidance phải giải thích dữ kiện, VÌ SAO và thao tác bắt đầu không có đáp án.
 Xóa mọi kết quả của bước sau và mọi đáp án khỏi explanation/question/choices. Công thức vẫn phải đúng dữ kiện và dùng
 tham chiếu bước tính TRƯỚC bắt đầu từ 0; không dùng số đã tính sẵn.
 Tất cả câu hỏi phải rõ ràng, không bỏ trống. Sửa đúng lỗi được báo bên dưới.
@@ -393,7 +425,7 @@ class PlanReview(TutorModel):
     mathematicsCorrect: StrictBool
     answersQuestion: StrictBool
     teachingClear: StrictBool
-    results: list[ReviewedResult] = Field(max_length=6)
+    results: list[ReviewedResult] = Field(max_length=6, description="ONLY results explicitly requested by the ORIGINAL problem. Never list intermediate calculations. Empty if rejected.")
     issues: list[Annotated[str, Field(min_length=1, max_length=220)]] = Field(default_factory=list, max_length=3)
 
 
@@ -477,11 +509,22 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
                             return "{s" + str(prior) + "}"
                         if checked and value == 1 / checked:
                             return "(1/{s" + str(prior) + "})"
-                return literal
+                def component(token):
+                    if token[0] in givens:
+                        return token[0]
+                    for prior, answer in enumerate(answers):
+                        if plan.steps[prior].expression:
+                            checked = Fraction(answer)
+                            if checked.denominator > 1:
+                                for part in ("numerator", "denominator"):
+                                    if Fraction(token[0]) == getattr(checked, part):
+                                        return "{s" + str(prior) + "_" + part + "}"
+                    return token[0]
+                return re.sub(r"\d+(?:\.\d+)?", component, literal)
             step.expression = re.sub(r"(?<![\w.])\d+(?:\.\d+)?(?:\s*/\s*\d+)?(?![\w.])", dependency, step.expression)
-            literals = numeric_values(re.sub(r"\{s\d+\}", "", step.expression))
+            literals = numeric_values(_GUIDANCE_REFERENCE.sub("", step.expression))
             if not literals.issubset(givens):
-                raise ValueError("Derived literal operand")
+                raise ValueError(f"Step {index}: Derived literal operand. Use given numbers or prior {{sN}} references; for a known quantity divided by a prior fraction use quantity / {{sN}}, not its computed numerator/denominator.")
             answers.append(str(calculate_exact(expression_at(step, answers))))
         else:
             answers.append(step.correctChoice)
@@ -637,8 +680,12 @@ def guidance_at(step: Step, answers: list[str], givens=None, *, reveal_work=True
                     and not re.search(r"dap so\s*[:=]|\d\s*=\s*\d", _fold(item))]
         if len(resolved) == 2:
             # Keep the model's explanation of quantities/why; supply an exact,
-            # answer-free starting action when its worked paragraph was hidden.
-            resolved.append(calculation_hints(step, answers)[0])
+            # answer-free action covering the whole expression, not just the
+            # first subtraction. Conversion results stay in private worked help.
+            expression = display_expression(expression_at(step, answers), step.fractionNotation)
+            action = ("Với các phép cộng hoặc trừ phân số, hãy tìm mẫu chung rồi viết các phân số cùng mẫu trước khi tính. "
+                      if step.fractionNotation else "Làm trong ngoặc trước, rồi nhân hoặc chia trước cộng hoặc trừ. ")
+            resolved.append(f"Viết phép tính {expression}. {action}Sau mỗi phép tính, dùng kết quả để làm tiếp phần còn lại của biểu thức.")
     return resolved
 
 
@@ -669,6 +716,8 @@ async def generate_plan(request: LessonRequest) -> Plan:
                     raise ValueError("Recheck whether the original relationships determine the unknown; refuse if genuinely insufficient")
                 parsed_plan = draft.model_dump(exclude={"canSolve"})
                 for item in parsed_plan["steps"]:
+                    initial = item.pop("initialGuidance")
+                    item["guidance"] = initial + item["guidance"]
                     indexes = item.pop("workLineIndexes")
                     if indexes:
                         if indexes[-1] >= len(work_lines) or indexes != sorted(set(indexes)):
@@ -709,15 +758,24 @@ async def generate_plan(request: LessonRequest) -> Plan:
             worked_teaching = []
             for index, step in enumerate(plan.steps):
                 candidate["steps"][index].pop("guidance")
+                if step.expression:
+                    candidate["steps"][index]["expression"] = expression_at(step, answers[:index])
                 worked_teaching.append([item for item in guidance_at(step, answers[:index])
                                         if item not in initial_teaching[index]])
+            review_schema = deepcopy(REVIEW_SCHEMA)
+            if plan.finalAnswerStep is not None:
+                review_schema["properties"]["results"]["maxItems"] = 1
+                review_schema["$defs"]["ReviewedResult"]["properties"]["stepIndex"]["enum"] = [plan.finalAnswerStep]
             review = PlanReview.model_validate(await _generate(REVIEW_PROMPT, json.dumps(
                 {**{key:value for key,value in source.items() if key not in {"workText", "workLines"}},
                  "candidate": candidate, "computedAnswers": answers,
+                 "resultScope": {"finalAnswerStep": plan.finalAnswerStep,
+                                 "instruction": "Independently solve the ORIGINAL question. Return only its final requested quantity at this step, not intermediate results. Reject if the step answers a different question."},
                  "initialTeaching": initial_teaching, "workedTeaching": worked_teaching}, ensure_ascii=False),
-                max_output_tokens=1800, timeout_seconds=8.0, response_schema=REVIEW_SCHEMA, reasoning=True))
+                max_output_tokens=1800, timeout_seconds=8.0,
+                response_schema=review_schema, reasoning=True))
             if not all((review.sourceFaithful, review.mathematicsCorrect, review.answersQuestion, review.teachingClear)) or not review.results:
-                raise ValueError("Lesson did not pass independent review: " + "; ".join(review.issues)[:400])
+                raise ValueError("Lesson did not pass independent review: " + "; ".join(review.issues))
             indices = [result.stepIndex for result in review.results]
             if len(set(indices)) != len(indices) or plan.finalAnswerStep != (indices[0] if len(indices) == 1 else None):
                 raise ValueError("Requested result differs from conclusion")
@@ -729,15 +787,17 @@ async def generate_plan(request: LessonRequest) -> Plan:
                     raise ValueError("Independent answer disagrees with candidate")
             return plan
         except (ValueError, TypeError, SyntaxError, ArithmeticError) as exc:
-            if attempt:
-                raise
             if isinstance(exc, ValidationError):
                 error = exc.errors(include_input=False)[0]
                 issue = ".".join(map(str, error["loc"])) + ": " + error["msg"]
             else:
                 issue = str(exc)
+            logger.warning("Tutor lesson validation rejected attempt=%s category=%s reason=%s",
+                           attempt + 1, type(exc).__name__, issue[:1000].replace("\n", " "))
+            if attempt:
+                raise
             prompt = REPAIR_PROMPT
-            source["validationIssue"] = issue[:220]
+            source["validationIssue"] = issue[:1000]
             source["rejectedCandidate"] = parsed
 
 
@@ -749,7 +809,8 @@ async def start_lesson(request: LessonRequest) -> LessonResponse:
     # from this confirmed source and reviewed before any session is published.
     try:
         plan = await asyncio.wait_for(generate_plan(request), timeout=38.0)
-    except (TimeoutError, ValidationError, ValueError, SyntaxError, ArithmeticError, TypeError):
+    except (TimeoutError, ValidationError, ValueError, SyntaxError, ArithmeticError, TypeError) as exc:
+        logger.warning("Tutor lesson unavailable category=%s", type(exc).__name__)
         raise TutorUnavailable() from None
     now = time.monotonic()
     for key in list(_sessions):

@@ -309,6 +309,29 @@ def test_review_feedback_is_length_bounded():
         lesson.PlanReview.model_validate(value)
 
 
+def test_initial_fraction_action_covers_all_terms_without_revealing_conversions():
+    value=lesson.Step.model_validate(step(title='Tìm phần còn lại',expression='1-1/3-2/5',fractionNotation=True))
+    value.guidance=['Cả vườn là một toàn thể; hai loại cây chiếm hai phần đã biết.',
+                    'Cần bớt cả hai phần đã biết để tìm phần của loại cây còn lại.',
+                    'Mẫu chung là 15; tính 15/15 - 5/15 - 6/15 = 4/15.']
+    initial=lesson.guidance_at(value,[],{'1','2','3','5'},reveal_work=False)
+    assert len(initial)==3
+    assert '2/5' in initial[-1] and '1/3' in initial[-1]
+    assert '15' not in ' '.join(initial) and '4/15' not in ' '.join(initial)
+
+
+def test_fraction_components_are_only_resolved_from_checked_previous_steps():
+    value=lesson.Plan.model_validate(dict(topic='Tìm cả vườn',goal='Tìm tổng số cây.',finalAnswerStep=1,steps=[
+        step(title='Tìm phần còn lại',expression='1-1/3-2/5',unit='phần'),
+        step(title='Tìm toàn bộ',expression='16/4*15',unit='cây'),
+    ]))
+    lesson.validate_plan(value,request('Có 1/3 là táo, 2/5 là xoài, còn lại 16 cây cam. Hỏi có tất cả bao nhiêu cây?'))
+    assert value.steps[1].expression=='16/{s0_numerator}*{s0_denominator}'
+    assert lesson.calculate_exact(lesson.expression_at(value.steps[1],['4/15']))==60
+    with pytest.raises(ValueError,match='Missing previous'):
+        lesson.expression_at(value.steps[1],[])
+
+
 @pytest.mark.asyncio
 async def test_json_plan_is_locally_validated_and_reviewed_and_refusal_remains_bounded(monkeypatch):
     plan=candidate()
@@ -317,7 +340,11 @@ async def test_json_plan_is_locally_validated_and_reviewed_and_refusal_remains_b
     value=await start_lesson(request('Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'))
     assert value.stepIndex==0
     assert cloud.await_args_list[0].kwargs['response_schema']==lesson.PLANNING_SCHEMA
-    assert cloud.await_args_list[1].kwargs['response_schema']==lesson.REVIEW_SCHEMA
+    review_schema = cloud.await_args_list[1].kwargs['response_schema']
+    assert review_schema['properties']['results']['maxItems'] == 1
+    assert review_schema['$defs']['ReviewedResult']['properties']['stepIndex']['enum'] == [plan['finalAnswerStep']]
+    assert lesson.REVIEW_SCHEMA['properties']['results']['maxItems'] == 6
+    assert 'enum' not in lesson.REVIEW_SCHEMA['$defs']['ReviewedResult']['properties']['stepIndex']
     assert all(call.kwargs['reasoning'] is True for call in cloud.await_args_list)
     cloud=AsyncMock(return_value={'lesson':None})
     monkeypatch.setattr(lesson,'_generate',cloud)
@@ -351,6 +378,23 @@ async def test_flat_ready_draft_still_requires_independent_result_review(monkeyp
     assert value.stepIndex==0 and value.conclusion==''
     assert 'canSolve' not in value.model_dump_json()
     assert cloud.await_args_list[1].args[0]==lesson.REVIEW_PROMPT
+
+
+@pytest.mark.asyncio
+async def test_separate_initial_guidance_is_published_before_private_worked_help(monkeypatch):
+    plan=candidate()
+    draft={**copy.deepcopy(plan),'canSolve':True}
+    for item in draft['steps']:
+        item['initialGuidance']=item['guidance']
+        item['guidance']=['Sau khi tự tính, kiểm tra phép nhân: 7 × 9 = 63 bút.'] if item.get('expression') else []
+    cloud=AsyncMock(side_effect=[draft,review_for(plan)])
+    monkeypatch.setattr(lesson,'_generate',cloud)
+    value=await start_lesson(request('Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'))
+    assert '63' not in value.model_dump_json(exclude={'sessionId'})
+    assert value.step.guidance
+    reviewed=json.loads(cloud.await_args_list[1].args[1])
+    assert 'initialGuidance' not in reviewed['candidate']['steps'][1]
+    assert '7 × 9 = 63' in ' '.join(reviewed['workedTeaching'][1])
 
 
 @pytest.mark.asyncio
