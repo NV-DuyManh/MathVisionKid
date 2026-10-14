@@ -15,7 +15,9 @@ The deployment and current runtime startup succeeded on 9 October 2026. Student 
 
 ## Resume on the configured owner PC
 
-Start Docker Desktop, then double-click **`RUN_MATHVISION.bat`**. After checking local services and starting Expo, the launcher automatically calls `Start-PC-Preview.ps1 -PublishWeb` when this checkout has an existing `infra/local-runtime/pc-preview/.env.preview`. It reports public startup separately, so a failed publication does not stop the local services. A fresh clone without private preview configuration skips this step; complete first-time setup below before expecting the public API to work.
+Start Docker Desktop, then double-click **`DEPLOY_WEB.bat`** when you want to deploy or restore the public website after restarting the PC. It builds the latest backend/OCR/worker images and runs `Start-PC-Preview.ps1 -Build -PublishWeb`. Complete first-time setup below if this checkout has no existing `infra/local-runtime/pc-preview/.env.preview`.
+
+Use **`RUN_EXPO.bat`** (or `RUN_MATHVISION.bat`) for the local Expo QR. Those launchers never publish to Vercel, and the web deploy launcher does not start Metro.
 
 To start only the public preview, open PowerShell at the repository root and run:
 
@@ -124,7 +126,7 @@ Cloudflare Quick Tunnels generate a temporary hostname and are intended for test
 
 ## After restarting the PC
 
-A restarted Quick Tunnel can have a different hostname. Docker's restart policy alone does not update Vercel's upstream routing. Open **`RUN_MATHVISION.bat`** on the configured PC, or run **`Start-PC-Preview.ps1 -PublishWeb`** to resume only the public trial and republish for the current upstream. A healthy running container is reused. Without `-PublishWeb`, the script prints the current origin but does not update the deployed proxy.
+A restarted Quick Tunnel can have a different hostname. Docker's restart policy alone does not update Vercel's upstream routing. Open **`DEPLOY_WEB.bat`** on the configured PC, or run **`Start-PC-Preview.ps1 -PublishWeb`** to resume only the public trial and republish for the current upstream. A healthy running container is reused. Without `-PublishWeb`, the script prints the current origin but does not update the deployed proxy. Add `-Build` to rebuild changed backend/OCR sources before startup.
 
 The web origins remain stable, so the backend's CORS allowlist still contains those three web origins. CORS lists the browser applications, not the tunnel hostname. An additional Vercel preview URL must be explicitly allowed before it can use this API.
 
@@ -136,7 +138,7 @@ The dedicated database and uploaded images persist in Docker named volumes. Stop
 | --- | --- |
 | Web opens, login fails | PC awake; Docker/backend healthy; tunnel reachable; published proxy targets the current upstream; correct current account password |
 | Tunnel container cannot start | Docker can pull the pinned official image; inspect this project's tunnel service logs |
-| Login stops working after sleep, a reboot, or lost Internet | Open `RUN_MATHVISION.bat` again; it checks public readiness, replaces an unusable owned tunnel, and republishes the web apps for the current address |
+| Login stops working after sleep, a reboot, or lost Internet | Open `DEPLOY_WEB.bat`; it checks public readiness, replaces an unusable owned tunnel, and republishes the web apps for the current address |
 | Old tunnel address appears in browser requests | Reload once to load the new stable Vercel API bundle; rerun publication if the upstream changed |
 | Browser reports CORS rejection | Exact deployed web origin is present in `CORS_ALLOWED_ORIGINS`, without a trailing slash |
 | Login works but teacher workspace rejects access | The account has the teacher role; backend remains the authority |

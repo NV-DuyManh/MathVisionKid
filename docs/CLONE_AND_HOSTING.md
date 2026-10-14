@@ -12,7 +12,7 @@ Open [MathVisionKid](https://mathvisionkid-portal.vercel.app/login). No clone is
 
 1. Follow [Local setup](LOCAL_SETUP.md) or [Vietnamese setup](HUONG_DAN_CAI_DAT.md) for Docker, Java, Node, Python, dependencies, models, and private provider settings.
 2. Run `RUN_MATHVISION.bat` from your checkout. The local portals and mobile connection use your own backend.
-3. A new clone has no private PC preview configuration, so public publication is skipped. This avoids uploading another developer's empty database connection to the owner's website.
+3. Local launchers do not publish the website. `DEPLOY_WEB.bat` requires private PC preview configuration; a new clone without it cannot publish to the owner's projects.
 4. Use accounts provisioned in your own local backend. An account existing in the owner's shared database is not automatically present in your local database.
 
 Model artifacts and provider access are required for actual recognition. They are deliberately excluded from Git. Follow the artifact instructions in the setup guides; do not substitute prepared answers or fixture OCR for missing inputs.
@@ -29,4 +29,4 @@ Host the existing API, AI worker, PostgreSQL, Redis, and private image storage o
 
 Follow [the free cloud trial guide](FREE_CLOUD_DEPLOYMENT.md). Account registration and a real server are still required; this migration has not been completed. Before switching the shared website, verify model inference on the server architecture, restore persisted data in isolation, publish all web apps against the stable HTTPS API, and test login/OCR with the owner's PC off. Only then is PC-independent operation verified.
 
-For the current PC trial, run the launcher and wait for `Public Website: READY`. Docker manages the tunnel, so it continues after the launcher closes. Browser API addresses remain on each app's stable Vercel origin. A tunnel restart can change the upstream hostname: rerun the launcher to update Vercel's routing. Reload once if a tab still has the older direct-tunnel bundle. This arrangement still requires the owner's PC and Docker; it is not PC-independent hosting.
+For the current PC trial, run `DEPLOY_WEB.bat` and wait for `WEB DEPLOYMENT COMPLETE`. Docker manages the tunnel, so it continues after the launcher closes. Browser API addresses remain on each app's stable Vercel origin. A tunnel restart can change the upstream hostname: rerun `DEPLOY_WEB.bat` to update Vercel's routing. Reload once if a tab still has the older direct-tunnel bundle. This arrangement still requires the owner's PC and Docker; it is not PC-independent hosting.

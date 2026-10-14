@@ -10,8 +10,8 @@ import unittest
 
 @unittest.skipUnless(os.name == "nt", "The launcher requires Windows cmd.exe")
 class RunLauncherTest(unittest.TestCase):
-    def run_launcher(self, configured=True, public_exit=0, core_exit=0):
-        source = Path(__file__).resolve().parents[2] / "RUN_MATHVISION.bat"
+    def run_launcher(self, configured=True, public_exit=0, core_exit=0, launcher_name="RUN_MATHVISION.bat"):
+        source = Path(__file__).resolve().parents[2]
         with tempfile.TemporaryDirectory(prefix="mathvision launcher ") as directory:
             root = Path(directory)
 
@@ -21,10 +21,11 @@ class RunLauncherTest(unittest.TestCase):
                 target.write_text(content, encoding="utf-8")
                 return target
 
-            # Only suppress the browser and pause; execute all production branches.
-            launcher = write("RUN_MATHVISION.bat", source.read_text(encoding="utf-8")
-                             .replace("start http://localhost:5172", "rem browser suppressed in test")
-                             .replace("pause >nul", "rem pause suppressed in test"))
+            # Execute real launchers, replacing only their interactive pauses.
+            for name in ("RUN_MATHVISION.bat", "RUN_EXPO.bat", "DEPLOY_WEB.bat"):
+                write(name, (source / name).read_text(encoding="utf-8")
+                      .replace("pause >nul", "rem pause suppressed in test"))
+            launcher = root / launcher_name
             for name in ("infra/docker/docker-compose.yml", "backend/business-api/gradlew.bat",
                          "apps/student-mobile/package.json", "apps/portal-web/package.json"):
                 write(name)
@@ -39,10 +40,10 @@ class RunLauncherTest(unittest.TestCase):
             write("scripts/dev/show-student-qr.cjs",
                   "require('node:fs').appendFileSync(process.env.LAUNCHER_TEST_LOG, 'qr\\n');\n")
             write("scripts/deploy/Start-PC-Preview.ps1",
-                  "param([switch]$PublishWeb)\n$ErrorActionPreference = 'Stop'\n"
+                  "param([switch]$Build,[switch]$PublishWeb)\n$ErrorActionPreference = 'Stop'\n"
                   "Import-Module Microsoft.PowerShell.Security -ErrorAction Stop\n"
                   "if (-not (Get-Command Get-AuthenticodeSignature)) { exit 98 }\n"
-                  "if (-not $PublishWeb) { exit 99 }\n"
+                  "if (-not $PublishWeb -or -not $Build) { exit 99 }\n"
                   "Add-Content -LiteralPath $env:LAUNCHER_TEST_LOG -Value 'public-publish'\n"
                   f"exit {public_exit}\n")
             preview = write("infra/local-runtime/pc-preview/.env.preview", "private-config-retained") if configured else None
@@ -55,28 +56,38 @@ class RunLauncherTest(unittest.TestCase):
                 self.assertEqual("private-config-retained", preview.read_text(encoding="utf-8"))
             return result, events
 
-    def test_configured_pc_starts_public_web_after_local_readiness(self):
-        result, events = self.run_launcher()
-        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
-        self.assertEqual(["core", "metro", "diagnostics", "public-publish", "qr"], events)
-        self.assertIn("Public Website: READY", result.stdout)
-        self.assertIn("https://mathvisionkid-portal.vercel.app", result.stdout)
+    def test_both_local_entry_points_never_publish_even_if_preview_is_configured(self):
+        for name in ("RUN_MATHVISION.bat", "RUN_EXPO.bat"):
+            with self.subTest(name=name):
+                result, events = self.run_launcher(launcher_name=name, public_exit=7)
+                self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                self.assertEqual(["core", "metro", "diagnostics", "qr"], events)
 
-    def test_public_failure_keeps_local_qr_and_returns_failure(self):
-        result, events = self.run_launcher(public_exit=7)
-        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
-        self.assertEqual(["core", "metro", "diagnostics", "public-publish", "qr"], events)
-        self.assertIn("Public Website: FAILED", result.stdout)
-        self.assertNotIn("Vercel Portal:", result.stdout)
-
-    def test_fresh_clone_skips_private_preview_without_provisioning(self):
-        result, events = self.run_launcher(configured=False)
+    def test_fresh_clone_still_runs_expo_without_public_configuration(self):
+        result, events = self.run_launcher(configured=False, launcher_name="RUN_EXPO.bat")
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         self.assertEqual(["core", "metro", "diagnostics", "qr"], events)
-        self.assertIn("Public Website: NOT_CONFIGURED", result.stdout)
+
+    def test_deploy_builds_and_publishes_without_starting_local_or_expo(self):
+        result, events = self.run_launcher(launcher_name="DEPLOY_WEB.bat", core_exit=3)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertEqual(["public-publish"], events)
+        self.assertIn("WEB DEPLOYMENT COMPLETE", result.stdout)
+
+    def test_deploy_failure_returns_error_without_starting_expo(self):
+        result, events = self.run_launcher(launcher_name="DEPLOY_WEB.bat", public_exit=7)
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertEqual(["public-publish"], events)
+        self.assertIn("WEB DEPLOYMENT FAILED", result.stdout)
+        self.assertNotIn("WEB DEPLOYMENT COMPLETE", result.stdout)
+
+    def test_deploy_from_a_fresh_clone_refuses_to_provision_or_publish(self):
+        result, events = self.run_launcher(launcher_name="DEPLOY_WEB.bat", configured=False)
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertEqual([], events)
 
     def test_local_failure_does_not_start_publication(self):
-        result, events = self.run_launcher(core_exit=3)
+        result, events = self.run_launcher(core_exit=3, launcher_name="RUN_EXPO.bat")
         self.assertEqual(1, result.returncode, result.stdout + result.stderr)
         self.assertEqual(["core"], events)
         self.assertIn("STARTUP FAILED", result.stdout)

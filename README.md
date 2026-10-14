@@ -88,10 +88,12 @@ npm ci
 py -3.12 -m venv ai\runtime\.venv
 .\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt
-.\RUN_MATHVISION.bat
+.\RUN_EXPO.bat
 ~~~
 
-The launcher starts the local stack, opens the web portal, and displays the student app QR code. On a PC with an existing private preview configuration, it also starts the public API tunnel and republishes the three Vercel websites for its current address. This additional step can take a few minutes and requires an authenticated Vercel CLI. A public startup failure is reported separately while local services remain running. Fresh clones skip public startup until [PC preview setup](docs/PC_PREVIEW_DEPLOYMENT.md) is complete. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available.
+Use **`RUN_EXPO.bat`** to start the local stack and display the student app QR code. `RUN_MATHVISION.bat` remains an equivalent local entry point. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available. Local web portals are available at the addresses below; no website is published by either local launcher.
+
+Use **`DEPLOY_WEB.bat`** only when you want to deploy or resume the public websites. It builds the backend/OCR services, starts the configured public API connection, checks readiness, and publishes the three Vercel websites. It does not launch Expo Go/Metro. First-time setup is documented in [PC preview setup](docs/PC_PREVIEW_DEPLOYMENT.md); deployment requires the private preview configuration and an authenticated Vercel CLI. Login/OCR still require the PC and Docker to remain running.
 
 > **Fresh clone expectations:** source code and model manifests are included; trained weights and API keys are not. The default asynchronous grading mode uses synthetic fixtures. Real handwriting OCR requires the supplied CRNN checkpoint. Reading a photographed math question uses configured cloud vision. Set up those capabilities with the [installation guide](docs/LOCAL_SETUP.md#enable-real-recognition-and-guidance).
 

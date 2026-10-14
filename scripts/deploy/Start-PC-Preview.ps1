@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$OwnerEmail = '',
+    [switch]$Build,
     [switch]$PublishWeb
 )
 $ErrorActionPreference = 'Stop'
@@ -22,6 +23,10 @@ if ($OwnerEmail) { $initializationArgs += @('--owner-email', $OwnerEmail) }
 & $pythonPath @initializationArgs
 if ($LASTEXITCODE -ne 0) { throw 'Preview initialization failed. Existing configuration was preserved.' }
 Invoke-PreviewCompose -ComposeArguments @('config', '--quiet')
+if ($Build) {
+    Write-Host 'Building the current backend, AI and worker sources before startup.'
+    Invoke-PreviewCompose -ComposeArguments @('build')
+}
 
 $gatewayId = (& docker @PreviewCompose ps -q gateway | Out-String).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'Cannot inspect the existing preview gateway.' }
