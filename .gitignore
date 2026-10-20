@@ -102,6 +102,11 @@ venv/
 
 # Scratch & temporary artifacts
 scratch/
+# Local bundles and browser runner from responsive UI verification
+/output/student-responsive-web/
+/output/student-responsive-native/
+/output/student-responsive-final/
+/output/student-responsive-qa/
 *.log
 scratch_*.py
 scratch_patch_ocr.py

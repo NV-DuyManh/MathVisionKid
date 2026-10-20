@@ -1,0 +1,83 @@
+{
+  "results": [
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "bounds": {
+        "viewport": 320,
+        "body": 320,
+        "html": 320
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "bounds": {
+        "viewport": 390,
+        "body": 390,
+        "html": 390
+      }
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "bounds": {
+        "viewport": 768,
+        "body": 768,
+        "html": 768
+      }
+    },
+    {
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "bounds": {
+        "viewport": 820,
+        "body": 820,
+        "html": 820
+      }
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "bounds": {
+        "viewport": 1024,
+        "body": 1024,
+        "html": 1024
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "bounds": {
+        "viewport": 1440,
+        "body": 1440,
+        "html": 1440
+      }
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "bounds": {
+        "viewport": 1920,
+        "body": 1920,
+        "html": 1920
+      }
+    }
+  ],
+  "errors": [],
+  "auth": "Browser HTTP fixture; no product authentication change"
+}

@@ -30,7 +30,7 @@ export default function StudentWebLayout() {
   return <View style={{ flex: 1, backgroundColor: COLORS.background }}>
     <Head><title>MathVisionKid — Cùng em học toán</title></Head>
     <WebAlerts />
-    <View style={{ flex: 1, width: '100%', maxWidth: 860, alignSelf: 'center' }}>
+    <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
       {(!fontsLoaded && !fontError) || !artReady
         ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 18, padding: 24 }}>
           <Text style={{ fontFamily: fontsLoaded ? FONTS.extraBold : undefined, fontSize: 28, color: COLORS.primaryDark }}>MathVisionKid</Text>

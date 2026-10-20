@@ -2,11 +2,12 @@ import React from 'react';
 import { Image, ImageProps, ImageRef } from 'expo-image';
 
 const SOURCES = [
+  require('../../../assets/illustrations/approved/saved.webp'),
+  require('../../../assets/illustrations/approved/practice.webp'),
+  require('../../../assets/illustrations/approved/progress.webp'),
+  require('../../../assets/illustrations/approved/calculator.webp'),
   require('../../../assets/illustrations/student-avatar.png'),
   require('../../../assets/illustrations/mathvision-star.png'),
-  require('../../../assets/illustrations/saved-folder.png'),
-  require('../../../assets/illustrations/practice-notebook.png'),
-  require('../../../assets/illustrations/progress-bars.png'),
   require('../../../assets/illustrations/encouragement-crown.png'),
   require('../../../assets/illustrations/streak-flame.png'),
   require('../../../assets/illustrations/reward-star.png'),

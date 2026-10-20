@@ -13,6 +13,7 @@ import { recognitionDraftStore } from '../../features/recognition/state/recognit
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const [pageWidth, setPageWidth] = useState(0);
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
   const [lessons, setLessons] = useState<SavedLesson[]>([]);
@@ -28,9 +29,9 @@ export default function ProfileScreen() {
     recognitionDraftStore.clearDraft();
     router.push({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
   };
-  return <SafeAreaView style={styles.screen} edges={['top']}>
+  return <SafeAreaView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} edges={['top']}>
     <AppHeader title="Góc học tập của em" />
-    <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && { paddingBottom: 32 }]} showsVerticalScrollIndicator={false}>
       <LinearGradient colors={['#F0E9FF', '#FAF7FF']} style={styles.identity}>
         <Image source={require('../../../assets/illustrations/student-avatar.png')} style={styles.avatar} resizeMode="contain" accessible={false} />
         <View style={styles.copy}><Text style={styles.name}>{auth?.user?.name || 'Chào em!'}</Text>
@@ -49,7 +50,7 @@ export default function ProfileScreen() {
           {lesson.reflection ? <Text style={styles.body} numberOfLines={2}>Em đã nghĩ: {lesson.reflection}</Text> : null}
           <View style={styles.row}><Text style={styles.link}>Mở bài học</Text><Ionicons name="arrow-forward" size={19} color={COLORS.primaryDark} accessible={false} /></View>
         </Pressable>) : <View style={styles.empty}>
-          <Image source={require('../../../assets/illustrations/saved-folder.png')} style={styles.art} resizeMode="contain" accessible={false} />
+          <Image source={require('../../../assets/illustrations/approved/saved.webp')} style={styles.art} resizeMode="contain" accessible={false} />
           <Text style={styles.heading}>Bắt đầu bộ sưu tập bài học</Text>
           <Text style={styles.centerBody}>Chụp bài toán, cùng suy nghĩ từng bước rồi lưu bài để học tiếp nhé.</Text>
           <AppButton title="Chụp bài toán" onPress={capture} />
@@ -64,7 +65,7 @@ export default function ProfileScreen() {
 }
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: COLORS.background },
-  content: { padding: 20, paddingBottom: 116, width: '100%', maxWidth: 620, alignSelf: 'center', gap: 16 },
+  content: { padding: 20, paddingBottom: 116, width: '100%', maxWidth: 960, alignSelf: 'center', gap: 16 },
   identity: { flexDirection: 'row', alignItems: 'center', gap: 16, padding: 20, borderRadius: 28 },
   avatar: { width: 76, height: 76 }, copy: { flex: 1 },
   name: { fontFamily: FONTS.extraBold, fontSize: 24, color: COLORS.textPrimary, marginBottom: 6 },

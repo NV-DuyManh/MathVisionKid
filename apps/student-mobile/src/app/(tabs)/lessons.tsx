@@ -10,6 +10,8 @@ import { recognitionDraftStore, logFlowDomain } from '../../features/recognition
 
 export default function LessonsScreen() {
   const insets = useSafeAreaInsets();
+  const [pageWidth, setPageWidth] = useState(0);
+  const columns = pageWidth >= 900;
   const router = useRouter();
   const [grade, setGrade] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -18,14 +20,14 @@ export default function LessonsScreen() {
     logFlowDomain('ACQUIRE', 'MATH_TUTOR');
     router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR', problemText } });
   };
-  return <ScrollView style={styles.screen} showsVerticalScrollIndicator={false}
-    contentContainerStyle={[styles.content, { paddingTop: insets.top + 22 }]}>
+  return <ScrollView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} showsVerticalScrollIndicator={false}
+    contentContainerStyle={[styles.content, { paddingTop: insets.top + 22, paddingBottom: pageWidth >= 768 ? 32 : 116 }]}>
     <Text style={styles.title} accessibilityRole="header">Bài học</Text>
     <Text style={styles.subtitle}>Mỗi ngày, khám phá một điều mới!</Text>
     <LinearGradient colors={['#EEE9FF', '#F7F4FF']} style={styles.hero}>
       <View style={styles.heroCopy}><Text style={styles.heroTitle}>Cùng em luyện Toán</Text>
         <Text style={styles.body}>Chọn lớp của em, đọc đề và thử viết lời giải nhé.</Text></View>
-      <Image source={require('../../../assets/illustrations/practice-notebook.png')} style={styles.art} resizeMode="contain" accessible={false} />
+      <Image source={require('../../../assets/illustrations/approved/practice.webp')} style={styles.art} resizeMode="contain" accessible={false} />
     </LinearGradient>
     <View style={styles.grades}>
       {([1, 2, 3, 4, 5] as const).map(item => <Pressable key={item} accessibilityRole="button"
@@ -36,7 +38,7 @@ export default function LessonsScreen() {
       </Pressable>)}
     </View>
     <Text style={styles.sectionTitle}>Bài luyện tập cho em</Text>
-    {getProblemsByGrade(grade).map(problem => <View key={problem.id} style={[styles.problem, SHADOWS.small]}>
+    <View style={[styles.problemGrid, columns && styles.problemGridWide]}>{getProblemsByGrade(grade).map(problem => <View key={problem.id} style={[styles.problem, columns && styles.problemWide, SHADOWS.small]}>
       <View style={styles.tags}><Text style={styles.bookTag}>{problem.bookSeries}</Text><Text style={styles.levelTag}>{problem.difficulty}</Text></View>
       <Text style={styles.topic}>{problem.topic}</Text><Text style={styles.problemTitle}>{problem.title}</Text>
       <Text style={styles.body}>{problem.problemText}</Text>
@@ -58,13 +60,13 @@ export default function LessonsScreen() {
         style={({ pressed }) => [styles.capture, pressed && styles.pressed]}>
         <Ionicons name="camera-outline" size={21} color={COLORS.surface} accessible={false} /><Text style={styles.captureText}>Chụp bài làm của em</Text>
       </Pressable>
-    </View>)}
+    </View>)}</View>
   </ScrollView>;
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: COLORS.background },
-  content: { paddingHorizontal: 20, paddingBottom: 116, maxWidth: 620, width: '100%', alignSelf: 'center' },
+  content: { paddingHorizontal: 20, paddingBottom: 116, maxWidth: 1280, width: '100%', alignSelf: 'center' },
   title: { fontFamily: FONTS.black, fontSize: 30, color: COLORS.textPrimary },
   subtitle: { fontFamily: FONTS.regular, fontSize: 15, color: COLORS.textSecondary, marginTop: 5, marginBottom: 20 },
   hero: { flexDirection: 'row', alignItems: 'center', borderRadius: 26, padding: 20, marginBottom: 22 },
@@ -77,7 +79,9 @@ const styles = StyleSheet.create({
   gradeText: { fontFamily: FONTS.bold, fontSize: 13, color: COLORS.textSecondary },
   gradeTextSelected: { color: COLORS.surface },
   sectionTitle: { fontFamily: FONTS.extraBold, fontSize: 20, color: COLORS.textPrimary, marginBottom: 15 },
-  problem: { backgroundColor: COLORS.surface, borderRadius: 24, padding: 20, marginBottom: 18 },
+  problemGrid: { gap: 18 }, problemGridWide: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' },
+  problemWide: { width: '48.7%' },
+  problem: { backgroundColor: COLORS.surface, borderRadius: 24, padding: 20 },
   tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
   bookTag: { fontFamily: FONTS.bold, fontSize: 11, color: COLORS.primaryDark, backgroundColor: COLORS.primaryLight, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 8 },
   levelTag: { fontFamily: FONTS.bold, fontSize: 11, color: '#9F7028', backgroundColor: '#FFF3D5', paddingHorizontal: 9, paddingVertical: 5, borderRadius: 8 },

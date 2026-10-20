@@ -12,6 +12,8 @@ import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistor
 
 export default function AchievementsScreen() {
   const insets = useSafeAreaInsets();
+  const [pageWidth, setPageWidth] = useState(0);
+  const columns = pageWidth >= 960;
   const router = useRouter();
   const auth = useContext(AuthContext);
   const userKey = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
@@ -30,18 +32,18 @@ export default function AchievementsScreen() {
   }, [userKey]));
   const activity = buildLearningActivity([...sessions, ...lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp }))]);
   const checked = sessions.reduce((sum, session) => sum + session.confirmedLines, 0) + lessons.reduce((sum, lesson) => sum + lesson.reviewedSteps, 0);
-  return <ScrollView style={styles.screen} showsVerticalScrollIndicator={false}
-    contentContainerStyle={[styles.content, { paddingTop: insets.top + 22 }]}>
+  return <ScrollView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} showsVerticalScrollIndicator={false}
+    contentContainerStyle={[styles.content, { paddingTop: insets.top + 22, paddingBottom: pageWidth >= 768 ? 32 : 116 }]}>
     <Text style={styles.title} accessibilityRole="header">Thành tích của em</Text>
     <Text style={styles.subtitle}>Từng bước nhỏ, tiến bộ mỗi ngày.</Text>
     <LinearGradient colors={['#F1EAFF', '#F9F6FF']} style={styles.hero}>
       <View style={styles.heroCopy}><Text style={styles.heroTitle}>{activity.streak ? `${activity.streak} ngày liên tiếp!` : 'Cùng bắt đầu nhé!'}</Text>
         <Text style={styles.body}>{activity.streak ? 'Em đang giữ một thói quen thật tốt.' : 'Lưu bài đầu tiên để đánh dấu bước tiến của em.'}</Text></View>
-      <Image source={require('../../../assets/illustrations/encouragement-crown.png')} style={styles.crown} resizeMode="contain" accessible={false} />
+      <Image source={require('../../../assets/illustrations/approved/progress.webp')} style={styles.crown} resizeMode="contain" accessible={false} />
     </LinearGradient>
-    <View style={styles.stats}>
-      {[{ value: sessions.length + lessons.length, label: 'Bài đã lưu', color: '#FFF0EB', image: require('../../../assets/illustrations/saved-folder.png') },
-        { value: checked, label: 'Bước đã xem', color: '#EAF6FF', image: require('../../../assets/illustrations/practice-notebook.png') }].map(stat =>
+    <View style={[styles.columns, columns && styles.columnsWide]}><View style={styles.mainColumn}><View style={styles.stats}>
+      {[{ value: sessions.length + lessons.length, label: 'Bài đã lưu', color: '#FFF0EB', image: require('../../../assets/illustrations/approved/saved.webp') },
+        { value: checked, label: 'Bước đã xem', color: '#EAF6FF', image: require('../../../assets/illustrations/approved/practice.webp') }].map(stat =>
         <View key={stat.label} style={[styles.stat, { backgroundColor: stat.color }]}>
           <Image source={stat.image} style={styles.statArt} resizeMode="contain" accessible={false} />
           <Text style={styles.statValue}>{stat.value}</Text><Text style={styles.statLabel}>{stat.label}</Text>
@@ -58,7 +60,7 @@ export default function AchievementsScreen() {
       </View>)}</View>
       <Text style={styles.note}>Theo những bài em đã lưu trên thiết bị này.</Text>
     </View>
-    <View style={styles.nextCard}>
+    </View><View style={[styles.nextCard, columns && styles.nextCardWide]}>
       <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.mascot} resizeMode="contain" accessible={false} />
       <Text style={styles.nextTitle}>{unavailable ? 'Chưa tải được lịch sử' : sessions.length ? 'Em đã làm rất tốt!' : 'Mỗi bài làm đều đáng tự hào'}</Text>
       <Text style={styles.body}>{unavailable ? 'Em vẫn có thể luyện tập hoặc xem bài đã lưu.' : 'Chọn bài học mới, thử sức và lưu lại hành trình của em nhé.'}</Text>
@@ -66,13 +68,13 @@ export default function AchievementsScreen() {
         <Text style={styles.buttonText}>Cùng luyện tập</Text><Ionicons name="arrow-forward" size={18} color={COLORS.surface} accessible={false} />
       </Pressable>
       <Pressable onPress={() => router.push('/(tabs)/profile')} accessibilityRole="button" style={styles.historyButton}><Text style={styles.historyText}>Xem các bài đã lưu</Text></Pressable>
-    </View>
+    </View></View>
   </ScrollView>;
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: COLORS.background },
-  content: { paddingHorizontal: 20, paddingBottom: 116, width: '100%', maxWidth: 620, alignSelf: 'center' },
+  content: { paddingHorizontal: 20, paddingBottom: 116, width: '100%', maxWidth: 1280, alignSelf: 'center' },
   title: { fontFamily: FONTS.black, fontSize: 29, color: COLORS.textPrimary },
   subtitle: { fontFamily: FONTS.regular, fontSize: 15, color: COLORS.textSecondary, marginTop: 5, marginBottom: 20 },
   hero: { borderRadius: 26, padding: 20, flexDirection: 'row', alignItems: 'center', marginBottom: 18 },
@@ -80,6 +82,7 @@ const styles = StyleSheet.create({
   heroTitle: { fontFamily: FONTS.extraBold, fontSize: 23, color: COLORS.primaryDark, marginBottom: 8 },
   body: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 21, color: COLORS.textSecondary },
   crown: { width: '38%', height: 124 },
+  columns: { gap: 20 }, columnsWide: { flexDirection: 'row', alignItems: 'flex-start' }, mainColumn: { flex: 1, minWidth: 0 }, nextCardWide: { width: 340 },
   stats: { flexDirection: 'row', gap: 12, marginBottom: 20 },
   stat: { flex: 1, alignItems: 'center', borderRadius: 23, paddingVertical: 16, paddingHorizontal: 8 },
   statArt: { width: 64, height: 60 },

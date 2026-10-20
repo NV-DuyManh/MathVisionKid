@@ -3,7 +3,7 @@
     "name": "MathVisionKid",
     "slug": "MathVisionKid",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/mathvision-icon-v2.png",
     "scheme": "mathvisionkid",
     "userInterfaceStyle": "light",

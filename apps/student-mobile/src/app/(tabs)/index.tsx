@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
@@ -20,12 +20,13 @@ export default function HomeScreen() {
     const [expandedProblemId, setExpandedProblemId] = useState<string | null>(null);
     const branding = getAppBranding();
     const insets = useSafeAreaInsets();
+    const { width } = useWindowDimensions();
     const navigateToCamera = (mode: FlowDomain = 'MATH_TUTOR') => {
         recognitionDraftStore.clearDraft();
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
     };
-    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }]} showsVerticalScrollIndicator={false}>
+    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }, width >= 768 && { maxWidth: width >= 1200 ? 1220 : 920, paddingHorizontal: 24, paddingTop: insets.top + 24, paddingBottom: 32 }]} showsVerticalScrollIndicator={false}>
       <HomeDashboard
         userName={userName}
         userKey={auth?.user?.id || auth?.user?.userId || auth?.user?.email}
@@ -233,7 +234,7 @@ export default function HomeScreen() {
 }
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: COLORS.background },
-    content: { paddingHorizontal: 20, paddingBottom: 112, maxWidth: 620, width: '100%', alignSelf: 'center' },
+    content: { paddingHorizontal: 20, paddingBottom: 112, maxWidth: 1440, width: '100%', alignSelf: 'center' },
     modalBody: { flexGrow: 0, flexShrink: 1 },
     /* Modals */
     modalBackdrop: {
