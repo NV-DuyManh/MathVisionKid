@@ -1,0 +1,68 @@
+{
+  "method": "Approximate anchors hand-marked on the reference desktop screen interior, normalized to 1440×1024. Reference has perspective and softness; these are tuning aids, not an exact pixel-match score.",
+  "referenceInterior": [
+    488,
+    19,
+    1141,
+    482
+  ],
+  "targets": {
+    "sidebar": {
+      "width": 264.62480857580397
+    },
+    "hero": {
+      "x": 306.5237366003063,
+      "y": 115.00647948164146,
+      "width": 705.666156202144,
+      "height": 322.902807775378
+    },
+    "streak": {
+      "x": 1036.447166921899,
+      "y": 115.00647948164146,
+      "width": 377.09035222052063,
+      "height": 322.902807775378
+    },
+    "utilityCard": {
+      "y": 787.3520518358531,
+      "height": 207.8963282937365
+    }
+  },
+  "actual": {
+    ".sidebar": {
+      "x": 0,
+      "y": 0,
+      "width": 265,
+      "height": 1024
+    },
+    "[data-component=\"hero\"]": {
+      "x": 305,
+      "y": 115,
+      "width": 705,
+      "height": 323
+    },
+    "[data-component=\"streak\"]": {
+      "x": 1037,
+      "y": 115,
+      "width": 377,
+      "height": 323
+    },
+    "[data-component=\"journey\"]": {
+      "x": 305,
+      "y": 478,
+      "width": 1109,
+      "height": 244
+    },
+    "[data-component=\"utilities\"]": {
+      "x": 305,
+      "y": 744,
+      "width": 1109,
+      "height": 254
+    },
+    ".quick-card": {
+      "x": 305,
+      "y": 791,
+      "width": 265,
+      "height": 207
+    }
+  }
+}

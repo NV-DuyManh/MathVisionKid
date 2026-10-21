@@ -26,7 +26,7 @@ export default function HomeScreen() {
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
     };
-    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }, width >= 768 && { maxWidth: width >= 1200 ? 1220 : 920, paddingHorizontal: 24, paddingTop: insets.top + 24, paddingBottom: 32 }]} showsVerticalScrollIndicator={false}>
+    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { flexGrow: 1, paddingTop: insets.top + 12, paddingBottom: 108 + insets.bottom }, width >= 768 && { maxWidth: width >= 1200 ? 1360 : 1040, paddingHorizontal: width >= 1200 ? 30 : 24, paddingTop: insets.top + 20, paddingBottom: 28 }]} showsVerticalScrollIndicator={false}>
       <HomeDashboard
         userName={userName}
         userKey={auth?.user?.id || auth?.user?.userId || auth?.user?.email}

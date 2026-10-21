@@ -5,6 +5,8 @@ import { View, StyleSheet, Pressable, Text, ScrollView, Platform, useWindowDimen
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, FONTS } from '../../constants/theme';
 import { StudentNavIcon } from '../../components/ui/StudentNavIcon';
+import { LinearGradient } from 'expo-linear-gradient';
+import { AppIllustration } from '../../components/ui/AppIllustration';
 
 type StudentTabBarProps = Parameters<NonNullable<React.ComponentProps<typeof Tabs>['tabBar']>>[0];
 const MENU = { index: 'Trang chủ', lessons: 'Bài học', achievements: 'Thành tích', profile: 'Của em' } as const;
@@ -52,18 +54,18 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
           if (!selected && !event.defaultPrevented) navigation.navigate(route.name, route.params);
         }} onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
         style={({ pressed, hovered }) => [styles.item, wide && styles.sideItem,
-          wide && !expanded && styles.compactItem, selected && styles.selected,
-          hovered && styles.hovered, focused === route.key && styles.focused, pressed && styles.pressed]}>
-        <StudentNavIcon name={name} size={wide ? 34 : 29} />
-        {(!wide || expanded) && <Text style={[styles.label, wide && styles.sideLabel, selected && styles.selectedLabel]}>{title}</Text>}
+          wide && !expanded && styles.compactItem, selected && styles.selected, wide && selected && styles.sideSelected,
+          hovered && (wide ? styles.sideHovered : styles.hovered), focused === route.key && styles.focused, pressed && styles.pressed]}>
+        {wide ? <Ionicons name={({ index: 'home-outline', lessons: 'book-outline', achievements: 'medal-outline', profile: 'person-outline' } as const)[name]} size={24} color="#FFFFFF" accessible={false} /> : <StudentNavIcon name={name} size={30} />}
+        {(!wide || expanded) && <Text style={[styles.label, selected && styles.selectedLabel, wide && styles.sideLabel]}>{title}</Text>}
       </Pressable>;
     })}
   </View>;
 
   if (!wide) return <View style={[styles.bar, { paddingBottom: Math.max(insets.bottom, 10) }]}>{destinations}</View>;
-  return <View style={[styles.sidebar, { width: expanded ? 216 : 80, paddingTop: Math.max(insets.top, 20), paddingBottom: Math.max(insets.bottom, 16) }]}>
+  return <LinearGradient colors={['#352A7D', '#2B1D6C', '#352479']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.sidebar, { width: expanded ? 248 : 80, paddingTop: Math.max(insets.top, 25), paddingBottom: Math.max(insets.bottom, 20) }]}>
     <View style={[styles.brand, !expanded && styles.compactBrand]}>
-      <StudentNavIcon name="index" size={36} />
+      <AppIllustration source={require('../../../assets/images/mathvision-icon-v2.png')} style={{ width: 31, height: 31, borderRadius: 16 }} accessible={false} />
       {expanded && <Text style={styles.brandText}>MathVision<Text style={styles.brandAccent}>Kid</Text></Text>}
     </View>
     <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn menu' : 'Mở rộng menu'}
@@ -71,12 +73,12 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
       onFocus={() => setFocused('toggle')} onBlur={() => setFocused(null)}
       onPress={onToggle || (() => setPreference(!expanded))}
       style={({ pressed, hovered }) => [styles.toggle, hovered && styles.hovered, focused === 'toggle' && styles.focused, pressed && styles.pressed]}>
-      <Ionicons name={expanded ? 'chevron-back' : 'chevron-forward'} size={19} color={COLORS.primaryDark} accessible={false} />
+      <Ionicons name={expanded ? 'chevron-back' : 'chevron-forward'} size={19} color="#DCD0FF" accessible={false} />
       {expanded && <Text style={styles.toggleText}>Thu gọn</Text>}
     </Pressable>
     <ScrollView nativeID="student-destinations" showsVerticalScrollIndicator={false} contentContainerStyle={styles.sidebarScroll}>{destinations}</ScrollView>
-    {expanded && <View style={styles.sidebarNote}><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
-  </View>;
+    {expanded && <View style={styles.sidebarNote}><AppIllustration source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.sidebarMascot} accessible={false} /><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
+  </LinearGradient>;
 }
 
 export default function TabLayout() {
@@ -99,23 +101,26 @@ const styles = StyleSheet.create({
     shadowColor: '#7770B1', shadowOffset: { width: 0, height: -3 }, shadowOpacity: .07, shadowRadius: 16, elevation: 8 },
   items: { flexDirection: 'row', gap: 6 }, vertical: { flexDirection: 'column', gap: 9 },
   item: { flex: 1, minHeight: 62, justifyContent: 'center', alignItems: 'center', gap: 3, borderRadius: 18, paddingVertical: 6, paddingHorizontal: 2 },
-  selected: { backgroundColor: '#EEE8FF' },
+  selected: { backgroundColor: '#F0EAFF' },
   label: { fontFamily: FONTS.semiBold, fontSize: 12, color: '#625978', textAlign: 'center' },
   selectedLabel: { color: COLORS.primaryDark, fontFamily: FONTS.extraBold },
-  sidebar: { flexShrink: 0, borderRightWidth: 1, borderRightColor: '#EDE7FA', backgroundColor: '#FFFFFF', paddingHorizontal: 12 },
-  sidebarScroll: { paddingTop: 16, paddingBottom: 16 },
-  sideItem: { flex: 0, flexDirection: 'row', justifyContent: 'flex-start', minHeight: 58, paddingHorizontal: 12, gap: 12 },
+  sidebar: { flexShrink: 0, borderRightWidth: 1, borderRightColor: '#4C398E', paddingHorizontal: 15 },
+  sidebarScroll: { paddingTop: 18, paddingBottom: 90 },
+  sideItem: { flex: 0, flexDirection: 'row', justifyContent: 'flex-start', minHeight: 60, paddingHorizontal: 15, gap: 13, borderRadius: 16 },
+  sideSelected: { backgroundColor: '#7850F4', borderWidth: 1, borderColor: '#A582FF', shadowColor: '#170B4C', shadowOpacity: .2, shadowRadius: 7, shadowOffset: { width: 0, height: 3 } },
+  sideHovered: { backgroundColor: '#6747B6' },
   compactItem: { justifyContent: 'center', paddingHorizontal: 4 },
-  sideLabel: { fontSize: 15, textAlign: 'left', flexShrink: 1 },
+  sideLabel: { fontSize: 16, textAlign: 'left', flexShrink: 1, color: '#FFFFFF' },
   brand: { flexDirection: 'row', alignItems: 'center', gap: 5, minHeight: 48, paddingHorizontal: 1, marginBottom: 8 },
   compactBrand: { justifyContent: 'center' },
-  brandText: { fontFamily: FONTS.black, fontSize: 17, letterSpacing: -.7, color: COLORS.textPrimary, flexShrink: 1 },
-  brandAccent: { color: COLORS.primary },
-  toggle: { minHeight: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 9, backgroundColor: '#F8F5FF', borderRadius: 15 },
-  toggleText: { fontFamily: FONTS.bold, fontSize: 12, color: COLORS.primaryDark },
-  sidebarNote: { backgroundColor: '#F8F5FF', borderRadius: 18, padding: 14, gap: 5 },
-  noteTitle: { fontFamily: FONTS.extraBold, fontSize: 13, color: COLORS.primaryDark },
-  noteText: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: COLORS.textSecondary },
+  brandText: { fontFamily: FONTS.black, fontSize: 18, letterSpacing: -.7, color: '#FFFFFF', flexShrink: 1 },
+  brandAccent: { color: '#DED2FF' },
+  toggle: { minHeight: 44, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 9, backgroundColor: '#FFFFFF0A', borderRadius: 13 },
+  toggleText: { fontFamily: FONTS.bold, fontSize: 12, color: '#DCD0FF' },
+  sidebarNote: { backgroundColor: '#7555BB40', borderRadius: 19, padding: 18, paddingTop: 50, gap: 7, marginTop: 52 },
+  sidebarMascot: { width: 116, height: 116, position: 'absolute', left: 48, top: -73 },
+  noteTitle: { fontFamily: FONTS.extraBold, fontSize: 15, color: '#FFF' },
+  noteText: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 20, color: '#D9CDED' },
   hovered: { backgroundColor: '#F4F0FF' }, focused: { outlineColor: '#6845DB', outlineWidth: 2, outlineOffset: 2 },
   pressed: { opacity: .72 },
 });

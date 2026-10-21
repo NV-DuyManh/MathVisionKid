@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { FONTS, COLORS, SIZES } from '../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../components/ui/AppButton';
@@ -37,14 +37,32 @@ export default function CameraScreen() {
     const isHandwriting = isHandwritingDomain(mode);
     const facing = 'back';
     const [flash, setFlash] = useState<'off' | 'on'>('off');
+    const [focused, setFocused] = useState(true);
+    const [ready, setReady] = useState(false);
+    const [busy, setBusy] = useState(false);
+    const [cameraError, setCameraError] = useState(false);
+    const active = useRef(true);
+    const locked = useRef(false);
+    const requestId = useRef(0);
+    useFocusEffect(useCallback(() => {
+        active.current = true; setFocused(true); setCameraError(false);
+        return () => {
+            active.current = false; requestId.current += 1; locked.current = false;
+            setFocused(false); setReady(false); setBusy(false); setFlash('off');
+        };
+    }, []));
+    const previewGeneration = requestId.current;
     const handlePickImage = async () => {
+        if (!active.current || !focused || locked.current) return;
+        const id = ++requestId.current;
+        locked.current = true; setBusy(true);
         try {
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ['images'],
                 allowsEditing: false,
                 quality: 1,
             });
-            if (!result.canceled && result.assets && result.assets.length > 0) {
+            if (active.current && id === requestId.current && !result.canceled && result.assets && result.assets.length > 0) {
                 const asset = result.assets[0];
                 const activeMode = resolveFlowDomain(mode, null);
                 logStageDiagnostic('ACQUIRE_GALLERY', {
@@ -57,18 +75,21 @@ export default function CameraScreen() {
                 });
                 logFlowDomain('ACQUIRE', activeMode);
                 const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
+                if (!active.current || id !== requestId.current) return;
                 draft.mode = activeMode;
                 draft.lessonContext = activeMode === 'MATH_TUTOR' ? lessonContext : undefined;
                 draft.retrySubmissionId = activeMode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
                 draft.problemText = typeof params.problemText === 'string' ? params.problemText.slice(0, 4000) : undefined;
                 recognitionDraftStore.setDraft(draft);
+                setFocused(false); setReady(false);
                 const nextTarget = '/privacy';
                 router.push({ pathname: nextTarget as any, params: { uri: draft.uri } });
             }
         }
         catch {
-            Alert.alert('Lỗi', `${branding.name} không mở được thư viện ảnh.`);
+            if (active.current && id === requestId.current) Alert.alert('Lỗi', `${branding.name} không mở được thư viện ảnh.`);
         }
+        finally { if (active.current && id === requestId.current) { locked.current = false; setBusy(false); } }
     };
     if (!permission?.granted) {
         return (<SafeAreaView style={styles.permissionContainer}>
@@ -82,7 +103,7 @@ export default function CameraScreen() {
         <View style={styles.permissionActions}>
           <AppButton title="Cho phép mở máy ảnh" onPress={requestPermission}/>
           <View style={{ height: SIZES.medium }}/>
-          <AppButton title="Chọn ảnh từ thư viện" variant="secondary" onPress={handlePickImage}/>
+          <AppButton title="Chọn ảnh từ thư viện" variant="secondary" disabled={busy} onPress={handlePickImage}/>
           <TouchableOpacity style={styles.backButton} onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Quay lại trang chủ">
             <Text style={styles.backButtonText}>Quay lại</Text>
           </TouchableOpacity>
@@ -90,10 +111,13 @@ export default function CameraScreen() {
       </SafeAreaView>);
     }
     const handleCapture = async () => {
+        if (!active.current || locked.current || !focused || !ready || cameraError || !cameraRef.current) return;
+        const id = ++requestId.current;
+        locked.current = true; setBusy(true);
         if (cameraRef.current) {
             try {
                 const photo = await cameraRef.current.takePictureAsync({ quality: 1, base64: false });
-                if (photo) {
+                if (photo && active.current && id === requestId.current) {
                     const activeMode = resolveFlowDomain(mode, null);
                     logStageDiagnostic('ACQUIRE_CAMERA', {
                         uri: photo.uri,
@@ -105,6 +129,7 @@ export default function CameraScreen() {
                     });
                     logFlowDomain('ACQUIRE', activeMode);
                     const draft = await normalizeImageDraft(photo.uri, photo.width, photo.height, 'CAMERA');
+                    if (!active.current || id !== requestId.current) return;
                     draft.mode = activeMode;
                     draft.lessonContext = activeMode === 'MATH_TUTOR' ? lessonContext : undefined;
                     draft.retrySubmissionId = activeMode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
@@ -115,6 +140,7 @@ export default function CameraScreen() {
                     draft.uri = photo.uri;
                     draft.problemText = typeof params.problemText === 'string' ? params.problemText.slice(0, 4000) : undefined;
                     recognitionDraftStore.setDraft(draft);
+                    setFocused(false); setReady(false);
                     const nextTarget = '/privacy';
                     router.push({
                         pathname: nextTarget as any,
@@ -123,15 +149,18 @@ export default function CameraScreen() {
                 }
             }
             catch {
-                Alert.alert('Lỗi', 'Không thể chụp ảnh, vui lòng thử lại.');
+                if (active.current && id === requestId.current) Alert.alert('Lỗi', 'Không thể chụp ảnh, vui lòng thử lại.');
             }
+            finally { if (active.current && id === requestId.current) { locked.current = false; setBusy(false); } }
         }
     };
     const toggleFlash = () => {
         setFlash((f) => (f === 'off' ? 'on' : 'off'));
     };
     return (<View style={styles.container}>
-      <CameraView style={StyleSheet.absoluteFill} facing={facing} enableTorch={flash === 'on'} ref={cameraRef}/>
+      {focused && !cameraError ? <CameraView style={StyleSheet.absoluteFill} facing={facing} autofocus="on" enableTorch={flash === 'on'} ref={cameraRef}
+        onCameraReady={() => { if (active.current && previewGeneration === requestId.current) setReady(true); }}
+        onMountError={() => { if (active.current && previewGeneration === requestId.current) { setCameraError(true); setReady(false); setFlash('off'); } }} /> : null}
       <SafeAreaView style={styles.safeArea} pointerEvents="box-none">
         {/* Header Controls */}
         <View style={[styles.header, { marginTop: Math.max(insets.top, SIZES.small) }]}>
@@ -191,24 +220,30 @@ export default function CameraScreen() {
 
         {/* Central Scan Frame */}
         <ScanFrame />
+        {cameraError || (!ready && focused) ? <View style={styles.cameraNotice} accessibilityLiveRegion="polite">
+          <Text style={styles.cameraNoticeText}>{cameraError ? 'Chưa mở được máy ảnh. Em thử lại hoặc chọn ảnh từ thư viện nhé.' : 'Đang mở máy ảnh. Em chờ khung hình rõ rồi chụp nhé.'}</Text>
+          {cameraError ? <AppButton title="Thử mở lại máy ảnh" disabled={busy} onPress={() => { setReady(false); setCameraError(false); }} /> : null}
+        </View> : null}
 
         {/* Bottom Controls */}
         <View style={[
             styles.footer,
             { paddingBottom: Math.max(insets.bottom + 8, SIZES.large) }
         ]}>
-          <TouchableOpacity style={styles.footerAction} onPress={handlePickImage} accessibilityRole="button" accessibilityLabel={'Chọn ảnh từ thư viện'}>
+          <TouchableOpacity style={styles.footerAction} disabled={busy} onPress={handlePickImage} accessibilityRole="button" accessibilityState={{ disabled: busy }} accessibilityLabel={'Chọn ảnh từ thư viện'}>
             <View style={styles.footerIconCircle}>
               <Ionicons name="images-outline" size={24} color="#FFFFFF"/>
             </View>
             <Text style={styles.footerActionText}>{'Thư viện'}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.captureButton} onPress={handleCapture} accessibilityRole="button" accessibilityLabel={(isHandwriting ? 'Chụp ảnh chữ viết tay tiếng Việt' : 'Chụp ảnh bài toán')}>
+          <TouchableOpacity style={[styles.captureButton, (!ready || busy || cameraError || !focused) && styles.inactive]} disabled={!ready || busy || cameraError || !focused}
+            onPress={handleCapture} accessibilityRole="button" accessibilityState={{ disabled: !ready || busy || cameraError || !focused, busy }} accessibilityLabel={(isHandwriting ? 'Chụp ảnh chữ viết tay tiếng Việt' : 'Chụp ảnh bài toán')}>
             <View style={styles.captureInner}/>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.footerAction} onPress={toggleFlash} accessibilityRole="button" accessibilityLabel={flash === 'on' ? ('Tắt đèn pin') : ('Bật đèn pin')}>
+          <TouchableOpacity style={styles.footerAction} disabled={!ready || busy || cameraError || !focused} onPress={toggleFlash} accessibilityRole="button"
+            accessibilityState={{ disabled: !ready || busy || cameraError || !focused, selected: flash === 'on' }} accessibilityLabel={flash === 'on' ? ('Tắt đèn pin') : ('Bật đèn pin')}>
             <View style={[
             styles.footerIconCircle,
             flash === 'on' && styles.footerIconCircleActive
@@ -224,6 +259,9 @@ export default function CameraScreen() {
     </View>);
 }
 const styles = StyleSheet.create({
+    inactive: { opacity: 0.45 },
+    cameraNotice: { position: 'absolute', top: '35%', left: 24, right: 24, zIndex: 20, padding: 16, borderRadius: 16, backgroundColor: '#101527', gap: 12 },
+    cameraNoticeText: { color: '#FFFFFF', fontFamily: FONTS.regular, fontSize: 16, lineHeight: 24, textAlign: 'center' },
     container: {
         flex: 1,
         backgroundColor: '#000000',

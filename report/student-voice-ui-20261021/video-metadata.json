@@ -1,0 +1,41 @@
+[
+  {
+    "Clip": "common-parts",
+    "Duration": "12.000000",
+    "Streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 960,
+        "height": 540
+      }
+    ],
+    "Bytes": 40608
+  },
+  {
+    "Clip": "fraction-intro",
+    "Duration": "12.000000",
+    "Streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 960,
+        "height": 540
+      }
+    ],
+    "Bytes": 79417
+  },
+  {
+    "Clip": "problem-summary",
+    "Duration": "12.000000",
+    "Streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 960,
+        "height": 540
+      }
+    ],
+    "Bytes": 71923
+  }
+]

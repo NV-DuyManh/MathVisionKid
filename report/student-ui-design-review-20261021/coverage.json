@@ -1,0 +1,312 @@
+{
+  "scope": "Student web only",
+  "frameCount": 46,
+  "sourceMapping": [
+    {
+      "source": "(tabs)/achievements.tsx",
+      "route": "/achievements",
+      "classification": "Student UI",
+      "frames": [
+        "achievements"
+      ],
+      "covered": true
+    },
+    {
+      "source": "(tabs)/camera.tsx",
+      "classification": "Camera tab redirect",
+      "frames": [
+        "camera"
+      ]
+    },
+    {
+      "source": "(tabs)/index.tsx",
+      "route": "/",
+      "classification": "Student UI",
+      "frames": [
+        "home",
+        "tips",
+        "calculator",
+        "privacy-info"
+      ],
+      "covered": true
+    },
+    {
+      "source": "(tabs)/lessons.tsx",
+      "route": "/lessons",
+      "classification": "Student UI",
+      "frames": [
+        "lessons",
+        "practice"
+      ],
+      "covered": true
+    },
+    {
+      "source": "(tabs)/profile.tsx",
+      "route": "/profile",
+      "classification": "Student UI",
+      "frames": [
+        "profile",
+        "logout"
+      ],
+      "covered": true
+    },
+    {
+      "source": "(tabs)/_layout.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    },
+    {
+      "source": "+html.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    },
+    {
+      "source": "camera.tsx",
+      "classification": "Native camera; web uses camera.web.tsx",
+      "frames": [
+        "camera"
+      ]
+    },
+    {
+      "source": "camera.web.tsx",
+      "route": "/camera",
+      "classification": "Student UI",
+      "frames": [
+        "camera"
+      ],
+      "covered": true
+    },
+    {
+      "source": "crop.tsx",
+      "route": "/crop",
+      "classification": "Student UI",
+      "frames": [
+        "crop"
+      ],
+      "covered": true
+    },
+    {
+      "source": "dev-demo.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    },
+    {
+      "source": "gallery.tsx",
+      "route": "/gallery",
+      "classification": "Student UI",
+      "frames": [
+        "gallery"
+      ],
+      "covered": true
+    },
+    {
+      "source": "index.tsx",
+      "route": "/",
+      "classification": "Entry redirect",
+      "frames": [
+        "home",
+        "tips",
+        "calculator",
+        "privacy-info"
+      ],
+      "covered": true
+    },
+    {
+      "source": "learning/math-guide.tsx",
+      "route": "/learning/math-guide",
+      "classification": "Student UI",
+      "frames": [
+        "source",
+        "edit-source",
+        "prepare",
+        "understand",
+        "summary",
+        "math",
+        "hint",
+        "fraction",
+        "voice",
+        "voices",
+        "ask",
+        "ask-answer",
+        "tools",
+        "work-review",
+        "work-correct",
+        "complete",
+        "save"
+      ],
+      "covered": true
+    },
+    {
+      "source": "learning/_layout.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    },
+    {
+      "source": "login.tsx",
+      "route": "/login",
+      "classification": "Student UI",
+      "frames": [
+        "login"
+      ],
+      "covered": true
+    },
+    {
+      "source": "preview.tsx",
+      "route": "/preview",
+      "classification": "Student UI",
+      "frames": [
+        "preview"
+      ],
+      "covered": true
+    },
+    {
+      "source": "privacy.tsx",
+      "route": "/privacy",
+      "classification": "Student UI",
+      "frames": [
+        "privacy"
+      ],
+      "covered": true
+    },
+    {
+      "source": "processing.tsx",
+      "route": "/processing",
+      "classification": "Student UI",
+      "frames": [
+        "processing",
+        "network"
+      ],
+      "covered": true
+    },
+    {
+      "source": "recognition/analytics.tsx",
+      "route": "/recognition/analytics",
+      "classification": "Student UI",
+      "frames": [
+        "history"
+      ],
+      "covered": true
+    },
+    {
+      "source": "recognition/line-crop.tsx",
+      "route": "/recognition/line-crop",
+      "classification": "Student UI",
+      "frames": [
+        "line-crop"
+      ],
+      "covered": true
+    },
+    {
+      "source": "recognition/multiline-result.tsx",
+      "route": "/recognition/multiline-result",
+      "classification": "Student UI",
+      "frames": [
+        "multiline-result"
+      ],
+      "covered": true
+    },
+    {
+      "source": "recognition/multiline-review.tsx",
+      "route": "/recognition/multiline-review",
+      "classification": "Student UI",
+      "frames": [
+        "multiline-review"
+      ],
+      "covered": true
+    },
+    {
+      "source": "recognition/result.tsx",
+      "route": "/recognition/result",
+      "classification": "Student UI",
+      "frames": [
+        "recognition-result"
+      ],
+      "covered": true
+    },
+    {
+      "source": "recognition/trial-analytics.tsx",
+      "route": "/recognition/trial-analytics",
+      "classification": "Student UI",
+      "frames": [
+        "history-detail"
+      ],
+      "covered": true
+    },
+    {
+      "source": "recognition/_layout.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    },
+    {
+      "source": "results/correct.tsx",
+      "route": "/results/correct",
+      "classification": "Student UI",
+      "frames": [
+        "correct"
+      ],
+      "covered": true
+    },
+    {
+      "source": "results/error-hint.tsx",
+      "route": "/results/error-hint",
+      "classification": "Student UI",
+      "frames": [
+        "error-hint"
+      ],
+      "covered": true
+    },
+    {
+      "source": "results/out-of-scope.tsx",
+      "route": "/results/out-of-scope",
+      "classification": "Student UI",
+      "frames": [
+        "scope"
+      ],
+      "covered": true
+    },
+    {
+      "source": "results/quality-failure.tsx",
+      "route": "/results/quality-failure",
+      "classification": "Student UI",
+      "frames": [
+        "quality"
+      ],
+      "covered": true
+    },
+    {
+      "source": "results/review-required.tsx",
+      "route": "/results/review-required",
+      "classification": "Student UI",
+      "frames": [
+        "review-required"
+      ],
+      "covered": true
+    },
+    {
+      "source": "results/token-confirmation.tsx",
+      "route": "/results/token-confirmation",
+      "classification": "Student UI",
+      "frames": [
+        "token"
+      ],
+      "covered": true
+    },
+    {
+      "source": "results/_layout.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    },
+    {
+      "source": "_layout.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    },
+    {
+      "source": "_layout.web.tsx",
+      "classification": "Technical layout / internal tooling",
+      "frames": []
+    }
+  ],
+  "unmappedStudentRoutes": [],
+  "currentStatesWithoutCapture": []
+}

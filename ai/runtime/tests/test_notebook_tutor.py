@@ -42,6 +42,21 @@ def test_unverified_model_geometry_is_not_displayed(monkeypatch):
     assert cloud.await_args_list[0].kwargs['max_output_tokens']==4000
 
 
+@pytest.mark.parametrize('duplicate', [True, False])
+def test_mixed_photo_only_separates_exact_question_duplicate_before_solution_heading(monkeypatch, duplicate):
+    question = 'Có 12 bút, thêm 5 bút. Hỏi có tất cả bao nhiêu bút?'
+    prefix = question if duplicate else question.replace('12', '13')
+    payload = dict(kind='MIXED', problemText=question, lines=[
+        dict(text='Bài 6'), dict(text=prefix), dict(text='Bài giải:'),
+        dict(text='Số bút có tất cả là:'), dict(text='12 + 5 = 17 (bút)', role='EQUATION')])
+    monkeypatch.setattr(notebook, '_generate', AsyncMock(return_value=payload))
+    result = run(notebook.inspect_notebook(image_bytes()))
+    assert result.problemText == question
+    assert [line.text for line in result.lines] == ([row['text'] for row in payload['lines'][2:]]
+        if duplicate else [row['text'] for row in payload['lines']])
+    assert all(line.box is None for line in result.lines)
+
+
 def test_notebook_uses_physically_supported_short_rows_before_grounding_transcript(monkeypatch):
     from app.recognition import text_detector
     from app.tutoring import rows

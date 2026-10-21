@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-21",
+  "results": [
+    "Sidebar collapses and expands",
+    "Tablet menu opens and Escape closes",
+    "Sample math rejects wrong answer and unlocks next for correct answer",
+    "Understanding choice validates sample fact",
+    "Fraction selection and sample check work",
+    "Exactly two voice choices, one selected",
+    "Suggested question and disclosed sample voice interaction",
+    "Audio preview explicitly discloses mock playback",
+    "Gallery opens component detail and responsive screen viewer",
+    "Reference / before / after comparison switches device",
+    "Review gallery fits phone width"
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "scope": "Standalone UI interactions on known sample data; no AI, voice quality, camera, auth or device validation"
+}

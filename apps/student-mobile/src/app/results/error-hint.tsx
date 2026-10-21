@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { FONTS, COLORS, SIZES } from '../../constants/theme';
-import { AppHeader } from '../../components/ui/AppHeader';
+import { StudentResultShell } from '../../components/ui/StudentResultShell';
 import { AppButton } from '../../components/ui/AppButton';
 import { HintCard } from '../../components/domain/HintCard';
 import { MathExpression } from '../../components/domain/MathExpression';
@@ -27,10 +27,7 @@ export default function ErrorHintScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <AppHeader title="Gợi ý bài làm" showBack />
-
-      <ScrollView contentContainerStyle={styles.content}>
+    <StudentResultShell title="Gợi ý bài làm">
         {loading ? <RecognitionProgress title="Đang mở gợi ý" description="Lấy lại kết quả bài làm của em." onCancel={() => router.back()} /> : target?.pathname === '/results/error-hint' && result ? <>
         <Text style={styles.feedbackTitle}>{result.studentFeedback?.title}</Text>
         <Text style={styles.feedbackSubtitle}>
@@ -51,8 +48,6 @@ export default function ErrorHintScreen() {
         ) : null}
         </> : <StatusCard status="warning" title="Chưa có kết quả" subtitle="Chưa lấy được kết quả bài làm. Em hãy mở lại bài hoặc chụp ảnh mới nhé." />}
 
-        <View style={styles.spacer} />
-
         <View style={styles.actions}>
           <AppButton
             title="Em sẽ sửa lại"
@@ -66,23 +61,11 @@ export default function ErrorHintScreen() {
             onPress={() => router.replace({ pathname: '/camera', params: { mode: 'ARITHMETIC' } })}
           />
         </View>
-      </ScrollView>
-    </View>
+      </StudentResultShell>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
-  content: {
-    padding: SIZES.large,
-    flexGrow: 1,
-    maxWidth: 500,
-    width: '100%',
-    alignSelf: 'center',
-  },
   feedbackTitle: {
     fontSize: 22,
     fontFamily: FONTS.extraBold,
@@ -100,10 +83,6 @@ const styles = StyleSheet.create({
   expressionContainer: {
     alignItems: 'center',
     marginBottom: SIZES.large,
-  },
-  spacer: {
-    flex: 1,
-    minHeight: SIZES.large,
   },
   actions: {
     paddingBottom: SIZES.medium,

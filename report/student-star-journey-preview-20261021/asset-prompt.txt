@@ -1,0 +1,6 @@
+Tool: built-in image_gen (not CLI). Transparent background: true.
+Reference image: C:/Users/Admin/AppData/Local/Temp/codex-clipboard-7fef59da-fbbd-4db4-b5a6-a33455fe6bd8.png
+Saved project asset: assets/cactus-island-v2.png
+
+Prompt:
+Use case: stylized-concept. Generate ONE standalone tiny decorative 3D cactus island UI asset, using the supplied image ONLY as visual reference. Match specifically the small sage-green three-cactus cluster on lavender stone, seen along the desktop learning journey at approximately x760,y265 and x981,y265 in the reference. Isolate and reconstruct that object at high resolution: one tall oval rounded green cactus in the middle, two smaller oval green cacti on either side, tiny pale yellow pebbles/flowers, low irregular polygon lavender stone base, gentle glossy clay material, soft ambient occlusion and tiny ground shadow, three-quarter front view. Keep the same muted sage greens and lilac base, scale relationships, simple stylized silhouette, lighting and premium 3D finish. Transparent alpha background. Center the complete object with only 5% padding. No extra plants, no humanoid, no text, no stars, no path, no UI, no border, no entire screen. This is an asset for a real coded reconstruction of the referenced app, not a new UI mockup.

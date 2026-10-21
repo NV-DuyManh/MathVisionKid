@@ -44,19 +44,19 @@ async def test_geometry_guides_three_reasoning_steps_without_returning_answer_ke
     response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM))
     assert len(response.outline) == 3
     assert response.step.choices == ['Chiều cao', 'Chu vi', 'Đường chéo AC']
-    assert '138' not in response.model_dump_json() and '12' not in response.model_dump_json()
+    assert '138' not in response.model_dump_json(exclude={'sessionId'}) and '12' not in response.model_dump_json(exclude={'sessionId'})
     assert 'correctChoice' not in response.model_dump_json()
     wrong = turn(response, 'Chu vi')
     assert wrong.status == 'TRY_AGAIN' and wrong.stepIndex == 0 and wrong.revision == 0
     response = turn(wrong, 'Chiều cao')
     assert response.stepIndex == 1 and response.step.expression == '90 × 2 ÷ 15'
-    assert '12' not in response.model_dump_json()
+    assert '12' not in response.model_dump_json(exclude={'sessionId'})
     wrong = turn(response, '90')
-    assert wrong.stepIndex == 1 and '12' not in wrong.model_dump_json()
+    assert wrong.stepIndex == 1 and '12' not in wrong.model_dump_json(exclude={'sessionId'})
     hint = turn(wrong, hint=True)
-    assert hint.stepIndex == 1 and '12' not in hint.model_dump_json()
+    assert hint.stepIndex == 1 and '12' not in hint.model_dump_json(exclude={'sessionId'})
     response = turn(hint, '12')
-    assert '12' in response.step.expression and '138' not in response.model_dump_json()
+    assert '12' in response.step.expression and '138' not in response.model_dump_json(exclude={'sessionId'})
     response = turn(response, '138')
     assert response.status == 'COMPLETE' and response.step is None and len(response.completed) == 3
     assert response.completed[-1].answer == '138' and response.completed[-1].unit == 'cm²'

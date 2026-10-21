@@ -59,8 +59,17 @@ def merge_fragments(boxes, ink_mask=None, ink_scale=1.0):
             oh = oy2-oy1
             overlap = min(y2,oy2)-max(y1,oy1)
             gap = max(0, max(x1,ox1)-min(x2,ox2))
+            # A compact minus/equality mark can be much shorter than digits.
+            # Require containment in their baseline and a small physical gap;
+            # distant columns, fraction tiers and long rules stay separate.
+            small = box if h < oh else other
+            large = other if h < oh else box
+            compact_mark = (min(h,oh) < max(h,oh)*.5
+                            and small[2]-small[0] <= max(h,oh)
+                            and max(h,oh) <= (large[2]-large[0])*2
+                            and overlap == min(h,oh) and gap <= max(h,oh)*.5)
             # Tall vertical arithmetic is not a row to join with prose beside it.
-            if (max(h,oh) <= min(h,oh)*2.0
+            if ((max(h,oh) <= min(h,oh)*2.0 or compact_mark)
                     and not (h > (x2-x1)*2 and oh > (ox2-ox1)*2)
                     and overlap >= min(h,oh)*.65
                     and abs((y1+y2-oy1-oy2)/2) <= max(h,oh)*.4

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { COLORS, SIZES } from '../../constants/theme';
-import { AppHeader } from '../../components/ui/AppHeader';
+import { SIZES } from '../../constants/theme';
+import { StudentResultShell } from '../../components/ui/StudentResultShell';
 import { AppButton } from '../../components/ui/AppButton';
 import { StatusCard } from '../../components/domain/StatusCard';
 import { MathExpression } from '../../components/domain/MathExpression';
@@ -27,10 +27,7 @@ export default function CorrectScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <AppHeader title="Kết quả bài làm" showBack />
-
-      <ScrollView contentContainerStyle={styles.content}>
+    <StudentResultShell title="Kết quả bài làm" success={target?.pathname === '/results/correct'}>
         {loading ? <RecognitionProgress title="Đang mở kết quả" description="Lấy lại kết quả bài làm của em." onCancel={() => router.back()} /> : target?.pathname === '/results/correct' && result ? <>
         <StatusCard
           status="success"
@@ -48,8 +45,6 @@ export default function CorrectScreen() {
         </View>
         </> : <StatusCard status="warning" title="Chưa có kết quả" subtitle="Chưa lấy được kết quả bài làm. Em hãy mở lại bài hoặc chụp ảnh mới nhé." />}
 
-        <View style={styles.spacer} />
-
         <View style={styles.actions}>
           <AppButton
             title="Kiểm tra bài toán khác"
@@ -63,31 +58,15 @@ export default function CorrectScreen() {
             onPress={() => router.replace('/(tabs)')}
           />
         </View>
-      </ScrollView>
-    </View>
+      </StudentResultShell>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
-  content: {
-    padding: SIZES.large,
-    flexGrow: 1,
-    maxWidth: 500,
-    width: '100%',
-    alignSelf: 'center',
-  },
   expressionContainer: {
     marginTop: SIZES.medium,
     marginBottom: SIZES.large,
     alignItems: 'center',
-  },
-  spacer: {
-    flex: 1,
-    minHeight: SIZES.large,
   },
   actions: {
     paddingBottom: SIZES.medium,

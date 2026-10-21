@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { COLORS, SIZES } from '../../constants/theme';
-import { AppHeader } from '../../components/ui/AppHeader';
+import { SIZES } from '../../constants/theme';
+import { StudentResultShell } from '../../components/ui/StudentResultShell';
 import { AppButton } from '../../components/ui/AppButton';
 import { StatusCard } from '../../components/domain/StatusCard';
 import { ImageQualityIssue } from '../../types';
@@ -34,15 +34,9 @@ export default function QualityFailureScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <AppHeader title="Chất lượng ảnh" showBack />
-
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.spacerTop} />
+    <StudentResultShell title="Chất lượng ảnh">
 
         <StatusCard status="warning" title={title} subtitle={subtitle} />
-
-        <View style={styles.spacer} />
 
         <View style={styles.actions}>
           <AppButton
@@ -69,30 +63,11 @@ export default function QualityFailureScreen() {
             onPress={() => router.replace('/(tabs)')}
           />
         </View>
-      </ScrollView>
-    </View>
+      </StudentResultShell>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
-  content: {
-    padding: SIZES.large,
-    flexGrow: 1,
-    maxWidth: 500,
-    width: '100%',
-    alignSelf: 'center',
-  },
-  spacerTop: {
-    height: SIZES.large,
-  },
-  spacer: {
-    flex: 1,
-    minHeight: SIZES.xlarge,
-  },
   actions: {
     paddingBottom: SIZES.medium,
   },

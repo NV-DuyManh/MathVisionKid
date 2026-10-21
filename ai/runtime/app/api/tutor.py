@@ -3,11 +3,15 @@
 import secrets
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import Response
 
 from app.config import settings
 from app.tutoring.service import MAX_IMAGE_BYTES, GuideRequest, GuideResponse, ReadResponse, TutorUnavailable, guide_student, read_problem
 from app.tutoring.notebook import NotebookRead, CoachRequest, inspect_notebook, coach_notebook
 from app.tutoring.lesson import LessonRequest, TurnRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson
+from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
+from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
+from app.tutoring import video
 
 router = APIRouter()
 
@@ -16,6 +20,40 @@ async def require_internal_key(request: Request):
     provided = request.headers.get("X-Internal-API-Key", "")
     if not provided or not secrets.compare_digest(provided.encode(), settings.internal_api_key.encode()):
         raise HTTPException(status_code=401, detail="Không được phép thực hiện yêu cầu này.")
+
+
+def video_call(function, request):
+    try:
+        return function(request)
+    except LessonExpired as exc:
+        raise HTTPException(status_code=410, detail=str(exc)) from None
+    except StaleTurn as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from None
+    except video.VideoBusy as exc:
+        raise HTTPException(status_code=429, detail=str(exc)) from None
+
+
+@router.post('/lesson/video', response_model=video.VideoStatus, dependencies=[Depends(require_internal_key)])
+async def create_video_endpoint(request: video.VideoRequest):
+    return video_call(video.create_video, request)
+
+
+@router.post('/lesson/video/status', response_model=video.VideoStatus, dependencies=[Depends(require_internal_key)])
+async def video_status_endpoint(request: video.VideoLookup):
+    return video_call(video.video_status, request)
+
+
+@router.post('/lesson/video/content', dependencies=[Depends(require_internal_key)])
+async def video_content_endpoint(request: video.VideoLookup):
+    return Response(video_call(video.video_content, request), media_type='video/mp4', headers={'Cache-Control':'no-store'})
+
+
+@router.post("/work-review", response_model=WorkReviewResponse, dependencies=[Depends(require_internal_key)])
+async def work_review_endpoint(request: WorkReviewRequest):
+    try:
+        return await review_work(request)
+    except TutorUnavailable:
+        raise HTTPException(status_code=503, detail="Chưa kiểm tra được bài lúc này. Em giữ bài đã viết và thử lại nhé.") from None
 
 
 @router.post("/lesson", response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
@@ -36,6 +74,33 @@ async def lesson_answer_endpoint(request: TurnRequest):
         raise HTTPException(status_code=410, detail=str(exc)) from None
     except StaleTurn as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from None
+
+
+@router.post('/lesson/ask', response_model=AskResponse, dependencies=[Depends(require_internal_key)])
+async def lesson_ask_endpoint(request: AskRequest):
+    try:
+        return await ask_question(request)
+    except LessonExpired as exc:
+        raise HTTPException(status_code=410, detail=str(exc)) from None
+    except StaleTurn as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from None
+    except TutorUnavailable:
+        raise HTTPException(status_code=503, detail='Chưa trả lời được lúc này. Em giữ câu hỏi và thử lại nhé.') from None
+
+
+@router.post('/transcribe', response_model=Transcript, dependencies=[Depends(require_internal_key)])
+async def transcribe_endpoint(request: Request):
+    audio = bytearray()
+    async for chunk in request.stream():
+        if len(audio) + len(chunk) > MAX_AUDIO_BYTES:
+            raise HTTPException(status_code=413, detail='Em ghi câu hỏi ngắn hơn nhé.')
+        audio.extend(chunk)
+    try:
+        return await transcribe_question(bytes(audio))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from None
+    except TutorUnavailable:
+        raise HTTPException(status_code=503, detail='Chưa nghe được lúc này. Em có thể gõ câu hỏi nhé.') from None
 
 
 async def image_body(request: Request) -> bytes:

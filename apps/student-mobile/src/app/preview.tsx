@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ScrollView, useWindowDimensions } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
@@ -10,6 +10,8 @@ import { recognitionDraftStore, resolveFlowDomain, isHandwritingDomain } from '.
 import { ensureFileUri, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
 
 export default function PreviewScreen() {
+  const { width, height } = useWindowDimensions();
+  const wide = width >= 1000;
   const router = useRouter();
   const params = useLocalSearchParams<{
     uri?: string;
@@ -106,9 +108,9 @@ export default function PreviewScreen() {
     <View style={styles.container}>
       <AppHeader title="Xem lại bài đã chụp" showBack />
 
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.contentWide]}>
         {/* Preview image box with quality badge overlay */}
-        <View style={[styles.imageContainer, SHADOWS.small]}>
+        <View style={[styles.imageContainer, SHADOWS.small, wide && styles.imageWide]}>
           <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" />
 
           <View style={styles.qualityOverlay}>
@@ -116,6 +118,9 @@ export default function PreviewScreen() {
           </View>
         </View>
 
+        <View style={[styles.controlColumn, wide && styles.controlColumnWide]}>
+        <Text style={styles.reviewTitle}>Sẵn sàng xem bài?</Text>
+        <Text style={styles.reviewCopy}>Em nhìn lại chữ số và vùng bài đã chọn. Khi ảnh rõ, mình cùng kiểm tra nhé.</Text>
         {/* Tools row: Xoay & Chỉnh vùng bài */}
         <View style={styles.toolsRow}>
           <TouchableOpacity
@@ -153,7 +158,8 @@ export default function PreviewScreen() {
             onPress={() => router.back()}
           />
         </View>
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -164,16 +170,22 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   content: {
-    flex: 1,
-    padding: SIZES.medium,
-    maxWidth: 600,
+    flexGrow: 1,
+    padding: 22,
+    maxWidth: 760,
     width: '100%',
     alignSelf: 'center',
   },
+  contentWide: { maxWidth: 1140, flexDirection: 'row', alignItems: 'center', gap: 32 },
+  controlColumn: { gap: 10 }, controlColumnWide: { width: 360 },
+  reviewTitle: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 23, lineHeight: 31 },
+  reviewCopy: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 14, lineHeight: 23, marginBottom: 12 },
+  imageWide: { minHeight: 500, marginBottom: 0 },
   imageContainer: {
     flex: 1,
+    minHeight: 280,
     backgroundColor: '#0F172A',
-    borderRadius: SIZES.cardRadius,
+    borderRadius: 27,
     overflow: 'hidden',
     marginBottom: SIZES.medium,
     position: 'relative',
@@ -224,7 +236,7 @@ const styles = StyleSheet.create({
     minHeight: SIZES.minTouchTarget,
     borderRadius: SIZES.buttonRadius,
     borderWidth: 1.5,
-    borderColor: '#BFDBFE',
+    borderColor: '#E0D3F6',
     flex: 1,
   },
   toolText: {

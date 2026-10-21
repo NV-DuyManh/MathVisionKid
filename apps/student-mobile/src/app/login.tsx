@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppButton } from '../components/ui/AppButton';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { BrandLockup } from '../components/ui/BrandLockup';
 export default function LoginScreen() {
+    const { width } = useWindowDimensions();
+    const wide = width >= 1000;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -38,11 +40,12 @@ export default function LoginScreen() {
         }
     };
     return (<KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
-        <View style={styles.brandSection}>
+      <ScrollView contentContainerStyle={[styles.scrollContent, wide && styles.scrollWide]} keyboardShouldPersistTaps="handled">
+        <View style={[styles.brandSection, wide && styles.brandWide]}>
           <BrandLockup compact />
+          {wide ? <><Text style={styles.welcomeTitle}>Mỗi bài toán,<Text style={{ color: '#7548EA' }}> một khám phá.</Text></Text><Text style={styles.welcomeCopy}>Cùng Sao nhỏ hiểu đề, thử cách làm và tự tin tìm lời giải.</Text></> : null}
         </View>
-
+        <View style={styles.formColumn}>
         <View style={[styles.card, SHADOWS.small]}>
           <Text style={styles.title}>Đăng nhập</Text>
           <Text style={styles.subtitle}>
@@ -93,7 +96,7 @@ export default function LoginScreen() {
             Tài khoản được nhà trường hoặc phụ huynh cấp.
           </Text>
 
-        </View>
+        </View></View>
       </ScrollView>
     </KeyboardAvoidingView>);
 }
@@ -110,6 +113,11 @@ const styles = StyleSheet.create({
         width: '100%',
         alignSelf: 'center',
     },
+    scrollWide: { maxWidth: 1140, flexDirection: 'row', gap: 60, alignItems: 'center', padding: 44 },
+    brandWide: { flex: 1, padding: 35, paddingVertical: 55, borderRadius: 35, backgroundColor: '#EEE7FC', minHeight: 530, justifyContent: 'center' },
+    formColumn: { flex: 1, width: '100%', maxWidth: 460, alignSelf: 'center' },
+    welcomeTitle: { fontFamily: FONTS.black, fontSize: 35, lineHeight: 45, color: COLORS.textPrimary, textAlign: 'center', marginTop: 35 },
+    welcomeCopy: { fontFamily: FONTS.regular, fontSize: 17, lineHeight: 28, color: '#73618D', textAlign: 'center', marginTop: 18 },
     brandSection: {
         alignItems: 'center',
         marginBottom: SIZES.xlarge,
@@ -177,6 +185,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
+        minWidth: 0,
         fontFamily: FONTS.regular,
         fontSize: 16,
         color: COLORS.textPrimary,

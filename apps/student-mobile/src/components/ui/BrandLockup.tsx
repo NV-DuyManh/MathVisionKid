@@ -8,7 +8,7 @@ import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 export function BrandLockup({ compact = false }: { compact?: boolean }) {
   return <View style={styles.container} accessibilityLabel="MathVisionKid — Toán học thật dễ, thật vui!">
     <View style={[styles.iconFrame, compact && styles.compactFrame]}>
-      <Image source={require('../../../assets/images/mathvision-icon-v2.png')} style={styles.icon} resizeMode="cover" accessible={false} />
+      <Image highResolution={compact} source={compact ? require('../../../assets/illustrations/mathvision-star.png') : require('../../../assets/images/mathvision-icon-v2.png')} style={styles.icon} resizeMode={compact ? 'contain' : 'cover'} accessible={false} />
     </View>
     <View style={styles.wordmarkRow}>
       <Text style={[styles.wordmark, compact && styles.smallWordmark]}>MathVision<Text style={styles.accent}>Kid</Text></Text>
@@ -24,7 +24,7 @@ export function BrandLockup({ compact = false }: { compact?: boolean }) {
 const styles = StyleSheet.create({
   container: { alignItems: 'center', gap: 12 },
   iconFrame: { width: 164, height: 164, borderRadius: 42, overflow: 'hidden', marginBottom: 12, ...SHADOWS.medium },
-  compactFrame: { width: 112, height: 112, borderRadius: 29, marginBottom: 4 },
+  compactFrame: { width: 138, height: 138, borderRadius: 0, marginBottom: 4, shadowOpacity: 0, elevation: 0 },
   icon: { width: '100%', height: '100%' },
   wordmarkRow: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   wordmark: { fontFamily: FONTS.extraBold, fontSize: 31, letterSpacing: -1, color: COLORS.textPrimary },

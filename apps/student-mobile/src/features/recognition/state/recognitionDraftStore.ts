@@ -1,3 +1,5 @@
+import type { NotebookLine } from '../../tutoring/api/TutorService';
+
 export type FlowDomain = 'MATH_TUTOR' | 'HANDWRITING_TEXT' | 'ARITHMETIC' | 'OCR_PILOT' | 'OCR_PILOT_MULTILINE';
 export function isHandwritingDomain(mode?: string | null): boolean {
     return mode === 'HANDWRITING_TEXT' || mode === 'OCR_PILOT' || mode === 'OCR_PILOT_MULTILINE';
@@ -31,6 +33,8 @@ export interface ImageDraft {
         problemText: string;
         workText: string;
         workImageUri?: string;
+        workImageCurrent?: boolean;
+        workLines?: NotebookLine[];
         problemImageUri?: string;
         lessonId: string;
         uncertainWork: boolean;
