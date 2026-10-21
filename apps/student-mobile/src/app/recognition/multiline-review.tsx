@@ -33,7 +33,7 @@ export default function MultilineReviewScreen() {
     const [isNetworkError, setIsNetworkError] = useState(false);
     const [needsSmallerCrop, setNeedsSmallerCrop] = useState(false);
     const [editMode, setEditMode] = useState<'MOVE' | 'RESIZE'>('MOVE');
-    const displayWidth = Math.min(screenWidth, 600) - 32;
+    const displayWidth = Math.min(screenWidth, 980) - 32;
     const detectRequestIdRef = useRef(0);
     const initialLoadDoneRef = useRef<string | null>(null);
     const operationGenerationRef = useRef(0);
@@ -588,7 +588,8 @@ const styles = StyleSheet.create({
         padding: SIZES.medium,
         paddingTop: 16,
         paddingBottom: 40,
-        maxWidth: 600,
+        flexGrow: 1,
+        maxWidth: 980,
         width: '100%',
         alignSelf: 'center',
     },
@@ -644,13 +645,13 @@ const styles = StyleSheet.create({
         marginBottom: 14,
         lineHeight: 18,
     },
-    overflowCard: { backgroundColor: COLORS.surfaceSubdued, padding: 16, borderRadius: 16, marginBottom: 16, gap: 12 },
+    overflowCard: { backgroundColor: COLORS.surfaceSubdued, padding: 16, borderRadius: 22, marginBottom: 16, gap: 12 },
     overflowTitle: { fontFamily: FONTS.bold, fontSize: 17, color: COLORS.textPrimary },
     overflowBody: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 22, color: COLORS.textSecondary },
     cropButton: { minHeight: 48, flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 12 },
     cropButtonText: { fontFamily: FONTS.bold, fontSize: 15, color: COLORS.primaryDark, flexShrink: 1 },
     imageContainer: {
-        borderRadius: 16,
+        borderRadius: 22,
         overflow: 'hidden',
         backgroundColor: '#F8FAFC',
         alignSelf: 'center',
@@ -792,7 +793,7 @@ const styles = StyleSheet.create({
     },
     noSelectCard: {
         padding: 18,
-        borderRadius: 16,
+        borderRadius: 22,
         backgroundColor: '#F8FAFC',
         borderWidth: 1,
         borderColor: '#E2E8F0',
@@ -817,7 +818,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 6,
         height: 50,
-        borderRadius: 16,
+        borderRadius: 22,
         backgroundColor: COLORS.surfaceSubdued,
     },
     secondaryBtnText: {

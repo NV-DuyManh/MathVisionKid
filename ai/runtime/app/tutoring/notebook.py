@@ -115,6 +115,9 @@ original question), MIXED (question plus steps), MULTIPLE (several separate prob
 or UNREADABLE (not math/illegible); problemText (only the original visible question,
 empty if absent); needsProblem boolean; needsCrop boolean (normally false);
 lines array of {text,box,uncertain,role,layout,division}.
+For MIXED, put the original question ONLY in problemText. lines contains ONLY the
+student's worked section, including its 'Bài giải' heading if present; do not repeat
+the printed question, exercise badge or decorative publisher marks as worked rows.
 A printed question above an EMPTY 'Bài giải' heading is PROBLEM, not WORK.
 The heading alone is not a worked step. Preserve the complete visible question,
 including its given fractions, even if the photo cuts off a blank solution area.
@@ -393,6 +396,14 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     if result.problemText and not result.lines:
         result.kind = "PROBLEM"
     result.needsProblem = not bool(result.problemText.strip())
+    if result.kind == "MIXED" and result.problemText:
+        heading = next((index for index, line in enumerate(result.lines)
+            if re.fullmatch(r"(?:bai|loi) giai\s*[:.]?", _fold(line.text.strip()))), 0)
+        prefix = " ".join(line.text for line in result.lines[:heading])
+        # Remove only an exact duplicate of the still-visible question before an
+        # explicit solution heading. Keep ambiguous prefixes and all pupil steps.
+        if heading and _question_signature(prefix) == _question_signature(result.problemText):
+            result.lines = result.lines[heading:]
     structured = any(line.layout != "ROW" for line in result.lines)
     numeric = lambda line: bool(re.fullmatch(r"(?:[0-9 +\-−]|\[\?\])+", line.text))
     divisions = sum(line.layout == "LONG_DIVISION" for line in result.lines)

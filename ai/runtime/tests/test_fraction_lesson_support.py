@@ -1,4 +1,5 @@
 """Exact fractions and teaching guards using test-only provider responses."""
+import json
 import re
 from unittest.mock import AsyncMock
 import pytest
@@ -220,3 +221,39 @@ def test_exact_decimal_literals_and_fraction_division_presentation():
     assert lesson.display_expression('(1+2)/(3+4)', True) == '(1 + 2) ÷ (3 + 4)'
     assert lesson.display_expression('1/3/2/5', True) == '1 ÷ 3 ÷ 2 ÷ 5'
     assert lesson.display_expression('(-1)/12', True) == ' − 1/12'
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('guided', [False, True])
+async def test_fraction_hints_expand_only_checked_prior_answers_and_parts(monkeypatch, guided):
+    candidate = garden_candidate()
+    candidate['steps'][1]['hints'] = [
+        'Phần cây táo và xoài chiếm {s0} cả vườn. Bớt phần này khỏi cả vườn.',
+        'Viết cả vườn với mẫu {s0_denominator}, rồi bớt {s0_numerator} phần đã biết.',
+    ]
+    cloud = mock_generation(monkeypatch, candidate)
+    response = await start_lesson(LessonRequest(owner='child', problemText=garden(), problemConfirmed=True,
+        guidedUnderstanding=guided))
+    reviewed = json.loads(cloud.await_args_list[1].args[1])['candidate']['steps'][1]['hints']
+    assert '11/15' in reviewed[0] and '{' not in ''.join(reviewed)
+    for _ in range(response.understandingSteps):
+        expected = lesson._sessions[response.sessionId].plan.steps[response.stepIndex].correctChoice
+        response = turn(response, expected)
+    response = turn(response, '11/15')
+    first = turn(response, hint=True)
+    assert 'Phần cây táo và xoài chiếm 11/15 cả vườn.' in first.feedback
+    second = turn(first, hint=True)
+    assert 'mẫu 15, rồi bớt 11 phần đã biết' in second.feedback
+    assert '{' not in second.feedback and '4/15' not in second.feedback
+    assert second.stepIndex == first.stepIndex == 1 + response.understandingSteps
+    assert second.revision == first.revision == response.revision
+
+
+@pytest.mark.parametrize('reference', ['{s1}', '{s2}', '{s0}', '{s0_numerator}'])
+def test_hints_reject_current_future_or_noncalculation_references(reference):
+    value = lesson.Plan.model_validate(dict(topic='Gộp bút', goal='Tìm số bút.', finalAnswerStep=1,
+        steps=[step(choices=['Gộp', 'Bớt'], correctChoice='Gộp'),
+               step(expression='12+5', hints=['Đọc lại điều đã cho.', 'Dùng kết quả ' + reference])]))
+    with pytest.raises(ValueError, match='earlier calculation'):
+        lesson.validate_plan(value, LessonRequest(owner='child',
+            problemText='Lan có 12 bút, thêm 5 bút. Hỏi có bao nhiêu bút?', problemConfirmed=True))

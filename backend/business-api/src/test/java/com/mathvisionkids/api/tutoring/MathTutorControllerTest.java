@@ -33,8 +33,57 @@ class MathTutorControllerTest {
     @Autowired ObjectMapper json;
     @MockBean MathTutorService service;
 
+    @Test void anonymousCannotCreateReadOrDownloadLessonVideos() throws Exception {
+        for (String suffix : new String[]{"", "/status", "/content"})
+            mvc.perform(post("/api/v1/student/tutor/lesson/video"+suffix).contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(username="real-pupil", roles="STUDENT") void videoOwnerIsAuthenticatedAndContentIsPrivate() throws Exception {
+        when(service.video(any(),eq("real-pupil"))).thenReturn(new VideoStatus("v".repeat(32),"RENDERING",0,0,false,"Bài của em"));
+        mvc.perform(post("/api/v1/student/tutor/lesson/video").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"video-lesson-session-12345\",\"revision\":0,\"owner\":\"victim\"}"))
+                .andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"));
+        verify(service).video(any(),eq("real-pupil"));
+        when(service.videoContent(any(),eq("real-pupil"))).thenReturn(new byte[]{1,2,3});
+        mvc.perform(post("/api/v1/student/tutor/lesson/video/content").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"videoId\":\""+"v".repeat(32)+"\",\"owner\":\"victim\"}"))
+                .andExpect(status().isOk()).andExpect(content().contentType("video/mp4"))
+                .andExpect(header().string("Cache-Control","no-store")).andExpect(content().bytes(new byte[]{1,2,3}));
+        verify(service).videoContent(any(),eq("real-pupil"));
+    }
+
+    @Test @WithMockUser(roles="TEACHER") void nonStudentCannotDownloadVideo() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/lesson/video/content").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"videoId\":\""+"v".repeat(32)+"\"}" )).andExpect(status().isForbidden());
+        verifyNoInteractions(service);
+    }
+
     private static MockMultipartFile image() {
         return new MockMultipartFile("file", "page.png", "image/png", new byte[]{1});
+    }
+
+    @Test void anonymousCannotAskOrTranscribe() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/lesson/ask").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(multipart("/api/v1/student/tutor/transcribe").file(image())).andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(roles="TEACHER") void teacherCannotAskOrTranscribeThroughStudentEndpoints() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/lesson/ask").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isForbidden());
+        mvc.perform(multipart("/api/v1/student/tutor/transcribe").file(image())).andExpect(status().isForbidden());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(username="real-pupil", roles="STUDENT") void questionOwnerComesFromAuthentication() throws Exception {
+        when(service.ask(any(),eq("real-pupil"))).thenReturn(new LessonReply("Ta cần phần bằng nhau.", "Mình chia các phần bằng nhau nhé.", "Vì sao?", false));
+        mvc.perform(post("/api/v1/student/tutor/lesson/ask").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"conversation-session-123456\",\"revision\":0,\"stepIndex\":0,\"question\":\"Vì sao?\",\"owner\":\"victim\"}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.answer").value("Ta cần phần bằng nhau."));
+        verify(service).ask(any(),eq("real-pupil"));
     }
 
     private static String divisionRequest(boolean confirmed) {
@@ -90,6 +139,58 @@ class MathTutorControllerTest {
         request.put("studentAttempt", "");
         request.put("hintLevel", 0);
         return request;
+    }
+
+    private static Map<String, Object> validWorkReview() {
+        return new HashMap<>(Map.of("sourceId", "source-1234567890", "problemText", "Có 12 bút, thêm 5 bút.",
+                "workText", "12+5=18", "problemConfirmed", true, "workConfirmed", true));
+    }
+
+    @Test void anonymousCannotReviewWork() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/work-review").contentType(MediaType.APPLICATION_JSON)
+                .content(json.writeValueAsBytes(validWorkReview()))).andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
+    @ParameterizedTest @org.junit.jupiter.params.provider.ValueSource(strings = {"TEACHER", "ADMIN"})
+    void nonStudentCannotReviewWork(String role) throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/work-review").with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user("other").roles(role))
+                .contentType(MediaType.APPLICATION_JSON).content(json.writeValueAsBytes(validWorkReview())))
+                .andExpect(status().isForbidden());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(username = "student-a", roles = "STUDENT")
+    void studentCanReviewOnlyTheExplicitlySubmittedWork() throws Exception {
+        var request = validWorkReview();
+        request.put("owner", "student-b");
+        mvc.perform(post("/api/v1/student/tutor/work-review").contentType(MediaType.APPLICATION_JSON)
+                .content(json.writeValueAsBytes(request))).andExpect(status().isOk());
+        verify(service).reviewWork(eq(new WorkReviewRequest("source-1234567890", "Có 12 bút, thêm 5 bút.", "12+5=18", true, true)));
+    }
+
+    @Test @WithMockUser(roles = "STUDENT")
+    void workReviewRejectsMissingUncertainUnboundedAndCoercedConfirmations() throws Exception {
+        for (Map<String, Object> change : java.util.List.<Map<String, Object>>of(
+                Map.of("sourceId", "short"), Map.of("sourceId", "x".repeat(101)),
+                Map.of("problemText", " "), Map.of("problemText", "a".repeat(4001)), Map.of("problemText", "Có [?] bút."),
+                Map.of("workText", " [?] "), Map.of("workText", " "), Map.of("workText", "a".repeat(6001)),
+                Map.of("workText", "a".repeat(501)), Map.of("workText", String.join("\n", java.util.Collections.nCopies(36, "dòng"))),
+                Map.of("problemConfirmed", false), Map.of("workConfirmed", false),
+                Map.of("problemConfirmed", "true"), Map.of("workConfirmed", "true"),
+                Map.of("problemConfirmed", 1), Map.of("workConfirmed", 1))) {
+            var request = validWorkReview();
+            request.putAll(change);
+            mvc.perform(post("/api/v1/student/tutor/work-review").contentType(MediaType.APPLICATION_JSON)
+                    .content(json.writeValueAsBytes(request))).andExpect(status().isBadRequest());
+        }
+        for (String field : new String[]{"sourceId", "problemText", "workText", "problemConfirmed", "workConfirmed"}) {
+            var request = validWorkReview();
+            request.remove(field);
+            mvc.perform(post("/api/v1/student/tutor/work-review").contentType(MediaType.APPLICATION_JSON)
+                    .content(json.writeValueAsBytes(request))).andExpect(status().isBadRequest());
+        }
+        verifyNoInteractions(service);
     }
 
     @Test void anonymousStudentRoutesRequireAuthentication() throws Exception {

@@ -82,5 +82,5 @@ function ProcessingRequest({ params, activeUri }: {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  error: { width: '100%', maxWidth: 500, gap: 16 },
+  error: { width: '100%', maxWidth: 740, gap: 20, backgroundColor: '#FFF', borderRadius: 27, padding: 24, borderWidth: 1, borderColor: '#E8DFF7' },
 });

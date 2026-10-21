@@ -25,6 +25,17 @@ export interface NotebookRead {
   kind: 'PROBLEM' | 'WORK' | 'MIXED' | 'MULTIPLE' | 'UNREADABLE';
   problemText: string; lines: NotebookLine[]; needsProblem: boolean; needsCrop?: boolean;
 }
+export type WorkReviewRequest = { sourceId: string; problemText: string; workText: string; problemConfirmed: boolean; workConfirmed: boolean };
+export type WorkReviewRow = { lineIndex: number; sourceText: string; status: 'OK' | 'FIX' | 'UNSURE'; feedback: string; hints: string[] };
+export type WorkReview = { sourceId: string; status: 'CORRECT' | 'NEEDS_REVISION' | 'NEEDS_REVIEW'; summary: string; praise: string;
+  rows: WorkReviewRow[]; nextAction: string; alternative: string };
+/** Same physical line separators as Python splitlines; blank rows do not get review indexes. */
+export function trimWorkReviewLine(text: string): string {
+  return text.replace(/^[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+|[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+$/g, '');
+}
+export function workReviewLines(text: string): string[] {
+  return text.split(/\r\n|[\n\r\v\f\x1c-\x1e\x85\u2028\u2029]/).map(trimWorkReviewLine).filter(Boolean);
+}
 export interface CoachRequest {
   problemText: string; workText: string; stage: TutorStage; studentAttempt: string;
   focusText: string; hintLevel: number; previousHint: string;
@@ -48,36 +59,95 @@ const STAGES: TutorStage[] = ['UNDERSTAND', 'PLAN', 'NEXT_STEP', 'CHECK_WORK'];
 const TIMEOUT = 45000;
 const INVALID_RESPONSE = 'Chưa đọc được hướng dẫn. Em hãy thử lại nhé.';
 
-export type CompletedLessonStep = { title: string; expression: string; answer: string; unit: string; explanation: string; solutionSentence?: string; calculationDetails?: string[]; guidance?: string[] };
-export type LessonStep = { title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[] };
+export type CompletedLessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; expression: string; answer: string; unit: string; explanation: string; solutionSentence?: string; calculationDetails?: string[]; guidance?: string[] };
+export type LessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[] };
+export type LessonSummary = { givens: string[]; question: string };
+export type LessonReply = { answer: string; spokenExplanation: string; followUp: string; guarded: boolean };
 export type LessonResponse = {
   sessionId: string; revision: number; topic: string; goal: string; outline: string[]; stepIndex: number;
   step: LessonStep | null; completed: CompletedLessonStep[];
-  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string;
+  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3;
+  summary?: LessonSummary | null;
 };
 function lessonResponse(value: any): LessonResponse {
   const bounded = (v: any, max: number) => typeof v === 'string' && v.length <= max;
+  const understanding = value?.understandingSteps === undefined ? 0 : value.understandingSteps;
+  const phaseValid = (s: any, index: number) => s && (s.kind === undefined ? 'MATH' : s.kind) === (index < understanding ? 'UNDERSTAND' : 'MATH')
+    && (index >= understanding || (s.expression === '' && s.unit === '' && !s.solutionSentence));
   const guidanceValid = (v: any) => v === undefined || (Array.isArray(v) && v.length <= 6 && v.every((item: any) => bounded(item, 500) && item.trim()));
+  const summary = value?.summary;
+  const summaryValid = summary == null || (understanding === 3 && value.stepIndex >= 2
+    && typeof summary === 'object' && !Array.isArray(summary)
+    && Array.isArray(summary.givens) && summary.givens.length >= 1 && summary.givens.length <= 12
+    && summary.givens.every((item: any) => bounded(item, 200) && item.trim())
+    && bounded(summary.question, 100) && summary.question.trim());
   const stepValid = (s: any) => s && bounded(s.title, 100) && bounded(s.explanation, 500) && bounded(s.question, 220)
     && Array.isArray(s.choices) && s.choices.length <= 4 && s.choices.every((c: any) => bounded(c, 100))
     && bounded(s.expression, 220) && bounded(s.unit, 20) && bounded(s.workExcerpt, 500)
     && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220)) && guidanceValid(s.guidance);
-  if (!value || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
+  if (!value || !summaryValid || ![0, 3].includes(understanding) || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
       || !bounded(value.topic, 120) || !bounded(value.goal, 220) || !bounded(value.feedback, 500)
-      || !Array.isArray(value.outline) || value.outline.length < 2 || value.outline.length > 6 || !value.outline.every((t: any) => bounded(t, 100))
+      || !Array.isArray(value.outline) || value.outline.length - understanding < 2 || value.outline.length - understanding > 6 || !value.outline.every((t: any) => bounded(t, 100))
       || !Array.isArray(value.completed) || value.completed.length > value.outline.length
-      || !value.completed.every((s: any) => bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
+      || !value.completed.every((s: any, index: number) => phaseValid(s, index) && bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
         && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220))
         && guidanceValid(s.guidance)
         && (s.calculationDetails === undefined || (Array.isArray(s.calculationDetails) && s.calculationDetails.length <= 5 && s.calculationDetails.every((d: any) => bounded(d, 500)))))
       || (value.conclusion !== undefined && !bounded(value.conclusion, 150))
       || value.stepIndex !== value.completed.length || !['READY', 'HINT', 'TRY_AGAIN', 'CORRECT', 'COMPLETE'].includes(value.status)
-      || (value.step === null) !== (value.status === 'COMPLETE') || (value.step !== null && !stepValid(value.step))) throw new Error(INVALID_RESPONSE);
+      || (value.step === null) !== (value.status === 'COMPLETE')
+      || (value.step === null ? value.stepIndex !== value.outline.length
+        : value.stepIndex >= value.outline.length || !phaseValid(value.step, value.stepIndex) || !stepValid(value.step)
+          || (value.stepIndex < understanding && value.step.choices.length < 2))) throw new Error(INVALID_RESPONSE);
   if (value.status !== 'COMPLETE' && value.conclusion) throw new Error(INVALID_RESPONSE);
   return value as LessonResponse;
 }
 
 export const TutorService = {
+  async askLesson(request: { sessionId: string; revision: number; stepIndex: number; question: string }, signal?: AbortSignal): Promise<LessonReply> {
+    if (!request.question.trim() || request.question.length > 500) throw new Error('Em viết một câu hỏi ngắn nhé.');
+    const { data } = await apiClient.post<LessonReply>('/student/tutor/lesson/ask', request, { timeout: TIMEOUT, signal });
+    if (!data || typeof data.answer !== 'string' || !data.answer.trim() || data.answer.length > 650
+      || typeof data.spokenExplanation !== 'string' || !data.spokenExplanation.trim() || data.spokenExplanation.length > 1600
+      || typeof data.followUp !== 'string' || data.followUp.length > 200 || typeof data.guarded !== 'boolean') throw new Error(INVALID_RESPONSE);
+    return data;
+  },
+  async transcribeQuestion(uri: string, signal?: AbortSignal): Promise<string> {
+    const form = new FormData();
+    if (Platform.OS === 'web') {
+      const blob = await (await fetch(uri, { signal })).blob();
+      if (blob.size > 3 * 1024 * 1024) throw new Error('Em ghi câu hỏi ngắn hơn nhé.');
+      form.append('file', blob, 'question.webm');
+    } else form.append('file', { uri, name: 'question.m4a', type: 'audio/mp4' } as any);
+    form.append('audioConsent', 'true');
+    const { data } = await apiClient.post<{ text: string }>('/student/tutor/transcribe', form, {
+      transformRequest: [value => value], headers: { 'Content-Type': undefined }, timeout: TIMEOUT, signal });
+    if (typeof data?.text !== 'string' || !data.text.trim() || data.text.length > 500) throw new Error('Chưa nghe rõ câu hỏi. Em thử lại nhé.');
+    return data.text;
+  },
+  async reviewWork(request: WorkReviewRequest, signal?: AbortSignal): Promise<WorkReview> {
+    const bounded = (value: unknown, max: number, blank = false): value is string => typeof value === 'string'
+      && value.length <= max && (blank || !!value.trim());
+    if (!request || request.problemConfirmed !== true || request.workConfirmed !== true
+      || !bounded(request.sourceId, 100) || request.sourceId.length < 16
+      || !bounded(request.problemText, 4000) || request.problemText.trim().length < 3
+      || !bounded(request.workText, 6000) || request.workText.trim().length < 3
+      || request.problemText.includes('[?]') || request.workText.includes('[?]')) throw new Error('Em kiểm tra và xác nhận đề cùng bài làm trước nhé.');
+    const source = workReviewLines(request.workText);
+    if (!source.length || source.length > 35 || source.some(row => row.length > 500)) throw new Error('Em chọn một phần bài làm nhỏ hơn nhé.');
+    const { data } = await apiClient.post('/student/tutor/work-review', request, { timeout: TIMEOUT, signal });
+    if (!data || data.sourceId !== request.sourceId || !['CORRECT', 'NEEDS_REVISION', 'NEEDS_REVIEW'].includes(data.status)
+      || !bounded(data.summary, 500) || !bounded(data.praise, 300, true) || !bounded(data.nextAction, 300)
+      || !bounded(data.alternative, 600, true) || !Array.isArray(data.rows) || data.rows.length !== source.length
+      || data.rows.some((row: any, index: number) => !row || row.lineIndex !== index || row.sourceText !== source[index]
+        || !['OK', 'FIX', 'UNSURE'].includes(row.status) || !bounded(row.feedback, 400)
+        || !Array.isArray(row.hints) || row.hints.length > 2 || row.hints.some((hint: unknown) => !bounded(hint, 300))
+        || (row.status === 'OK' && row.hints.length))
+      || (data.status === 'CORRECT' ? !data.praise.trim() || data.rows.some((row: WorkReviewRow) => row.status !== 'OK')
+        : !!data.praise.trim() || !!data.alternative.trim())
+      || (data.status === 'NEEDS_REVISION' && !data.rows.some((row: WorkReviewRow) => row.status === 'FIX'))) throw new Error(INVALID_RESPONSE);
+    return data;
+  },
   async checkDivision(division: WrittenDivision, confirmed: boolean, signal?: AbortSignal): Promise<DivisionCheck> {
     if (!confirmed || !validDivision(division)) throw new Error('Em kiểm tra lại các số trước nhé.');
     const { data } = await apiClient.post('/student/tutor/division/check', { division, confirmed }, { timeout: 15000, signal });
@@ -93,8 +163,9 @@ export const TutorService = {
     return data;
   },
   async startLesson(problemText: string, workText: string,
-    confirmation: { problemConfirmed: boolean; workConfirmed: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
+    confirmation: { problemConfirmed: boolean; workConfirmed: boolean; guidedUnderstanding?: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
     if (confirmation?.problemConfirmed !== true || (workText.trim() && confirmation.workConfirmed !== true)
+      || (confirmation.guidedUnderstanding !== undefined && typeof confirmation.guidedUnderstanding !== 'boolean')
       || problemText.includes('[?]') || workText.includes('[?]')) throw new Error('Em kiểm tra lại đề và các số với ảnh trước nhé.');
     const { data } = await apiClient.post('/student/tutor/lesson', { problemText, workText, ...confirmation }, { timeout: TIMEOUT, signal });
     return lessonResponse(data);

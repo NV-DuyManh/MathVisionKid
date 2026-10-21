@@ -151,7 +151,7 @@ export default function WebCameraScreen() {
   </View>;
 }
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#080B16' }, overlay: { flex: 1, backgroundColor: 'rgba(15,23,42,0.15)' },
+  screen: { flex: 1, backgroundColor: '#080B16' }, overlay: { flex: 1, width: '100%', maxWidth: 1200, alignSelf: 'center', backgroundColor: 'rgba(15,23,42,0.15)' },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, padding: SIZES.medium },
   iconButton: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(15,23,42,0.65)', alignItems: 'center', justifyContent: 'center' },
   badge: { flexDirection: 'row', gap: 6, flexShrink: 1, alignItems: 'center', borderRadius: 24, padding: 10, backgroundColor: 'rgba(15,23,42,0.65)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' },
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   scanArea: { flex: 1, minHeight: 0, alignItems: 'center', justifyContent: 'center', paddingHorizontal: SIZES.medium, gap: 12 },
   pill: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(15,23,42,0.75)', padding: 10, borderRadius: 24 },
   instruction: { fontFamily: FONTS.bold, fontSize: 13, color: 'white', flexShrink: 1, textAlign: 'center' },
-  frame: { flex: 1, minHeight: 0, width: '100%', maxWidth: 340, maxHeight: 420, alignItems: 'center', justifyContent: 'center' },
+  frame: { flex: 1, minHeight: 0, width: '100%', maxWidth: 900, maxHeight: 560, alignItems: 'center', justifyContent: 'center' },
   corner: { position: 'absolute', width: 36, height: 36, borderColor: 'white' },
   topLeft: { top: 0, left: 0, borderTopWidth: 4, borderLeftWidth: 4, borderTopLeftRadius: 16 },
   topRight: { top: 0, right: 0, borderTopWidth: 4, borderRightWidth: 4, borderTopRightRadius: 16 },

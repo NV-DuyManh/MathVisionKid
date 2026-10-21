@@ -306,11 +306,15 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   scrollContent: {
-    padding: SIZES.large,
+    flexGrow: 1,
+    width: '100%',
+    maxWidth: 980,
+    alignSelf: 'center',
+    padding: 22,
   },
   card: {
     backgroundColor: COLORS.surface,
-    borderRadius: SIZES.cardRadius,
+    borderRadius: 24,
     padding: SIZES.medium,
     marginBottom: SIZES.large,
     borderWidth: 1,
@@ -365,7 +369,7 @@ const styles = StyleSheet.create({
     padding: SIZES.xlarge,
     alignItems: 'center',
     backgroundColor: COLORS.surface,
-    borderRadius: SIZES.cardRadius,
+    borderRadius: 24,
   },
   errorTitle: {
     fontSize: 18,
@@ -419,7 +423,7 @@ const styles = StyleSheet.create({
   },
   textBox: {
     backgroundColor: '#FFFFFF',
-    borderRadius: SIZES.cardRadius,
+    borderRadius: 24,
     padding: SIZES.large,
     borderWidth: 1.5,
     borderColor: COLORS.primaryLight,
@@ -476,7 +480,7 @@ const styles = StyleSheet.create({
   editSection: {
     backgroundColor: COLORS.surface,
     padding: SIZES.large,
-    borderRadius: SIZES.cardRadius,
+    borderRadius: 24,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
@@ -534,7 +538,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ECFDF5',
     padding: SIZES.large,
-    borderRadius: SIZES.cardRadius,
+    borderRadius: 24,
     borderWidth: 1,
     borderColor: '#A7F3D0',
     width: '100%',

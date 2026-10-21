@@ -56,6 +56,11 @@ public class MathTutorController {
         return service.checkDivision(request);
     }
 
+    @PostMapping(value = "/work-review", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public WorkReviewResponse reviewWork(@Valid @RequestBody WorkReviewRequest request) {
+        return service.reviewWork(request);
+    }
+
     @PostMapping(value = "/lesson", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonResponse lesson(@Valid @RequestBody LessonRequest request, Authentication authentication) {
         return service.lesson(request, authentication.getName());
@@ -64,6 +69,33 @@ public class MathTutorController {
     @PostMapping(value = "/lesson/answer", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonResponse answer(@Valid @RequestBody LessonAnswer request, Authentication authentication) {
         return service.answer(request, authentication.getName());
+    }
+
+    @PostMapping(value = "/lesson/ask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public LessonReply ask(@Valid @RequestBody LessonQuestion request, Authentication authentication) {
+        return service.ask(request, authentication.getName());
+    }
+
+    @PostMapping(value="/lesson/video", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VideoStatus> video(@Valid @RequestBody VideoRequest request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.video(request,authentication.getName()));
+    }
+
+    @PostMapping(value="/lesson/video/status", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VideoStatus> videoStatus(@Valid @RequestBody VideoLookup request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.videoStatus(request,authentication.getName()));
+    }
+
+    @PostMapping(value="/lesson/video/content", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<byte[]> videoContent(@Valid @RequestBody VideoLookup request, Authentication authentication) {
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("video/mp4"))
+                .cacheControl(org.springframework.http.CacheControl.noStore()).body(service.videoContent(request,authentication.getName()));
+    }
+
+    @PostMapping(value = "/transcribe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Transcript transcribe(@RequestParam(value = "file", required = false) MultipartFile file,
+                                @RequestParam(value = "audioConsent", defaultValue = "false") boolean consent, Authentication authentication) {
+        return service.transcribe(file, consent, authentication.getName());
     }
 
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class,

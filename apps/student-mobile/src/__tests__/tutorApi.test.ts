@@ -67,6 +67,71 @@ const publicLesson = { sessionId: 'abcdefghijklmnopqrstuv', revision: 0, topic: 
   stepIndex: 0, completed: [], status: 'READY', feedback: '', step: { title: 'Chọn phép tính', explanation: 'Xem số bút thay đổi.', question: 'Em chọn phép tính nào?',
     choices: ['Cộng', 'Trừ'], expression: '', unit: '', workExcerpt: '' } };
 
+const summaryLesson = { ...publicLesson, revision: 2, understandingSteps: 3, stepIndex: 2,
+  outline: ['Dữ kiện', 'Câu hỏi', 'Đối chiếu', ...publicLesson.outline],
+  completed: [
+    { kind: 'UNDERSTAND', title: 'Dữ kiện', expression: '', answer: 'Lan có 12 bút', unit: '', explanation: 'Đọc đề.' },
+    { kind: 'UNDERSTAND', title: 'Câu hỏi', expression: '', answer: 'Hỏi có tất cả bao nhiêu bút?', unit: '', explanation: 'Đọc đề.' },
+  ], step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
+const sourceSummary = { givens: ['Lan có 12 bút', 'thêm 5 bút', 'Hai nhóm cùng màu'], question: 'Hỏi có tất cả bao nhiêu bút?' };
+
+it.each([undefined, null, sourceSummary,
+  { givens: Array(12).fill('a'.repeat(200)), question: 'a'.repeat(100) },
+])('accepts optional bounded summaries after both source selections', async summary => {
+  const data = { ...summaryLesson, summary };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.answerLesson(publicLesson as any, 'Hỏi có tất cả bao nhiêu bút?')).resolves.toEqual(data);
+});
+
+it.each([
+  false, [], 'text', {}, { ...sourceSummary, givens: [] }, { ...sourceSummary, givens: null },
+  { ...sourceSummary, givens: [' '] }, { ...sourceSummary, givens: [1] },
+  { ...sourceSummary, givens: ['a'.repeat(201)] }, { ...sourceSummary, givens: Array(13).fill('fact') },
+  { ...sourceSummary, question: '' }, { ...sourceSummary, question: ' ' },
+  { ...sourceSummary, question: 'a'.repeat(101) }, { ...sourceSummary, question: 1 },
+])('rejects malformed source summaries at the API boundary', async summary => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...summaryLesson, summary } });
+  await expect(TutorService.answerLesson(publicLesson as any, 'question')).rejects.toThrow('Chưa đọc được hướng dẫn');
+});
+
+it.each([
+  { ...publicLesson, understandingSteps: 3, outline: summaryLesson.outline, step: summaryLesson.step },
+  { ...summaryLesson, stepIndex: 1, completed: summaryLesson.completed.slice(0, 1) },
+  { ...summaryLesson, understandingSteps: 0, step: publicLesson.step,
+    completed: summaryLesson.completed.map(row => ({ ...row, kind: 'MATH' })) },
+])('rejects summaries before both selections or without a comprehension phase', async response => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...response, summary: sourceSummary } });
+  await expect(TutorService.answerLesson(publicLesson as any, 'answer')).rejects.toThrow('Chưa đọc được hướng dẫn');
+});
+
+it.each([2, 6])('opts into three comprehension steps with %i math steps while retaining existing arguments', async mathSteps => {
+  const data = { ...publicLesson, understandingSteps: 3,
+    outline: ['Dữ kiện', 'Câu hỏi', 'Đối chiếu', ...publicLesson.outline, ...Array(mathSteps - 2).fill('Tính')],
+    step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
+  const confirmation = { problemConfirmed: true, workConfirmed: false, guidedUnderstanding: true };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.startLesson(request.problemText, '', confirmation)).resolves.toEqual(data);
+  expect(apiClient.post).toHaveBeenCalledWith('/student/tutor/lesson',
+    { problemText: request.problemText, workText: '', ...confirmation }, expect.anything());
+});
+
+it.each([
+  { understandingSteps: 1 }, { understandingSteps: '3' },
+  { understandingSteps: 3, outline: ['Dữ kiện', 'Câu hỏi', 'Đối chiếu', 'Tính'] },
+  { understandingSteps: 3, outline: Array(10).fill('Bước') },
+  { understandingSteps: 3, outline: Array(5).fill('Bước'), step: { ...publicLesson.step, kind: 'MATH' } },
+  { understandingSteps: 3, outline: Array(5).fill('Bước'), step: { ...publicLesson.step, kind: 'UNDERSTAND', expression: '12+5' } },
+  { step: { ...publicLesson.step, kind: 'UNKNOWN' } },
+  { step: { ...publicLesson.step, kind: null } },
+  { understandingSteps: 3, outline: Array(5).fill('Bước'), stepIndex: 1,
+    completed: [{ title: 'Dữ kiện', answer: 'Lan có 12 bút', expression: '', unit: '', explanation: 'Đọc đề.' }],
+    step: { ...publicLesson.step, kind: 'UNDERSTAND' } },
+])('rejects malformed comprehension metadata and calculation mixed into the reading phase', async patch => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...publicLesson, ...patch } });
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false }))
+    .rejects.toThrow('Chưa đọc được hướng dẫn');
+});
+
 it('retains bounded teaching actions from the backend', async () => {
   const data = { ...publicLesson, step: { ...publicLesson.step, guidance: ['Đọc điều được cho.', 'Giải thích vì sao gộp hai nhóm.'] } };
   (apiClient.post as jest.Mock).mockResolvedValue({ data });

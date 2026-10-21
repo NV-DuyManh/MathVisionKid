@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "com.mathvisionkids.api.tutoring.MathTutorControllerTest",
+    "Tests": 38,
+    "Failures": 0,
+    "Errors": 0
+  },
+  {
+    "Name": "com.mathvisionkids.api.tutoring.MathTutorServiceTest",
+    "Tests": 82,
+    "Failures": 0,
+    "Errors": 0
+  }
+]

@@ -1,0 +1,662 @@
+{
+  "fixture": "Actual production Student web export, isolated account and API fixtures; speech completion simulated, photo upload uses user sample. No physical-device or acoustic-quality claim.",
+  "rows": [
+    {
+      "name": "lessons",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lesson-open",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-work",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "notes",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-options",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievement-details",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step-hint",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty-selected",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "explanation",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lesson-open",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-work",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "notes",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-options",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievement-details",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step-hint",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty-selected",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "explanation",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lesson-open",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-work",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "notes",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-options",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievement-details",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step-hint",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty-selected",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "explanation",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lesson-open",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-work",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "notes",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-options",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step-hint",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty-selected",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "explanation",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "lesson-open",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-work",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "notes",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "saved-options",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "step-hint",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty-selected",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "explanation",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-revision",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-highlight",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-correct",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-revision",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-highlight",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-correct",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-revision",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-highlight",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "work-correct",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    }
+  ],
+  "errors": []
+}

@@ -41,6 +41,6 @@ export function prepareIllustrations(): Promise<void> {
   return pending;
 }
 
-export function AppIllustration({ source, resizeMode, contentFit, ...props }: Omit<ImageProps, 'source'> & { source: number }) {
-  return <Image {...props} source={ready.get(source) || source} contentFit={contentFit || (resizeMode === 'cover' ? 'cover' : 'contain')} transition={0} />;
+export function AppIllustration({ source, resizeMode, contentFit, highResolution = false, ...props }: Omit<ImageProps, 'source'> & { source: number; highResolution?: boolean }) {
+  return <Image {...props} source={highResolution ? source : ready.get(source) || source} contentFit={contentFit || (resizeMode === 'cover' ? 'cover' : 'contain')} transition={0} />;
 }

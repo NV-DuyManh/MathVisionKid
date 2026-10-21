@@ -658,9 +658,10 @@ const styles = StyleSheet.create({
     },
     content: {
         padding: SIZES.medium,
-        paddingTop: 52,
+        paddingTop: 22,
         paddingBottom: 40,
-        maxWidth: 600,
+        flexGrow: 1,
+        maxWidth: 980,
         width: '100%',
         alignSelf: 'center',
     },
@@ -688,7 +689,7 @@ const styles = StyleSheet.create({
     retryBtn: {
         paddingVertical: 12,
         paddingHorizontal: 22,
-        borderRadius: 14,
+        borderRadius: 20,
         backgroundColor: COLORS.primary,
     },
     retryBtnText: {
@@ -720,18 +721,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
-        backgroundColor: '#EFF6FF',
-        borderRadius: 14,
+        backgroundColor: '#F1EBFC',
+        borderRadius: 20,
         padding: 12,
         marginBottom: 14,
         borderWidth: 1,
-        borderColor: '#DBEAFE',
+        borderColor: '#E4D8F5',
     },
     summaryText: {
         flex: 1,
         fontSize: 13,
         lineHeight: 18,
-        color: '#1E40AF',
+        color: COLORS.primaryDark,
         fontFamily: FONTS.semiBold,
     },
     card: {
@@ -802,7 +803,7 @@ const styles = StyleSheet.create({
         paddingVertical: 4,
         paddingHorizontal: 12,
         borderRadius: 999,
-        backgroundColor: '#EFF6FF',
+        backgroundColor: '#F1EBFC',
     },
     lineOrderText: {
         fontSize: 12,
@@ -852,7 +853,7 @@ const styles = StyleSheet.create({
     /* Section B: Deduplicated Suggestions */
     sectionBBox: {
         backgroundColor: '#FFFBEB',
-        borderRadius: 14,
+        borderRadius: 20,
         padding: 12,
         marginBottom: 8,
         borderWidth: 1,
@@ -872,7 +873,7 @@ const styles = StyleSheet.create({
     },
     sectionGeminiBox: {
         backgroundColor: '#FAF5FF',
-        borderRadius: 14,
+        borderRadius: 20,
         padding: 12,
         marginBottom: 8,
         borderWidth: 1,
@@ -979,8 +980,8 @@ const styles = StyleSheet.create({
     },
     /* Section C: Current Result (Prominent & Clear) */
     sectionCBox: {
-        backgroundColor: '#EFF6FF',
-        borderRadius: 14,
+        backgroundColor: '#F1EBFC',
+        borderRadius: 20,
         padding: 12,
         marginBottom: 10,
         borderWidth: 1.5,
@@ -1016,7 +1017,7 @@ const styles = StyleSheet.create({
     sourceBadgeText: {
         fontSize: 10,
         fontFamily: FONTS.bold,
-        color: '#1E40AF',
+        color: COLORS.primaryDark,
     },
     sectionCText: {
         fontSize: 16,
@@ -1027,7 +1028,7 @@ const styles = StyleSheet.create({
     editForm: {
         marginTop: 8,
         padding: 12,
-        borderRadius: 14,
+        borderRadius: 20,
         backgroundColor: '#F8FAFC',
         borderWidth: 1,
         borderColor: '#E2E8F0',
@@ -1102,7 +1103,7 @@ const styles = StyleSheet.create({
     },
     fbEditBtn: {
         borderColor: '#93C5FD',
-        backgroundColor: '#EFF6FF',
+        backgroundColor: '#F1EBFC',
     },
     fbSkipBtn: {
         borderColor: '#CBD5E1',
@@ -1147,7 +1148,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 8,
         height: 52,
-        borderRadius: 16,
+        borderRadius: 22,
         backgroundColor: COLORS.primary,
         ...SHADOWS.small,
     },
@@ -1162,7 +1163,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 6,
         height: 48,
-        borderRadius: 16,
+        borderRadius: 22,
         backgroundColor: COLORS.surface,
         borderWidth: 1.5,
         borderColor: COLORS.primary,
@@ -1208,7 +1209,7 @@ const styles = StyleSheet.create({
     // Math Solution Grading Styles
     mathSolutionCard: {
         backgroundColor: '#FFFFFF',
-        borderRadius: 14,
+        borderRadius: 20,
         padding: SIZES.medium,
         marginBottom: SIZES.medium,
         borderWidth: 1,
@@ -1336,7 +1337,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
-        backgroundColor: '#EFF6FF',
+        backgroundColor: '#F1EBFC',
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 8,

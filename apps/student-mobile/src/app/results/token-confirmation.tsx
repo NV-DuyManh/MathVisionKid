@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, ScrollView, Text, Alert, Image, Pressable } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { FONTS, COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { StatusCard } from '../../components/domain/StatusCard';
@@ -102,7 +102,7 @@ function TokenConfirmationRequest({ currentId }: { currentId?: string }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
-  content: { padding: SIZES.large, gap: 16, flexGrow: 1, maxWidth: 500, width: '100%', alignSelf: 'center' },
+  content: { padding: 22, gap: 20, flexGrow: 1, maxWidth: 840, width: '100%', alignSelf: 'center' },
   photoFrame: { width: '100%', alignSelf: 'center', backgroundColor: COLORS.surface, borderRadius: 20, overflow: 'hidden' },
   highlight: { position: 'absolute', borderWidth: 2, borderColor: COLORS.primary, backgroundColor: 'rgba(120,83,226,0.18)' },
   context: { fontFamily: FONTS.semiBold, fontSize: 16, color: COLORS.textPrimary },

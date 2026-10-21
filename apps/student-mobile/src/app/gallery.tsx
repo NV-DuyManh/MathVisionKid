@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions, Alert, Linking, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, useWindowDimensions, Alert, Linking, Platform } from 'react-native';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { RecognitionProgress } from '../features/recognition/components/RecognitionProgress';
 import { Image } from 'expo-image';
@@ -11,11 +11,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { FONTS, COLORS, SHADOWS } from '../constants/theme';
 import { recognitionDraftStore, resolveFlowDomain, logFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { normalizeImageDraft, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const GRID_PADDING = 12;
 const GRID_GAP = 8;
-const NUM_COLUMNS = 3;
-const ITEM_SIZE = (SCREEN_WIDTH - GRID_PADDING * 2 - GRID_GAP * (NUM_COLUMNS - 1)) / NUM_COLUMNS;
 const PAGE_SIZE = 30;
 // Safe Lazy MediaLibrary loader — prevents fatal import-time crashes in Expo Go
 interface MediaLibraryModuleLike {
@@ -37,17 +34,19 @@ function getMediaLibrary(): MediaLibraryModuleLike | null {
     }
 }
 interface GalleryItemProps {
+    size: number;
     item: MediaLibraryTypes.Asset;
     isSelected: boolean;
     onSelect: (asset: MediaLibraryTypes.Asset) => void;
 }
 // Memoized grid cell to prevent re-rendering all items on selection change (vercel-react-best-practices)
-const GalleryGridItem = React.memo(function GalleryGridItem({ item, isSelected, onSelect }: GalleryItemProps) {
+const GalleryGridItem = React.memo(function GalleryGridItem({ item, isSelected, onSelect, size }: GalleryItemProps) {
     const formattedDate = item.creationTime
         ? new Date(item.creationTime).toLocaleDateString('vi-VN')
         : item.id;
     return (<TouchableOpacity testID={`gallery-cell-${item.id}`} style={[
             styles.gridCell,
+            { width: size, height: size },
             isSelected && styles.gridCellSelected
         ]} onPress={() => onSelect(item)} activeOpacity={0.82} accessibilityRole="button" accessibilityLabel={`Ảnh ngày ${formattedDate} (${item.filename})`} accessibilityState={{ selected: isSelected }}>
         <Image source={{ uri: item.uri }} style={styles.cellImage} contentFit="cover" transition={150} cachePolicy="memory-disk"/>
@@ -59,9 +58,12 @@ const GalleryGridItem = React.memo(function GalleryGridItem({ item, isSelected, 
             </View>
           </View>)}
       </TouchableOpacity>);
-}, (prev, next) => prev.item.id === next.item.id && prev.isSelected === next.isSelected);
+}, (prev, next) => prev.item.id === next.item.id && prev.isSelected === next.isSelected && prev.size === next.size);
 GalleryGridItem.displayName = 'GalleryGridItem';
 export default function CustomGalleryScreen() {
+    const { width } = useWindowDimensions();
+    const columns = width < 600 ? 3 : width < 1000 ? 4 : 6;
+    const itemSize = (Math.min(width, 1100) - GRID_PADDING * 2 - GRID_GAP * (columns - 1)) / columns;
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const [permissionResponse, setPermissionResponse] = useState<MediaLibraryTypes.PermissionResponse | null>(null);
@@ -334,7 +336,7 @@ export default function CustomGalleryScreen() {
           </TouchableOpacity>
         </View>) : (
         /* Photo Grid */
-        <FlatList data={assets} numColumns={NUM_COLUMNS} keyExtractor={(item) => item.id} renderItem={({ item }) => (<GalleryGridItem item={item} isSelected={selectedAsset?.id === item.id} onSelect={handleSelectAsset}/>)} contentContainerStyle={[
+        <FlatList key={columns} style={styles.grid} columnWrapperStyle={styles.gridRow} data={assets} numColumns={columns} keyExtractor={(item) => item.id} renderItem={({ item }) => (<GalleryGridItem item={item} size={itemSize} isSelected={selectedAsset?.id === item.id} onSelect={handleSelectAsset}/>)} contentContainerStyle={[
                 styles.gridContent,
                 { paddingBottom: insets.bottom + 90 }
             ]} showsVerticalScrollIndicator={false} onEndReached={handleLoadMore} onEndReachedThreshold={0.5} ListFooterComponent={loadingMore ? (<View style={styles.footerLoader}>
@@ -416,10 +418,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: GRID_PADDING,
         paddingTop: 12,
     },
+    grid: { width: '100%', maxWidth: 1100, alignSelf: 'center' }, gridRow: { gap: GRID_GAP },
     gridCell: {
-        width: ITEM_SIZE,
-        height: ITEM_SIZE,
-        marginRight: GRID_GAP,
         marginBottom: GRID_GAP,
         borderRadius: 12,
         overflow: 'hidden',
@@ -462,6 +462,7 @@ const styles = StyleSheet.create({
     },
     permissionCard: {
         flex: 1,
+        width: '100%', maxWidth: 620, alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 28,
@@ -470,7 +471,7 @@ const styles = StyleSheet.create({
         width: 88,
         height: 88,
         borderRadius: 44,
-        backgroundColor: '#EFF6FF',
+        backgroundColor: '#EEE7FC',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20,

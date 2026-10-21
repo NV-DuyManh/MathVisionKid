@@ -3,84 +3,91 @@ import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'rea
 import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../context/AuthContext';
-import { AppHeader } from '../../components/ui/AppHeader';
+import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
 import { AppButton } from '../../components/ui/AppButton';
-import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
+import { MathText } from '../../components/domain/MathText';
+import { COLORS, FONTS } from '../../constants/theme';
 import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
+import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 
+type Tab = 'saved' | 'work' | 'notes';
 export default function ProfileScreen() {
-  const router = useRouter();
-  const [pageWidth, setPageWidth] = useState(0);
-  const auth = useContext(AuthContext);
+  const router = useRouter(), auth = useContext(AuthContext);
+  const [pageWidth, setPageWidth] = useState(0), [tab, setTab] = useState<Tab>('saved');
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
-  const [lessons, setLessons] = useState<SavedLesson[]>([]);
-  const [error, setError] = useState(false);
+  const [lessons, setLessons] = useState<SavedLesson[]>([]), [error, setError] = useState(false);
+  const [menu, setMenu] = useState<SavedLesson | null>(null);
   useFocusEffect(useCallback(() => {
     let active = true;
-    setLessons([]); setError(false);
-    loadLessons(owner).then(items => { if (active) setLessons(items); })
-      .catch(() => { if (active) setError(true); });
+    setLessons([]); setError(false); setMenu(null);
+    loadLessons(owner).then(items => { if (active) setLessons(items); }).catch(() => { if (active) setError(true); });
     return () => { active = false; };
   }, [owner]));
-  const capture = () => {
-    recognitionDraftStore.clearDraft();
-    router.push({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
-  };
+  const capture = () => { recognitionDraftStore.clearDraft(); router.push({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } }); };
+  const open = (lesson: SavedLesson) => router.push({ pathname: '/learning/math-guide', params: { problemText: lesson.problemText, workText: lesson.workText, lessonId: lesson.id, reflection: lesson.reflection } });
+  const items = lessons.filter(item => tab === 'notes' ? item.reflection.trim() : tab === 'work' ? item.workText.trim() : true);
   return <SafeAreaView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} edges={['top']}>
-    <AppHeader title="Góc học tập của em" />
-    <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && { paddingBottom: 32 }]} showsVerticalScrollIndicator={false}>
-      <LinearGradient colors={['#F0E9FF', '#FAF7FF']} style={styles.identity}>
-        <Image source={require('../../../assets/illustrations/student-avatar.png')} style={styles.avatar} resizeMode="contain" accessible={false} />
-        <View style={styles.copy}><Text style={styles.name}>{auth?.user?.name || 'Chào em!'}</Text>
-          <Text style={styles.body}>{auth?.user?.grade ? `Học sinh lớp ${auth.user.grade}` : 'Mỗi ngày, học thêm một điều mới.'}</Text></View>
-      </LinearGradient>
-      <View style={styles.row}><Text style={styles.heading}>Bài đã lưu</Text><Text style={styles.caption}>{lessons.length} bài</Text></View>
-      <Text style={styles.body}>Giữ lại điều em đã nghĩ, rồi quay lại học tiếp.</Text>
-      {error ? <Text style={styles.error}>Chưa mở được bài đã lưu. Em quay lại màn hình này để thử lại nhé.</Text>
-        : lessons.length ? lessons.map(lesson => <Pressable key={lesson.id} accessibilityRole="button"
-          accessibilityLabel={`Học tiếp: ${(lesson.problemText || lesson.workText).slice(0, 60)}`}
-          onPress={() => router.push({ pathname: '/learning/math-guide', params: { problemText: lesson.problemText, workText: lesson.workText, lessonId: lesson.id, reflection: lesson.reflection } })}
-          style={({ pressed }) => [styles.lesson, pressed && styles.pressed]}>
-          <View style={styles.row}><View style={styles.label}><Ionicons name="book-outline" size={16} color={COLORS.primaryDark} accessible={false} />
-            <Text style={styles.labelText}>CÙNG HỌC TIẾP</Text></View><Text style={styles.caption}>{new Date(lesson.timestamp).toLocaleDateString('vi-VN')}</Text></View>
-          <Text style={styles.lessonTitle} numberOfLines={3}>{lesson.problemText || lesson.workText}</Text>
-          {lesson.reflection ? <Text style={styles.body} numberOfLines={2}>Em đã nghĩ: {lesson.reflection}</Text> : null}
-          <View style={styles.row}><Text style={styles.link}>Mở bài học</Text><Ionicons name="arrow-forward" size={19} color={COLORS.primaryDark} accessible={false} /></View>
-        </Pressable>) : <View style={styles.empty}>
+    <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && styles.contentWide]} showsVerticalScrollIndicator={false}>
+      <StudentPageHeader compact title="Của em" onBack={() => router.replace('/(tabs)')} />
+      <View style={styles.tabs}>{([['saved', 'Bài đã lưu'], ['work', 'Bài làm'], ['notes', 'Ghi chú']] as const).map(([value, label]) => <Pressable
+        key={value} accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected: tab === value }}
+        onPress={() => setTab(value)} style={[styles.tab, tab === value && styles.tabSelected]}>
+        <Text style={[styles.tabText, tab === value && styles.white]}>{label}</Text>
+      </Pressable>)}</View>
+      <View style={styles.listHeading}><Text style={styles.heading}>{tab === 'saved' ? 'Những bài học của em' : tab === 'work' ? 'Bài em đã viết' : 'Điều em ghi nhớ'}</Text><Text style={styles.count}>{items.length} bài</Text></View>
+      {tab === 'work' ? <Text style={styles.caption}>Nội dung em đã lưu bằng chữ. Ảnh riêng tư không lưu trong góc học tập.</Text> : null}
+      {error ? <Text accessibilityRole="alert" style={styles.error}>Chưa mở được bài đã lưu. Em quay lại màn hình này để thử lại nhé.</Text>
+        : items.length ? <View style={styles.list}>{items.map((lesson, index) => <View key={lesson.id} style={styles.lesson}>
+          <Pressable accessibilityRole="button" accessibilityLabel={'Học tiếp: ' + (lesson.problemText || lesson.workText).slice(0, 60)}
+            onPress={() => open(lesson)} style={({ pressed }) => [styles.lessonOpen, pressed && styles.pressed]}>
+            <View style={[styles.thumbnail, { backgroundColor: ['#F0EBF9', '#FFF3DF', '#EAF3FD'][index % 3] }]} accessible={false} importantForAccessibility="no-hide-descendants" aria-hidden>
+              <View style={styles.paperLines}>{[0, 1, 2, 3, 4].map(line => <View key={line} style={styles.paperLine} />)}</View>
+              <Text numberOfLines={3} style={styles.thumbnailText}>{(tab === 'notes' ? lesson.reflection : lesson.workText || lesson.problemText).slice(0, 65)}</Text>
+            </View>
+            <View style={styles.copy}><Text numberOfLines={2} style={styles.lessonTitle}>{lesson.problemText || lesson.workText}</Text>
+              <Text style={styles.date}>{new Date(lesson.timestamp).toLocaleDateString('vi-VN')} · {lesson.reviewedSteps} bước đã xem</Text>
+              {tab === 'notes' ? <Text numberOfLines={2} style={styles.note}>{lesson.reflection}</Text> : null}</View>
+          </Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel={'Tùy chọn bài ' + (index + 1)} onPress={() => setMenu(lesson)} style={styles.more}>
+            <Ionicons name="ellipsis-vertical" size={20} color="#9C87C8" /></Pressable>
+        </View>)}</View> : <View style={styles.empty}>
           <Image source={require('../../../assets/illustrations/approved/saved.webp')} style={styles.art} resizeMode="contain" accessible={false} />
-          <Text style={styles.heading}>Bắt đầu bộ sưu tập bài học</Text>
-          <Text style={styles.centerBody}>Chụp bài toán, cùng suy nghĩ từng bước rồi lưu bài để học tiếp nhé.</Text>
+          <Text style={styles.emptyTitle}>{tab === 'notes' ? 'Ghi lại cách nghĩ của em' : tab === 'work' ? 'Chưa có bài làm đã lưu' : 'Bài học hay, mình giữ lại nhé!'}</Text>
+          <Text style={styles.emptyText}>{tab === 'notes' ? 'Khi lưu bài, em viết một điều vừa hiểu. Ghi chú sẽ xuất hiện ở đây.' : 'Chụp bài toán, cùng học từng bước rồi lưu lại để lần sau học tiếp.'}</Text>
           <AppButton title="Chụp bài toán" onPress={capture} />
         </View>}
-      <View style={styles.info}><Ionicons name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} accessible={false} />
-        <Text style={styles.infoText}>Bài học được lưu theo tài khoản trên thiết bị này. Góc học tập chỉ giữ nội dung bài và suy nghĩ của em.</Text></View>
+      <View style={styles.footer}><Ionicons name="lock-closed-outline" size={15} color="#9B8CB5" /><Text style={styles.caption}>Góc học tập của {auth?.user?.name || 'em'}</Text></View>
       <AppButton title="Đăng xuất" variant="ghost" onPress={() => Alert.alert('Đăng xuất', 'Em muốn đăng xuất khỏi tài khoản này?', [
         { text: 'Ở lại', style: 'cancel' }, { text: 'Đăng xuất', onPress: () => auth?.logout() },
       ])} />
     </ScrollView>
+    {menu ? <LessonSheet title="Bài học của em" onClose={() => setMenu(null)}>
+      <MathText style={styles.emptyText}>{menu.problemText || menu.workText}</MathText>
+      <AppButton title="Mở bài học" onPress={() => { const selected = menu; setMenu(null); open(selected); }} />
+      {menu.reflection ? <><Text style={styles.heading}>Ghi chú của em</Text><Text style={styles.emptyText}>{menu.reflection}</Text></> : null}
+      <AppButton title="Đóng" variant="secondary" onPress={() => setMenu(null)} />
+    </LessonSheet> : null}
   </SafeAreaView>;
 }
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: COLORS.background },
-  content: { padding: 20, paddingBottom: 116, width: '100%', maxWidth: 960, alignSelf: 'center', gap: 16 },
-  identity: { flexDirection: 'row', alignItems: 'center', gap: 16, padding: 20, borderRadius: 28 },
-  avatar: { width: 76, height: 76 }, copy: { flex: 1 },
-  name: { fontFamily: FONTS.extraBold, fontSize: 24, color: COLORS.textPrimary, marginBottom: 6 },
-  heading: { fontFamily: FONTS.extraBold, fontSize: 21, color: COLORS.textPrimary },
-  body: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 22, color: COLORS.textSecondary },
-  caption: { fontFamily: FONTS.semiBold, fontSize: 12, color: COLORS.textMuted },
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
-  lesson: { borderRadius: 25, backgroundColor: COLORS.surface, padding: 20, gap: 15, ...SHADOWS.small },
-  label: { flexDirection: 'row', alignItems: 'center', gap: 7 },
-  labelText: { fontFamily: FONTS.extraBold, fontSize: 10, color: COLORS.primaryDark, letterSpacing: .7 },
-  lessonTitle: { fontFamily: FONTS.bold, fontSize: 17, lineHeight: 26, color: COLORS.textPrimary },
-  link: { fontFamily: FONTS.extraBold, fontSize: 14, color: COLORS.primaryDark },
-  empty: { alignItems: 'center', padding: 23, borderRadius: 28, backgroundColor: '#F0EBFC', gap: 15 },
-  art: { width: 106, height: 100 }, centerBody: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 22, color: COLORS.textSecondary, textAlign: 'center' },
-  info: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16, borderRadius: 20, backgroundColor: '#EAF6F0' },
-  infoText: { flex: 1, fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: '#37644E' },
+  screen: { flex: 1, backgroundColor: '#FAF9FF' },
+  content: { flexGrow: 1, padding: 20, paddingTop: 12, paddingBottom: 108, width: '100%', maxWidth: 960, alignSelf: 'center', gap: 16 }, contentWide: { paddingBottom: 32 },
+  tabs: { flexDirection: 'row', gap: 4, padding: 4, backgroundColor: '#F0EBFA', borderRadius: 15 },
+  tab: { flex: 1, minHeight: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 12 }, tabSelected: { backgroundColor: '#8951FF', boxShadow: '0 3px 7px #8B52FF25' },
+  tabText: { fontFamily: FONTS.extraBold, fontSize: 13, color: '#7C6B9C' }, white: { color: '#FFF' },
+  listHeading: { flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'space-between', marginTop: 7 },
+  heading: { fontFamily: FONTS.extraBold, fontSize: 17, color: COLORS.textPrimary }, count: { fontFamily: FONTS.bold, color: '#8E7DA8', fontSize: 12 },
+  list: { gap: 12 }, lesson: { flexDirection: 'row', alignItems: 'center', borderRadius: 19, backgroundColor: '#FFF', borderWidth: 1, borderColor: '#EEE8F7', padding: 9, boxShadow: '0 3px 12px #47307505' },
+  lessonOpen: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 90 }, copy: { flex: 1, minWidth: 0 },
+  thumbnail: { width: 74, height: 78, borderRadius: 13, padding: 8, overflow: 'hidden', justifyContent: 'center', borderWidth: 1, borderColor: '#E3DCED' },
+  thumbnailText: { fontFamily: FONTS.regular, fontSize: 10, lineHeight: 17, color: '#786B8F', transform: [{ rotate: '-3deg' }] },
+  paperLines: { ...StyleSheet.absoluteFill, paddingTop: 12, gap: 12 }, paperLine: { height: 1, backgroundColor: '#B4A7CC40' },
+  lessonTitle: { fontFamily: FONTS.extraBold, fontSize: 14, lineHeight: 21, color: '#40335D' }, date: { fontFamily: FONTS.regular, fontSize: 11, lineHeight: 18, color: '#8C7E9E', marginTop: 5 },
+  note: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: '#6D6085', marginTop: 6 }, more: { width: 44, height: 52, alignItems: 'center', justifyContent: 'center' },
+  empty: { alignItems: 'center', padding: 24, borderRadius: 24, backgroundColor: '#F3EEFD', gap: 17 }, art: { width: 136, height: 132 },
+  emptyTitle: { fontFamily: FONTS.extraBold, fontSize: 20, color: '#4F3973', textAlign: 'center' }, emptyText: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 23, color: '#7A6B92' },
+  caption: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: '#8B7DA1' }, footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 7, marginTop: 9 },
   error: { fontFamily: FONTS.regular, fontSize: 14, color: COLORS.errorText }, pressed: { opacity: .7 },
 });

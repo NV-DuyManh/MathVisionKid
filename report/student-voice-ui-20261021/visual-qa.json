@@ -1,0 +1,1023 @@
+{
+  "fixture": "Isolated browser API responses; actual app components; no physical-device evidence.",
+  "rows": [
+    {
+      "name": "home",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 360,
+      "height": 800,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 414,
+      "height": 896,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 1280,
+      "height": 800,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "home",
+      "width": 1920,
+      "height": 1080,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "profile",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "login-component",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "confirm",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "learning",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "narration",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-choices",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-explanation",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction-selected",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-correct",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-hint",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-review",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-photo",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-scope",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-token",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "gallery",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "profile",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "login-component",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "confirm",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "learning",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "narration",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-choices",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-explanation",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction-selected",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-correct",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-hint",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-review",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-photo",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-scope",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-token",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "gallery",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "profile",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "login-component",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "confirm",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "learning",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "narration",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-choices",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-explanation",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction-selected",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-correct",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-hint",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-review",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-photo",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-scope",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-token",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "gallery",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "profile",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "login-component",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "confirm",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "learning",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "narration",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-choices",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-explanation",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction-selected",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-correct",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-hint",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-review",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-photo",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-scope",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-token",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "gallery",
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "lessons",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "achievements",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "profile",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "login-component",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "confirm",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "learning",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "narration",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-checkin",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-choices",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "listening-explanation",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "fraction-selected",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-correct",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-hint",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-review",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-photo",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-scope",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "result-token",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "gallery",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "calculator",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "camera",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "privacy-preserved",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "crop-preserved",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "preview",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "camera",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "privacy-preserved",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "crop-preserved",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "preview",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "camera",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "privacy-preserved",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "crop-preserved",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    },
+    {
+      "name": "preview",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": [],
+      "outside": []
+    }
+  ],
+  "failures": [],
+  "consoleErrors": []
+}

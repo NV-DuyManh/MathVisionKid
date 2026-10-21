@@ -52,6 +52,7 @@ describe('Student navigation and real saved activity', () => {
     const problem = getProblemsByGrade(5)[0];
     expect(text(renderer!)).toContain(problem.title);
     expect(text(renderer!)).not.toContain(getProblemsByGrade(1)[0].title);
+    act(() => press(renderer!, `Mở bài: ${problem.title}`));
     act(() => press(renderer!, `Xem gợi ý: ${problem.title}`));
     expect(text(renderer!)).toContain(problem.guidance);
     expect(text(renderer!)).not.toContain('Bài giải tham khảo');
@@ -75,8 +76,9 @@ describe('Student navigation and real saved activity', () => {
     ]);
     let renderer: TestRenderer.ReactTestRenderer;
     await act(async () => { renderer = TestRenderer.create(<AchievementsScreen />); });
-    expect(text(renderer!)).toContain('1 ngày liên tiếp!');
-    const values = renderer!.root.findAllByType('Text' as any).map(node => node.props.children);
+    expect(text(renderer!)).toContain('Ngày liên tiếp');
+    expect(text(renderer!)).toContain('Em đã ghi lại 1 bài học.');
+    const values = renderer!.root.findAllByType('Text' as any).map(node => node.props.children).flat();
     expect(values).toContain(1);
     expect(values).toContain(3);
     expect(values).not.toContain(20);
