@@ -50,7 +50,7 @@ export default function BatchDetailPage() {
   if (isError || !batch) {
     return (
       <Box sx={{ maxWidth: 960, mx: 'auto', mt: 4, textAlign: 'center' }}>
-        <Typography color="error" variant="h6" sx={{ mb: 2 }}>
+        <Typography color="error" variant="h6" component="h1" sx={{ mb: 2 }}>
           Không thể tải thông tin đợt chấm bài.
         </Typography>
         <Button variant="outlined" onClick={() => navigate('/batches')}>
@@ -89,7 +89,7 @@ export default function BatchDetailPage() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3.5, flexWrap: 'wrap', gap: 2 }}>
         <Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5 }}>
-            <Typography variant="h4" sx={{ fontWeight: 800 }}>
+            <Typography variant="h4" component="h1" sx={{ fontWeight: 800 }}>
               {batch.className ? `Lớp ${batch.className}` : 'Lớp học'}
             </Typography>
             <StatusChip status={batch.status} />
@@ -110,7 +110,7 @@ export default function BatchDetailPage() {
 
       {/* In-Progress State */}
       {!isDone ? (
-        <Card sx={{ mb: 4, borderRadius: 2.5, border: '1px solid #BFDBFE', bgcolor: '#EFF6FF' }}>
+        <Card sx={{ mb: 4, borderRadius: 2.5, border: '1px solid #DDCDF4', bgcolor: '#F1EBFC' }}>
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -118,14 +118,14 @@ export default function BatchDetailPage() {
                   Đang phân tích và nhận diện bài làm bằng AI...
                 </Typography>
               </Box>
-              <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#1D4ED8' }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#5426AF' }}>
                 {processed} / {totalImgs} bài ({progressPercent}%)
               </Typography>
             </Box>
             <LinearProgress
               variant="determinate"
               value={progressPercent}
-              sx={{ height: 10, borderRadius: 5, bgcolor: '#DBEAFE', '& .MuiLinearProgress-bar': { bgcolor: '#2563EB' } }}
+              sx={{ height: 10, borderRadius: 5, bgcolor: '#EEE7FC', '& .MuiLinearProgress-bar': { bgcolor: '#7040D5' } }}
             />
             <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
               Hệ thống đang đối soát từng cột số và bước đặt tính. Trang sẽ tự động cập nhật khi hoàn tất.
@@ -171,13 +171,13 @@ export default function BatchDetailPage() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 4 }}>
-              <Card sx={{ bgcolor: '#F8FAFC', borderColor: '#CBD5E1', borderRadius: 2.5 }}>
+              <Card sx={{ bgcolor: '#F8F6FD', borderColor: '#D8CDE7', borderRadius: 2.5 }}>
                 <CardContent sx={{ textAlign: 'center', py: 3.5 }}>
-                  <PendingActions sx={{ fontSize: 36, color: '#475569', mb: 0.5 }} />
-                  <Typography variant="h3" sx={{ fontWeight: 800, color: '#0F172A', mb: 0.5 }}>
+                  <PendingActions sx={{ fontSize: 36, color: '#5E566D', mb: 0.5 }} />
+                  <Typography variant="h3" sx={{ fontWeight: 800, color: '#211844', mb: 0.5 }}>
                     {totalImgs}
                   </Typography>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#334155' }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#4E4264' }}>
                     Tổng số bài nộp
                   </Typography>
                   <Typography variant="caption" color="text.secondary">

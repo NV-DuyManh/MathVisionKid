@@ -15,7 +15,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   description,
   actionText,
   onAction,
-  icon = <InboxOutlinedIcon sx={{ fontSize: 48, color: '#94A3B8' }} />,
+  icon = <InboxOutlinedIcon sx={{ fontSize: 48, color: '#736983' }} />,
 }) => {
   return (
     <Box
@@ -30,11 +30,11 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       }}
     >
       <Box sx={{ mb: 2 }}>{icon}</Box>
-      <Typography variant="h6" gutterBottom sx={{ color: '#334155', fontWeight: 600 }}>
+      <Typography variant="h6" gutterBottom sx={{ color: '#4E4264', fontWeight: 600 }}>
         {title}
       </Typography>
       {description && (
-        <Typography variant="body2" sx={{ color: '#64748B', maxWidth: 400, mb: 3 }}>
+        <Typography variant="body2" sx={{ color: '#655D76', maxWidth: 400, mb: 3 }}>
           {description}
         </Typography>
       )}

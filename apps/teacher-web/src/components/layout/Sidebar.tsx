@@ -1,123 +1,43 @@
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Box, Chip } from '@mui/material';
+import { Box, Chip, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Dashboard, School, Assignment, FactCheck, Settings, Home } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { appConfig } from '../../config/runtime';
 
-const DRAWER_WIDTH = 250;
-
-const MENU_ITEMS = [
-  { text: 'Tổng quan', icon: <Dashboard sx={{ fontSize: 20 }} />, path: '/dashboard' },
-  { text: 'Lớp học', icon: <School sx={{ fontSize: 20 }} />, path: '/classes' },
-  { text: 'Bài tập', icon: <Assignment sx={{ fontSize: 20 }} />, path: '/assignments' },
-  { text: 'Đợt chấm', icon: <FactCheck sx={{ fontSize: 20 }} />, path: '/batches' },
-  { text: 'Cài đặt', icon: <Settings sx={{ fontSize: 20 }} />, path: '/settings' },
+const ITEMS = [
+  { text: 'Tổng quan', icon: <Dashboard />, path: '/dashboard' },
+  { text: 'Lớp học', icon: <School />, path: '/classes' },
+  { text: 'Bài tập', icon: <Assignment />, path: '/assignments' },
+  { text: 'Đợt chấm', icon: <FactCheck />, path: '/batches' },
+  { text: 'Cài đặt', icon: <Settings />, path: '/settings' },
 ];
-
-export default function Sidebar() {
+export default function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
   const location = useLocation();
   const navigate = useNavigate();
-
-  return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: DRAWER_WIDTH,
-        flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
-          width: DRAWER_WIDTH,
-          boxSizing: 'border-box',
-          borderRight: '1px solid #E2E8F0',
-          backgroundColor: '#FFFFFF',
-        },
-      }}
-    >
-      <Box sx={{ p: 2.5, pb: 2, borderBottom: '1px solid #F1F5F9' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Typography variant="h6" sx={{ fontWeight: 800, color: '#2563EB', letterSpacing: '-0.02em', fontSize: '1.25rem' }}>
-            MathVision<span style={{ color: '#0D9488' }}>Kids</span>
-          </Typography>
-        </Box>
-        <Chip
-          label="CỔNG GIÁO VIÊN"
-          size="small"
-          sx={{
-            mt: 1,
-            fontWeight: 700,
-            fontSize: '0.6875rem',
-            height: 20,
-            backgroundColor: '#EFF6FF',
-            color: '#1D4ED8',
-            border: '1px solid #BFDBFE',
-            letterSpacing: '0.04em',
-          }}
-        />
-      </Box>
-
-      <List sx={{ px: 1.5, py: 2 }}>
-        {MENU_ITEMS.map((item) => {
+  const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
+  return <Drawer id="workspace-navigation" variant={desktop ? 'permanent' : 'temporary'} open={desktop || open} onClose={onClose}
+    slotProps={{ paper: { 'aria-label': 'Điều hướng giáo viên' } }}
+    sx={{ width: { md: 248 }, flexShrink: 0, '& .MuiDrawer-paper': { width: 248, boxSizing: 'border-box', borderRight: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' } }}>
+    <Box sx={{ p: 3, pb: 2.5 }}>
+      <Typography component="div" sx={{ fontWeight: 900, fontSize: 23, letterSpacing: '-.8px', color: 'text.primary' }}>MathVision<span style={{ color: '#7040D5' }}>Kids</span></Typography>
+      <Chip label="CỔNG GIÁO VIÊN" size="small" sx={{ mt: 1.2, height: 23, bgcolor: 'primary.light', color: 'primary.dark', fontSize: 10, letterSpacing: '.06em' }} />
+    </Box>
+    <Box component="nav" aria-label="Điều hướng giáo viên" sx={{ px: 2, py: 1.5, flexGrow: 1 }}>
+      <List disablePadding>
+        {ITEMS.map(item => {
           const active = location.pathname.startsWith(item.path);
-          return (
-            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
-              <ListItemButton
-                selected={active}
-                onClick={() => navigate(item.path)}
-                sx={{
-                  borderRadius: 1.5,
-                  py: 1,
-                  px: 1.5,
-                  transition: 'all 150ms ease',
-                  '&.Mui-selected': {
-                    backgroundColor: '#EFF6FF',
-                    color: '#2563EB',
-                    '& .MuiListItemIcon-root': { color: '#2563EB' },
-                    '&:hover': { backgroundColor: '#DBEAFE' },
-                  },
-                  '&:hover': {
-                    backgroundColor: '#F8FAFC',
-                  },
-                }}
-              >
-                <ListItemIcon sx={{ minWidth: 34, color: active ? '#2563EB' : '#64748B' }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography sx={{ fontWeight: active ? 700 : 500, fontSize: '0.875rem', color: active ? '#2563EB' : '#334155' }}>
-                      {item.text}
-                    </Typography>
-                  }
-                />
-              </ListItemButton>
-            </ListItem>
-          );
+          return <ListItemButton key={item.path} selected={active} aria-current={active ? 'page' : undefined}
+            onClick={() => { navigate(item.path); onClose(); }} sx={{ mb: .7, px: 1.7, minHeight: 50 }}>
+            <ListItemIcon sx={{ minWidth: 36, color: active ? 'primary.main' : 'text.secondary', '& svg': { fontSize: 21 } }}>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} slotProps={{ primary: { sx: { fontWeight: active ? 800 : 600, fontSize: '.92rem' } } }} />
+          </ListItemButton>;
         })}
       </List>
-
-      <Box sx={{ p: 2, borderTop: '1px solid #F1F5F9', mt: 'auto' }}>
-        <ListItemButton
-          component="a"
-          href={appConfig.portalOrigin}
-          sx={{
-            borderRadius: 1.5,
-            py: 1,
-            px: 1.5,
-            color: '#64748B',
-            transition: 'all 150ms ease',
-            '&:hover': { bgcolor: '#F8FAFC', color: '#4F46E5' },
-          }}
-        >
-          <ListItemIcon sx={{ minWidth: 34, color: 'inherit' }}>
-            <Home sx={{ fontSize: 20 }} />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
-                Trang chủ MathVision Kids
-              </Typography>
-            }
-          />
-        </ListItemButton>
-      </Box>
-    </Drawer>
-  );
+    </Box>
+    <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+      <ListItemButton component="a" href={appConfig.portalOrigin} sx={{ minHeight: 48 }}>
+        <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}><Home fontSize="small" /></ListItemIcon>
+        <ListItemText primary="Trang chủ MathVision Kids" slotProps={{ primary: { sx: { fontSize: '.8rem', fontWeight: 700 } } }} />
+      </ListItemButton>
+    </Box>
+  </Drawer>;
 }

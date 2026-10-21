@@ -47,7 +47,7 @@ export default function BatchesPage() {
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3.5, flexWrap: 'wrap', gap: 2 }}>
         <Box>
-          <Typography variant="h4" sx={{ mb: 0.5 }}>
+          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
             Quản lý Đợt chấm bài
           </Typography>
           <Typography variant="body1" color="text.secondary">
@@ -71,8 +71,8 @@ export default function BatchesPage() {
         </Paper>
       ) : batches.length === 0 ? (
         <Card sx={{ p: 6, textAlign: 'center', bgcolor: '#FFFFFF', borderRadius: 2.5 }}>
-          <FactCheck sx={{ fontSize: 56, color: '#94A3B8', mb: 1.5 }} />
-          <Typography variant="h6" sx={{ color: '#0F172A', mb: 1 }}>
+          <FactCheck sx={{ fontSize: 56, color: '#736983', mb: 1.5 }} />
+          <Typography variant="h6" sx={{ color: '#211844', mb: 1 }}>
             Chưa có đợt chấm bài nào
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 450, mx: 'auto', mb: 3 }}>
@@ -110,7 +110,7 @@ export default function BatchesPage() {
                 return (
                   <TableRow key={batchId} hover>
                     <TableCell>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#211844' }}>
                         {batch.className ? `Lớp ${batch.className}` : 'Lớp học'}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">

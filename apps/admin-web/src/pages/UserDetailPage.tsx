@@ -140,7 +140,7 @@ export const UserDetailPage: React.FC = () => {
   if (isLoading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <CircularProgress size={36} sx={{ color: '#0F172A' }} />
+        <CircularProgress size={36} sx={{ color: '#211844' }} />
       </Box>
     );
   }
@@ -168,7 +168,7 @@ export const UserDetailPage: React.FC = () => {
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate('/users')}
-            sx={{ color: '#64748B', fontWeight: 600 }}
+            sx={{ color: '#655D76', fontWeight: 600 }}
           >
             Danh sách người dùng
           </Button>
@@ -179,17 +179,17 @@ export const UserDetailPage: React.FC = () => {
           <CardContent sx={{ p: { xs: 2.5, md: 3.5 } }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2, mb: 3 }}>
               <Box>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                <Typography variant="h5" sx={{ fontWeight: 700, color: '#211844' }}>
                   {user.displayName}
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#64748B', mt: 0.5 }}>
+                <Typography variant="body2" sx={{ color: '#655D76', mt: 0.5 }}>
                   {user.email}
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 1, mt: 1.5, alignItems: 'center' }}>
                   <RoleChip role={user.role} />
                   <StatusChip active={user.active} />
                   {user.role === 'STUDENT' && user.gradeLevel && (
-                    <Typography variant="caption" sx={{ bgcolor: '#F1F5F9', px: 1, py: 0.5, borderRadius: 1, fontWeight: 600 }}>
+                    <Typography variant="caption" sx={{ bgcolor: '#F4F0FA', px: 1, py: 0.5, borderRadius: 1, fontWeight: 600 }}>
                       Khối {user.gradeLevel}
                     </Typography>
                   )}
@@ -203,7 +203,7 @@ export const UserDetailPage: React.FC = () => {
                   size="small"
                   startIcon={<EditIcon />}
                   onClick={handleOpenEdit}
-                  sx={{ borderColor: '#CBD5E1', color: '#0F172A' }}
+                  sx={{ borderColor: '#D8CDE7', color: '#211844' }}
                 >
                   Chỉnh sửa
                 </Button>
@@ -247,34 +247,34 @@ export const UserDetailPage: React.FC = () => {
             {/* Metadata Grid */}
             <Grid container spacing={3}>
               <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Mã người dùng
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#0F172A', wordBreak: 'break-all', mt: 0.5 }}>
+                <Typography variant="body2" sx={{ color: '#211844', wordBreak: 'break-all', mt: 0.5 }}>
                   {user.userId}
                 </Typography>
               </Grid>
 
               <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Ngày tạo tài khoản
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#0F172A', mt: 0.5 }}>
+                <Typography variant="body2" sx={{ color: '#211844', mt: 0.5 }}>
                   {new Date(user.createdAt).toLocaleString('vi-VN')}
                 </Typography>
               </Grid>
 
               <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Cập nhật lần cuối
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#0F172A', mt: 0.5 }}>
+                <Typography variant="body2" sx={{ color: '#211844', mt: 0.5 }}>
                   {new Date(user.updatedAt).toLocaleString('vi-VN')}
                 </Typography>
               </Grid>
 
               <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Bảo mật vai trò
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#059669', mt: 0.5, fontWeight: 500 }}>
@@ -289,8 +289,8 @@ export const UserDetailPage: React.FC = () => {
         <Card>
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-              <SchoolIcon sx={{ color: '#2563EB' }} />
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#0F172A' }}>
+              <SchoolIcon sx={{ color: '#7040D5' }} />
+              <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
                 {user.role === 'TEACHER' ? 'Các lớp đang phụ trách giảng dạy' : 'Các lớp đang tham gia'}
               </Typography>
             </Box>
@@ -304,14 +304,14 @@ export const UserDetailPage: React.FC = () => {
                       sx={{
                         p: 2,
                         cursor: 'pointer',
-                        '&:hover': { borderColor: '#2563EB', bgcolor: '#F8FAFC' },
+                        '&:hover': { borderColor: '#7040D5', bgcolor: '#F8F6FD' },
                       }}
                       onClick={() => navigate(`/classes/${cls.classId}`)}
                     >
-                      <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#0F172A' }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#211844' }}>
                         {cls.name}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#64748B' }}>
+                      <Typography variant="body2" sx={{ color: '#655D76' }}>
                         Khối {cls.gradeLevel} {cls.academicYear ? `• Năm học ${cls.academicYear}` : ''}
                       </Typography>
                     </Card>
@@ -319,7 +319,7 @@ export const UserDetailPage: React.FC = () => {
                 ))}
               </Grid>
             ) : (
-              <Typography variant="body2" sx={{ py: 2, color: '#94A3B8' }}>
+              <Typography variant="body2" sx={{ py: 2, color: '#736983' }}>
                 {user.role === 'TEACHER'
                   ? 'Giáo viên này chưa được phân công phụ trách lớp học nào.'
                   : 'Học sinh này chưa được thêm vào danh sách lớp học nào.'}
@@ -331,7 +331,7 @@ export const UserDetailPage: React.FC = () => {
 
       {/* Edit Profile Dialog */}
       <Dialog open={isEditOpen} onClose={() => setIsEditOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>
+        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
           Chỉnh sửa thông tin hồ sơ
         </DialogTitle>
         <form onSubmit={handleEditSubmit}>
@@ -354,8 +354,8 @@ export const UserDetailPage: React.FC = () => {
 
               {user.role === 'STUDENT' && (
                 <FormControl fullWidth size="small">
-                  <InputLabel>Khối lớp</InputLabel>
-                  <Select
+                  <InputLabel id="userdetailpage-field-7">Khối lớp</InputLabel>
+                  <Select labelId="userdetailpage-field-7"
                     value={editGradeLevel}
                     label="Khối lớp"
                     onChange={(e) => setEditGradeLevel(Number(e.target.value))}
@@ -371,14 +371,14 @@ export const UserDetailPage: React.FC = () => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 2.5 }}>
-            <Button onClick={() => setIsEditOpen(false)} sx={{ color: '#64748B' }}>
+            <Button onClick={() => setIsEditOpen(false)} sx={{ color: '#655D76' }}>
               Hủy
             </Button>
             <Button
               type="submit"
               variant="contained"
               disabled={editMutation.isPending}
-              sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
             >
               {editMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
             </Button>
@@ -427,7 +427,7 @@ export const UserDetailPage: React.FC = () => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>
+        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
           Mật khẩu tạm thời đã được tạo
         </DialogTitle>
         <DialogContent>
@@ -438,23 +438,23 @@ export const UserDetailPage: React.FC = () => {
           <Box
             sx={{
               p: 2,
-              bgcolor: '#F1F5F9',
+              bgcolor: '#F4F0FA',
               borderRadius: 2,
-              border: '1px solid #CBD5E1',
+              border: '1px solid #D8CDE7',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
             <Box>
-              <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, display: 'block' }}>
+              <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, display: 'block' }}>
                 MẬT KHẨU TẠM THỜI
               </Typography>
               <Typography
                 variant="h6"
                 sx={{
                   fontWeight: 700,
-                  color: '#0F172A',
+                  color: '#211844',
                   fontFamily: 'monospace',
                   letterSpacing: '0.1em',
                 }}
@@ -469,7 +469,7 @@ export const UserDetailPage: React.FC = () => {
             </Tooltip>
           </Box>
 
-          <Typography variant="caption" sx={{ color: '#94A3B8', mt: 2, display: 'block' }}>
+          <Typography variant="caption" sx={{ color: '#736983', mt: 2, display: 'block' }}>
             * Lưu ý: Cơ chế bắt buộc đổi mật khẩu ở lần đăng nhập đầu tiên chưa được áp dụng tại phiên bản A1.2.
           </Typography>
         </DialogContent>
@@ -477,7 +477,7 @@ export const UserDetailPage: React.FC = () => {
           <Button
             variant="contained"
             onClick={() => setResetSuccessData(null)}
-            sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+            sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
           >
             Đã lưu & Đóng
           </Button>
