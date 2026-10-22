@@ -2,7 +2,7 @@
 
 ![MathVision Kids — Little steps. Big discoveries.](docs/media/readme-hero.jpg)
 
-# MathVision Kids
+# MathVision Kid
 
 ### Turn a notebook photo into a moment of understanding.
 
