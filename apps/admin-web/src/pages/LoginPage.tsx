@@ -117,12 +117,13 @@ export const LoginPage: React.FC = () => {
 
   return (
     <Box
+      className="auth-page"
       sx={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: '#F8FAFC',
+        bgcolor: '#F8F6FD',
         px: 2,
       }}
     >
@@ -135,7 +136,7 @@ export const LoginPage: React.FC = () => {
                 width: 48,
                 height: 48,
                 borderRadius: 2.5,
-                bgcolor: '#0F172A',
+                bgcolor: '#211844',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -145,10 +146,10 @@ export const LoginPage: React.FC = () => {
             >
               <AdminPanelSettingsIcon fontSize="medium" />
             </Box>
-            <Typography variant="h5" sx={{ fontWeight: 700, color: '#0F172A' }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, color: '#211844' }}>
               Cổng Quản Trị Hệ Thống
             </Typography>
-            <Typography variant="body2" sx={{ color: '#64748B', mt: 0.5 }}>
+            <Typography variant="body2" sx={{ color: '#655D76', mt: 0.5 }}>
               MathVision Kids — Admin Portal
             </Typography>
           </Box>
@@ -161,6 +162,7 @@ export const LoginPage: React.FC = () => {
 
           <form onSubmit={handleSubmit}>
             <TextField
+              autoComplete="username"
               label="Email quản trị viên"
               type="email"
               fullWidth
@@ -173,6 +175,7 @@ export const LoginPage: React.FC = () => {
             />
 
             <TextField
+              autoComplete="current-password"
               label="Mật khẩu"
               type={showPassword ? 'text' : 'password'}
               fullWidth
@@ -206,7 +209,7 @@ export const LoginPage: React.FC = () => {
               size="large"
               disabled={loading}
               sx={{
-                bgcolor: '#0F172A',
+                bgcolor: '#211844',
                 py: 1.2,
                 fontWeight: 600,
                 fontSize: '0.95rem',
@@ -220,7 +223,7 @@ export const LoginPage: React.FC = () => {
           {/* Dev Mode Helper */}
           {showDevTools && <>
           <Divider sx={{ my: 3 }}>
-            <Typography variant="caption" sx={{ color: '#94A3B8', px: 1 }}>
+            <Typography variant="caption" sx={{ color: '#736983', px: 1 }}>
               TÀI KHOẢN MẪU DEV
             </Typography>
           </Divider>
@@ -232,13 +235,13 @@ export const LoginPage: React.FC = () => {
             onClick={handleDevQuickFill}
             startIcon={<FlashOnIcon sx={{ color: '#F59E0B' }} />}
             sx={{
-              borderColor: '#CBD5E1',
-              color: '#334155',
+              borderColor: '#D8CDE7',
+              color: '#4E4264',
               fontSize: '0.8rem',
               py: 0.8,
               '&:hover': {
-                borderColor: '#94A3B8',
-                bgcolor: '#F1F5F9',
+                borderColor: '#736983',
+                bgcolor: '#F4F0FA',
               },
             }}
           >
@@ -268,15 +271,15 @@ export const LoginPage: React.FC = () => {
           </Button>
 
           <Box sx={{ mt: 3, textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 1 }}>
+            <Typography variant="caption" sx={{ color: '#655D76', display: 'block', mb: 1 }}>
               <a
                 href={appConfig.portalOrigin}
-                style={{ color: '#64748B', textDecoration: 'none', fontWeight: 500 }}
+                style={{ color: '#655D76', textDecoration: 'none', fontWeight: 500 }}
               >
                 ← Về Trang chủ MathVision Kids
               </a>
             </Typography>
-            <Typography variant="caption" sx={{ color: '#94A3B8', display: 'block' }}>
+            <Typography variant="caption" sx={{ color: '#736983', display: 'block' }}>
               Hệ thống không hỗ trợ đăng ký tự do. Tài khoản được cấp bởi Quản trị viên.
             </Typography>
           </Box>

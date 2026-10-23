@@ -76,9 +76,9 @@ export default function AssignmentCreatePage() {
         Quay lại danh sách bài tập
       </Button>
 
-      <Card sx={{ borderRadius: 2.5, border: '1px solid #E2E8F0' }}>
+      <Card sx={{ borderRadius: 2.5, border: '1px solid #E9E2F2' }}>
         <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
-          <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.5 }}>
+          <Typography variant="h5" component="h1" sx={{ fontWeight: 800, mb: 0.5 }}>
             Tạo bài tập mới
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -104,7 +104,7 @@ export default function AssignmentCreatePage() {
             >
               {classes.map((c) => (
                 <MenuItem key={c.id || c.classId} value={c.id || c.classId}>
-                  Lớp {c.name} ({c.studentCount} học sinh)
+                  {c.name.startsWith('Lớp ') ? c.name : `Lớp ${c.name}`} ({c.studentCount} học sinh)
                 </MenuItem>
               ))}
             </TextField>
@@ -141,22 +141,22 @@ export default function AssignmentCreatePage() {
             <Box
               sx={{
                 p: 2,
-                bgcolor: '#EFF6FF',
+                bgcolor: '#F1EBFC',
                 borderRadius: 2,
-                border: '1px solid #BFDBFE',
+                border: '1px solid #DDCDF4',
                 mb: 3.5,
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                <CheckCircleOutlined sx={{ fontSize: 18, color: '#2563EB' }} />
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#1D4ED8' }}>
+                <CheckCircleOutlined sx={{ fontSize: 18, color: '#7040D5' }} />
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#5426AF' }}>
                   Lưu ý khi thu thập bài làm của học sinh
                 </Typography>
               </Box>
-              <Typography variant="caption" sx={{ color: '#1E40AF', display: 'block' }}>
+              <Typography variant="caption" sx={{ color: '#59349A', display: 'block' }}>
                 • Học sinh viết rõ nét, đặt tính thẳng cột dọc (hàng đơn vị, chục, trăm).
               </Typography>
-              <Typography variant="caption" sx={{ color: '#1E40AF', display: 'block' }}>
+              <Typography variant="caption" sx={{ color: '#59349A', display: 'block' }}>
                 • Chụp ảnh đủ sáng, góc chụp thẳng, mỗi ảnh tương ứng một bài làm.
               </Typography>
             </Box>

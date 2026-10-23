@@ -158,21 +158,27 @@ export const ClassDetailPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <CircularProgress size={36} sx={{ color: '#0F172A' }} />
+      <Box>
+        <AdminTopbar title="Chi tiết lớp học" />
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+          <CircularProgress size={36} sx={{ color: '#211844' }} />
+        </Box>
       </Box>
     );
   }
 
   if (error || !classroom) {
     return (
-      <Box sx={{ p: 4 }}>
-        <Alert severity="error" sx={{ mb: 2 }}>
-          Không thể tải thông tin lớp học hoặc lớp học không tồn tại.
-        </Alert>
-        <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/classes')}>
-          Quay lại danh sách lớp học
-        </Button>
+      <Box>
+        <AdminTopbar title="Chi tiết lớp học" />
+        <Box sx={{ p: 4 }}>
+          <Alert severity="error" sx={{ mb: 2 }}>
+            Không thể tải thông tin lớp học hoặc lớp học không tồn tại.
+          </Alert>
+          <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/classes')}>
+            Quay lại danh sách lớp học
+          </Button>
+        </Box>
       </Box>
     );
   }
@@ -190,7 +196,7 @@ export const ClassDetailPage: React.FC = () => {
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate('/classes')}
-            sx={{ color: '#64748B', fontWeight: 600 }}
+            sx={{ color: '#655D76', fontWeight: 600 }}
           >
             Danh sách lớp học
           </Button>
@@ -201,10 +207,10 @@ export const ClassDetailPage: React.FC = () => {
           <CardContent sx={{ p: { xs: 2.5, md: 3.5 } }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2, mb: 3 }}>
               <Box>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                <Typography variant="h5" sx={{ fontWeight: 700, color: '#211844' }}>
                   {classroom.name}
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#64748B', mt: 0.5 }}>
+                <Typography variant="body2" sx={{ color: '#655D76', mt: 0.5 }}>
                   Khối {classroom.gradeLevel} {classroom.academicYear ? `• Năm học ${classroom.academicYear}` : ''}
                 </Typography>
               </Box>
@@ -214,7 +220,7 @@ export const ClassDetailPage: React.FC = () => {
                 size="small"
                 startIcon={<EditIcon />}
                 onClick={handleOpenEdit}
-                sx={{ borderColor: '#CBD5E1', color: '#0F172A' }}
+                sx={{ borderColor: '#D8CDE7', color: '#211844' }}
               >
                 Chỉnh sửa lớp
               </Button>
@@ -225,11 +231,11 @@ export const ClassDetailPage: React.FC = () => {
             <Grid container spacing={3}>
               {/* Teacher Assignment */}
               <Grid size={{ xs: 12, md: 6 }}>
-                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: 2, border: '1px solid #E2E8F0' }}>
+                <Box sx={{ p: 2, bgcolor: '#F8F6FD', borderRadius: 2, border: '1px solid #E9E2F2' }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <SchoolIcon sx={{ color: '#2563EB', fontSize: 20 }} />
-                      <Typography variant="subtitle2" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                      <SchoolIcon sx={{ color: '#7040D5', fontSize: 20 }} />
+                      <Typography variant="subtitle2" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                         Giáo viên phụ trách
                       </Typography>
                     </Box>
@@ -240,7 +246,7 @@ export const ClassDetailPage: React.FC = () => {
                         setSelectedTeacherId(classroom.teacher?.userId || '');
                         setIsAssignTeacherOpen(true);
                       }}
-                      sx={{ color: '#2563EB', fontWeight: 600, fontSize: '0.8rem' }}
+                      sx={{ color: '#7040D5', fontWeight: 600, fontSize: '0.8rem' }}
                     >
                       Đổi giáo viên
                     </Button>
@@ -248,10 +254,10 @@ export const ClassDetailPage: React.FC = () => {
 
                   {classroom.teacher ? (
                     <Box>
-                      <Typography variant="body1" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                      <Typography variant="body1" sx={{ fontWeight: 700, color: '#211844' }}>
                         {classroom.teacher.displayName}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#475569' }}>
+                      <Typography variant="body2" sx={{ color: '#5E566D' }}>
                         {classroom.teacher.email}
                       </Typography>
                     </Box>
@@ -265,17 +271,17 @@ export const ClassDetailPage: React.FC = () => {
 
               {/* Roster Summary */}
               <Grid size={{ xs: 12, md: 6 }}>
-                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: 2, border: '1px solid #E2E8F0' }}>
+                <Box sx={{ p: 2, bgcolor: '#F8F6FD', borderRadius: 2, border: '1px solid #E9E2F2' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                     <PeopleAltIcon sx={{ color: '#10B981', fontSize: 20 }} />
-                    <Typography variant="subtitle2" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                    <Typography variant="subtitle2" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                       Sĩ số lớp học
                     </Typography>
                   </Box>
-                  <Typography variant="h5" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                  <Typography variant="h5" sx={{ fontWeight: 700, color: '#211844' }}>
                     {classroom.studentCount} học sinh
                   </Typography>
-                  <Typography variant="caption" sx={{ color: '#64748B' }}>
+                  <Typography variant="caption" sx={{ color: '#655D76' }}>
                     Đã đăng ký trong danh sách lớp chính thức
                   </Typography>
                 </Box>
@@ -290,10 +296,10 @@ export const ClassDetailPage: React.FC = () => {
           icon={<InfoOutlinedIcon />}
           sx={{
             mb: 3,
-            bgcolor: '#EFF6FF',
-            color: '#1E40AF',
-            border: '1px solid #BFDBFE',
-            '& .MuiAlert-icon': { color: '#2563EB' },
+            bgcolor: '#F1EBFC',
+            color: '#59349A',
+            border: '1px solid #DDCDF4',
+            '& .MuiAlert-icon': { color: '#7040D5' },
           }}
         >
           <strong>Quy tắc đồng bộ danh sách lớp:</strong> Danh sách học sinh dưới đây là nguồn dữ liệu chuẩn duy nhất (Single Source of Truth). Giáo viên phụ trách sẽ sử dụng danh sách này khi chấm bài theo đợt (Batch Submission) để ghép nối ảnh bài làm của học sinh tương ứng.
@@ -303,10 +309,10 @@ export const ClassDetailPage: React.FC = () => {
         <Card>
           <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
             <Box>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#0F172A' }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
                 Danh sách học sinh trong lớp ({classroom.studentCount})
               </Typography>
-              <Typography variant="body2" sx={{ color: '#64748B' }}>
+              <Typography variant="body2" sx={{ color: '#655D76' }}>
                 Học sinh thuộc danh sách lớp học này
               </Typography>
             </Box>
@@ -318,7 +324,7 @@ export const ClassDetailPage: React.FC = () => {
                 setSelectedStudentId('');
                 setIsAddStudentOpen(true);
               }}
-              sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
             >
               Thêm học sinh vào lớp
             </Button>
@@ -339,11 +345,11 @@ export const ClassDetailPage: React.FC = () => {
                 {classroom.students && classroom.students.length > 0 ? (
                   classroom.students.map((student) => (
                     <TableRow key={student.userId} hover>
-                      <TableCell sx={{ fontWeight: 600, color: '#0F172A' }}>
+                      <TableCell sx={{ fontWeight: 600, color: '#211844' }}>
                         {student.displayName}
                       </TableCell>
-                      <TableCell sx={{ color: '#475569' }}>{student.email}</TableCell>
-                      <TableCell sx={{ color: '#64748B' }}>
+                      <TableCell sx={{ color: '#5E566D' }}>{student.email}</TableCell>
+                      <TableCell sx={{ color: '#655D76' }}>
                         {student.gradeLevel ? `Lớp ${student.gradeLevel}` : '—'}
                       </TableCell>
                       <TableCell>
@@ -387,14 +393,14 @@ export const ClassDetailPage: React.FC = () => {
 
       {/* Assign Teacher Dialog */}
       <Dialog open={isAssignTeacherOpen} onClose={() => setIsAssignTeacherOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>
+        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
           Phân công giáo viên phụ trách
         </DialogTitle>
         <form onSubmit={handleAssignTeacherSubmit}>
           <DialogContent>
             <FormControl fullWidth size="small" required sx={{ mt: 1 }}>
-              <InputLabel>Chọn giáo viên</InputLabel>
-              <Select
+              <InputLabel id="classdetailpage-field-2">Chọn giáo viên</InputLabel>
+              <Select labelId="classdetailpage-field-2"
                 value={selectedTeacherId}
                 label="Chọn giáo viên"
                 onChange={(e) => setSelectedTeacherId(e.target.value)}
@@ -414,14 +420,14 @@ export const ClassDetailPage: React.FC = () => {
             </FormControl>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 2.5 }}>
-            <Button onClick={() => setIsAssignTeacherOpen(false)} sx={{ color: '#64748B' }}>
+            <Button onClick={() => setIsAssignTeacherOpen(false)} sx={{ color: '#655D76' }}>
               Hủy
             </Button>
             <Button
               type="submit"
               variant="contained"
               disabled={assignTeacherMutation.isPending || !selectedTeacherId}
-              sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
             >
               {assignTeacherMutation.isPending ? 'Đang phân công...' : 'Lưu phân công'}
             </Button>
@@ -431,14 +437,14 @@ export const ClassDetailPage: React.FC = () => {
 
       {/* Add Student to Class Dialog */}
       <Dialog open={isAddStudentOpen} onClose={() => setIsAddStudentOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>
+        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
           Thêm học sinh vào lớp học
         </DialogTitle>
         <form onSubmit={handleAddStudentSubmit}>
           <DialogContent>
             <FormControl fullWidth size="small" required sx={{ mt: 1 }}>
-              <InputLabel>Chọn học sinh</InputLabel>
-              <Select
+              <InputLabel id="classdetailpage-field-3">Chọn học sinh</InputLabel>
+              <Select labelId="classdetailpage-field-3"
                 value={selectedStudentId}
                 label="Chọn học sinh"
                 onChange={(e) => setSelectedStudentId(e.target.value)}
@@ -458,14 +464,14 @@ export const ClassDetailPage: React.FC = () => {
             </FormControl>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 2.5 }}>
-            <Button onClick={() => setIsAddStudentOpen(false)} sx={{ color: '#64748B' }}>
+            <Button onClick={() => setIsAddStudentOpen(false)} sx={{ color: '#655D76' }}>
               Hủy
             </Button>
             <Button
               type="submit"
               variant="contained"
               disabled={addStudentMutation.isPending || !selectedStudentId}
-              sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
             >
               {addStudentMutation.isPending ? 'Đang thêm...' : 'Thêm vào lớp'}
             </Button>
@@ -475,7 +481,7 @@ export const ClassDetailPage: React.FC = () => {
 
       {/* Edit Class Dialog */}
       <Dialog open={isEditOpen} onClose={() => setIsEditOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>
+        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
           Chỉnh sửa thông tin lớp học
         </DialogTitle>
         <form onSubmit={handleEditSubmit}>
@@ -491,8 +497,8 @@ export const ClassDetailPage: React.FC = () => {
               />
 
               <FormControl fullWidth size="small">
-                <InputLabel>Khối lớp</InputLabel>
-                <Select
+                <InputLabel id="classdetailpage-field-4">Khối lớp</InputLabel>
+                <Select labelId="classdetailpage-field-4"
                   value={editGrade}
                   label="Khối lớp"
                   onChange={(e) => setEditGrade(Number(e.target.value))}
@@ -515,14 +521,14 @@ export const ClassDetailPage: React.FC = () => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 2.5 }}>
-            <Button onClick={() => setIsEditOpen(false)} sx={{ color: '#64748B' }}>
+            <Button onClick={() => setIsEditOpen(false)} sx={{ color: '#655D76' }}>
               Hủy
             </Button>
             <Button
               type="submit"
               variant="contained"
               disabled={editClassMutation.isPending}
-              sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
             >
               {editClassMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
             </Button>

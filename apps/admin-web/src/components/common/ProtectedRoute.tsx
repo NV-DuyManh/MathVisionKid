@@ -15,10 +15,10 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
           justifyContent: 'center',
           alignItems: 'center',
           minHeight: '100vh',
-          bgcolor: '#F8FAFC',
+          bgcolor: '#F8F6FD',
         }}
       >
-        <CircularProgress size={36} sx={{ color: '#0F172A' }} />
+        <CircularProgress size={36} sx={{ color: '#211844' }} />
       </Box>
     );
   }

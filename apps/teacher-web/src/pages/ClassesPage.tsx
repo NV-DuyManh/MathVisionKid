@@ -42,7 +42,7 @@ export default function ClassesPage() {
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3.5, flexWrap: 'wrap', gap: 2 }}>
         <Box>
-          <Typography variant="h4" sx={{ mb: 0.5 }}>
+          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
             Danh sách Lớp học
           </Typography>
           <Typography variant="body1" color="text.secondary">
@@ -68,8 +68,8 @@ export default function ClassesPage() {
         </Grid>
       ) : classes.length === 0 ? (
         <Card sx={{ p: 6, textAlign: 'center', bgcolor: '#FFFFFF', borderRadius: 2.5 }}>
-          <School sx={{ fontSize: 56, color: '#94A3B8', mb: 1.5 }} />
-          <Typography variant="h6" sx={{ color: '#0F172A', mb: 1 }}>
+          <School sx={{ fontSize: 56, color: '#736983', mb: 1.5 }} />
+          <Typography variant="h6" sx={{ color: '#211844', mb: 1 }}>
             Chưa có lớp học nào được phân công
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 450, mx: 'auto' }}>
@@ -88,7 +88,7 @@ export default function ClassesPage() {
                   justifyContent: 'space-between',
                   borderRadius: 2.5,
                   p: 0.5,
-                  borderTop: '4px solid #2563EB',
+                  borderTop: '4px solid #7040D5',
                 }}
               >
                 <CardContent sx={{ p: 2.5 }}>
@@ -99,26 +99,26 @@ export default function ClassesPage() {
                           width: 44,
                           height: 44,
                           borderRadius: 2,
-                          bgcolor: '#EFF6FF',
+                          bgcolor: '#F1EBFC',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          color: '#2563EB',
+                          color: '#7040D5',
                         }}
                       >
                         <School sx={{ fontSize: 26 }} />
                       </Box>
                       <Box>
                         <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                          Lớp {c.name}
+                          {c.name.startsWith('Lớp ') ? c.name : `Lớp ${c.name}`}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                          Tiểu học • Năm học hiện tại
+                          Lớp được phân công giảng dạy
                         </Typography>
                       </Box>
                     </Box>
                     <Chip
-                      label="Đang hoạt động"
+                      label="Được phân công"
                       size="small"
                       sx={{ bgcolor: '#DCFCE7', color: '#15803D', fontWeight: 600, fontSize: '0.75rem' }}
                     />
@@ -130,15 +130,15 @@ export default function ClassesPage() {
                       alignItems: 'center',
                       gap: 1.5,
                       p: 1.5,
-                      bgcolor: '#F8FAFC',
+                      bgcolor: '#F8F6FD',
                       borderRadius: 2,
-                      border: '1px solid #E2E8F0',
+                      border: '1px solid #E9E2F2',
                       mb: 2,
                     }}
                   >
-                    <Groups sx={{ color: '#64748B', fontSize: 22 }} />
+                    <Groups sx={{ color: '#655D76', fontSize: 22 }} />
                     <Box>
-                      <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                      <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
                         {c.studentCount} học sinh
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
@@ -163,6 +163,7 @@ export default function ClassesPage() {
                       variant="contained"
                       size="small"
                       endIcon={<ArrowForward />}
+                      sx={{ minWidth: 108, whiteSpace: 'nowrap' }}
                       onClick={() => navigate('/batches/create')}
                     >
                       Chấm bài

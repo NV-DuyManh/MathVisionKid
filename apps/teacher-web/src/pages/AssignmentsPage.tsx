@@ -45,11 +45,11 @@ export default function AssignmentsPage() {
   const getMathTypeLabel = (type?: string) => {
     switch (type) {
       case 'VERTICAL_ADDITION':
-        return { label: 'Phép cộng đặt tính', color: '#2563EB', bg: '#EFF6FF' };
+        return { label: 'Phép cộng đặt tính', color: '#7040D5', bg: '#F1EBFC' };
       case 'VERTICAL_SUBTRACTION':
         return { label: 'Phép trừ đặt tính', color: '#0D9488', bg: '#CCFBF1' };
       default:
-        return { label: type || 'Toán đặt tính', color: '#475569', bg: '#F1F5F9' };
+        return { label: type || 'Toán đặt tính', color: '#5E566D', bg: '#F4F0FA' };
     }
   };
 
@@ -57,7 +57,7 @@ export default function AssignmentsPage() {
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3.5, flexWrap: 'wrap', gap: 2 }}>
         <Box>
-          <Typography variant="h4" sx={{ mb: 0.5 }}>
+          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
             Danh sách Bài tập
           </Typography>
           <Typography variant="body1" color="text.secondary">
@@ -81,8 +81,8 @@ export default function AssignmentsPage() {
         </Paper>
       ) : assignments.length === 0 ? (
         <Card sx={{ p: 6, textAlign: 'center', bgcolor: '#FFFFFF', borderRadius: 2.5 }}>
-          <Assignment sx={{ fontSize: 56, color: '#94A3B8', mb: 1.5 }} />
-          <Typography variant="h6" sx={{ color: '#0F172A', mb: 1 }}>
+          <Assignment sx={{ fontSize: 56, color: '#736983', mb: 1.5 }} />
+          <Typography variant="h6" sx={{ color: '#211844', mb: 1 }}>
             Chưa có bài tập nào
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 450, mx: 'auto', mb: 3 }}>
@@ -114,7 +114,7 @@ export default function AssignmentsPage() {
                 return (
                   <TableRow key={a.id || a.assignmentId} hover>
                     <TableCell>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#211844' }}>
                         {a.title}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
@@ -146,7 +146,7 @@ export default function AssignmentsPage() {
                         sx={
                           a.status === 'ACTIVE'
                             ? { bgcolor: '#DCFCE7', color: '#15803D', fontWeight: 600 }
-                            : { bgcolor: '#F1F5F9', color: '#475569', fontWeight: 600 }
+                            : { bgcolor: '#F4F0FA', color: '#5E566D', fontWeight: 600 }
                         }
                       />
                     </TableCell>

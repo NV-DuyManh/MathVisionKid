@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { adminTheme } from './theme';
 import { AuthProvider } from './context/AuthContext';
 import { App } from './App';
+import './index.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {

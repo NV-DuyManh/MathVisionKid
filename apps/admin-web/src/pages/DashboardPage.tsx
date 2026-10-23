@@ -44,10 +44,17 @@ export const DashboardPage: React.FC = () => {
     <Box>
       <AdminTopbar title="Tổng quan hệ thống" subtitle="Báo cáo số liệu vận hành tài khoản và lớp học" />
 
-      <Box sx={{ p: { xs: 2, md: 4 } }}>
+      <Box className="workspace-content" sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
+        <Box className="dashboard-welcome" sx={{ mb: 3.5 }}>
+          <Box>
+            <Typography variant="overline" sx={{ fontWeight: 800, color: 'primary.dark', letterSpacing: '.1em' }}>MATHVISION KIDS · QUẢN TRỊ</Typography>
+            <Typography variant="h4" component="h2" sx={{ mt: .5, mb: 1 }}>Kết nối lớp học,<br />đồng hành cùng thầy cô.</Typography>
+            <Typography color="text.secondary" sx={{ maxWidth: 520 }}>Quản lý tài khoản, lớp học và theo dõi hoạt động trong cùng một không gian.</Typography>
+          </Box>
+        </Box>
         {/* Quick Actions Row */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2 }}>
-          <Typography variant="h6" sx={{ fontWeight: 700, color: '#0F172A' }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
             Chỉ số vận hành
           </Typography>
           <Box sx={{ display: 'flex', gap: 1.5 }}>
@@ -56,7 +63,7 @@ export const DashboardPage: React.FC = () => {
               size="small"
               startIcon={<AddIcon />}
               onClick={() => navigate('/users')}
-              sx={{ borderColor: '#CBD5E1', color: '#0F172A' }}
+              sx={{ borderColor: '#D8CDE7', color: '#211844' }}
             >
               Thêm người dùng
             </Button>
@@ -65,7 +72,7 @@ export const DashboardPage: React.FC = () => {
               size="small"
               startIcon={<AddIcon />}
               onClick={() => navigate('/classes')}
-              sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
             >
               Tạo lớp học
             </Button>
@@ -73,17 +80,17 @@ export const DashboardPage: React.FC = () => {
         </Box>
 
         {/* Metric Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid container className="dashboard-metrics" spacing={3} sx={{ mb: 4 }}>
           {/* Students Card */}
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <Card sx={{ height: '100%' }}>
               <CardContent sx={{ p: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                   <Box>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#64748B', textTransform: 'uppercase' }}>
+                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#655D76', textTransform: 'uppercase' }}>
                       Học sinh
                     </Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#0F172A', mt: 0.5 }}>
+                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#211844', mt: 0.5 }}>
                       {dashLoading ? <Skeleton width={60} /> : dashboard?.totalStudents ?? 0}
                     </Typography>
                   </Box>
@@ -98,7 +105,7 @@ export const DashboardPage: React.FC = () => {
                     <PeopleAltIcon />
                   </Box>
                 </Box>
-                <Box sx={{ display: 'flex', gap: 2, pt: 1, borderTop: '1px solid #F1F5F9' }}>
+                <Box sx={{ display: 'flex', gap: 2, pt: 1, borderTop: '1px solid #F4F0FA' }}>
                   <Typography variant="body2" sx={{ color: '#166534' }}>
                     <strong>{dashboard?.activeStudents ?? 0}</strong> hoạt động
                   </Typography>
@@ -116,10 +123,10 @@ export const DashboardPage: React.FC = () => {
               <CardContent sx={{ p: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                   <Box>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#64748B', textTransform: 'uppercase' }}>
+                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#655D76', textTransform: 'uppercase' }}>
                       Giáo viên
                     </Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#0F172A', mt: 0.5 }}>
+                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#211844', mt: 0.5 }}>
                       {dashLoading ? <Skeleton width={60} /> : dashboard?.totalTeachers ?? 0}
                     </Typography>
                   </Box>
@@ -127,15 +134,15 @@ export const DashboardPage: React.FC = () => {
                     sx={{
                       p: 1.2,
                       borderRadius: 2,
-                      bgcolor: '#EFF6FF',
-                      color: '#2563EB',
+                      bgcolor: '#F1EBFC',
+                      color: '#7040D5',
                     }}
                   >
                     <SchoolIcon />
                   </Box>
                 </Box>
-                <Box sx={{ display: 'flex', gap: 2, pt: 1, borderTop: '1px solid #F1F5F9' }}>
-                  <Typography variant="body2" sx={{ color: '#1E40AF' }}>
+                <Box sx={{ display: 'flex', gap: 2, pt: 1, borderTop: '1px solid #F4F0FA' }}>
+                  <Typography variant="body2" sx={{ color: '#59349A' }}>
                     <strong>{dashboard?.activeTeachers ?? 0}</strong> hoạt động
                   </Typography>
                   <Typography variant="body2" sx={{ color: '#991B1B' }}>
@@ -152,10 +159,10 @@ export const DashboardPage: React.FC = () => {
               <CardContent sx={{ p: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                   <Box>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#64748B', textTransform: 'uppercase' }}>
+                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#655D76', textTransform: 'uppercase' }}>
                       Lớp học
                     </Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#0F172A', mt: 0.5 }}>
+                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#211844', mt: 0.5 }}>
                       {dashLoading ? <Skeleton width={60} /> : dashboard?.totalClasses ?? 0}
                     </Typography>
                   </Box>
@@ -170,7 +177,7 @@ export const DashboardPage: React.FC = () => {
                     <ClassIcon />
                   </Box>
                 </Box>
-                <Box sx={{ pt: 1, borderTop: '1px solid #F1F5F9' }}>
+                <Box sx={{ pt: 1, borderTop: '1px solid #F4F0FA' }}>
                   <Typography variant="body2" sx={{ color: '#6B21A8' }}>
                     Đã gán giáo viên & danh sách học sinh
                   </Typography>
@@ -183,8 +190,8 @@ export const DashboardPage: React.FC = () => {
         {/* Recent Audit Events */}
         <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <HistoryIcon sx={{ color: '#475569' }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#0F172A' }}>
+            <HistoryIcon sx={{ color: '#5E566D' }} />
+            <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
               Nhật ký thao tác gần đây
             </Typography>
           </Box>
@@ -192,7 +199,7 @@ export const DashboardPage: React.FC = () => {
             size="small"
             endIcon={<ArrowForwardIcon />}
             onClick={() => navigate('/audit')}
-            sx={{ color: '#2563EB', fontWeight: 600 }}
+            sx={{ color: '#7040D5', fontWeight: 600 }}
           >
             Xem tất cả nhật ký
           </Button>
@@ -221,10 +228,10 @@ export const DashboardPage: React.FC = () => {
               ) : recentAudit?.content && recentAudit.content.length > 0 ? (
                 recentAudit.content.map((event) => (
                   <TableRow key={event.auditEventId} hover>
-                    <TableCell sx={{ color: '#64748B', whiteSpace: 'nowrap' }}>
+                    <TableCell sx={{ color: '#655D76', whiteSpace: 'nowrap' }}>
                       {new Date(event.createdAt).toLocaleString('vi-VN')}
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 500, color: '#0F172A' }}>
+                    <TableCell sx={{ fontWeight: 500, color: '#211844' }}>
                       {event.actorEmail || 'Hệ thống'}
                     </TableCell>
                     <TableCell>
@@ -234,12 +241,12 @@ export const DashboardPage: React.FC = () => {
                         sx={{
                           fontWeight: 600,
                           fontSize: '0.7rem',
-                          bgcolor: '#F1F5F9',
-                          color: '#334155',
+                          bgcolor: '#F4F0FA',
+                          color: '#4E4264',
                         }}
                       />
                     </TableCell>
-                    <TableCell sx={{ color: '#475569', fontSize: '0.85rem' }}>
+                    <TableCell sx={{ color: '#5E566D', fontSize: '0.85rem' }}>
                       {event.metadata ? (
                         JSON.stringify(event.metadata)
                       ) : (
@@ -250,7 +257,7 @@ export const DashboardPage: React.FC = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} align="center" sx={{ py: 4, color: '#94A3B8' }}>
+                  <TableCell colSpan={4} align="center" sx={{ py: 4, color: '#736983' }}>
                     Chưa có nhật ký hoạt động nào được ghi nhận.
                   </TableCell>
                 </TableRow>

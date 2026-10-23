@@ -23,7 +23,6 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
   const refs = useRef(new Map<string, View>());
   const expanded = controlled ?? preference ?? width >= 1200;
   const router = useRouter();
-  if (state.routes[state.index]?.name === 'camera') return null;
 
   const destinations = <View accessibilityRole="tablist" aria-orientation={wide ? 'vertical' : 'horizontal'}
     style={[styles.items, wide && styles.vertical]}>
@@ -92,7 +91,6 @@ export default function TabLayout() {
     <Tabs.Screen name="lessons" options={{ title: 'Bài học' }} />
     <Tabs.Screen name="achievements" options={{ title: 'Thành tích' }} />
     <Tabs.Screen name="profile" options={{ title: 'Của em' }} />
-    <Tabs.Screen name="camera" options={{ href: null }} />
   </Tabs>;
 }
 

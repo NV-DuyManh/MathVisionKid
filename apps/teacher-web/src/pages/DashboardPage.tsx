@@ -85,16 +85,16 @@ export default function DashboardPage() {
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       {/* Header section */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3.5, flexWrap: 'wrap', gap: 2 }}>
+      <Box className="dashboard-welcome" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', mb: 3.5, gap: 2.5 }}>
         <Box>
-          <Typography variant="h4" sx={{ mb: 0.5 }}>
+          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
             Xin chào, {displayName}
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Tổng quan tiến độ chấm bài và các mục cần giáo viên xử lý hôm nay.
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 1.5 }}>
+        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
           <Button
             variant="outlined"
             startIcon={<AddCircleOutlined />}
@@ -111,6 +111,10 @@ export default function DashboardPage() {
           </Button>
         </Box>
       </Box>
+
+      {!stats && <Paper role="alert" variant="outlined" sx={{ mb: 3, p: 2.5, bgcolor: 'warning.light', color: 'warning.dark' }}>
+        Chưa tải được thống kê tổng quan. Bạn vẫn có thể mở Lớp học, Bài tập và Đợt chấm từ thanh điều hướng.
+      </Paper>}
 
       {/* Actionable Urgent Attention Banner */}
       {reviewCount > 0 && (
@@ -176,21 +180,21 @@ export default function DashboardPage() {
       )}
 
       {/* Top 4 Operational Metrics */}
-      <Grid container spacing={2.5} sx={{ mb: 4 }}>
+      <Grid container className="dashboard-metrics" spacing={2.5} sx={{ mb: 4 }}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%', borderLeft: '4px solid #2563EB' }}>
+          <Card sx={{ height: '100%', borderLeft: '4px solid #7040D5' }}>
             <CardContent sx={{ p: 2.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
                 <Typography color="text.secondary" variant="body2" sx={{ fontWeight: 600 }}>
                   Lớp học phụ trách
                 </Typography>
-                <School sx={{ color: '#2563EB', fontSize: 22 }} />
+                <School sx={{ color: '#7040D5', fontSize: 22 }} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                {classes.length}
+              <Typography variant="h4" component="p" sx={{ fontWeight: 800, color: '#211844' }}>
+                {stats ? classes.length : '—'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                Tổng sĩ số: {classes.reduce((sum, c) => sum + (c.studentCount || 0), 0)} học sinh
+                {stats ? `Tổng sĩ số: ${classes.reduce((sum, c) => sum + (c.studentCount || 0), 0)} học sinh` : 'Chưa tải được dữ liệu'}
               </Typography>
             </CardContent>
           </Card>
@@ -205,11 +209,11 @@ export default function DashboardPage() {
                 </Typography>
                 <AssignmentTurnedIn sx={{ color: '#0D9488', fontSize: 22 }} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                {totalCount}
+              <Typography variant="h4" sx={{ fontWeight: 800, color: '#211844' }}>
+                {stats ? totalCount : '—'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                Đã nộp trong ngày
+                {stats ? 'Đã nộp trong ngày' : 'Chưa tải được dữ liệu'}
               </Typography>
             </CardContent>
           </Card>
@@ -225,10 +229,10 @@ export default function DashboardPage() {
                 <FactCheck sx={{ color: '#16A34A', fontSize: 22 }} />
               </Box>
               <Typography variant="h4" sx={{ fontWeight: 800, color: '#15803D' }}>
-                {completedCount}
+                {stats ? completedCount : '—'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                AI đã xử lý xong và có đề xuất
+                {stats ? 'AI đã xử lý xong và có đề xuất' : 'Chưa tải được dữ liệu'}
               </Typography>
             </CardContent>
           </Card>
@@ -243,11 +247,11 @@ export default function DashboardPage() {
                 </Typography>
                 <PendingActions sx={{ color: '#DC2626', fontSize: 22 }} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 800, color: reviewCount > 0 ? '#B91C1C' : '#0F172A' }}>
-                {reviewCount}
+              <Typography variant="h4" sx={{ fontWeight: 800, color: reviewCount > 0 ? '#B91C1C' : '#211844' }}>
+                {stats ? reviewCount : '—'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {reviewCount > 0 ? 'Đang chờ giáo viên quyết định' : 'Hàng đợi sạch sẽ'}
+                {!stats ? 'Chưa tải được dữ liệu' : reviewCount > 0 ? 'Đang chờ giáo viên quyết định' : 'Không có bài cần xem lại'}
               </Typography>
             </CardContent>
           </Card>
@@ -266,7 +270,7 @@ export default function DashboardPage() {
         <List sx={{ p: 0 }}>
           {!stats?.recentBatches || stats.recentBatches.length === 0 ? (
             <ListItem sx={{ py: 4, textAlign: 'center', justifyContent: 'center' }}>
-              <Typography color="text.secondary">Chưa có đợt chấm bài nào được tạo gần đây.</Typography>
+              <Typography color="text.secondary">{stats ? 'Chưa có đợt chấm bài nào được tạo gần đây.' : 'Chưa tải được danh sách đợt chấm gần đây.'}</Typography>
             </ListItem>
           ) : (
             stats.recentBatches.map((batch, index) => (
@@ -276,7 +280,7 @@ export default function DashboardPage() {
                 sx={{
                   py: 1.75,
                   px: 3,
-                  '&:hover': { bgcolor: '#F8FAFC' },
+                  '&:hover': { bgcolor: '#F8F6FD' },
                   cursor: 'pointer',
                   transition: 'background-color 150ms',
                 }}
@@ -311,7 +315,7 @@ export default function DashboardPage() {
                       sx={{ bgcolor: '#FEF2F2', color: '#B91C1C', fontWeight: 700 }}
                     />
                   )}
-                  <ChevronRight sx={{ color: '#94A3B8', ml: 1 }} />
+                  <ChevronRight sx={{ color: '#736983', ml: 1 }} />
                 </Box>
               </ListItem>
             ))
