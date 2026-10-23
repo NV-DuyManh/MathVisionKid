@@ -18,5 +18,8 @@
     "build:admin": "npm run build --workspace=admin-web",
     "build:portal": "npm run build --workspace=portal-web",
     "build:web": "npm run build --workspaces --if-present"
+  },
+  "dependencies": {
+    "expo": "^58.0.0"
   }
 }

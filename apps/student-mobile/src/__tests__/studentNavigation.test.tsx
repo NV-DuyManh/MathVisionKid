@@ -4,6 +4,8 @@ import { useRouter } from 'expo-router';
 import SplashScreen from '../app/index';
 import LessonsScreen from '../app/(tabs)/lessons';
 import AchievementsScreen from '../app/(tabs)/achievements';
+import ProfileScreen from '../app/(tabs)/profile';
+import GamesScreen from '../app/games';
 import { AuthContext } from '../context/AuthContext';
 import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
 import { recognitionAnalyticsStore } from '../features/recognition/analytics/recognitionAnalyticsStore';
@@ -11,9 +13,13 @@ import { getProblemsByGrade } from '../data/primaryMathCurriculum';
 
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(),
+  Redirect: ({ href }: { href: string }) => require('react').createElement('Redirect', { href }),
   useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]),
 }));
-jest.mock('react-native-safe-area-context', () => ({ useSafeAreaInsets: () => ({ top: 0, bottom: 20 }) }));
+jest.mock('react-native-safe-area-context', () => ({
+  SafeAreaView: 'SafeAreaView',
+  useSafeAreaInsets: () => ({ top: 0, bottom: 20 }),
+}));
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext(undefined) }));
 jest.mock('../features/recognition/analytics/recognitionAnalyticsStore', () => ({
   recognitionAnalyticsStore: { init: jest.fn(async () => {}), getSessions: jest.fn(() => []) },
@@ -26,7 +32,7 @@ const press = (renderer: TestRenderer.ReactTestRenderer, label: string) => rende
 
 describe('Student navigation and real saved activity', () => {
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue({ push: jest.fn(), replace: jest.fn() });
+    (useRouter as jest.Mock).mockReturnValue({ push: jest.fn(), replace: jest.fn(), dismissTo: jest.fn() });
     (recognitionAnalyticsStore.getSessions as jest.Mock).mockReturnValue([]);
     recognitionDraftStore.clearDraft();
   });
@@ -82,6 +88,45 @@ describe('Student navigation and real saved activity', () => {
     expect(values).toContain(1);
     expect(values).toContain(3);
     expect(values).not.toContain(20);
+    act(() => renderer!.unmount());
+  });
+
+  it('opens games from the profile and returns to that tab with only a header on the games screen', async () => {
+    const auth = { user: null, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
+    let renderer: TestRenderer.ReactTestRenderer;
+    await act(async () => {
+      renderer = TestRenderer.create(<AuthContext.Provider value={auth}><ProfileScreen /></AuthContext.Provider>);
+    });
+    const router = (useRouter as jest.Mock).mock.results.at(-1)!.value;
+    const gameEntries = renderer!.root.findAll(node =>
+      node.props.accessibilityLabel === 'Trò chơi rèn luyện cho em' && typeof node.props.onPress === 'function');
+    expect(gameEntries).toHaveLength(1);
+    expect(gameEntries[0].props.accessibilityRole).toBe('button');
+    act(() => press(renderer!, 'Trò chơi rèn luyện cho em'));
+    expect(router.push).toHaveBeenCalledWith('/games');
+    act(() => renderer!.update(<AuthContext.Provider value={auth}><GamesScreen /></AuthContext.Provider>));
+    const screen = renderer!.toJSON() as TestRenderer.ReactTestRendererJSON;
+    expect(screen.children).toHaveLength(1);
+    act(() => press(renderer!, 'Quay lại tab Của em'));
+    expect(router.dismissTo).toHaveBeenCalledWith('/(tabs)/profile');
+    act(() => renderer!.unmount());
+  });
+
+  it('guards direct games entry while restoring auth, when signed out and when the session expires', () => {
+    const auth = { user: null, isAuthenticated: false, isLoading: true, login: jest.fn(), logout: jest.fn() };
+    let renderer: TestRenderer.ReactTestRenderer;
+    act(() => {
+      renderer = TestRenderer.create(<AuthContext.Provider value={auth}><GamesScreen /></AuthContext.Provider>);
+    });
+    expect(renderer!.toJSON()).toBeNull();
+    act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false }}><GamesScreen /></AuthContext.Provider>));
+    expect(renderer!.root.findByType('Redirect' as any).props.href).toBe('/login');
+    act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false, isAuthenticated: true }}><GamesScreen /></AuthContext.Provider>));
+    expect(renderer!.root.findAllByType('Redirect' as any)).toHaveLength(0);
+    act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false }}><GamesScreen /></AuthContext.Provider>));
+    expect(renderer!.root.findByType('Redirect' as any).props.href).toBe('/login');
+    act(() => renderer!.update(<GamesScreen />));
+    expect(renderer!.root.findByType('Redirect' as any).props.href).toBe('/login');
     act(() => renderer!.unmount());
   });
 });

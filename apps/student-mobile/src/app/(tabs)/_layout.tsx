@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { View, StyleSheet, Pressable, Text, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,6 +22,7 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
   const [focused, setFocused] = useState<string | null>(null);
   const refs = useRef(new Map<string, View>());
   const expanded = controlled ?? preference ?? width >= 1200;
+  const router = useRouter();
   if (state.routes[state.index]?.name === 'camera') return null;
 
   const destinations = <View accessibilityRole="tablist" aria-orientation={wide ? 'vertical' : 'horizontal'}
@@ -50,9 +51,9 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
           refs.current.get(routes[target].key)?.focus();
         } } : {})}
         onPress={() => {
-          const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-          if (!selected && !event.defaultPrevented) navigation.navigate(route.name, route.params);
-        }} onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
+          const event = navigation?.emit ? navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true }) : { defaultPrevented: false };
+          if (!selected && !event?.defaultPrevented) { if (navigation?.navigate) { navigation.navigate(route.name, route.params); } else { router.navigate(route.name === 'index' ? '/(tabs)' : ('/(tabs)/' + route.name)); } }
+        }} onLongPress={() => navigation?.emit?.({ type: 'tabLongPress', target: route.key })}
         style={({ pressed, hovered }) => [styles.item, wide && styles.sideItem,
           wide && !expanded && styles.compactItem, selected && styles.selected, wide && selected && styles.sideSelected,
           hovered && (wide ? styles.sideHovered : styles.hovered), focused === route.key && styles.focused, pressed && styles.pressed]}>
