@@ -154,7 +154,7 @@ export const UsersPage: React.FC = () => {
             variant="contained"
             startIcon={<AddIcon />}
             onClick={() => setIsCreateOpen(true)}
-            sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+            sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
           >
             Cấp tài khoản mới
           </Button>
@@ -164,7 +164,7 @@ export const UsersPage: React.FC = () => {
         <Card sx={{ p: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             <TextField
-              placeholder="Tìm kiếm theo tên hoặc email..."
+              label="Tìm kiếm theo tên hoặc email..." placeholder="Tìm kiếm theo tên hoặc email..."
               size="small"
               value={searchQuery}
               onChange={(e) => {
@@ -176,7 +176,7 @@ export const UsersPage: React.FC = () => {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon fontSize="small" sx={{ color: '#94A3B8' }} />
+                      <SearchIcon fontSize="small" sx={{ color: '#736983' }} />
                     </InputAdornment>
                   ),
                 },
@@ -184,8 +184,8 @@ export const UsersPage: React.FC = () => {
             />
 
             <FormControl size="small" sx={{ minWidth: 180 }}>
-              <InputLabel>Trạng thái</InputLabel>
-              <Select
+              <InputLabel id="userspage-field-8">Trạng thái</InputLabel>
+              <Select labelId="userspage-field-8"
                 value={statusFilter}
                 label="Trạng thái"
                 onChange={(e) => {
@@ -221,14 +221,14 @@ export const UsersPage: React.FC = () => {
                 ) : data?.content && data.content.length > 0 ? (
                   data.content.map((u) => (
                     <TableRow key={u.userId} hover>
-                      <TableCell sx={{ fontWeight: 600, color: '#0F172A' }}>
+                      <TableCell sx={{ fontWeight: 600, color: '#211844' }}>
                         {u.displayName}
                       </TableCell>
-                      <TableCell sx={{ color: '#475569' }}>{u.email}</TableCell>
+                      <TableCell sx={{ color: '#5E566D' }}>{u.email}</TableCell>
                       <TableCell>
                         <RoleChip role={u.role} />
                       </TableCell>
-                      <TableCell sx={{ color: '#64748B' }}>
+                      <TableCell sx={{ color: '#655D76' }}>
                         {u.role === 'STUDENT' && u.gradeLevel ? `Lớp ${u.gradeLevel}` : '—'}
                       </TableCell>
                       <TableCell>
@@ -239,7 +239,7 @@ export const UsersPage: React.FC = () => {
                           size="small"
                           endIcon={<OpenInNewIcon fontSize="small" />}
                           onClick={() => navigate(`/users/${u.userId}`)}
-                          sx={{ color: '#2563EB', fontWeight: 600 }}
+                          sx={{ color: '#7040D5', fontWeight: 600 }}
                         >
                           Chi tiết
                         </Button>
@@ -281,7 +281,7 @@ export const UsersPage: React.FC = () => {
 
       {/* Create User Dialog */}
       <Dialog open={isCreateOpen} onClose={() => setIsCreateOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>
+        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
           Cấp phát tài khoản người dùng mới
         </DialogTitle>
         <form onSubmit={handleCreateSubmit}>
@@ -294,8 +294,8 @@ export const UsersPage: React.FC = () => {
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Vai trò</InputLabel>
-                <Select
+                <InputLabel id="userspage-field-9">Vai trò</InputLabel>
+                <Select labelId="userspage-field-9"
                   value={newRole}
                   label="Vai trò"
                   onChange={(e) => setNewRole(e.target.value as 'STUDENT' | 'TEACHER')}
@@ -355,8 +355,8 @@ export const UsersPage: React.FC = () => {
 
               {newRole === 'STUDENT' && (
                 <FormControl fullWidth size="small">
-                  <InputLabel>Khối lớp</InputLabel>
-                  <Select
+                  <InputLabel id="userspage-field-10">Khối lớp</InputLabel>
+                  <Select labelId="userspage-field-10"
                     value={newGradeLevel}
                     label="Khối lớp"
                     onChange={(e) => setNewGradeLevel(Number(e.target.value))}
@@ -372,14 +372,14 @@ export const UsersPage: React.FC = () => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 2.5 }}>
-            <Button onClick={() => setIsCreateOpen(false)} sx={{ color: '#64748B' }}>
+            <Button onClick={() => setIsCreateOpen(false)} sx={{ color: '#655D76' }}>
               Hủy bỏ
             </Button>
             <Button
               type="submit"
               variant="contained"
               disabled={createMutation.isPending}
-              sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
             >
               {createMutation.isPending ? 'Đang tạo...' : 'Tạo người dùng'}
             </Button>

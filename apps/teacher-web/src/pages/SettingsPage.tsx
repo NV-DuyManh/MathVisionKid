@@ -11,7 +11,7 @@ export default function SettingsPage() {
   return (
     <Box sx={{ maxWidth: 960, mx: 'auto' }}>
       <Box sx={{ mb: 3.5 }}>
-        <Typography variant="h4" sx={{ mb: 0.5 }}>
+        <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
           Cài đặt & Thông tin tài khoản
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -25,7 +25,7 @@ export default function SettingsPage() {
           <Card sx={{ borderRadius: 2.5, height: '100%' }}>
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                <Person sx={{ color: '#2563EB', fontSize: 24 }} />
+                <Person sx={{ color: '#7040D5', fontSize: 24 }} />
                 <Typography variant="h6" sx={{ fontWeight: 700 }}>
                   Thông tin Giáo viên
                 </Typography>
@@ -36,7 +36,7 @@ export default function SettingsPage() {
                 <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                   Họ và tên
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                <Typography variant="body1" sx={{ fontWeight: 700, color: '#211844' }}>
                   {displayName}
                 </Typography>
               </Box>
@@ -45,7 +45,7 @@ export default function SettingsPage() {
                 <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                   Email công vụ
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#0F172A' }}>
+                <Typography variant="body1" sx={{ color: '#211844' }}>
                   {user?.email || '—'}
                 </Typography>
               </Box>
@@ -57,7 +57,7 @@ export default function SettingsPage() {
                 <Chip
                   label="Giáo viên Tiểu học (TEACHER)"
                   size="small"
-                  sx={{ bgcolor: '#EFF6FF', color: '#1D4ED8', fontWeight: 600, mt: 0.5 }}
+                  sx={{ bgcolor: '#F1EBFC', color: '#5426AF', fontWeight: 600, mt: 0.5 }}
                 />
               </Box>
             </CardContent>
@@ -91,20 +91,20 @@ export default function SettingsPage() {
 
         {/* System info */}
         <Grid size={{ xs: 12 }}>
-          <Card sx={{ borderRadius: 2.5, bgcolor: '#F8FAFC', border: '1px solid #E2E8F0' }}>
+          <Card sx={{ borderRadius: 2.5, bgcolor: '#F8F6FD', border: '1px solid #E9E2F2' }}>
             <CardContent sx={{ p: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <InfoOutlined sx={{ color: '#64748B' }} />
+                <InfoOutlined sx={{ color: '#655D76' }} />
                 <Box>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                     MathVision Kids — Phiên bản Cổng Giáo Viên
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Phiên bản v1.0.0 (Bản phát hành chính thức cho trường học)
+                    Quản lý lớp học, giao bài và xem lại kết quả chấm bài.
                   </Typography>
                 </Box>
               </Box>
-              <Chip label="Hệ thống hoạt động bình thường" size="small" sx={{ bgcolor: '#DCFCE7', color: '#15803D', fontWeight: 600 }} />
+              <Chip label="Không gian giáo viên" size="small" sx={{ bgcolor: '#F1EBFC', color: '#5426AF', fontWeight: 600 }} />
             </CardContent>
           </Card>
         </Grid>

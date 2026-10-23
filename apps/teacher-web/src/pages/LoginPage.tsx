@@ -95,12 +95,13 @@ export default function LoginPage() {
 
   return (
     <Box
+      className="auth-page"
       sx={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: '#F8FAFC',
+        bgcolor: '#F8F6FD',
         p: 2,
       }}
     >
@@ -110,7 +111,7 @@ export default function LoginPage() {
           width: '100%',
           p: { xs: 2, sm: 3 },
           boxShadow: '0 4px 16px rgba(15, 23, 42, 0.08)',
-          border: '1px solid #E2E8F0',
+          border: '1px solid #E9E2F2',
           borderRadius: 3,
         }}
       >
@@ -121,18 +122,18 @@ export default function LoginPage() {
                 width: 56,
                 height: 56,
                 borderRadius: '50%',
-                bgcolor: '#EFF6FF',
+                bgcolor: '#F1EBFC',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '1.5px solid #BFDBFE',
+                border: '1.5px solid #DDCDF4',
               }}
             >
-              <School sx={{ fontSize: 32, color: '#2563EB' }} />
+              <School sx={{ fontSize: 32, color: '#7040D5' }} />
             </Box>
           </Box>
 
-          <Typography variant="h5" sx={{ fontWeight: 800, textAlign: 'center', color: '#2563EB', letterSpacing: '-0.02em', mb: 0.5 }}>
+          <Typography variant="h5" component="h1" sx={{ fontWeight: 800, textAlign: 'center', color: '#7040D5', letterSpacing: '-0.02em', mb: 0.5 }}>
             MathVision<span style={{ color: '#0D9488' }}>Kids</span>
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', fontWeight: 600, mb: 0.5 }}>
@@ -215,7 +216,7 @@ export default function LoginPage() {
             </Button>
 
             <Divider sx={{ my: 2 }}>
-              <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600 }}>
+              <Typography variant="caption" sx={{ color: '#736983', fontWeight: 600 }}>
                 HOẶC ĐĂNG NHẬP CHÍNH THỨC
               </Typography>
             </Divider>
@@ -241,10 +242,10 @@ export default function LoginPage() {
             </Button>
 
             <Box sx={{ mt: 2.5, textAlign: 'center' }}>
-              <Typography variant="caption" sx={{ color: '#64748B' }}>
+              <Typography variant="caption" sx={{ color: '#655D76' }}>
                 <a
                   href={appConfig.portalOrigin}
-                  style={{ color: '#64748B', textDecoration: 'none', fontWeight: 500 }}
+                  style={{ color: '#655D76', textDecoration: 'none', fontWeight: 500 }}
                 >
                   ← Về Trang chủ MathVision Kids
                 </a>

@@ -15,12 +15,16 @@ class SpringTeacherServiceImpl implements TeacherService {
 
   async getDashboard(): Promise<DashboardStats> {
     const res = await apiClient.get('/teacher/dashboard');
-    const { metrics, recentBatches } = res.data;
+    const { todayTotal, processedCount, reviewRequiredCount, recentBatches } = res.data ?? {};
+    if (![todayTotal, processedCount, reviewRequiredCount].every(value => Number.isSafeInteger(value) && value >= 0)
+      || !Array.isArray(recentBatches)) {
+      throw new Error('Dữ liệu tổng quan chưa hợp lệ. Vui lòng thử lại.');
+    }
     return {
-      totalToday: metrics.totalToday || 0,
-      completed: metrics.completed || 0,
-      reviewRequired: metrics.reviewRequired || 0,
-      recentBatches: recentBatches || [],
+      totalToday: todayTotal,
+      completed: processedCount,
+      reviewRequired: reviewRequiredCount,
+      recentBatches,
     };
   }
 

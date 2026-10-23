@@ -215,7 +215,7 @@ export default function BatchCreatePage() {
       </Button>
 
       <Box sx={{ mb: 3 }}>
-        <Typography variant="h4" sx={{ mb: 0.5 }}>
+        <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
           Khởi tạo Đợt chấm bài (Batch Upload)
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -236,14 +236,14 @@ export default function BatchCreatePage() {
             borderStyle: 'dashed',
             borderWidth: 2,
             borderColor: '#93C5FD',
-            bgcolor: '#EFF6FF',
+            bgcolor: '#F1EBFC',
             borderRadius: 3,
             mb: 4,
           }}
         >
           <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 8 }}>
-            <CloudUpload sx={{ fontSize: 64, color: '#2563EB', mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#1D4ED8' }}>
+            <CloudUpload sx={{ fontSize: 64, color: '#7040D5', mb: 2 }} />
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#5426AF' }}>
               Tải lên từ 1 đến 30 ảnh bài làm học sinh
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center', maxWidth: 480 }}>
@@ -270,7 +270,7 @@ export default function BatchCreatePage() {
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
               <Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A', mb: 0.5 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#211844', mb: 0.5 }}>
                   Bảng kiểm tra sẵn sàng nộp bài (Readiness Checklist)
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
@@ -321,8 +321,8 @@ export default function BatchCreatePage() {
                   sx={{
                     px: 3,
                     py: 1.25,
-                    bgcolor: isReadyToSubmit ? '#2563EB' : '#94A3B8',
-                    '&:hover': { bgcolor: isReadyToSubmit ? '#1D4ED8' : '#94A3B8' },
+                    bgcolor: isReadyToSubmit ? '#7040D5' : '#736983',
+                    '&:hover': { bgcolor: isReadyToSubmit ? '#5426AF' : '#736983' },
                   }}
                 >
                   {uploading ? 'Đang tải lên & bắt đầu chấm...' : 'Bắt đầu chấm bài bằng AI'}
@@ -333,7 +333,7 @@ export default function BatchCreatePage() {
             <Divider sx={{ my: 2 }} />
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Lock sx={{ fontSize: 16, color: '#475569' }} />
+              <Lock sx={{ fontSize: 16, color: '#5E566D' }} />
               <Typography variant="caption" color="text.secondary">
                 <strong>Cam kết quyền riêng tư:</strong> Toàn bộ họ tên và thông tin trường học được che thủ công trước khi gửi tới máy chủ xử lý OCR.
               </Typography>
@@ -357,10 +357,10 @@ export default function BatchCreatePage() {
                       borderColor: isMissingStudent
                         ? '#F59E0B'
                         : isMissingPrivacy
-                        ? '#94A3B8'
+                        ? '#736983'
                         : isDuplicate
-                        ? '#CBD5E1'
-                        : '#E2E8F0',
+                        ? '#D8CDE7'
+                        : '#E9E2F2',
                       borderWidth: isMissingStudent ? 2 : 1,
                     }}
                   >
@@ -386,12 +386,13 @@ export default function BatchCreatePage() {
                     <Box sx={{ position: 'absolute', top: 6, right: 6, zIndex: 10, display: 'flex', gap: 0.5 }}>
                       <Tooltip title="Thay thế ảnh này">
                         <IconButton
+                          aria-label="Thay thế ảnh này"
                           component="label"
                           size="small"
                           sx={{
                             bgcolor: 'rgba(255,255,255,0.9)',
                             boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                            '&:hover': { bgcolor: '#2563EB', color: 'white' },
+                            '&:hover': { bgcolor: '#7040D5', color: 'white' },
                           }}
                         >
                           <Refresh sx={{ fontSize: 16 }} />
@@ -400,6 +401,7 @@ export default function BatchCreatePage() {
                       </Tooltip>
                       <Tooltip title="Xóa ảnh này">
                         <IconButton
+                          aria-label="Xóa ảnh này"
                           size="small"
                           onClick={() => removeFile(file.id)}
                           sx={{
@@ -414,7 +416,7 @@ export default function BatchCreatePage() {
                     </Box>
 
                     {/* Image Preview Area */}
-                    <Box sx={{ position: 'relative', paddingTop: '75%', bgcolor: '#0F172A', overflow: 'hidden' }}>
+                    <Box sx={{ position: 'relative', paddingTop: '75%', bgcolor: '#211844', overflow: 'hidden' }}>
                       <img
                         src={file.previewUrl}
                         alt={`Bài làm ${idx + 1}`}

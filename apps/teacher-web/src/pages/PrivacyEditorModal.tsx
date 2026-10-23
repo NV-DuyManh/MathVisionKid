@@ -301,10 +301,10 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-      <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth aria-labelledby="privacy-editor-title">
+      <DialogTitle id="privacy-editor-title" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h6">Che thông tin cá nhân (Privacy Gate)</Typography>
-        <IconButton onClick={onClose}><Close /></IconButton>
+        <IconButton aria-label="Đóng trình che thông tin" onClick={onClose}><Close /></IconButton>
       </DialogTitle>
       <DialogContent dividers>
         <Box sx={{ mb: 2, display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -315,12 +315,12 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
           <Box sx={{ flexGrow: 1 }} />
           <Tooltip title="Xóa vùng đang chọn">
             <span>
-              <IconButton onClick={handleDeleteSelected} disabled={!selectedMask} color="error"><DeleteIcon /></IconButton>
+              <IconButton aria-label="Xóa vùng đang chọn" onClick={handleDeleteSelected} disabled={!selectedMask} color="error"><DeleteIcon /></IconButton>
             </span>
           </Tooltip>
           <Tooltip title="Xóa tất cả">
             <span>
-              <IconButton onClick={handleClear} disabled={masks.length === 0}><ClearAll /></IconButton>
+              <IconButton aria-label="Xóa tất cả vùng che" onClick={handleClear} disabled={masks.length === 0}><ClearAll /></IconButton>
             </span>
           </Tooltip>
         </Box>

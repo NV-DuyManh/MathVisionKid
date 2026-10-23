@@ -29,7 +29,7 @@ export default function ReviewQueuePage() {
   if (isError || !queue) {
     return (
       <Box sx={{ textAlign: 'center', mt: 6, p: 4 }}>
-        <Typography color="error" variant="h6" sx={{ mb: 2 }}>
+        <Typography color="error" variant="h6" component="h1" sx={{ mb: 2 }}>
           Đã xảy ra lỗi khi tải hàng đợi duyệt.
         </Typography>
         <Button variant="outlined" onClick={() => navigate(`/batches/${id}`)}>
@@ -53,7 +53,7 @@ export default function ReviewQueuePage() {
           }}
         >
           <CheckCircle sx={{ fontSize: 56, color: '#16A34A', mb: 1.5 }} />
-          <Typography variant="h5" sx={{ fontWeight: 800, color: '#15803D', mb: 1 }}>
+          <Typography variant="h5" component="h1" sx={{ fontWeight: 800, color: '#15803D', mb: 1 }}>
             Đã xử lý hết các bài cần giáo viên xem lại.
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 440, mx: 'auto', mb: 3 }}>
@@ -84,7 +84,7 @@ export default function ReviewQueuePage() {
       </Button>
 
       <Box sx={{ mb: 3.5 }}>
-        <Typography variant="h4" sx={{ mb: 0.5 }}>
+        <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
           Hàng đợi Thẩm định & Duyệt bài
         </Typography>
         <Typography variant="body1" sx={{ color: '#B91C1C', fontWeight: 600 }}>
@@ -118,7 +118,7 @@ export default function ReviewQueuePage() {
                   {/* Top Bar: Student Name + StatusChip */}
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                     <Box>
-                      <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A' }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#211844' }}>
                         {sub.studentName || `Học sinh #${idx + 1}`}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
@@ -147,15 +147,15 @@ export default function ReviewQueuePage() {
                   </Box>
 
                   {/* Advisory Score and Confidence Metrics */}
-                  <Box sx={{ bgcolor: '#F8FAFC', p: 1.75, borderRadius: 2, border: '1px solid #E2E8F0', mb: 2.5, flexGrow: 1 }}>
+                  <Box sx={{ bgcolor: '#F8F6FD', p: 1.75, borderRadius: 2, border: '1px solid #E9E2F2', mb: 2.5, flexGrow: 1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <AutoAwesome sx={{ fontSize: 16, color: '#2563EB' }} />
+                        <AutoAwesome sx={{ fontSize: 16, color: '#7040D5' }} />
                         <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
                           AI đề xuất (chưa chính thức):
                         </Typography>
                       </Box>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#2563EB' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#7040D5' }}>
                         {suggested !== undefined ? `${suggested} / 10 điểm` : 'Chưa chấm'}
                       </Typography>
                     </Box>
@@ -167,7 +167,7 @@ export default function ReviewQueuePage() {
                         <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                           Độ tin cậy nhận diện:
                         </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
                           {recConf}
                         </Typography>
                       </Grid>
@@ -175,7 +175,7 @@ export default function ReviewQueuePage() {
                         <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                           Độ tin cậy chẩn đoán:
                         </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
                           {diagConf}
                         </Typography>
                       </Grid>
@@ -192,8 +192,8 @@ export default function ReviewQueuePage() {
                     sx={{
                       py: 1,
                       fontWeight: 700,
-                      bgcolor: '#2563EB',
-                      '&:hover': { bgcolor: '#1D4ED8' },
+                      bgcolor: '#7040D5',
+                      '&:hover': { bgcolor: '#5426AF' },
                     }}
                   >
                     Duyệt bài này

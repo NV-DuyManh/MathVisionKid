@@ -21,6 +21,46 @@ function service(responses) {
   return { service: exports.SpringTeacherService, calls };
 }
 
+test('dashboard maps the backend DTO counts and retains actual recent batches', async () => {
+  const recentBatches = [{ batchId: 'b', assignmentTitle: 'Phép cộng', totalCount: 7, processedCount: 4, reviewRequiredCount: 2, status: 'PARTIAL' }];
+  const { service: api, calls } = service({
+    '/teacher/dashboard': { todayTotal: 7, processedCount: 4, reviewRequiredCount: 2, recentBatches },
+  });
+  const result = await api.getDashboard();
+  assert.equal(result.totalToday, 7);
+  assert.equal(result.completed, 4);
+  assert.equal(result.reviewRequired, 2);
+  assert.equal(result.recentBatches, recentBatches);
+  assert.equal(calls[0].url, '/teacher/dashboard');
+});
+
+test('dashboard preserves genuine zero counts from the backend', async () => {
+  const { service: api } = service({
+    '/teacher/dashboard': { todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] },
+  });
+  const result = await api.getDashboard();
+  assert.equal(result.totalToday, 0);
+  assert.equal(result.completed, 0);
+  assert.equal(result.reviewRequired, 0);
+  assert.equal(result.recentBatches.length, 0);
+});
+
+test('missing or malformed dashboard data never becomes fabricated zero statistics', async () => {
+  const valid = { todayTotal: 7, processedCount: 4, reviewRequiredCount: 2, recentBatches: [] };
+  for (const response of [null, {}, { metrics: { totalToday: 7, completed: 4, reviewRequired: 2 }, recentBatches: [] },
+    { ...valid, todayTotal: undefined }, { ...valid, todayTotal: '7' }, { ...valid, processedCount: -1 },
+    { ...valid, reviewRequiredCount: NaN }, { ...valid, recentBatches: null }]) {
+    const { service: api } = service({ '/teacher/dashboard': response });
+    await assert.rejects(api.getDashboard());
+  }
+});
+
+test('dashboard API failures remain errors for the page to display', async () => {
+  const failure = new Error('Dashboard offline');
+  const { service: api } = service({ '/teacher/dashboard': failure });
+  await assert.rejects(api.getDashboard(), failure);
+});
+
 test('review IDs resolve to actual details, confidence percentages and backend grade scale', async () => {
   const { service: api } = service({
     '/teacher/batches/b/review': ['s'],

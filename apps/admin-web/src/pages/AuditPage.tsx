@@ -32,7 +32,7 @@ import type { AdminAuditEventResponse } from '../types';
 
 const EVENT_TYPE_LABELS: Record<string, { label: string; color: string }> = {
   ADMIN_USER_CREATED: { label: 'TẠO NGƯỜI DÙNG', color: '#16A34A' },
-  ADMIN_USER_UPDATED: { label: 'CẬP NHẬT HỒ SƠ', color: '#2563EB' },
+  ADMIN_USER_UPDATED: { label: 'CẬP NHẬT HỒ SƠ', color: '#7040D5' },
   ADMIN_USER_DISABLED: { label: 'VÔ HIỆU HÓA', color: '#DC2626' },
   ADMIN_USER_ENABLED: { label: 'KÍCH HOẠT LẠI', color: '#059669' },
   ADMIN_USER_PASSWORD_RESET: { label: 'ĐẶT LẠI MẬT KHẨU', color: '#D97706' },
@@ -67,15 +67,15 @@ export const AuditPage: React.FC = () => {
         {/* Filter Row */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <HistoryIcon sx={{ color: '#0F172A' }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#0F172A' }}>
+            <HistoryIcon sx={{ color: '#211844' }} />
+            <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
               Nhật ký kiểm toán (Audit Trail)
             </Typography>
           </Box>
 
           <FormControl size="small" sx={{ minWidth: 260 }}>
-            <InputLabel>Lọc theo loại hành động</InputLabel>
-            <Select
+            <InputLabel id="auditpage-field-1">Lọc theo loại hành động</InputLabel>
+            <Select labelId="auditpage-field-1"
               value={eventTypeFilter}
               label="Lọc theo loại hành động"
               onChange={(e) => {
@@ -118,15 +118,15 @@ export const AuditPage: React.FC = () => {
                   data.content.map((ev) => {
                     const info = EVENT_TYPE_LABELS[ev.eventType] || {
                       label: ev.eventType,
-                      color: '#475569',
+                      color: '#5E566D',
                     };
 
                     return (
                       <TableRow key={ev.auditEventId} hover>
-                        <TableCell sx={{ color: '#64748B', whiteSpace: 'nowrap' }}>
+                        <TableCell sx={{ color: '#655D76', whiteSpace: 'nowrap' }}>
                           {new Date(ev.createdAt).toLocaleString('vi-VN')}
                         </TableCell>
-                        <TableCell sx={{ fontWeight: 600, color: '#0F172A' }}>
+                        <TableCell sx={{ fontWeight: 600, color: '#211844' }}>
                           {ev.actorEmail || 'Hệ thống'}
                         </TableCell>
                         <TableCell>
@@ -142,7 +142,7 @@ export const AuditPage: React.FC = () => {
                             }}
                           />
                         </TableCell>
-                        <TableCell sx={{ color: '#475569', maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <TableCell sx={{ color: '#5E566D', maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {ev.metadata ? JSON.stringify(ev.metadata) : '—'}
                         </TableCell>
                         <TableCell align="right">
@@ -150,7 +150,7 @@ export const AuditPage: React.FC = () => {
                             size="small"
                             startIcon={<InfoOutlinedIcon fontSize="small" />}
                             onClick={() => setSelectedEvent(ev)}
-                            sx={{ color: '#2563EB', fontWeight: 600 }}
+                            sx={{ color: '#7040D5', fontWeight: 600 }}
                           >
                             Xem
                           </Button>
@@ -196,63 +196,63 @@ export const AuditPage: React.FC = () => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>
+        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
           Chi tiết bản ghi kiểm toán
         </DialogTitle>
         <DialogContent>
           {selectedEvent && (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
               <Box>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Mã bản ghi
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#0F172A', wordBreak: 'break-all' }}>
+                <Typography variant="body2" sx={{ color: '#211844', wordBreak: 'break-all' }}>
                   {selectedEvent.auditEventId}
                 </Typography>
               </Box>
 
               <Box>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Thời gian ghi nhận
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#0F172A' }}>
+                <Typography variant="body2" sx={{ color: '#211844' }}>
                   {new Date(selectedEvent.createdAt).toLocaleString('vi-VN')}
                 </Typography>
               </Box>
 
               <Box>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Quản trị viên thực hiện
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 500 }}>
+                <Typography variant="body2" sx={{ color: '#211844', fontWeight: 500 }}>
                   {selectedEvent.actorEmail} (ID: {selectedEvent.actorUserId})
                 </Typography>
               </Box>
 
               <Box>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Loại hành động
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#2563EB', fontWeight: 600 }}>
+                <Typography variant="body2" sx={{ color: '#7040D5', fontWeight: 600 }}>
                   {selectedEvent.eventType}
                 </Typography>
               </Box>
 
               <Box>
-                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
                   Dữ liệu thao tác (Metadata JSON)
                 </Typography>
                 <Box
                   component="pre"
                   sx={{
                     p: 2,
-                    bgcolor: '#F1F5F9',
+                    bgcolor: '#F4F0FA',
                     borderRadius: 1.5,
                     fontSize: '0.8rem',
                     fontFamily: 'monospace',
                     overflow: 'auto',
                     maxHeight: 200,
-                    border: '1px solid #E2E8F0',
+                    border: '1px solid #E9E2F2',
                   }}
                 >
                   {JSON.stringify(selectedEvent.metadata, null, 2)}
@@ -265,7 +265,7 @@ export const AuditPage: React.FC = () => {
           <Button
             variant="contained"
             onClick={() => setSelectedEvent(null)}
-            sx={{ bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
+            sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
           >
             Đóng
           </Button>

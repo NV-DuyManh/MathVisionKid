@@ -19,11 +19,11 @@ export const RoleChip: React.FC<RoleChipProps> = ({ role, size = 'small' }) => {
           label="GIÁO VIÊN"
           size={size}
           sx={{
-            bgcolor: '#EFF6FF',
-            color: '#1D4ED8',
-            border: '1px solid #BFDBFE',
+            bgcolor: '#F1EBFC',
+            color: '#5426AF',
+            border: '1px solid #DDCDF4',
             fontWeight: 600,
-            '& .MuiChip-icon': { color: '#1D4ED8' },
+            '& .MuiChip-icon': { color: '#5426AF' },
           }}
         />
       );

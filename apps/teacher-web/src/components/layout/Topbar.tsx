@@ -1,10 +1,11 @@
-import { AppBar, Toolbar, Typography, Avatar, Box, Menu, MenuItem, ListItemIcon } from '@mui/material';
+import { AppBar, Toolbar, Typography, Avatar, Box, Menu, MenuItem, ListItemIcon, IconButton, ButtonBase } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Logout, Person, Home } from '@mui/icons-material';
 import { useAuth } from './AuthContext';
 import { useState } from 'react';
 import { appConfig } from '../../config/runtime';
 
-export default function Topbar() {
+export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: () => void; navigationOpen: boolean }) {
   const { user, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -32,18 +33,19 @@ export default function Topbar() {
       elevation={0}
       sx={{
         backgroundColor: '#FFFFFF',
-        borderBottom: '1px solid #E2E8F0',
+        borderBottom: '1px solid #E9E2F2',
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Toolbar sx={{ minHeight: '56px !important', px: 3 }}>
+      <Toolbar sx={{ minHeight: '82px !important', px: { xs: 2, md: 4 }, gap: 2 }}>
+        <IconButton aria-label="Mở điều hướng giáo viên" aria-controls="workspace-navigation" aria-expanded={navigationOpen} onClick={onMenuClick} sx={{ display: { md: 'none' } }}><MenuIcon /></IconButton>
         <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: '#64748B' }}>
-            Hệ thống hỗ trợ chấm bài tập Toán tiểu học
+          <Typography variant="body2" sx={{ fontWeight: 600, color: '#655D76' }}>
+            Không gian giáo viên
           </Typography>
         </Box>
 
-        <Box
+        <ButtonBase
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -53,25 +55,25 @@ export default function Topbar() {
             py: 0.75,
             borderRadius: 2,
             transition: 'background-color 150ms',
-            '&:hover': { bgcolor: '#F8FAFC' },
+            '&:hover': { bgcolor: '#F8F6FD' },
           }}
           onClick={handleMenu}
           aria-label="Tài khoản giáo viên"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter') handleMenu(e as any); }}
+          aria-controls={anchorEl ? 'teacher-account-menu' : undefined}
+          aria-haspopup="menu"
+          aria-expanded={Boolean(anchorEl)}
         >
-          <Box sx={{ textAlign: 'right' }}>
-            <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A', lineHeight: 1.2 }}>
+          <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
+            <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844', lineHeight: 1.2 }}>
               {displayName}
             </Typography>
-            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500 }}>
+            <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 500 }}>
               Giáo viên Toán
             </Typography>
           </Box>
           <Avatar
             sx={{
-              bgcolor: '#2563EB',
+              bgcolor: '#7040D5',
               width: 34,
               height: 34,
               fontSize: '0.875rem',
@@ -80,9 +82,10 @@ export default function Topbar() {
           >
             {initial}
           </Avatar>
-        </Box>
+        </ButtonBase>
 
         <Menu
+          id="teacher-account-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
@@ -94,13 +97,13 @@ export default function Topbar() {
                 mt: 1,
                 minWidth: 180,
                 boxShadow: '0 4px 12px rgba(15, 23, 42, 0.08)',
-                border: '1px solid #E2E8F0',
+                border: '1px solid #E9E2F2',
                 borderRadius: 2,
               },
             },
           }}
         >
-          <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #F1F5F9' }}>
+          <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #F4F0FA' }}>
             <Typography variant="body2" sx={{ fontWeight: 700 }}>{displayName}</Typography>
             <Typography variant="caption" color="text.secondary">{user?.email || '—'}</Typography>
           </Box>
