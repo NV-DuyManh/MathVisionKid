@@ -41,6 +41,9 @@ test.each(['race-to-finish', 'terrain-racing', 'energy-defense', 'planet-rescue'
   jest.mocked(useLocalSearchParams).mockReturnValue({ gameId }); render();
   const props = tree.root.findByType(GamePlayer).props;
   expect(props.gameId).toBe(gameId); expect(props.trial).toBe(false);
+  const options = tree.root.find(node => node.type === ('StackScreen' as React.ElementType)).props.options;
+  expect(options.orientation).toBe(gameId === 'race-to-finish' ? 'landscape' : gameId === 'terrain-racing' || gameId === 'energy-defense' ? 'portrait' : 'default');
+  expect(options.statusBarHidden).toBeUndefined(); expect(options.statusBarStyle).toBeUndefined();
   act(() => props.onExit()); expect(dismissTo).toHaveBeenCalledWith('/games');
 });
 

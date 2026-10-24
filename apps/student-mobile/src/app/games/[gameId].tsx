@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
 import { GameFallback, GamePlayer } from '../../features/training-games/GamePlayer';
+import { trainingScreenOptions } from '../../features/training-games/presentation';
 
 export function generateStaticParams() { return TRAINING_GAME_IDS.map(gameId => ({ gameId })); }
 export default function TrainingGameRoute() {
@@ -24,5 +25,5 @@ export default function TrainingGameRoute() {
   if (access.kind === 'trial' && playMode !== 'trial') return <GameFallback message="Tài khoản này chỉ có thể chơi thử không lưu thành tích. Em trở về danh sách và chọn Chơi thử nhé." onBack={back} />;
   const trial = access.kind === 'trial';
   const studentId = access.kind === 'student' ? access.studentId : access.owner;
-  return <><Stack.Screen options={{ headerShown: false, gestureEnabled: false }} />{focused && <GamePlayer key={`${studentId}:${gameId}`} studentId={studentId} trial={trial} gameId={gameId} onExit={back} />}</>;
+  return <><Stack.Screen options={trainingScreenOptions(gameId)} />{focused && <GamePlayer key={`${studentId}:${gameId}`} studentId={studentId} trial={trial} gameId={gameId} onExit={back} />}</>;
 }

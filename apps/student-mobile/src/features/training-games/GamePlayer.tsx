@@ -1,19 +1,23 @@
-import React, { Component, Suspense, lazy, useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+import React, { Component, Suspense, lazy, useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { usePreventRemove } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TrainingServicesContext, type TrainingGameId } from '@mathvisionkid/training-games';
 import { COLORS, FONTS } from '../../constants/theme';
 import { createTrainingRuntime } from './runtime';
 import { trainingResults } from './resultStore';
 import { trainingTrace } from './diagnostics';
+import { loadTrainingGame } from './gameEntries';
+import { trainingStatusBarHidden } from './presentation';
+import { useTrainingNativeDiagnostics } from './nativeDiagnostics';
 
 const GAMES = {
-  'planet-rescue': lazy(() => import('@mathvisionkid/training-games/planet-rescue')),
-  'race-to-finish': lazy(() => import('@mathvisionkid/training-games/race-to-finish')),
-  'terrain-racing': lazy(() => import('@mathvisionkid/training-games/terrain-racing')),
-  'energy-defense': lazy(() => import('@mathvisionkid/training-games/energy-defense')),
-  'block-island': lazy(() => import('@mathvisionkid/training-games/block-island')),
+  'planet-rescue': lazy(() => loadTrainingGame('planet-rescue')),
+  'race-to-finish': lazy(() => loadTrainingGame('race-to-finish')),
+  'terrain-racing': lazy(() => loadTrainingGame('terrain-racing')),
+  'energy-defense': lazy(() => loadTrainingGame('energy-defense')),
+  'block-island': lazy(() => loadTrainingGame('block-island')),
 };
 export function GameFallback({ message, onBack }: { message: string; onBack: () => void }) {
   return <View style={styles.fallback}><Text style={styles.message}>{message}</Text><Pressable accessibilityRole="button" accessibilityLabel="Trở về danh sách game" onPress={onBack} style={styles.button}><Text style={styles.buttonText}>Trở về danh sách game</Text></Pressable></View>;
@@ -35,22 +39,32 @@ export function GamePlayer({ studentId, gameId, trial = false, onExit }: { stude
   return <TrainingGameSession key={`${studentId}:${gameId}:${trial}`} studentId={studentId} trial={trial} gameId={gameId} onExit={onExit} Game={GAMES[gameId]} />;
 }
 export function TrainingGameSession({ studentId, gameId, trial = false, onExit, Game }: { studentId: string; gameId: TrainingGameId; trial?: boolean; onExit: () => void; Game: React.ComponentType<{ onExit: () => void }> }) {
+  useTrainingNativeDiagnostics(gameId, trial);
   const [runtime, setRuntime] = useState<ReturnType<typeof createTrainingRuntime> | null>(null);
+  const runtimeOwner = useRef<ReturnType<typeof createTrainingRuntime> | null>(null);
+  const alive = useRef(false), exitRequested = useRef(false), exitDelivered = useRef(false);
+  const [statusBar, setStatusBar] = useState<{ owner: ReturnType<typeof createTrainingRuntime>; hidden: boolean } | null>(null);
   const activeRuntime = runtime?.studentId === studentId && runtime.gameId === gameId && runtime.trial === trial ? runtime : null;
   const [leaving, setLeaving] = useState(false);
   const [failed, setFailed] = useState(false);
   const error = useSyncExternalStore(trainingResults.subscribe, () => trial ? null : trainingResults.error(studentId), () => null);
-  const requestExit = useCallback(() => { runtime?.dispose(); setLeaving(true); }, [runtime]);
+  const requestExit = useCallback(() => {
+    if (!alive.current || exitRequested.current || (runtime && runtimeOwner.current !== runtime)) return;
+    exitRequested.current = true; runtimeOwner.current?.dispose(); setLeaving(true);
+  }, [runtime]);
   usePreventRemove(gameId !== 'race-to-finish' && !leaving && !failed, () => { if (!activeRuntime?.requestBack()) requestExit(); });
-  useEffect(() => { if (leaving) onExit(); }, [leaving, onExit]);
+  useEffect(() => { if (leaving && !exitDelivered.current) { exitDelivered.current = true; onExit(); } }, [leaving, onExit]);
   useEffect(() => {
     // Each effect setup owns its runtime, including StrictMode's setup/cleanup replay.
-    const next = createTrainingRuntime(studentId, gameId, trial);
     let active = true;
+    alive.current = true;
+    const next = createTrainingRuntime(studentId, gameId, trial, hidden => { if (active) setStatusBar({ owner: next, hidden }); });
+    runtimeOwner.current = next;
     void next.ready.then(() => { if (active) setRuntime(next); });
-    return () => { active = false; next.dispose(); };
+    return () => { active = false; alive.current = false; if (runtimeOwner.current === next) runtimeOwner.current = null; next.dispose(); };
   }, [studentId, gameId, trial]);
   return <GestureHandlerRootView style={styles.root} testID={`training-player-${gameId}`}>
+    {activeRuntime && !leaving && !failed && <StatusBar style="dark" hidden={statusBar?.owner === activeRuntime ? statusBar.hidden : trainingStatusBarHidden(gameId)} />}
     {trial && <Text accessibilityRole="alert" style={styles.errorText}>Chơi thử · Không lưu thành tích</Text>}
     {error && <View accessibilityRole="alert" style={styles.error}><Text style={styles.errorText}>{error}</Text><Pressable accessibilityRole="button" accessibilityLabel="Thử lưu kết quả" onPress={() => { void trainingResults.retry(studentId).catch(() => {}); }}><Text style={styles.errorText}>Thử lưu lại</Text></Pressable></View>}
     <GameBoundary onBack={requestExit} onFailure={() => { trainingTrace('game-error', { gameId, mode: trial ? 'trial' : 'student' }); runtime?.dispose(); setFailed(true); }}>

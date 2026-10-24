@@ -69,7 +69,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <StatusBar style="dark" />
+      <StatusBar style="dark" hidden={false} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="login" />
@@ -78,6 +78,7 @@ export default function RootLayout() {
         <Stack.Screen name="processing" />
         <Stack.Screen name="results" />
         <Stack.Screen name="gallery" />
+        <Stack.Screen name="games/index" options={{ orientation: 'portrait' }} />
       </Stack>
     </AuthProvider>
   );

@@ -1,10 +1,10 @@
 {
   "name": "@mathvisionkid/training-games",
-  "version": "0.1.1",
-  "filename": "mathvisionkid-training-games-0.1.1.tgz",
-  "sha256": "3b47ca7f65e02751fb4b71d4407322cdefd7505c71c802004ddcbb7596ff8612",
-  "bytes": 17099740,
-  "unpackedBytes": 17858666,
+  "version": "0.1.2",
+  "filename": "mathvisionkid-training-games-0.1.2.tgz",
+  "sha256": "f6a319d1b61c53cdbe1331d9812c85a9813b3ead9841eb05c3c639b657186f9e",
+  "bytes": 17099872,
+  "unpackedBytes": 17859180,
   "entries": 223,
   "sourceFiles": 220,
   "games": [
@@ -297,7 +297,7 @@
     },
     {
       "path": "src/games/energy-defense/screens/EnergyDefenseScreen.tsx",
-      "size": 13831,
+      "size": 14078,
       "mode": 420
     },
     {
@@ -817,7 +817,7 @@
     },
     {
       "path": "src/games/race-to-finish/screens/RaceToFinishScreen.tsx",
-      "size": 12583,
+      "size": 12717,
       "mode": 420
     },
     {
@@ -1062,7 +1062,7 @@
     },
     {
       "path": "src/shared/integration/context.tsx",
-      "size": 1710,
+      "size": 1843,
       "mode": 420
     },
     {
