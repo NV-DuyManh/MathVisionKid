@@ -7,11 +7,12 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { StudentNavIcon } from '../../components/ui/StudentNavIcon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppIllustration } from '../../components/ui/AppIllustration';
+import type { KeyDownEvent, ViewInstance } from 'react-native';
 
 type StudentTabBarProps = Parameters<NonNullable<React.ComponentProps<typeof Tabs>['tabBar']>>[0];
 const MENU = { index: 'Trang chủ', lessons: 'Bài học', achievements: 'Thành tích', profile: 'Của em' } as const;
 
-export function StudentTabBar({ state, navigation, viewportWidth, expanded: controlled, onToggle }: StudentTabBarProps & {
+export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, expanded: controlled, onToggle }: StudentTabBarProps & {
   viewportWidth?: number; expanded?: boolean; onToggle?: () => void;
 }) {
   const insets = useSafeAreaInsets();
@@ -20,7 +21,8 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
   const wide = width >= 768;
   const [preference, setPreference] = useState<boolean | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
-  const refs = useRef(new Map<string, View>());
+  const [hovered, setHovered] = useState<string | null>(null);
+  const refs = useRef(new Map<string, ViewInstance>());
   const expanded = controlled ?? preference ?? width >= 1200;
 
   const destinations = <View accessibilityRole="tablist" aria-orientation={wide ? 'vertical' : 'horizontal'}
@@ -34,27 +36,29 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
         accessibilityState={{ selected }} aria-selected={selected}
         ref={node => { if (node) refs.current.set(route.key, node); else refs.current.delete(route.key); }}
         onFocus={() => setFocused(route.key)} onBlur={() => setFocused(null)}
-        {...(Platform.OS === 'web' ? { tabIndex: selected ? 0 : -1, title: wide && !expanded ? title : undefined, onKeyDown: (event: React.KeyboardEvent) => {
+        onHoverIn={() => setHovered(route.key)} onHoverOut={() => setHovered(null)}
+        {...(Platform.OS === 'web' ? { tabIndex: selected ? 0 : -1, title: wide && !expanded ? title : undefined, onKeyDown: (event: React.KeyboardEvent | KeyDownEvent) => {
+          const key = 'key' in event ? event.key : event.nativeEvent.key;
           const routes = state.routes.filter(item => item.name in MENU);
           const current = routes.findIndex(item => item.key === route.key);
           const next = wide ? 'ArrowDown' : 'ArrowRight';
           const previous = wide ? 'ArrowUp' : 'ArrowLeft';
           let target = current;
-          if (event.key === next) target = (current + 1) % routes.length;
-          else if (event.key === previous) target = (current + routes.length - 1) % routes.length;
-          else if (event.key === 'Home') target = 0;
-          else if (event.key === 'End') target = routes.length - 1;
+          if (key === next) target = (current + 1) % routes.length;
+          else if (key === previous) target = (current + routes.length - 1) % routes.length;
+          else if (key === 'Home') target = 0;
+          else if (key === 'End') target = routes.length - 1;
           else return;
           event.preventDefault();
           refs.current.get(routes[target].key)?.focus();
         } } : {})}
         onPress={() => {
-          const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-          if (!selected && !event.defaultPrevented) navigation.navigate(route.name, route.params);
-        }} onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
-        style={({ pressed, hovered }) => [styles.item, wide && styles.sideItem,
+          const event = emitter.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+          if (!selected && !event.defaultPrevented) navigateToTab(route.key);
+        }} onLongPress={() => emitter.emit({ type: 'tabLongPress', target: route.key })}
+        style={({ pressed }) => [styles.item, wide && styles.sideItem,
           wide && !expanded && styles.compactItem, selected && styles.selected, wide && selected && styles.sideSelected,
-          hovered && (wide ? styles.sideHovered : styles.hovered), focused === route.key && styles.focused, pressed && styles.pressed]}>
+          hovered === route.key && (wide ? styles.sideHovered : styles.hovered), focused === route.key && styles.focused, pressed && styles.pressed]}>
         {wide ? <Ionicons name={({ index: 'home-outline', lessons: 'book-outline', achievements: 'medal-outline', profile: 'person-outline' } as const)[name]} size={24} color="#FFFFFF" accessible={false} /> : <StudentNavIcon name={name} size={30} />}
         {(!wide || expanded) && <Text style={[styles.label, selected && styles.selectedLabel, wide && styles.sideLabel]}>{title}</Text>}
       </Pressable>;
@@ -70,8 +74,9 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
     <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn menu' : 'Mở rộng menu'}
       accessibilityState={{ expanded }} aria-expanded={expanded} aria-controls="student-destinations"
       onFocus={() => setFocused('toggle')} onBlur={() => setFocused(null)}
+      onHoverIn={() => setHovered('toggle')} onHoverOut={() => setHovered(null)}
       onPress={onToggle || (() => setPreference(!expanded))}
-      style={({ pressed, hovered }) => [styles.toggle, hovered && styles.hovered, focused === 'toggle' && styles.focused, pressed && styles.pressed]}>
+      style={({ pressed }) => [styles.toggle, hovered === 'toggle' && styles.hovered, focused === 'toggle' && styles.focused, pressed && styles.pressed]}>
       <Ionicons name={expanded ? 'chevron-back' : 'chevron-forward'} size={19} color="#DCD0FF" accessible={false} />
       {expanded && <Text style={styles.toggleText}>Thu gọn</Text>}
     </Pressable>

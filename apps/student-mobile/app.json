@@ -23,6 +23,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-asset",
       [
         "expo-splash-screen",
         {
@@ -33,8 +34,26 @@
         }
       ],
       "expo-secure-store",
-      ["expo-video", {"supportsBackgroundPlayback": false, "supportsPictureInPicture": false}],
-      ["expo-audio", {"microphonePermission": "Cho phép MathVisionKid ghi âm câu hỏi khi em nhấn nói.", "recordAudioAndroid": true, "enableBackgroundRecording": false, "enableBackgroundPlayback": false}]
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": false,
+          "supportsPictureInPicture": false
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Cho phép MathVisionKid ghi âm câu hỏi khi em nhấn nói.",
+          "recordAudioAndroid": true,
+          "enableBackgroundRecording": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
+      "expo-font",
+      "expo-image",
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,

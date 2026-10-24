@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import type { TextInputInstance } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
@@ -10,7 +11,7 @@ type Props = { division: WrittenDivision; imageUri: string; uncertain: boolean; 
 
 function DivisionField({ label, value, onChangeText, inputRef, error, maxLength = 24 }: {
   label: string; value: string; onChangeText: (text: string) => void;
-  inputRef: (value: TextInput | null) => void; error?: string; maxLength?: number;
+  inputRef: (value: TextInputInstance | null) => void; error?: string; maxLength?: number;
 }) {
   return <View style={styles.field}>
     <Text style={styles.label}>{label}</Text>
@@ -29,7 +30,7 @@ export function DivisionReview({ division, imageUri, uncertain, onChange }: Prop
   const [repairing, setRepairing] = useState(false);
   const [hintCount, setHintCount] = useState(0);
   const request = useRef<AbortController | null>(null);
-  const fieldRefs = useRef<Record<string, TextInput | null>>({});
+  const fieldRefs = useRef<Record<string, TextInputInstance | null>>({});
   useFocusEffect(useCallback(() => () => {
     request.current?.abort(); request.current = null; setBusy(false);
   }, []));

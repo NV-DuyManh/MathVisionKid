@@ -18,5 +18,14 @@
     "build:admin": "npm run build --workspace=admin-web",
     "build:portal": "npm run build --workspace=portal-web",
     "build:web": "npm run build --workspaces --if-present"
+  },
+  "dependencies": {
+    "expo": "^58.0.0"
+  },
+  "overrides": {
+    "react-native": "0.88.0",
+    "expo-router": "58.0.25",
+    "react-native-reanimated": "4.7.1",
+    "react-native-worklets": "0.13.0"
   }
 }

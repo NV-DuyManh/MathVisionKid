@@ -7,7 +7,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { MathText } from '../../components/domain/MathText';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
@@ -31,6 +31,13 @@ export default function ProfileScreen() {
   return <SafeAreaView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} edges={['top']}>
     <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && styles.contentWide]} showsVerticalScrollIndicator={false}>
       <StudentPageHeader compact title="Của em" onBack={() => router.replace('/(tabs)')} />
+      <Pressable accessibilityRole="button" accessibilityLabel="Trò chơi rèn luyện cho em"
+        onPress={() => router.push('/games')}
+        style={({ pressed }) => [styles.games, pressed && styles.pressed]}>
+        <Ionicons name="game-controller-outline" size={26} color={COLORS.primaryDark} accessible={false} />
+        <Text style={styles.gamesTitle}>Trò chơi rèn luyện cho em</Text>
+        <Ionicons name="chevron-forward" size={22} color={COLORS.primaryDark} accessible={false} />
+      </Pressable>
       <View style={styles.tabs}>{([['saved', 'Bài đã lưu'], ['work', 'Bài làm'], ['notes', 'Ghi chú']] as const).map(([value, label]) => <Pressable
         key={value} accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected: tab === value }}
         onPress={() => setTab(value)} style={[styles.tab, tab === value && styles.tabSelected]}>
@@ -89,5 +96,7 @@ const styles = StyleSheet.create({
   empty: { alignItems: 'center', padding: 24, borderRadius: 24, backgroundColor: '#F3EEFD', gap: 17 }, art: { width: 136, height: 132 },
   emptyTitle: { fontFamily: FONTS.extraBold, fontSize: 20, color: '#4F3973', textAlign: 'center' }, emptyText: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 23, color: '#7A6B92' },
   caption: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: '#8B7DA1' }, footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 7, marginTop: 9 },
+  games: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64, padding: 20, borderRadius: 25, backgroundColor: COLORS.surface, ...SHADOWS.small },
+  gamesTitle: { flex: 1, minWidth: 0, fontFamily: FONTS.bold, fontSize: 17, lineHeight: 26, color: COLORS.textPrimary },
   error: { fontFamily: FONTS.regular, fontSize: 14, color: COLORS.errorText }, pressed: { opacity: .7 },
 });

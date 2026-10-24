@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import type { TextInputInstance } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
@@ -30,7 +31,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
   const controller = useRef<AbortController | null>(null);
   const active = useRef(false);
   const sequence = useRef(0);
-  const rewriteInput = useRef<TextInput>(null);
+  const rewriteInput = useRef<TextInputInstance>(null);
   const rewriteId = useId();
   const alternativeId = useId();
   const disabledNow = disabled || !enabled || expired;
