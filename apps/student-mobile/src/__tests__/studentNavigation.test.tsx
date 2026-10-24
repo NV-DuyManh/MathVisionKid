@@ -91,7 +91,7 @@ describe('Student navigation and real saved activity', () => {
     act(() => renderer!.unmount());
   });
 
-  it('opens games from the profile and returns to that tab with only a header on the games screen', async () => {
+  it('opens the five-game catalog from the profile and returns to that tab', async () => {
     const auth = { user: null, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
     let renderer: TestRenderer.ReactTestRenderer;
     await act(async () => {
@@ -107,6 +107,8 @@ describe('Student navigation and real saved activity', () => {
     act(() => renderer!.update(<AuthContext.Provider value={auth}><GamesScreen /></AuthContext.Provider>));
     const screen = renderer!.toJSON() as TestRenderer.ReactTestRendererJSON;
     expect(screen.children).toHaveLength(1);
+    const cards = renderer!.root.findAll(node => typeof node.props.testID === 'string' && node.props.testID.startsWith('training-card-'));
+    expect(new Set(cards.map(node => node.props.testID)).size).toBe(5);
     act(() => press(renderer!, 'Quay lại tab Của em'));
     expect(router.dismissTo).toHaveBeenCalledWith('/(tabs)/profile');
     act(() => renderer!.unmount());

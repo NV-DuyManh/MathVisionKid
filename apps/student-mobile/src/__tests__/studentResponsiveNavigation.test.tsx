@@ -7,12 +7,12 @@ jest.mock('react-native-safe-area-context', () => ({ useSafeAreaInsets: () => ({
 
 describe('Student navigation on different screens', () => {
   const state = { index: 0, routes: [
-    { key: 'home', name: 'index' }, { key: 'lessons', name: 'lessons' },
+    { key: 'home', name: 'index' }, { key: 'lesson-route-key', name: 'lessons' },
     { key: 'achievements', name: 'achievements' }, { key: 'profile', name: 'profile' },
   ] };
-  const renderBar = (width: number, navigate = jest.fn()) => {
+  const renderBar = (width: number, navigate = jest.fn(), emit = jest.fn(() => ({ defaultPrevented: false }))) => {
     let renderer: TestRenderer.ReactTestRenderer;
-    act(() => { renderer = TestRenderer.create(<StudentTabBar {...{ state, navigation: { emit: () => ({ defaultPrevented: false }), navigate }, viewportWidth: width } as any} />); });
+    act(() => { renderer = TestRenderer.create(<StudentTabBar {...{ state, emitter: { emit }, navigateToTab: navigate, viewportWidth: width } as any} />); });
     return renderer!;
   };
   const button = (tree: TestRenderer.ReactTestRenderer, label: string) => tree.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
@@ -35,7 +35,7 @@ describe('Student navigation on different screens', () => {
     act(() => expand.props.onPress());
     expect(button(tree, 'Thu gọn menu').props.accessibilityState.expanded).toBe(true);
     act(() => button(tree, 'Bài học').props.onPress());
-    expect(navigate).toHaveBeenCalledWith('lessons', undefined);
+    expect(navigate).toHaveBeenCalledWith('lesson-route-key');
     act(() => tree.unmount());
   });
 
@@ -45,6 +45,26 @@ describe('Student navigation on different screens', () => {
     act(() => button(tree, 'Thu gọn menu').props.onPress());
     expect(button(tree, 'Mở rộng menu')).toBeDefined();
     expect(button(tree, 'Trang chủ').props.accessibilityState.selected).toBe(true);
+    act(() => tree.unmount());
+  });
+
+  it('respects a prevented tab press and emits long presses through the Router 58 emitter', () => {
+    const navigate = jest.fn();
+    const emit = jest.fn(() => ({ defaultPrevented: true }));
+    const tree = renderBar(820, navigate, emit);
+    act(() => button(tree, 'Bài học').props.onPress());
+    expect(emit).toHaveBeenCalledWith({ type: 'tabPress', target: 'lesson-route-key', canPreventDefault: true });
+    expect(navigate).not.toHaveBeenCalled();
+    act(() => button(tree, 'Bài học').props.onLongPress());
+    expect(emit).toHaveBeenLastCalledWith({ type: 'tabLongPress', target: 'lesson-route-key' });
+    act(() => tree.unmount());
+  });
+
+  it('does not navigate again when the selected tab is pressed', () => {
+    const navigate = jest.fn();
+    const tree = renderBar(390, navigate);
+    act(() => button(tree, 'Trang chủ').props.onPress());
+    expect(navigate).not.toHaveBeenCalled();
     act(() => tree.unmount());
   });
 

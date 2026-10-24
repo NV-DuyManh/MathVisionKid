@@ -22,7 +22,6 @@ export default function StudentWebLayout() {
   });
   useEffect(() => {
     let active = true;
-    setArtError(false);
     prepareIllustrations().then(() => { if (active) setArtReady(true); })
       .catch(() => { if (active) setArtError(true); });
     return () => { active = false; };
@@ -36,7 +35,7 @@ export default function StudentWebLayout() {
           <Text style={{ fontFamily: fontsLoaded ? FONTS.extraBold : undefined, fontSize: 28, color: COLORS.primaryDark }}>MathVisionKid</Text>
           {artError ? <>
             <Text style={{ textAlign: 'center', color: COLORS.textSecondary }}>Chưa tải đủ hình. Em thử lại để mở bài học nhé.</Text>
-            <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => setRetry(value => value + 1)}
+            <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => { setArtError(false); setRetry(value => value + 1); }}
               style={{ minHeight: 48, padding: 16, borderRadius: 16, backgroundColor: COLORS.primary }}>
               <Text style={{ color: 'white' }}>Thử lại</Text>
             </Pressable>

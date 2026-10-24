@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
+import type { ScrollViewInstance, TextInputInstance, ViewInstance } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -108,9 +109,9 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const running = useRef(false);
   const active = useRef(true);
   const initialized = useRef(false);
-  const scroll = useRef<ScrollView>(null);
-  const answerInput = useRef<TextInput>(null);
-  const firstChoice = useRef<View>(null);
+  const scroll = useRef<ScrollViewInstance>(null);
+  const answerInput = useRef<TextInputInstance>(null);
+  const firstChoice = useRef<ViewInstance>(null);
   const questionPosition = useRef(0);
   const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);

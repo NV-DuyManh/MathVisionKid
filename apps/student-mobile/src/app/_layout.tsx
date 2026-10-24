@@ -30,7 +30,6 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
   useEffect(() => {
     let active = true;
-    setArtError(false);
     const timeout = setTimeout(() => { if (active) setArtError(true); }, 15000);
     prepareIllustrations().then(() => {
       if (active) { setArtReady(true); setArtError(false); }
@@ -62,7 +61,7 @@ export default function RootLayout() {
     <Text style={{ fontFamily: FONTS.extraBold, fontSize: 28, color: COLORS.primaryDark }}>MathVisionKid</Text>
     {artError ? <>
       <Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary, textAlign: 'center' }}>Chưa tải đủ hình. Em thử lại để mở bài học nhé.</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => setRetry(value => value + 1)} style={({ pressed }) => ({ minHeight: 48, padding: 16, borderRadius: 16, backgroundColor: COLORS.primary, opacity: pressed ? .8 : 1 })}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => { setArtError(false); setRetry(value => value + 1); }} style={({ pressed }) => ({ minHeight: 48, padding: 16, borderRadius: 16, backgroundColor: COLORS.primary, opacity: pressed ? .8 : 1 })}>
         <Text style={{ color: 'white', fontFamily: FONTS.bold }}>Thử lại</Text>
       </Pressable>
     </> : <><ActivityIndicator color={COLORS.primary} /><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>Đang chuẩn bị bài học cho em…</Text></>}

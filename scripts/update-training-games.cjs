@@ -1,0 +1,16 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const cp = require('node:child_process');
+const root = path.resolve(__dirname, '..');
+const arg = process.argv.indexOf('--source');
+const source = path.resolve(arg >= 0 ? process.argv[arg + 1] : path.join(root, '../Tro_choi_cho_em'));
+const builder = path.join(source, 'scripts/pack-training-games.cjs');
+if (!fs.existsSync(builder)) throw new Error('Provide --source <canonical-game-repository>');
+const output = path.join(root, 'vendor/training-games');
+cp.execFileSync(process.execPath, [builder, '--out', output], { cwd: source, stdio: 'inherit' });
+const manifest = JSON.parse(fs.readFileSync(path.join(output, 'PACKAGE_MANIFEST.json'), 'utf8'));
+if (!/^[a-z0-9.-]+\.tgz$/.test(manifest.filename)) throw new Error('Unexpected package filename');
+const npmSearchPaths = [path.dirname(process.execPath), path.resolve(path.dirname(process.execPath), '../lib'), ...require('node:module').globalPaths];
+const npmCli = process.env.npm_execpath?.includes('npm-cli') ? process.env.npm_execpath : path.join(path.dirname(require.resolve('npm/package.json', { paths: npmSearchPaths })), 'bin/npm-cli.js');
+cp.execFileSync(process.execPath, [npmCli, 'install', '--workspace', 'student-mobile', './vendor/training-games/' + manifest.filename, '--ignore-scripts', '--no-audit', '--no-fund'], { cwd: root, stdio: 'inherit' });
+console.log('Updated ' + manifest.name + '@' + manifest.version + ', SHA-256 ' + manifest.sha256);

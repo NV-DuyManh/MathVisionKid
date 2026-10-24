@@ -341,7 +341,7 @@ export default function CustomGalleryScreen() {
                 { paddingBottom: insets.bottom + 90 }
             ]} showsVerticalScrollIndicator={false} onEndReached={handleLoadMore} onEndReachedThreshold={0.5} ListFooterComponent={loadingMore ? (<View style={styles.footerLoader}>
                 <ActivityRail label="Đang mở thêm ảnh" />
-              </View>) : null}/>)}
+              </View>) : undefined}/>)}
 
       {/* Sticky Bottom Action Bar */}
       {!loading && !isPermissionDenied && assets.length > 0 && (<View style={[styles.bottomBar, { paddingBottom: Math.max(insets.bottom, 16) }]}>

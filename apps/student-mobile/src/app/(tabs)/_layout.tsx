@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Tabs, useRouter } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { View, StyleSheet, Pressable, Text, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,11 +7,12 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { StudentNavIcon } from '../../components/ui/StudentNavIcon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppIllustration } from '../../components/ui/AppIllustration';
+import type { KeyDownEvent, PressableStateCallbackType, ViewInstance } from 'react-native';
 
 type StudentTabBarProps = Parameters<NonNullable<React.ComponentProps<typeof Tabs>['tabBar']>>[0];
 const MENU = { index: 'Trang chủ', lessons: 'Bài học', achievements: 'Thành tích', profile: 'Của em' } as const;
 
-export function StudentTabBar({ state, navigation, viewportWidth, expanded: controlled, onToggle }: StudentTabBarProps & {
+export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, expanded: controlled, onToggle }: StudentTabBarProps & {
   viewportWidth?: number; expanded?: boolean; onToggle?: () => void;
 }) {
   const insets = useSafeAreaInsets();
@@ -20,9 +21,8 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
   const wide = width >= 768;
   const [preference, setPreference] = useState<boolean | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
-  const refs = useRef(new Map<string, View>());
+  const refs = useRef(new Map<string, ViewInstance>());
   const expanded = controlled ?? preference ?? width >= 1200;
-  const router = useRouter();
 
   const destinations = <View accessibilityRole="tablist" aria-orientation={wide ? 'vertical' : 'horizontal'}
     style={[styles.items, wide && styles.vertical]}>
@@ -35,25 +35,26 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
         accessibilityState={{ selected }} aria-selected={selected}
         ref={node => { if (node) refs.current.set(route.key, node); else refs.current.delete(route.key); }}
         onFocus={() => setFocused(route.key)} onBlur={() => setFocused(null)}
-        {...(Platform.OS === 'web' ? { tabIndex: selected ? 0 : -1, title: wide && !expanded ? title : undefined, onKeyDown: (event: React.KeyboardEvent) => {
+        {...(Platform.OS === 'web' ? { tabIndex: selected ? 0 : -1, title: wide && !expanded ? title : undefined, onKeyDown: (event: React.KeyboardEvent | KeyDownEvent) => {
+          const key = 'key' in event ? event.key : event.nativeEvent.key;
           const routes = state.routes.filter(item => item.name in MENU);
           const current = routes.findIndex(item => item.key === route.key);
           const next = wide ? 'ArrowDown' : 'ArrowRight';
           const previous = wide ? 'ArrowUp' : 'ArrowLeft';
           let target = current;
-          if (event.key === next) target = (current + 1) % routes.length;
-          else if (event.key === previous) target = (current + routes.length - 1) % routes.length;
-          else if (event.key === 'Home') target = 0;
-          else if (event.key === 'End') target = routes.length - 1;
+          if (key === next) target = (current + 1) % routes.length;
+          else if (key === previous) target = (current + routes.length - 1) % routes.length;
+          else if (key === 'Home') target = 0;
+          else if (key === 'End') target = routes.length - 1;
           else return;
           event.preventDefault();
           refs.current.get(routes[target].key)?.focus();
         } } : {})}
         onPress={() => {
-          const event = navigation?.emit ? navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true }) : { defaultPrevented: false };
-          if (!selected && !event?.defaultPrevented) { if (navigation?.navigate) { navigation.navigate(route.name, route.params); } else { router.navigate(route.name === 'index' ? '/(tabs)' : ('/(tabs)/' + route.name)); } }
-        }} onLongPress={() => navigation?.emit?.({ type: 'tabLongPress', target: route.key })}
-        style={({ pressed, hovered }) => [styles.item, wide && styles.sideItem,
+          const event = emitter.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+          if (!selected && !event.defaultPrevented) navigateToTab(route.key);
+        }} onLongPress={() => emitter.emit({ type: 'tabLongPress', target: route.key })}
+        style={({ pressed, hovered }: PressableStateCallbackType & { hovered?: boolean }) => [styles.item, wide && styles.sideItem,
           wide && !expanded && styles.compactItem, selected && styles.selected, wide && selected && styles.sideSelected,
           hovered && (wide ? styles.sideHovered : styles.hovered), focused === route.key && styles.focused, pressed && styles.pressed]}>
         {wide ? <Ionicons name={({ index: 'home-outline', lessons: 'book-outline', achievements: 'medal-outline', profile: 'person-outline' } as const)[name]} size={24} color="#FFFFFF" accessible={false} /> : <StudentNavIcon name={name} size={30} />}
@@ -72,7 +73,7 @@ export function StudentTabBar({ state, navigation, viewportWidth, expanded: cont
       accessibilityState={{ expanded }} aria-expanded={expanded} aria-controls="student-destinations"
       onFocus={() => setFocused('toggle')} onBlur={() => setFocused(null)}
       onPress={onToggle || (() => setPreference(!expanded))}
-      style={({ pressed, hovered }) => [styles.toggle, hovered && styles.hovered, focused === 'toggle' && styles.focused, pressed && styles.pressed]}>
+      style={({ pressed, hovered }: PressableStateCallbackType & { hovered?: boolean }) => [styles.toggle, hovered && styles.hovered, focused === 'toggle' && styles.focused, pressed && styles.pressed]}>
       <Ionicons name={expanded ? 'chevron-back' : 'chevron-forward'} size={19} color="#DCD0FF" accessible={false} />
       {expanded && <Text style={styles.toggleText}>Thu gọn</Text>}
     </Pressable>

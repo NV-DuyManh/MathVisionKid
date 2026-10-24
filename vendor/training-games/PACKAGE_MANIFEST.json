@@ -1,0 +1,1134 @@
+{
+  "name": "@mathvisionkid/training-games",
+  "version": "0.1.1",
+  "filename": "mathvisionkid-training-games-0.1.1.tgz",
+  "sha256": "3b47ca7f65e02751fb4b71d4407322cdefd7505c71c802004ddcbb7596ff8612",
+  "bytes": 17099740,
+  "unpackedBytes": 17858666,
+  "entries": 223,
+  "sourceFiles": 220,
+  "games": [
+    "planet-rescue",
+    "race-to-finish",
+    "terrain-racing",
+    "energy-defense",
+    "block-island"
+  ],
+  "npmFiles": [
+    {
+      "path": "MANIFEST.json",
+      "size": 40505,
+      "mode": 420
+    },
+    {
+      "path": "README.md",
+      "size": 1354,
+      "mode": 420
+    },
+    {
+      "path": "package.json",
+      "size": 1284,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/IslandArt.tsx",
+      "size": 2018,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/IslandButton.tsx",
+      "size": 1412,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/IslandIntro.tsx",
+      "size": 3268,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/IslandLandscape.tsx",
+      "size": 3601,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/IslandWorld.tsx",
+      "size": 45,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/MaterialArt.tsx",
+      "size": 9632,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/MaterialPalette.tsx",
+      "size": 2356,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/components/VoxelWorld.tsx",
+      "size": 12772,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/hooks/useIsland.ts",
+      "size": 7806,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/hooks/useIslandCamera.ts",
+      "size": 2017,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/index.ts",
+      "size": 66,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/construction.ts",
+      "size": 4520,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/island.ts",
+      "size": 167,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/materials.ts",
+      "size": 3363,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/missions.ts",
+      "size": 2665,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/model.ts",
+      "size": 1675,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/planner.ts",
+      "size": 13155,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/projection.ts",
+      "size": 6036,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/logic/state.ts",
+      "size": 12447,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/screens/BlockIslandScreen.tsx",
+      "size": 59,
+      "mode": 420
+    },
+    {
+      "path": "src/games/block-island/screens/ConstructionScreen.tsx",
+      "size": 17881,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/assets/round3/citadel.png",
+      "size": 324325,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/assets/round3/enemies-atlas.png",
+      "size": 596310,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/assets/round3/ground.webp",
+      "size": 261320,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/assets/round3/turret-base.png",
+      "size": 270262,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/assets/round3/turret-head.png",
+      "size": 76074,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/assets/round35b/source-art/ancient-portal.png",
+      "size": 1883962,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/assets/round36/source-art/ancient-portal-front.png",
+      "size": 2742010,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/AncientPortal.tsx",
+      "size": 4449,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/Battlefield.tsx",
+      "size": 11161,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/CombatStage.tsx",
+      "size": 12795,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/CreatureSprite.tsx",
+      "size": 4367,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/DefenseHUD.tsx",
+      "size": 5812,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/DefenseOverlay.tsx",
+      "size": 8995,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/DefensePrimitives.tsx",
+      "size": 5290,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/EnergyConsole.tsx",
+      "size": 7407,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/GameArt.tsx",
+      "size": 1144,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/MathActionDock.tsx",
+      "size": 5830,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/MathNumber.tsx",
+      "size": 3668,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/MobileDefenseHUD.tsx",
+      "size": 4183,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/components/Preparation.tsx",
+      "size": 3866,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/hooks/useBattleClock.ts",
+      "size": 674,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/index.ts",
+      "size": 70,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/logic/config.ts",
+      "size": 1188,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/logic/controller.ts",
+      "size": 11573,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/logic/history.ts",
+      "size": 1455,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/logic/path.ts",
+      "size": 910,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/logic/questions.ts",
+      "size": 9620,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/presentation/combat.ts",
+      "size": 2486,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/presentation/enemy.ts",
+      "size": 2011,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/presentation/portal.ts",
+      "size": 3581,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/presentation/portrait.ts",
+      "size": 522,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/presentation/route.ts",
+      "size": 7257,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/screens/EnergyDefenseScreen.tsx",
+      "size": 13831,
+      "mode": 420
+    },
+    {
+      "path": "src/games/energy-defense/theme.ts",
+      "size": 892,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/FlightEffects.tsx",
+      "size": 1545,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/FullscreenSpaceScene.tsx",
+      "size": 714,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/JourneyWorld.tsx",
+      "size": 10433,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/MobileAction.tsx",
+      "size": 1038,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/MobileFullscreenPlay.tsx",
+      "size": 11512,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/MobileModeSelect.tsx",
+      "size": 6734,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/MobileRescuePlay.tsx",
+      "size": 16599,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/RescuePrimitives.tsx",
+      "size": 2423,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/SpaceArt.tsx",
+      "size": 10222,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/components/SpaceScene.tsx",
+      "size": 2114,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/hooks/useMobileFlow.ts",
+      "size": 2188,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/hooks/useRescue.ts",
+      "size": 6044,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/index.ts",
+      "size": 68,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/logic/mobileFlow.ts",
+      "size": 2342,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/logic/mobileScene.ts",
+      "size": 984,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/logic/planets.ts",
+      "size": 846,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/logic/rescue.ts",
+      "size": 18514,
+      "mode": 420
+    },
+    {
+      "path": "src/games/planet-rescue/screens/PlanetRescueScreen.tsx",
+      "size": 33908,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/background.png",
+      "size": 449366,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/bunny_avatar.png",
+      "size": 18017,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/bunny_idle_1.png",
+      "size": 31507,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/bunny_idle_2.png",
+      "size": 33279,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/bunny_penalty.png",
+      "size": 32380,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/bunny_victory.png",
+      "size": 36412,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/bunny_walk_1.png",
+      "size": 32536,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/bunny_walk_2.png",
+      "size": 33729,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/fox_avatar.png",
+      "size": 19823,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/fox_idle_1.png",
+      "size": 36261,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/fox_idle_2.png",
+      "size": 36219,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/fox_penalty.png",
+      "size": 30094,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/fox_victory.png",
+      "size": 35399,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/fox_walk_1.png",
+      "size": 34228,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/fox_walk_2.png",
+      "size": 34647,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/penguin_avatar.png",
+      "size": 19725,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/penguin_idle_1.png",
+      "size": 31464,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/penguin_idle_2.png",
+      "size": 31235,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/penguin_penalty.png",
+      "size": 28895,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/penguin_victory.png",
+      "size": 30573,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/penguin_walk_1.png",
+      "size": 30732,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/penguin_walk_2.png",
+      "size": 30041,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/turtle_avatar.png",
+      "size": 20131,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/turtle_idle_1.png",
+      "size": 31708,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/turtle_idle_2.png",
+      "size": 32300,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/turtle_penalty.png",
+      "size": 31153,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/turtle_victory.png",
+      "size": 29739,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/turtle_walk_1.png",
+      "size": 33693,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/characters/turtle_walk_2.png",
+      "size": 32719,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/dice/dice_1.png",
+      "size": 2017,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/dice/dice_2.png",
+      "size": 2188,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/dice/dice_3.png",
+      "size": 2270,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/dice/dice_4.png",
+      "size": 2299,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/dice/dice_5.png",
+      "size": 2282,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/dice/dice_6.png",
+      "size": 2359,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/index.ts",
+      "size": 3322,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/back_arrow.png",
+      "size": 86651,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/cleanse.png",
+      "size": 126167,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/dice_base.png",
+      "size": 110713,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/hourglass.png",
+      "size": 118060,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/portal.png",
+      "size": 121830,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/shield.png",
+      "size": 132214,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/trophy.png",
+      "size": 108016,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/items/wing.png",
+      "size": 110442,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/map_landscape_roster.png",
+      "size": 1569950,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/raw/model_nv.png",
+      "size": 918669,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/spriteBounds.ts",
+      "size": 3194,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/tiles/tile_bonus.png",
+      "size": 18662,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/tiles/tile_finish.png",
+      "size": 18994,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/tiles/tile_neutral.png",
+      "size": 10283,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/tiles/tile_penalty.png",
+      "size": 16725,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/ui/header_sign.png",
+      "size": 75170,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/ui/modal_bonus_frame.png",
+      "size": 412490,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/ui/modal_penalty_frame.png",
+      "size": 395456,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/assets/ui/start_board.png",
+      "size": 24349,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/AnimatedToken.tsx",
+      "size": 5891,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/BoardCorrections.tsx",
+      "size": 2128,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/CameraTracking.tsx",
+      "size": 310,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/CharacterAvatar.tsx",
+      "size": 999,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/DiceOverlay.tsx",
+      "size": 2915,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/GameBoardView.tsx",
+      "size": 2334,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/GameCamera.tsx",
+      "size": 8542,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/MathQuestionModal.tsx",
+      "size": 8502,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/MysteryRollModal.tsx",
+      "size": 11198,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/RaceHUD.tsx",
+      "size": 3724,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/RaceModal.tsx",
+      "size": 635,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/SetupModal.tsx",
+      "size": 15726,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/TokenSprite.tsx",
+      "size": 2214,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/TurnHandoverModal.tsx",
+      "size": 3593,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/components/VictoryModal.tsx",
+      "size": 6657,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/data/boardConfig.ts",
+      "size": 15338,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/hooks/useRaceGame.ts",
+      "size": 4111,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/hooks/useReducedMotion.ts",
+      "size": 622,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/hooks/useVietnameseGameText.ts",
+      "size": 1342,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/index.ts",
+      "size": 100,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/cameraGeometry.ts",
+      "size": 1708,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/exactAnswer.ts",
+      "size": 2004,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/gameEngine.ts",
+      "size": 7231,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/playerIdentity.ts",
+      "size": 480,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/questions.ts",
+      "size": 14795,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/reelPlan.ts",
+      "size": 800,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/tokenGait.ts",
+      "size": 693,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/tokenMotion.ts",
+      "size": 2632,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/logic/tokenPlacement.ts",
+      "size": 2173,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/screens/RaceToFinishScreen.tsx",
+      "size": 12583,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/state/RaceController.ts",
+      "size": 9539,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/state/raceReducer.ts",
+      "size": 14223,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/state/tileEffectChain.ts",
+      "size": 596,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/state/turnTiming.ts",
+      "size": 225,
+      "mode": 420
+    },
+    {
+      "path": "src/games/race-to-finish/types/index.ts",
+      "size": 4192,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/animation/math.ts",
+      "size": 641,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/animation_timing.json",
+      "size": 1287,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/accelerate.wav",
+      "size": 39734,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/engine_loop.wav",
+      "size": 88244,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/impact_roll.wav",
+      "size": 28708,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/jump.wav",
+      "size": 19888,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/landslide.wav",
+      "size": 52964,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/loss.wav",
+      "size": 35324,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/police_siren_loop.wav",
+      "size": 88244,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/ui_select.wav",
+      "size": 4454,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/audio/victory.wav",
+      "size": 52964,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/game_config.json",
+      "size": 1950,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/index.ts",
+      "size": 743,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/landslide-gap.png",
+      "size": 1996496,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/player_overturned.png",
+      "size": 292961,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/player_side.png",
+      "size": 244561,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/player_upright.png",
+      "size": 294894,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/police_overturned.png",
+      "size": 360992,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/police_side.png",
+      "size": 313326,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/police_upright.png",
+      "size": 317442,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/assets/road-tile.png",
+      "size": 1064651,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/audio/GameAudio.ts",
+      "size": 3866,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/components/GameHUD.tsx",
+      "size": 2161,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/components/GamePanels.tsx",
+      "size": 6486,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/components/SpriteCar.tsx",
+      "size": 2702,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/components/WorldEffects.tsx",
+      "size": 2883,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/components/WorldScene.tsx",
+      "size": 4720,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/data/questionGenerator.ts",
+      "size": 2772,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/data/questions.ts",
+      "size": 1233,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/engine/simulation.ts",
+      "size": 3153,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/engine/world.ts",
+      "size": 4165,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/hooks/useSupercar.ts",
+      "size": 8288,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/index.ts",
+      "size": 70,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/screens/TerrainRacingScreen.tsx",
+      "size": 2991,
+      "mode": 420
+    },
+    {
+      "path": "src/games/terrain-racing/types/index.ts",
+      "size": 907,
+      "mode": 420
+    },
+    {
+      "path": "src/integration/entries/block-island.ts",
+      "size": 73,
+      "mode": 420
+    },
+    {
+      "path": "src/integration/entries/energy-defense.ts",
+      "size": 77,
+      "mode": 420
+    },
+    {
+      "path": "src/integration/entries/planet-rescue.ts",
+      "size": 75,
+      "mode": 420
+    },
+    {
+      "path": "src/integration/entries/race-to-finish.ts",
+      "size": 76,
+      "mode": 420
+    },
+    {
+      "path": "src/integration/entries/terrain-racing.ts",
+      "size": 77,
+      "mode": 420
+    },
+    {
+      "path": "src/integration/index.ts",
+      "size": 495,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/audio/audioController.ts",
+      "size": 3858,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/hooks/useGameTimer.ts",
+      "size": 1961,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/integration/context.tsx",
+      "size": 1710,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/integration/contracts.ts",
+      "size": 1701,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/integration/scopedStorage.ts",
+      "size": 1072,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/integration/sessionBridge.ts",
+      "size": 3302,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/math/fraction.ts",
+      "size": 6239,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/math/generators.ts",
+      "size": 32899,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/math/geometry.ts",
+      "size": 2201,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/math/prng.ts",
+      "size": 1561,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/math/questionHistory.ts",
+      "size": 3736,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/math/units.ts",
+      "size": 1712,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/storage/localStorageAdapter.ts",
+      "size": 1489,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/storage/profileManager.ts",
+      "size": 4649,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/storage/storageAdapter.ts",
+      "size": 213,
+      "mode": 420
+    },
+    {
+      "path": "src/shared/types/index.ts",
+      "size": 1461,
+      "mode": 420
+    }
+  ]
+}

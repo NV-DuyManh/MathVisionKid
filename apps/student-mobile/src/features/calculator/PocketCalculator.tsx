@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import type { ScrollViewInstance, TextInputInstance } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
@@ -22,8 +23,8 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
   const [extras, setExtras] = useState(false);
   const [remainder, setRemainder] = useState(false);
   const [history, setHistory] = useState<Result[]>([]);
-  const input = useRef<TextInput>(null);
-  const scroll = useRef<ScrollView>(null);
+  const input = useRef<TextInputInstance>(null);
+  const scroll = useRef<ScrollViewInstance>(null);
   const update = (value: string) => {
     setExpression(value.slice(0, 120)); setOutput(null); setError(''); setPanel(null); setRemainder(false);
   };
