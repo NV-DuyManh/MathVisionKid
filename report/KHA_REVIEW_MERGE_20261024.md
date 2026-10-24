@@ -46,6 +46,8 @@ Không tìm thấy blocker còn lại trong phạm vi đã kiểm tra. Các guar
 
 Browser dùng Chromium, viewport 390×844; Race dùng 844×390. Chỉ `/me` là HTTP fixture với UUID học sinh, gameplay chạy từ export thật; không gọi đó là kiểm thử Android/Expo Go. Bộ native audio kiểm tra WAV không im lặng, thứ tự cấu hình/player và giải phóng tài nguyên qua native I/O mocks; chưa nghe xác nhận trên thiết bị vật lý. Lần browser đầu chưa chờ Race tải xong tài nguyên; đã sửa readiness của script, không sửa sản phẩm để làm test đạt.
 
+Console browser có 9 cảnh báo BackHandler không hỗ trợ web từ gói game; không có lỗi trang chưa bắt hoặc request lỗi. Bằng chứng không khẳng định console hoàn toàn không có cảnh báo.
+
 Build web dùng URL production mẫu trong tiến trình, không lưu env/deploy. Có cảnh báo chunk web lớn hơn 500kB. Kiểm tra Expo online gợi ý các bản vá SDK 58 mới hơn; phiên bản đã khóa khớp bảng bundledNativeModules của Expo 58.0.17 và đã được kiểm tra đóng gói. Không mở rộng lượt merge thành cập nhật toàn bộ thư viện.
 
 ## Bảo toàn workspace và Git
@@ -53,6 +55,15 @@ Build web dùng URL production mẫu trong tiến trình, không lưu env/deploy
 Trước merge đã lưu trạng thái Git, hash và bản sao 81 file nguồn/tài liệu đang thay đổi. Các phần SDK 58 giao nhau được đối chiếu/hợp nhất vào commit review; các thay đổi media, AI/OCR và backend đang dở được giữ riêng. Không dùng reset hard, force push hoặc stage toàn bộ workspace. File che tên/cắt ảnh và UI được yêu cầu giữ nguyên được kiểm tra SHA-256.
 
 Log và bằng chứng tại `report/kha-review-20261024/`: bản cài sạch, Jest JSON, TypeScript/lint, export, web build/test, review manifest, browser JSON/ảnh và đối chiếu working tree sau merge. Chỉ báo cáo này được thêm cùng source review, không đưa node_modules, dữ liệu local hay bản sao WIP vào commit.
+
+## Xác nhận sau khi merge vào workspace chính
+
+- Commit merge: `84a906b9c65bc966a225bb5acd99043c04d990bf`, bao gồm toàn bộ nhánh Kha đã review. Có nhánh dự phòng cục bộ `codex/pre-kha-main-20261024` tại main trước merge.
+- 57 file ngoài 24 đường dẫn giao nhau giữ nguyên SHA-256. Bản gốc 24 file SDK/cấu hình đã được hợp nhất vẫn có trong `wip-source-backup/` và scoped stash, không áp lại cấu hình cũ đè bản tích hợp.
+- Sau cài dependency ở workspace chính, manifests và lockfile không phát sinh diff. Các phần media/OCR/backend đang dở vẫn chưa bị đưa vào commit này.
+- Toàn bộ Student cùng các thay đổi đang dở: **86 suite / 957 test đạt**, TypeScript đạt, Android export đạt. Năm file che tên/cắt ảnh/UI bảo vệ giữ nguyên SHA-256.
+- Lần kiểm tra song song export đầu có một test vượt timeout 5 giây và kéo theo một lỗi cleanup trong cùng suite; chạy lại riêng suite đạt 51/51, sau đó chạy lại toàn bộ đạt 957/957. Không tăng timeout hoặc sửa sản phẩm để bỏ qua lỗi.
+- Cache type của Router ở máy cũ chưa có đường dẫn game mới; đã để Expo CLI tái sinh cache chính thức rồi chạy lại TypeScript, không ép kiểu để che lỗi.
 
 ## Skills Applied
 
