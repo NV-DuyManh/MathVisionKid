@@ -682,7 +682,8 @@ it('distinguishes lesson generation failure from a network error and offers a co
   (TutorService.startLesson as jest.Mock).mockRejectedValue({ response: { status: 503, data: { message: 'provider secret' } } });
   await render();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
-  expect(readText()).toContain('chưa chuẩn bị được hướng dẫn');
+  expect(readText()).toContain('Phần hướng dẫn đang tạm bận');
+  expect(readText()).not.toContain('em kiểm tra đề đầy đủ');
   expect(readText()).not.toContain('Chưa kết nối được');
   expect(readText()).not.toContain('provider secret');
   expect(view.root.findAllByProps({ testID: 'lesson-preparation-screen' })).toHaveLength(0);

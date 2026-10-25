@@ -305,7 +305,7 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     # Probe its existing bounded range before spending a cloud reading request.
     if not physical and len(handwriting_rows(pixels, max_lines=200)) > 35:
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
-    parsed = await _generate(READ_NOTEBOOK, "First check whether there are several exercises. If so return MULTIPLE immediately with empty lines. Otherwise read every physical math row, including the bottom of the page.", image, max_output_tokens=4000)
+    parsed = await _generate(READ_NOTEBOOK, "First check whether there are several exercises. If so return MULTIPLE immediately with empty lines. Otherwise read every physical math row, including the bottom of the page.", image, max_output_tokens=4000, timeout_seconds=24)
     if _reading_exceeds_capacity(parsed):
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
     try:

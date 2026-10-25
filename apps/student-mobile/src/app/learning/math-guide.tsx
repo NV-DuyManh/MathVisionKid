@@ -136,7 +136,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     } else if ([400, 422].includes(failure?.response?.status)) {
       setError('Đề bài còn thiếu hoặc có chỗ chưa rõ. Em kiểm tra lại lời văn, số và câu hỏi nhé.');
     } else if (failure?.response?.status === 503) {
-      setError('Mình chưa chuẩn bị được hướng dẫn cho bài này lúc này. Bài của em vẫn ở đây; em kiểm tra đề đầy đủ rồi thử lại nhé.');
+      setError('Phần hướng dẫn đang tạm bận. Bài của em vẫn ở đây; em chờ một chút rồi thử lại nhé.');
     } else setError('Chưa kết nối được lúc này. Bài của em vẫn ở đây, em thử lại nhé.');
   }, []);
   const run = useCallback(async <T,>(kind: 'read' | 'lesson' | 'answer', task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
@@ -147,6 +147,9 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       const result = await task(abort.signal);
       if (active.current && id === requestId.current) apply(result);
     } catch (failure) {
+      if (__DEV__ && !abort.signal.aborted) {
+        console.warn('[MATH_TUTOR_REQUEST_FAILED]', { stage: kind, status: (failure as any)?.response?.status, code: (failure as any)?.code });
+      }
       if (active.current && id === requestId.current && !abort.signal.aborted) failureMessage(failure);
     } finally {
       if (active.current && id === requestId.current) { running.current = false; controller.current = null; setBusy(null); }

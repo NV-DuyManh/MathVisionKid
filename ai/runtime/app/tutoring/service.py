@@ -5,6 +5,7 @@ import base64
 import io
 import json
 import logging
+import random
 import re
 import unicodedata
 from typing import Literal
@@ -149,6 +150,8 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
         "contents": [{"role": "user", "parts": parts}],
         "generationConfig": {"temperature": 0.0, "responseMimeType": "application/json", "maxOutputTokens": max_output_tokens or (2500 if image_b64 else 1500)},
     }
+    if response_schema is not None:
+        payload["generationConfig"]["responseJsonSchema"] = response_schema
     if settings.gemini_model.startswith("gemini-3."):
         # Default thinking can exhaust the output budget before emitting JSON.
         payload["generationConfig"].update(temperature=1.0,
@@ -163,18 +166,29 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
         attempted.add(entry.safe_id)
         try:
             timeout = min(settings.gemini_timeout_seconds, 14.0) if timeout_seconds == 14.0 else timeout_seconds
-            async with httpx.AsyncClient(timeout=httpx.Timeout(timeout, connect=min(settings.gemini_connect_timeout_seconds, 4.0))) as client:
-                response = await client.post(
-                    f"{GEMINI_API_BASE}/models/{settings.gemini_model}:generateContent",
-                    headers={"x-goog-api-key": entry.raw_key}, json=payload,
-                )
+            deadline = asyncio.get_running_loop().time() + timeout
+            async with httpx.AsyncClient() as client:
+                for attempt in range(2):
+                    remaining = max(0.1, deadline - asyncio.get_running_loop().time())
+                    response = await client.post(
+                        f"{GEMINI_API_BASE}/models/{settings.gemini_model}:generateContent",
+                        headers={"x-goog-api-key": entry.raw_key}, json=payload,
+                        timeout=httpx.Timeout(remaining, connect=min(settings.gemini_connect_timeout_seconds, 4.0)),
+                    )
+                    # Retry a temporarily overloaded model once, on the SAME key
+                    # and within the original time budget. Never retry quota errors.
+                    if response.status_code != 503 or attempt or deadline - asyncio.get_running_loop().time() < 1.0:
+                        break
+                    logger.info("Math tutor Gemini HTTP 503; retrying once within request budget")
+                    await asyncio.sleep(random.uniform(0.3, 0.7))
             if response.status_code in (401, 403):
                 raise GeminiError("AUTH_ERROR", "Authentication failed")
             if response.status_code == 429:
                 retry_after = response.headers.get("retry-after", "")
                 raise GeminiError("RATE_LIMIT_429", "Rate limited", retry_after=float(retry_after) if retry_after.replace(".", "", 1).isdigit() else None)
             if not response.is_success:
-                raise GeminiError("MODEL_UNAVAILABLE" if response.status_code == 404 else "SERVER_ERROR_5XX", "Provider unavailable")
+                raise GeminiError("MODEL_UNAVAILABLE" if response.status_code == 404 else "SERVER_ERROR_5XX", "Provider unavailable",
+                                  retry_after=5.0 if response.status_code == 503 else None)
             candidate = response.json()["candidates"][0]
             if candidate.get("finishReason", "STOP") != "STOP":
                 raise ValueError("Incomplete response")
@@ -193,7 +207,7 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
             if exc.error_class != "AUTH_ERROR":
                 raise TutorUnavailable() from None
         except (httpx.HTTPError, KeyError, IndexError, StopIteration, ValueError, TypeError):
-            pool.mark_failure(entry, "TIMEOUT_OR_MALFORMED_RESPONSE")
+            pool.mark_failure(entry, "TIMEOUT_OR_MALFORMED_RESPONSE", retry_after=5.0)
             raise TutorUnavailable() from None
     raise TutorUnavailable()
 
