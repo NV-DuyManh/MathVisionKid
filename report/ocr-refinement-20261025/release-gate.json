@@ -1,0 +1,13 @@
+{
+  "status": "NOT_READY_FOR_PRODUCTION",
+  "reasons": [
+    "Independent attested writer/source-disjoint acceptance data absent",
+    "Partial page labels cannot establish detection precision or whole-page reading accuracy",
+    "Repeated VAL/DEV/diagnostic results require per-candidate threshold and critical regression review",
+    "Numeric13 cannot replace fulltext or automatic 2D Student routing"
+  ],
+  "roundtrips_reproduced": true,
+  "source_images_written": 0,
+  "test_pixels_accessed": false,
+  "production_promoted": false
+}

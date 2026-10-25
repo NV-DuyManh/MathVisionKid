@@ -55,15 +55,15 @@ function Movie({lesson}:{lesson:LessonResponse}) {
     <View accessibilityRole="progressbar" accessibilityValue={{min:0,max:100,now:progress}} style={styles.track}><View style={[styles.fill,{width:`${progress}%`}]}/></View>
     <Text style={styles.small}>Em chờ một chút nhé · {progress}%</Text></View>;
   return <View style={styles.stack}>
-    <Text style={styles.eyebrow}>VIDEO BÀI CỦA EM · CÓ LỜI GIẢNG · {ready.video.durationSeconds} GIÂY</Text>
+    <Text style={styles.eyebrow}>VIDEO BÀI CỦA EM</Text>
     <Text style={styles.heading}>{ready.video.title}</Text>
     <Text style={styles.body}>{lesson.status==='COMPLETE'?'Cùng xem lại cách làm qua từng bước em đã hoàn thành.':'Video giải thích bước đang học. Các bước em chưa làm vẫn để em tự thử nhé.'}</Text>
     <LessonClip source={ready.uri} narrated/>
   </View>;
 }
 const styles=StyleSheet.create({
- stack:{gap:17},panel:{padding:23,paddingVertical:38,borderRadius:24,backgroundColor:'#F6F0FE',gap:22},
- heading:{fontFamily:FONTS.extraBold,fontSize:22,lineHeight:30,color:COLORS.textPrimary},body:{fontFamily:FONTS.regular,fontSize:15,lineHeight:24,color:COLORS.textSecondary},
+ stack:{gap:12},panel:{padding:21,paddingVertical:28,borderRadius:24,backgroundColor:'#FCFAFF',borderWidth:1,borderColor:'#EAE3F2',gap:17},
+ heading:{fontFamily:FONTS.extraBold,fontSize:19,lineHeight:28,color:COLORS.textPrimary},body:{fontFamily:FONTS.regular,fontSize:14,lineHeight:23,color:COLORS.textSecondary},
  small:{fontFamily:FONTS.bold,fontSize:13,color:COLORS.primaryDark},eyebrow:{fontFamily:FONTS.extraBold,fontSize:11,lineHeight:18,letterSpacing:.8,color:'#80629F'},
  track:{height:9,borderRadius:5,overflow:'hidden',backgroundColor:'#E5D9F4'},fill:{height:'100%',borderRadius:5,backgroundColor:'#8E63DC'},
 });

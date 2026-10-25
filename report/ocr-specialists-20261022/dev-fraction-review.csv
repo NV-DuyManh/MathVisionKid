@@ -1,0 +1,12 @@
+﻿id,drive_id,role,box_xyxy,reference,text_model,math_model,math_symbol_model,yolo_digits,status,training_eligible
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,numerator,"[1682, 751, 1760, 881]",3,,3,3,4,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,denominator,"[1676, 986, 1760, 1097]",5,:,,,4,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,numerator,"[1923, 747, 1996, 878]",6,,6,6,4,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,denominator,"[1930, 1013, 2017, 1122]",7,:,7,7,4,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,numerator,"[2138, 762, 2216, 880]",6,,6,6,,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,denominator,"[2133, 1003, 2209, 1122]",7,H,,,,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-0,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,denominator,"[361, 993, 450, 1125]",13,,3,3,,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,numerator,"[520, 750, 607, 879]",13,,3,3,4,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,denominator,"[520, 990, 600, 1106]",2,:,2,2,,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,numerator,"[778, 735, 947, 867]",22,: p,22,22,,MODEL_DRAFT,False
+1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4,1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS,denominator,"[805, 962, 888, 1110]",5, ,5,5,4,MODEL_DRAFT,False

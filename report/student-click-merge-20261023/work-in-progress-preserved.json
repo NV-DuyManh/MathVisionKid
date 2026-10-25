@@ -1,0 +1,412 @@
+[
+  {
+    "Path": "ai/runtime/app/api/tutor.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "ai/runtime/app/recognition/yolo_adapter.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/conversation.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/lesson.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/narration.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/video_render.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "ai/runtime/tests/test_lesson_narration.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "ai/runtime/tests/test_yolo_adapter.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/admin-web/package.json",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/portal-web/package.json",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/app.json",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/jest.setup.js",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/metro.config.js",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/package.json",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/cameraRoute.test.ts",
+    "Exists": true,
+    "Matches": false
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonListening.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonMediaFile.test.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonNarration.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonQuestion.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonVideo.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/mediaSliderWeb.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/mediaTimeline.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/narrationApi.test.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/questionRecording.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/studentHtml.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/studentResponsiveNavigation.test.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/app/_layout.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/app/_layout.web.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/app/(tabs)/_layout.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/app/+html.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/app/camera.web.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/app/gallery.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/app/learning/math-guide.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/components/home/HomeDashboard.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/components/ui/BrandLockup.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/components/ui/WebAlerts.web.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/calculator/PocketCalculator.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/AudioPlayback.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/DivisionReview.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/FractionExplorer.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonClip.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonListening.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonNarration.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonQuestion.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonSheet.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/lessonVideoFile.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/MediaSlider.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/MediaSlider.web.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/MediaTimeline.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/narrationApi.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/narrationFile.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/narrationFile.web.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/PersonalLessonVideo.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/playbackSession.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/QuestionRecording.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/StudentWorkReview.tsx",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/useQuestionRecorder.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/student-mobile/src/utils/__tests__/suggestionDedupe.test.ts",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "apps/teacher-web/package.json",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorDtos.java",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorControllerTest.java",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorServiceTest.java",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "docs/ARCHITECTURE_LOCAL_RUNTIME.md",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "docs/HUONG_DAN_CAI_DAT.md",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "docs/LOCAL_SETUP.md",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "docs/superpowers/plans/2026-10-22-media-timeline.md",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "docs/TROUBLESHOOTING.md",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "package-lock.json",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "README.md",
+    "Exists": true,
+    "Matches": false
+  },
+  {
+    "Path": "scripts/data/compare_specialist_ocr.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/data/formula_probe.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/data/fraction_draft.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/data/inspect_fraction_ocr.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/data/test_compare_specialist_ocr.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/data/test_formula_probe.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/data/test_fraction_draft.py",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/dev/show-student-qr.cjs",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/dev/start-all.ps1",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/test/test_student_metro_config.cjs",
+    "Exists": true,
+    "Matches": true
+  },
+  {
+    "Path": "scripts/test/test_student_qr.cjs",
+    "Exists": true,
+    "Matches": true
+  }
+]

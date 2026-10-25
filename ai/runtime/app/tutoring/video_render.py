@@ -45,7 +45,7 @@ def run(args, deadline, **kwargs):
                           timeout=min(25, remaining), **kwargs)
 
 
-def synthesize(text: str, path: Path, deadline: float):
+def synthesize(text: str, path: Path, deadline: float, max_seconds=65):
     if os.name == 'nt':
         # Text and paths are JSON stdin, never interpolated into executable code.
         script = r'''$ErrorActionPreference='Stop'; $ProgressPreference='SilentlyContinue';
@@ -73,7 +73,7 @@ def synthesize(text: str, path: Path, deadline: float):
             input=spoken_math(text).encode('utf-8'))
     with wave.open(str(path), 'rb') as audio:
         duration = audio.getnframes() / audio.getframerate()
-        if audio.getnframes() == 0 or not .1 < duration < 65:
+        if audio.getnframes() == 0 or not .1 < duration < max_seconds:
             raise ValueError('Invalid narration duration')
     return duration
 

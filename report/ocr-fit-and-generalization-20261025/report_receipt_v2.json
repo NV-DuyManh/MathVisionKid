@@ -1,0 +1,19 @@
+{
+  "report_sha256": "301c38be25eb7a4447f1e97977519248fcd2f2d34223933f38b1b01f9fb3882f",
+  "results_sha256": "bfaebc919047158e827e2c27da3a61f75b8ba4425da32c5be8f0101698afbe54",
+  "figure_sha256": "225b0e13497324dd4329c902f5aca968fcb60946e056e3ff2bcaeaa23906df57",
+  "renderer_sha256": "fc3a248ef39a8d2127fca5719f85268e5fc070558ccc25b4af4bfb7d5b51f2a6",
+  "previous_receipt_sha256": "f08754b7a29959560a44d0b7c165e5fd6ab94d9c03efa6128823154ea3399e06",
+  "previous_report_snapshot_sha256": "320b925cb5b768d72855fa18742276ea252059727afd15d82a8669a8083d7935",
+  "change": "Figure annotation spacing only; score JSON, all experiment policies/results/weights and report numeric claims unchanged.",
+  "skills_applied": [
+    {
+      "identifier": "ponytail",
+      "skill_md": ".agents/skills/ponytail/SKILL.md",
+      "why_selected": "Small visual repair using existing plotting library.",
+      "applied_to": "Research evidence figure."
+    }
+  ],
+  "production_promoted": false,
+  "objective_achieved": false
+}

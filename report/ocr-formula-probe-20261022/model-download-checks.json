@@ -1,0 +1,24 @@
+[
+  {
+    "model": "S",
+    "download": {
+      "url": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/PP-FormulaNet_plus-S_infer.tar",
+      "bytes": 259604480,
+      "sha256": "31e8659fd5bdbefcc1339ab531e359c58fae6c0971097ca4cc897073e3fd28a6",
+      "seconds": 87.625
+    },
+    "archive_matches": true,
+    "extracted_files_match_archive": true
+  },
+  {
+    "model": "M",
+    "download": {
+      "url": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/PP-FormulaNet_plus-M_infer.tar",
+      "bytes": 620451840,
+      "sha256": "f208430a7ec1079fce53a447b340e0183bf6c5c14e32915886635c37ec4c5fd9",
+      "seconds": 167.96800000000076
+    },
+    "archive_matches": true,
+    "extracted_files_match_archive": true
+  }
+]

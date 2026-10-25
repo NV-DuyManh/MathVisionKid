@@ -60,6 +60,24 @@ class MathTutorControllerTest {
         verifyNoInteractions(service);
     }
 
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void narrationIsPrivateAndUsesOnlyTheAuthenticatedOwner() throws Exception {
+        when(service.narration(any(),eq("real-pupil"))).thenReturn(new byte[]{1,2,3});
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"narration-session-12345\",\"revision\":0,\"paragraphs\":[\"Em gộp hai nhóm.\"],\"owner\":\"victim\"}"))
+                .andExpect(status().isOk()).andExpect(content().contentType("audio/wav")).andExpect(header().string("Cache-Control","no-store"));
+        verify(service).narration(any(),eq("real-pupil"));
+    }
+
+    @Test @WithMockUser(roles="TEACHER") void teacherCannotDownloadStudentNarration() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isForbidden()); verifyNoInteractions(service);
+    }
+
+    @Test void anonymousCannotDownloadStudentNarration() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnauthorized()); verifyNoInteractions(service);
+    }
+
     private static MockMultipartFile image() {
         return new MockMultipartFile("file", "page.png", "image/png", new byte[]{1});
     }

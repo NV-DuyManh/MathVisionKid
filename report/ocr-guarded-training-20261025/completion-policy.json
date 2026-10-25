@@ -1,0 +1,24 @@
+{
+  "hashes": {
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\finalize_evaluation.py": "184412dcc310929e174377a6af401a4a6f1988f8235f59a28a035e58737b12df",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\test_finalize_evaluation.py": "8403e999a7f087d2365be1c68b045771c19e73b37bb858eb67e6664f2541375d",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\policy.json": "f046353f65e792be8a3474f4c43d00a879f8d782beaad8a717e8d5fb46244309",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\result.json": "1a14614855003d70f2fe1f44da1306fed8aee678906f3c2091a06fbce8e0bce1",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\roundtrip.json": "2e3be6c184e0a56fdecb75e5f38fc665d2032b40d13a9adeed01bfd6dced73e4",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\failure.json": "0408408f859de014e98594cd6e25f5ccc7171fa176fe0b37daf8fc1253de499a",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\frozen_choice.json": "6b62a863eff958fd44c05181599bb4b47bab77adf8945adae622e3c1030d5fff",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\release_gate.json": "7cc2afc5a3150b5b32eef7e6a4bb6931e0a32a0a776040c60a28c87ad948af23",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\literal_regressions.json": "72727bb862b30574ef4bcac870b98348ff4193ab2015af8bf6eb5a42fc660ddb",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_guarded_training_20261025\\evaluation\\val_guard_metadata.json": "cfff763eeb3f338ac1bf5c147c4fa847b58a93767781d755db9b45d1b8396d98"
+  },
+  "raw_policy_sha256": "f046353f65e792be8a3474f4c43d00a879f8d782beaad8a717e8d5fb46244309",
+  "raw_runner_status": "RAW_INFERENCE_COMPLETE_POSTPROCESSING_EXCLUSIVE_WRITE_FAILED",
+  "action": "Recompute literal regressions and release thresholds from saved raw result only",
+  "output_files": [
+    "audited_result.json",
+    "audited_release_gate.json"
+  ],
+  "source_pixels_read": false,
+  "checkpoint_selection_changed": false,
+  "preserve_original_failure": true
+}

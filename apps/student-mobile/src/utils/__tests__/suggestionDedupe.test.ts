@@ -15,6 +15,7 @@ import {
   computeDetailedSpanEvidence
 } from '../../features/recognition/utils/lineReview.ts';
 
+test('mandatory suggestion deduplication and rendering matrix', () => {
 console.log('=== RUNNING PROD.3B & PROD.3F MANDATORY TEST MATRIX ===\n');
 
 // --------------------------------------------------------------------------
@@ -1436,3 +1437,4 @@ console.log('=== RUNNING PROD.3B & PROD.3F MANDATORY TEST MATRIX ===\n');
 
 console.log('\n=== ALL PROD.3B, PROD.3F, PROD.4A.1-4A.5, A1-A5, D1-D3, H1, B1-B7 REGRESSION CASES PASSED SUCCESSFULLY ===\n');
 
+});

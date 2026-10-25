@@ -114,6 +114,11 @@ public final class MathTutorDtos {
                                  @NotNull @Min(0) Integer revision, @NotNull @Min(0) @Max(9) Integer stepIndex,
                                  @NotBlank @Size(min = 2, max = 500) String question) {}
     public record LessonReply(String answer, String spokenExplanation, String followUp, boolean guarded) {}
+    public record NarrationRequest(@NotBlank @Size(min=20,max=100) String sessionId, @NotNull @Min(0) Integer revision,
+                                   @NotNull @Size(min=1,max=80) java.util.List<@NotBlank @Size(max=1600) String> paragraphs) {
+        @AssertTrue public boolean isTextBounded() { return paragraphs != null && paragraphs.stream().allMatch(java.util.Objects::nonNull)
+                && paragraphs.stream().mapToInt(String::length).sum() <= 4000; }
+    }
     public record VideoRequest(@NotBlank @Size(min=20,max=100) String sessionId, @NotNull @Min(0) Integer revision) {}
     public record VideoLookup(@NotBlank @jakarta.validation.constraints.Pattern(regexp="[A-Za-z0-9_-]{24,64}") String videoId) {}
     public record VideoStatus(String videoId, String status, int progress, int durationSeconds, boolean hasAudio, String title) {}

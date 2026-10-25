@@ -1,0 +1,10 @@
+{
+  "unauthorized": 401,
+  "ready": 200,
+  "otherOwner": 410,
+  "staleRevision": 409,
+  "contentType": "audio/wav",
+  "cacheControl": "no-store",
+  "bytes": 350538,
+  "modelCalls": 0
+}

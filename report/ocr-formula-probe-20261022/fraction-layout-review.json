@@ -1,0 +1,278 @@
+{
+  "cohort_sha256": "b4203f31e7faa6a3438222094ad2ab1c57f84973ae362e2ec97201caa293a121",
+  "review_method": "Agent visual review of 32 proposed crops shown in RAM, no source image file saved",
+  "reviewed": [
+    {
+      "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:0|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:1",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:2|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:3",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:4|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:5",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:0|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:1",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:2|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:3",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:4|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:5",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:0|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:1",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:2|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:3",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:4|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:5",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:6|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:7",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:8|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:9",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:10|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:11",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:2|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:3",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:4|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:5",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:6|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:7",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:11|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:12",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:12|expansion-20261017:1:13",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:14|expansion-20261017:1:15",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:16|expansion-20261017:1:17",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:18|expansion-20261017:1:19",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:20|expansion-20261017:1:21",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:22|expansion-20261017:1:23",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:26|expansion-20261017:1:27",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:28|expansion-20261017:1:29",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:31|expansion-20261017:1:32",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:35|expansion-20261017:1:36",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    },
+    {
+      "id": "fraction:expansion-20261017:1:39|expansion-20261017:1:40",
+      "same_visible_fraction": true,
+      "numerator_and_denominator_present": true,
+      "bar_visible": true,
+      "geometry_teacher_verified": false,
+      "training_eligible": false
+    }
+  ],
+  "orphan_component_ids": [
+    "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:0",
+    "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:1",
+    "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:8",
+    "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:9",
+    "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-0",
+    "expansion-20261017:1:25",
+    "expansion-20261017:1:30",
+    "expansion-20261017:1:34",
+    "expansion-20261017:1:38"
+  ],
+  "limits": [
+    "Several crops retain visible neighboring ink/operators; strict whole-crop exactness may fail for this reason",
+    "Existing component references were not newly teacher-verified",
+    "This is not automatic whole-page fraction detection"
+  ]
+}

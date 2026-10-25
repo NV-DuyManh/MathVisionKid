@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   container: { alignItems: 'center', gap: 12 },
   iconFrame: { width: 164, height: 164, borderRadius: 42, overflow: 'hidden', marginBottom: 12, ...SHADOWS.medium },
   compactFrame: { width: 138, height: 138, borderRadius: 0, marginBottom: 4, shadowOpacity: 0, elevation: 0 },
-  icon: { width: '100%', height: '100%' },
+  icon: { width: '100%' as const, height: '100%' as const },
   wordmarkRow: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   wordmark: { fontFamily: FONTS.extraBold, fontSize: 31, letterSpacing: -1, color: COLORS.textPrimary },
   smallWordmark: { fontSize: 29 }, accent: { color: COLORS.primary },

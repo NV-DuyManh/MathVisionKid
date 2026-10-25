@@ -1,0 +1,2699 @@
+{
+  "status": "IMPROVED_OFFLINE_NOT_READY_FOR_PRODUCTION",
+  "frozen_choice": {
+    "numeric_candidate": "base_balanced_all",
+    "text_candidate": "letter_head",
+    "numeric_status": "SELECTED_ON_VAL_ONLY",
+    "text_status": "SELECTED_ON_VAL_ONLY",
+    "numeric_stable_order": [
+      "base_balanced_all",
+      "base_balanced_correct",
+      "expanded_balanced_correct"
+    ],
+    "text_stable_order": [
+      "joint_text",
+      "letter_head"
+    ],
+    "diagnostics_read": false,
+    "selection_by_diagnostics": false,
+    "production_promoted": false
+  },
+  "data": {
+    "rows": 83,
+    "prose": 23,
+    "integer": 58,
+    "decimal": 2,
+    "new_train_pages": 6,
+    "hashes": {
+      "manifest.json": "1071b7c4c5214e7451ea4845c068ad3ffdc97e120523b9af24487d105a8d45b6",
+      "annotations_final.json": "779850c5ddad26cdfe865904ef267cdd608789f9611b28bd9d27e42dd4d823e7",
+      "source_plan.json": "ebb99f4bf637df55edc87b6ad74c7e75bfc5e758652cb1c9c10212d8df607526"
+    }
+  },
+  "models": {
+    "base_balanced_all": {
+      "new_val": {
+        "scores": {
+          "greedy": {
+            "lines": 22,
+            "character_errors": 3,
+            "reference_chars": 63,
+            "cer": 0.047619047619047616,
+            "exact_lines": 19,
+            "critical_lines": 22,
+            "critical_errors": 3,
+            "critical_chars": 63,
+            "critical_cer": 0.047619047619047616,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 19
+          },
+          "beam": {
+            "lines": 22,
+            "character_errors": 3,
+            "reference_chars": 63,
+            "cer": 0.047619047619047616,
+            "exact_lines": 19,
+            "critical_lines": 22,
+            "critical_errors": 3,
+            "critical_chars": 63,
+            "critical_cer": 0.047619047619047616,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 19
+          }
+        },
+        "per_role": {
+          "numeric_field": {
+            "greedy": {
+              "lines": 22,
+              "character_errors": 3,
+              "reference_chars": 63,
+              "cer": 0.047619047619047616,
+              "exact_lines": 19,
+              "critical_lines": 22,
+              "critical_errors": 3,
+              "critical_chars": 63,
+              "critical_cer": 0.047619047619047616,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 19
+            },
+            "beam": {
+              "lines": 22,
+              "character_errors": 3,
+              "reference_chars": 63,
+              "cer": 0.047619047619047616,
+              "exact_lines": 19,
+              "critical_lines": 22,
+              "critical_errors": 3,
+              "critical_chars": 63,
+              "critical_cer": 0.047619047619047616,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 19
+            }
+          }
+        }
+      },
+      "old_dev": {
+        "scores": {
+          "greedy": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          },
+          "beam": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            },
+            "beam": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "numeric_component": {
+            "greedy": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            },
+            "beam": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          }
+        }
+      },
+      "diagnostic": {
+        "scores": {
+          "greedy": {
+            "lines": 86,
+            "character_errors": 10,
+            "reference_chars": 130,
+            "cer": 0.07692307692307693,
+            "exact_lines": 76,
+            "critical_lines": 86,
+            "critical_errors": 10,
+            "critical_chars": 130,
+            "critical_cer": 0.07692307692307693,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 76
+          },
+          "beam": {
+            "lines": 86,
+            "character_errors": 10,
+            "reference_chars": 130,
+            "cer": 0.07692307692307693,
+            "exact_lines": 76,
+            "critical_lines": 86,
+            "critical_errors": 10,
+            "critical_chars": 130,
+            "critical_cer": 0.07692307692307693,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 76
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 39,
+              "cer": 0.1282051282051282,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 39,
+              "critical_cer": 0.1282051282051282,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 39,
+              "cer": 0.1282051282051282,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 39,
+              "critical_cer": 0.1282051282051282,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 24,
+              "character_errors": 5,
+              "reference_chars": 45,
+              "cer": 0.1111111111111111,
+              "exact_lines": 19,
+              "critical_lines": 24,
+              "critical_errors": 5,
+              "critical_chars": 45,
+              "critical_cer": 0.1111111111111111,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 19
+            },
+            "beam": {
+              "lines": 24,
+              "character_errors": 5,
+              "reference_chars": 45,
+              "cer": 0.1111111111111111,
+              "exact_lines": 19,
+              "critical_lines": 24,
+              "critical_errors": 5,
+              "critical_chars": 45,
+              "critical_cer": 0.1111111111111111,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 19
+            }
+          }
+        }
+      },
+      "manual_fractions": {
+        "greedy": {
+          "exact": 26,
+          "total": 31
+        },
+        "beam": {
+          "exact": 26,
+          "total": 31
+        }
+      },
+      "old_numeric_val": {
+        "greedy": {
+          "lines": 65,
+          "character_errors": 8,
+          "reference_chars": 187,
+          "cer": 0.0427807486631016,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 8,
+          "critical_chars": 187,
+          "critical_cer": 0.0427807486631016,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        },
+        "beam": {
+          "lines": 65,
+          "character_errors": 8,
+          "reference_chars": 187,
+          "cer": 0.0427807486631016,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 8,
+          "critical_chars": 187,
+          "critical_cer": 0.0427807486631016,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        }
+      },
+      "automatic_fractions": {
+        "greedy": {
+          "detected": 26,
+          "exact": 22,
+          "total": 31
+        },
+        "beam": {
+          "detected": 26,
+          "exact": 22,
+          "total": 31
+        },
+        "partial_annotations": true,
+        "precision": null
+      }
+    },
+    "base_balanced_correct": {
+      "new_val": {
+        "scores": {
+          "greedy": {
+            "lines": 22,
+            "character_errors": 3,
+            "reference_chars": 63,
+            "cer": 0.047619047619047616,
+            "exact_lines": 19,
+            "critical_lines": 22,
+            "critical_errors": 3,
+            "critical_chars": 63,
+            "critical_cer": 0.047619047619047616,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 19
+          },
+          "beam": {
+            "lines": 22,
+            "character_errors": 3,
+            "reference_chars": 63,
+            "cer": 0.047619047619047616,
+            "exact_lines": 19,
+            "critical_lines": 22,
+            "critical_errors": 3,
+            "critical_chars": 63,
+            "critical_cer": 0.047619047619047616,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 19
+          }
+        },
+        "per_role": {
+          "numeric_field": {
+            "greedy": {
+              "lines": 22,
+              "character_errors": 3,
+              "reference_chars": 63,
+              "cer": 0.047619047619047616,
+              "exact_lines": 19,
+              "critical_lines": 22,
+              "critical_errors": 3,
+              "critical_chars": 63,
+              "critical_cer": 0.047619047619047616,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 19
+            },
+            "beam": {
+              "lines": 22,
+              "character_errors": 3,
+              "reference_chars": 63,
+              "cer": 0.047619047619047616,
+              "exact_lines": 19,
+              "critical_lines": 22,
+              "critical_errors": 3,
+              "critical_chars": 63,
+              "critical_cer": 0.047619047619047616,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 19
+            }
+          }
+        }
+      },
+      "old_dev": {
+        "scores": {
+          "greedy": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          },
+          "beam": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            },
+            "beam": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "numeric_component": {
+            "greedy": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            },
+            "beam": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          }
+        }
+      },
+      "diagnostic": {
+        "scores": {
+          "greedy": {
+            "lines": 86,
+            "character_errors": 11,
+            "reference_chars": 130,
+            "cer": 0.08461538461538462,
+            "exact_lines": 75,
+            "critical_lines": 86,
+            "critical_errors": 11,
+            "critical_chars": 130,
+            "critical_cer": 0.08461538461538462,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 75
+          },
+          "beam": {
+            "lines": 86,
+            "character_errors": 11,
+            "reference_chars": 130,
+            "cer": 0.08461538461538462,
+            "exact_lines": 75,
+            "critical_lines": 86,
+            "critical_errors": 11,
+            "critical_chars": 130,
+            "critical_cer": 0.08461538461538462,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 75
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 39,
+              "cer": 0.1282051282051282,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 39,
+              "critical_cer": 0.1282051282051282,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 39,
+              "cer": 0.1282051282051282,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 39,
+              "critical_cer": 0.1282051282051282,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 24,
+              "character_errors": 6,
+              "reference_chars": 45,
+              "cer": 0.13333333333333333,
+              "exact_lines": 18,
+              "critical_lines": 24,
+              "critical_errors": 6,
+              "critical_chars": 45,
+              "critical_cer": 0.13333333333333333,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 18
+            },
+            "beam": {
+              "lines": 24,
+              "character_errors": 6,
+              "reference_chars": 45,
+              "cer": 0.13333333333333333,
+              "exact_lines": 18,
+              "critical_lines": 24,
+              "critical_errors": 6,
+              "critical_chars": 45,
+              "critical_cer": 0.13333333333333333,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 18
+            }
+          }
+        }
+      },
+      "manual_fractions": {
+        "greedy": {
+          "exact": 26,
+          "total": 31
+        },
+        "beam": {
+          "exact": 26,
+          "total": 31
+        }
+      },
+      "old_numeric_val": {
+        "greedy": {
+          "lines": 65,
+          "character_errors": 8,
+          "reference_chars": 187,
+          "cer": 0.0427807486631016,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 8,
+          "critical_chars": 187,
+          "critical_cer": 0.0427807486631016,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        },
+        "beam": {
+          "lines": 65,
+          "character_errors": 8,
+          "reference_chars": 187,
+          "cer": 0.0427807486631016,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 8,
+          "critical_chars": 187,
+          "critical_cer": 0.0427807486631016,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        }
+      },
+      "automatic_fractions": {
+        "greedy": {
+          "detected": 26,
+          "exact": 21,
+          "total": 31
+        },
+        "beam": {
+          "detected": 26,
+          "exact": 21,
+          "total": 31
+        },
+        "partial_annotations": true,
+        "precision": null
+      }
+    },
+    "expanded_balanced_correct": {
+      "new_val": {
+        "scores": {
+          "greedy": {
+            "lines": 22,
+            "character_errors": 4,
+            "reference_chars": 63,
+            "cer": 0.06349206349206349,
+            "exact_lines": 18,
+            "critical_lines": 22,
+            "critical_errors": 4,
+            "critical_chars": 63,
+            "critical_cer": 0.06349206349206349,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 18
+          },
+          "beam": {
+            "lines": 22,
+            "character_errors": 4,
+            "reference_chars": 63,
+            "cer": 0.06349206349206349,
+            "exact_lines": 18,
+            "critical_lines": 22,
+            "critical_errors": 4,
+            "critical_chars": 63,
+            "critical_cer": 0.06349206349206349,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 18
+          }
+        },
+        "per_role": {
+          "numeric_field": {
+            "greedy": {
+              "lines": 22,
+              "character_errors": 4,
+              "reference_chars": 63,
+              "cer": 0.06349206349206349,
+              "exact_lines": 18,
+              "critical_lines": 22,
+              "critical_errors": 4,
+              "critical_chars": 63,
+              "critical_cer": 0.06349206349206349,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 18
+            },
+            "beam": {
+              "lines": 22,
+              "character_errors": 4,
+              "reference_chars": 63,
+              "cer": 0.06349206349206349,
+              "exact_lines": 18,
+              "critical_lines": 22,
+              "critical_errors": 4,
+              "critical_chars": 63,
+              "critical_cer": 0.06349206349206349,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 18
+            }
+          }
+        }
+      },
+      "old_dev": {
+        "scores": {
+          "greedy": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          },
+          "beam": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            },
+            "beam": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "numeric_component": {
+            "greedy": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            },
+            "beam": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          }
+        }
+      },
+      "diagnostic": {
+        "scores": {
+          "greedy": {
+            "lines": 86,
+            "character_errors": 10,
+            "reference_chars": 130,
+            "cer": 0.07692307692307693,
+            "exact_lines": 76,
+            "critical_lines": 86,
+            "critical_errors": 10,
+            "critical_chars": 130,
+            "critical_cer": 0.07692307692307693,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 76
+          },
+          "beam": {
+            "lines": 86,
+            "character_errors": 10,
+            "reference_chars": 130,
+            "cer": 0.07692307692307693,
+            "exact_lines": 76,
+            "critical_lines": 86,
+            "critical_errors": 10,
+            "critical_chars": 130,
+            "critical_cer": 0.07692307692307693,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 76
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 3,
+              "reference_chars": 39,
+              "cer": 0.07692307692307693,
+              "exact_lines": 28,
+              "critical_lines": 31,
+              "critical_errors": 3,
+              "critical_chars": 39,
+              "critical_cer": 0.07692307692307693,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 28
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 3,
+              "reference_chars": 39,
+              "cer": 0.07692307692307693,
+              "exact_lines": 28,
+              "critical_lines": 31,
+              "critical_errors": 3,
+              "critical_chars": 39,
+              "critical_cer": 0.07692307692307693,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 28
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 24,
+              "character_errors": 7,
+              "reference_chars": 45,
+              "cer": 0.15555555555555556,
+              "exact_lines": 17,
+              "critical_lines": 24,
+              "critical_errors": 7,
+              "critical_chars": 45,
+              "critical_cer": 0.15555555555555556,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 17
+            },
+            "beam": {
+              "lines": 24,
+              "character_errors": 7,
+              "reference_chars": 45,
+              "cer": 0.15555555555555556,
+              "exact_lines": 17,
+              "critical_lines": 24,
+              "critical_errors": 7,
+              "critical_chars": 45,
+              "critical_cer": 0.15555555555555556,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 17
+            }
+          }
+        }
+      },
+      "manual_fractions": {
+        "greedy": {
+          "exact": 28,
+          "total": 31
+        },
+        "beam": {
+          "exact": 28,
+          "total": 31
+        }
+      },
+      "old_numeric_val": {
+        "greedy": {
+          "lines": 65,
+          "character_errors": 8,
+          "reference_chars": 187,
+          "cer": 0.0427807486631016,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 8,
+          "critical_chars": 187,
+          "critical_cer": 0.0427807486631016,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        },
+        "beam": {
+          "lines": 65,
+          "character_errors": 8,
+          "reference_chars": 187,
+          "cer": 0.0427807486631016,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 8,
+          "critical_chars": 187,
+          "critical_cer": 0.0427807486631016,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        }
+      },
+      "automatic_fractions": {
+        "greedy": {
+          "detected": 26,
+          "exact": 22,
+          "total": 31
+        },
+        "beam": {
+          "detected": 26,
+          "exact": 22,
+          "total": 31
+        },
+        "partial_annotations": true,
+        "precision": null
+      }
+    },
+    "joint_text": {
+      "new_val": {
+        "scores": {
+          "greedy": {
+            "lines": 39,
+            "character_errors": 45,
+            "reference_chars": 328,
+            "cer": 0.13719512195121952,
+            "exact_lines": 16,
+            "critical_lines": 39,
+            "critical_errors": 18,
+            "critical_chars": 132,
+            "critical_cer": 0.13636363636363635,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 25
+          }
+        },
+        "per_role": {
+          "expression": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 7,
+              "reference_chars": 52,
+              "cer": 0.1346153846153846,
+              "exact_lines": 0,
+              "critical_lines": 3,
+              "critical_errors": 1,
+              "critical_chars": 29,
+              "critical_cer": 0.034482758620689655,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 26,
+              "character_errors": 15,
+              "reference_chars": 79,
+              "cer": 0.189873417721519,
+              "exact_lines": 14,
+              "critical_lines": 26,
+              "critical_errors": 11,
+              "critical_chars": 79,
+              "critical_cer": 0.13924050632911392,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 16
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 10,
+              "character_errors": 23,
+              "reference_chars": 197,
+              "cer": 0.116751269035533,
+              "exact_lines": 2,
+              "critical_lines": 10,
+              "critical_errors": 6,
+              "critical_chars": 24,
+              "critical_cer": 0.25,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 7
+            }
+          }
+        }
+      },
+      "old_dev": {
+        "scores": {
+          "greedy": {
+            "lines": 95,
+            "character_errors": 105,
+            "reference_chars": 1097,
+            "cer": 0.09571558796718323,
+            "exact_lines": 53,
+            "critical_lines": 87,
+            "critical_errors": 30,
+            "critical_chars": 432,
+            "critical_cer": 0.06944444444444445,
+            "unexpected_critical_lines": 2,
+            "unexpected_critical_errors": 2,
+            "critical_exact_lines": 64
+          }
+        },
+        "per_role": {
+          "comparison_expression": {
+            "greedy": {
+              "lines": 4,
+              "character_errors": 10,
+              "reference_chars": 46,
+              "cer": 0.21739130434782608,
+              "exact_lines": 1,
+              "critical_lines": 4,
+              "critical_errors": 7,
+              "critical_chars": 38,
+              "critical_cer": 0.18421052631578946,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 1
+            }
+          },
+          "denominator": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 3,
+              "reference_chars": 7,
+              "cer": 0.42857142857142855,
+              "exact_lines": 3,
+              "critical_lines": 6,
+              "critical_errors": 3,
+              "critical_chars": 7,
+              "critical_cer": 0.42857142857142855,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "expression": {
+            "greedy": {
+              "lines": 53,
+              "character_errors": 62,
+              "reference_chars": 531,
+              "cer": 0.1167608286252354,
+              "exact_lines": 31,
+              "critical_lines": 53,
+              "critical_errors": 14,
+              "critical_chars": 348,
+              "critical_cer": 0.040229885057471264,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 40
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 5,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 4,
+              "critical_lines": 5,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 4
+            }
+          },
+          "numeric_component": {
+            "greedy": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 22,
+              "character_errors": 29,
+              "reference_chars": 494,
+              "cer": 0.058704453441295545,
+              "exact_lines": 9,
+              "critical_lines": 14,
+              "critical_errors": 5,
+              "critical_chars": 20,
+              "critical_cer": 0.25,
+              "unexpected_critical_lines": 2,
+              "unexpected_critical_errors": 2,
+              "critical_exact_lines": 11
+            }
+          }
+        }
+      },
+      "diagnostic": {
+        "scores": {
+          "greedy": {
+            "lines": 92,
+            "character_errors": 52,
+            "reference_chars": 252,
+            "cer": 0.20634920634920634,
+            "exact_lines": 59,
+            "critical_lines": 92,
+            "critical_errors": 36,
+            "critical_chars": 141,
+            "critical_cer": 0.2553191489361702,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 61
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 12,
+              "reference_chars": 39,
+              "cer": 0.3076923076923077,
+              "exact_lines": 19,
+              "critical_lines": 31,
+              "critical_errors": 10,
+              "critical_chars": 39,
+              "critical_cer": 0.2564102564102564,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 21
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 46,
+              "cer": 0.10869565217391304,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 46,
+              "critical_cer": 0.10869565217391304,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 24,
+              "character_errors": 13,
+              "reference_chars": 45,
+              "cer": 0.28888888888888886,
+              "exact_lines": 12,
+              "critical_lines": 24,
+              "critical_errors": 13,
+              "critical_chars": 45,
+              "critical_cer": 0.28888888888888886,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 12
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 22,
+              "reference_chars": 122,
+              "cer": 0.18032786885245902,
+              "exact_lines": 2,
+              "critical_lines": 6,
+              "critical_errors": 8,
+              "critical_chars": 11,
+              "critical_cer": 0.7272727272727273,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          }
+        }
+      },
+      "manual_fractions": {
+        "greedy": {
+          "exact": 17,
+          "total": 31
+        }
+      },
+      "old_text_held": {
+        "greedy": {
+          "lines": 22,
+          "character_errors": 15,
+          "reference_chars": 255,
+          "cer": 0.058823529411764705,
+          "exact_lines": 13,
+          "critical_lines": 16,
+          "critical_errors": 1,
+          "critical_chars": 67,
+          "critical_cer": 0.014925373134328358,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 15
+        }
+      }
+    },
+    "letter_head": {
+      "new_val": {
+        "scores": {
+          "greedy": {
+            "lines": 39,
+            "character_errors": 42,
+            "reference_chars": 328,
+            "cer": 0.12804878048780488,
+            "exact_lines": 17,
+            "critical_lines": 39,
+            "critical_errors": 18,
+            "critical_chars": 132,
+            "critical_cer": 0.13636363636363635,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 25
+          }
+        },
+        "per_role": {
+          "expression": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 7,
+              "reference_chars": 52,
+              "cer": 0.1346153846153846,
+              "exact_lines": 0,
+              "critical_lines": 3,
+              "critical_errors": 1,
+              "critical_chars": 29,
+              "critical_cer": 0.034482758620689655,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 26,
+              "character_errors": 15,
+              "reference_chars": 79,
+              "cer": 0.189873417721519,
+              "exact_lines": 14,
+              "critical_lines": 26,
+              "critical_errors": 11,
+              "critical_chars": 79,
+              "critical_cer": 0.13924050632911392,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 16
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 10,
+              "character_errors": 20,
+              "reference_chars": 197,
+              "cer": 0.10152284263959391,
+              "exact_lines": 3,
+              "critical_lines": 10,
+              "critical_errors": 6,
+              "critical_chars": 24,
+              "critical_cer": 0.25,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 7
+            }
+          }
+        }
+      },
+      "old_dev": {
+        "scores": {
+          "greedy": {
+            "lines": 95,
+            "character_errors": 105,
+            "reference_chars": 1097,
+            "cer": 0.09571558796718323,
+            "exact_lines": 53,
+            "critical_lines": 87,
+            "critical_errors": 30,
+            "critical_chars": 432,
+            "critical_cer": 0.06944444444444445,
+            "unexpected_critical_lines": 2,
+            "unexpected_critical_errors": 2,
+            "critical_exact_lines": 64
+          }
+        },
+        "per_role": {
+          "comparison_expression": {
+            "greedy": {
+              "lines": 4,
+              "character_errors": 10,
+              "reference_chars": 46,
+              "cer": 0.21739130434782608,
+              "exact_lines": 1,
+              "critical_lines": 4,
+              "critical_errors": 7,
+              "critical_chars": 38,
+              "critical_cer": 0.18421052631578946,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 1
+            }
+          },
+          "denominator": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 3,
+              "reference_chars": 7,
+              "cer": 0.42857142857142855,
+              "exact_lines": 3,
+              "critical_lines": 6,
+              "critical_errors": 3,
+              "critical_chars": 7,
+              "critical_cer": 0.42857142857142855,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "expression": {
+            "greedy": {
+              "lines": 53,
+              "character_errors": 62,
+              "reference_chars": 531,
+              "cer": 0.1167608286252354,
+              "exact_lines": 31,
+              "critical_lines": 53,
+              "critical_errors": 14,
+              "critical_chars": 348,
+              "critical_cer": 0.040229885057471264,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 40
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 5,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 4,
+              "critical_lines": 5,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 4
+            }
+          },
+          "numeric_component": {
+            "greedy": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 22,
+              "character_errors": 29,
+              "reference_chars": 494,
+              "cer": 0.058704453441295545,
+              "exact_lines": 9,
+              "critical_lines": 14,
+              "critical_errors": 5,
+              "critical_chars": 20,
+              "critical_cer": 0.25,
+              "unexpected_critical_lines": 2,
+              "unexpected_critical_errors": 2,
+              "critical_exact_lines": 11
+            }
+          }
+        }
+      },
+      "diagnostic": {
+        "scores": {
+          "greedy": {
+            "lines": 92,
+            "character_errors": 52,
+            "reference_chars": 252,
+            "cer": 0.20634920634920634,
+            "exact_lines": 59,
+            "critical_lines": 92,
+            "critical_errors": 36,
+            "critical_chars": 141,
+            "critical_cer": 0.2553191489361702,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 61
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 12,
+              "reference_chars": 39,
+              "cer": 0.3076923076923077,
+              "exact_lines": 19,
+              "critical_lines": 31,
+              "critical_errors": 10,
+              "critical_chars": 39,
+              "critical_cer": 0.2564102564102564,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 21
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 46,
+              "cer": 0.10869565217391304,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 46,
+              "critical_cer": 0.10869565217391304,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 24,
+              "character_errors": 13,
+              "reference_chars": 45,
+              "cer": 0.28888888888888886,
+              "exact_lines": 12,
+              "critical_lines": 24,
+              "critical_errors": 13,
+              "critical_chars": 45,
+              "critical_cer": 0.28888888888888886,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 12
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 22,
+              "reference_chars": 122,
+              "cer": 0.18032786885245902,
+              "exact_lines": 2,
+              "critical_lines": 6,
+              "critical_errors": 8,
+              "critical_chars": 11,
+              "critical_cer": 0.7272727272727273,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          }
+        }
+      },
+      "manual_fractions": {
+        "greedy": {
+          "exact": 17,
+          "total": 31
+        }
+      },
+      "old_text_held": {
+        "greedy": {
+          "lines": 22,
+          "character_errors": 14,
+          "reference_chars": 255,
+          "cer": 0.054901960784313725,
+          "exact_lines": 13,
+          "critical_lines": 16,
+          "critical_errors": 1,
+          "critical_chars": 67,
+          "critical_cer": 0.014925373134328358,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 15
+        }
+      }
+    },
+    "numeric_control": {
+      "new_val": {
+        "scores": {
+          "greedy": {
+            "lines": 22,
+            "character_errors": 4,
+            "reference_chars": 63,
+            "cer": 0.06349206349206349,
+            "exact_lines": 18,
+            "critical_lines": 22,
+            "critical_errors": 4,
+            "critical_chars": 63,
+            "critical_cer": 0.06349206349206349,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 18
+          },
+          "beam": {
+            "lines": 22,
+            "character_errors": 4,
+            "reference_chars": 63,
+            "cer": 0.06349206349206349,
+            "exact_lines": 18,
+            "critical_lines": 22,
+            "critical_errors": 4,
+            "critical_chars": 63,
+            "critical_cer": 0.06349206349206349,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 18
+          }
+        },
+        "per_role": {
+          "numeric_field": {
+            "greedy": {
+              "lines": 22,
+              "character_errors": 4,
+              "reference_chars": 63,
+              "cer": 0.06349206349206349,
+              "exact_lines": 18,
+              "critical_lines": 22,
+              "critical_errors": 4,
+              "critical_chars": 63,
+              "critical_cer": 0.06349206349206349,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 18
+            },
+            "beam": {
+              "lines": 22,
+              "character_errors": 4,
+              "reference_chars": 63,
+              "cer": 0.06349206349206349,
+              "exact_lines": 18,
+              "critical_lines": 22,
+              "critical_errors": 4,
+              "critical_chars": 63,
+              "critical_cer": 0.06349206349206349,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 18
+            }
+          }
+        }
+      },
+      "old_dev": {
+        "scores": {
+          "greedy": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          },
+          "beam": {
+            "lines": 16,
+            "character_errors": 3,
+            "reference_chars": 26,
+            "cer": 0.11538461538461539,
+            "exact_lines": 13,
+            "critical_lines": 16,
+            "critical_errors": 3,
+            "critical_chars": 26,
+            "critical_cer": 0.11538461538461539,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 13
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            },
+            "beam": {
+              "lines": 6,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 5,
+              "critical_lines": 6,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 5
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 5,
+              "character_errors": 2,
+              "reference_chars": 7,
+              "cer": 0.2857142857142857,
+              "exact_lines": 3,
+              "critical_lines": 5,
+              "critical_errors": 2,
+              "critical_chars": 7,
+              "critical_cer": 0.2857142857142857,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "numeric_component": {
+            "greedy": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            },
+            "beam": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            },
+            "beam": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          }
+        }
+      },
+      "diagnostic": {
+        "scores": {
+          "greedy": {
+            "lines": 86,
+            "character_errors": 12,
+            "reference_chars": 130,
+            "cer": 0.09230769230769231,
+            "exact_lines": 74,
+            "critical_lines": 86,
+            "critical_errors": 12,
+            "critical_chars": 130,
+            "critical_cer": 0.09230769230769231,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 74
+          },
+          "beam": {
+            "lines": 86,
+            "character_errors": 12,
+            "reference_chars": 130,
+            "cer": 0.09230769230769231,
+            "exact_lines": 74,
+            "critical_lines": 86,
+            "critical_errors": 12,
+            "critical_chars": 130,
+            "critical_cer": 0.09230769230769231,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 74
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 39,
+              "cer": 0.1282051282051282,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 39,
+              "critical_cer": 0.1282051282051282,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 39,
+              "cer": 0.1282051282051282,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 39,
+              "critical_cer": 0.1282051282051282,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            },
+            "beam": {
+              "lines": 31,
+              "character_errors": 0,
+              "reference_chars": 46,
+              "cer": 0.0,
+              "exact_lines": 31,
+              "critical_lines": 31,
+              "critical_errors": 0,
+              "critical_chars": 46,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 31
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 24,
+              "character_errors": 7,
+              "reference_chars": 45,
+              "cer": 0.15555555555555556,
+              "exact_lines": 17,
+              "critical_lines": 24,
+              "critical_errors": 7,
+              "critical_chars": 45,
+              "critical_cer": 0.15555555555555556,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 17
+            },
+            "beam": {
+              "lines": 24,
+              "character_errors": 7,
+              "reference_chars": 45,
+              "cer": 0.15555555555555556,
+              "exact_lines": 17,
+              "critical_lines": 24,
+              "critical_errors": 7,
+              "critical_chars": 45,
+              "critical_cer": 0.15555555555555556,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 17
+            }
+          }
+        }
+      },
+      "manual_fractions": {
+        "greedy": {
+          "exact": 26,
+          "total": 31
+        },
+        "beam": {
+          "exact": 26,
+          "total": 31
+        }
+      },
+      "old_numeric_val": {
+        "greedy": {
+          "lines": 65,
+          "character_errors": 9,
+          "reference_chars": 187,
+          "cer": 0.0481283422459893,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 9,
+          "critical_chars": 187,
+          "critical_cer": 0.0481283422459893,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        },
+        "beam": {
+          "lines": 65,
+          "character_errors": 8,
+          "reference_chars": 187,
+          "cer": 0.0427807486631016,
+          "exact_lines": 58,
+          "critical_lines": 65,
+          "critical_errors": 8,
+          "critical_chars": 187,
+          "critical_cer": 0.0427807486631016,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 58
+        }
+      },
+      "automatic_fractions": {
+        "greedy": {
+          "detected": 26,
+          "exact": 21,
+          "total": 31
+        },
+        "beam": {
+          "detected": 26,
+          "exact": 21,
+          "total": 31
+        },
+        "partial_annotations": true,
+        "precision": null
+      }
+    },
+    "text_control": {
+      "new_val": {
+        "scores": {
+          "greedy": {
+            "lines": 39,
+            "character_errors": 45,
+            "reference_chars": 328,
+            "cer": 0.13719512195121952,
+            "exact_lines": 16,
+            "critical_lines": 39,
+            "critical_errors": 18,
+            "critical_chars": 132,
+            "critical_cer": 0.13636363636363635,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 25
+          }
+        },
+        "per_role": {
+          "expression": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 7,
+              "reference_chars": 52,
+              "cer": 0.1346153846153846,
+              "exact_lines": 0,
+              "critical_lines": 3,
+              "critical_errors": 1,
+              "critical_chars": 29,
+              "critical_cer": 0.034482758620689655,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 26,
+              "character_errors": 15,
+              "reference_chars": 79,
+              "cer": 0.189873417721519,
+              "exact_lines": 14,
+              "critical_lines": 26,
+              "critical_errors": 11,
+              "critical_chars": 79,
+              "critical_cer": 0.13924050632911392,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 16
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 10,
+              "character_errors": 23,
+              "reference_chars": 197,
+              "cer": 0.116751269035533,
+              "exact_lines": 2,
+              "critical_lines": 10,
+              "critical_errors": 6,
+              "critical_chars": 24,
+              "critical_cer": 0.25,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 7
+            }
+          }
+        }
+      },
+      "old_dev": {
+        "scores": {
+          "greedy": {
+            "lines": 95,
+            "character_errors": 105,
+            "reference_chars": 1097,
+            "cer": 0.09571558796718323,
+            "exact_lines": 53,
+            "critical_lines": 87,
+            "critical_errors": 30,
+            "critical_chars": 432,
+            "critical_cer": 0.06944444444444445,
+            "unexpected_critical_lines": 2,
+            "unexpected_critical_errors": 2,
+            "critical_exact_lines": 64
+          }
+        },
+        "per_role": {
+          "comparison_expression": {
+            "greedy": {
+              "lines": 4,
+              "character_errors": 10,
+              "reference_chars": 46,
+              "cer": 0.21739130434782608,
+              "exact_lines": 1,
+              "critical_lines": 4,
+              "critical_errors": 7,
+              "critical_chars": 38,
+              "critical_cer": 0.18421052631578946,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 1
+            }
+          },
+          "denominator": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 3,
+              "reference_chars": 7,
+              "cer": 0.42857142857142855,
+              "exact_lines": 3,
+              "critical_lines": 6,
+              "critical_errors": 3,
+              "critical_chars": 7,
+              "critical_cer": 0.42857142857142855,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "expression": {
+            "greedy": {
+              "lines": 53,
+              "character_errors": 62,
+              "reference_chars": 531,
+              "cer": 0.1167608286252354,
+              "exact_lines": 31,
+              "critical_lines": 53,
+              "critical_errors": 14,
+              "critical_chars": 348,
+              "critical_cer": 0.040229885057471264,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 40
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 5,
+              "character_errors": 1,
+              "reference_chars": 7,
+              "cer": 0.14285714285714285,
+              "exact_lines": 4,
+              "critical_lines": 5,
+              "critical_errors": 1,
+              "critical_chars": 7,
+              "critical_cer": 0.14285714285714285,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 4
+            }
+          },
+          "numeric_component": {
+            "greedy": {
+              "lines": 2,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 2,
+              "critical_lines": 2,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 3,
+              "character_errors": 0,
+              "reference_chars": 6,
+              "cer": 0.0,
+              "exact_lines": 3,
+              "critical_lines": 3,
+              "critical_errors": 0,
+              "critical_chars": 6,
+              "critical_cer": 0.0,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 3
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 22,
+              "character_errors": 29,
+              "reference_chars": 494,
+              "cer": 0.058704453441295545,
+              "exact_lines": 9,
+              "critical_lines": 14,
+              "critical_errors": 5,
+              "critical_chars": 20,
+              "critical_cer": 0.25,
+              "unexpected_critical_lines": 2,
+              "unexpected_critical_errors": 2,
+              "critical_exact_lines": 11
+            }
+          }
+        }
+      },
+      "diagnostic": {
+        "scores": {
+          "greedy": {
+            "lines": 92,
+            "character_errors": 52,
+            "reference_chars": 252,
+            "cer": 0.20634920634920634,
+            "exact_lines": 59,
+            "critical_lines": 92,
+            "critical_errors": 36,
+            "critical_chars": 141,
+            "critical_cer": 0.2553191489361702,
+            "unexpected_critical_lines": 0,
+            "unexpected_critical_errors": 0,
+            "critical_exact_lines": 61
+          }
+        },
+        "per_role": {
+          "denominator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 12,
+              "reference_chars": 39,
+              "cer": 0.3076923076923077,
+              "exact_lines": 19,
+              "critical_lines": 31,
+              "critical_errors": 10,
+              "critical_chars": 39,
+              "critical_cer": 0.2564102564102564,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 21
+            }
+          },
+          "numerator": {
+            "greedy": {
+              "lines": 31,
+              "character_errors": 5,
+              "reference_chars": 46,
+              "cer": 0.10869565217391304,
+              "exact_lines": 26,
+              "critical_lines": 31,
+              "critical_errors": 5,
+              "critical_chars": 46,
+              "critical_cer": 0.10869565217391304,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 26
+            }
+          },
+          "numeric_field": {
+            "greedy": {
+              "lines": 24,
+              "character_errors": 13,
+              "reference_chars": 45,
+              "cer": 0.28888888888888886,
+              "exact_lines": 12,
+              "critical_lines": 24,
+              "critical_errors": 13,
+              "critical_chars": 45,
+              "critical_cer": 0.28888888888888886,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 12
+            }
+          },
+          "prose": {
+            "greedy": {
+              "lines": 6,
+              "character_errors": 22,
+              "reference_chars": 122,
+              "cer": 0.18032786885245902,
+              "exact_lines": 2,
+              "critical_lines": 6,
+              "critical_errors": 8,
+              "critical_chars": 11,
+              "critical_cer": 0.7272727272727273,
+              "unexpected_critical_lines": 0,
+              "unexpected_critical_errors": 0,
+              "critical_exact_lines": 2
+            }
+          }
+        }
+      },
+      "manual_fractions": {
+        "greedy": {
+          "exact": 17,
+          "total": 31
+        }
+      },
+      "old_text_held": {
+        "greedy": {
+          "lines": 22,
+          "character_errors": 15,
+          "reference_chars": 255,
+          "cer": 0.058823529411764705,
+          "exact_lines": 13,
+          "critical_lines": 16,
+          "critical_errors": 1,
+          "critical_chars": 67,
+          "critical_cer": 0.014925373134328358,
+          "unexpected_critical_lines": 0,
+          "unexpected_critical_errors": 0,
+          "critical_exact_lines": 15
+        }
+      }
+    }
+  },
+  "runs": [
+    {
+      "folder": "numeric_base",
+      "name": "balanced_all",
+      "epochs": 12,
+      "steps_per_epoch": 176,
+      "selected_epoch": 8,
+      "train_rows": 1401,
+      "coverage": {
+        "unique_train_rows": 1261,
+        "unique_train_sources": 280,
+        "row_coverage_by_group": {
+          "notebook": 225,
+          "glyph": 866,
+          "hme_row": 170
+        }
+      },
+      "checkpoint": "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\numeric_base\\balanced_all.pth",
+      "checkpoint_sha256": "2287e6705afc2512b6bc1cf1e59ca73a8809d15d034f36187b9f9497bf6c928a",
+      "elapsed_process_seconds": 1368.28,
+      "process_time_shared_by_recipes": 2
+    },
+    {
+      "folder": "numeric_base",
+      "name": "balanced_correct",
+      "epochs": 12,
+      "steps_per_epoch": 176,
+      "selected_epoch": 2,
+      "train_rows": 1401,
+      "coverage": {
+        "unique_train_rows": 1261,
+        "unique_train_sources": 280,
+        "row_coverage_by_group": {
+          "notebook": 225,
+          "glyph": 866,
+          "hme_row": 170
+        }
+      },
+      "checkpoint": "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\numeric_base\\balanced_correct.pth",
+      "checkpoint_sha256": "170e21bfb07e006b73391878ddcaf13f273d4eb36974da972970e65d523937b1",
+      "elapsed_process_seconds": 1368.28,
+      "process_time_shared_by_recipes": 2
+    },
+    {
+      "folder": "numeric_gpu_expanded",
+      "name": "balanced_correct",
+      "epochs": 12,
+      "steps_per_epoch": 176,
+      "selected_epoch": 1,
+      "train_rows": 1459,
+      "coverage": {
+        "unique_train_rows": 1315,
+        "unique_train_sources": 286,
+        "row_coverage_by_group": {
+          "notebook": 283,
+          "glyph": 862,
+          "hme_row": 170
+        }
+      },
+      "checkpoint": "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\numeric_gpu_expanded\\balanced_correct.pth",
+      "checkpoint_sha256": "22675a828fbad9ada06dad88c3125c75596fcb6ec84bf0e03d9e8b5a1dace68a",
+      "elapsed_process_seconds": 252.42,
+      "process_time_shared_by_recipes": 1
+    },
+    {
+      "folder": "joint_text_gpu",
+      "name": "joint_text_gpu",
+      "epochs": 12,
+      "steps_per_epoch": 100,
+      "selected_epoch": 0,
+      "train_rows": 677,
+      "coverage": {
+        "unique_train_rows": 671,
+        "train_rows": 677,
+        "unique_train_sources": 68,
+        "all_train_sources": 68,
+        "old_train_rows": 479,
+        "old_train_rows_visited": 475,
+        "old_replay_coverage_complete": false,
+        "old_replay_ids_not_visited": [
+          "1yilS_J6WliKnD9gWCkKDDIeCWkB5kO2w:expanded-expression-1",
+          "18XPtIqvmrE-DPgRiNtkOKXQX1coXXxlv:mixed-expression-4",
+          "expansion-20261017:1:17",
+          "expansion-20261017:1:31"
+        ],
+        "digit_zero_train_rows_visited": 162,
+        "repeated_digit_train_rows_visited": 74
+      },
+      "checkpoint": "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\joint_text_gpu\\candidate.pth",
+      "checkpoint_sha256": "a6e8aac96e6f1597a144f6c0c9cc762a01cf11a8194ad2b2061545b047f415dc",
+      "elapsed_process_seconds": 120.19,
+      "process_time_shared_by_recipes": 1
+    },
+    {
+      "folder": "letter_head",
+      "name": "letter_head",
+      "epochs": 20,
+      "steps_per_epoch": 100,
+      "selected_epoch": 8,
+      "train_rows": 677,
+      "coverage": {
+        "unique_train_rows": 677,
+        "train_rows": 677,
+        "unique_train_sources": 68,
+        "all_train_sources": 68,
+        "old_train_rows": 479,
+        "old_train_rows_visited": 479,
+        "old_replay_coverage_complete": true,
+        "old_replay_ids_not_visited": [],
+        "digit_zero_train_rows_visited": 162,
+        "repeated_digit_train_rows_visited": 75
+      },
+      "checkpoint": "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\letter_head\\candidate.pth",
+      "checkpoint_sha256": "14b8373944af747d89120166e012bff7bc3b0c35a53cb0fe0f3f4a6c07d1c835",
+      "elapsed_process_seconds": 75.17,
+      "process_time_shared_by_recipes": 1
+    }
+  ],
+  "run_count": 5,
+  "fixed_update_epochs": 68,
+  "source_images_written": 0,
+  "tests": {
+    "unittest_count": 19,
+    "unittest_passed": true,
+    "evaluator_self_check_passed": true,
+    "selected_checkpoint_and_control_cpu_roundtrips": 7,
+    "final_integrity_passed": true,
+    "device_or_whole_page_acceptance": false
+  },
+  "evaluation_elapsed_seconds": 69.91,
+  "diagnostics_independent": false,
+  "partial_page_labels": true,
+  "precision": null,
+  "teacher_attestation": false,
+  "writer_independence": "UNKNOWN",
+  "pretraining_independence": "UNKNOWN",
+  "all_cnn_layers_recomputed": true,
+  "test_pixels_accessed": false,
+  "holdout_pixels_accessed": false,
+  "production_promoted": false,
+  "production_checkpoint_sha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "evidence": {
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\evaluation\\policy.json": "3248dd4afba508f1f4dfa16a9a9bb9d1e2ce8c1b3f65233ae58d39a11cf63653",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\evaluation\\result.json": "f4b55eaf19b7358d621c0d52a5d1463a7866541a71982e72588d7e1c71f90a40",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\evaluation\\frozen_choice.json": "2bbf1751f8787b67048ba138e6f37da9ad24496c01cbc743bf8bebb55a45d7b8",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\final_integrity.json": "610cb5eb588715a0c5be2e8558ab29de7dfefde3bda0ea5f29e0ac7b7105b6ff",
+    "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024\\data\\manifest.json": "1071b7c4c5214e7451ea4845c068ad3ffdc97e120523b9af24487d105a8d45b6"
+  }
+}

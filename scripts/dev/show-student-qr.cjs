@@ -5,7 +5,9 @@ const { setTimeout: delay } = require('node:timers/promises');
 
 const mobileRoot = path.resolve(__dirname, '../../apps/student-mobile');
 const { expo } = require(path.join(mobileRoot, 'app.json'));
-const expoRequire = createRequire(require.resolve('expo/package.json', { paths: [mobileRoot] }));
+const expoPackage = require.resolve('expo/package.json', { paths: [mobileRoot] });
+const sdkMajor = require(expoPackage).version.split('.')[0];
+const expoRequire = createRequire(expoPackage);
 const cliRequire = createRequire(expoRequire.resolve('@expo/cli/package.json'));
 
 function getExpoGoUrl(manifest, address) {
@@ -15,6 +17,9 @@ function getExpoGoUrl(manifest, address) {
   const client = manifest?.extra?.expoClient;
   if (client?.slug !== expo.slug || client.hostUri !== `${address}:8081`) {
     throw new Error('Port 8081 did not return the MathVisionKid LAN manifest. Check the Metro terminal.');
+  }
+  if (typeof client.sdkVersion !== 'string' || client.sdkVersion.split('.')[0] !== sdkMajor) {
+    throw new Error(`The running Student server does not use installed Expo SDK ${sdkMajor}. Close the old Student Metro terminal and restart RUN_EXPO.bat.`);
   }
   return `exp://${client.hostUri}`;
 }
